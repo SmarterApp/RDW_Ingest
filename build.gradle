@@ -1,0 +1,56 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+        classpath("io.spring.gradle:dependency-management-plugin:1.0.0.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.1.RELEASE")
+	}
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Dalston.M1"
+    }
+}
+
+allprojects {
+    group = 'org.rdw.ingest'
+    version = '0.0.1-SNAPSHOT'
+
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'idea'
+    apply plugin: 'jacoco'
+}
+
+subprojects {
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    repositories {
+		// jcenter()
+		mavenCentral()
+	}
+
+    dependencies {
+//        compile 'org.slf4j:slf4j-api'
+
+//      compile("org.springframework.boot:spring-boot-starter-web")
+		compile('org.springframework.boot:spring-boot-starter-actuator')
+//		compile('org.springframework.cloud:spring-cloud-starter-oauth2')
+//		compile('org.springframework.cloud:spring-cloud-starter-stream-rabbit')
+//		compile('org.springframework.boot:spring-boot-starter-hateoas')
+//		compile('org.springframework.boot:spring-boot-starter-jdbc')
+//		compile('org.springframework.boot:spring-boot-starter-jersey')
+
+		testCompile('org.springframework.boot:spring-boot-starter-test')
+//		testCompile('junit:junit:4.12')
+//		testCompile 'org.assertj:assertj-core:3.6.2'
+	}
+}

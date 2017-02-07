@@ -1,0 +1,3 @@
+rootProject.name = 'RDW_Ingest'
+
+include 'exam-service'
