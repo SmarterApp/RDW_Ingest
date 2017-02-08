@@ -24,9 +24,14 @@ public class DefaultExamSource implements ExamSource {
         this.output = output;
     }
 
+    MessageChannel getOutput() {
+        return output;
+    }
+
     @Override
     public void submitExam(final String body) {
         final RdwMessageHeaderAccessor accessor = wrap(null);
+        // TODO - default message headers (id, timestamp)
         // TODO - rdw-specific headers
         accessor.setContentType(MediaType.APPLICATION_XML);
 

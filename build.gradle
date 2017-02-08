@@ -1,12 +1,12 @@
 buildscript {
-	repositories {
+    repositories {
         mavenLocal()
-		mavenCentral()
-	}
-	dependencies {
+        mavenCentral()
+    }
+    dependencies {
         classpath("io.spring.gradle:dependency-management-plugin:1.0.0.RELEASE")
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.1.RELEASE")
-	}
+    }
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -29,10 +29,10 @@ subprojects {
     targetCompatibility = 1.8
 
     repositories {
-		// jcenter()
+        // jcenter()
         mavenLocal()
-		mavenCentral()
-	}
+        mavenCentral()
+    }
 
     dependencyManagement {
         dependencies {
@@ -45,25 +45,18 @@ subprojects {
         }
     }
 
-
     dependencies {
-//        compile 'org.slf4j:slf4j-api'
-
         // every app is a microservice with actuator end-points
         compile('org.springframework.boot:spring-boot-starter-actuator')
 
         // every app is a spring cloud stream participant
         compile('org.springframework.cloud:spring-cloud-stream')
         compile('org.springframework.cloud:spring-cloud-starter-stream-rabbit')
+        testCompile('org.springframework.cloud:spring-cloud-stream-test-support')
 
-//      compile("org.springframework.boot:spring-boot-starter-web")
-//		compile('org.springframework.cloud:spring-cloud-starter-oauth2')
-//		compile('org.springframework.boot:spring-boot-starter-hateoas')
 //		compile('org.springframework.boot:spring-boot-starter-jdbc')
 //		compile('org.springframework.boot:spring-boot-starter-jersey')
 
-		testCompile('org.springframework.boot:spring-boot-starter-test')
-//		testCompile('junit:junit:4.12')
-//		testCompile 'org.assertj:assertj-core:3.6.2'
-	}
+        testCompile('org.springframework.boot:spring-boot-starter-test')
+    }
 }

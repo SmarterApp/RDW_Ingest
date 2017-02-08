@@ -5,5 +5,10 @@ package org.rdw.ingest;
  */
 interface ExamSource {
 
+    /**
+     * Submit the given text to the "exam" queue
+     *
+     * @param body text representing exam / test results
+     */
     void submitExam(String body);
 }
