@@ -1,5 +1,6 @@
-package org.rdw.ingest;
+package org.rdw.ingest.web;
 
+import org.rdw.ingest.service.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import rdw.model.TDSReport;
 
+import javax.validation.constraints.NotNull;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Controller for exam / testresults end-points
  */
@@ -18,8 +23,12 @@ import rdw.model.TDSReport;
 @RequestMapping({ "/exams", "/testresults" })
 class ExamController {
 
+    private final ExamService service;
+
     @Autowired
-    private ExamService service;
+    public ExamController(@NotNull final ExamService service) {
+        this.service = checkNotNull(service);
+    }
 
     @RequestMapping(method = RequestMethod.POST,
                     consumes = MediaType.APPLICATION_XML_VALUE,

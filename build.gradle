@@ -38,6 +38,8 @@ subprojects {
         dependencies {
             dependency 'org.rdw.common:messaging:0.0.1-SNAPSHOT'
             dependency 'org.rdw.common:model:0.0.1-SNAPSHOT'
+
+            dependency 'com.google.guava:guava:21.0'
         }
         imports {
             // spring cloud Camden.SR5 includes spring cloud stream Brooklyn.SR2

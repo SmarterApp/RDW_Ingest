@@ -1,4 +1,4 @@
-package org.rdw.ingest;
+package org.rdw.ingest.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
@@ -6,22 +6,27 @@ import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.http.MediaType;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.stereotype.Service;
 import rdw.messaging.RdwMessageHeaderAccessor;
 
+import javax.validation.constraints.NotNull;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 import static rdw.messaging.RdwMessageHeaderAccessor.wrap;
 
 /**
  * Default implementation of ExamSource
  * TODO - should we do MessageProducerSupport stuff instead?
  */
+@Service
 @EnableBinding(Source.class)
 public class DefaultExamSource implements ExamSource {
 
-    private MessageChannel output;
+    private final MessageChannel output;
 
     @Autowired
-    public void setOutput(final MessageChannel output) {
-        this.output = output;
+    DefaultExamSource(@NotNull final MessageChannel output) {
+        this.output = checkNotNull(output);
     }
 
     MessageChannel getOutput() {

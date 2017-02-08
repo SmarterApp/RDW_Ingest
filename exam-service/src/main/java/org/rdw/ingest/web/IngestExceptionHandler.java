@@ -1,4 +1,4 @@
-package org.rdw.ingest;
+package org.rdw.ingest.web;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

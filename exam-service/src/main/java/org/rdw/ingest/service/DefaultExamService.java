@@ -1,11 +1,14 @@
-package org.rdw.ingest;
+package org.rdw.ingest.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rdw.model.TDSReport;
 import rdw.model.Test;
 
+import javax.validation.constraints.NotNull;
 import java.util.Optional;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Default implementation of ExamService
@@ -13,11 +16,11 @@ import java.util.Optional;
 @Service
 class DefaultExamService implements ExamService {
 
-    private ExamSource source;
+    private final ExamSource source;
 
     @Autowired
-    void setSource(final ExamSource source) {
-        this.source = source;
+    DefaultExamService(@NotNull final ExamSource source) {
+        this.source = checkNotNull(source);
     }
 
     @Override
