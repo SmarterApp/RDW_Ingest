@@ -1,13 +1,15 @@
-package org.rdw.ingest;
+package org.rdw.ingest.web;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.rdw.ingest.service.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import rdw.model.TDSReport;
 
 import java.util.Optional;
@@ -28,6 +30,11 @@ public class ExamControllerTests {
 
     @MockBean
     private ExamService examService;
+
+    @Test(expected = NullPointerException.class)
+    public void itRequiresAService() throws Exception {
+        new ExamController(null);
+    }
 
     @Test
     public void itShouldUseServiceToSubmitExam() throws Exception {

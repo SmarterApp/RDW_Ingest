@@ -1,7 +1,9 @@
-package org.rdw.ingest;
+package org.rdw.ingest.service;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.rdw.ingest.service.DefaultExamSource;
+import org.rdw.ingest.service.ExamSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.stream.binder.BinderFactory;
@@ -25,6 +27,11 @@ public class DefaultExamSourceTests {
 
     @Autowired
     private MessageCollector messageCollector;
+
+    @Test(expected = NullPointerException.class)
+    public void itRequiresAnOutputChannel() {
+        new DefaultExamSource(null);
+    }
 
     @Test
     public void submitExamShouldSetHeadersAndSendMessage() {

@@ -1,4 +1,5 @@
 dependencies {
+    compile 'com.google.guava:guava'
     compile 'org.rdw.common:messaging'
     compile 'org.rdw.common:model'
     compile 'org.springframework.boot:spring-boot-starter-web'

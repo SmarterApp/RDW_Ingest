@@ -1,4 +1,4 @@
-package org.rdw.ingest;
+package org.rdw.ingest.service;
 
 /**
  * Abstraction for injecting an exam payload into the message queue.

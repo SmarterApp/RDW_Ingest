@@ -1,6 +1,5 @@
-package org.rdw.ingest;
+package org.rdw.ingest.service;
 
-import org.springframework.stereotype.Service;
 import rdw.model.TDSReport;
 
 import java.util.Optional;
@@ -8,7 +7,7 @@ import java.util.Optional;
 /**
  * Service for manipulating exams / test results.
  */
-interface ExamService {
+public interface ExamService {
 
     Optional<TDSReport> submitExam(String xml, String batchId);
 

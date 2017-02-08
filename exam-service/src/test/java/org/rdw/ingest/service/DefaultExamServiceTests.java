@@ -1,4 +1,4 @@
-package org.rdw.ingest;
+package org.rdw.ingest.service;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,9 +14,13 @@ public class DefaultExamServiceTests {
 
     @Before
     public void createService() {
-        service = new DefaultExamService();
         examSource = Mockito.mock(ExamSource.class);
-        service.setSource(examSource);
+        service = new DefaultExamService(examSource);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void itRequiresAnExamSource() {
+        new DefaultExamSource(null);
     }
 
     @Test
