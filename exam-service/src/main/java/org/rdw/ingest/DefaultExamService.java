@@ -1,5 +1,6 @@
 package org.rdw.ingest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rdw.model.TDSReport;
 import rdw.model.Test;
@@ -12,9 +13,17 @@ import java.util.Optional;
 @Service
 class DefaultExamService implements ExamService {
 
+    private ExamSource source;
+
+    @Autowired
+    void setSource(final ExamSource source) {
+        this.source = source;
+    }
+
     @Override
     public Optional<TDSReport> submitExam(final String xml, final String batchId) {
-        throw new UnsupportedOperationException("submit exam not implemented");
+        source.submitExam(xml);
+        return getExam("123");
     }
 
     @Override
