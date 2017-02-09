@@ -1,0 +1,4 @@
+dependencies {
+    compile 'org.rdw.common:messaging'
+    compile 'org.rdw.common:model'
+}
