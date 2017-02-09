@@ -29,8 +29,8 @@ First, we need to get rabbitmq running in a container.  Stop rabbitmq if it is r
 containerized version (map ports directly for convenience). NOTE: if the rabbitmq container is already created 
 you can simply do `docker start rabbitmq`.
 ```bash
-$ rabbitmqctl stop
-$ docker run -d --hostname rabbitmq --name rabbitmq -p :15672:15672 -p :5672:5672 rabbitmq:3-management
+rabbitmqctl stop
+docker run -d --hostname rabbitmq --name rabbitmq -p :15672:15672 -p :5672:5672 rabbitmq:3-management
 ```
 
 Currently, building the images is not part of the build task so do that and verify images are created:
@@ -43,9 +43,14 @@ rabbitmq                                3-management        cda8025c010b        
 java                                    8-jre-alpine        d85b17c6762e        6 weeks ago         108 MB
 ```
 
-Now you can run the containers, linking rabbitmq and specifying the port mappings:
+Now you can run the containers, linking rabbitmq and specifying the port mappings. This example uses a log sink
+to catch the exams and log something about them.
 ```bash
-$ docker run -d -p :8080:8080 --name exam-service --link rabbitmq:rabbitmq fwsbac/rdw-exam-service --spring.rabbitmq.host=rabbitmq
+docker run -d -p :8080:8080 --name exam-service --link rabbitmq:rabbitmq fwsbac/rdw-exam-service --spring.rabbitmq.host=rabbitmq
+docker run -d -p :8090:8080 --name exam-log --link rabbitmq:rabbitmq springcloudstream/log-sink-rabbit --spring.rabbitmq.host=rabbitmq \
+  --spring.cloud.stream.bindings.input.destination=exams \
+  --log.expression="headers['id'].toString().concat(': ').concat(payload.substring(0, 10))"
+docker logs -f exam-log
 ```
 
 
