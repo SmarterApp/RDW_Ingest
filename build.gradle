@@ -99,4 +99,19 @@ subprojects {
             }
         }
     }
+
+    // to use this, you must use docker login to set up docker hub credentials
+    task pushImage(type:Exec, dependsOn:[buildImage]) {
+        commandLine("docker", "push", "fwsbac/rdw-${project.name}")
+    }
+
+    // to use this, you must set docker hub credentials in ~/.gradle/gradle_properties:
+    task pushImageByApi(type:DockerPushImage, dependsOn:[buildImage]) {
+        imageName = "fwsbac/rdw-${project.name}"
+        registryCredentials = new DockerRegistryCredentials(
+                username: dockerHubUsername,
+                password: dockerHubPassword,
+                email: dockerHubEmail
+        )
+    }
 }
