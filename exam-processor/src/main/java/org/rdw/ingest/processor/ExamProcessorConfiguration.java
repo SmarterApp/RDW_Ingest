@@ -1,4 +1,4 @@
-package org.rdw.processor;
+package org.rdw.ingest.processor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
