@@ -1,4 +1,6 @@
 dependencies {
     compile 'org.rdw.common:messaging'
     compile 'org.rdw.common:model'
+    compile 'org.springframework.boot:spring-boot-starter-jdbc'
+    compile 'mysql:mysql-connector-java'
 }
