@@ -1,13 +1,5 @@
 
 spring:
-  cloud:
-    stream:
-      bindings:
-        input:
-          destination: exam
-        output:
-          destination: something
-
   datasource:
     url: jdbc:mysql://localhost:3306/warehouse?useSSL=false
     username: root
@@ -15,4 +7,3 @@ spring:
     testWhileIdle: true
     validationQuery: SELECT 1
     driverClassName: com.mysql.jdbc.Driver
-
