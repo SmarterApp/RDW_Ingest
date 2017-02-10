@@ -2,6 +2,7 @@ package org.rdw.ingest.web;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.rdw.ingest.model.RdwImport;
 import org.rdw.ingest.service.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -9,7 +10,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import rdw.model.TDSReport;
 
 import java.util.Optional;
@@ -37,10 +37,10 @@ public class ExamControllerTests {
     }
 
     @Test
-    public void itShouldUseServiceToSubmitExam() throws Exception {
+    public void itShouldUseServiceToImportExam() throws Exception {
         final String body = "<TDSReport/>";
-        given(examService.submitExam(body, null)).willReturn(Optional.of(testReport(null)));
-        mvc.perform(post("/exams").contentType(MediaType.APPLICATION_XML).content(body))
+        given(examService.importExam(body, null)).willReturn(testImport("123"));
+        mvc.perform(post("/exams/imports").contentType(MediaType.APPLICATION_XML).content(body))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("123")));
     }
@@ -48,16 +48,16 @@ public class ExamControllerTests {
     @Test
     public void itShouldReturn4xxForUnsupportedOperation() throws Exception {
         final String body = "<TDSReport/>";
-        given(examService.submitExam(body, null)).willThrow(UnsupportedOperationException.class);
-        mvc.perform(post("/exams").contentType(MediaType.APPLICATION_XML).content(body))
+        given(examService.importExam(body, null)).willThrow(UnsupportedOperationException.class);
+        mvc.perform(post("/exams/imports").contentType(MediaType.APPLICATION_XML).content(body))
                 .andExpect(status().is4xxClientError());
     }
 
     @Test
     public void itShouldUseServiceToGetExam() throws Exception {
         final String id = "abc";
-        given(examService.getExam(id)).willReturn(Optional.of(testReport("abc")));
-        mvc.perform(get("/exams/" + id))
+        given(examService.getImport(id)).willReturn(Optional.of(testImport("abc")));
+        mvc.perform(get("/exams/imports/" + id))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("abc")));
     }
@@ -65,16 +65,14 @@ public class ExamControllerTests {
     @Test
     public void itShouldReturn404ForUnknownExam() throws Exception {
         final String id = "abc";
-        given(examService.getExam(id)).willReturn(Optional.empty());
-        mvc.perform(get("/exams/" + id))
+        given(examService.getImport(id)).willReturn(Optional.empty());
+        mvc.perform(get("/exams/imports/" + id))
                 .andExpect(status().isNotFound());
     }
 
-    private TDSReport testReport(final String id) {
-        final TDSReport report = new TDSReport();
-        final rdw.model.Test test = new rdw.model.Test();
-        test.setTestId(id == null ? "123" : id);
-        report.setTest(test);
-        return report;
+    private RdwImport testImport(final String id) {
+        return RdwImport.builder()
+                .id(id)
+                .build();
     }
 }

@@ -1,5 +1,6 @@
 package org.rdw.ingest.web;
 
+import org.rdw.ingest.model.RdwImport;
 import org.rdw.ingest.service.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import rdw.model.TDSReport;
 
 import javax.validation.constraints.NotNull;
 
@@ -30,16 +30,15 @@ class ExamController {
         this.service = checkNotNull(service);
     }
 
-    @RequestMapping(method = RequestMethod.POST,
-                    consumes = MediaType.APPLICATION_XML_VALUE,
-                    produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<TDSReport> postExam(@RequestBody String body,
-                                              @RequestParam(required = false) String batchId) {
-        return ResponseEntity.ok(service.submitExam(body, batchId).get());
+    @RequestMapping(value = "/imports",
+                    method = RequestMethod.POST)
+    public ResponseEntity<RdwImport> postImport(@RequestBody String body,
+                                                @RequestParam(required = false) String batchId) {
+        return ResponseEntity.ok(service.importExam(body, batchId));
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<TDSReport> getExam(@PathVariable String id) {
-        return ResponseEntity.ok(service.getExam(id).get());
+    @RequestMapping(value = "/imports/{id}", method = RequestMethod.GET)
+    public ResponseEntity<RdwImport> getImport(@PathVariable String id) {
+        return ResponseEntity.ok(service.getImport(id).get());
     }
 }

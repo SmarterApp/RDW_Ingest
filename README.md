@@ -53,6 +53,12 @@ docker run -d -p :8090:8080 --name exam-log --link rabbitmq:rabbitmq springcloud
 docker logs -f exam-log
 ```
 
+You can use a REST client to hit end-points, e.g.
+```text
+POST /exams/imports  with an XML payload should return an import request payload
+GET /exams/imports/:id   should return a mock import request payload (unless id starts with 'a')
+```
+
 
 #### Running Standalone
 It is not the recommended approach but the artifacts are Spring Boot executable jars so you can just run them, e.g.:
