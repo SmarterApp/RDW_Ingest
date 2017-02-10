@@ -24,20 +24,21 @@ public class DefaultExamServiceTests {
     }
 
     @Test
-    public void submitExamReturnsMockExam123() {
-        String body = "<TDSReport/>";
-        assertThat(service.submitExam(body, null).get().getTest().getTestId()).isEqualTo("123");
+    public void importExamReturnsImport() {
+        final String body = "<TDSReport/>";
+        final String batchId = "123";
+        assertThat(service.importExam(body, batchId).getBatchId()).isEqualTo(batchId);
         verify(examSource).submitExam(body);
     }
 
     @Test
-    public void getExamIsMockedForIdStartingWithA() {
-        assertThat(service.getExam("abc").isPresent()).isFalse();
+    public void getImportIsMockedForIdStartingWithA() {
+        assertThat(service.getImport("abc").isPresent()).isFalse();
     }
 
     @Test
-    public void getExamIsMockedForId() {
+    public void getImportIsMockedForId() {
         final String id = "123456";
-        assertThat(service.getExam(id).get().getTest().getTestId()).isEqualTo(id);
+        assertThat(service.getImport(id).get().getId()).isEqualTo(id);
     }
 }
