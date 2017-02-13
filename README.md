@@ -12,6 +12,8 @@ git checkout develop
 ./gradlew build install
 ```
 
+RDW_Ingest depends on RDW_Schema. You need to make sure that DB schemas are configured.
+
 Now you should be able to build the ingest apps:
 ```bash
 git clone https://github.com/SmarterApp/RDW_Ingest
