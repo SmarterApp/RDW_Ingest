@@ -4,18 +4,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Processor;
+import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.messaging.Message;
-import rdw.model.TDSReport;
+import rdw.messaging.RdwMessageHeaderAccessor;
 
-@EnableBinding(Processor.class)
+@EnableBinding(Sink.class)
 public class ExamProcessorConfiguration {
     private static final Logger logger = LoggerFactory.getLogger(ExamProcessorConfiguration.class);
 
-    @ServiceActivator(inputChannel = Processor.INPUT, outputChannel = Processor.OUTPUT)
-    public Object process(final Message<?> message) {
-        final TDSReport report = (TDSReport) message.getPayload();
-        logger.info(report.toString());
-        return message;
+    @ServiceActivator(inputChannel = Processor.INPUT)
+    public void process(final Message<?> message) {
+        final RdwMessageHeaderAccessor accessor = RdwMessageHeaderAccessor.wrap(message);
+        final String payload = (String) message.getPayload();
+        logger.info(accessor.getContent() + ": " + (payload.length() > 80 ? payload.substring(0, 80) + "..." : payload));
     }
 }

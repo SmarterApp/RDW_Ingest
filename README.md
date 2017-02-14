@@ -12,9 +12,16 @@ git checkout develop
 ./gradlew build install
 ```
 
-RDW_Ingest depends on RDW_Schema. You need to make sure that DB schemas are configured.
+RDW_Ingest depends on the database being configured properly. This is done using RDW_Schema.
+```bash
+git clone https://github.com/SmarterApp/RDW_Schema
+cd RDW_Schema
+git checkout develop
+cd warehouse
+../scripts/migrate
+```
 
-Now you should be able to build the ingest apps:
+Now you should be able to build and test the ingest apps:
 ```bash
 git clone https://github.com/SmarterApp/RDW_Ingest
 cd RDW_Ingest
@@ -41,18 +48,17 @@ $ gradle buildImage
 $ docker images
 REPOSITORY                              TAG                 IMAGE ID            CREATED             SIZE
 fwsbac/rdw-exam-service                 latest              fc700c6e8518        14 minutes ago      131 MB
+fwsbac/rdw-exam-processor               latest              cf83654e781f        9 seconds ago       130 MB
 rabbitmq                                3-management        cda8025c010b        3 weeks ago         179 MB
 java                                    8-jre-alpine        d85b17c6762e        6 weeks ago         108 MB
 ```
 
-Now you can run the containers, linking rabbitmq and specifying the port mappings. This example uses a log sink
-to catch the exams and log something about them.
+Now you can run the containers, linking rabbitmq and specifying the port mappings.
+Currently the exam processor just logs results so tail the log to see stuff happening.
 ```bash
 docker run -d -p :8080:8080 --name exam-service --link rabbitmq:rabbitmq fwsbac/rdw-exam-service --spring.rabbitmq.host=rabbitmq
-docker run -d -p :8090:8080 --name exam-log --link rabbitmq:rabbitmq springcloudstream/log-sink-rabbit --spring.rabbitmq.host=rabbitmq \
-  --spring.cloud.stream.bindings.input.destination=exam \
-  --log.expression="headers['id'].toString().concat(': ').concat(payload.substring(0, 10))"
-docker logs -f exam-log
+docker run -d -p :8081:8080 --name exam-processor --link rabbitmq:rabbitmq fwsbac/rdw-exam-processor --spring.rabbitmq.host=rabbitmq
+docker logs -f exam-processor
 ```
 
 You can use a REST client to hit end-points, e.g.
@@ -60,14 +66,7 @@ You can use a REST client to hit end-points, e.g.
 POST /exams/imports  with an XML payload should return an import request payload
 GET /exams/imports/:id   should return a mock import request payload (unless id starts with 'a')
 ```
-
-The log sink should be replaced with the exam-processor but we're still working out some kinks so this will
-result in processing exceptions being logged (stop exam-log first if you started it):
-```bash
-docker stop exam-log
-docker run -d -p :8081:8080 --name exam-processor --link rabbitmq:rabbitmq fwsbac/rdw-exam-processor --spring.rabbitmq.host=rabbitmq
-docker logs -f exam-processor
-```
+You will need valid credentials and connectivity to our SSO OAuth2 server. 
 
 
 #### Running Standalone

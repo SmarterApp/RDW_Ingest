@@ -37,8 +37,10 @@ public class DefaultExamSource implements ExamSource {
     public void submitExam(final String body) {
         final RdwMessageHeaderAccessor accessor = wrap(null);
         // TODO - default message headers (id, timestamp)
-        // TODO - rdw-specific headers
+        // TODO - rdw-specific headers (user login, tenancy chain)
+        // TODO - get media type from http request
         accessor.setContentType(MediaType.APPLICATION_XML);
+        accessor.setContent("exams");
 
         output.send(MessageBuilder.createMessage(body, accessor.getMessageHeaders()));
     }

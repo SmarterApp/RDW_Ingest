@@ -12,5 +12,5 @@ spring:
     stream:
       bindings:
         output:
-          destination: exam
+          destination: exams-payload
 
