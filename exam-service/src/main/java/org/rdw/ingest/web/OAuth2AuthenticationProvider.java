@@ -21,7 +21,7 @@ import org.springframework.security.oauth2.client.token.grant.password.ResourceO
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
+import rdw.utils.TenancyChain;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,10 +59,12 @@ public class OAuth2AuthenticationProvider implements AuthenticationProvider {
         if (!supports(authentication.getClass())) return authentication;
 
         final UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) authentication;
+        final String username = auth.getName();
+        final String password = (String) auth.getCredentials();
 
-        UserDetails user = userCache.getIfPresent(auth.getName());
+        UserDetails user = userCache.getIfPresent(username+password);
         if (user == null) {
-            final OAuth2RestTemplate template = template(auth);
+            final OAuth2RestTemplate template = template(username, password);
             try {
                 final OAuth2AccessToken token = template.getAccessToken();
                 if (token.isExpired()) {
@@ -70,21 +72,20 @@ public class OAuth2AuthenticationProvider implements AuthenticationProvider {
                 }
                 final Map tokenInfo = template.getForObject(oauth2Properties.getTokenInfoUri(), Map.class,
                         Collections.singletonMap("access_token", token.getValue()));
-                final String tenancyChain = (String) tokenInfo.get("sbacTenancyChain");
-                if (StringUtils.isEmpty(tenancyChain)) {
+                final TenancyChain chain = TenancyChain.fromString((String) tokenInfo.get("sbacTenancyChain"));
+                if (chain.isEmpty()) {
                     throw new RuntimeException("user doesn't have a SBAC tenancy chain");
                 }
 
-                // TODO - make this more robust parsing of tenancy chain to get all roles (by tenant)
-                // TODO   for now, all we care about is the data load role
-                // TODO - it would be nice to preserve the tenancy chain somewhere in user/auth?
+                // extract roles from tenancy chain
+                // TODO - should this be client-specific? i.e. chain.hasRoleForClient(DataLoadRole)
                 final List<GrantedAuthority> authorities = new ArrayList<>();
-                if (tenancyChain.contains(DataLoadRole)) {
+                if (chain.hasRole(DataLoadRole)) {
                     authorities.add(new SimpleGrantedAuthority(DataLoadRole));
                 }
 
-                user = new User(auth.getName(), (String) auth.getCredentials(), authorities);
-                userCache.put(user.getUsername(), user);
+                user = new User(username, password, authorities);
+                userCache.put(username+password, user);
 
                 logger.info(auth.getName() + " authenticated");
 
@@ -107,7 +108,7 @@ public class OAuth2AuthenticationProvider implements AuthenticationProvider {
         return UsernamePasswordAuthenticationToken.class.isAssignableFrom(aClass);
     }
 
-    private OAuth2RestTemplate template(final UsernamePasswordAuthenticationToken auth) {
+    private OAuth2RestTemplate template(final String username, final String password) {
         final ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
         resource.setId(oauth2Properties.getId());
         resource.setTokenName(oauth2Properties.getTokenName());
@@ -118,8 +119,8 @@ public class OAuth2AuthenticationProvider implements AuthenticationProvider {
         resource.setAccessTokenUri(oauth2Properties.getAccessTokenUri());
         resource.setClientAuthenticationScheme(oauth2Properties.getClientAuthenticationScheme());
         resource.setScope(oauth2Properties.getScope());
-        resource.setUsername(auth.getName());
-        resource.setPassword((String) auth.getCredentials());
+        resource.setUsername(username);
+        resource.setPassword(password);
         return new OAuth2RestTemplate(resource, new DefaultOAuth2ClientContext());
     }
 }
