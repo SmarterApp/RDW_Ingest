@@ -40,8 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
             .authorizeRequests()
                 // TODO - worry about actuator end-points
-                .anyRequest()
-                .hasAuthority("ASMTDATALOAD")
+                .antMatchers("/exams/**").hasAuthority("ASMTDATALOAD")
+                .antMatchers("/testresults/**").hasAuthority("ASMTDATALOAD")
             .and().httpBasic()
             .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         // TODO - realm?
