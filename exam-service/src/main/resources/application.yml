@@ -1,8 +1,16 @@
+oauth2:
+  access-token-uri: https://sso-deployment.sbtds.org:443/auth/oauth2/access_token?realm=/sbac
+  client-id: sbacdw
+  client-secret: sbacdw123
+  token-info-uri: https://sso-deployment.sbtds.org:443/auth/oauth2/tokeninfo
+  cache:
+    size: 10
+    expire: 15
 
 spring:
   cloud:
     stream:
       bindings:
         output:
-          destination: exams
+          destination: exam
 
