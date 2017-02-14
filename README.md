@@ -50,7 +50,7 @@ to catch the exams and log something about them.
 ```bash
 docker run -d -p :8080:8080 --name exam-service --link rabbitmq:rabbitmq fwsbac/rdw-exam-service --spring.rabbitmq.host=rabbitmq
 docker run -d -p :8090:8080 --name exam-log --link rabbitmq:rabbitmq springcloudstream/log-sink-rabbit --spring.rabbitmq.host=rabbitmq \
-  --spring.cloud.stream.bindings.input.destination=exams \
+  --spring.cloud.stream.bindings.input.destination=exam \
   --log.expression="headers['id'].toString().concat(': ').concat(payload.substring(0, 10))"
 docker logs -f exam-log
 ```
@@ -59,6 +59,14 @@ You can use a REST client to hit end-points, e.g.
 ```text
 POST /exams/imports  with an XML payload should return an import request payload
 GET /exams/imports/:id   should return a mock import request payload (unless id starts with 'a')
+```
+
+The log sink should be replaced with the exam-processor but we're still working out some kinks so this will
+result in processing exceptions being logged (stop exam-log first if you started it):
+```bash
+docker stop exam-log
+docker run -d -p :8081:8080 --name exam-processor --link rabbitmq:rabbitmq fwsbac/rdw-exam-processor --spring.rabbitmq.host=rabbitmq
+docker logs -f exam-processor
 ```
 
 

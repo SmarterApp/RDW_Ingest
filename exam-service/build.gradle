@@ -3,6 +3,10 @@ dependencies {
     compile 'org.rdw.common:messaging'
     compile 'org.rdw.common:model'
     compile 'org.springframework.boot:spring-boot-starter-web'
-//compile('org.springframework.cloud:spring-cloud-starter-oauth2')
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile('org.springframework.cloud:spring-cloud-starter-oauth2')
+//compile('org.springframework.boot:spring-security-oauth2')
 //compile('org.springframework.boot:spring-boot-starter-hateoas')
+
+    testCompile('org.springframework.security:spring-security-test')
 }
