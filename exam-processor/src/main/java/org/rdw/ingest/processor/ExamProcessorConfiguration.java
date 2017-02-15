@@ -17,6 +17,7 @@ public class ExamProcessorConfiguration {
     public void process(final Message<?> message) {
         final RdwMessageHeaderAccessor accessor = RdwMessageHeaderAccessor.wrap(message);
         final String payload = (String) message.getPayload();
-        logger.info(accessor.getContent() + ": " + (payload.length() > 80 ? payload.substring(0, 80) + "..." : payload));
+        logger.info("received " + accessor.getContent() + " from " + accessor.getUserLogin());
+        logger.info(accessor.getContentType() + ": " + (payload.length() > 80 ? payload.substring(0, 80) + "..." : payload));
     }
 }
