@@ -1,4 +1,4 @@
-package org.rdw.ingest.web;
+package org.rdw.ingest.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
@@ -39,11 +39,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf()
                 .disable()
             .authorizeRequests()
-                // TODO - worry about actuator end-points
                 .antMatchers("/exams/**").hasAuthority("ASMTDATALOAD")
                 .antMatchers("/testresults/**").hasAuthority("ASMTDATALOAD")
             .and().httpBasic()
             .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        // TODO - realm?
     }
 }

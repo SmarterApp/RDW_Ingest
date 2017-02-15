@@ -1,4 +1,4 @@
-package org.rdw.ingest.web;
+package org.rdw.ingest.auth;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -13,8 +13,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
@@ -29,8 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static org.rdw.ingest.web.SecurityConfig.DataLoadRole;
-
 /**
  * This auth provider acts as an adapter between basic auth from the clients of our RESTful API and the
  * credentials stored in our IDP which are accessed via oauth2. If things change so our clients are aware
@@ -42,7 +38,7 @@ import static org.rdw.ingest.web.SecurityConfig.DataLoadRole;
 public class OAuth2AuthenticationProvider implements AuthenticationProvider {
     private static final Logger logger = LoggerFactory.getLogger(OAuth2AuthenticationProvider.class);
 
-    private Cache<String, UserDetails> userCache;
+    private Cache<String, RdwUser> userCache;
     private OAuth2Properties oauth2Properties;
 
     @Autowired
@@ -62,7 +58,7 @@ public class OAuth2AuthenticationProvider implements AuthenticationProvider {
         final String username = auth.getName();
         final String password = (String) auth.getCredentials();
 
-        UserDetails user = userCache.getIfPresent(username+password);
+        RdwUser user = userCache.getIfPresent(username+password);
         if (user == null) {
             final OAuth2RestTemplate template = template(username, password);
             try {
@@ -80,11 +76,11 @@ public class OAuth2AuthenticationProvider implements AuthenticationProvider {
                 // extract roles from tenancy chain
                 // TODO - should this be client-specific? i.e. chain.hasRoleForClient(DataLoadRole)
                 final List<GrantedAuthority> authorities = new ArrayList<>();
-                if (chain.hasRole(DataLoadRole)) {
-                    authorities.add(new SimpleGrantedAuthority(DataLoadRole));
+                if (chain.hasRole(SecurityConfig.DataLoadRole)) {
+                    authorities.add(new SimpleGrantedAuthority(SecurityConfig.DataLoadRole));
                 }
 
-                user = new User(username, password, authorities);
+                user = new RdwUser(username, password, authorities, chain);
                 userCache.put(username+password, user);
 
                 logger.info(auth.getName() + " authenticated");
@@ -97,7 +93,7 @@ public class OAuth2AuthenticationProvider implements AuthenticationProvider {
 
         // need to copy cached user that we created, since framework will mess with auth token principal
         final UsernamePasswordAuthenticationToken result = new UsernamePasswordAuthenticationToken(
-                new User(user.getUsername(), user.getPassword(), user.getAuthorities()), user.getPassword(), user.getAuthorities());
+                RdwUser.copy(user), user.getPassword(), user.getAuthorities());
         result.setDetails(auth.getDetails());
 
         return result;

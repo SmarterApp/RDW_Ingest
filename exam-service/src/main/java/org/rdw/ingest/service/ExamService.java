@@ -1,7 +1,7 @@
 package org.rdw.ingest.service;
 
+import org.rdw.ingest.auth.RdwUser;
 import org.rdw.ingest.model.RdwImport;
-import rdw.model.TDSReport;
 
 import java.util.Optional;
 
@@ -10,7 +10,7 @@ import java.util.Optional;
  */
 public interface ExamService {
 
-    RdwImport importExam(String xml, String batchId);
+    RdwImport importExam(RdwUser user, String payload, String contentType, String batchId);
 
     Optional<RdwImport> getImport(String id);
 }

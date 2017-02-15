@@ -1,5 +1,6 @@
 package org.rdw.ingest.web;
 
+import org.rdw.ingest.auth.SecurityConfig;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -12,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  * this config class and still have the @withMockUser annotation work ... please do!
  */
 @Configuration
-@ComponentScan("org.rdw.ingest.web")
+@ComponentScan({"org.rdw.ingest.web", "org.rdw.ingest.auth"})
 @EnableWebMvc
 @Import({SecurityConfig.class})
 class TestAppConfig {
