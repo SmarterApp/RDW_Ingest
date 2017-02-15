@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import static org.rdw.ingest.auth.SecurityConfig.DataLoadRole;
+
 /**
  * This auth provider acts as an adapter between basic auth from the clients of our RESTful API and the
  * credentials stored in our IDP which are accessed via oauth2. If things change so our clients are aware
@@ -76,8 +78,8 @@ public class OAuth2AuthenticationProvider implements AuthenticationProvider {
                 // extract roles from tenancy chain
                 // TODO - should this be client-specific? i.e. chain.hasRoleForClient(DataLoadRole)
                 final List<GrantedAuthority> authorities = new ArrayList<>();
-                if (chain.hasRole(SecurityConfig.DataLoadRole)) {
-                    authorities.add(new SimpleGrantedAuthority(SecurityConfig.DataLoadRole));
+                if (chain.hasRole(DataLoadRole)) {
+                    authorities.add(new SimpleGrantedAuthority(DataLoadRole));
                 }
 
                 user = new RdwUser(username, password, authorities, chain);
