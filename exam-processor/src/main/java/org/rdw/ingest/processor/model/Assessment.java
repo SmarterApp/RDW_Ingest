@@ -1,17 +1,15 @@
 package org.rdw.ingest.processor.model;
 
 import javax.validation.constraints.Null;
+import java.util.List;
 
 /**
- * Assessment object
+ * An assessment definition
  */
-public class Assessment {
-    @Null
-    private Long id;
-    private final String naturalId;
-    private int grade;
-    private int type;
-    private int subject;
+public class Assessment extends IdentifiableWithNaturalId<Long> {
+    private int gradeId;
+    private int typeId;
+    private int subjectId;
     private int academicYear;
     @Null
     private String name;
@@ -19,61 +17,42 @@ public class Assessment {
     private String label;
     @Null
     private String version;
+    private List<Claim> claims;
 
-    Assessment(String naturalId, int grade, int type, int subject, int academicYear) {
-        this.naturalId = naturalId;
-        this.grade = grade;
-        this.type = type;
-        this.subject = subject;
+    Assessment(String naturalId, int gradeId, int typeId, int subjectId, int academicYear) {
+        setNaturalId(naturalId);
+        this.gradeId = gradeId;
+        this.typeId = typeId;
+        this.subjectId = subjectId;
         this.academicYear = academicYear;
     }
 
-    void setId(final Long id) {
-        this.id = id;
-    }
-
     public Long getId() {
-        return id;
-    }
-
-    void setName(final String name) {
-        this.name = name;
+        return getId();
     }
 
     public String getName() {
         return name;
     }
 
-    void setLabel(final String label) {
-        this.label = label;
-    }
-
     public String getLabel() {
         return label;
-    }
-
-    void setVersion(final String version) {
-        this.version = version;
     }
 
     public String getVersion() {
         return version;
     }
 
-    public String getNaturalId() {
-        return naturalId;
+    public int getGradeId() {
+        return gradeId;
     }
 
-    public int getGrade() {
-        return grade;
+    public int getTypeId() {
+        return typeId;
     }
 
-    public int getType() {
-        return type;
-    }
-
-    public int getSubject() {
-        return subject;
+    public int getSubjectId() {
+        return subjectId;
     }
 
     public int getAcademicYear() {
@@ -90,20 +69,20 @@ public class Assessment {
     public static class Builder {
         private Long id;
         private String naturalId;
-        private int grade;
-        private int type;
-        private int subject;
+        private int gradeId;
+        private int typeId;
+        private int subjectId;
         private int academicYear;
         private String name;
         private String label;
         private String version;
 
         public Assessment build() {
-            final Assessment assessment = new Assessment(naturalId, grade, type, subject, academicYear);
+            final Assessment assessment = new Assessment(naturalId, gradeId, typeId, subjectId, academicYear);
             assessment.setId(id);
-            assessment.setLabel(label);
-            assessment.setName(name);
-            assessment.setVersion(version);
+            assessment.label = label;
+            assessment.name = name;
+            assessment.version = version;
             return assessment;
         }
 
@@ -117,13 +96,13 @@ public class Assessment {
             return this;
         }
 
-        public Builder grade(int grade) {
-            this.grade = grade;
+        public Builder gradeId(int gradeId) {
+            this.gradeId = gradeId;
             return this;
         }
 
-        public Builder type(int type) {
-            this.type = type;
+        public Builder typeId(int typeId) {
+            this.typeId = typeId;
             return this;
         }
 
@@ -132,8 +111,8 @@ public class Assessment {
             return this;
         }
 
-        public Builder subject(int subject) {
-            this.subject = subject;
+        public Builder subjectId(int subjectId) {
+            this.subjectId = subjectId;
             return this;
         }
 
@@ -155,9 +134,9 @@ public class Assessment {
         public Builder copy(Assessment assessment) {
             id(assessment.getId());
             naturalId(assessment.getNaturalId());
-            grade(assessment.getGrade());
-            type(assessment.getType());
-            subject(assessment.getSubject());
+            gradeId(assessment.getGradeId());
+            typeId(assessment.getTypeId());
+            subjectId(assessment.getSubjectId());
             academicYear(assessment.getAcademicYear());
             label(assessment.getLabel());
             name(assessment.getName());
