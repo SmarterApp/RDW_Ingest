@@ -27,7 +27,7 @@ public class Assessment extends IdentifiableWithNaturalId<Long> {
         this.academicYear = academicYear;
     }
 
-`    public String getName() {
+    public String getName() {
         return name;
     }
 
