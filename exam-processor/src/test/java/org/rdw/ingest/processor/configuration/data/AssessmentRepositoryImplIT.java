@@ -3,7 +3,7 @@ package org.rdw.ingest.processor.configuration.data;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.rdw.ingest.processor.model.Assessment;
-import org.rdw.ingest.processor.repositories.AssessmentRepository;
+import org.rdw.ingest.processor.repository.AssessmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
@@ -28,12 +28,12 @@ public class AssessmentRepositoryImplIT {
 
         assertThat(assessment.getId()).isEqualTo(22);
         assertThat(assessment.getAcademicYear()).isEqualTo(2016);
-        assertThat(assessment.getGrade()).isEqualTo(4);
+        assertThat(assessment.getGradeId()).isEqualTo(4);
         assertThat(assessment.getLabel()).isEqualTo("MTH IAB G4 OperationsAlgebraicThinking");
         assertThat(assessment.getName()).isEqualTo("SBAC-IAB-FIXED-G4M-OA-MATH-4");
         assertThat(assessment.getNaturalId()).isEqualTo("exam natural id");
-        assertThat(assessment.getSubject()).isEqualTo(1);
-        assertThat(assessment.getType()).isEqualTo(2);
+        assertThat(assessment.getSubjectId()).isEqualTo(1);
+        assertThat(assessment.getTypeId()).isEqualTo(2);
         assertThat(assessment.getVersion()).isEqualTo("9835");
 
     }
@@ -42,9 +42,9 @@ public class AssessmentRepositoryImplIT {
     public void itShouldCreateAssessment() {
         final Assessment assessment = repository.create(Assessment.builder()
                 .naturalId("exam natural id")
-                .grade(7)
-                .type(2)
-                .subject(1)
+                .gradeId(7)
+                .typeId(3)
+                .subjectId(1)
                 .academicYear(2016)
                 .name("SBAC-IAB-FIXED-G4M-OA-MATH-4")
                 .label("MTH IAB G4 OperationsAlgebraicThinking")
@@ -53,12 +53,12 @@ public class AssessmentRepositoryImplIT {
 
         assertThat(assessment.getId()).isNotNull();
         assertThat(assessment.getAcademicYear()).isEqualTo(2016);
-        assertThat(assessment.getGrade()).isEqualTo(7);
+        assertThat(assessment.getGradeId()).isEqualTo(7);
         assertThat(assessment.getLabel()).isEqualTo("MTH IAB G4 OperationsAlgebraicThinking");
         assertThat(assessment.getName()).isEqualTo("SBAC-IAB-FIXED-G4M-OA-MATH-4");
         assertThat(assessment.getNaturalId()).isEqualTo("exam natural id");
-        assertThat(assessment.getSubject()).isEqualTo(1);
-        assertThat(assessment.getType()).isEqualTo(2);
+        assertThat(assessment.getSubjectId()).isEqualTo(1);
+        assertThat(assessment.getTypeId()).isEqualTo(2);
         assertThat(assessment.getVersion()).isEqualTo("9835");
     }
 

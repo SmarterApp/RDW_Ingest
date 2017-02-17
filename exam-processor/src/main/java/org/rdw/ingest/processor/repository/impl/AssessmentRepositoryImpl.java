@@ -1,7 +1,7 @@
-package org.rdw.ingest.processor.repositories.impl;
+package org.rdw.ingest.processor.repository.impl;
 
 import org.rdw.ingest.processor.model.Assessment;
-import org.rdw.ingest.processor.repositories.AssessmentRepository;
+import org.rdw.ingest.processor.repository.AssessmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -29,15 +29,17 @@ class AssessmentRepositoryImpl implements AssessmentRepository {
 
     @Override
     public Assessment create(final Assessment assessment) {
+
+        //TODO:this does not deal with claims yet
         final String sql = "INSERT INTO asmt (natural_id, grade_id,type_id, subject_id, academic_year, name, label, version) VALUES\n" +
                 " (:natural_id, :grade_id, :type_id, :subject_id, :academic_year, :name, :label, :version);\n";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         SqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("natural_id", assessment.getNaturalId())
-                .addValue("grade_id", assessment.getGrade())
-                .addValue("type_id", assessment.getType())
-                .addValue("subject_id", assessment.getSubject())
+                .addValue("grade_id", assessment.getGradeId())
+                .addValue("type_id", assessment.getTypeId())
+                .addValue("subject_id", assessment.getSubjectId())
                 .addValue("academic_year", assessment.getAcademicYear())
                 .addValue("name", assessment.getName())
                 .addValue("label", assessment.getLabel())
@@ -49,14 +51,15 @@ class AssessmentRepositoryImpl implements AssessmentRepository {
     }
 
     private static class AssessmentRowMapper implements RowMapper<Assessment> {
+        //TODO:this does not deal with claims yet
         @Override
         public Assessment mapRow(ResultSet rs, int rowNum) throws SQLException {
             return Assessment.builder()
                     .id(rs.getLong("id"))
                     .naturalId(rs.getString("natural_id"))
-                    .grade(rs.getInt("grade_id"))
-                    .type(rs.getInt("type_id"))
-                    .subject(rs.getInt("subject_id"))
+                    .gradeId(rs.getInt("grade_id"))
+                    .typeId(rs.getInt("type_id"))
+                    .subjectId(rs.getInt("subject_id"))
                     .academicYear(rs.getInt("academic_year"))
                     .name(rs.getString("name"))
                     .label(rs.getString("label"))

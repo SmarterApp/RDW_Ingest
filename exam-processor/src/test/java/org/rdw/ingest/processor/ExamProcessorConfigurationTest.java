@@ -7,6 +7,8 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.support.GenericMessage;
 import rdw.messaging.RdwMessageHeaderAccessor;
 
+import java.io.UnsupportedEncodingException;
+
 public class ExamProcessorConfigurationTest {
 
     private ExamProcessorConfiguration processor;
@@ -17,7 +19,7 @@ public class ExamProcessorConfigurationTest {
     }
 
     @Test
-    public void itShouldProcessMessageWithXmlContent() {
+    public void itShouldProcessMessageWithXmlContent() throws UnsupportedEncodingException {
         final RdwMessageHeaderAccessor accessor = RdwMessageHeaderAccessor.wrap(null);
         accessor.setContent("exams");
         accessor.setContentType(MediaType.APPLICATION_XML);

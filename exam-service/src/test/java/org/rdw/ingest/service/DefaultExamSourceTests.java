@@ -39,7 +39,7 @@ public class DefaultExamSourceTests {
 
         examSource.submitExam(body);
 
-        final Message message = messageCollector.forChannel(((DefaultExamSource)examSource).getOutput()).poll();
+        final Message message = messageCollector.forChannel(((DefaultExamSource) examSource).getOutput()).poll();
         assertThat(message.getPayload()).isEqualTo(body);
         assertThat(message.getHeaders().get(MessageHeaders.CONTENT_TYPE)).isEqualTo(MediaType.APPLICATION_XML);
     }
