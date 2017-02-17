@@ -19,7 +19,7 @@ class ExamProcessorRegistry {
 
     @Autowired
     public ExamProcessorRegistry(final List<ExamProcessor> processors) {
-        checkArgument(!processors.isEmpty(), "processors must be not empty");
+        checkArgument(!processors.isEmpty(), "exam processors must be not empty");
 
         reportProcessorFactory = newLinkedHashMap();
         for (final ExamProcessor processor : processors) {
@@ -27,8 +27,13 @@ class ExamProcessorRegistry {
         }
     }
 
-    public ExamProcessor getByType(final String type) {
-        return reportProcessorFactory.get(type);
+    /**
+     * Returns an exam processor for the given exam type
+     * @param examType a type of an exam to find a processor for
+     * @return an exam processor of the requested type
+     */
+    public ExamProcessor getByType(final String examType) {
+        return reportProcessorFactory.get(examType);
     }
 }
 

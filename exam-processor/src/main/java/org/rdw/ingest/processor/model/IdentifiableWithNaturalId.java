@@ -5,7 +5,7 @@ import com.mysql.jdbc.StringUtils;
 import static com.google.common.base.Preconditions.checkArgument;
 
 /**
- * Something that is identified by an natural id in addition to the internal id
+ * Something that is identified by a natural id in addition to an internal id
  */
 abstract class IdentifiableWithNaturalId<T> extends Identifiable<T> {
 

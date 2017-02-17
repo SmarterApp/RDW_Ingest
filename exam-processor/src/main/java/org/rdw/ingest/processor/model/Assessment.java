@@ -4,7 +4,7 @@ import javax.validation.constraints.Null;
 import java.util.List;
 
 /**
- * Assessment object
+ * An assessment definition
  */
 public class Assessment extends IdentifiableWithNaturalId<Long> {
     private int gradeId;
@@ -28,7 +28,7 @@ public class Assessment extends IdentifiableWithNaturalId<Long> {
     }
 
     public Long getId() {
-        return id;
+        return getId();
     }
 
     public String getName() {
@@ -79,7 +79,7 @@ public class Assessment extends IdentifiableWithNaturalId<Long> {
 
         public Assessment build() {
             final Assessment assessment = new Assessment(naturalId, gradeId, typeId, subjectId, academicYear);
-            assessment.id = id;
+            assessment.setId(id);
             assessment.label = label;
             assessment.name = name;
             assessment.version = version;

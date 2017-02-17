@@ -1,6 +1,9 @@
 package org.rdw.ingest.processor.model;
 
 
-public class Accommodation {
+/**
+ * An exam accommodation
+ */
+public class Accommodation extends Identifiable<Integer> {
     //TODO
 }

@@ -5,14 +5,13 @@ import org.rdw.ingest.processor.repository.AssessmentRepository;
 import org.rdw.ingest.processor.service.AssessmentTypeService;
 import org.rdw.ingest.processor.service.ExamProcessor;
 import org.rdw.ingest.processor.service.ExamService;
-import org.rdw.ingest.processor.service.impl.ExamProcessorRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rdw.model.TDSReport;
 
 
 @Service
-public class DefaultExamService implements ExamService {
+class DefaultExamService implements ExamService {
 
     @Autowired
     ExamProcessorRegistry processorRegistry;
@@ -25,9 +24,10 @@ public class DefaultExamService implements ExamService {
 
     @Override
     public void process(TDSReport report) {
-        Assessment assessment = assessmentRepository.findAssessmentByNaturalId(report.getTest().getName());
-        ExamProcessor processor = processorRegistry.getByType(assessmentTypeService.toCode(assessment.getTypeId()));
+        final Assessment assessment = assessmentRepository.findAssessmentByNaturalId(report.getTest().getName());
+        final ExamProcessor processor = processorRegistry.getByType(assessmentTypeService.toCode(assessment.getTypeId()));
 
+        //todo: handle error conditions
         processor.process(report, assessment);
     }
 }

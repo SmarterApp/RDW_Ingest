@@ -12,7 +12,6 @@ class AssessmentTypeRepositoryImpl implements AssessmentTypeRepository {
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
-
     @Override
     public String toCode(int id) {
         final MapSqlParameterSource parameters = new MapSqlParameterSource("id", id);

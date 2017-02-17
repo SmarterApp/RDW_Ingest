@@ -1,11 +1,13 @@
 package org.rdw.ingest.processor.model;
 
+/**
+ * An ICA or Summative Exam
+ */
+public class Exam extends AnyExam {
+    private Integer achievementLevel;
 
-public class IabExam extends AnyExam {
-    private Integer category;
-
-    public Integer getCategory() {
-        return category;
+    public Integer getAchievementLevel() {
+        return achievementLevel;
     }
 
 
@@ -16,18 +18,18 @@ public class IabExam extends AnyExam {
     /**
      * The builder for the {@link Assessment}
      */
-    class Builder extends AnyExam.Builder<IabExam> {
-        private Integer category;
+    class Builder extends AnyExam.Builder<Exam> {
+        private Integer achievementLevel;
 
         @Override
-        protected IabExam createExam() {
-            final IabExam exam = new IabExam();
-            exam.category = category;
+        protected Exam createExam() {
+            final Exam exam = new Exam();
+            exam.achievementLevel = achievementLevel;
             return exam;
         }
 
-        public Builder withCategory(Integer category) {
-            this.category = category;
+        public Builder withAchievementLevel(Integer achievementLevel) {
+            this.achievementLevel = achievementLevel;
             return this;
         }
 

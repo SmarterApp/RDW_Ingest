@@ -6,8 +6,9 @@ import org.rdw.ingest.processor.service.AssessmentTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+//TODO: consider a common approach for caching this and similar codes
 @Service
-public class DefaultAssessmentTypeService implements AssessmentTypeService {
+class DefaultAssessmentTypeService implements AssessmentTypeService {
     @Autowired
     AssessmentTypeRepository assessmentTypeRepository;
 
