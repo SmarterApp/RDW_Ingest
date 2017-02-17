@@ -1,4 +1,4 @@
-package org.rdw.ingest.auth;
+package org.rdw.ingest.web;
 
 import org.junit.Test;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class OAuth2PropertiesTests {
+public class OAuth2PropertiesTest {
 
     @Configuration
     @EnableConfigurationProperties(OAuth2Properties.class)

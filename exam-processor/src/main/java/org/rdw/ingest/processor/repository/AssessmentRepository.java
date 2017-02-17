@@ -1,4 +1,4 @@
-package org.rdw.ingest.processor.repositories;
+package org.rdw.ingest.processor.repository;
 
 import org.rdw.ingest.processor.model.Assessment;
 

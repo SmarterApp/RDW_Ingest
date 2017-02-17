@@ -1,14 +1,12 @@
 package org.rdw.ingest.web;
 
-import org.rdw.ingest.auth.RdwUser;
 import org.rdw.ingest.model.RdwImport;
 import org.rdw.ingest.service.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.NotNull;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.net.HttpHeaders.CONTENT_TYPE;
 
 /**
  * Controller for exam / testresults end-points
@@ -35,11 +32,9 @@ class ExamController {
 
     @RequestMapping(value = "/imports",
                     method = RequestMethod.POST)
-    public ResponseEntity<RdwImport> postImport(Authentication authentication,
-                                                @RequestHeader(value = CONTENT_TYPE, required = false) String contentType,
-                                                @RequestBody String body,
+    public ResponseEntity<RdwImport> postImport(@RequestBody String body,
                                                 @RequestParam(required = false) String batchId) {
-        return ResponseEntity.ok(service.importExam((RdwUser) authentication.getPrincipal(), body, contentType, batchId));
+        return ResponseEntity.ok(service.importExam(body, batchId));
     }
 
     @RequestMapping(value = "/imports/{id}", method = RequestMethod.GET)

@@ -72,8 +72,7 @@ You will need valid credentials and connectivity to our SSO OAuth2 server.
 #### Running Standalone
 It is not the recommended approach but the artifacts are Spring Boot executable jars so you can just run them, e.g.:
 ```bash
-java -jar exam-service/build/libs/exam-service-0.0.1-SNAPSHOT.jar --server.port=8080
-java -jar exam-processor/build/libs/exam-processor-0.0.1-SNAPSHOT.jar --server.port=8081
+java -jar exam-service/build/libs/exam-service-0.0.1-SNAPSHOT.jar
 ```
 
 All the ingest apps work with a message broker, currently RabbitMQ. So RabbitMQ must be running; you can use the

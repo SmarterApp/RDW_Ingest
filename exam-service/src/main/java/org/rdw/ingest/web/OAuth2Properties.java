@@ -1,4 +1,4 @@
-package org.rdw.ingest.auth;
+package org.rdw.ingest.web;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;

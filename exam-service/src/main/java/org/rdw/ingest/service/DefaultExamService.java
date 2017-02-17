@@ -1,6 +1,5 @@
 package org.rdw.ingest.service;
 
-import org.rdw.ingest.auth.RdwUser;
 import org.rdw.ingest.model.ImportStatus;
 import org.rdw.ingest.model.RdwImport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +24,17 @@ class DefaultExamService implements ExamService {
     }
 
     @Override
-    public RdwImport importExam(final RdwUser user, final String payload, final String contentType, final String batchId) {
+    public RdwImport importExam(final String xml, final String batchId) {
+        // TODO - do we pass in user or steal credentials from thread local?
+        // TODO - do we need/want to set contentType of payload as part of import record?
         final RdwImport rdwImport = RdwImport.builder()
                 .batchId(batchId)
                 .content("exam")
                 .status(ImportStatus.ACCEPTED)
                 .build();
 
-        source.submitExam(user, payload, contentType);
+        // TODO - what do we really want to inject into workflow pipeline?
+        source.submitExam(xml);
 
         return rdwImport;
     }

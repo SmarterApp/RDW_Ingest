@@ -2,13 +2,13 @@ package org.rdw.ingest.web;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.rdw.ingest.auth.WithMockRdwUser;
 import org.rdw.ingest.model.RdwImport;
 import org.rdw.ingest.service.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -18,8 +18,6 @@ import java.util.Optional;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -29,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(ExamController.class)
 @ContextConfiguration(classes = TestAppConfig.class)
 @WebAppConfiguration
-@WithMockRdwUser()
+@WithMockUser(username = "alice", authorities = {"ASMTDATALOAD"})
 public class ExamControllerTests {
 
     @Autowired
@@ -46,7 +44,7 @@ public class ExamControllerTests {
     @Test
     public void itShouldUseServiceToImportExam() throws Exception {
         final String body = "<TDSReport/>";
-        given(examService.importExam(any(), eq(body), eq(MediaType.APPLICATION_XML_VALUE), any())).willReturn(testImport("123"));
+        given(examService.importExam(body, null)).willReturn(testImport("123"));
         mvc.perform(post("/exams/imports").contentType(MediaType.APPLICATION_XML).content(body))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("123")));
@@ -55,7 +53,7 @@ public class ExamControllerTests {
     @Test
     public void itShouldReturn4xxForUnsupportedOperation() throws Exception {
         final String body = "<TDSReport/>";
-        given(examService.importExam(any(), eq(body), eq(MediaType.APPLICATION_XML_VALUE), any())).willThrow(UnsupportedOperationException.class);
+        given(examService.importExam(body, null)).willThrow(UnsupportedOperationException.class);
         mvc.perform(post("/exams/imports").contentType(MediaType.APPLICATION_XML).content(body))
                 .andExpect(status().is4xxClientError());
     }

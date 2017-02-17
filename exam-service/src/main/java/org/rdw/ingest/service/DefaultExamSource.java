@@ -1,9 +1,9 @@
 package org.rdw.ingest.service;
 
-import org.rdw.ingest.auth.RdwUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Source;
+import org.springframework.http.MediaType;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
@@ -34,13 +34,14 @@ public class DefaultExamSource implements ExamSource {
     }
 
     @Override
-    public void submitExam(final RdwUser user, final String body, final String contentType) {
-        final RdwMessageHeaderAccessor accessor = wrap(null)
-                .setReceivedNow()
-                .setContent("exams")
-                .setUserLogin(user.getUsername())
-                .setUserTenancyChain(user.getTenancyChain().toString())
-                .setContentType(contentType);
+    public void submitExam(final String body) {
+        final RdwMessageHeaderAccessor accessor = wrap(null);
+        // TODO - default message headers (id, timestamp)
+        // TODO - rdw-specific headers (user login, tenancy chain)
+        // TODO - get media type from http request
+        accessor.setContentType(MediaType.APPLICATION_XML);
+        accessor.setContent("exams");
+
         output.send(MessageBuilder.createMessage(body, accessor.getMessageHeaders()));
     }
 }
