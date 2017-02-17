@@ -43,7 +43,7 @@ public class AssessmentRepositoryImplIT {
         final Assessment assessment = repository.create(Assessment.builder()
                 .naturalId("exam natural id")
                 .gradeId(7)
-                .typeId(3)
+                .typeId(2)
                 .subjectId(1)
                 .academicYear(2016)
                 .name("SBAC-IAB-FIXED-G4M-OA-MATH-4")
