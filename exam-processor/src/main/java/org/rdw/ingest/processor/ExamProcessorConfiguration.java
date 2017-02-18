@@ -21,8 +21,12 @@ import static rdw.model.XmlUtils.tdsReportFromXml;
 public class ExamProcessorConfiguration {
     private static final Logger logger = LoggerFactory.getLogger(ExamProcessorConfiguration.class);
 
-    @Autowired
     private ExamService service;
+
+    @Autowired
+    void setExamService(final ExamService service) {
+        this.service = service;
+    }
 
     @ServiceActivator(inputChannel = Processor.INPUT)
     public void process(final Message<?> message) throws UnsupportedEncodingException {
