@@ -1,4 +1,4 @@
-package org.rdw.ingest.processor.configuration.data;
+package org.rdw.ingest.processor.repository.impl;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,14 +41,14 @@ public class AssessmentRepositoryImplIT {
     @Test
     public void itShouldCreateAssessment() {
         final Assessment assessment = repository.create(Assessment.builder()
-                .naturalId("exam natural id")
-                .gradeId(7)
-                .typeId(2)
-                .subjectId(1)
-                .academicYear(2016)
-                .name("SBAC-IAB-FIXED-G4M-OA-MATH-4")
-                .label("MTH IAB G4 OperationsAlgebraicThinking")
-                .version("9835")
+                .withNaturalId("exam natural id")
+                .withGradeId(7)
+                .withTypeId(2)
+                .withSubjectId(1)
+                .withAcademicYear(2016)
+                .withName("SBAC-IAB-FIXED-G4M-OA-MATH-4")
+                .withLabel("MTH IAB G4 OperationsAlgebraicThinking")
+                .withVersion("9835")
                 .build());
 
         assertThat(assessment.getId()).isNotNull();

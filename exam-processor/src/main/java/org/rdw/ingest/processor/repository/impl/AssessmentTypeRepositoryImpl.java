@@ -16,6 +16,6 @@ class AssessmentTypeRepositoryImpl implements AssessmentTypeRepository {
     public String toCode(int id) {
         final MapSqlParameterSource parameters = new MapSqlParameterSource("id", id);
 
-        return jdbcTemplate.queryForObject("select code from assessment_type where id= :id", parameters, String.class);
+        return jdbcTemplate.queryForObject("select code from asmt_type where id= :id", parameters, String.class);
     }
 }

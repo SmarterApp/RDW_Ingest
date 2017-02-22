@@ -1,5 +1,6 @@
 package org.rdw.ingest.processor.repository.impl;
 
+import java.util.List;
 import org.rdw.ingest.processor.model.Assessment;
 import org.rdw.ingest.processor.repository.AssessmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,10 @@ class AssessmentRepositoryImpl implements AssessmentRepository {
     public Assessment findAssessmentByNaturalId(String id) {
         final MapSqlParameterSource parameters = new MapSqlParameterSource("natural_id", id);
 
-        return jdbcTemplate.query("select * from asmt where natural_id= :natural_id", parameters, new AssessmentRowMapper()).get(0);
+        List<Assessment> assessmentList = jdbcTemplate.query("select * from asmt where natural_id= :natural_id", parameters, new AssessmentRowMapper());
+        if(assessmentList.size() == 1) return assessmentList.get(0);
+        //TODO
+        return null;
     }
 
     @Override
@@ -46,7 +50,7 @@ class AssessmentRepositoryImpl implements AssessmentRepository {
                 .addValue("version", assessment.getVersion());
 
         jdbcTemplate.update(sql, parameterSource, keyHolder);
-        return Assessment.builder().copy(assessment).id(keyHolder.getKey().longValue()).build();
+        return Assessment.builder().withCopy(assessment).withId(keyHolder.getKey().longValue()).build();
 
     }
 
@@ -55,15 +59,15 @@ class AssessmentRepositoryImpl implements AssessmentRepository {
         @Override
         public Assessment mapRow(ResultSet rs, int rowNum) throws SQLException {
             return Assessment.builder()
-                    .id(rs.getLong("id"))
-                    .naturalId(rs.getString("natural_id"))
-                    .gradeId(rs.getInt("grade_id"))
-                    .typeId(rs.getInt("type_id"))
-                    .subjectId(rs.getInt("subject_id"))
-                    .academicYear(rs.getInt("academic_year"))
-                    .name(rs.getString("name"))
-                    .label(rs.getString("label"))
-                    .version(rs.getString("version"))
+                    .withId(rs.getLong("id"))
+                    .withNaturalId(rs.getString("natural_id"))
+                    .withGradeId(rs.getInt("grade_id"))
+                    .withTypeId(rs.getInt("type_id"))
+                    .withSubjectId(rs.getInt("subject_id"))
+                    .withAcademicYear(rs.getInt("academic_year"))
+                    .withName(rs.getString("name"))
+                    .withLabel(rs.getString("label"))
+                    .withVersion(rs.getString("version"))
                     .build();
         }
     }

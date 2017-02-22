@@ -1,7 +1,7 @@
 package org.rdw.ingest.processor.model;
 
-import javax.validation.constraints.Null;
 import java.util.List;
+import javax.validation.constraints.Null;
 
 /**
  * An assessment definition
@@ -60,7 +60,7 @@ public class Assessment extends IdentifiableWithNaturalId<Long> {
     }
 
     /**
-     * The builder for the {@link Assessment}
+     * The Builder withfor the {@link Assessment}
      */
     public static class Builder {
         private Long id;
@@ -82,61 +82,61 @@ public class Assessment extends IdentifiableWithNaturalId<Long> {
             return assessment;
         }
 
-        public Builder id(Long id) {
+        public Builder withId(Long id) {
             this.id = id;
             return this;
         }
 
-        public Builder naturalId(String naturalId) {
+        public Builder withNaturalId(String naturalId) {
             this.naturalId = naturalId;
             return this;
         }
 
-        public Builder gradeId(int gradeId) {
+        public Builder withGradeId(int gradeId) {
             this.gradeId = gradeId;
             return this;
         }
 
-        public Builder typeId(int typeId) {
+        public Builder withTypeId(int typeId) {
             this.typeId = typeId;
             return this;
         }
 
-        public Builder academicYear(int academicYear) {
+        public Builder withAcademicYear(int academicYear) {
             this.academicYear = academicYear;
             return this;
         }
 
-        public Builder subjectId(int subjectId) {
+        public Builder withSubjectId(int subjectId) {
             this.subjectId = subjectId;
             return this;
         }
 
-        public Builder name(String name) {
+        public Builder withName(String name) {
             this.name = name;
             return this;
         }
 
-        public Builder label(String label) {
+        public Builder withLabel(String label) {
             this.label = label;
             return this;
         }
 
-        public Builder version(String version) {
+        public Builder withVersion(String version) {
             this.version = version;
             return this;
         }
 
-        public Builder copy(Assessment assessment) {
-            id(assessment.getId());
-            naturalId(assessment.getNaturalId());
-            gradeId(assessment.getGradeId());
-            typeId(assessment.getTypeId());
-            subjectId(assessment.getSubjectId());
-            academicYear(assessment.getAcademicYear());
-            label(assessment.getLabel());
-            name(assessment.getName());
-            version(assessment.getVersion());
+        public Builder withCopy(Assessment assessment) {
+            withId(assessment.getId());
+            withNaturalId(assessment.getNaturalId());
+            withGradeId(assessment.getGradeId());
+            withTypeId(assessment.getTypeId());
+            withSubjectId(assessment.getSubjectId());
+            withAcademicYear(assessment.getAcademicYear());
+            withLabel(assessment.getLabel());
+            withName(assessment.getName());
+            withVersion(assessment.getVersion());
             return this;
         }
     }

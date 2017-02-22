@@ -1,5 +1,7 @@
 package org.rdw.ingest.processor.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import javax.validation.constraints.Null;
 import java.util.Date;
 
@@ -70,7 +72,7 @@ public class Student extends IdentifiableWithNaturalId<Long> {
      */
     public static class Builder {
         private String naturalId;
-        private long id;
+        private Long id;
         private String lastOrSurname;
         private String firstName;
         private String middleName;
@@ -102,7 +104,7 @@ public class Student extends IdentifiableWithNaturalId<Long> {
             return this;
         }
 
-        public Builder withId(long id) {
+        public Builder withId(Long id) {
             this.id = id;
             return this;
         }
@@ -132,23 +134,23 @@ public class Student extends IdentifiableWithNaturalId<Long> {
             return this;
         }
 
-        public Builder withFirsEntryIntoUSSchoolAt(Date firsEntryIntoUSSchoolAt) {
-            this.firsEntryIntoUSSchoolAt = firsEntryIntoUSSchoolAt;
+        public Builder withFirsEntryIntoUSSchoolAt(String firsEntryIntoUSSchoolAt) throws ParseException {
+            this.firsEntryIntoUSSchoolAt = new SimpleDateFormat("yyyyy-mm-dd").parse(firsEntryIntoUSSchoolAt);
             return this;
         }
 
-        public Builder withLepEntryAt(Date lepEntryAt) {
-            this.lepEntryAt = lepEntryAt;
+        public Builder withLepEntryAt(String lepEntryAt) throws ParseException {
+            this.lepEntryAt = new SimpleDateFormat("yyyyy-mm-dd").parse(lepEntryAt);
             return this;
         }
 
-        public Builder withLepExitAt(Date lepExitAt) {
-            this.lepExitAt = lepExitAt;
+        public Builder withLepExitAt(String lepExitAt) throws ParseException {
+            this.lepExitAt =  new SimpleDateFormat("yyyyy-mm-dd").parse(lepExitAt);
             return this;
         }
 
-        public Builder withBirthday(Date birthday) {
-            this.birthday = birthday;
+        public Builder withBirthday(String birthday) throws ParseException {
+            this.birthday =  new SimpleDateFormat("yyyyy-mm-dd").parse(birthday);
             return this;
         }
 
