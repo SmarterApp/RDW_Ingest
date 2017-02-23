@@ -34,7 +34,7 @@ public class ExamProcessorConfigurationTest {
         accessor.setContentType(MediaType.APPLICATION_XML);
 
         final String tdsReport;
-        try (final Reader reader = new InputStreamReader(this.getClass().getResourceAsStream("/TDSReport.sample.xml"))) {
+        try (final Reader reader = new InputStreamReader(this.getClass().getResourceAsStream("/TDSReport.iab.sample.xml"))) {
             tdsReport = CharStreams.toString(reader);
         }
         final Message message = new GenericMessage(tdsReport, accessor.getMessageHeaders());

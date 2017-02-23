@@ -3,11 +3,11 @@ package org.rdw.ingest.processor.model;
 /**
  * A student attributes for an {@link AnyExam}
  */
-public class StudentAttributes extends Identifiable<Long> {
+public class StudentAttributes {
     private Long studentId;
     private Integer responsibleSchoolId;
     private Integer gradeId;
-    private Boolean iep;
+    private Boolean ideaIndicator;
     private Boolean lep;
     private Boolean section504;
     private Boolean economicDisadvantage;
@@ -29,8 +29,8 @@ public class StudentAttributes extends Identifiable<Long> {
         return gradeId;
     }
 
-    public Boolean getIep() {
-        return iep;
+    public Boolean getIdeaIndicator() {
+        return ideaIndicator;
     }
 
     public Boolean getLep() {
@@ -73,11 +73,11 @@ public class StudentAttributes extends Identifiable<Long> {
      * The builder for the {@link StudentAttributes}
      */
     public static class Builder {
-        private long id;
+        private Long id;
         private Long studentId;
         private Integer responsibleSchoolId;
         private Integer gradeId;
-        private Boolean iep;
+        private Boolean ideaIndicator;
         private Boolean lep;
         private Boolean section504;
         private Boolean economicDisadvantage;
@@ -89,11 +89,10 @@ public class StudentAttributes extends Identifiable<Long> {
 
         public StudentAttributes build() {
             final StudentAttributes studentAttributes = new StudentAttributes();
-            studentAttributes.setId(id);
             studentAttributes.studentId = studentId;
             studentAttributes.responsibleSchoolId = responsibleSchoolId;
             studentAttributes.gradeId = gradeId;
-            studentAttributes.iep = iep;
+            studentAttributes.ideaIndicator = ideaIndicator;
             studentAttributes.lep = lep;
             studentAttributes.section504 = section504;
             studentAttributes.economicDisadvantage = economicDisadvantage;
@@ -103,11 +102,6 @@ public class StudentAttributes extends Identifiable<Long> {
             studentAttributes.languageCode = languageCode;
             studentAttributes.primDisabilityType = primDisabilityType;
             return studentAttributes;
-        }
-
-        public Builder withId(long id) {
-            this.id = id;
-            return this;
         }
 
         public Builder withStudentId(Long studentId) {
@@ -125,8 +119,8 @@ public class StudentAttributes extends Identifiable<Long> {
             return this;
         }
 
-        public Builder withIep(Boolean iep) {
-            this.iep = iep;
+        public Builder withIdeaIndicator(Boolean ideaIndicator) {
+            this.ideaIndicator = ideaIndicator;
             return this;
         }
 

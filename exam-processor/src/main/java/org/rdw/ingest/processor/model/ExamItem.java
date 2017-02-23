@@ -4,7 +4,6 @@ package org.rdw.ingest.processor.model;
  * An item's score for an {@link AnyExam}
  */
 public class ExamItem {
-
     private Long key;
     private String bankKey;
     private float score;

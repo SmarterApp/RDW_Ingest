@@ -1,5 +1,7 @@
 package org.rdw.ingest.processor.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -22,8 +24,18 @@ public abstract class AnyExam extends Identifiable<Long> {
     private String sessionId;
     private StudentAttributes studentAttributes;
     private List<Accommodation> availableAccommodations;
+
+    private List<ExamItem> examItems;
     private float scaleScore;
     private float scaleScoreStdErr;
+
+    public float getScaleScore() {
+        return scaleScore;
+    }
+
+    public float getScaleScoreStdErr() {
+        return scaleScoreStdErr;
+    }
 
     public Date getCompletedAt() {
         return completedAt;
@@ -66,13 +78,17 @@ public abstract class AnyExam extends Identifiable<Long> {
     }
 
     public List<Accommodation> getAvailableAccommodations() {
-        return availableAccommodations;
+        return availableAccommodations == null ? newArrayList() : availableAccommodations;
+    }
+
+    public List<ExamItem> getExamItems() {
+        return examItems == null ? newArrayList() : examItems;
     }
 
     /**
      * The builder for the {@link AnyExam}
      */
-    public abstract class Builder<E extends AnyExam> {
+    public static abstract class Builder<E extends AnyExam> {
         private Date completedAt;
         private long assessmentId;
         private String asmtVersion;
@@ -83,7 +99,10 @@ public abstract class AnyExam extends Identifiable<Long> {
         private String status;
         private String sessionId;
         private StudentAttributes studentAttributes;
-        private List<Accommodation> availableAccommodations = newArrayList();
+        private List<Accommodation> availableAccommodations;
+        private List<ExamItem> examItems;
+        private float scaleScore;
+        private float scaleScoreStdErr;
 
         public E build() {
             final E exam = createExam();
@@ -102,16 +121,18 @@ public abstract class AnyExam extends Identifiable<Long> {
             exam.status = status;
             exam.sessionId = sessionId;
             exam.studentAttributes = studentAttributes;
-            exam.availableAccommodations = newArrayList(availableAccommodations);
+            exam.availableAccommodations = availableAccommodations;
             exam.scaleScore = scaleScore;
             exam.scaleScoreStdErr = scaleScoreStdErr;
+            exam.examItems = examItems;
             return exam;
         }
 
         protected abstract E createExam();
 
-        public Builder withCompletedAt(Date completedAt) {
-            this.completedAt = completedAt;
+        public Builder withCompletedAt(String completedAt) throws ParseException {
+            this.completedAt = new SimpleDateFormat("yyyyy-mm-dd").parse(completedAt);
+            ;
             return this;
         }
 
@@ -133,6 +154,17 @@ public abstract class AnyExam extends Identifiable<Long> {
         public Builder withCompleteness(int completeness) {
             this.completeness = completeness;
             return this;
+        }
+
+        public Builder withScaleScore(Float scaleScore) {
+            this.scaleScore = scaleScore;
+            return this;
+        }
+
+        public Builder withScaleScoreStdErr(Float scaleScoreStdErr) {
+            this.scaleScoreStdErr = scaleScoreStdErr;
+            return this;
+
         }
 
         public Builder withAdministrationConditionId(int administrationConditionId) {
@@ -162,6 +194,11 @@ public abstract class AnyExam extends Identifiable<Long> {
 
         public Builder withAvailableAccommodations(List<Accommodation> availableAccommodations) {
             this.availableAccommodations = availableAccommodations;
+            return this;
+        }
+
+        public Builder withExamItems(List<ExamItem> examItems) {
+            this.examItems = examItems;
             return this;
         }
     }

@@ -1,0 +1,728 @@
+<TDSReport>
+    <Test grade="6" mode="online" contract="SBAC" bankKey="200" testId="SBAC-ICA-FIXED-G6E-COMBINED-2017" subject="ELA" name="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-2017-Winter-2016-2017" handScoreProject="0" assessmentType="interim"
+          academicYear="2016" assessmentVersion="9787|9787"/>
+    <Examinee isDemo="0" key="4054">
+        <ExamineeAttribute name="AlternateSSID" value="SIXTHGRADER20" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="AlternateSSID" value="SIXTHGRADER20" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="AmericanIndianOrAlaskaNative" value="NO" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="AmericanIndianOrAlaskaNative" value="NO" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="Asian" value="YES" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="Asian" value="YES" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="Birthdate" value="1900-01-01" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="Birthdate" value="1900-01-01" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="BlackOrAfricanAmerican" value="NO" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="BlackOrAfricanAmerican" value="NO" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="DemographicRaceTwoOrMoreRaces" value="NO" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="DemographicRaceTwoOrMoreRaces" value="NO" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="EconomicDisadvantageStatus" value="NO" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="EconomicDisadvantageStatus" value="NO" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="EnglishLanguageProficiencLevel" value="" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="EnglishLanguageProficiencLevel" value="" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="FirstEntryDateIntoUSSchool" value="" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="FirstEntryDateIntoUSSchool" value="" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="FirstName" value="Name139" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="FirstName" value="Name139" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="GradeLevelWhenAssessed" value="SIXTHGRADE" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="GradeLevelWhenAssessed" value="SIXTHGRADE" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="HispanicOrLatinoEthnicity" value="NO" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="HispanicOrLatinoEthnicity" value="NO" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="IDEAIndicator" value="NO" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="IDEAIndicator" value="NO" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="LanguageCode" value="" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="LanguageCode" value="" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="LastOrSurname" value="LastName139" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="LastOrSurname" value="LastName139" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="LEPExitDate" value="" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="LEPExitDate" value="" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="LEPStatus" value="NO" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="LEPStatus" value="NO" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="LimitedEnglishProficiencyEntryDate" value="" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="LimitedEnglishProficiencyEntryDate" value="" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="MiddleName" value="MiddleName139" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="MiddleName" value="MiddleName139" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="MigrantStatus" value="NO" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="MigrantStatus" value="NO" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="NativeHawaiianOrOtherPacificIslander" value="NO" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="NativeHawaiianOrOtherPacificIslander" value="NO" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="PrimaryDisabilityType" value="" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="PrimaryDisabilityType" value="" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="Section504Status" value="NO" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="Section504Status" value="NO" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="Sex" value="M" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="Sex" value="M" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="StudentIdentifier" value="ASIXTHGRADER20" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="StudentIdentifier" value="ASIXTHGRADER20" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="TitleIIILanguageInstructionProgramType" value="" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="TitleIIILanguageInstructionProgramType" value="" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="White" value="NO" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeAttribute name="White" value="NO" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeRelationship name="NameOfInstitution" value="APTESTSCHOOL" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeRelationship name="NameOfInstitution" value="APTESTSCHOOL" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeRelationship name="OrganizationName" value="UCLA" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeRelationship name="OrganizationName" value="UCLA" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeRelationship name="ResponsibleDistrictIdentifier" value="UCLALS" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeRelationship name="ResponsibleDistrictIdentifier" value="UCLALS" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeRelationship name="ResponsibleInstitutionIdentifier" value="APTEST1" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeRelationship name="ResponsibleInstitutionIdentifier" value="APTEST1" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeRelationship name="StateAbbreviation" value="AP" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeRelationship name="StateAbbreviation" value="AP" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeRelationship name="StateName" value="ARMED FORCES PACIFIC" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
+        <ExamineeRelationship name="StateName" value="ARMED FORCES PACIFIC" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+    </Examinee>
+    <Opportunity database="session" key="cd3f30b2-b631-4801-9472-3beaad0f1fb9" taId="uat_lab20@mailinator.com" taName="UAT Lab20" sessionId="Lab-32" windowId="ANNUAL" server="ip-172-19-0-179" qaLevel="" clientName="SBAC"
+                 reportingVersion="0" abnormalStarts="0" ftCount="0" dateCompleted="2016-10-13T02:32:24.972"
+                 assessmentParticipantSessionPlatformUserAgent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36" itemCount="48" pauseCount="0"
+                 completeStatus="Complete" status="completed" statusDate="2016-10-13T02:32:24.972" administrationCondition="" startDate="2016-10-13T02:25:49.066" oppId="5000018" opportunity="1" gracePeriodRestarts="0">
+        <Segment id="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017" position="1" formId="ELA ICA G6 2017 ENG COMBINED" formKey="200-18836" algorithm="fixedform"/>
+        <Segment id="(SBAC)SBAC-ICA-FIXED-G6E-Perf-ImportofNutriA-COMBINED-ELA-6-Winter-2016-2017" position="2" formId="ELA ICA Perf G6a 2017 ENG COMBINED" formKey="200-18878" algorithm="fixedform"/>
+        <Segment id="(SBAC)SBAC-ICA-FIXED-G6E-Perf-ImportofNutriB-COMBINED-ELA-6-Winter-2016-2017" position="3" formId="ELA ICA Perf G6b 2017 ENG COMBINED" formKey="200-18880" algorithm="fixedform"/>
+        <Accommodation code="TDS_Dict_SD3" type="Dictionary" value="MerriamWebsters Intermediate Dictionary" segment="3"/>
+        <Accommodation code="TDS_DO_ALL" type="Dictionary Options" value="All Options" segment="3"/>
+        <Accommodation code="TDS_TH_TA" type="Thesaurus" value="MerriamWebsters Collegiate Thesaurus" segment="3"/>
+        <Accommodation code="TDS_TO_ALL" type="Thesaurus Options" value="All Options" segment="3"/>
+        <Accommodation code="ENU" type="Language" value="English" segment="0"/>
+        <Accommodation code="NEA0" type="Non-Embedded Accommodations" value="None" segment="0"/>
+        <Accommodation code="NEDS0" type="Non-Embedded Designated Supports" value="None" segment="0"/>
+        <Accommodation code="TDS_APC_PSP" type="Audio Playback Controls" value="Play Stop and Pause" segment="0"/>
+        <Accommodation code="TDS_ClosedCap0" type="Closed Captioning" value="Closed Captioning Not Available" segment="0"/>
+        <Accommodation code="TDS_ExpandablePassages1" type="Expandable Passages" value="Expandable Passages On" segment="0"/>
+        <Accommodation code="TDS_FT_Serif" type="Font Type" value="Times New Roman" segment="0"/>
+        <Accommodation code="TDS_F_S14" type="Passage Font Size" value="14pt" segment="0"/>
+        <Accommodation code="TDS_GN1" type="Global Notes" value="Global Notes On" segment="0"/>
+        <Accommodation code="TDS_Highlight1" type="Highlight" value="True" segment="0"/>
+        <Accommodation code="TDS_HWPlayback" type="Hardware Checks" value="Check Playback Capabilities" segment="0"/>
+        <Accommodation code="TDS_IF_S14" type="Item Font Size" value="14pt Items" segment="0"/>
+        <Accommodation code="TDS_ITM1" type="Item Tools Menu" value="On" segment="0"/>
+        <Accommodation code="TDS_ITTC0" type="IntraTest TTS Controls" value="IntraTest TTS Controls Off" segment="0"/>
+        <Accommodation code="TDS_MfR1" type="Mark for Review" value="True" segment="0"/>
+        <Accommodation code="TDS_Other" type="Other" value="None" segment="0"/>
+        <Accommodation code="TDS_PM0" type="Permissive Mode" value="Permissive Mode Disabled" segment="0"/>
+        <Accommodation code="TDS_PS_L0" type="Print Size" value="No default zoom applied" segment="0"/>
+        <Accommodation code="TDS_RSL_ListView" type="Review Screen Layout" value="List" segment="0"/>
+        <Accommodation code="TDS_SCNotepad" type="Student Comments" value="On" segment="0"/>
+        <Accommodation code="TDS_ST1" type="Strikethrough" value="True" segment="0"/>
+        <Accommodation code="TDS_SVC1" type="System Volume Control" value="Show widget" segment="0"/>
+        <Accommodation code="TDS_TPI_ResponsesFix" type="Test Progress Indicator" value="Show indicator as a fraction and adjust to test length" segment="0"/>
+        <Accommodation code="TDS_TS_Universal" type="Test Shell" value="Universal Shell" segment="0"/>
+        <Accommodation code="TDS_WL_Glossary" type="Word List" value="English Glossary" segment="0"/>
+        <Score measureOf="Overall" measureLabel="Attempted" value="Y" standardError=""/>
+        <Score measureOf="Overall" measureLabel="ThetaScore" value="-0.274257094283746" standardError="0.274016073911493"/>
+        <Score measureOf="2-W" measureLabel="ThetaScore" value="0.256776999239255" standardError="0.452474608320409"/>
+        <Score measureOf="4-CR" measureLabel="ThetaScore" value="-0.280005536500239" standardError="0.703508087023076"/>
+        <Score measureOf="SOCK_R" measureLabel="ThetaScore" value="-0.668921562081719" standardError="0.509248104337775"/>
+        <Score measureOf="SOCK_LS" measureLabel="ThetaScore" value="-1.08427761752295" standardError="0.939084597077567"/>
+        <Score measureOf="Overall" measureLabel="ScaleScore" value="2484.66874131045" standardError="23.5105791416061"/>
+        <Score measureOf="2-W" measureLabel="ScaleScore" value="2530.23146653473" standardError="38.8223213938911"/>
+        <Score measureOf="4-CR" measureLabel="ScaleScore" value="2484.17552496828" standardError="60.3609938665799"/>
+        <Score measureOf="SOCK_R" measureLabel="ScaleScore" value="2450.80652997339" standardError="43.6934873521811"/>
+        <Score measureOf="SOCK_LS" measureLabel="ScaleScore" value="2415.16898041653" standardError="80.5734584292552"/>
+        <Score measureOf="Overall" measureLabel="PerformanceLevel" value="2" standardError=""/>
+        <Score measureOf="2-W" measureLabel="PerformanceLevel" value="2" standardError=""/>
+        <Score measureOf="4-CR" measureLabel="PerformanceLevel" value="2" standardError=""/>
+        <Score measureOf="SOCK_R" measureLabel="PerformanceLevel" value="1" standardError=""/>
+        <Score measureOf="SOCK_LS" measureLabel="PerformanceLevel" value="2" standardError=""/>
+        <Score measureOf="Overall" measureLabel="ItemCount" value="49" standardError="0"/>
+        <Score measureOf="2-W" measureLabel="ItemCount" value="12" standardError="0"/>
+        <Score measureOf="4-CR" measureLabel="ItemCount" value="7" standardError="0"/>
+        <Score measureOf="SOCK_R" measureLabel="ItemCount" value="21" standardError="0"/>
+        <Score measureOf="SOCK_LS" measureLabel="ItemCount" value="9" standardError="0"/>
+        <Score measureOf="Overall" measureLabel="ItemCountScored" value="49" standardError="0"/>
+        <Score measureOf="2-W" measureLabel="ItemCountScored" value="12" standardError="0"/>
+        <Score measureOf="4-CR" measureLabel="ItemCountScored" value="7" standardError="0"/>
+        <Score measureOf="SOCK_R" measureLabel="ItemCountScored" value="21" standardError="0"/>
+        <Score measureOf="SOCK_LS" measureLabel="ItemCountScored" value="9" standardError="0"/>
+        <Score measureOf="Overall" measureLabel="RawScore" value="18" standardError="0"/>
+        <Score measureOf="2-W" measureLabel="RawScore" value="8" standardError="0"/>
+        <Score measureOf="4-CR" measureLabel="RawScore" value="2" standardError="0"/>
+        <Score measureOf="SOCK_R" measureLabel="RawScore" value="6" standardError="0"/>
+        <Score measureOf="SOCK_LS" measureLabel="RawScore" value="2" standardError="0"/>
+        <Score measureOf="Print Size|TDS_PS_L0" measureLabel="Accommodation" value="3" standardError="0"/>
+        <GenericVariable name="OPPID" value="100155" context="COMPONENT_1"/>
+        <GenericVariable name="STATUS" value="scored" context="COMPONENT_1"/>
+        <GenericVariable name="TESTID" value="SBAC-ICA-FIXED-G6E-ELA-6" context="COMPONENT_1"/>
+        <GenericVariable name="OPPID" value="100154" context="COMPONENT_2"/>
+        <GenericVariable name="STATUS" value="scored" context="COMPONENT_2"/>
+        <GenericVariable name="TESTID" value="SBAC-ICA-FIXED-G6E-Perf-ImportanceOfNutrition" context="COMPONENT_2"/>
+        <Item responseDuration="3.078" pageTime="0" pageNumber="1" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:26:43.319" clientId="" key="46849" bankKey="200" position="1" contentLevel="2-W|8-6"
+              strand="2-W" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:26:46.344">A</Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        A
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="140.186" pageTime="0" pageNumber="2" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:26:43.042" clientId="" key="41340" bankKey="200" position="2" contentLevel="4-CR|2-6"
+              strand="4-CR" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:29:06.526">A</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        C
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="2.134" pageTime="0" pageNumber="3" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:26:43.522" clientId="" key="45960" bankKey="200" position="3" contentLevel="2-W|9-6"
+              strand="2-W" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:29:08.658">C</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        A
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="0.82675" pageTime="0" pageNumber="4" pageVisits="0" numberVisits="1" format="HTQ" adminDate="2016-10-13T02:26:45.295" clientId="" key="37113" bankKey="200" position="4" contentLevel="1-IT|8-6"
+              strand="1-IT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:29:18.031"> &lt;itemResponse&gt;&lt;response id="1"&gt;&lt;value&gt;3&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="0.82675" pageTime="0" pageNumber="5" pageVisits="0" numberVisits="1" format="EBSR" adminDate="2016-10-13T02:26:45.295" clientId="" key="37115" bankKey="200" position="5" contentLevel="1-IT|9-6"
+              strand="1-IT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:29:17.098"> &lt;itemResponse&gt;&lt;response id="EBSR1"&gt;&lt;value&gt;A&lt;/value&gt;&lt;/response&gt;&lt;response id="EBSR2"&gt;&lt;value&gt;D&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="2.3085" pageTime="0" pageNumber="6" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:26:45.295" clientId="" key="58821" bankKey="200" position="6" contentLevel="1-IT|14-6"
+              strand="1-IT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:29:17.939">B</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        D
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="0.82675" pageTime="0" pageNumber="7" pageVisits="0" numberVisits="1" format="MS" adminDate="2016-10-13T02:26:45.295" clientId="" key="37117" bankKey="200" position="7" contentLevel="1-IT|10-6"
+              strand="1-IT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:29:17.894">A,C</Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        A,C
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="3.703" pageTime="0" pageNumber="8" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:29:18.111" clientId="" key="58239" bankKey="200" position="8" contentLevel="2-W|1-6"
+              strand="2-W" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:29:21.612">B</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        D
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="3.95667" pageTime="0" pageNumber="9" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:29:18.241" clientId="" key="35418" bankKey="200" position="9" contentLevel="3-L|4-6"
+              strand="3-L" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:29:33.568">A</Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        A
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="3.22733" pageTime="0" pageNumber="10" pageVisits="0" numberVisits="1" format="MI" adminDate="2016-10-13T02:29:18.241" clientId="" key="35421" bankKey="200" position="10" contentLevel="3-L|4-6"
+              strand="3-L" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:29:33.523"> &lt;itemResponse&gt;&lt;response id="RESPONSE"&gt;&lt;value&gt;1 a&lt;/value&gt;&lt;value&gt;2 b&lt;/value&gt;&lt;value&gt;3 c&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="3.22733" pageTime="0" pageNumber="11" pageVisits="0" numberVisits="1" format="EBSR" adminDate="2016-10-13T02:29:18.241" clientId="" key="37321" bankKey="200" position="11" contentLevel="3-L|4-6"
+              strand="3-L" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:29:33.469"> &lt;itemResponse&gt;&lt;response id="EBSR1"&gt;&lt;value&gt;C&lt;/value&gt;&lt;/response&gt;&lt;response id="EBSR2"&gt;&lt;value&gt;A&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="13.189" pageTime="0" pageNumber="12" pageVisits="0" numberVisits="1" format="HTQ" adminDate="2016-10-13T02:29:23.871" clientId="" key="44973" bankKey="200" position="12" contentLevel="4-CR|4-6"
+              strand="4-CR" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:29:46.661"> &lt;itemResponse&gt;&lt;response id="1"&gt;&lt;value&gt;3&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="9.083" pageTime="0" pageNumber="13" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:29:33.644" clientId="" key="36357" bankKey="200" position="13" contentLevel="2-W|9-6"
+              strand="2-W" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:29:55.074">A</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        C
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="1.2556" pageTime="0" pageNumber="14" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:29:33.749" clientId="" key="53850" bankKey="200" position="14" contentLevel="1-LT|6-6"
+              strand="1-LT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:30:06.178">C</Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        C
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="1.2286" pageTime="0" pageNumber="15" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:29:33.749" clientId="" key="52500" bankKey="200" position="15" contentLevel="1-LT|3-6"
+              strand="1-LT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:30:06.139">B</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        C
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="1.3366" pageTime="0" pageNumber="16" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:29:33.749" clientId="" key="52498" bankKey="200" position="16" contentLevel="1-LT|3-6"
+              strand="1-LT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:30:06.093">B</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        D
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="1.2896" pageTime="0" pageNumber="17" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:29:33.749" clientId="" key="53858" bankKey="200" position="17" contentLevel="1-LT|5-6"
+              strand="1-LT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:30:06.005">C</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        A
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="1.0194" pageTime="0" pageNumber="18" pageVisits="0" numberVisits="1" format="HTQ" adminDate="2016-10-13T02:29:33.749" clientId="" key="52618" bankKey="200" position="18" contentLevel="1-LT|4-6"
+              strand="1-LT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:30:06.004"> &lt;itemResponse&gt;&lt;response id="1"&gt;&lt;value&gt;2&lt;/value&gt;&lt;value&gt;5&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="2.491" pageTime="0" pageNumber="19" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:29:59.633" clientId="" key="29321" bankKey="200" position="19" contentLevel="2-W|9-6"
+              strand="2-W" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:30:08.493">C</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        A
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="13.9477" pageTime="0" pageNumber="20" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:30:00.099" clientId="" key="32478" bankKey="200" position="20" contentLevel="3-L|4-6"
+              strand="3-L" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:30:51.739">B</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        C
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="1.69867" pageTime="0" pageNumber="21" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:30:00.099" clientId="" key="32474" bankKey="200" position="21" contentLevel="3-L|4-6"
+              strand="3-L" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:30:51.701">B</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        D
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="1.25933" pageTime="0" pageNumber="22" pageVisits="0" numberVisits="1" format="EBSR" adminDate="2016-10-13T02:30:00.099" clientId="" key="32476" bankKey="200" position="22" contentLevel="3-L|4-6"
+              strand="3-L" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:30:51.654"> &lt;itemResponse&gt;&lt;response id="EBSR1"&gt;&lt;value&gt;B&lt;/value&gt;&lt;/response&gt;&lt;response id="EBSR2"&gt;&lt;value&gt;B&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="6.111" pageTime="0" pageNumber="23" pageVisits="0" numberVisits="1" format="HTQ" adminDate="2016-10-13T02:30:46.638" clientId="" key="37307" bankKey="200" position="23" contentLevel="4-CR|2-6"
+              strand="4-CR" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:30:57.768"> &lt;itemResponse&gt;&lt;response id="1"&gt;&lt;value&gt;4&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="1.868" pageTime="0" pageNumber="24" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:30:47.955" clientId="" key="27511" bankKey="200" position="24" contentLevel="2-W|3-6"
+              strand="2-W" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:30:59.638">A</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        B
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="0.98" pageTime="0" pageNumber="25" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:30:51.816" clientId="" key="37433" bankKey="200" position="25" contentLevel="1-LT|3-6"
+              strand="1-LT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:31:09.008">D</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        C
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="0.71375" pageTime="0" pageNumber="26" pageVisits="0" numberVisits="1" format="HTQ" adminDate="2016-10-13T02:30:51.816" clientId="" key="32448" bankKey="200" position="26" contentLevel="1-LT|2-6"
+              strand="1-LT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:31:09.754"> &lt;itemResponse&gt;&lt;response id="1"&gt;&lt;value&gt;3&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="2.24175" pageTime="0" pageNumber="27" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:30:51.816" clientId="" key="37435" bankKey="200" position="27" contentLevel="1-LT|6-6"
+              strand="1-LT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:31:09.713">B</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        C
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="0.71375" pageTime="0" pageNumber="28" pageVisits="0" numberVisits="1" format="SA" adminDate="2016-10-13T02:30:51.816" clientId="" key="31075" bankKey="200" position="28" contentLevel="1-LT|2-6"
+              strand="1-LT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="2" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:31:09.664">qwererwqer</Response>
+            <ScoreInfo scorePoint="2" maxScore="0" scoreDimension="Overall" scoreStatus="Scored">
+                <SubScoreList>
+                    <ScoreInfo scorePoint="2" maxScore="0" scoreDimension="Initial" scoreStatus="Scored">
+                        <ScoreRationale>
+                            <Message>{"scorerID":"uat_lab20@mailinator.com"}</Message>
+                        </ScoreRationale>
+                    </ScoreInfo>
+                </SubScoreList>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="2.071" pageTime="0" pageNumber="29" pageVisits="0" numberVisits="1" format="MS" adminDate="2016-10-13T02:31:06.089" clientId="" key="36405" bankKey="200" position="29" contentLevel="2-W|8-6"
+              strand="2-W" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:31:11.733">B</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        C,D
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="1.45633" pageTime="0" pageNumber="30" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:31:09.885" clientId="" key="25303" bankKey="200" position="30" contentLevel="3-L|4-6"
+              strand="3-L" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:31:17.357">B</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        C
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="1.62967" pageTime="0" pageNumber="31" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:31:09.885" clientId="" key="25305" bankKey="200" position="31" contentLevel="3-L|4-6"
+              strand="3-L" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:31:17.318">A</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        C
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="1.23967" pageTime="0" pageNumber="32" pageVisits="0" numberVisits="1" format="MS" adminDate="2016-10-13T02:31:09.885" clientId="" key="25307" bankKey="200" position="32" contentLevel="3-L|4-6"
+              strand="3-L" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:31:17.274">C,D</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        E,F
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="2.668" pageTime="0" pageNumber="33" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:31:12.994" clientId="" key="30482" bankKey="200" position="33" contentLevel="4-CR|3-6"
+              strand="4-CR" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:31:19.943">A</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        C
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="4.863" pageTime="0" pageNumber="34" pageVisits="0" numberVisits="1" format="HTQ" adminDate="2016-10-13T02:31:13.642" clientId="" key="32214" bankKey="200" position="34" contentLevel="2-W|9-6"
+              strand="2-W" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:31:24.807"> &lt;itemResponse&gt;&lt;response id="1"&gt;&lt;value&gt;4&lt;/value&gt;&lt;value&gt;5&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="0.28525" pageTime="0" pageNumber="35" pageVisits="0" numberVisits="1" format="SA" adminDate="2016-10-13T02:31:17.433" clientId="" key="36951" bankKey="200" position="35" contentLevel="1-IT|9-6"
+              strand="1-IT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:31:30.289">qwerqwerqwer</Response>
+            <ScoreInfo scorePoint="1" maxScore="0" scoreDimension="Overall" scoreStatus="Scored">
+                <SubScoreList>
+                    <ScoreInfo scorePoint="1" maxScore="0" scoreDimension="Initial" scoreStatus="Scored">
+                        <ScoreRationale>
+                            <Message>{"scorerID":"uat_lab20@mailinator.com"}</Message>
+                        </ScoreRationale>
+                    </ScoreInfo>
+                </SubScoreList>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="0.28525" pageTime="0" pageNumber="36" pageVisits="0" numberVisits="1" format="MS" adminDate="2016-10-13T02:31:17.433" clientId="" key="36947" bankKey="200" position="36" contentLevel="1-IT|8-6"
+              strand="1-IT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:31:30.243">B</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        C,E
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="1.1235" pageTime="0" pageNumber="37" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:31:17.433" clientId="" key="58717" bankKey="200" position="37" contentLevel="1-IT|14-6"
+              strand="1-IT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:31:30.197">A</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        D
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="0.49975" pageTime="0" pageNumber="38" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:31:17.433" clientId="" key="36963" bankKey="200" position="38" contentLevel="1-IT|13-6"
+              strand="1-IT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:31:30.155">A</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        D
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="2.047" pageTime="0" pageNumber="39" pageVisits="0" numberVisits="1" format="SA" adminDate="2016-10-13T02:31:29.108" clientId="" key="33244" bankKey="200" position="39" contentLevel="2-W|1-6"
+              strand="2-W" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="2" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:31:32.202">qwerqwerqwer</Response>
+            <ScoreInfo scorePoint="2" maxScore="0" scoreDimension="Overall" scoreStatus="Scored">
+                <SubScoreList>
+                    <ScoreInfo scorePoint="2" maxScore="0" scoreDimension="Initial" scoreStatus="Scored">
+                        <ScoreRationale>
+                            <Message>{"scorerID":"uat_lab20@mailinator.com"}</Message>
+                        </ScoreRationale>
+                    </ScoreInfo>
+                </SubScoreList>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="4.367" pageTime="0" pageNumber="40" pageVisits="0" numberVisits="1" format="HTQ" adminDate="2016-10-13T02:31:30.382" clientId="" key="30973" bankKey="200" position="40" contentLevel="4-CR|4-6"
+              strand="4-CR" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:31:36.574"> &lt;itemResponse&gt;&lt;response id="1"&gt;&lt;value&gt;17&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="2.271" pageTime="0" pageNumber="41" pageVisits="0" numberVisits="1" format="MS" adminDate="2016-10-13T02:31:30.486" clientId="" key="52424" bankKey="200" position="41" contentLevel="2-W|8-6"
+              strand="2-W" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:31:38.841">B</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        B,D
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="2.3475" pageTime="0" pageNumber="42" pageVisits="0" numberVisits="2" format="HTQ" adminDate="2016-10-13T02:31:32.288" clientId="" key="37243" bankKey="200" position="42" contentLevel="1-IT|10-6"
+              strand="1-IT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:31:58.193"> &lt;itemResponse&gt;&lt;response id="1"&gt;&lt;value&gt;4&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="4.80525" pageTime="0" pageNumber="43" pageVisits="0" numberVisits="3" format="MC" adminDate="2016-10-13T02:31:32.288" clientId="" key="37241" bankKey="200" position="43" contentLevel="1-IT|9-6"
+              strand="1-IT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:31:58.149">A</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        D
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="2.3475" pageTime="0" pageNumber="44" pageVisits="0" numberVisits="2" format="EBSR" adminDate="2016-10-13T02:31:32.288" clientId="" key="37245" bankKey="200" position="44" contentLevel="1-IT|11-6"
+              strand="1-IT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:31:58.011"> &lt;itemResponse&gt;&lt;response id="EBSR1"&gt;&lt;value&gt;A&lt;/value&gt;&lt;/response&gt;&lt;response id="EBSR2"&gt;&lt;value&gt;C&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="2.3475" pageTime="0" pageNumber="45" pageVisits="0" numberVisits="2" format="MS" adminDate="2016-10-13T02:31:32.288" clientId="" key="37251" bankKey="200" position="45" contentLevel="1-IT|14-6"
+              strand="1-IT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:31:58.006">A,B</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        C,D
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="3.5495" pageTime="0" pageNumber="46" pageVisits="0" numberVisits="1" format="SA" adminDate="2016-10-13T02:25:51.014" clientId="" key="56557" bankKey="200" position="46"
+              contentLevel="4-CR|4-6|6.W.9a" strand="4-CR" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain"
+              segmentId="(SBAC)SBAC-ICA-FIXED-G6E-Perf-ImportofNutriA-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:25:58.229">asdfasdfdsaf</Response>
+            <ScoreInfo scorePoint="1" maxScore="0" scoreDimension="Overall" scoreStatus="Scored">
+                <SubScoreList>
+                    <ScoreInfo scorePoint="1" maxScore="0" scoreDimension="Initial" scoreStatus="Scored">
+                        <ScoreRationale>
+                            <Message>{"scorerID":"uat_lab20@mailinator.com"}</Message>
+                        </ScoreRationale>
+                    </ScoreInfo>
+                </SubScoreList>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="3.5495" pageTime="0" pageNumber="47" pageVisits="0" numberVisits="1" format="SA" adminDate="2016-10-13T02:25:51.014" clientId="" key="70064" bankKey="200" position="47" contentLevel="4-CR|3-6"
+              strand="4-CR" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-Perf-ImportofNutriA-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:25:58.018">qwerqwer
+                qwer
+                qwe
+                rqwerdfgasdf
+            </Response>
+            <ScoreInfo scorePoint="1" maxScore="0" scoreDimension="Overall" scoreStatus="Scored">
+                <SubScoreList>
+                    <ScoreInfo scorePoint="1" maxScore="0" scoreDimension="Initial" scoreStatus="Scored">
+                        <ScoreRationale>
+                            <Message>{"scorerID":"uat_lab20@mailinator.com"}</Message>
+                        </ScoreRationale>
+                    </ScoreInfo>
+                </SubScoreList>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="7.152" pageTime="0" pageNumber="48" pageVisits="0" numberVisits="2" format="WER" adminDate="2016-10-13T02:25:51.244" clientId="" key="56561" bankKey="200" position="48" contentLevel="2-W|7-6|6.W.1a"
+              strand="2-W" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="5" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-Perf-ImportofNutriB-COMBINED-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:26:05.332"> &lt;p&gt;adsfasdf\&lt;/p&gt;&lt;p&gt;as&lt;/p&gt;&lt;p&gt;df&lt;/p&gt;&lt;p&gt;asdf&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;asdfasdf&lt;/p&gt; </Response>
+            <ScoreInfo scorePoint="5" maxScore="0" scoreDimension="Overall" scoreStatus="Scored">
+                <SubScoreList>
+                    <ScoreInfo scorePoint="3" maxScore="0" scoreDimension="Organization/Purpose" scoreStatus="Scored">
+                        <SubScoreList>
+                            <ScoreInfo scorePoint="3" maxScore="0" scoreDimension="Initial" scoreStatus="Scored">
+                                <ScoreRationale>
+                                    <Message>{"scorerID":"uat_lab20@mailinator.com"}</Message>
+                                </ScoreRationale>
+                            </ScoreInfo>
+                        </SubScoreList>
+                    </ScoreInfo>
+                    <ScoreInfo scorePoint="2" maxScore="0" scoreDimension="Evidence/Elaboration" scoreStatus="Scored">
+                        <SubScoreList>
+                            <ScoreInfo scorePoint="2" maxScore="0" scoreDimension="Initial" scoreStatus="Scored">
+                                <ScoreRationale>
+                                    <Message>{"scorerID":"uat_lab20@mailinator.com"}</Message>
+                                </ScoreRationale>
+                            </ScoreInfo>
+                        </SubScoreList>
+                    </ScoreInfo>
+                    <ScoreInfo scorePoint="2" maxScore="0" scoreDimension="Conventions" scoreStatus="Scored">
+                        <SubScoreList>
+                            <ScoreInfo scorePoint="2" maxScore="0" scoreDimension="Initial" scoreStatus="Scored">
+                                <ScoreRationale>
+                                    <Message>{"scorerID":"uat_lab20@mailinator.com"}</Message>
+                                </ScoreRationale>
+                            </ScoreInfo>
+                        </SubScoreList>
+                    </ScoreInfo>
+                    <ScoreInfo scorePoint="3" maxScore="0" scoreDimension="D" scoreStatus="Scored">
+                        <SubScoreList>
+                            <ScoreInfo scorePoint="3" maxScore="0" scoreDimension="Final" scoreStatus="Scored"/>
+                        </SubScoreList>
+                    </ScoreInfo>
+                    <ScoreInfo scorePoint="2" maxScore="0" scoreDimension="C" scoreStatus="Scored">
+                        <SubScoreList>
+                            <ScoreInfo scorePoint="2" maxScore="0" scoreDimension="Final" scoreStatus="Scored">
+                                <ScoreRationale>
+                                    <Message>{"scorerID":"SBACItemResolutionRuleWER"}</Message>
+                                </ScoreRationale>
+                            </ScoreInfo>
+                        </SubScoreList>
+                    </ScoreInfo>
+                </SubScoreList>
+            </ScoreInfo>
+        </Item>
+    </Opportunity>
+</TDSReport>

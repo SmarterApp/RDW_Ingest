@@ -8,15 +8,13 @@ public class IabExam extends AnyExam {
         return category;
     }
 
-
-    public static Assessment.Builder builder() {
-        return new Assessment.Builder();
+    public static Builder builder() {
+        return new Builder();
     }
-
     /**
      * The builder for the {@link Assessment}
      */
-    class Builder extends AnyExam.Builder<IabExam> {
+    public static  class Builder extends AnyExam.Builder<IabExam> {
         private Integer category;
 
         @Override
