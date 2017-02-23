@@ -2,6 +2,7 @@ package org.rdw.ingest.processor.model;
 
 
 import javax.validation.constraints.Null;
+import org.rdw.ingest.processor.repository.IabExamRepository;
 
 /**
  * A claim definition
@@ -35,6 +36,7 @@ public class Claim extends Identifiable<Integer> {
      * The builder for the {@link Claim}
      */
     public static class Builder {
+        private Integer id;
         private String code;
         @Null
         private Float minScore;
@@ -46,7 +48,12 @@ public class Claim extends Identifiable<Integer> {
             claim.code = code;
             claim.maxScore = maxScore;
             claim.minScore = minScore;
+            claim.setId(id);
             return claim;
+        }
+        public Builder withId(Integer id) {
+            this.id = id;
+            return this;
         }
 
         public Builder withCode(String code) {

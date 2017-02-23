@@ -1,12 +1,15 @@
 package org.rdw.ingest.processor.service;
 
+import com.google.common.base.Strings;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 import org.rdw.ingest.processor.model.AnyExam;
 import org.rdw.ingest.processor.model.AnyExam.Builder;
 import org.rdw.ingest.processor.model.Assessment;
+import org.rdw.ingest.processor.model.Claim;
 import org.rdw.ingest.processor.model.District;
+import org.rdw.ingest.processor.model.ExamItem;
 import org.rdw.ingest.processor.model.School;
 import org.rdw.ingest.processor.model.Student;
 import org.rdw.ingest.processor.model.StudentAttributes;
@@ -18,9 +21,9 @@ import rdw.model.TDSReport.Examinee;
 import rdw.model.TDSReport.Examinee.ExamineeAttribute;
 import rdw.model.TDSReport.Examinee.ExamineeRelationship;
 import rdw.model.TDSReport.Opportunity;
-import rdw.model.TDSReport.Opportunity.Item;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
+import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Maps.newHashMap;
 
 /**
@@ -56,7 +59,7 @@ public abstract class AnyExamProcessor {
 
     protected abstract Builder<? extends AnyExam> getExamBuilder();
 
-    protected abstract long processExam(final Opportunity opportunity, Builder<? extends AnyExam> examBuilder);
+    protected abstract long processExam(final Opportunity opportunity, Builder<? extends AnyExam> examBuilder, List<Claim> claims);
 
     /**
      * A template method that defines a flow for processing {@link TDSReport}
@@ -71,12 +74,13 @@ public abstract class AnyExamProcessor {
             int schoolId = schoolService.findOrCreate(((School.Builder) entityBuilders.get("school")).build());
             long studentId = studentRepository.findOrCreate(((Student.Builder) entityBuilders.get("student")).build());
 
-            TDSReport.Opportunity opportunity = report.getOpportunity();
-            long examId = processExam(opportunity,
+            Opportunity opportunity = report.getOpportunity();
+            processExam(opportunity,
                     getExamBuilder().withStudentAttributes(((StudentAttributes.Builder) entityBuilders.get("studentAttributes"))
                             .withResponsibleSchoolId(schoolId)
                             .withStudentId(studentId)
                             .build())
+                            .withExamItems(parseExamItems(opportunity))
                             .withAssessmentId(assessment.getId())
                             .withAsmtVersion(report.getTest().getAssessmentVersion())
                             //TODO:
@@ -92,10 +96,9 @@ public abstract class AnyExamProcessor {
                             .withOpportunity((int) opportunity.getOpportunity())
                             .withSessionId(opportunity.getSessionId())
                             .withValid(true)
-                            .withStatus(opportunity.getStatus())
+                            .withStatus(opportunity.getStatus()),
+                    assessment.getClaims()
             );
-
-            processExamItems(report.getOpportunity().getItem(), examId);
 
         } catch (ParseException parseException) {
             //TODO:
@@ -103,7 +106,21 @@ public abstract class AnyExamProcessor {
         //todo: update the status -?
     }
 
-    protected abstract void processExamItems(final List<Item> items, final long examId);
+    private List<ExamItem> parseExamItems(final Opportunity opportunity) {
+        final List<ExamItem> examItems = newArrayList();
+        for (final TDSReport.Opportunity.Item item : opportunity.getItem()) {
+
+            final String response = (item.getResponse() != null && !Strings.isNullOrEmpty(item.getResponse().getContent())) ?
+                    item.getResponse().getContent() : null;
+            //TODO: is bank key a number or string?
+            examItems.add(new ExamItem(item.getKey(),
+                    (new Long(item.getBankKey()).toString()),
+                    Float.parseFloat(item.getScore()),
+                    item.getScoreStatus(),
+                    response));
+        }
+        return examItems;
+    }
 
     /**
      * Examinee section includes data for {@link School}, {@link District}, {@link Student}, and {@link StudentAttributes}

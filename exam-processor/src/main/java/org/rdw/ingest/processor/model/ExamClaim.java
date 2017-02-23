@@ -7,13 +7,13 @@ package org.rdw.ingest.processor.model;
 public class ExamClaim {
     private long claimId;
     private float scaleScore;
-    private float scaleScoreStrErr;
+    private float scaleScoreStdErr;
     private int category;
 
-    public ExamClaim(long claimId, float scaleScore, float scaleScoreStrErr, int category) {
+    ExamClaim(long claimId, float scaleScore, float scaleScoreStdErr, int category) {
         this.claimId = claimId;
         this.scaleScore = scaleScore;
-        this.scaleScoreStrErr = scaleScoreStrErr;
+        this.scaleScoreStdErr = scaleScoreStdErr;
         this.category = category;
     }
 
@@ -25,12 +25,46 @@ public class ExamClaim {
         return scaleScore;
     }
 
-    public float getScaleScoreStrErr() {
-        return scaleScoreStrErr;
+    public float getScaleScoreStdErr() {
+        return scaleScoreStdErr;
     }
 
     public int getCategory() {
         return category;
     }
 
+    public static Builder builder(){
+        return new Builder();
+    }
+
+    public static class Builder {
+        private long claimId;
+        private float scaleScore;
+        private float scaleScoreStdErr;
+        private int category;
+
+        public ExamClaim build() {
+            return new ExamClaim(claimId, scaleScore, scaleScoreStdErr, category);
+        }
+        public Builder withClaimId(long claimId) {
+            this.claimId = claimId;
+            return this;
+        }
+
+        public Builder withScaleScore(float scaleScore) {
+            this.scaleScore = scaleScore;
+            return this;
+        }
+
+        public Builder withScaleScoreStdErr(float scaleScoreStdErr) {
+            this.scaleScoreStdErr = scaleScoreStdErr;
+            return this;
+        }
+
+        public Builder withCategory(int category) {
+            this.category = category;
+            return this;
+        }
+
+    }
 }

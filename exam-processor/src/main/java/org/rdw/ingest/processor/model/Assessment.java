@@ -3,6 +3,8 @@ package org.rdw.ingest.processor.model;
 import java.util.List;
 import javax.validation.constraints.Null;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 /**
  * An assessment definition
  */
@@ -17,6 +19,7 @@ public class Assessment extends IdentifiableWithNaturalId<Long> {
     private String label;
     @Null
     private String version;
+
     private List<Claim> claims;
 
     Assessment(String naturalId, int gradeId, int typeId, int subjectId, int academicYear) {
@@ -25,6 +28,9 @@ public class Assessment extends IdentifiableWithNaturalId<Long> {
         this.typeId = typeId;
         this.subjectId = subjectId;
         this.academicYear = academicYear;
+    }
+    public List<Claim> getClaims() {
+        return claims == null ? newArrayList() : newArrayList(claims);
     }
 
     public String getName() {
@@ -72,6 +78,7 @@ public class Assessment extends IdentifiableWithNaturalId<Long> {
         private String name;
         private String label;
         private String version;
+        private List<Claim> claims;
 
         public Assessment build() {
             final Assessment assessment = new Assessment(naturalId, gradeId, typeId, subjectId, academicYear);
@@ -79,6 +86,7 @@ public class Assessment extends IdentifiableWithNaturalId<Long> {
             assessment.label = label;
             assessment.name = name;
             assessment.version = version;
+            assessment.claims = claims;
             return assessment;
         }
 
@@ -127,6 +135,11 @@ public class Assessment extends IdentifiableWithNaturalId<Long> {
             return this;
         }
 
+        public Builder withClaims(List<Claim> claims) {
+            this.claims = claims;
+            return this;
+        }
+
         public Builder withCopy(Assessment assessment) {
             withId(assessment.getId());
             withNaturalId(assessment.getNaturalId());
@@ -137,6 +150,7 @@ public class Assessment extends IdentifiableWithNaturalId<Long> {
             withLabel(assessment.getLabel());
             withName(assessment.getName());
             withVersion(assessment.getVersion());
+            withClaims(assessment.claims);
             return this;
         }
     }

@@ -1,6 +1,5 @@
 package org.rdw.ingest.processor.model;
 
-import com.google.common.primitives.Floats;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,6 +24,8 @@ public abstract class AnyExam extends Identifiable<Long> {
     private String sessionId;
     private StudentAttributes studentAttributes;
     private List<Accommodation> availableAccommodations;
+
+    private List<ExamItem> examItems;
     private float scaleScore;
     private float scaleScoreStdErr;
 
@@ -77,7 +78,11 @@ public abstract class AnyExam extends Identifiable<Long> {
     }
 
     public List<Accommodation> getAvailableAccommodations() {
-        return availableAccommodations;
+        return availableAccommodations == null ? newArrayList() : availableAccommodations;
+    }
+
+    public List<ExamItem> getExamItems() {
+        return examItems == null ? newArrayList() : examItems;
     }
 
     /**
@@ -94,7 +99,8 @@ public abstract class AnyExam extends Identifiable<Long> {
         private String status;
         private String sessionId;
         private StudentAttributes studentAttributes;
-        private List<Accommodation> availableAccommodations = newArrayList();
+        private List<Accommodation> availableAccommodations;
+        private List<ExamItem> examItems;
         private float scaleScore;
         private float scaleScoreStdErr;
 
@@ -115,16 +121,18 @@ public abstract class AnyExam extends Identifiable<Long> {
             exam.status = status;
             exam.sessionId = sessionId;
             exam.studentAttributes = studentAttributes;
-            exam.availableAccommodations = newArrayList(availableAccommodations);
+            exam.availableAccommodations = availableAccommodations;
             exam.scaleScore = scaleScore;
             exam.scaleScoreStdErr = scaleScoreStdErr;
+            exam.examItems = examItems;
             return exam;
         }
 
         protected abstract E createExam();
 
         public Builder withCompletedAt(String completedAt) throws ParseException {
-            this.completedAt =  new SimpleDateFormat("yyyyy-mm-dd").parse(completedAt);;
+            this.completedAt = new SimpleDateFormat("yyyyy-mm-dd").parse(completedAt);
+            ;
             return this;
         }
 
@@ -186,6 +194,11 @@ public abstract class AnyExam extends Identifiable<Long> {
 
         public Builder withAvailableAccommodations(List<Accommodation> availableAccommodations) {
             this.availableAccommodations = availableAccommodations;
+            return this;
+        }
+
+        public Builder withExamItems(List<ExamItem> examItems) {
+            this.examItems = examItems;
             return this;
         }
     }

@@ -1,9 +1,14 @@
 package org.rdw.ingest.processor.service.impl;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.rdw.ingest.processor.model.AnyExam;
 import org.rdw.ingest.processor.model.AnyExam.Builder;
+import org.rdw.ingest.processor.model.Claim;
 import org.rdw.ingest.processor.model.Exam;
+import org.rdw.ingest.processor.model.ExamClaim;
+import org.rdw.ingest.processor.repository.ExamRepository;
 import org.rdw.ingest.processor.repository.StudentRepository;
 import org.rdw.ingest.processor.service.AnyExamProcessor;
 import org.rdw.ingest.processor.service.EthnicityService;
@@ -15,24 +20,26 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import rdw.model.TDSReport.Opportunity;
+import rdw.model.TDSReport.Opportunity.Item;
+import rdw.model.TDSReport.Opportunity.Score;
+
+import static com.google.common.collect.Maps.newHashMap;
 
 //TODO: complete this
 @Component
 class ExamProcessor extends AnyExamProcessor {
     private static final Logger logger = LoggerFactory.getLogger(ExamProcessor.class);
-
-    // TODO - this should not be hardcoded. It needs to come from some configuration. Needs further discussions
-    public static String mathClaims[] = {"1", "SOCK_2", "3"};
-    public static String elaClaims[] = {"SOCK_R", "SOCK_LS", "2-W", "4-CR"};
-
+    private ExamRepository examRepository;
 
     @Autowired
     public ExamProcessor(GenderService genderService,
                          EthnicityService ethnicityService,
                          GradeService gradeService,
                          SchoolService schoolService,
-                         StudentRepository studentRepository) {
+                         StudentRepository studentRepository,
+                         ExamRepository examRepository) {
         super(genderService, ethnicityService, gradeService, schoolService, studentRepository);
+        this.examRepository = examRepository;
     }
 
     @Override
@@ -46,27 +53,37 @@ class ExamProcessor extends AnyExamProcessor {
     }
 
     @Override
-    protected long processExam(Opportunity opportunity, Builder<? extends AnyExam> builder) {
-        Exam.Builder examBuilder = (Exam.Builder) builder;
-        opportunity.getScore().stream().filter(score -> score.getMeasureOf() == AnyExamProcessor.overallScore).forEach(score -> {
+    protected long processExam(Opportunity opportunity, Builder<? extends AnyExam> builder, List<Claim> claims) {
+
+        final Map<String, ExamClaim.Builder> claimBuilders = newHashMap();
+        for (final Claim claim : claims) {
+            claimBuilders.put(claim.getCode(), ExamClaim.builder().withClaimId(claim.getId()));
+        }
+        final Exam.Builder examBuilder = (Exam.Builder) builder;
+        for (final Score score : opportunity.getScore()) {
+            final String scoreOf = score.getMeasureOf();
             final String label = score.getMeasureLabel();
-            if (label == AnyExamProcessor.scoreMeasureLabel) {
-                examBuilder
-                        .withScaleScore(Float.parseFloat(score.getValue()))
-                        .withScaleScoreStdErr(Float.parseFloat(score.getStandardError()));
-            } else if (label == AnyExamProcessor.performanceLevelMeasureLabel) {
-                examBuilder
-                        .withAchievementLevel(Integer.parseInt(score.getValue()));
+            if (AnyExamProcessor.overallScore.equals(scoreOf)) {
+                if (AnyExamProcessor.scoreMeasureLabel.equals(label)) {
+                    examBuilder
+                            .withScaleScore(Float.parseFloat(score.getValue()))
+                            .withScaleScoreStdErr(Float.parseFloat(score.getStandardError()));
+                } else if (AnyExamProcessor.performanceLevelMeasureLabel.equals(label)) {
+                    examBuilder
+                            .withAchievementLevel(Integer.parseInt(score.getValue()));
+                }
+            } else if (claimBuilders.containsKey(scoreOf)) {
+                if (AnyExamProcessor.scoreMeasureLabel.equals(label)) {
+                    claimBuilders.get(scoreOf)
+                            .withScaleScore(Float.parseFloat(score.getValue()))
+                            .withScaleScoreStdErr(Float.parseFloat(score.getStandardError()));
+                } else if (AnyExamProcessor.performanceLevelMeasureLabel.equals(label)) {
+                    claimBuilders.get(scoreOf)
+                            .withCategory(Integer.parseInt(score.getValue()));
+                }
             }
-        });
-        // TODO: complete
-        return 0;
+        }
+        examBuilder.withExamClaims(claimBuilders.values().stream().map(ExamClaim.Builder::build).collect(Collectors.toList()));
+        return examRepository.create(examBuilder.build());
     }
-
-    @Override
-    protected void processExamItems(List<Opportunity.Item> items, long examId) {
-
-    }
-
-
 }

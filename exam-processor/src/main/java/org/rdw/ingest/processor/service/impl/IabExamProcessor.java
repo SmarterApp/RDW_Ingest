@@ -3,6 +3,7 @@ package org.rdw.ingest.processor.service.impl;
 import java.util.List;
 import org.rdw.ingest.processor.model.AnyExam;
 import org.rdw.ingest.processor.model.AnyExam.Builder;
+import org.rdw.ingest.processor.model.Claim;
 import org.rdw.ingest.processor.model.IabExam;
 import org.rdw.ingest.processor.repository.IabExamRepository;
 import org.rdw.ingest.processor.repository.StudentRepository;
@@ -46,7 +47,7 @@ class IabExamProcessor extends AnyExamProcessor {
     }
 
     @Override
-    protected long processExam(Opportunity opportunity, Builder<? extends AnyExam> builder) {
+    protected long processExam(Opportunity opportunity, Builder<? extends AnyExam> builder, List<Claim> claims) {
         IabExam.Builder examBuilder = (IabExam.Builder) builder;
         opportunity.getScore().stream().filter(score -> score.getMeasureOf() == IabExamProcessor.overallScore).forEach(score -> {
             final String label = score.getMeasureLabel();
@@ -61,11 +62,4 @@ class IabExamProcessor extends AnyExamProcessor {
         });
         return iabExamRepository.create(examBuilder.build());
     }
-
-    @Override
-    protected void processExamItems(List<Opportunity.Item> items, long examId) {
-
-    }
-
-
 }
