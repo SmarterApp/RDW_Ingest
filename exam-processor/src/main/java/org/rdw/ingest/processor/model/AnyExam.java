@@ -1,5 +1,8 @@
 package org.rdw.ingest.processor.model;
 
+import com.google.common.primitives.Floats;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +27,14 @@ public abstract class AnyExam extends Identifiable<Long> {
     private List<Accommodation> availableAccommodations;
     private float scaleScore;
     private float scaleScoreStdErr;
+
+    public float getScaleScore() {
+        return scaleScore;
+    }
+
+    public float getScaleScoreStdErr() {
+        return scaleScoreStdErr;
+    }
 
     public Date getCompletedAt() {
         return completedAt;
@@ -72,7 +83,7 @@ public abstract class AnyExam extends Identifiable<Long> {
     /**
      * The builder for the {@link AnyExam}
      */
-    public abstract class Builder<E extends AnyExam> {
+    public static abstract class Builder<E extends AnyExam> {
         private Date completedAt;
         private long assessmentId;
         private String asmtVersion;
@@ -84,6 +95,8 @@ public abstract class AnyExam extends Identifiable<Long> {
         private String sessionId;
         private StudentAttributes studentAttributes;
         private List<Accommodation> availableAccommodations = newArrayList();
+        private float scaleScore;
+        private float scaleScoreStdErr;
 
         public E build() {
             final E exam = createExam();
@@ -110,8 +123,8 @@ public abstract class AnyExam extends Identifiable<Long> {
 
         protected abstract E createExam();
 
-        public Builder withCompletedAt(Date completedAt) {
-            this.completedAt = completedAt;
+        public Builder withCompletedAt(String completedAt) throws ParseException {
+            this.completedAt =  new SimpleDateFormat("yyyyy-mm-dd").parse(completedAt);;
             return this;
         }
 
@@ -133,6 +146,17 @@ public abstract class AnyExam extends Identifiable<Long> {
         public Builder withCompleteness(int completeness) {
             this.completeness = completeness;
             return this;
+        }
+
+        public Builder withScaleScore(Float scaleScore) {
+            this.scaleScore = scaleScore;
+            return this;
+        }
+
+        public Builder withScaleScoreStdErr(Float scaleScoreStdErr) {
+            this.scaleScoreStdErr = scaleScoreStdErr;
+            return this;
+
         }
 
         public Builder withAdministrationConditionId(int administrationConditionId) {

@@ -3,8 +3,8 @@ package org.rdw.ingest.processor.model;
 /**
  * A student attributes for an {@link AnyExam}
  */
-public class StudentAttributes {
-    private String studentId;
+public class StudentAttributes extends Identifiable<Long>{
+    private Long studentId;
     private Integer responsibleSchoolId;
     private Integer gradeId;
     private Boolean ideaIndicator;
@@ -17,7 +17,7 @@ public class StudentAttributes {
     private String languageCode;
     private String primDisabilityType;
 
-    public String getStudentId() {
+    public Long getStudentId() {
         return studentId;
     }
 
@@ -73,7 +73,8 @@ public class StudentAttributes {
      * The builder for the {@link StudentAttributes}
      */
     public static class Builder {
-        private String studentId;
+        private Long id;
+        private Long studentId;
         private Integer responsibleSchoolId;
         private Integer gradeId;
         private Boolean ideaIndicator;
@@ -88,6 +89,7 @@ public class StudentAttributes {
 
         public StudentAttributes build() {
             final StudentAttributes studentAttributes = new StudentAttributes();
+            studentAttributes.setId(id);
             studentAttributes.studentId = studentId;
             studentAttributes.responsibleSchoolId = responsibleSchoolId;
             studentAttributes.gradeId = gradeId;
@@ -103,7 +105,12 @@ public class StudentAttributes {
             return studentAttributes;
         }
 
-        public Builder withStudentId(String studentId) {
+        public Builder withId(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder withStudentId(Long studentId) {
             this.studentId = studentId;
             return this;
         }

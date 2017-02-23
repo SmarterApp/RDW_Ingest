@@ -3,8 +3,7 @@ package org.rdw.ingest.processor.service.impl;
 import java.util.List;
 import org.rdw.ingest.processor.model.AnyExam;
 import org.rdw.ingest.processor.model.AnyExam.Builder;
-import org.rdw.ingest.processor.model.IabExam;
-import org.rdw.ingest.processor.repository.IabExamRepository;
+import org.rdw.ingest.processor.model.Exam;
 import org.rdw.ingest.processor.repository.StudentRepository;
 import org.rdw.ingest.processor.service.AnyExamProcessor;
 import org.rdw.ingest.processor.service.EthnicityService;
@@ -19,47 +18,49 @@ import rdw.model.TDSReport.Opportunity;
 
 //TODO: complete this
 @Component
-class IabExamProcessor extends AnyExamProcessor {
-    private static final Logger logger = LoggerFactory.getLogger(IabExamProcessor.class);
+class ExamProcessor extends AnyExamProcessor {
+    private static final Logger logger = LoggerFactory.getLogger(ExamProcessor.class);
 
-    IabExamRepository iabExamRepository;
+    // TODO - this should not be hardcoded. It needs to come from some configuration. Needs further discussions
+    public static String mathClaims[] = {"1", "SOCK_2", "3"};
+    public static String elaClaims[] = {"SOCK_R", "SOCK_LS", "2-W", "4-CR"};
+
 
     @Autowired
-    public IabExamProcessor(GenderService genderService,
-                            EthnicityService ethnicityService,
-                            GradeService gradeService,
-                            SchoolService schoolService,
-                            StudentRepository studentRepository,
-                            IabExamRepository iabExamRepository) {
+    public ExamProcessor(GenderService genderService,
+                         EthnicityService ethnicityService,
+                         GradeService gradeService,
+                         SchoolService schoolService,
+                         StudentRepository studentRepository) {
         super(genderService, ethnicityService, gradeService, schoolService, studentRepository);
-        this.iabExamRepository = iabExamRepository;
     }
 
     @Override
     public String[] getTypes() {
-        return new String[]{"iab"};
+        return new String[]{"ica"};
     }
 
     @Override
     protected Builder<? extends AnyExam> getExamBuilder() {
-        return IabExam.builder();
+        return Exam.builder();
     }
 
     @Override
     protected long processExam(Opportunity opportunity, Builder<? extends AnyExam> builder) {
-        IabExam.Builder examBuilder = (IabExam.Builder) builder;
-        opportunity.getScore().stream().filter(score -> score.getMeasureOf() == IabExamProcessor.overallScore).forEach(score -> {
+        Exam.Builder examBuilder = (Exam.Builder) builder;
+        opportunity.getScore().stream().filter(score -> score.getMeasureOf() == AnyExamProcessor.overallScore).forEach(score -> {
             final String label = score.getMeasureLabel();
-            if (label == IabExamProcessor.scoreMeasureLabel) {
+            if (label == AnyExamProcessor.scoreMeasureLabel) {
                 examBuilder
                         .withScaleScore(Float.parseFloat(score.getValue()))
                         .withScaleScoreStdErr(Float.parseFloat(score.getStandardError()));
-            } else if (label == IabExamProcessor.performanceLevelMeasureLabel) {
+            } else if (label == AnyExamProcessor.performanceLevelMeasureLabel) {
                 examBuilder
-                        .withCategory(Integer.parseInt(score.getValue()));
+                        .withAchievementLevel(Integer.parseInt(score.getValue()));
             }
         });
-        return iabExamRepository.create(examBuilder.build());
+        // TODO: complete
+        return 0;
     }
 
     @Override

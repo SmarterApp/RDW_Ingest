@@ -3,11 +3,14 @@ package org.rdw.ingest.processor.service;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
+import org.rdw.ingest.processor.model.AnyExam;
+import org.rdw.ingest.processor.model.AnyExam.Builder;
 import org.rdw.ingest.processor.model.Assessment;
 import org.rdw.ingest.processor.model.District;
 import org.rdw.ingest.processor.model.School;
 import org.rdw.ingest.processor.model.Student;
 import org.rdw.ingest.processor.model.StudentAttributes;
+import org.rdw.ingest.processor.repository.StudentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rdw.model.TDSReport;
@@ -15,6 +18,7 @@ import rdw.model.TDSReport.Examinee;
 import rdw.model.TDSReport.Examinee.ExamineeAttribute;
 import rdw.model.TDSReport.Examinee.ExamineeRelationship;
 import rdw.model.TDSReport.Opportunity;
+import rdw.model.TDSReport.Opportunity.Item;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.collect.Maps.newHashMap;
@@ -22,23 +26,37 @@ import static com.google.common.collect.Maps.newHashMap;
 /**
  * This class defines a template for processing {@link TDSReport} and converting it into a persisted exam
  */
-public abstract class ExamProcessor {
-    private static final Logger logger = LoggerFactory.getLogger(ExamProcessor.class);
+public abstract class AnyExamProcessor {
+    private static final Logger logger = LoggerFactory.getLogger(AnyExamProcessor.class);
+
+    protected static final String scoreMeasureLabel = "ScaleScore";
+    protected static final String performanceLevelMeasureLabel = "PerformanceLevel";
+    protected static final String overallScore = "Overall";
 
     private GenderService genderService;
     private EthnicityService ethnicityService;
     private GradeService gradeService;
     private SchoolService schoolService;
 
-    public ExamProcessor(final GenderService genderService,
-                         final EthnicityService ethnicityService,
-                         final GradeService gradeService,
-                         final SchoolService schoolService) {
+    private StudentRepository studentRepository;
+
+    public AnyExamProcessor(final GenderService genderService,
+                            final EthnicityService ethnicityService,
+                            final GradeService gradeService,
+                            final SchoolService schoolService,
+                            final StudentRepository studentRepository) {
         this.genderService = genderService;
         this.ethnicityService = ethnicityService;
         this.gradeService = gradeService;
         this.schoolService = schoolService;
+        this.studentRepository = studentRepository;
     }
+
+    public abstract String[] getTypes();
+
+    protected abstract Builder<? extends AnyExam> getExamBuilder();
+
+    protected abstract long processExam(final Opportunity opportunity, Builder<? extends AnyExam> examBuilder);
 
     /**
      * A template method that defines a flow for processing {@link TDSReport}
@@ -51,32 +69,41 @@ public abstract class ExamProcessor {
         try {
             final Map<String, Object> entityBuilders = parseExaminee(report.getExaminee());
             int schoolId = schoolService.findOrCreate(((School.Builder) entityBuilders.get("school")).build());
+            long studentId = studentRepository.findOrCreate(((Student.Builder) entityBuilders.get("student")).build());
 
-            long studentId = processStudent(((Student.Builder) entityBuilders.get("student")).build());
-
-            long examId = processExam(report.getOpportunity(), assessment, schoolId, studentId);
+            TDSReport.Opportunity opportunity = report.getOpportunity();
+            long examId = processExam(opportunity,
+                    getExamBuilder().withStudentAttributes(((StudentAttributes.Builder) entityBuilders.get("studentAttributes"))
+                            .withResponsibleSchoolId(schoolId)
+                            .withStudentId(studentId)
+                            .build())
+                            .withAssessmentId(assessment.getId())
+                            .withAsmtVersion(report.getTest().getAssessmentVersion())
+                            //TODO:
+//                            .withAdministrationConditionId(opportunity.getAdministrationCondition())
+//                            .withCompletedAt(opportunity.getDateCompleted())
+//                            .withCompleteness(opportunity.getCompleteStatus())
+//                            .withOpportunity(opportunity.getOpportunity())
+//                            .withSessionId(opportunity.getSessionId())
+//                            .withValid(opportunity.getStatus())
+                            .withAdministrationConditionId(1)
+                            .withCompletedAt(opportunity.getDateCompleted())
+                            .withCompleteness(1)
+                            .withOpportunity((int) opportunity.getOpportunity())
+                            .withSessionId(opportunity.getSessionId())
+                            .withValid(true)
+                            .withStatus(opportunity.getStatus())
+            );
 
             processExamItems(report.getOpportunity().getItem(), examId);
+
         } catch (ParseException parseException) {
             //TODO:
         }
         //todo: update the status -?
     }
 
-
-    protected long processStudent(final Student student) {
-        return 0;
-    }
-
-
-
-    public abstract String getType();
-
-    protected abstract long processExamStudent(final StudentAttributes studentAttributes);
-
-    protected abstract long processExam(final Opportunity opportunity, final Assessment assessment, final int schoolId, final long studentId);
-
-    protected abstract void processExamItems(final List<Opportunity.Item> items, final long examId);
+    protected abstract void processExamItems(final List<Item> items, final long examId);
 
     /**
      * Examinee section includes data for {@link School}, {@link District}, {@link Student}, and {@link StudentAttributes}
@@ -218,16 +245,4 @@ public abstract class ExamProcessor {
                 break;
         }
     }
-
-//    public static class Scores {
-//        public static final String scoreMeasureLabel = "ScaleScore";
-//        public static final String performanceLevelMeasureLabel = "PerformanceLevel";
-//
-//        public static final String overallScore = "Overall";
-//
-//        //TODO - this should not be hardcoded. It needs to come from some configuration. Needs further discussions
-//        public static String mathClaims[] = {"1", "SOCK_2", "3"};
-//        public static String elaClaims[] = {"SOCK_R", "SOCK_LS", "2-W", "4-CR"};
-//
-//    }
 }

@@ -11,14 +11,14 @@ public class Exam extends AnyExam {
     }
 
 
-    public static Assessment.Builder builder() {
-        return new Assessment.Builder();
+    public static Builder builder() {
+        return new Builder();
     }
 
     /**
      * The builder for the {@link Assessment}
      */
-    class Builder extends AnyExam.Builder<Exam> {
+    public static class Builder extends AnyExam.Builder<Exam> {
         private Integer achievementLevel;
 
         @Override
