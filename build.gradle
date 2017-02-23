@@ -22,7 +22,7 @@ import com.bmuschko.gradle.docker.DockerRegistryCredentials
 
 
 allprojects {
-    group = 'org.rdw.ingest'
+    group = 'org.opentestsystem.rdw.ingest'
     version = '0.0.1-SNAPSHOT'
 
     apply plugin: 'idea'
@@ -49,9 +49,9 @@ subprojects {
 
     dependencyManagement {
         dependencies {
-            dependency 'org.rdw.common:messaging:0.0.1-SNAPSHOT'
-            dependency 'org.rdw.common:model:0.0.1-SNAPSHOT'
-            dependency 'org.rdw.common:utils:0.0.1-SNAPSHOT'
+            dependency 'org.opentestsystem.rdw.common:rdw-common-messaging:0.0.1-SNAPSHOT'
+            dependency 'org.opentestsystem.rdw.common:rdw-common-model:0.0.1-SNAPSHOT'
+            dependency 'org.opentestsystem.rdw.common:rdw-common-utils:0.0.1-SNAPSHOT'
 
             dependency 'com.google.guava:guava:21.0'
         }
@@ -102,7 +102,7 @@ subprojects {
     task buildImage(type:DockerBuildImage, dependsOn:[build, createDockerfile]) {
         dockerFile = createDockerfile.destFile
         inputDir = project.file('build/docker/')
-        tag = "fwsbac/rdw-${project.name}"
+        tag = "fwsbac/${project.name}"
         doFirst {
             copy {
                 from jar
@@ -113,6 +113,6 @@ subprojects {
 
     // to use this, you must use docker login to set up docker hub credentials
     task pushImage(type:Exec, dependsOn:[buildImage]) {
-        commandLine("docker", "push", "fwsbac/rdw-${project.name}")
+        commandLine("docker", "push", "fwsbac/${project.name}")
     }
 }

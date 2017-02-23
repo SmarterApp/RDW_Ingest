@@ -47,8 +47,8 @@ Currently, building the images is not part of the build task so do that and veri
 $ gradle buildImage
 $ docker images
 REPOSITORY                              TAG                 IMAGE ID            CREATED             SIZE
-fwsbac/rdw-exam-service                 latest              fc700c6e8518        14 minutes ago      131 MB
-fwsbac/rdw-exam-processor               latest              cf83654e781f        9 seconds ago       130 MB
+fwsbac/rdw-ingest-exam-service          latest              fc700c6e8518        14 minutes ago      131 MB
+fwsbac/rdw-ingest-exam-processor        latest              cf83654e781f        9 seconds ago       130 MB
 rabbitmq                                3-management        cda8025c010b        3 weeks ago         179 MB
 java                                    8-jre-alpine        d85b17c6762e        6 weeks ago         108 MB
 ```
@@ -56,8 +56,8 @@ java                                    8-jre-alpine        d85b17c6762e        
 Now you can run the containers, linking rabbitmq and specifying the port mappings.
 Currently the exam processor just logs results so tail the log to see stuff happening.
 ```bash
-docker run -d -p :8080:8080 --name exam-service --link rabbitmq:rabbitmq fwsbac/rdw-exam-service --spring.rabbitmq.host=rabbitmq
-docker run -d -p :8081:8080 --name exam-processor --link rabbitmq:rabbitmq fwsbac/rdw-exam-processor --spring.rabbitmq.host=rabbitmq
+docker run -d -p :8080:8080 --name exam-service --link rabbitmq:rabbitmq fwsbac/rdw-ingest-exam-service --spring.rabbitmq.host=rabbitmq
+docker run -d -p :8081:8080 --name exam-processor --link rabbitmq:rabbitmq fwsbac/rdw-ingest-exam-processor --spring.rabbitmq.host=rabbitmq
 docker logs -f exam-processor
 ```
 
@@ -72,8 +72,8 @@ You will need valid credentials and connectivity to our SSO OAuth2 server.
 #### Running Standalone
 It is not the recommended approach but the artifacts are Spring Boot executable jars so you can just run them, e.g.:
 ```bash
-java -jar exam-service/build/libs/exam-service-0.0.1-SNAPSHOT.jar --server.port=8080
-java -jar exam-processor/build/libs/exam-processor-0.0.1-SNAPSHOT.jar --server.port=8081
+java -jar exam-service/build/libs/rdw-ingest-exam-service-0.0.1-SNAPSHOT.jar --server.port=8080
+java -jar exam-processor/build/libs/rdw-ingest-exam-processor-0.0.1-SNAPSHOT.jar --server.port=8081
 ```
 
 All the ingest apps work with a message broker, currently RabbitMQ. So RabbitMQ must be running; you can use the

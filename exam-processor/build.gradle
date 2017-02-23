@@ -1,7 +1,8 @@
 dependencies {
     compile 'com.google.guava:guava'
-    compile 'org.rdw.common:messaging'
-    compile 'org.rdw.common:model'
+    compile 'org.opentestsystem.rdw.common:rdw-common-messaging'
+    compile 'org.opentestsystem.rdw.common:rdw-common-model'
+    compile 'org.opentestsystem.rdw.common:rdw-common-utils'
     compile 'org.springframework.boot:spring-boot-starter-jdbc'
     compile 'mysql:mysql-connector-java'
 }
