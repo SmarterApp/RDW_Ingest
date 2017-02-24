@@ -28,6 +28,5 @@ public class IabExam extends AnyExam {
             this.category = category;
             return this;
         }
-
     }
 }
