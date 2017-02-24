@@ -3,8 +3,13 @@ package org.rdw.ingest.processor.service;
 import rdw.model.TDSReport;
 
 /**
- * Created by allagorina on 2/16/17.
+ * An interface for processing TDS report
  */
 public interface ExamService {
+    /**
+     * Process the given {@link TDSReport}
+     *
+     * @param report the report to process
+     */
     void process(TDSReport report);
 }

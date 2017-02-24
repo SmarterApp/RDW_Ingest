@@ -18,8 +18,7 @@ class StudentRepositoryImpl implements StudentRepository {
 
 
     @Override
-    public long findOrCreate(Student student) {
-
+    public long findOrCreateBySsid(final Student student) {
         final String sql = "INSERT INTO student (ssid, last_or_surname, first_name, middle_name, gender_id, ethnicity_id, first_entry_into_us_school_at, lep_entry_at, lep_exit_at, birthday) \n" +
                 "SELECT :ssid, :last_or_surname, :first_name, :middle_name, :gender_id, :ethnicity_id, :first_entry_into_us_school_at, :lep_entry_at, :lep_exit_at, :birthday\n" +
                 "FROM DUAL\n" +
@@ -29,8 +28,8 @@ class StudentRepositoryImpl implements StudentRepository {
                 "    WHERE ssid = :ssid \n" +
                 ") LIMIT 1;\n";
 
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        SqlParameterSource parameterSource = new MapSqlParameterSource()
+        final KeyHolder keyHolder = new GeneratedKeyHolder();
+        final SqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("ssid", student.getSsid())
                 .addValue("last_or_surname", student.getLastOrSurname())
                 .addValue("first_name", student.getFirstName())

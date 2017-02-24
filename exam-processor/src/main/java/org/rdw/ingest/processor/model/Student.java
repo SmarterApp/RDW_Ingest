@@ -2,18 +2,19 @@ package org.rdw.ingest.processor.model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import javax.validation.constraints.Null;
 import java.util.Date;
+import javax.validation.constraints.Null;
 
 /**
  * A Student
  */
-public class Student extends IdentifiableWithNaturalId<Long> {
+public class Student {
     private String lastOrSurname;
     private String firstName;
     private String middleName;
     private int genderId;
     private int ethnicityId;
+    private String ssid;
 
     @Null
     private Date firsEntryIntoUSSchoolAt;
@@ -24,7 +25,7 @@ public class Student extends IdentifiableWithNaturalId<Long> {
     private Date birthday;
 
     public String getSsid() {
-        return getNaturalId();
+        return ssid;
     }
 
     public String getLastOrSurname() {
@@ -71,7 +72,7 @@ public class Student extends IdentifiableWithNaturalId<Long> {
      * The builder for the {@link Student}
      */
     public static class Builder {
-        private String naturalId;
+        private String ssid;
         private Long id;
         private String lastOrSurname;
         private String firstName;
@@ -85,8 +86,7 @@ public class Student extends IdentifiableWithNaturalId<Long> {
 
         public Student build() {
             final Student student = new Student();
-            student.setId(id);
-            student.setNaturalId(naturalId);
+            student.ssid = ssid;
             student.lastOrSurname = lastOrSurname;
             student.firstName = firstName;
             student.middleName = middleName;
@@ -99,8 +99,8 @@ public class Student extends IdentifiableWithNaturalId<Long> {
             return student;
         }
 
-        public Builder withNaturalId(String naturalId) {
-            this.naturalId = naturalId;
+        public Builder withSsid(String ssid) {
+            this.ssid = ssid;
             return this;
         }
 
@@ -145,15 +145,13 @@ public class Student extends IdentifiableWithNaturalId<Long> {
         }
 
         public Builder withLepExitAt(String lepExitAt) throws ParseException {
-            this.lepExitAt =  new SimpleDateFormat("yyyyy-mm-dd").parse(lepExitAt);
+            this.lepExitAt = new SimpleDateFormat("yyyyy-mm-dd").parse(lepExitAt);
             return this;
         }
 
         public Builder withBirthday(String birthday) throws ParseException {
-            this.birthday =  new SimpleDateFormat("yyyyy-mm-dd").parse(birthday);
+            this.birthday = new SimpleDateFormat("yyyyy-mm-dd").parse(birthday);
             return this;
         }
-
     }
-
 }

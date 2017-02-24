@@ -1,39 +1,26 @@
 package org.rdw.ingest.processor.service.impl;
 
 import java.util.List;
-import org.rdw.ingest.processor.model.AnyExam;
-import org.rdw.ingest.processor.model.AnyExam.Builder;
 import org.rdw.ingest.processor.model.Claim;
 import org.rdw.ingest.processor.model.IabExam;
 import org.rdw.ingest.processor.repository.IabExamRepository;
-import org.rdw.ingest.processor.repository.StudentRepository;
 import org.rdw.ingest.processor.service.AnyExamProcessor;
-import org.rdw.ingest.processor.service.EthnicityService;
-import org.rdw.ingest.processor.service.GenderService;
-import org.rdw.ingest.processor.service.GradeService;
-import org.rdw.ingest.processor.service.SchoolService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.rdw.ingest.processor.service.ExamineeProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import rdw.model.TDSReport.Opportunity;
 
-//TODO: complete this
-@Component
-class IabExamProcessor extends AnyExamProcessor {
-    private static final Logger logger = LoggerFactory.getLogger(IabExamProcessor.class);
+import static java.lang.Float.parseFloat;
+import static java.lang.Integer.parseInt;
 
-    IabExamRepository iabExamRepository;
+@Component
+class IabExamProcessor extends AnyExamProcessor<IabExam, IabExam.Builder> {
 
     @Autowired
-    public IabExamProcessor(GenderService genderService,
-                            EthnicityService ethnicityService,
-                            GradeService gradeService,
-                            SchoolService schoolService,
-                            StudentRepository studentRepository,
-                            IabExamRepository iabExamRepository) {
-        super(genderService, ethnicityService, gradeService, schoolService, studentRepository);
-        this.iabExamRepository = iabExamRepository;
+    public IabExamProcessor(final ExamineeProcessor examineeProcessor,
+                            final IabExamRepository iabExamRepository) {
+        super(examineeProcessor, iabExamRepository);
+
     }
 
     @Override
@@ -42,24 +29,27 @@ class IabExamProcessor extends AnyExamProcessor {
     }
 
     @Override
-    protected Builder<? extends AnyExam> getExamBuilder() {
-        return IabExam.builder();
-    }
-
-    @Override
-    protected long processExam(Opportunity opportunity, Builder<? extends AnyExam> builder, List<Claim> claims) {
-        IabExam.Builder examBuilder = (IabExam.Builder) builder;
-        opportunity.getScore().stream().filter(score -> score.getMeasureOf() == IabExamProcessor.overallScore).forEach(score -> {
-            final String label = score.getMeasureLabel();
-            if (label == IabExamProcessor.scoreMeasureLabel) {
-                examBuilder
-                        .withScaleScore(Float.parseFloat(score.getValue()))
-                        .withScaleScoreStdErr(Float.parseFloat(score.getStandardError()));
-            } else if (label == IabExamProcessor.performanceLevelMeasureLabel) {
-                examBuilder
-                        .withCategory(Integer.parseInt(score.getValue()));
-            }
-        });
-        return iabExamRepository.create(examBuilder.build());
+    protected IabExam.Builder buildExam(final Opportunity opportunity, final List<Claim> claims) {
+        final IabExam.Builder examBuilder = IabExam.builder();
+        opportunity.getScore()
+                .stream()
+                .filter(score -> IabExamProcessor.overallScore.equals(score.getMeasureOf()))
+                .forEach(score -> {
+                    switch (score.getMeasureLabel()) {
+                        case scoreMeasureLabel:
+                            //TODO: handle parse errors
+                            examBuilder
+                                    .withScaleScore(parseFloat(score.getValue()))
+                                    .withScaleScoreStdErr(parseFloat(score.getStandardError()));
+                            break;
+                        case performanceLevelMeasureLabel:
+                            examBuilder
+                                    .withCategory(parseInt(score.getValue()));
+                            break;
+                        default:
+                            break;
+                    }
+                });
+        return examBuilder;
     }
 }

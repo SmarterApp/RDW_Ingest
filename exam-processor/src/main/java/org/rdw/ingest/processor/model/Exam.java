@@ -5,11 +5,10 @@ import java.util.List;
 import static com.google.common.collect.Lists.newArrayList;
 
 /**
- * An ICA or Summative Exam
+ * An ICA Exam
  */
 public class Exam extends AnyExam {
     private Integer achievementLevel;
-
     private List<ExamClaim> examClaims;
 
     public Integer getAchievementLevel() {
@@ -19,7 +18,6 @@ public class Exam extends AnyExam {
     public List<ExamClaim> getExamClaims() {
         return examClaims == null ? newArrayList() : newArrayList(examClaims);
     }
-
 
     public static Builder builder() {
         return new Builder();
@@ -49,7 +47,5 @@ public class Exam extends AnyExam {
             this.examClaims = claims;
             return this;
         }
-
-
     }
 }

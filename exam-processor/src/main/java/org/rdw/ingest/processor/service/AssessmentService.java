@@ -4,8 +4,10 @@ import org.rdw.ingest.processor.model.Assessment;
 import rdw.model.TDSReport;
 
 /**
- * An interface for managing assessment type codes and ids
+ * An interface for managing {@link Assessment}
  */
 public interface AssessmentService {
+
+    //TODO: this will be changed once we have an assessment loader
     Assessment findOneByNaturalId(TDSReport.Test test);
 }

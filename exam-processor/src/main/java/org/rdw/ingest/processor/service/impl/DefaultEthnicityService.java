@@ -1,12 +1,12 @@
 package org.rdw.ingest.processor.service.impl;
 
 import org.rdw.ingest.processor.service.EthnicityService;
-import org.rdw.ingest.processor.service.GenderService;
 import org.springframework.stereotype.Service;
 
 
+//TODO: complete
 @Service
-public class DefaultEthnicityService implements EthnicityService{
+public class DefaultEthnicityService implements EthnicityService {
     @Override
     public int toId(String code) {
         return 0;

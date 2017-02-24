@@ -1,18 +1,21 @@
 package org.rdw.ingest.processor.model;
 
+import com.mysql.jdbc.StringUtils;
 import java.util.List;
 import javax.validation.constraints.Null;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Lists.newArrayList;
 
 /**
  * An assessment definition
  */
-public class Assessment extends IdentifiableWithNaturalId<Long> {
+public class Assessment extends Identifiable<Long> {
     private int gradeId;
     private int typeId;
     private int subjectId;
     private int academicYear;
+    private String naturalId;
     @Null
     private String name;
     @Null
@@ -63,6 +66,15 @@ public class Assessment extends IdentifiableWithNaturalId<Long> {
 
     public static Builder builder() {
         return new Builder();
+    }
+
+    public String getNaturalId() {
+        return naturalId;
+    }
+
+    protected void setNaturalId(final String naturalId) {
+        checkArgument(!StringUtils.isNullOrEmpty(naturalId), "invalid natural id");
+        this.naturalId = naturalId;
     }
 
     /**

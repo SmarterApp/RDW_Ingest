@@ -15,6 +15,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+//TODO: this should be a read only repository once we have an assessment loader
 @Repository
 class AssessmentRepositoryImpl implements AssessmentRepository {
 
@@ -24,7 +25,7 @@ class AssessmentRepositoryImpl implements AssessmentRepository {
     @Override
     public Assessment findAssessmentByNaturalId(String id) {
 
-        List<Assessment.Builder> assessmentList = jdbcTemplate.query("select * from asmt where natural_id= :natural_id", new MapSqlParameterSource("natural_id", id), new AssessmentRowMapper());
+        final List<Assessment.Builder> assessmentList = jdbcTemplate.query("select * from asmt where natural_id= :natural_id", new MapSqlParameterSource("natural_id", id), new AssessmentRowMapper());
         if (assessmentList.size() == 1) {
             return assessmentList
                     .get(0)
@@ -39,7 +40,6 @@ class AssessmentRepositoryImpl implements AssessmentRepository {
     @Override
     public Assessment create(final Assessment assessment) {
 
-        //TODO:this does not deal with claims yet
         final String sql = "INSERT INTO asmt (natural_id, grade_id,type_id, subject_id, academic_year, name, label, version) VALUES\n" +
                 " (:natural_id, :grade_id, :type_id, :subject_id, :academic_year, :name, :label, :version);\n";
 
@@ -76,7 +76,6 @@ class AssessmentRepositoryImpl implements AssessmentRepository {
     }
 
     private static class AssessmentRowMapper implements RowMapper<Assessment.Builder> {
-        //TODO:this does not deal with claims yet
         @Override
         public Assessment.Builder mapRow(ResultSet rs, int rowNum) throws SQLException {
             return Assessment.builder()
@@ -94,7 +93,6 @@ class AssessmentRepositoryImpl implements AssessmentRepository {
     }
 
     private static class ClaimRowMapper implements RowMapper<Claim> {
-        //TODO:this does not deal with claims yet
         @Override
         public Claim mapRow(ResultSet rs, int rowNum) throws SQLException {
             return Claim.builder()

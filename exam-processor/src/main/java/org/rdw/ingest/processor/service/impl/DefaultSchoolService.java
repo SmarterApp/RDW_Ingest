@@ -19,7 +19,7 @@ class DefaultSchoolService implements SchoolService {
 
     //TODO: implement a read through cache
     @Override
-    public int findOrCreate(final School school) {
-        return repository.findOrCreate(school);
+    public int findOrCreateByNaturalId(final School school) {
+        return repository.findOrCreateByNaturalId(school);
     }
 }
