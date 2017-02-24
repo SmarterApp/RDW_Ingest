@@ -1,4 +1,10 @@
-rootProject.name = 'RDW_Ingest'
-
 include 'exam-service'
 include 'exam-processor'
+
+// It is considered good practice to explicitly set the root project name
+rootProject.name = "rdw-ingest"
+
+// Put prefix on all sub projects so artifact id is what we want, e.g. rdw-ingest-exam-processor
+rootProject.children.each {
+    it.name = rootProject.name + "-" + it.name
+}
