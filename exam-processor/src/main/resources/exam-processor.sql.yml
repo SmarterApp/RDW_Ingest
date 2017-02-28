@@ -1,0 +1,101 @@
+assessmentType:
+  toCode:
+      sql: >
+        select code from asmt_type where id= :id
+
+
+assessment:
+  findOneByNaturalId:
+      sql: >
+        select * from asmt where natural_id= :natural_id
+
+  findClaimForAsmt:
+      sql:
+        select * from claim where asmt_id= :asmt_id
+
+  create:
+    sql:
+      insert into asmt (natural_id, grade_id,type_id, subject_id, academic_year, name, label, version) values
+                       (:natural_id, :grade_id, :type_id, :subject_id, :academic_year, :name, :label, :version)
+
+  createClaimsForAsmt:
+    sql:
+      insert into claim (asmt_id, min_score, max_score, code) values
+                        (:asmt_id, :min_score, :max_score, :code)
+
+exam:
+  create:
+    sql:
+      insert into exam (exam_student_id, asmt_id, asmt_version, opportunity, status, validity, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, achievement_level, completed_at) values
+                      (:exam_student_id, :asmt_id, :asmt_version, :opportunity, :status, :validity, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :achievement_level, :completed_at)
+  createExamClaims:
+    sql:
+      insert into exam_claim_score (exam_id, claim_id, scale_score, scale_score_std_err, category) values
+                                    (:exam_id, :claim_id, :scale_score, :scale_score_std_err, :category)
+
+  createExamItems:
+    sql:
+      insert into exam_item (exam_id, item_key, bank_key, score, score_status, response) values
+                            (:exam_id, :item_key, :bank_key, :score, :score_status, :response)
+
+  createStudentExam:
+    sql:
+      insert into exam_student (grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type) values
+                              (:grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status, :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type)
+
+iab.exam:
+  create:
+    sql:
+      insert into iab_exam (iab_exam_student_id, asmt_id, asmt_version, opportunity, status, validity, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, category, completed_at) values
+                           (:iab_exam_student_id, :asmt_id, :asmt_version, :opportunity, :status, :validity, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :category, :completed_at)
+
+  createExamItems:
+    sql:
+      insert into iab_exam_item (iab_exam_id, item_key, bank_key, score, score_status, response) values
+                                 (:iab_exam_id, :item_key, :bank_key, :score, :score_status, :response)
+
+  createStudentExam:
+    sql:
+      insert into iab_exam_student (grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type) values
+                                  (:grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status, :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type)
+
+school:
+  create:
+    sql:
+      insert into school (district_id, name, natural_id)
+      select :district_id, :name, :natural_id
+        from dual
+        where not exists(select 1 from school where natural_id = :natural_id) limit 1
+
+  findIdByNaturalId:
+    sql:
+      select id from school where natural_id = :natural_id
+
+
+district:
+  create:
+    sql:
+      insert into district (name, natural_id)
+      select :name, :natural_id
+        from dual
+        where not exists(select 1 from district where natural_id = :natural_id) limit 1
+
+  findIdByNaturalId:
+    sql:
+      select id from district where natural_id = :natural_id
+      
+student:
+  create:
+    sql:
+      insert into
+        student (ssid, last_or_surname, first_name, middle_name, gender_id, ethnicity_id, first_entry_into_us_school_at, lep_entry_at, lep_exit_at, birthday)
+          select :ssid, :last_or_surname, :first_name, :middle_name, :gender_id, :ethnicity_id, :first_entry_into_us_school_at, :lep_entry_at, :lep_exit_at, :birthday
+           from dual
+            where not exists(select 1 from student where ssid = :ssid) limit 1
+  findIdBySsid:
+    sql:
+      select id from student where ssid = :ssid
+
+
+
+
