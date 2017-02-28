@@ -1,0 +1,277 @@
+<TDSReport>
+    <Test grade="6" mode="online" contract="SBAC" bankKey="200" testId="SBAC-IAB-FIXED-G6E-ReadLit-ELA-6" subject="ELA" name="(SBAC)SBAC-IAB-FIXED-G6E-ReadLit-ELA-6-Winter-2016-2017" handScoreProject="0" assessmentType="interim"
+          academicYear="2016" assessmentVersion="9785"/>
+    <Examinee isDemo="0" key="4054">
+        <ExamineeAttribute name="Birthdate" value="1900-01-01" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="FirstName" value="Name139" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="Sex" value="M" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="GradeLevelWhenAssessed" value="SIXTHGRADE" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="LastOrSurname" value="LastName139" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="StudentIdentifier" value="ASIXTHGRADER20" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="MiddleName" value="MiddleName139" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="AlternateSSID" value="SIXTHGRADER20" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="HispanicOrLatinoEthnicity" value="NO" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="AmericanIndianOrAlaskaNative" value="NO" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="Asian" value="YES" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="BlackOrAfricanAmerican" value="NO" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="White" value="NO" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="NativeHawaiianOrOtherPacificIslander" value="NO" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="DemographicRaceTwoOrMoreRaces" value="NO" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="IDEAIndicator" value="NO" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="LEPStatus" value="NO" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="Section504Status" value="NO" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="EconomicDisadvantageStatus" value="NO" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="MigrantStatus" value="NO" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="LanguageCode" value="" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="EnglishLanguageProficiencLevel" value="" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="FirstEntryDateIntoUSSchool" value="" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="LimitedEnglishProficiencyEntryDate" value="" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="LEPExitDate" value="" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="TitleIIILanguageInstructionProgramType" value="" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="PrimaryDisabilityType" value="" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeAttribute name="Birthdate" value="1900-01-01" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeAttribute name="FirstName" value="Name139" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeAttribute name="Sex" value="M" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeAttribute name="GradeLevelWhenAssessed" value="SIXTHGRADE" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeAttribute name="LastOrSurname" value="LastName139" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeAttribute name="StudentIdentifier" value="ASIXTHGRADER20" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeAttribute name="MiddleName" value="MiddleName139" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeAttribute name="AlternateSSID" value="SIXTHGRADER20" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeAttribute name="HispanicOrLatinoEthnicity" value="NO" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeAttribute name="AmericanIndianOrAlaskaNative" value="NO" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeAttribute name="Asian" value="YES" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeAttribute name="BlackOrAfricanAmerican" value="NO" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeAttribute name="White" value="NO" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeAttribute name="NativeHawaiianOrOtherPacificIslander" value="NO" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeAttribute name="DemographicRaceTwoOrMoreRaces" value="NO" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeAttribute name="IDEAIndicator" value="NO" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeAttribute name="LEPStatus" value="NO" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeAttribute name="Section504Status" value="NO" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeAttribute name="EconomicDisadvantageStatus" value="NO" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeAttribute name="MigrantStatus" value="NO" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeAttribute name="LanguageCode" value="" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeAttribute name="EnglishLanguageProficiencLevel" value="" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeAttribute name="FirstEntryDateIntoUSSchool" value="" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeAttribute name="LimitedEnglishProficiencyEntryDate" value="" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeAttribute name="LEPExitDate" value="" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeAttribute name="TitleIIILanguageInstructionProgramType" value="" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeAttribute name="PrimaryDisabilityType" value="" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeRelationship name="ResponsibleDistrictIdentifier" value="UCLALS" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeRelationship name="OrganizationName" value="UCLA" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeRelationship name="ResponsibleInstitutionIdentifier" value="APTEST1" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeRelationship name="NameOfInstitution" value="APTESTSCHOOL" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeRelationship name="StateName" value="ARMED FORCES PACIFIC" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeRelationship name="StateAbbreviation" value="AP" context="INITIAL" contextDate="2016-10-13T02:23:44.248"/>
+        <ExamineeRelationship name="ResponsibleDistrictIdentifier" value="UCLALS" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeRelationship name="OrganizationName" value="UCLA" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeRelationship name="ResponsibleInstitutionIdentifier" value="APTEST1" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeRelationship name="NameOfInstitution" value="APTESTSCHOOL" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeRelationship name="StateName" value="ARMED FORCES PACIFIC" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+        <ExamineeRelationship name="StateAbbreviation" value="AP" context="FINAL" contextDate="2016-10-13T02:24:58.856"/>
+    </Examinee>
+    <Opportunity database="session" key="5ba80509-8638-4d39-8cd4-a2bad9b936a5" taId="uat_lab20@mailinator.com" taName="UAT Lab20" sessionId="Lab-32" windowId="ANNUAL" server="ip-172-19-0-179" qaLevel="" clientName="SBAC"
+                 reportingVersion="0" abnormalStarts="0" ftCount="0" dateCompleted="2016-10-13T02:24:58.828"
+                 assessmentParticipantSessionPlatformUserAgent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36" itemCount="15" pauseCount="0"
+                 completeStatus="Complete" status="scored" statusDate="2016-10-13T02:24:58.828" administrationCondition="" startDate="2016-10-13T02:23:56.791" oppId="100153" windowOpportunity="1" opportunity="1"
+                 gracePeriodRestarts="0" effectiveDate="2016-08-29">
+        <Segment id="(SBAC)SBAC-IAB-FIXED-G6E-ReadLit-ELA-6-Winter-2016-2017" position="1" formId="IAB-G6E-ReadLit-2017 ENG" formKey="200-18566" algorithm="fixedform" algorithmVersion="0"/>
+        <Accommodation code="ENU" type="Language" value="English" segment="0"/>
+        <Accommodation code="NEA0" type="Non-Embedded Accommodations" value="None" segment="0"/>
+        <Accommodation code="NEDS0" type="Non-Embedded Designated Supports" value="None" segment="0"/>
+        <Accommodation code="TDS_APC_PSP" type="Audio Playback Controls" value="Play Stop and Pause" segment="0"/>
+        <Accommodation code="TDS_ASL0" type="American Sign Language" value="Do not show ASL videos" segment="0"/>
+        <Accommodation code="TDS_ClosedCap0" type="Closed Captioning" value="Closed Captioning Not Available" segment="0"/>
+        <Accommodation code="TDS_ExpandablePassages1" type="Expandable Passages" value="Expandable Passages On" segment="0"/>
+        <Accommodation code="TDS_FT_Serif" type="Font Type" value="Times New Roman" segment="0"/>
+        <Accommodation code="TDS_F_S14" type="Passage Font Size" value="14pt" segment="0"/>
+        <Accommodation code="TDS_GN1" type="Global Notes" value="Global Notes On" segment="0"/>
+        <Accommodation code="TDS_Highlight1" type="Highlight" value="True" segment="0"/>
+        <Accommodation code="TDS_HWPlayback" type="Hardware Checks" value="Check Playback Capabilities" segment="0"/>
+        <Accommodation code="TDS_IF_S14" type="Item Font Size" value="14pt Items" segment="0"/>
+        <Accommodation code="TDS_ITM1" type="Item Tools Menu" value="On" segment="0"/>
+        <Accommodation code="TDS_ITTC0" type="IntraTest TTS Controls" value="IntraTest TTS Controls Off" segment="0"/>
+        <Accommodation code="TDS_MfR1" type="Mark for Review" value="True" segment="0"/>
+        <Accommodation code="TDS_Other" type="Other" value="None" segment="0"/>
+        <Accommodation code="TDS_PM0" type="Permissive Mode" value="Permissive Mode Disabled" segment="0"/>
+        <Accommodation code="TDS_PS_L0" type="Print Size" value="No default zoom applied" segment="0"/>
+        <Accommodation code="TDS_RSL_ListView" type="Review Screen Layout" value="List" segment="0"/>
+        <Accommodation code="TDS_SCNotepad" type="Student Comments" value="On" segment="0"/>
+        <Accommodation code="TDS_ST1" type="Strikethrough" value="True" segment="0"/>
+        <Accommodation code="TDS_SVC1" type="System Volume Control" value="Show widget" segment="0"/>
+        <Accommodation code="TDS_TPI_ResponsesFix" type="Test Progress Indicator" value="Show indicator as a fraction and adjust to test length" segment="0"/>
+        <Accommodation code="TDS_TS_Universal" type="Test Shell" value="Universal Shell" segment="0"/>
+        <Accommodation code="TDS_WL_Glossary" type="Word List" value="English Glossary" segment="0"/>
+        <Score measureOf="Overall" measureLabel="Attempted" value="Y" standardError=""/>
+        <Score measureOf="Overall" measureLabel="ThetaScore" value="0.169045921768307" standardError="0.67383923074699"/>
+        <Score measureOf="Overall" measureLabel="ScaleScore" value="2522.70414008772" standardError="57.8154059980917"/>
+        <Score measureOf="Overall" measureLabel="PerformanceLevel" value="2" standardError=""/>
+        <Score measureOf="Print Size|TDS_PS_L0" measureLabel="Accommodation" value="3" standardError="0"/>
+        <Item responseDuration="1.332" pageTime="0" pageNumber="1" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:24:01.463" clientId="" key="41634" bankKey="200" position="1" contentLevel="1-LT|5-6"
+              strand="1-LT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6E-ReadLit-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:24:25.728">A</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        B
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="3.0546" pageTime="0" pageNumber="1" pageVisits="0" numberVisits="3" format="MC" adminDate="2016-10-13T02:24:01.463" clientId="" key="37433" bankKey="200" position="2" contentLevel="1-LT|3-6"
+              strand="1-LT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6E-ReadLit-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:24:25.685">C</Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        C
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="0.8792" pageTime="0" pageNumber="1" pageVisits="0" numberVisits="1" format="HTQ" adminDate="2016-10-13T02:24:01.463" clientId="" key="32448" bankKey="200" position="3" contentLevel="1-LT|2-6"
+              strand="1-LT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6E-ReadLit-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:24:25.637"> &lt;itemResponse&gt;&lt;response id="1"&gt;&lt;value&gt;2&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="2.2" pageTime="0" pageNumber="1" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:24:01.463" clientId="" key="37435" bankKey="200" position="4" contentLevel="1-LT|6-6"
+              strand="1-LT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6E-ReadLit-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:24:25.594">D</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        C
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="0.8792" pageTime="0" pageNumber="1" pageVisits="0" numberVisits="1" format="MS" adminDate="2016-10-13T02:24:01.463" clientId="" key="37437" bankKey="200" position="5" contentLevel="1-LT|6-6"
+              strand="1-LT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6E-ReadLit-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:24:25.548">A,B,E</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        B,C,F
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="2.045" pageTime="0" pageNumber="2" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:24:21.241" clientId="" key="53850" bankKey="200" position="6" contentLevel="1-LT|6-6"
+              strand="1-LT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6E-ReadLit-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:24:36.141">A</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        C
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="2.006" pageTime="0" pageNumber="2" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:24:21.241" clientId="" key="52498" bankKey="200" position="7" contentLevel="1-LT|3-6"
+              strand="1-LT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6E-ReadLit-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:24:36.097">B</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        D
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="2.09925" pageTime="0" pageNumber="2" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:24:21.241" clientId="" key="53858" bankKey="200" position="8" contentLevel="1-LT|5-6"
+              strand="1-LT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6E-ReadLit-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:24:36.057">B</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        A
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="1.77275" pageTime="0" pageNumber="2" pageVisits="0" numberVisits="1" format="SA" adminDate="2016-10-13T02:24:21.241" clientId="" key="52620" bankKey="200" position="9" contentLevel="1-LT|2-6"
+              strand="1-LT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="2" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6E-ReadLit-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:24:36.007">this is a test</Response>
+            <ScoreInfo scorePoint="2" maxScore="0" scoreDimension="Overall" scoreStatus="Scored">
+                <SubScoreList>
+                    <ScoreInfo scorePoint="2" maxScore="0" scoreDimension="Initial" scoreStatus="Scored">
+                        <ScoreRationale>
+                            <Message>{"scorerID":"uat_lab20@mailinator.com"}</Message>
+                        </ScoreRationale>
+                    </ScoreInfo>
+                </SubScoreList>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="2.0805" pageTime="0" pageNumber="3" pageVisits="0" numberVisits="3" format="MC" adminDate="2016-10-13T02:24:27.695" clientId="" key="52566" bankKey="200" position="10" contentLevel="1-LT|6-6"
+              strand="1-LT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6E-ReadLit-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:24:54.427">B</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        C
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="2.02583" pageTime="0" pageNumber="3" pageVisits="0" numberVisits="3" format="MC" adminDate="2016-10-13T02:24:27.695" clientId="" key="52554" bankKey="200" position="11" contentLevel="1-LT|2-6"
+              strand="1-LT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6E-ReadLit-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:24:54.388">B</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        A
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="2.38933" pageTime="0" pageNumber="3" pageVisits="0" numberVisits="3" format="MC" adminDate="2016-10-13T02:24:27.695" clientId="" key="52550" bankKey="200" position="12" contentLevel="1-LT|1-6"
+              strand="1-LT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6E-ReadLit-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:24:54.035">B</Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        B
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="2.11767" pageTime="0" pageNumber="3" pageVisits="0" numberVisits="3" format="MC" adminDate="2016-10-13T02:24:27.695" clientId="" key="52556" bankKey="200" position="13" contentLevel="1-LT|3-6"
+              strand="1-LT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6E-ReadLit-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:24:54.031">D</Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        D
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="1.857" pageTime="0" pageNumber="3" pageVisits="0" numberVisits="2" format="HTQ" adminDate="2016-10-13T02:24:27.695" clientId="" key="52560" bankKey="200" position="14" contentLevel="1-LT|4-6"
+              strand="1-LT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6E-ReadLit-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:24:54.266"> &lt;itemResponse&gt;&lt;response id="1"&gt;&lt;value&gt;3&lt;/value&gt;&lt;value&gt;6&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="1.857" pageTime="0" pageNumber="3" pageVisits="0" numberVisits="2" format="MS" adminDate="2016-10-13T02:24:27.695" clientId="" key="56201" bankKey="200" position="15" contentLevel="1-LT|7-6"
+              strand="1-LT" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6E-ReadLit-ELA-6-Winter-2016-2017">
+            <Response date="2016-10-13T02:24:54.222">B,C</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        A,B
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+    </Opportunity>
+</TDSReport>
