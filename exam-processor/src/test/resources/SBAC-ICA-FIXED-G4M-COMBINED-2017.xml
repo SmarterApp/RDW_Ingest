@@ -1,0 +1,547 @@
+<TDSReport>
+    <Test grade="4" mode="online" contract="SBAC" bankKey="200" testId="SBAC-ICA-FIXED-G4M-COMBINED-2017" subject="MATH" name="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-2017-Winter-2016-2017" handScoreProject="0" assessmentType="interim"
+          academicYear="2016" assessmentVersion="9787|9787"/>
+    <Examinee isDemo="0" key="4054">
+        <ExamineeAttribute name="AlternateSSID" value="FOURTHGRADER20" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="AlternateSSID" value="FOURTHGRADER20" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="AmericanIndianOrAlaskaNative" value="NO" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="AmericanIndianOrAlaskaNative" value="NO" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="Asian" value="NO" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="Asian" value="NO" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="Birthdate" value="1900-01-01" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="Birthdate" value="1900-01-01" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="BlackOrAfricanAmerican" value="YES" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="BlackOrAfricanAmerican" value="YES" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="DemographicRaceTwoOrMoreRaces" value="NO" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="DemographicRaceTwoOrMoreRaces" value="NO" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="EconomicDisadvantageStatus" value="NO" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="EconomicDisadvantageStatus" value="NO" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="EnglishLanguageProficiencLevel" value="" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="EnglishLanguageProficiencLevel" value="" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="FirstEntryDateIntoUSSchool" value="" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="FirstEntryDateIntoUSSchool" value="" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="FirstName" value="Name119" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="FirstName" value="Name119" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="GradeLevelWhenAssessed" value="FOURTHGRADE" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="GradeLevelWhenAssessed" value="FOURTHGRADE" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="HispanicOrLatinoEthnicity" value="NO" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="HispanicOrLatinoEthnicity" value="NO" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="IDEAIndicator" value="NO" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="IDEAIndicator" value="NO" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="LanguageCode" value="" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="LanguageCode" value="" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="LastOrSurname" value="LastName119" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="LastOrSurname" value="LastName119" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="LEPExitDate" value="" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="LEPExitDate" value="" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="LEPStatus" value="NO" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="LEPStatus" value="NO" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="LimitedEnglishProficiencyEntryDate" value="" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="LimitedEnglishProficiencyEntryDate" value="" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="MiddleName" value="MiddleName119" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="MiddleName" value="MiddleName119" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="MigrantStatus" value="NO" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="MigrantStatus" value="NO" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="NativeHawaiianOrOtherPacificIslander" value="NO" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="NativeHawaiianOrOtherPacificIslander" value="NO" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="PrimaryDisabilityType" value="" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="PrimaryDisabilityType" value="" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="Section504Status" value="NO" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="Section504Status" value="NO" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="Sex" value="M" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="Sex" value="M" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="StudentIdentifier" value="AFOURTHGRADER20" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="StudentIdentifier" value="AFOURTHGRADER20" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="TitleIIILanguageInstructionProgramType" value="" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="TitleIIILanguageInstructionProgramType" value="" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="White" value="NO" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="White" value="NO" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeRelationship name="NameOfInstitution" value="APTESTSCHOOL" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeRelationship name="NameOfInstitution" value="APTESTSCHOOL" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeRelationship name="OrganizationName" value="UCLA" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeRelationship name="OrganizationName" value="UCLA" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeRelationship name="ResponsibleDistrictIdentifier" value="UCLALS" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeRelationship name="ResponsibleDistrictIdentifier" value="UCLALS" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeRelationship name="ResponsibleInstitutionIdentifier" value="APTEST1" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeRelationship name="ResponsibleInstitutionIdentifier" value="APTEST1" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeRelationship name="StateAbbreviation" value="AP" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeRelationship name="StateAbbreviation" value="AP" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeRelationship name="StateName" value="ARMED FORCES PACIFIC" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeRelationship name="StateName" value="ARMED FORCES PACIFIC" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+    </Examinee>
+    <Opportunity database="session" key="5b63d7f5-e783-411a-9a15-f1753542f523" taId="jtreuting@fairwaytech.com" taName="Jeff Treuting" sessionId="Tre-7" windowId="ANNUAL" server="ip-172-19-0-179" qaLevel="" clientName="SBAC"
+                 reportingVersion="0" abnormalStarts="0" ftCount="0" dateCompleted="2016-10-12T18:25:13.487"
+                 assessmentParticipantSessionPlatformUserAgent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36" itemCount="36" pauseCount="0"
+                 completeStatus="Complete" status="completed" statusDate="2016-10-12T18:25:13.487" administrationCondition="" startDate="2016-10-12T18:14:21.101" oppId="5000015" opportunity="1" gracePeriodRestarts="0">
+        <Segment id="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017" position="1" formId="Math ICA G4 2017 ENG COMBINED" formKey="200-18787" algorithm="fixedform"/>
+        <Segment id="(SBAC)SBAC-ICA-FIXED-G4M-Perf-AnimalJumping-COMBINED-MATH-4-Winter-2016-2017" position="2" formId="Math ICA Perf G4 AnimalJumping 2017 ENG COMBINED" formKey="200-18848" algorithm="fixedform"/>
+        <Accommodation code="ENU" type="Language" value="English" segment="0"/>
+        <Accommodation code="NEA0" type="Non-Embedded Accommodations" value="None" segment="0"/>
+        <Accommodation code="NEDS0" type="Non-Embedded Designated Supports" value="None" segment="0"/>
+        <Accommodation code="TDS_APC_PSP" type="Audio Playback Controls" value="Play Stop and Pause" segment="0"/>
+        <Accommodation code="TDS_ClosedCap0" type="Closed Captioning" value="Closed Captioning Not Available" segment="0"/>
+        <Accommodation code="TDS_ExpandablePassages1" type="Expandable Passages" value="Expandable Passages On" segment="0"/>
+        <Accommodation code="TDS_FT_Verdana" type="Font Type" value="Verdana" segment="0"/>
+        <Accommodation code="TDS_F_S14" type="Passage Font Size" value="14pt" segment="0"/>
+        <Accommodation code="TDS_GN1" type="Global Notes" value="Global Notes On" segment="0"/>
+        <Accommodation code="TDS_Highlight1" type="Highlight" value="True" segment="0"/>
+        <Accommodation code="TDS_HWPlayback" type="Hardware Checks" value="Check Playback Capabilities" segment="0"/>
+        <Accommodation code="TDS_IF_S14" type="Item Font Size" value="14pt Items" segment="0"/>
+        <Accommodation code="TDS_ITM1" type="Item Tools Menu" value="On" segment="0"/>
+        <Accommodation code="TDS_ITTC0" type="IntraTest TTS Controls" value="IntraTest TTS Controls Off" segment="0"/>
+        <Accommodation code="TDS_MfR1" type="Mark for Review" value="True" segment="0"/>
+        <Accommodation code="TDS_Other" type="Other" value="None" segment="0"/>
+        <Accommodation code="TDS_PM0" type="Permissive Mode" value="Permissive Mode Disabled" segment="0"/>
+        <Accommodation code="TDS_PS_L0" type="Print Size" value="No default zoom applied" segment="0"/>
+        <Accommodation code="TDS_RSL_ListView" type="Review Screen Layout" value="List" segment="0"/>
+        <Accommodation code="TDS_SCNotepad" type="Student Comments" value="On" segment="0"/>
+        <Accommodation code="TDS_ST1" type="Strikethrough" value="True" segment="0"/>
+        <Accommodation code="TDS_SVC1" type="System Volume Control" value="Show widget" segment="0"/>
+        <Accommodation code="TDS_TPI_ResponsesFix" type="Test Progress Indicator" value="Show indicator as a fraction and adjust to test length" segment="0"/>
+        <Accommodation code="TDS_TS_Universal" type="Test Shell" value="Universal Shell" segment="0"/>
+        <Accommodation code="TDS_WL_Glossary" type="Word List" value="English Glossary" segment="0"/>
+        <Score measureOf="Overall" measureLabel="Attempted" value="Y" standardError=""/>
+        <Score measureOf="Overall" measureLabel="ThetaScore" value="-0.0933834960601748" standardError="0.256414973091891"/>
+        <Score measureOf="1" measureLabel="ThetaScore" value="-0.208050186212807" standardError="0.344876334603102"/>
+        <Score measureOf="SOCK_2" measureLabel="ThetaScore" value="0.118177841870205" standardError="0.43644762387902"/>
+        <Score measureOf="3" measureLabel="ThetaScore" value="-0.184827266208388" standardError="0.699264951337106"/>
+        <Score measureOf="Overall" measureLabel="ScaleScore" value="2507.49468876243" standardError="20.3337073661869"/>
+        <Score measureOf="1" measureLabel="ScaleScore" value="2498.40162023332" standardError="27.348693334026"/>
+        <Score measureOf="SOCK_2" measureLabel="ScaleScore" value="2524.27150286031" standardError="34.6102965736062"/>
+        <Score measureOf="3" measureLabel="ScaleScore" value="2500.24319778967" standardError="55.4517106410325"/>
+        <Score measureOf="Overall" measureLabel="PerformanceLevel" value="3" standardError=""/>
+        <Score measureOf="1" measureLabel="PerformanceLevel" value="2" standardError=""/>
+        <Score measureOf="SOCK_2" measureLabel="PerformanceLevel" value="2" standardError=""/>
+        <Score measureOf="3" measureLabel="PerformanceLevel" value="2" standardError=""/>
+        <Score measureOf="Overall" measureLabel="ItemCount" value="36" standardError="0"/>
+        <Score measureOf="1" measureLabel="ItemCount" value="20" standardError="0"/>
+        <Score measureOf="SOCK_2" measureLabel="ItemCount" value="9" standardError="0"/>
+        <Score measureOf="3" measureLabel="ItemCount" value="7" standardError="0"/>
+        <Score measureOf="Overall" measureLabel="ItemCountScored" value="36" standardError="0"/>
+        <Score measureOf="1" measureLabel="ItemCountScored" value="20" standardError="0"/>
+        <Score measureOf="SOCK_2" measureLabel="ItemCountScored" value="9" standardError="0"/>
+        <Score measureOf="3" measureLabel="ItemCountScored" value="7" standardError="0"/>
+        <Score measureOf="Overall" measureLabel="RawScore" value="24" standardError="0"/>
+        <Score measureOf="1" measureLabel="RawScore" value="14" standardError="0"/>
+        <Score measureOf="SOCK_2" measureLabel="RawScore" value="7" standardError="0"/>
+        <Score measureOf="3" measureLabel="RawScore" value="3" standardError="0"/>
+        <Score measureOf="Print Size|TDS_PS_L0" measureLabel="Accommodation" value="3" standardError="0"/>
+        <GenericVariable name="OPPID" value="100137" context="COMPONENT_1"/>
+        <GenericVariable name="STATUS" value="completed" context="COMPONENT_1"/>
+        <GenericVariable name="TESTID" value="SBAC-ICA-FIXED-G4M-MATH-4" context="COMPONENT_1"/>
+        <GenericVariable name="OPPID" value="100136" context="COMPONENT_2"/>
+        <GenericVariable name="STATUS" value="scored" context="COMPONENT_2"/>
+        <GenericVariable name="TESTID" value="SBAC-ICA-FIXED-G4M-Perf-AnimalJumping-MATH-4" context="COMPONENT_2"/>
+        <Item responseDuration="8.959" pageTime="0" pageNumber="1" pageVisits="0" numberVisits="1" format="MI" adminDate="2016-10-12T18:19:17.564" clientId="" key="13999" bankKey="200" position="1" contentLevel="1|P|TS02|G-4"
+              strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:19:26.435"> &lt;itemResponse&gt;&lt;response id="RESPONSE"&gt;&lt;value&gt;1 b&lt;/value&gt;&lt;value&gt;2 a&lt;/value&gt;&lt;value&gt;3 a&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="7.357" pageTime="0" pageNumber="2" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T18:19:17.664" clientId="" key="1628" bankKey="200" position="2" contentLevel="1|P|TS01|E-4"
+              strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:19:33.787"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML"
+                title="11111"&gt;&lt;mstyle&gt;&lt;mn&gt;11111&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="4.045" pageTime="0" pageNumber="3" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T18:19:17.756" clientId="" key="7762" bankKey="200" position="3" contentLevel="1|P|TS04|H-4"
+              strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:19:37.825"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="8"&gt;&lt;mstyle&gt;&lt;mn&gt;8&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="7.716" pageTime="0" pageNumber="4" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T18:19:26.519" clientId="" key="2773" bankKey="200" position="4" contentLevel="1|P|TS02|G-4"
+              strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:19:45.542"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="\frac{3}{5}"&gt;&lt;mstyle&gt;&lt;mfrac&gt;&lt;mrow&gt;&lt;mn&gt;3&lt;/mn&gt;&lt;/mrow&gt;&lt;mrow&gt;&lt;mn&gt;5&lt;/mn&gt;&lt;/mrow&gt;&lt;/mfrac&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="3.51" pageTime="0" pageNumber="5" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T18:19:33.892" clientId="" key="2012" bankKey="200" position="5" contentLevel="1|P|TS01|A-4"
+              strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:19:49.051"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="23"&gt;&lt;mstyle&gt;&lt;mn&gt;23&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="7.306" pageTime="0" pageNumber="6" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-12T18:19:37.919" clientId="" key="18943" bankKey="200" position="6" contentLevel="1|S|TS06|B-4"
+              strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:19:56.357">D</Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        D
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="15.457" pageTime="0" pageNumber="7" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T18:19:45.644" clientId="" key="13468" bankKey="200" position="7" contentLevel="4|OA|NA|A"
+              strand="4" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:20:11.818"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="23&amp;gt;19"&gt;&lt;mstyle&gt;&lt;mn&gt;23&lt;/mn&gt;&lt;mo&gt;&amp;gt;&lt;/mo&gt;&lt;mn&gt;19&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="23.029" pageTime="0" pageNumber="8" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-12T18:19:49.015" clientId="" key="8890" bankKey="200" position="8" contentLevel="4|OA|NA|E"
+              strand="4" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:20:34.881">D</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        A
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="7.639" pageTime="0" pageNumber="9" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T18:19:55.444" clientId="" key="2014" bankKey="200" position="9" contentLevel="1|P|TS01|A-4"
+              strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:20:42.053"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="56"&gt;&lt;mstyle&gt;&lt;mn&gt;56&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="12.127" pageTime="0" pageNumber="10" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-12T18:20:11.919" clientId="" key="16054" bankKey="200" position="10" contentLevel="1|P|TS01|E-4"
+              strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:20:54.649">B</Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        B
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="8.72" pageTime="0" pageNumber="11" pageVisits="0" numberVisits="1" format="MI" adminDate="2016-10-12T18:20:33.895" clientId="" key="25515" bankKey="200" position="11" contentLevel="1|P|TS01|F-4"
+              strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:21:03.377"> &lt;itemResponse&gt;&lt;response id="RESPONSE"&gt;&lt;value&gt;1 b&lt;/value&gt;&lt;value&gt;2 a&lt;/value&gt;&lt;value&gt;3 b&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="5.97" pageTime="0" pageNumber="12" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T18:20:42.624" clientId="" key="7666" bankKey="200" position="12" contentLevel="1|P|TS03|D-4"
+              strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:21:09.343"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML"
+                title="2840"&gt;&lt;mstyle&gt;&lt;mn&gt;2840&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="2.42" pageTime="0" pageNumber="13" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-12T18:20:50.978" clientId="" key="30073" bankKey="200" position="13" contentLevel="3|OA|NA|F"
+              strand="3" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:21:11.757">B</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        D
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="14.233" pageTime="0" pageNumber="14" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T18:21:03.464" clientId="" key="2024" bankKey="200" position="14" contentLevel="1|P|TS01|A-4"
+              strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:21:25.994"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="9"&gt;&lt;mstyle&gt;&lt;mn&gt;9&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="5.783" pageTime="0" pageNumber="15" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T18:21:09.449" clientId="" key="20843" bankKey="200" position="15" contentLevel="3|OA|NA|B"
+              strand="3" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:21:31.775"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="2"&gt;&lt;mstyle&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="6.528" pageTime="0" pageNumber="16" pageVisits="0" numberVisits="1" format="MI" adminDate="2016-10-12T18:21:11.181" clientId="" key="16273" bankKey="200" position="16" contentLevel="1|S|TS07|L-4"
+              strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:21:38.279"> &lt;itemResponse&gt;&lt;response id="RESPONSE"&gt;&lt;value&gt;1 b&lt;/value&gt;&lt;value&gt;2 a&lt;/value&gt;&lt;value&gt;3 b&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="11.633" pageTime="0" pageNumber="17" pageVisits="0" numberVisits="1" format="MI" adminDate="2016-10-12T18:21:26.092" clientId="" key="11525" bankKey="200" position="17" contentLevel="1|P|TS01|F-4"
+              strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:21:49.904"> &lt;itemResponse&gt;&lt;response id="RESPONSE"&gt;&lt;value&gt;1 b&lt;/value&gt;&lt;value&gt;2 c&lt;/value&gt;&lt;value&gt;3 a&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="4.405" pageTime="0" pageNumber="18" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T18:21:31.872" clientId="" key="257" bankKey="200" position="18" contentLevel="1|P|TS01|E-4"
+              strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:21:54.035"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML"
+                title="152"&gt;&lt;mstyle&gt;&lt;mn&gt;152&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="5.997" pageTime="0" pageNumber="19" pageVisits="0" numberVisits="1" format="MI" adminDate="2016-10-12T18:21:38.367" clientId="" key="29233" bankKey="200" position="19" contentLevel="2|OA|NA|D"
+              strand="2" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:22:00.345"> &lt;itemResponse&gt;&lt;response id="RESPONSE"&gt;&lt;value&gt;1 a&lt;/value&gt;&lt;value&gt;2 b&lt;/value&gt;&lt;value&gt;3 b&lt;/value&gt;&lt;value&gt;4 b&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="7.101" pageTime="0" pageNumber="20" pageVisits="0" numberVisits="1" format="MS" adminDate="2016-10-12T18:21:49.988" clientId="" key="29627" bankKey="200" position="20" contentLevel="3|NF|NA|D"
+              strand="3" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:22:07.403">A,B</Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        A,B
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="71.168" pageTime="0" pageNumber="21" pageVisits="0" numberVisits="3" format="MC" adminDate="2016-10-12T18:21:54.045" clientId="" key="44225" bankKey="200" position="21" contentLevel="3|NF|NA|F"
+              strand="3" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:23:18.057">C</Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        C
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="5.476" pageTime="0" pageNumber="22" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T18:22:00.425" clientId="" key="7672" bankKey="200" position="22" contentLevel="1|P|TS02|G-4"
+              strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:23:24.051"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="2"&gt;&lt;mstyle&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="12.333" pageTime="0" pageNumber="23" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T18:22:07.485" clientId="" key="2622" bankKey="200" position="23" contentLevel="1|S|TS05|I-4"
+              strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:23:36.377"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="60"&gt;&lt;mstyle&gt;&lt;mn&gt;60&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="10.239" pageTime="0" pageNumber="24" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T18:22:12.011" clientId="" key="2662" bankKey="200" position="24" contentLevel="1|S|TS05|I-4"
+              strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:23:46.062"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="60"&gt;&lt;mstyle&gt;&lt;mn&gt;60&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="2.62" pageTime="0" pageNumber="25" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-12T18:23:24.156" clientId="" key="45230" bankKey="200" position="25" contentLevel="3|OA|NA|F"
+              strand="3" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:23:49.235">B</Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        C
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="8.89" pageTime="0" pageNumber="26" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T18:23:36.048" clientId="" key="7742" bankKey="200" position="26" contentLevel="1|P|TS03|D-4"
+              strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:23:58.125"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML"
+                title="430000"&gt;&lt;mstyle&gt;&lt;mn&gt;430000&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="5.052" pageTime="0" pageNumber="27" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T18:23:46.731" clientId="" key="10116" bankKey="200" position="27" contentLevel="4|OA|NA|B"
+              strand="4" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:24:03.018"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="2"&gt;&lt;mstyle&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;math
+                xmlns="http://www.w3.org/1998/Math/MathML" title="6"&gt;&lt;mstyle&gt;&lt;mn&gt;6&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
+            <ScoreInfo scorePoint="1" maxScore="2" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="3.812" pageTime="0" pageNumber="28" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T18:23:48.267" clientId="" key="6692" bankKey="200" position="28" contentLevel="2|OA|NA|A"
+              strand="2" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:24:06.989"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="56"&gt;&lt;mstyle&gt;&lt;mn&gt;56&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="54.555" pageTime="0" pageNumber="29" pageVisits="0" numberVisits="1" format="MI" adminDate="2016-10-12T18:23:58.225" clientId="" key="11531" bankKey="200" position="29" contentLevel="1|P|TS01|F-4"
+              strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:25:01.559"> &lt;itemResponse&gt;&lt;response id="RESPONSE"&gt;&lt;value&gt;1 a&lt;/value&gt;&lt;value&gt;2 b&lt;/value&gt;&lt;value&gt;3 b&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="7.723" pageTime="0" pageNumber="30" pageVisits="0" numberVisits="2" format="EQ" adminDate="2016-10-12T18:24:03.278" clientId="" key="5711" bankKey="200" position="30" contentLevel="1|S|TS05|K-4"
+              strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:25:09.267"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML"
+                title="120"&gt;&lt;mstyle&gt;&lt;mn&gt;120&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
+            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="10.3247" pageTime="0" pageNumber="31" pageVisits="0" numberVisits="2" format="EQ" adminDate="2016-10-12T18:14:26.018" clientId="" key="25655" bankKey="200" position="31" contentLevel="4|MD|NA|A"
+              strand="4" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-Perf-AnimalJumping-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:15:52.326"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="4"&gt;&lt;mstyle&gt;&lt;mn&gt;4&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        successfully scored
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="14.3628" pageTime="0" pageNumber="32" pageVisits="0" numberVisits="3" format="MC" adminDate="2016-10-12T18:14:26.018" clientId="" key="25659" bankKey="200" position="32" contentLevel="2|NF|NA|A"
+              strand="2" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-Perf-AnimalJumping-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:15:52.288">C</Response>
+            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
+                <ScoreRationale>
+                    <Message>
+                        C
+                    </Message>
+                </ScoreRationale>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="10.3247" pageTime="0" pageNumber="33" pageVisits="0" numberVisits="2" format="TI" adminDate="2016-10-12T18:14:26.018" clientId="" key="25662" bankKey="200" position="33" contentLevel="2|NBT|NA|A"
+              strand="2" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="2" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-Perf-AnimalJumping-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:15:52.248"> &lt;responseSpec&gt;&lt;responseTable&gt;&lt;tr&gt;&lt;th id="col0"/&gt;&lt;th id="col1"/&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td/&gt;&lt;td&gt;100 inches&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td/&gt;&lt;td&gt;6
+                feet&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td/&gt;&lt;td&gt;64 inches&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td/&gt;&lt;td&gt;300 inches&lt;/td&gt;&lt;/tr&gt;&lt;/responseTable&gt;&lt;/responseSpec&gt; </Response>
+            <ScoreInfo scorePoint="2" maxScore="0" scoreDimension="Overall" scoreStatus="Scored">
+                <SubScoreList>
+                    <ScoreInfo scorePoint="2" maxScore="0" scoreDimension="Initial" scoreStatus="Scored">
+                        <ScoreRationale>
+                            <Message>{"scorerID":"jtreuting@fairwaytech.com"}</Message>
+                        </ScoreRationale>
+                    </ScoreInfo>
+                </SubScoreList>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="10.3247" pageTime="0" pageNumber="34" pageVisits="0" numberVisits="2" format="SA" adminDate="2016-10-12T18:14:26.018" clientId="" key="25665" bankKey="200" position="34" contentLevel="3" strand="3"
+              scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-Perf-AnimalJumping-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:15:52.211"> &lt;p&gt;werqwerqwer&lt;/p&gt; </Response>
+            <ScoreInfo scorePoint="0" maxScore="0" scoreDimension="Overall" scoreStatus="Scored">
+                <SubScoreList>
+                    <ScoreInfo scorePoint="0" maxScore="0" scoreDimension="Initial" scoreStatus="Scored">
+                        <ScoreRationale>
+                            <Message>{"scorerID":"jtreuting@fairwaytech.com"}</Message>
+                        </ScoreRationale>
+                    </ScoreInfo>
+                </SubScoreList>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="10.3247" pageTime="0" pageNumber="35" pageVisits="0" numberVisits="2" format="SA" adminDate="2016-10-12T18:14:26.018" clientId="" key="25666" bankKey="200" position="35" contentLevel="3|OA|NA|B"
+              strand="3" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-Perf-AnimalJumping-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:15:52.165"> &lt;p&gt;asdfasdf&lt;/p&gt; </Response>
+            <ScoreInfo scorePoint="1" maxScore="0" scoreDimension="Overall" scoreStatus="Scored">
+                <SubScoreList>
+                    <ScoreInfo scorePoint="1" maxScore="0" scoreDimension="Initial" scoreStatus="Scored">
+                        <ScoreRationale>
+                            <Message>{"scorerID":"jtreuting@fairwaytech.com"}</Message>
+                        </ScoreRationale>
+                    </ScoreInfo>
+                </SubScoreList>
+            </ScoreInfo>
+        </Item>
+        <Item responseDuration="10.3247" pageTime="0" pageNumber="36" pageVisits="0" numberVisits="2" format="SA" adminDate="2016-10-12T18:14:26.018" clientId="" key="25667" bankKey="200" position="36" contentLevel="4|NBT|NA|E"
+              strand="4" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="2" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G4M-Perf-AnimalJumping-COMBINED-MATH-4-Winter-2016-2017">
+            <Response date="2016-10-12T18:15:52.125"> &lt;p&gt;tyiuotyuiytui&lt;/p&gt; </Response>
+            <ScoreInfo scorePoint="2" maxScore="0" scoreDimension="Overall" scoreStatus="Scored">
+                <SubScoreList>
+                    <ScoreInfo scorePoint="2" maxScore="0" scoreDimension="Initial" scoreStatus="Scored">
+                        <ScoreRationale>
+                            <Message>{"scorerID":"jtreuting@fairwaytech.com"}</Message>
+                        </ScoreRationale>
+                    </ScoreInfo>
+                </SubScoreList>
+            </ScoreInfo>
+        </Item>
+    </Opportunity>
+</TDSReport>
