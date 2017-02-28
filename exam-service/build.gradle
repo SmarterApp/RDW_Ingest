@@ -6,6 +6,9 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-security'
     compile('org.springframework.cloud:spring-cloud-starter-oauth2')
+    compile 'org.springframework.boot:spring-boot-starter-jdbc'
+    compile 'mysql:mysql-connector-java'
+
 //compile('org.springframework.boot:spring-security-oauth2')
 //compile('org.springframework.boot:spring-boot-starter-hateoas')
 

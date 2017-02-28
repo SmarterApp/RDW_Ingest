@@ -76,7 +76,8 @@ java                                    8-jre-alpine        d85b17c6762e        
 Now you can run the containers, linking rabbitmq and specifying the port mappings.
 Currently the exam processor just logs results so tail the log to see stuff happening.
 ```bash
-docker run -d -p :8080:8080 --name rdw-ingest-exam-service --link rabbitmq fwsbac/rdw-ingest-exam-service --spring.rabbitmq.host=rabbitmq
+docker run -d -p :8080:8080 --name rdw-ingest-exam-service --link rabbitmq --link mysql56 fwsbac/rdw-ingest-exam-service \
+    --spring.rabbitmq.host=rabbitmq --spring.datasource.url=jdbc:mysql://mysql56:3306/warehouse?useSSL=false
 docker run -d -p :8081:8080 --name rdw-ingest-exam-processor --link rabbitmq --link mysql56 fwsbac/rdw-ingest-exam-processor \
     --spring.rabbitmq.host=rabbitmq --spring.datasource.url=jdbc:mysql://mysql56:3306/warehouse?useSSL=false
 docker logs -f rdw-ingest-exam-processor

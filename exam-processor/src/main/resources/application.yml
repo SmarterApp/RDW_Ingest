@@ -12,4 +12,5 @@ spring:
     testWhileIdle: true
     validationQuery: SELECT 1
     driverClassName: com.mysql.jdbc.Driver
+    initialize: false
 
