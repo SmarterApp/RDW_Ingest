@@ -46,6 +46,7 @@ public class ExamClaim {
         public ExamClaim build() {
             return new ExamClaim(claimId, scaleScore, scaleScoreStdErr, category);
         }
+
         public Builder withClaimId(long claimId) {
             this.claimId = claimId;
             return this;

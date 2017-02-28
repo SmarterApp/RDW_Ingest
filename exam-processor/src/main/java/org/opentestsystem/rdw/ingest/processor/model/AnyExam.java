@@ -11,8 +11,7 @@ import static com.google.common.collect.Lists.newArrayList;
 /**
  * This class represents common attributes share by all types of exams
  */
-public abstract class AnyExam extends Identifiable<Long> {
-
+public abstract class AnyExam {
     private Date completedAt;
     private long assessmentId;
     private String asmtVersion;
@@ -22,9 +21,8 @@ public abstract class AnyExam extends Identifiable<Long> {
     private boolean isValid;
     private String status;
     private String sessionId;
-    private StudentAttributes studentAttributes;
+    private StudentExamAttributes studentExamAttributes;
     private List<Accommodation> availableAccommodations;
-
     private List<ExamItem> examItems;
     private float scaleScore;
     private float scaleScoreStdErr;
@@ -73,8 +71,8 @@ public abstract class AnyExam extends Identifiable<Long> {
         return sessionId;
     }
 
-    public StudentAttributes getStudentAttributes() {
-        return studentAttributes;
+    public StudentExamAttributes getStudentExamAttributes() {
+        return studentExamAttributes;
     }
 
     public List<Accommodation> getAvailableAccommodations() {
@@ -84,6 +82,7 @@ public abstract class AnyExam extends Identifiable<Long> {
     public List<ExamItem> getExamItems() {
         return examItems == null ? newArrayList() : examItems;
     }
+
 
     /**
      * The builder for the {@link AnyExam}
@@ -98,7 +97,7 @@ public abstract class AnyExam extends Identifiable<Long> {
         private boolean isValid;
         private String status;
         private String sessionId;
-        private StudentAttributes studentAttributes;
+        private StudentExamAttributes studentExamAttributes;
         private List<Accommodation> availableAccommodations;
         private List<ExamItem> examItems;
         private float scaleScore;
@@ -120,7 +119,7 @@ public abstract class AnyExam extends Identifiable<Long> {
             exam.isValid = isValid;
             exam.status = status;
             exam.sessionId = sessionId;
-            exam.studentAttributes = studentAttributes;
+            exam.studentExamAttributes = studentExamAttributes;
             exam.availableAccommodations = availableAccommodations;
             exam.scaleScore = scaleScore;
             exam.scaleScoreStdErr = scaleScoreStdErr;
@@ -164,7 +163,6 @@ public abstract class AnyExam extends Identifiable<Long> {
         public Builder withScaleScoreStdErr(Float scaleScoreStdErr) {
             this.scaleScoreStdErr = scaleScoreStdErr;
             return this;
-
         }
 
         public Builder withAdministrationConditionId(int administrationConditionId) {
@@ -187,8 +185,8 @@ public abstract class AnyExam extends Identifiable<Long> {
             return this;
         }
 
-        public Builder withStudentAttributes(StudentAttributes studentAttributes) {
-            this.studentAttributes = studentAttributes;
+        public Builder withStudentAttributes(StudentExamAttributes studentExamAttributes) {
+            this.studentExamAttributes = studentExamAttributes;
             return this;
         }
 

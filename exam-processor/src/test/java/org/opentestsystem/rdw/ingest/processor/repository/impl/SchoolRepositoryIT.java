@@ -31,7 +31,7 @@ public class SchoolRepositoryIT {
             "INSERT INTO school (id, district_id, name, natural_id) VALUES (27, 22, 'Sample School 1', '30664640124743');"
     })
     public void itShouldReturnExistingId() {
-        final int id = repository.findOrCreate(School.builder()
+        final int id = repository.findOrCreateByNaturalId(School.builder()
                 .withName("Sample School 1")
                 .withNaturalId("30664640124743")
                 .withDistrict(District.builder().withNaturalId("01247430000000").withName("Sample District 1").build())
@@ -46,7 +46,7 @@ public class SchoolRepositoryIT {
                 .addValue("natural_id", "01247430000000").addValue("name", "Sample District 1"), Integer.class);
         assertThat(id).isEqualTo(0);
 
-        id = repository.findOrCreate(School.builder()
+        id = repository.findOrCreateByNaturalId(School.builder()
                 .withName("Sample School 1")
                 .withNaturalId("30664640124743")
                 .withDistrict(District.builder().withNaturalId("01247430000000").withName("Sample District 1").build())
