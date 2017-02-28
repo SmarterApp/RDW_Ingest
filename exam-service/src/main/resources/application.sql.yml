@@ -1,0 +1,17 @@
+sql:
+  import:
+    count: >-
+      SELECT count(*) from import
+
+    create: >-
+      INSERT INTO import (status, content, digest, batch, creator, created)
+        VALUES (:status, :content, :digest, :batch, :creator, :created)
+
+    exists: >-
+      SELECT (CASE WHEN EXISTS (SELECT 1 FROM import WHERE id=:id) THEN true ELSE false END) exist
+
+    findOne: >-
+      SELECT id, status, content, digest, batch, creator, created FROM import WHERE id=:id
+
+    findOneByDigest: >-
+      SELECT id, status, content, digest, batch, creator, created FROM import WHERE digest=:digest

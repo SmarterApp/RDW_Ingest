@@ -90,6 +90,15 @@ GET /exams/imports/:id   should return a mock import request payload (unless id 
 ```
 You will need valid credentials and connectivity to our SSO OAuth2 server. 
 
+To redeploy i find i have to stop, remove the containers, remove the images, then rebuild and deploy. 
+I'm sure this is not right but for now, it looks like this:
+```bash
+docker stop rdw-ingest-exam-service rdw-ingest-exam-processor
+docker rm rdw-ingest-exam-service rdw-ingest-exam-processor
+docker rmi fwsbac/rdw-ingest-exam-service fwsbac/rdw-ingest-exam-processor
+# repeat buildImage docker run commands
+```
+
 
 #### Running Standalone
 It is not the recommended approach but the artifacts are Spring Boot executable jars so you can just run them, e.g.:
