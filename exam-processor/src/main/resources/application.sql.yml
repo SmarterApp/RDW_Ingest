@@ -1,0 +1,92 @@
+sql:
+  # AssessmentTypeRepository
+  asmtType:
+    toCode: >-
+        SELECT code FROM asmt_type WHERE id= :id
+
+  # AssessmentRepository
+  assessment:
+    findOneByNaturalId: >-
+        SELECT * FROM asmt WHERE natural_id= :natural_id
+
+    create: >-
+        INSERT INTO asmt (natural_id, grade_id,type_id, subject_id, academic_year, name, label, version) VALUES
+                       (:natural_id, :grade_id, :type_id, :subject_id, :academic_year, :name, :label, :version)
+    claim:
+      findForAsmt: >-
+        SELECT * FROM claim WHERE asmt_id= :asmt_id
+
+      createForAsmt: >-
+        INSERT INTO claim (asmt_id, min_score, max_score, code) VALUES
+                        (:asmt_id, :min_score, :max_score, :code)
+
+  # ExamRepository
+  exam:
+    create: >-
+       INSERT INTO exam (exam_student_id, asmt_id, asmt_version, opportunity, status, validity, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, achievement_level, completed_at) VALUES
+                       (:exam_student_id, :asmt_id, :asmt_version, :opportunity, :status, :validity, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :achievement_level, :completed_at)
+    examClaimScore:
+      create: >-
+        INSERT INTO exam_claim_score (exam_id, claim_id, scale_score, scale_score_std_err, category) VALUES
+                                    (:exam_id, :claim_id, :scale_score, :scale_score_std_err, :category)
+    examItem:
+      create: >-
+        INSERT INTO exam_item (exam_id, item_key, bank_key, score, score_status, response) VALUES
+                            (:exam_id, :item_key, :bank_key, :score, :score_status, :response)
+    examStudent:
+      create: >-
+        INSERT INTO exam_student (grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type) VALUES
+                              (:grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status, :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type)
+
+  # IabExamRepository
+  iabExam:
+    create: >-
+      INSERT INTO iab_exam (iab_exam_student_id, asmt_id, asmt_version, opportunity, status, validity, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, category, completed_at) VALUES
+                           (:iab_exam_student_id, :asmt_id, :asmt_version, :opportunity, :status, :validity, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :category, :completed_at)
+
+    iabExamItem:
+      create: >-
+        INSERT INTO iab_exam_item (iab_exam_id, item_key, bank_key, score, score_status, response) VALUES
+                                 (:iab_exam_id, :item_key, :bank_key, :score, :score_status, :response)
+
+    iabExamStudent:
+      create: >-
+        INSERT INTO iab_exam_student (grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type) VALUES
+                                  (:grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status, :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type)
+
+  # SchoolRepository
+  school:
+    create: >-
+        INSERT INTO school (district_id, name, natural_id)
+        SELECT :district_id, :name, :natural_id
+          FROM DUAL
+          WHERE NOT EXISTS(SELECT 1 FROM school WHERE natural_id = :natural_id) limit 1
+
+    findIdByNaturalId: >-
+      SELECT id FROM school WHERE natural_id = :natural_id
+
+    district:
+      create: >-
+          INSERT INTO district (name, natural_id)
+          SELECT :name, :natural_id
+          FROM DUAL
+          WHERE not exists(SELECT 1 FROM district WHERE natural_id = :natural_id) limit 1
+
+      findIdByNaturalId: >-
+        SELECT id FROM district WHERE natural_id = :natural_id
+
+  # StudentRepository
+  student:
+    create: >-
+      INSERT INTO
+        student (ssid, last_or_surname, first_name, middle_name, gender_id, ethnicity_id, first_entry_into_us_school_at, lep_entry_at, lep_exit_at, birthday)
+          SELECT :ssid, :last_or_surname, :first_name, :middle_name, :gender_id, :ethnicity_id, :first_entry_into_us_school_at, :lep_entry_at, :lep_exit_at, :birthday
+           FROM DUAL
+            WHERE not exists(SELECT 1 FROM student WHERE ssid = :ssid) limit 1
+
+    findIdBySsid: >-
+       SELECT id FROM student WHERE ssid = :ssid
+
+
+
+
