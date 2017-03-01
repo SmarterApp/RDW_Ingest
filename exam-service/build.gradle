@@ -4,10 +4,14 @@ dependencies {
     compile 'org.opentestsystem.rdw.common:rdw-common-model'
     compile 'org.opentestsystem.rdw.common:rdw-common-utils'
     compile 'org.springframework.boot:spring-boot-starter-web'
+
     compile 'org.springframework.boot:spring-boot-starter-security'
-    compile('org.springframework.cloud:spring-cloud-starter-oauth2')
+    compile 'org.springframework.cloud:spring-cloud-starter-oauth2'
+
     compile 'org.springframework.boot:spring-boot-starter-jdbc'
     compile 'mysql:mysql-connector-java'
+
+    compile 'org.beanio:beanio:2.1.0'
 
 //compile('org.springframework.boot:spring-security-oauth2')
 //compile('org.springframework.boot:spring-boot-starter-hateoas')
