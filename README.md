@@ -4,10 +4,37 @@ RDW ingest applications:
 1. Exam Processor - Spring Cloud Stream application for processing test results.
 
 RDW Ingest uses other processes:
-1. MySQL - data warehouse
+1. MySQL - warehouse and reporting databases
 1. RabbitMQ - message queue
 
-#### Building
+#### MySQL
+MySQL is required for building (integration tests) and running these applications. To better match production, MySQL
+should be run as a native app outside the container framework . There are various ways to install it; please be sure 
+to install version 5.6 which is older and not the default! Here are the basic brew instructions:
+```bash
+brew update
+brew install mysql56
+```
+You might want to add `/usr/local/Cellar/mysql@5.6/5.6.34/bin` to your path (.bash_profile). Because brew isn't cool 
+and directly sets the bind address you must modify `/usr/local/Cellar/mysql@5.6/5.6.34/homebrew.mxcl.mysql@5.6.plist`
+and set `--bind-address=*`.
+
+When running docker containers you must set environment variables to the host ip. These must be refreshed whenever
+network connectivity of your machine changes. You can export it manually, or add it to a script:
+```bash
+export DATAWAREHOUSE_HOST=$(ipconfig getifaddr en0)
+```
+
+The applications depend on the database being configured properly. This is done using RDW_Schema.
+```bash
+git clone https://github.com/SmarterApp/RDW_Schema
+cd RDW_Schema
+git checkout develop
+cd warehouse
+../scripts/migrate
+```
+
+### Building
 RDW_Ingest apps make use of RDW_Common modules. Because there is no common artifact repository, you must do something
 to make the artifacts available. You could make an uber project in your IDE. Or you could build common locally:
 ```bash
@@ -15,29 +42,6 @@ git clone https://github.com/SmarterApp/RDW_Common
 cd RDW_Common
 git checkout develop
 ./gradlew build install
-```
-
-There are integration tests that expect MySQL to be running on localhost. A native installation may be used but it is
-better to use docker. Stop mysql server if it is running natively and start a containerized version (map ports directly 
-for convenience), checking logs if desired:
-```bash
-mysql.server stop
-docker run -d --hostname mysql56 --name mysql56 -p :3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=yes mysql:5.6
-docker logs -f mysql56
-```
-_NOTE: using native mysql tools will require setting the protocol; i'm sure this is fixable by mapping /tmp/mysql.sock
-to a shared resource but for now you'll need to do something like_:
-```bash
-mysql -uroot --protocol=TCP
-```
-
-RDW_Ingest depends on the database being configured properly. This is done using RDW_Schema.
-```bash
-git clone https://github.com/SmarterApp/RDW_Schema
-cd RDW_Schema
-git checkout develop
-cd warehouse
-../scripts/migrate
 ```
 
 Now you should be able to build and test the ingest apps:
@@ -50,18 +54,11 @@ gradle build
 Code coverage report can be found at `./build/reports/jacoco/test/html/index.html` 
 
 
-#### Running
-The apps are wrapped in docker containers and should be built and run that way. 
+### Running
+The apps are wrapped in docker containers and should be built and run that way. There is a docker-compose spec
+to make it easy; it runs RabbitMQ and all the RDW_Ingest applications.
 
-First, we need to get rabbitmq running in a container.  Stop rabbitmq if it is running natively and start a 
-containerized version (map ports directly for convenience). NOTE: if the rabbitmq container is already created 
-you can simply do `docker start rabbitmq`.
-```bash
-rabbitmqctl stop
-docker run -d --hostname rabbitmq --name rabbitmq -p :15672:15672 -p :5672:5672 rabbitmq:3-management
-```
-
-Currently, building the images is not part of the build task so do that and verify images are created:
+You must explicitly build the docker images:
 ```bash
 $ gradle buildImage
 $ docker images
@@ -69,18 +66,15 @@ REPOSITORY                              TAG                 IMAGE ID            
 fwsbac/rdw-ingest-exam-service          latest              fc700c6e8518        14 minutes ago      131 MB
 fwsbac/rdw-ingest-exam-processor        latest              cf83654e781f        9 seconds ago       130 MB
 rabbitmq                                3-management        cda8025c010b        3 weeks ago         179 MB
-mysql                                   5.6                 a896fd82dcd5        5 weeks ago         328 MB
 java                                    8-jre-alpine        d85b17c6762e        6 weeks ago         108 MB
 ```
 
-Now you can run the containers, linking rabbitmq and specifying the port mappings.
-Currently the exam processor just logs results so tail the log to see stuff happening.
+Now you can run the containers from the folder with the docker-compose.yml file. As shown, the logs will be streamed
+to the terminal, and the processes can be stopped with `^C`. Alternatively, add `-d` to run detached, use
+`docker logs -f <name>` to see logs, and `docker-compose down` to stop.
 ```bash
-docker run -d -p :8080:8080 --name rdw-ingest-exam-service --link rabbitmq --link mysql56 fwsbac/rdw-ingest-exam-service \
-    --spring.rabbitmq.host=rabbitmq --spring.datasource.url=jdbc:mysql://mysql56:3306/warehouse?useSSL=false
-docker run -d -p :8081:8080 --name rdw-ingest-exam-processor --link rabbitmq --link mysql56 fwsbac/rdw-ingest-exam-processor \
-    --spring.rabbitmq.host=rabbitmq --spring.datasource.url=jdbc:mysql://mysql56:3306/warehouse?useSSL=false
-docker logs -f rdw-ingest-exam-processor
+cd docker
+docker-compose up
 ```
 
 You can use a REST client to hit end-points, e.g.
@@ -90,25 +84,28 @@ GET /exams/imports/:id   should return a mock import request payload (unless id 
 ```
 You will need valid credentials and connectivity to our SSO OAuth2 server. 
 
-To redeploy i find i have to stop, remove the containers, remove the images, then rebuild and deploy. 
-I'm sure this is not right but for now, it looks like this:
+After cycling through some builds you will end up with a number of dangling images, e.g.:
 ```bash
-docker stop rdw-ingest-exam-service rdw-ingest-exam-processor
-docker rm rdw-ingest-exam-service rdw-ingest-exam-processor
-docker rmi fwsbac/rdw-ingest-exam-service fwsbac/rdw-ingest-exam-processor
-# repeat buildImage docker run commands
+docker images
+REPOSITORY                          TAG                 IMAGE ID            CREATED             SIZE
+fwsbac/rdw-ingest-exam-service      latest              ad78b95ae39f        2 minutes ago       140 MB
+<none>                              <none>              13b96a973d59        About an hour ago   140 MB
+<none>                              <none>              cb5063cbcc56        2 hours ago         140 MB
+<none>                              <none>              2236259b73f0        3 hours ago         140 MB
+fwsbac/rdw-ingest-exam-processor    latest              293d8744377d        3 hours ago         132 MB
+<none>                              <none>              bdae5c1151d5        24 hours ago        140 MB
+<none>                              <none>              233d2f87c185        24 hours ago        132 MB
 ```
-
+These can be quickly cleaned up:
+```bash
+docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
+```
 
 #### Running Standalone
-It is not the recommended approach but the artifacts are Spring Boot executable jars so you can just run them, e.g.:
-```bash
-java -jar exam-service/build/libs/rdw-ingest-exam-service-0.0.1-SNAPSHOT.jar --server.port=8080
-java -jar exam-processor/build/libs/rdw-ingest-exam-processor-0.0.1-SNAPSHOT.jar --server.port=8081
-```
-
-All the ingest apps work with a message broker, currently RabbitMQ. So RabbitMQ must be running; you can use the
-docker rabbitmq if the ports are mapped directly or run it natively, for mac folks:
+It is not the recommended approach but the artifacts are Spring Boot executable jars so you can just run them.
+RabbitMQ must be running.
 ```bash
 rabbitmq-server -detached
+java -jar exam-service/build/libs/rdw-ingest-exam-service-0.0.1-SNAPSHOT.jar --server.port=8080
+java -jar exam-processor/build/libs/rdw-ingest-exam-processor-0.0.1-SNAPSHOT.jar --server.port=8081
 ```

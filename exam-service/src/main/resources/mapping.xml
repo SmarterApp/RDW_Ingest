@@ -3,7 +3,12 @@
   <stream name="exam" format="csv" mode="read">
     <record name="tdsReport" class="org.opentestsystem.rdw.model.TDSReport">
       <segment name="test" class="org.opentestsystem.rdw.model.Test">
+        <property name="contract" value="SBAC" />
+        <property name="mode" value="online" />
+        <property name="assessmentVersion" value="9876" />
+
         <field name="testId" position="45" /> <!-- AssessmentGuid -->
+        <field name="name" position="45" /> <!-- AssessmentGuid -->
         <field name="academicYear" position="49" /> <!-- AssessmentYear -->
         <field name="assessmentType" position="50" /> <!-- AssessmentType -->
         <field name="subject" position="51" /> <!-- AssessmentAcademicSubject -->
@@ -11,6 +16,20 @@
         <field name="op" position="88" ignore="true" /> <!-- Op, unknown mapping -->
       </segment>
       <segment name="opportunity" class="org.opentestsystem.rdw.model.Opportunity">
+        <property name="server" value="ip-172-19-0-179" />
+        <property name="clientName" value="SBAC" />
+        <property name="status" value="completed" />
+        <property name="opportunity" value="1" />
+        <property name="windowId" value="ANNUAL" />
+        <property name="pauseCount" value="0" />
+        <property name="itemCount" value="11" />
+        <property name="ftCount" value="0" />
+        <property name="abnormalStarts" value="0" />
+        <property name="gracePeriodRestarts" value="0" />
+
+        <field name="key" position="45"/> <!-- AssessmentGuid WHICH ISN'T RIGHT -->
+        <field name="oppId" position="45"/> <!-- AssessmentGuid WHICH ISN'T RIGHT -->
+
         <field name="sessionId" position="46" /> <!-- AssessmentSessionLocationId -->
         <field name="session" position="47" ignore="true"/> <!-- AssessmentSessionLocation, no mapping -->
         <field name="finishDate" position="48" ignore="true"/> <!-- AssessmentAdministrationFinishDate, no mapping -->
