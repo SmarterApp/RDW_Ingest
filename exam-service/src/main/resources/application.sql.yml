@@ -4,8 +4,8 @@ sql:
       SELECT count(*) from import
 
     create: >-
-      INSERT INTO import (status, content, contentType, digest, batch, creator, created)
-        VALUES (:status, :content, :contentType, :digest, :batch, :creator, :created)
+      INSERT INTO import (status, content, contentType, digest, batch, creator, created, message)
+        VALUES (:status, :content, :contentType, :digest, :batch, :creator, :created, :message)
 
     exists: >-
       SELECT (CASE WHEN EXISTS (SELECT 1 FROM import WHERE id=:id) THEN true ELSE false END) exist
