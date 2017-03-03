@@ -80,7 +80,8 @@ docker-compose up
 You can use a REST client to hit end-points, e.g.
 ```text
 POST /exams/imports  with an XML payload should return an import request payload
-GET /exams/imports/:id   should return a mock import request payload (unless id starts with 'a')
+GET /exams/imports/:id   should return an import request payload
+GET /exams/imports?batch=<batch>&status=<status>  should return a list of imports matching criteria
 ```
 You will need valid credentials and connectivity to our SSO OAuth2 server. 
 
@@ -109,3 +110,10 @@ rabbitmq-server -detached
 java -jar exam-service/build/libs/rdw-ingest-exam-service-0.0.1-SNAPSHOT.jar --server.port=8080
 java -jar exam-processor/build/libs/rdw-ingest-exam-processor-0.0.1-SNAPSHOT.jar --server.port=8081
 ```
+
+### Documentation TODO
+* Separate developer instructions into CONTRIBUTING.md
+    * coding conventions
+    * vcs conventions: branching rules, squash and merge, etc.
+* Make README.md more user-facing
+* Make a CHANGE_LOG file
