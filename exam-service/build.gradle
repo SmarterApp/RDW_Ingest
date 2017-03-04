@@ -13,6 +13,11 @@ dependencies {
 
     compile 'org.beanio:beanio:2.1.0'
 
+    // fixes java 8 time marshaling
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.7'
+
+    compile 'org.springframework.boot:spring-boot-starter-hateoas'
+
 //compile('org.springframework.boot:spring-security-oauth2')
 //compile('org.springframework.boot:spring-boot-starter-hateoas')
 

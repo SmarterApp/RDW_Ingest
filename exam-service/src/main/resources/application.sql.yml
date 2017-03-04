@@ -13,6 +13,9 @@ sql:
     findByBatch: >-
       SELECT * FROM import where batch=:batch
 
+    findByStatus: >-
+      SELECT * FROM import where status=:status
+
     findOne: >-
       SELECT * FROM import WHERE id=:id
 
