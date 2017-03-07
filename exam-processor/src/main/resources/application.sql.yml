@@ -1,7 +1,7 @@
 sql:
   # AssessmentTypeRepository
   asmtType:
-    toCode: >-
+    findCodeById: >-
         SELECT code FROM asmt_type WHERE id= :id
 
   # AssessmentRepository
