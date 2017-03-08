@@ -4,8 +4,8 @@
     <Examinee isDemo="0" key="4054">
         <ExamineeAttribute name="Birthdate" value="1900-01-01" context="INITIAL" contextDate="2016-10-12T23:56:28.259"/>
         <ExamineeAttribute name="FirstName" value="Name139" context="INITIAL" contextDate="2016-10-12T23:56:28.259"/>
-        <ExamineeAttribute name="Sex" value="M" context="INITIAL" contextDate="2016-10-12T23:56:28.259"/>
-        <ExamineeAttribute name="GradeLevelWhenAssessed" value="SIXTHGRADE" context="INITIAL" contextDate="2016-10-12T23:56:28.259"/>
+        <ExamineeAttribute name="Sex" value="Male" context="INITIAL" contextDate="2016-10-12T23:56:28.259"/>
+        <ExamineeAttribute name="GradeLevelWhenAssessed" value="06" context="INITIAL" contextDate="2016-10-12T23:56:28.259"/>
         <ExamineeAttribute name="LastOrSurname" value="LastName139" context="INITIAL" contextDate="2016-10-12T23:56:28.259"/>
         <ExamineeAttribute name="StudentIdentifier" value="ASIXTHGRADER20" context="INITIAL" contextDate="2016-10-12T23:56:28.259"/>
         <ExamineeAttribute name="MiddleName" value="MiddleName139" context="INITIAL" contextDate="2016-10-12T23:56:28.259"/>
@@ -72,7 +72,7 @@
     <Opportunity database="session" key="0fa3310d-d9b3-42f1-a5a5-c6b88ca0993c" taId="uat_lab20@mailinator.com" taName="UAT Lab20" sessionId="Lab-31" windowId="ANNUAL" server="ip-172-19-0-179" qaLevel="" clientName="SBAC"
                  reportingVersion="0" abnormalStarts="0" ftCount="0" dateCompleted="2016-10-12T23:59:17.693"
                  assessmentParticipantSessionPlatformUserAgent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36" itemCount="16" pauseCount="0"
-                 completeStatus="Complete" status="completed" statusDate="2016-10-12T23:59:17.693" administrationCondition="" startDate="2016-10-12T23:56:54.173" oppId="100150" windowOpportunity="1" opportunity="1"
+                 completeStatus="Complete" status="completed" validity="valid" completeness="complete" statusDate="2016-10-12T23:59:17.693" administrationCondition="" startDate="2016-10-12T23:56:54.173" oppId="100150" windowOpportunity="1" opportunity="1"
                  gracePeriodRestarts="0" effectiveDate="2016-08-29">
         <Segment id="(SBAC)SBAC-IAB-FIXED-G6M-EE-NoCalc-MATH-6-Winter-2016-2017" position="1" formId="IAB-G6M-EE-NoCalc-2017 ENG" formKey="200-18691" algorithm="fixedform" algorithmVersion="0"/>
         <Segment id="(SBAC)SBAC-IAB-FIXED-G6M-EE-Calc-MATH-6-Winter-2016-2017" position="2" formId="IAB-G6M-EE-Calc-2017 ENG" formKey="200-18688" algorithm="fixedform" algorithmVersion="0"/>
@@ -108,9 +108,9 @@
         <Score measureOf="Overall" measureLabel="ScaleScore" value="2542.72882294896" standardError="35.0157570956442"/>
         <Score measureOf="Overall" measureLabel="PerformanceLevel" value="2" standardError=""/>
         <Score measureOf="Print Size|TDS_PS_L0" measureLabel="Accommodation" value="3" standardError="0"/>
-        <Item responseDuration="5.261" pageTime="0" pageNumber="1" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T23:56:59.001" clientId="" key="9665" bankKey="200" position="1" contentLevel="1|P|TS01|F-6"
+        <Item responseDuration="5" pageTime="0" pageNumber="1" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T23:56:59.001" clientId="" key="9665" bankKey="200" position="1" contentLevel="1|P|TS01|F-6"
               strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6M-EE-NoCalc-MATH-6-Winter-2016-2017">
-            <Response date="2016-10-12T23:57:04.308"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="11"&gt;&lt;mstyle&gt;&lt;mn&gt;11&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
+            <Response date="2016-10-12T23:57:04.308" type="value"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="11"&gt;&lt;mstyle&gt;&lt;mn&gt;11&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
             <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
                 <ScoreRationale>
                     <Message>
@@ -119,9 +119,9 @@
                 </ScoreRationale>
             </ScoreInfo>
         </Item>
-        <Item responseDuration="9.173" pageTime="0" pageNumber="2" pageVisits="0" numberVisits="1" format="MI" adminDate="2016-10-12T23:56:59.203" clientId="" key="16561" bankKey="200" position="2" contentLevel="1|P|TS01|F-6"
+        <Item responseDuration="9" pageTime="0" pageNumber="2" pageVisits="0" numberVisits="1" format="MI" adminDate="2016-10-12T23:56:59.203" clientId="" key="16561" bankKey="200" position="2" contentLevel="1|P|TS01|F-6"
               strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6M-EE-NoCalc-MATH-6-Winter-2016-2017">
-            <Response date="2016-10-12T23:57:13.488"> &lt;itemResponse&gt;&lt;response id="RESPONSE"&gt;&lt;value&gt;1 b&lt;/value&gt;&lt;value&gt;2 b&lt;/value&gt;&lt;value&gt;3 b&lt;/value&gt;&lt;value&gt;4 a&lt;/value&gt;&lt;value&gt;5
+            <Response date="2016-10-12T23:57:13.488" type="value"> &lt;itemResponse&gt;&lt;response id="RESPONSE"&gt;&lt;value&gt;1 b&lt;/value&gt;&lt;value&gt;2 b&lt;/value&gt;&lt;value&gt;3 b&lt;/value&gt;&lt;value&gt;4 a&lt;/value&gt;&lt;value&gt;5
                 a&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
             <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
                 <ScoreRationale>
@@ -131,9 +131,9 @@
                 </ScoreRationale>
             </ScoreInfo>
         </Item>
-        <Item responseDuration="9.676" pageTime="0" pageNumber="3" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T23:56:59.003" clientId="" key="5950" bankKey="200" position="3" contentLevel="1|P|TS01|E-6"
+        <Item responseDuration="10" pageTime="0" pageNumber="3" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T23:56:59.003" clientId="" key="5950" bankKey="200" position="3" contentLevel="1|P|TS01|E-6"
               strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6M-EE-NoCalc-MATH-6-Winter-2016-2017">
-            <Response date="2016-10-12T23:57:23.157"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="2"&gt;&lt;mstyle&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
+            <Response date="2016-10-12T23:57:23.157" type="value"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="2"&gt;&lt;mstyle&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
             <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
                 <ScoreRationale>
                     <Message>
@@ -142,9 +142,9 @@
                 </ScoreRationale>
             </ScoreInfo>
         </Item>
-        <Item responseDuration="7.13" pageTime="0" pageNumber="4" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T23:57:04.421" clientId="" key="6006" bankKey="200" position="4" contentLevel="1|P|TS01|F-6"
+        <Item responseDuration="7" pageTime="0" pageNumber="4" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T23:57:04.421" clientId="" key="6006" bankKey="200" position="4" contentLevel="1|P|TS01|F-6"
               strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6M-EE-NoCalc-MATH-6-Winter-2016-2017">
-            <Response date="2016-10-12T23:57:30.287"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="32"&gt;&lt;mstyle&gt;&lt;mn&gt;32&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
+            <Response date="2016-10-12T23:57:30.287" type="value"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="32"&gt;&lt;mstyle&gt;&lt;mn&gt;32&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
             <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
                 <ScoreRationale>
                     <Message>
@@ -153,9 +153,9 @@
                 </ScoreRationale>
             </ScoreInfo>
         </Item>
-        <Item responseDuration="16.995" pageTime="0" pageNumber="5" pageVisits="0" numberVisits="1" format="MS" adminDate="2016-10-12T23:57:13.057" clientId="" key="15940" bankKey="200" position="5" contentLevel="1|P|TS01|F-6"
+        <Item responseDuration="17" pageTime="0" pageNumber="5" pageVisits="0" numberVisits="1" format="MS" adminDate="2016-10-12T23:57:13.057" clientId="" key="15940" bankKey="200" position="5" contentLevel="1|P|TS01|F-6"
               strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6M-EE-NoCalc-MATH-6-Winter-2016-2017">
-            <Response date="2016-10-12T23:57:47.282">A,B</Response>
+            <Response date="2016-10-12T23:57:47.282" type="value">A,B</Response>
             <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
                 <ScoreRationale>
                     <Message>
@@ -164,9 +164,9 @@
                 </ScoreRationale>
             </ScoreInfo>
         </Item>
-        <Item responseDuration="13.141" pageTime="0" pageNumber="6" pageVisits="0" numberVisits="1" format="MS" adminDate="2016-10-12T23:57:23.256" clientId="" key="13808" bankKey="200" position="6" contentLevel="1|P|TS01|E-6"
+        <Item responseDuration="13" pageTime="0" pageNumber="6" pageVisits="0" numberVisits="1" format="MS" adminDate="2016-10-12T23:57:23.256" clientId="" key="13808" bankKey="200" position="6" contentLevel="1|P|TS01|E-6"
               strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6M-EE-NoCalc-MATH-6-Winter-2016-2017">
-            <Response date="2016-10-12T23:58:00.425">A,D</Response>
+            <Response date="2016-10-12T23:58:00.425" type="value">A,D</Response>
             <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
                 <ScoreRationale>
                     <Message>
@@ -175,9 +175,9 @@
                 </ScoreRationale>
             </ScoreInfo>
         </Item>
-        <Item responseDuration="2.287" pageTime="0" pageNumber="7" pageVisits="0" numberVisits="1" format="MS" adminDate="2016-10-12T23:57:30.387" clientId="" key="14338" bankKey="200" position="7" contentLevel="1|P|TS01|E-6"
+        <Item responseDuration="2" pageTime="0" pageNumber="7" pageVisits="0" numberVisits="1" format="MS" adminDate="2016-10-12T23:57:30.387" clientId="" key="14338" bankKey="200" position="7" contentLevel="1|P|TS01|E-6"
               strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6M-EE-NoCalc-MATH-6-Winter-2016-2017">
-            <Response date="2016-10-12T23:58:02.709">B</Response>
+            <Response date="2016-10-12T23:58:02.709" type="value">B</Response>
             <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
                 <ScoreRationale>
                     <Message>
@@ -186,9 +186,9 @@
                 </ScoreRationale>
             </ScoreInfo>
         </Item>
-        <Item responseDuration="12.487" pageTime="0" pageNumber="8" pageVisits="0" numberVisits="1" format="MI" adminDate="2016-10-12T23:57:47.363" clientId="" key="24563" bankKey="200" position="8" contentLevel="1|P|TS01|F-6"
+        <Item responseDuration="12" pageTime="0" pageNumber="8" pageVisits="0" numberVisits="1" format="MI" adminDate="2016-10-12T23:57:47.363" clientId="" key="24563" bankKey="200" position="8" contentLevel="1|P|TS01|F-6"
               strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6M-EE-NoCalc-MATH-6-Winter-2016-2017">
-            <Response date="2016-10-12T23:58:15.002"> &lt;itemResponse&gt;&lt;response id="RESPONSE"&gt;&lt;value&gt;1 a&lt;/value&gt;&lt;value&gt;2 a&lt;/value&gt;&lt;value&gt;3 a&lt;/value&gt;&lt;value&gt;4 b&lt;/value&gt;&lt;value&gt;5
+            <Response date="2016-10-12T23:58:15.002" type="value"> &lt;itemResponse&gt;&lt;response id="RESPONSE"&gt;&lt;value&gt;1 a&lt;/value&gt;&lt;value&gt;2 a&lt;/value&gt;&lt;value&gt;3 a&lt;/value&gt;&lt;value&gt;4 b&lt;/value&gt;&lt;value&gt;5
                 b&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
             <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
                 <ScoreRationale>
@@ -198,9 +198,9 @@
                 </ScoreRationale>
             </ScoreInfo>
         </Item>
-        <Item responseDuration="2.14" pageTime="0" pageNumber="9" pageVisits="0" numberVisits="1" format="MS" adminDate="2016-10-12T23:58:00.508" clientId="" key="14350" bankKey="200" position="9" contentLevel="1|P|TS01|F-6"
+        <Item responseDuration="2" pageTime="0" pageNumber="9" pageVisits="0" numberVisits="1" format="MS" adminDate="2016-10-12T23:58:00.508" clientId="" key="14350" bankKey="200" position="9" contentLevel="1|P|TS01|F-6"
               strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6M-EE-NoCalc-MATH-6-Winter-2016-2017">
-            <Response date="2016-10-12T23:58:17.034">B</Response>
+            <Response date="2016-10-12T23:58:17.034" type="value">B</Response>
             <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
                 <ScoreRationale>
                     <Message>
@@ -209,9 +209,9 @@
                 </ScoreRationale>
             </ScoreInfo>
         </Item>
-        <Item responseDuration="4.533" pageTime="0" pageNumber="10" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T23:58:02.792" clientId="" key="12092" bankKey="200" position="10" contentLevel="2|EE|NA|A"
+        <Item responseDuration="5" pageTime="0" pageNumber="10" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T23:58:02.792" clientId="" key="12092" bankKey="200" position="10" contentLevel="2|EE|NA|A"
               strand="2" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6M-EE-Calc-MATH-6-Winter-2016-2017">
-            <Response date="2016-10-12T23:58:21.873"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="21"&gt;&lt;mstyle&gt;&lt;mn&gt;21&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
+            <Response date="2016-10-12T23:58:21.873" type="value"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="21"&gt;&lt;mstyle&gt;&lt;mn&gt;21&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
             <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
                 <ScoreRationale>
                     <Message>
@@ -220,9 +220,9 @@
                 </ScoreRationale>
             </ScoreInfo>
         </Item>
-        <Item responseDuration="4.356" pageTime="0" pageNumber="11" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T23:58:15.284" clientId="" key="700" bankKey="200" position="11" contentLevel="1|P|TS03|G-6"
+        <Item responseDuration="4" pageTime="0" pageNumber="11" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T23:58:15.284" clientId="" key="700" bankKey="200" position="11" contentLevel="1|P|TS03|G-6"
               strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6M-EE-Calc-MATH-6-Winter-2016-2017">
-            <Response date="2016-10-12T23:58:26.228"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="12"&gt;&lt;mstyle&gt;&lt;mn&gt;12&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
+            <Response date="2016-10-12T23:58:26.228" type="value"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="12"&gt;&lt;mstyle&gt;&lt;mn&gt;12&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
             <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
                 <ScoreRationale>
                     <Message>
@@ -231,9 +231,9 @@
                 </ScoreRationale>
             </ScoreInfo>
         </Item>
-        <Item responseDuration="17.313" pageTime="0" pageNumber="12" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T23:58:17.425" clientId="" key="4091" bankKey="200" position="12" contentLevel="1|P|TS03|G-6"
+        <Item responseDuration="17" pageTime="0" pageNumber="12" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T23:58:17.425" clientId="" key="4091" bankKey="200" position="12" contentLevel="1|P|TS03|G-6"
               strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6M-EE-Calc-MATH-6-Winter-2016-2017">
-            <Response date="2016-10-12T23:58:43.545"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="y=20+x"&gt;&lt;mstyle&gt;&lt;mi&gt;y&lt;/mi&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mn&gt;20&lt;/mn&gt;&lt;mo&gt;+&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
+            <Response date="2016-10-12T23:58:43.545" type="value"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="y=20+x"&gt;&lt;mstyle&gt;&lt;mi&gt;y&lt;/mi&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mn&gt;20&lt;/mn&gt;&lt;mo&gt;+&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
             <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
                 <ScoreRationale>
                     <Message>
@@ -242,9 +242,9 @@
                 </ScoreRationale>
             </ScoreInfo>
         </Item>
-        <Item responseDuration="2.553" pageTime="0" pageNumber="13" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-12T23:58:21.974" clientId="" key="14249" bankKey="200" position="13" contentLevel="3|EE|NA|E"
+        <Item responseDuration="3" pageTime="0" pageNumber="13" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-12T23:58:21.974" clientId="" key="14249" bankKey="200" position="13" contentLevel="3|EE|NA|E"
               strand="3" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6M-EE-Calc-MATH-6-Winter-2016-2017">
-            <Response date="2016-10-12T23:58:46.091">B</Response>
+            <Response date="2016-10-12T23:58:46.091" type="value">B</Response>
             <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
                 <ScoreRationale>
                     <Message>
@@ -253,9 +253,9 @@
                 </ScoreRationale>
             </ScoreInfo>
         </Item>
-        <Item responseDuration="16.707" pageTime="0" pageNumber="14" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T23:58:26.326" clientId="" key="4093" bankKey="200" position="14" contentLevel="1|P|TS03|G-6"
+        <Item responseDuration="167" pageTime="0" pageNumber="14" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T23:58:26.326" clientId="" key="4093" bankKey="200" position="14" contentLevel="1|P|TS03|G-6"
               strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6M-EE-Calc-MATH-6-Winter-2016-2017">
-            <Response date="2016-10-12T23:59:02.008"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="y=4x"&gt;&lt;mstyle&gt;&lt;mi&gt;y&lt;/mi&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mn&gt;4&lt;/mn&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
+            <Response date="2016-10-12T23:59:02.008" type="value"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="y=4x"&gt;&lt;mstyle&gt;&lt;mi&gt;y&lt;/mi&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mn&gt;4&lt;/mn&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
             <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
                 <ScoreRationale>
                     <Message>
@@ -264,9 +264,9 @@
                 </ScoreRationale>
             </ScoreInfo>
         </Item>
-        <Item responseDuration="4.557" pageTime="0" pageNumber="15" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T23:58:43.648" clientId="" key="375" bankKey="200" position="15" contentLevel="1|P|TS03|G-6"
+        <Item responseDuration="5" pageTime="0" pageNumber="15" pageVisits="0" numberVisits="1" format="EQ" adminDate="2016-10-12T23:58:43.648" clientId="" key="375" bankKey="200" position="15" contentLevel="1|P|TS03|G-6"
               strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6M-EE-Calc-MATH-6-Winter-2016-2017">
-            <Response date="2016-10-12T23:59:07.364"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="45"&gt;&lt;mstyle&gt;&lt;mn&gt;45&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
+            <Response date="2016-10-12T23:59:07.364" type="value"> &lt;response&gt;&lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="45"&gt;&lt;mstyle&gt;&lt;mn&gt;45&lt;/mn&gt;&lt;/mstyle&gt;&lt;/math&gt;&lt;/response&gt; </Response>
             <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
                 <ScoreRationale>
                     <Message>
@@ -275,9 +275,9 @@
                 </ScoreRationale>
             </ScoreInfo>
         </Item>
-        <Item responseDuration="6.286" pageTime="0" pageNumber="16" pageVisits="0" numberVisits="2" format="MS" adminDate="2016-10-12T23:58:45.174" clientId="" key="45586" bankKey="200" position="16" contentLevel="4|EE|NA|C"
+        <Item responseDuration="6" pageTime="0" pageNumber="16" pageVisits="0" numberVisits="2" format="MS" adminDate="2016-10-12T23:58:45.174" clientId="" key="45586" bankKey="200" position="16" contentLevel="4|EE|NA|C"
               strand="4" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0" mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G6M-EE-Calc-MATH-6-Winter-2016-2017">
-            <Response date="2016-10-12T23:59:13.643">B</Response>
+            <Response date="2016-10-12T23:59:13.643" type="value">B</Response>
             <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
                 <ScoreRationale>
                     <Message>
