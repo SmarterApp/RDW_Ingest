@@ -23,7 +23,7 @@
         <ExamineeAttribute name="FirstName" value="Name139" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
         <ExamineeAttribute name="FirstName" value="Name139" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
         <ExamineeAttribute name="GradeLevelWhenAssessed" value="SIXTHGRADE" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
-        <ExamineeAttribute name="GradeLevelWhenAssessed" value="SIXTHGRADE" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="GradeLevelWhenAssessed" value="06" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
         <ExamineeAttribute name="HispanicOrLatinoEthnicity" value="NO" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
         <ExamineeAttribute name="HispanicOrLatinoEthnicity" value="NO" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
         <ExamineeAttribute name="IDEAIndicator" value="NO" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
@@ -49,7 +49,7 @@
         <ExamineeAttribute name="Section504Status" value="NO" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
         <ExamineeAttribute name="Section504Status" value="NO" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
         <ExamineeAttribute name="Sex" value="M" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
-        <ExamineeAttribute name="Sex" value="M" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
+        <ExamineeAttribute name="Sex" value="Male" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
         <ExamineeAttribute name="StudentIdentifier" value="ASIXTHGRADER20" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
         <ExamineeAttribute name="StudentIdentifier" value="ASIXTHGRADER20" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
         <ExamineeAttribute name="TitleIIILanguageInstructionProgramType" value="" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>

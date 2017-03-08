@@ -31,8 +31,8 @@
         <ExamineeAttribute name="PrimaryDisabilityType" value="" context="INITIAL" contextDate="2016-10-13T02:34:47.021"/>
         <ExamineeAttribute name="Birthdate" value="1900-01-01" context="FINAL" contextDate="2016-10-13T02:35:56.889"/>
         <ExamineeAttribute name="FirstName" value="Name139" context="FINAL" contextDate="2016-10-13T02:35:56.889"/>
-        <ExamineeAttribute name="Sex" value="M" context="FINAL" contextDate="2016-10-13T02:35:56.889"/>
-        <ExamineeAttribute name="GradeLevelWhenAssessed" value="SIXTHGRADE" context="FINAL" contextDate="2016-10-13T02:35:56.889"/>
+        <ExamineeAttribute name="Sex" value="Male" context="FINAL" contextDate="2016-10-13T02:35:56.889"/>
+        <ExamineeAttribute name="GradeLevelWhenAssessed" value="06" context="FINAL" contextDate="2016-10-13T02:35:56.889"/>
         <ExamineeAttribute name="LastOrSurname" value="LastName139" context="FINAL" contextDate="2016-10-13T02:35:56.889"/>
         <ExamineeAttribute name="StudentIdentifier" value="ASIXTHGRADER20" context="FINAL" contextDate="2016-10-13T02:35:56.889"/>
         <ExamineeAttribute name="MiddleName" value="MiddleName139" context="FINAL" contextDate="2016-10-13T02:35:56.889"/>
