@@ -66,14 +66,16 @@ subprojects {
         optional "org.springframework.boot:spring-boot-configuration-processor"
 
         // every app is a microservice with actuator end-points
-        compile('org.springframework.boot:spring-boot-starter-actuator')
+        compile 'org.springframework.boot:spring-boot-starter-actuator'
 
         // every app is a spring cloud stream participant
-        compile('org.springframework.cloud:spring-cloud-stream')
-        compile('org.springframework.cloud:spring-cloud-starter-stream-rabbit')
-        testCompile('org.springframework.cloud:spring-cloud-stream-test-support')
+        compile 'org.springframework.cloud:spring-cloud-stream'
+        compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
+        testCompile 'org.springframework.cloud:spring-cloud-stream-test-support'
 
-        testCompile('org.springframework.boot:spring-boot-starter-test')
+        // every app has tests; spring-boot-starter-test brings in an old assertj
+        testCompile 'org.springframework.boot:spring-boot-starter-test'
+        testCompile 'org.assertj:assertj-core:3.6.2'
     }
 
     // this is for creating metadata

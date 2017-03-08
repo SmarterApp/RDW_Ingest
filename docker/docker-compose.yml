@@ -3,8 +3,6 @@
 # Before running this spec, set the DATAWAREHOUSE_HOST; if that is the (mac) docker host:
 # $ export DATAWAREHOUSE_HOST=$(ipconfig getifaddr en0)
 # This value must be reset whenever you change networks.
-#
-# TODO - healthcheck for rabbitmq, e.g. curl -u guest:guest http://localhost:5672/api/overview  -> AMQP
 
 version: '2'
 services:
