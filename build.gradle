@@ -13,13 +13,6 @@ buildscript {
 }
 
 apply plugin: 'io.spring.dependency-management'
-apply plugin: 'com.bmuschko.docker-remote-api'
-
-import com.bmuschko.gradle.docker.tasks.image.Dockerfile
-import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
-import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
-import com.bmuschko.gradle.docker.DockerRegistryCredentials
-
 
 allprojects {
     group = 'org.opentestsystem.rdw.ingest'
@@ -35,9 +28,7 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'maven'
     apply plugin: 'jacoco'
-    apply plugin: 'com.bmuschko.docker-remote-api'
     apply plugin: 'io.spring.dependency-management'
-    apply plugin: 'org.springframework.boot'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -62,56 +53,12 @@ subprojects {
     }
 
     dependencies {
-        // handy for creating metadata with @ConfigurationProperties
-        optional "org.springframework.boot:spring-boot-configuration-processor"
+        compile "org.slf4j:slf4j-api:1.7+"
 
-        // every app is a microservice with actuator end-points
-        compile 'org.springframework.boot:spring-boot-starter-actuator'
-
-        // every app is a spring cloud stream participant
-        compile 'org.springframework.cloud:spring-cloud-stream'
-        compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
-        testCompile 'org.springframework.cloud:spring-cloud-stream-test-support'
-
-        // every app has tests; spring-boot-starter-test brings in an old assertj
-        testCompile 'org.springframework.boot:spring-boot-starter-test'
-        testCompile 'org.assertj:assertj-core:3.6.2'
+        testCompile 'org.assertj:assertj-core:3.6+'
+        testCompile 'junit:junit:4+'
     }
-
-    // this is for creating metadata
-    compileJava.dependsOn(processResources)
 
     // generate coverage report automatically (./build/reports/jacoco/test/html/index.html)
     test.finalizedBy(jacocoTestReport)
-
-
-    // task to create Dockerfile
-    // (http://bmuschko.github.io/gradle-docker-plugin/docs/groovydoc/com/bmuschko/gradle/docker/tasks/image/Dockerfile.html)
-    task createDockerfile(type:Dockerfile) {
-        destFile = project.file('build/docker/Dockerfile')
-        from('java:8-jre-alpine')
-        volume('/tmp')
-        label([maintainer:'Fairway Technologies'])
-        copyFile("${jar.archivePath.name}", "${jar.archivePath.name}")
-        exposePort(8080)
-        entryPoint("java", "-jar", "${jar.archivePath.name}")
-    }
-
-    // task to build the docker image
-    task buildImage(type:DockerBuildImage, dependsOn:[build, createDockerfile]) {
-        dockerFile = createDockerfile.destFile
-        inputDir = project.file('build/docker/')
-        tag = "fwsbac/${project.name}"
-        doFirst {
-            copy {
-                from jar
-                into inputDir
-            }
-        }
-    }
-
-    // to use this, you must use docker login to set up docker hub credentials
-    task pushImage(type:Exec, dependsOn:[buildImage]) {
-        commandLine("docker", "push", "fwsbac/${project.name}")
-    }
 }
