@@ -1,0 +1,6 @@
+dependencies {
+    compile 'com.google.guava:guava'
+    compile 'org.opentestsystem.rdw.common:rdw-common-messaging'
+    compile 'org.opentestsystem.rdw.common:rdw-common-model'
+    compile 'org.opentestsystem.rdw.common:rdw-common-utils'
+}
