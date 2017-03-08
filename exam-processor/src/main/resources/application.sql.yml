@@ -4,6 +4,26 @@ sql:
     findCodeById: >-
         SELECT code FROM asmt_type WHERE id= :id
 
+  # EthnicityRepositoryImpl
+  ethnicity:
+    findIdByName: >-
+        SELECT id FROM ethnicity WHERE name= :name
+
+  # GenderRepositoryImpl
+  gender:
+    findIdByName: >-
+        SELECT id FROM gender WHERE name= :name
+
+  # GenderRepositoryImpl
+  subject:
+    findIdByName: >-
+        SELECT id FROM subject WHERE name= :name
+
+  # GradeRepositoryImpl
+  grade:
+    findIdByCode: >-
+        SELECT id FROM grade WHERE code= :code
+
   # AssessmentRepository
   assessment:
     findOneByNaturalId: >-
