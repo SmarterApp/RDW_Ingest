@@ -24,6 +24,16 @@ sql:
     findIdByCode: >-
         SELECT id FROM grade WHERE code= :code
 
+ # AdminConditionRepositoryImpl
+  administrationCondition:
+    findIdByName: >-
+        SELECT id FROM administration_condition WHERE name= :name
+
+ # CompletenessnRepositoryImpl
+  completeness:
+    findIdByName: >-
+        SELECT id FROM completeness WHERE name= :name
+
   # AssessmentRepository
   assessment:
     findOneByNaturalId: >-

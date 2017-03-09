@@ -1,7 +1,7 @@
 spring:
   cache:
     type: SIMPLE
-    cache-names: assessmentType, ethnicity, gender, grade, subject, school
+    cache-names: completeness, adminCondition, assessmentType, ethnicity, gender, grade, subject, school
 
   cloud:
     stream:
