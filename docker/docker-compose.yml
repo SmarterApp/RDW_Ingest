@@ -1,6 +1,5 @@
-# docker-compose specs for rdw ingest processes with the configuration server
-# running against a local copy of the repo, RabbitMQ running in a container
-# and the data warehouse running natively (outside the containers).
+# docker-compose specs for rdw ingest processes with the configuration server and RabbitMQ
+# running in containers # and the data warehouse running natively (outside the containers).
 #
 # The following environment variables MUST be set before running this spec.
 #
