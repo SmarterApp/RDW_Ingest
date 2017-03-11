@@ -6,6 +6,7 @@ RDW ingest applications:
 RDW Ingest uses other processes:
 1. MySQL - warehouse and reporting databases
 1. RabbitMQ - message queue
+1. Configuration Server - centralized configuration server
 
 #### MySQL
 MySQL is required for building (integration tests) and running these applications. To better match production, MySQL
@@ -60,29 +61,17 @@ java                                    8-jre-alpine        d85b17c6762e        
 
 ### Running
 The apps are wrapped in docker containers and should be built and run that way. There is a docker-compose spec
-to make it easy; it runs RabbitMQ and all the RDW_Ingest applications.
-
-When running docker containers you must set environment variables to the host ip. These must be refreshed whenever
-network connectivity of your machine changes. You can export it manually, or add it to a script:
-```bash
-export DATAWAREHOUSE_HOST=$(ipconfig getifaddr en0)
-```
-
-The applications rely on a configuration server. When running locally with docker the config repo must be pulled
-and an environment variable set pointing to the local folder. This is used by the config server docker container
-to find the property files. You'll need appropriate GitLab credentials.
-```bash
-$ git clone https://gitlab.com/fairwaytech/sbac-config-repo.git
-$ cd sbac-config-repo
-$ export SBAC_CONFIG_REPO=`pwd`
-```
-
-Now you can run the containers from the folder with the docker-compose.yml file. As shown, the logs will be streamed
-to the terminal, and the processes can be stopped with `^C`. Alternatively, add `-d` to run detached, use
-`docker logs -f <name>` to see logs, and `docker-compose down` to stop.
+to make it easy: it runs RabbitMQ, the configuration server and all the RDW_Ingest applications. Please read the
+comments in the docker-compose script for setting required environment variables. Then invoke docker-compose, e.g.:
 ```bash
 cd docker
-docker-compose up
+docker-compose up -d
+docker logs -f docker_exam-service_1
+```
+To stop a single service, use regular docker commands; to stop them all use docker-compose, e.g.:
+```bash
+docker stop docker_exam-service_1
+docker-compose down
 ```
 
 You can use a REST client to hit end-points, e.g.
