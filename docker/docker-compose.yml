@@ -7,19 +7,11 @@
 # DATAWAREHOUSE_HOST - host running mysql with rdw warehouse schema initialized
 # For mac developers running mysql natively, something like:
 #   $ export DATAWAREHOUSE_HOST=$(ipconfig getifaddr en0)
-# This value must be reset whenever you change networks.
+# This value may have to be reset when you change networks.
 #
-# SBAC_CONFIG_REPO - local file system with configuration files.
-# For developers with access to the gitlab config repo project, something like:
-#   $ git clone https://gitlab.com/fairwaytech/sbac-config-repo.git
-#   $ cd sbac-config-repo
-#   $ export SBAC_CONFIG_REPO=`pwd`
-# (NOTE: there will be warnings in the log if gitlab credentials are not set)
-# For developers that just want a local folder for testing, something like:
-#   $ cd ~
-#   $ mkdir config-repo; cd config-repo
-#   $ git init; git touch application.yml; git add .; git commit -m "init"
-#   $ export SBAC_CONFIG_REPO=`pwd`
+# CONFIG_SERVICE_REPO - git repo url, e.g. https://gitlab.com/fairwaytech/sbac-config-repo.git
+# GIT_USER - user with rights to access CONFIG_SERVICE_REPO
+# GIT_PASSWORD - password for GIT_USER
 
 version: '2'
 services:
@@ -28,10 +20,8 @@ services:
     container_name: config-server
     ports:
       - 8888:8888
-    volumes:
-      - $SBAC_CONFIG_REPO:/sbac-config-repo
     environment:
-      - CONFIG_SERVICE_REPO=file://sbac-config-repo
+      - CONFIG_SERVICE_REPO
       - ENCRYPT_KEY
       - GIT_USER
       - GIT_PASSWORD
