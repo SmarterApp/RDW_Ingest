@@ -19,12 +19,6 @@ You might want to add `/usr/local/Cellar/mysql@5.6/5.6.34/bin` to your path (.ba
 and directly sets the bind address you must modify `/usr/local/Cellar/mysql@5.6/5.6.34/homebrew.mxcl.mysql@5.6.plist`
 and set `--bind-address=*`.
 
-When running docker containers you must set environment variables to the host ip. These must be refreshed whenever
-network connectivity of your machine changes. You can export it manually, or add it to a script:
-```bash
-export DATAWAREHOUSE_HOST=$(ipconfig getifaddr en0)
-```
-
 The applications depend on the database being configured properly. This is done using RDW_Schema.
 ```bash
 git clone https://github.com/SmarterApp/RDW_Schema
@@ -53,11 +47,6 @@ gradle build
 ```
 Code coverage report can be found at `./build/reports/jacoco/test/html/index.html` 
 
-
-### Running
-The apps are wrapped in docker containers and should be built and run that way. There is a docker-compose spec
-to make it easy; it runs RabbitMQ and all the RDW_Ingest applications.
-
 You must explicitly build the docker images:
 ```bash
 $ gradle buildImage
@@ -67,6 +56,25 @@ fwsbac/rdw-ingest-exam-service          latest              fc700c6e8518        
 fwsbac/rdw-ingest-exam-processor        latest              cf83654e781f        9 seconds ago       130 MB
 rabbitmq                                3-management        cda8025c010b        3 weeks ago         179 MB
 java                                    8-jre-alpine        d85b17c6762e        6 weeks ago         108 MB
+```
+
+### Running
+The apps are wrapped in docker containers and should be built and run that way. There is a docker-compose spec
+to make it easy; it runs RabbitMQ and all the RDW_Ingest applications.
+
+When running docker containers you must set environment variables to the host ip. These must be refreshed whenever
+network connectivity of your machine changes. You can export it manually, or add it to a script:
+```bash
+export DATAWAREHOUSE_HOST=$(ipconfig getifaddr en0)
+```
+
+The applications rely on a configuration server. When running locally with docker the config repo must be pulled
+and an environment variable set pointing to the local folder. This is used by the config server docker container
+to find the property files. You'll need appropriate GitLab credentials.
+```bash
+$ git clone https://gitlab.com/fairwaytech/sbac-config-repo.git
+$ cd sbac-config-repo
+$ export SBAC_CONFIG_REPO=`pwd`
 ```
 
 Now you can run the containers from the folder with the docker-compose.yml file. As shown, the logs will be streamed
@@ -83,7 +91,6 @@ POST /exams/imports  with an XML payload should return an import request payload
 GET /exams/imports/:id   should return an import request payload
 GET /exams/imports?batch=<batch>&status=<status>  should return a list of imports matching criteria
 ```
-You will need valid credentials and connectivity to our SSO OAuth2 server. 
 
 After cycling through some builds you will end up with a number of dangling images, e.g.:
 ```bash
@@ -102,18 +109,6 @@ These can be quickly cleaned up:
 docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
 ```
 
-#### Running Standalone
-It is not the recommended approach but the artifacts are Spring Boot executable jars so you can just run them.
-RabbitMQ must be running.
-```bash
-rabbitmq-server -detached
-java -jar exam-service/build/libs/rdw-ingest-exam-service-0.0.1-SNAPSHOT.jar --server.port=8080
-java -jar exam-processor/build/libs/rdw-ingest-exam-processor-0.0.1-SNAPSHOT.jar --server.port=8081
-```
-
 ### Documentation TODO
-* Separate developer instructions into CONTRIBUTING.md
-    * coding conventions
-    * vcs conventions: branching rules, squash and merge, etc.
 * Make README.md more user-facing
 * Make a CHANGE_LOG file

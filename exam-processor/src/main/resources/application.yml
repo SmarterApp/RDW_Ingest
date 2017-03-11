@@ -1,3 +1,7 @@
+management:
+  security:
+    enabled: false
+
 spring:
   cache:
     type: SIMPLE
@@ -17,4 +21,3 @@ spring:
     validationQuery: SELECT 1
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
-

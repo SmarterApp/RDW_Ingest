@@ -1,7 +1,14 @@
+# do NOT leave this in; it is only disabled to aid in debugging
+# either actuator end-points need to be served up on another port that is not exposed outside network
+# or we need to enable security and create an internal user that has the ACTUATOR role
+management:
+  security:
+    enabled: false
+
 oauth2:
   access-token-uri: https://sso-deployment.sbtds.org:443/auth/oauth2/access_token?realm=/sbac
   client-id: sbacdw
-  client-secret: sbacdw123
+  client-secret:
   token-info-uri: https://sso-deployment.sbtds.org:443/auth/oauth2/tokeninfo
   cache:
     size: 10

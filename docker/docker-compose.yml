@@ -1,42 +1,78 @@
-# docker-compose specs for rdw ingest processes
+# docker-compose specs for rdw ingest processes with the configuration server
+# running against a local copy of the repo, RabbitMQ running in a container
+# and the data warehouse running natively (outside the containers).
 #
-# Before running this spec, set the DATAWAREHOUSE_HOST; if that is the (mac) docker host:
-# $ export DATAWAREHOUSE_HOST=$(ipconfig getifaddr en0)
+# The following environment variables MUST be set before running this spec.
+#
+# DATAWAREHOUSE_HOST - host running mysql with rdw warehouse schema initialized
+# For mac developers running mysql natively, something like:
+#   $ export DATAWAREHOUSE_HOST=$(ipconfig getifaddr en0)
 # This value must be reset whenever you change networks.
+#
+# SBAC_CONFIG_REPO - local file system with configuration files.
+# For developers with access to the gitlab config repo project, something like:
+#   $ git clone https://gitlab.com/fairwaytech/sbac-config-repo.git
+#   $ cd sbac-config-repo
+#   $ export SBAC_CONFIG_REPO=`pwd`
+# (NOTE: there will be warnings in the log if gitlab credentials are not set)
+# For developers that just want a local folder for testing, something like:
+#   $ cd ~
+#   $ mkdir config-repo; cd config-repo
+#   $ git init; git touch application.yml; git add .; git commit -m "init"
+#   $ export SBAC_CONFIG_REPO=`pwd`
 
 version: '2'
 services:
+  config-server:
+    image: fwsbac/configuration-service:latest
+    container_name: config-server
+    ports:
+      - 8888:8888
+    volumes:
+      - $SBAC_CONFIG_REPO:/sbac-config-repo
+    environment:
+      - CONFIG_SERVICE_REPO=file://sbac-config-repo
+      - ENCRYPT_KEY
+      - GIT_USER
+      - GIT_PASSWORD
+
   rabbitmq:
     image: rabbitmq:3-management
-    hostname: rabbitmq
+    container_name: rabbitmq
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - 5672:5672
+      - 15672:15672
 
   exam-service:
     image: fwsbac/rdw-ingest-exam-service
     ports:
-      - "8080:8080"
+      - 8080:8080
     depends_on:
+      - config-server
       - rabbitmq
     links:
+      - config-server
       - rabbitmq
     environment:
-      - spring.rabbitmq.host=rabbitmq
-      - spring.datasource.url=jdbc:mysql://dwhost:3306/warehouse?useSSL=false
+      - CONFIG_SERVICE_ENABLED=true
+      - CONFIG_SERVICE_PROFILE=local-docker
+      - CONFIG_SERVICE_URL=http://config-server:8888
     extra_hosts:
       - "dwhost:$DATAWAREHOUSE_HOST"
 
   exam-processor:
     image: fwsbac/rdw-ingest-exam-processor
     ports:
-      - "8081:8080"
+      - 8081:8080
     depends_on:
+      - config-server
       - rabbitmq
     links:
+      - config-server
       - rabbitmq
     environment:
-      - spring.rabbitmq.host=rabbitmq
-      - spring.datasource.url=jdbc:mysql://dwhost:3306/warehouse?useSSL=false
+      - CONFIG_SERVICE_ENABLED=true
+      - CONFIG_SERVICE_PROFILE=local-docker
+      - CONFIG_SERVICE_URL=http://config-server:8888
     extra_hosts:
       - "dwhost:$DATAWAREHOUSE_HOST"
