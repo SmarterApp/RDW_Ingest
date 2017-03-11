@@ -6,6 +6,7 @@ RDW ingest applications:
 RDW Ingest uses other processes:
 1. MySQL - warehouse and reporting databases
 1. RabbitMQ - message queue
+1. Configuration Server - centralized configuration server
 
 #### MySQL
 MySQL is required for building (integration tests) and running these applications. To better match production, MySQL
@@ -18,12 +19,6 @@ brew install mysql56
 You might want to add `/usr/local/Cellar/mysql@5.6/5.6.34/bin` to your path (.bash_profile). Because brew isn't cool 
 and directly sets the bind address you must modify `/usr/local/Cellar/mysql@5.6/5.6.34/homebrew.mxcl.mysql@5.6.plist`
 and set `--bind-address=*`.
-
-When running docker containers you must set environment variables to the host ip. These must be refreshed whenever
-network connectivity of your machine changes. You can export it manually, or add it to a script:
-```bash
-export DATAWAREHOUSE_HOST=$(ipconfig getifaddr en0)
-```
 
 The applications depend on the database being configured properly. This is done using RDW_Schema.
 ```bash
@@ -53,11 +48,6 @@ gradle build
 ```
 Code coverage report can be found at `./build/reports/jacoco/test/html/index.html` 
 
-
-### Running
-The apps are wrapped in docker containers and should be built and run that way. There is a docker-compose spec
-to make it easy; it runs RabbitMQ and all the RDW_Ingest applications.
-
 You must explicitly build the docker images:
 ```bash
 $ gradle buildImage
@@ -69,12 +59,19 @@ rabbitmq                                3-management        cda8025c010b        
 java                                    8-jre-alpine        d85b17c6762e        6 weeks ago         108 MB
 ```
 
-Now you can run the containers from the folder with the docker-compose.yml file. As shown, the logs will be streamed
-to the terminal, and the processes can be stopped with `^C`. Alternatively, add `-d` to run detached, use
-`docker logs -f <name>` to see logs, and `docker-compose down` to stop.
+### Running
+The apps are wrapped in docker containers and should be built and run that way. There is a docker-compose spec
+to make it easy: it runs RabbitMQ, the configuration server and all the RDW_Ingest applications. Please read the
+comments in the docker-compose script for setting required environment variables. Then invoke docker-compose, e.g.:
 ```bash
 cd docker
-docker-compose up
+docker-compose up -d
+docker logs -f docker_exam-service_1
+```
+To stop a single service, use regular docker commands; to stop them all use docker-compose, e.g.:
+```bash
+docker stop docker_exam-service_1
+docker-compose down
 ```
 
 You can use a REST client to hit end-points, e.g.
@@ -83,7 +80,6 @@ POST /exams/imports  with an XML payload should return an import request payload
 GET /exams/imports/:id   should return an import request payload
 GET /exams/imports?batch=<batch>&status=<status>  should return a list of imports matching criteria
 ```
-You will need valid credentials and connectivity to our SSO OAuth2 server. 
 
 After cycling through some builds you will end up with a number of dangling images, e.g.:
 ```bash
@@ -102,18 +98,6 @@ These can be quickly cleaned up:
 docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
 ```
 
-#### Running Standalone
-It is not the recommended approach but the artifacts are Spring Boot executable jars so you can just run them.
-RabbitMQ must be running.
-```bash
-rabbitmq-server -detached
-java -jar exam-service/build/libs/rdw-ingest-exam-service-0.0.1-SNAPSHOT.jar --server.port=8080
-java -jar exam-processor/build/libs/rdw-ingest-exam-processor-0.0.1-SNAPSHOT.jar --server.port=8081
-```
-
 ### Documentation TODO
-* Separate developer instructions into CONTRIBUTING.md
-    * coding conventions
-    * vcs conventions: branching rules, squash and merge, etc.
 * Make README.md more user-facing
 * Make a CHANGE_LOG file
