@@ -2,6 +2,31 @@
 
 This document is targeted at developers contributing to the RDW_Ingest project.
 
+### Coding Conventions
+
+#### Application Configuration
+The ingest applications rely on a centralized configuration server that pulls property files from a git repo. Every
+application therefore has two property files: the embedded application.yml file and the config-repo application.yml
+file (of course properties may be put in separate yml files, there will be two instances of each). Properties fall 
+into three broad categories: code-like, configuration, and secrets. Code-like properties should be specified only in
+the embedded file. Configuration properties should have a reasonable (developer) default in the embedded file and
+profile-specific variations in the config-repo file. Secrets should be specified only in the config-repo file, and
+they should be encrypted using the config server.
+
+### Version Control Conventions
+Repo: https://github.com/SmarterApp/RDW_Ingest
+Config Repo: https://gitlab.com/fairwaytech/sbac-config-repo
+
+This project follows the common convention of having two main branches with infinite lifetime: `master` is the main
+branch where HEAD contains the production-ready state, while `develop` is the main branch where HEAD contains the 
+latest changes for the next release.
+ 
+Use feature branches off of `develop` for all new features. Use a prefix of `feature/` to highlight those branches.
+For example, the new shoesize feature work would be in `feature/shoesize`. Create pull requests from the feature
+branch to `develop` to solicit code reviews and feedback. Once approved use `squash and merge` into `develop`.
+
+### Running
+
 #### Running From IDE
 The README outlines how to run the applications using docker. As a developer you will want to run an application 
 locally from the IDE. This works fine; after using docker-compose to launch all the other applications, stop the
@@ -25,13 +50,3 @@ java -jar exam-processor/build/libs/rdw-ingest-exam-processor-0.0.1-SNAPSHOT.jar
 You will need valid credentials and connectivity to our SSO OAuth2 server. 
 
 
-### Coding Conventions
-
-### Version Control Conventions
-This project follows the common convention of having two main branches with infinite lifetime: `master` is the main
-branch where HEAD contains the production-ready state, while `develop` is the main branch where HEAD contains the 
-latest changes for the next release.
- 
-Use feature branches off of `develop` for all new features. Use a prefix of `feature/` to highlight those branches.
-For example, the new shoesize feature work would be in `feature/shoesize`. Create pull requests from the feature
-branch to `develop` to solicit code reviews and feedback. Once approved use `squash and merge` into `develop`.
