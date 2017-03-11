@@ -54,8 +54,8 @@ services:
       - config-server
       - rabbitmq
     environment:
+      - spring.profiles.active=local-docker
       - CONFIG_SERVICE_ENABLED=true
-      - CONFIG_SERVICE_PROFILE=local-docker
       - CONFIG_SERVICE_URL=http://config-server:8888
     extra_hosts:
       - "dwhost:$DATAWAREHOUSE_HOST"
@@ -71,8 +71,8 @@ services:
       - config-server
       - rabbitmq
     environment:
+      - spring.profiles.active=local-docker
       - CONFIG_SERVICE_ENABLED=true
-      - CONFIG_SERVICE_PROFILE=local-docker
       - CONFIG_SERVICE_URL=http://config-server:8888
     extra_hosts:
       - "dwhost:$DATAWAREHOUSE_HOST"

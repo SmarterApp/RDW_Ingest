@@ -8,10 +8,12 @@ This document is targeted at developers contributing to the RDW_Ingest project.
 The ingest applications rely on a centralized configuration server that pulls property files from a git repo. Every
 application therefore has two property files: the embedded application.yml file and the config-repo application.yml
 file (of course properties may be put in separate yml files, there will be two instances of each). Properties fall 
-into three broad categories: code-like, configuration, and secrets. Code-like properties should be specified only in
-the embedded file. Configuration properties should have a reasonable (developer) default in the embedded file and
-profile-specific variations in the config-repo file. Secrets should be specified only in the config-repo file, and
-they should be encrypted using the config server.
+into three broad categories: 
+* Code-like properties should be specified only in the embedded file. Examples: jaxb settings, local cache settings.
+* Configuration properties should have a reasonable default in the embedded file and profile-specific variations in 
+the config-repo file. These are properties that vary depending on the environment and profile, for example: host 
+names for external services.
+* Secrets should be specified only in the config-repo file, and they should be encrypted using the config server.
 
 ### Version Control Conventions
 Repo: https://github.com/SmarterApp/RDW_Ingest

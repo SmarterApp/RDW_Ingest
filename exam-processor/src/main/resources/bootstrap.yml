@@ -10,5 +10,4 @@ spring:
       enabled: ${CONFIG_SERVICE_ENABLED:false}
       fail-fast: ${CONFIG_SERVICE_ENABLED:false}
       label: ${CONFIG_SERVICE_LABEL:develop,master}
-      profile: ${CONFIG_SERVICE_PROFILE:default}
       uri: ${CONFIG_SERVICE_URL:http://localhost:8888}
