@@ -42,13 +42,9 @@ sql:
     create: >-
         INSERT INTO asmt (natural_id, grade_id,type_id, subject_id, academic_year, name, label, version) VALUES
                        (:natural_id, :grade_id, :type_id, :subject_id, :academic_year, :name, :label, :version)
-    claim:
-      findForAsmt: >-
-        SELECT * FROM claim WHERE asmt_id= :asmt_id
-
-      createForAsmt: >-
-        INSERT INTO claim (asmt_id, min_score, max_score, code) VALUES
-                        (:asmt_id, :min_score, :max_score, :code)
+    subjectClaimScore:
+      findBySubjectAndAsmtType: >-
+        SELECT id, code FROM subject_claim_score WHERE subject_id = :subject_id and asmt_type_id =:asmt_type_id
 
   # ExamRepository
   exam:
@@ -57,8 +53,8 @@ sql:
                        (:exam_student_id, :asmt_id, :asmt_version, :opportunity, :status, :validity, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :achievement_level, :completed_at)
     examClaimScore:
       create: >-
-        INSERT INTO exam_claim_score (exam_id, claim_id, scale_score, scale_score_std_err, category) VALUES
-                                    (:exam_id, :claim_id, :scale_score, :scale_score_std_err, :category)
+        INSERT INTO exam_claim_score (exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
+                                    (:exam_id, :subject_claim_score_id, :scale_score, :scale_score_std_err, :category)
     examItem:
       create: >-
         INSERT INTO exam_item (exam_id, item_key, bank_key, score, score_status, response) VALUES
