@@ -1,6 +1,16 @@
+apply plugin: 'org.springframework.boot'
+
 dependencies {
     compile 'com.google.guava:guava'
     compile 'org.opentestsystem.rdw.common:rdw-common-messaging'
     compile 'org.opentestsystem.rdw.common:rdw-common-model'
     compile 'org.opentestsystem.rdw.common:rdw-common-utils'
+
+    // handy for creating metadata with @ConfigurationProperties
+    optional "org.springframework.boot:spring-boot-configuration-processor"
+
+    // For StatusMvcEndpoint
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework:spring-web'
+    compile 'org.springframework:spring-webmvc'
 }
