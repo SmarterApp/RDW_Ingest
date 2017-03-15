@@ -1,5 +1,4 @@
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
-import com.bmuschko.gradle.docker.tasks.image.Dockerfile
 
 apply plugin: 'com.bmuschko.docker-remote-api'
 apply plugin: 'org.springframework.boot'
@@ -32,9 +31,6 @@ dependencies {
     compile 'org.opentestsystem.rdw.common:rdw-common-model'
     compile 'org.opentestsystem.rdw.common:rdw-common-utils'
     compile 'mysql:mysql-connector-java'
-
-    // CSV processing; probably remove this stuff
-    compile 'org.beanio:beanio:2.1.0'
 
     // fixes java 8 time marshaling
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.7'
