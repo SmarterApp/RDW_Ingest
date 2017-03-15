@@ -1,2 +1,3 @@
 # username, password, tenancyChain
 aptest, aptest, ||ASMTDATALOAD|STATE||SBAC|AP|ARMED FORCES PACIFIC|||||||||||
+dwtest@example.com, password, ||ASMTDATALOAD|STATE||SBAC|AP|ARMED FORCES PACIFIC|||||||||||,||ASMTDATALOAD|STATE||SBAC|CA|CALIFORNIA|||||||||||
