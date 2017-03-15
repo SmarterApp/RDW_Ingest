@@ -2,12 +2,8 @@
 // (and i can't figure out how else to get it in here)
 // But it also defines silly boot tasks which we don't want here.
 apply plugin: 'org.springframework.boot'
-bootRepackage {
-    enabled = false
-}
-bootRun {
-    enabled = false
-}
+bootRepackage.enabled = false
+bootRun.enabled = false
 
 dependencies {
     compile 'com.google.guava:guava'
@@ -20,6 +16,5 @@ dependencies {
 
     // For StatusMvcEndpoint
     compile 'org.springframework.boot:spring-boot-starter-actuator'
-    compile 'org.springframework:spring-web'
-    compile 'org.springframework:spring-webmvc'
+    compile 'org.springframework.boot:spring-boot-starter-web'
 }
