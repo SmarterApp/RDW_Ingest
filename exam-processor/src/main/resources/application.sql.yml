@@ -37,11 +37,11 @@ sql:
   # AssessmentRepository
   assessment:
     findOneByNaturalId: >-
-        SELECT * FROM asmt WHERE natural_id= :natural_id
+        SELECT id, natural_id, grade_id,type_id, subject_id, academic_year FROM asmt WHERE natural_id= :natural_id
 
     create: >-
-        INSERT INTO asmt (natural_id, grade_id,type_id, subject_id, academic_year, name, label, version) VALUES
-                       (:natural_id, :grade_id, :type_id, :subject_id, :academic_year, :name, :label, :version)
+        INSERT INTO asmt (natural_id, grade_id,type_id, subject_id, academic_year) VALUES
+                       (:natural_id, :grade_id, :type_id, :subject_id, :academic_year)
     subjectClaimScore:
       findBySubjectAndAsmtType: >-
         SELECT id, code FROM subject_claim_score WHERE subject_id = :subject_id and asmt_type_id =:asmt_type_id
@@ -49,8 +49,8 @@ sql:
   # ExamRepository
   exam:
     create: >-
-       INSERT INTO exam (exam_student_id, asmt_id, asmt_version, opportunity, status, validity, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, achievement_level, completed_at) VALUES
-                       (:exam_student_id, :asmt_id, :asmt_version, :opportunity, :status, :validity, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :achievement_level, :completed_at)
+       INSERT INTO exam (exam_student_id, asmt_id, asmt_version, opportunity, status, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, achievement_level, completed_at) VALUES
+                       (:exam_student_id, :asmt_id, :asmt_version, :opportunity, :status, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :achievement_level, :completed_at)
     examClaimScore:
       create: >-
         INSERT INTO exam_claim_score (exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
@@ -67,8 +67,8 @@ sql:
   # IabExamRepository
   iabExam:
     create: >-
-      INSERT INTO iab_exam (iab_exam_student_id, asmt_id, asmt_version, opportunity, status, validity, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, category, completed_at) VALUES
-                           (:iab_exam_student_id, :asmt_id, :asmt_version, :opportunity, :status, :validity, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :category, :completed_at)
+      INSERT INTO iab_exam (iab_exam_student_id, asmt_id, asmt_version, opportunity, status, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, category, completed_at) VALUES
+                           (:iab_exam_student_id, :asmt_id, :asmt_version, :opportunity, :status, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :category, :completed_at)
 
     iabExamItem:
       create: >-
