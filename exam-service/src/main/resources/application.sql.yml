@@ -7,6 +7,9 @@ sql:
       INSERT INTO import (status, content, contentType, digest, batch, creator, created, message)
         VALUES (:status, :content, :contentType, :digest, :batch, :creator, :created, :message)
 
+    delete: >-
+      DELETE FROM import WHERE id=:id
+
     exists: >-
       SELECT (CASE WHEN EXISTS (SELECT 1 FROM import WHERE id=:id) THEN true ELSE false END) exist
 
@@ -21,3 +24,7 @@ sql:
 
     findOneByDigest: >-
       SELECT * FROM import WHERE digest=:digest
+
+  importStatus:
+    findAll: >-
+      SELECT * FROM import_status
