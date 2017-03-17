@@ -9,6 +9,9 @@ sql:
     findIdByName: >-
         SELECT id FROM ethnicity WHERE name= :name
 
+    findAllNames: >-
+        SELECT name FROM ethnicity
+
   # GenderRepositoryImpl
   gender:
     findIdByName: >-
@@ -88,3 +91,10 @@ sql:
           status = :status,
           message  = :message
         WHERE id = :id
+
+  studentEthnicity:
+    create: >-
+        INSERT INTO student_ethnicity (student_id, ethnicity_id) VALUES (:student_id, :ethnicity_id)
+
+    delete: >-
+        DELETE FROM student_ethnicity where student_id = :student_id
