@@ -79,12 +79,3 @@ sql:
       create: >-
         INSERT INTO iab_exam_student (grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type) VALUES
                                   (:grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status, :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type)
-
-  #ImportRepository
-  import:
-    updateStatusById:
-      UPDATE import
-        SET
-          status = :status,
-          message  = :message
-        WHERE id = :id

@@ -1,5 +1,10 @@
+apply plugin: 'org.springframework.boot'
+
+bootRepackage.enabled = false
+
 dependencies {
     compile 'com.google.guava:guava'
+    compile 'org.springframework.boot:spring-boot-starter-jdbc'
     compile 'org.opentestsystem.rdw.common:rdw-common-messaging'
     compile 'org.opentestsystem.rdw.common:rdw-common-model'
     compile 'org.opentestsystem.rdw.common:rdw-common-utils'

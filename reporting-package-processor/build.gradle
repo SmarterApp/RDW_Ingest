@@ -1,0 +1,63 @@
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+
+apply plugin: 'com.bmuschko.docker-remote-api'
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+    // handy for creating metadata with @ConfigurationProperties
+    optional "org.springframework.boot:spring-boot-configuration-processor"
+
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework.boot:spring-boot-starter-cache'
+    compile 'org.springframework.boot:spring-boot-starter-jdbc'
+    compile 'org.springframework.cloud:spring-cloud-stream'
+    compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.springframework.cloud:spring-cloud-stream-test-support'
+
+    compile project(':rdw-ingest-common')
+    compile 'com.google.guava:guava'
+    compile 'org.opentestsystem.rdw.common:rdw-common-messaging'
+    compile 'org.opentestsystem.rdw.common:rdw-common-model'
+    compile 'org.opentestsystem.rdw.common:rdw-common-utils'
+    compile 'mysql:mysql-connector-java'
+
+    compile 'com.opencsv:opencsv:+'
+
+
+}
+
+// this is for creating metadata
+compileJava.dependsOn(processResources)
+
+// task to create Dockerfile
+// (http://bmuschko.github.io/gradle-docker-plugin/docs/groovydoc/com/bmuschko/gradle/docker/tasks/image/Dockerfile.html)
+task createDockerfile(type:Dockerfile) {
+    destFile = project.file('build/docker/Dockerfile')
+    from('java:8-jre-alpine')
+    volume('/tmp')
+    label([maintainer:'Fairway Technologies'])
+    copyFile("${jar.archivePath.name}", "${jar.archivePath.name}")
+    exposePort(9090)
+    entryPoint("java", "-jar", "${jar.archivePath.name}")
+}
+
+// task to build the docker image
+task buildImage(type:DockerBuildImage, dependsOn:[build, createDockerfile]) {
+    dockerFile = createDockerfile.destFile
+    inputDir = project.file('build/docker/')
+    tag = "fwsbac/${project.name}"
+    doFirst {
+        copy {
+            from jar
+            into inputDir
+        }
+    }
+}
+
+// to use this, you must use docker login to set up docker hub credentials
+task pushImage(type:Exec, dependsOn:[buildImage]) {
+    commandLine("docker", "push", "fwsbac/${project.name}")
+}

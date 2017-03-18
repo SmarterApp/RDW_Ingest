@@ -9,3 +9,6 @@ rootProject.name = "rdw-ingest"
 rootProject.children.each {
     it.name = rootProject.name + "-" + it.name
 }
+include 'reporting-package-processor'
+findProject(':reporting-package-processor')?.name = 'rdw-ingest-reporting-package-processor'
+

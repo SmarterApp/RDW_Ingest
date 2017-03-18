@@ -1,0 +1,9 @@
+sql:
+  #ImportRepository
+  import:
+    updateStatusById:
+      UPDATE import
+        SET
+          status = :status,
+          message  = :message
+        WHERE id = :id
