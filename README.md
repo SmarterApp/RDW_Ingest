@@ -14,12 +14,27 @@ should be run as a native app outside the container framework . There are variou
 to install version 5.6 which is older and not the default! Here are the basic brew instructions:
 ```bash
 brew update
-brew install mysql56
+brew install mysql@5.6
 ```
-You might want to add `/usr/local/Cellar/mysql@5.6/5.6.34/bin` to your path (.bash_profile). Because brew isn't cool 
-and directly sets the bind address you must modify `/usr/local/Cellar/mysql@5.6/5.6.34/homebrew.mxcl.mysql@5.6.plist`
-and set `--bind-address=*`. You'll need to restart mysql after that, `brew services restart mysql@5.6`. 
-_You may need to grant permissions to 'root'@'%', TBD_
+At the end of the install, there is a suggestion to add the mysql location to the path:
+```bash
+echo 'export PATH="/usr/local/opt/mysql@5.6/bin:$PATH"' >> ~/.bash_profile
+```
+
+Because brew isn't cool and directly sets the bind address you must modify `/usr/local/Cellar/mysql@5.6/5.6.34/homebrew.mxcl.mysql@5.6.plist` (make sure to use your minor version of the installation)
+and set `--bind-address=*`. You'll need to restart mysql after that, `brew services restart mysql@5.6`. If you get a `mysql.sock` error at this step, try
+```bash
+brew services stop mysql@5.6
+brew services start mysql@5.6 
+```
+While it is supposed to work the same, it did not work me. The second option does not show the error. 
+
+You may need to grant permissions to 'root'@'%':
+```bash
+mysql -uroot
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
+mysql> exit
+```
 
 The applications depend on the database being configured properly. This is done using RDW_Schema.
 ```bash
