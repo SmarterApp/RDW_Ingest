@@ -10,19 +10,27 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-actuator'
     compile 'org.springframework.boot:spring-boot-starter-jdbc'
     compile 'org.springframework.boot:spring-boot-starter-hateoas'
-    compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'org.springframework.boot:spring-boot-starter-web'
-    compile 'org.springframework.cloud:spring-cloud-starter-oauth2'
     compile 'org.springframework.cloud:spring-cloud-starter-config'
+
+    // cloud stream
     compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
     compile 'org.springframework.cloud:spring-cloud-stream'
+
+    testCompile 'org.springframework.cloud:spring-cloud-stream-test-support'
+
+    // auth
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'org.springframework.ldap:spring-ldap-core'
+    compile 'org.springframework.security:spring-security-ldap'
+    compile 'org.springframework:spring-tx'  // because of artifact resolution issue
+    compile 'com.unboundid:unboundid-ldapsdk'
+
+    testCompile 'org.springframework.security:spring-security-test'
 
     // this is for retrying connection to config server
     compile 'org.springframework.boot:spring-boot-starter-aop'
     compile 'org.springframework.retry:spring-retry'
-
-    testCompile 'org.springframework.cloud:spring-cloud-stream-test-support'
-    testCompile 'org.springframework.security:spring-security-test'
 
     compile project(':rdw-ingest-common')
 
