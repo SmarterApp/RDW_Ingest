@@ -46,7 +46,6 @@ services:
       - spring.profiles.active=local-docker
       - CONFIG_SERVICE_ENABLED=true
       - CONFIG_SERVICE_URL=http://config-server:8888
-      - CONFIG_SERVICE_LABEL=ldap,master
     extra_hosts:
       - "dwhost:$DATAWAREHOUSE_HOST"
 
