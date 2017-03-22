@@ -18,5 +18,5 @@ uid: dwtest@example.com
 userPassword: password
 ou: People
 sbacUUID: 57e3ed3de4b0e3b75702f3a0
-sbacTenancyChain: ||ASMTDATALOAD|STATE||SBAC|AP|ARMED FORCES PACIFIC|||||||||||
-sbacTenancyChain: ||ASMTDATALOAD|STATE||SBAC|CA|CALIFORNIA|||||||||||
+sbacTenancyChain: ||ASMTDATALOAD|STATE||SBAC|||AP|ARMED FORCES PACIFIC|||||||||
+sbacTenancyChain: ||ASMTDATALOAD|STATE||SBAC|||CA|CALIFORNIA|||||||||
