@@ -6,12 +6,6 @@ management:
     enabled: false
 
 spring:
-  cloud:
-    stream:
-      bindings:
-        output:
-          destination: exams-payload
-
   datasource:
     url: jdbc:mysql://localhost:3306/warehouse?useSSL=false
     username: root
