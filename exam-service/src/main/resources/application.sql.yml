@@ -13,11 +13,10 @@ sql:
     exists: >-
       SELECT (CASE WHEN EXISTS (SELECT 1 FROM import WHERE id=:id) THEN true ELSE false END) exist
 
-    findByBatch: >-
-      SELECT * FROM import where batch=:batch
-
-    findByStatus: >-
-      SELECT * FROM import where status=:status
+    findBy: >-
+      SELECT * FROM import WHERE (:batch is null or batch=:batch)
+          AND (:status is null or status=:status)
+          AND (:content is null or content=:content)
 
     findOne: >-
       SELECT * FROM import WHERE id=:id
