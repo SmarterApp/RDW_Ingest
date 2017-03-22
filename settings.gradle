@@ -1,5 +1,5 @@
 include 'common'
-include 'exam-service'
+include 'import-service'
 include 'exam-processor'
 include 'reporting-package-processor'
 
