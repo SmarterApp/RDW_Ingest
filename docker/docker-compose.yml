@@ -66,19 +66,36 @@ services:
     extra_hosts:
       - "dwhost:$DATAWAREHOUSE_HOST"
 
+  reporting-package-service:
+    image: fwsbac/rdw-ingest-reporting-package-service
+    ports:
+      - 8082:8080
+    depends_on:
+      - config-server
+      - rabbitmq
+    links:
+      - config-server
+      - rabbitmq
+    environment:
+      - spring.profiles.active=local-docker
+      - CONFIG_SERVICE_ENABLED=true
+      - CONFIG_SERVICE_URL=http://config-server:8888
+    extra_hosts:
+      - "dwhost:$DATAWAREHOUSE_HOST"
+
   reporting-package-processor:
-      image: fwsbac/rdw-ingest-ereporting-package-processor
-      ports:
-        - 8082:8080
-      depends_on:
-        - config-server
-        - rabbitmq
-      links:
-        - config-server
-        - rabbitmq
-      environment:
-        - spring.profiles.active=local-docker
-        - CONFIG_SERVICE_ENABLED=true
-        - CONFIG_SERVICE_URL=http://config-server:8888
-      extra_hosts:
-        - "dwhost:$DATAWAREHOUSE_HOST"
+    image: fwsbac/rdw-ingest-reporting-package-processor
+    ports:
+      - 8083:8080
+    depends_on:
+      - config-server
+      - rabbitmq
+    links:
+      - config-server
+      - rabbitmq
+    environment:
+      - spring.profiles.active=local-docker
+      - CONFIG_SERVICE_ENABLED=true
+      - CONFIG_SERVICE_URL=http://config-server:8888
+    extra_hosts:
+      - "dwhost:$DATAWAREHOUSE_HOST"

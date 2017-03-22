@@ -1,5 +1,4 @@
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
-import com.bmuschko.gradle.docker.tasks.image.Dockerfile
 
 apply plugin: 'com.bmuschko.docker-remote-api'
 apply plugin: 'org.springframework.boot'
@@ -33,9 +32,6 @@ dependencies {
     compile 'org.opentestsystem.rdw.common:rdw-common-utils'
     compile 'mysql:mysql-connector-java'
 
-    // CSV processing; probably remove this stuff
-    compile 'org.beanio:beanio:2.1.0'
-
     // fixes java 8 time marshaling
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.7'
 }
@@ -43,17 +39,9 @@ dependencies {
 // this is for creating metadata
 compileJava.dependsOn(processResources)
 
-// task to create Dockerfile
-// (http://bmuschko.github.io/gradle-docker-plugin/docs/groovydoc/com/bmuschko/gradle/docker/tasks/image/Dockerfile.html)
-task createDockerfile(type:Dockerfile) {
-    destFile = project.file('build/docker/Dockerfile')
-    from('java:8-jre-alpine')
-    volume('/tmp')
-    label([maintainer:'Fairway Technologies'])
-    copyFile("${jar.archivePath.name}", "${jar.archivePath.name}")
-    exposePort(8080)
-    entryPoint("java", "-jar", "${jar.archivePath.name}")
-}
+// trigger creation of build-info.properties
+classes.dependsOn(createBuildInfoFile)
+
 
 // task to build the docker image
 task buildImage(type:DockerBuildImage, dependsOn:[build, createDockerfile]) {

@@ -1,0 +1,24 @@
+management:
+  security:
+    enabled: false
+
+spring:
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: reporting-package-payload
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/warehouse?useSSL=false
+    username: root
+    password:
+    testWhileIdle: true
+    validationQuery: SELECT 1
+    driverClassName: com.mysql.jdbc.Driver
+    initialize: false
+
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false

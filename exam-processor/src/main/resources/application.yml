@@ -11,13 +11,18 @@ spring:
     stream:
       bindings:
         input:
-          destination: exams-payload
+          destination: exam-payload
 
   datasource:
     url: jdbc:mysql://localhost:3306/warehouse?useSSL=false
     username: root
-    password: 3Mesp1[]
+    password:
     testWhileIdle: true
     validationQuery: SELECT 1
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
+
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false

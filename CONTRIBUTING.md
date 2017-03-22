@@ -45,10 +45,6 @@ The artifacts are Spring Boot executable jars so you can just run them. Just as 
 is to run without a configuration server so all secrets must be specified as program arguments and ports must be
 specified to avoid conflict.
 ```bash
-java -jar exam-service/build/libs/rdw-ingest-exam-service-0.0.1-SNAPSHOT.jar --server.port=8080 --oauth2.client-secret=mysecret
+java -jar exam-service/build/libs/rdw-ingest-exam-service-0.0.1-SNAPSHOT.jar --server.port=8080
 java -jar exam-processor/build/libs/rdw-ingest-exam-processor-0.0.1-SNAPSHOT.jar --server.port=8081
 ```
-
-You will need valid credentials and connectivity to our SSO OAuth2 server. 
-
-

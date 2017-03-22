@@ -18,7 +18,8 @@ brew install mysql56
 ```
 You might want to add `/usr/local/Cellar/mysql@5.6/5.6.34/bin` to your path (.bash_profile). Because brew isn't cool 
 and directly sets the bind address you must modify `/usr/local/Cellar/mysql@5.6/5.6.34/homebrew.mxcl.mysql@5.6.plist`
-and set `--bind-address=*`.
+and set `--bind-address=*`. You'll need to restart mysql after that, `brew services restart mysql@5.6`. 
+_You may need to grant permissions to 'root'@'%', TBD_
 
 The applications depend on the database being configured properly. This is done using RDW_Schema.
 ```bash
@@ -46,7 +47,7 @@ cd RDW_Ingest
 git checkout develop
 gradle build
 ```
-Code coverage report can be found at `./build/reports/jacoco/test/html/index.html` 
+Code coverage reports can be found in each project under `./build/reports/jacoco/test/html/index.html` 
 
 You must explicitly build the docker images:
 ```bash

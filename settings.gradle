@@ -11,4 +11,6 @@ rootProject.children.each {
 }
 include 'reporting-package-processor'
 findProject(':reporting-package-processor')?.name = 'rdw-ingest-reporting-package-processor'
+include 'reporting-package-service'
+findProject(':reporting-package-service')?.name = 'rdw-ingest-reporting-package-service'
 
