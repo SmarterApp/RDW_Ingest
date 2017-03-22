@@ -1,6 +1,6 @@
 ## RDW_Ingest
 RDW ingest applications:
-1. Exam Service - RESTful API for submitting test results, aka exams.
+1. Import Service - RESTful API for submitting test results (exams), packages, etc.
 1. Exam Processor - Spring Cloud Stream application for processing test results.
 
 RDW Ingest uses other processes:
@@ -69,7 +69,7 @@ You must explicitly build the docker images:
 $ gradle buildImage
 $ docker images
 REPOSITORY                              TAG                 IMAGE ID            CREATED             SIZE
-fwsbac/rdw-ingest-exam-service          latest              fc700c6e8518        14 minutes ago      131 MB
+fwsbac/rdw-ingest-import-service        latest              fc700c6e8518        14 minutes ago      131 MB
 fwsbac/rdw-ingest-exam-processor        latest              cf83654e781f        9 seconds ago       130 MB
 rabbitmq                                3-management        cda8025c010b        3 weeks ago         179 MB
 java                                    8-jre-alpine        d85b17c6762e        6 weeks ago         108 MB
@@ -82,11 +82,11 @@ comments in the docker-compose script for setting required environment variables
 ```bash
 cd docker
 docker-compose up -d
-docker logs -f docker_exam-service_1
+docker logs -f docker_import-service_1
 ```
 To stop a single service, use regular docker commands; to stop them all use docker-compose, e.g.:
 ```bash
-docker stop docker_exam-service_1
+docker stop docker_import-service_1
 docker-compose down
 ```
 
@@ -101,7 +101,7 @@ After cycling through some builds you will end up with a number of dangling imag
 ```bash
 docker images
 REPOSITORY                          TAG                 IMAGE ID            CREATED             SIZE
-fwsbac/rdw-ingest-exam-service      latest              ad78b95ae39f        2 minutes ago       140 MB
+fwsbac/rdw-ingest-import-service    latest              ad78b95ae39f        2 minutes ago       140 MB
 <none>                              <none>              13b96a973d59        About an hour ago   140 MB
 <none>                              <none>              cb5063cbcc56        2 hours ago         140 MB
 <none>                              <none>              2236259b73f0        3 hours ago         140 MB
