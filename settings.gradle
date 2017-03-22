@@ -1,5 +1,5 @@
 include 'common'
-include 'exam-service'
+include 'import-service'
 include 'exam-processor'
 
 // It is considered good practice to explicitly set the root project name

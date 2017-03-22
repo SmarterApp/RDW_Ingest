@@ -32,8 +32,8 @@ services:
       - 5672:5672
       - 15672:15672
 
-  exam-service:
-    image: fwsbac/rdw-ingest-exam-service
+  import-service:
+    image: fwsbac/rdw-ingest-import-service
     ports:
       - 8080:8080
     depends_on:
