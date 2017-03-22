@@ -1,6 +1,7 @@
 include 'common'
 include 'exam-service'
 include 'exam-processor'
+include 'reporting-package-processor'
 
 // It is considered good practice to explicitly set the root project name
 rootProject.name = "rdw-ingest"
@@ -9,8 +10,5 @@ rootProject.name = "rdw-ingest"
 rootProject.children.each {
     it.name = rootProject.name + "-" + it.name
 }
-include 'reporting-package-processor'
 findProject(':reporting-package-processor')?.name = 'rdw-ingest-reporting-package-processor'
-include 'reporting-package-service'
-findProject(':reporting-package-service')?.name = 'rdw-ingest-reporting-package-service'
 

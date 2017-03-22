@@ -32,8 +32,8 @@ services:
       - 5672:5672
       - 15672:15672
 
-  exam-service:
-    image: fwsbac/rdw-ingest-exam-service
+  import-service:
+    image: fwsbac/rdw-ingest-import-service
     ports:
       - 8080:8080
     depends_on:
@@ -66,27 +66,10 @@ services:
     extra_hosts:
       - "dwhost:$DATAWAREHOUSE_HOST"
 
-  reporting-package-service:
-    image: fwsbac/rdw-ingest-reporting-package-service
-    ports:
-      - 8082:8080
-    depends_on:
-      - config-server
-      - rabbitmq
-    links:
-      - config-server
-      - rabbitmq
-    environment:
-      - spring.profiles.active=local-docker
-      - CONFIG_SERVICE_ENABLED=true
-      - CONFIG_SERVICE_URL=http://config-server:8888
-    extra_hosts:
-      - "dwhost:$DATAWAREHOUSE_HOST"
-
   reporting-package-processor:
     image: fwsbac/rdw-ingest-reporting-package-processor
     ports:
-      - 8083:8080
+      - 8082:8080
     depends_on:
       - config-server
       - rabbitmq
