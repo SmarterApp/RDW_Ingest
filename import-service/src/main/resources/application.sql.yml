@@ -14,9 +14,12 @@ sql:
       SELECT (CASE WHEN EXISTS (SELECT 1 FROM import WHERE id=:id) THEN true ELSE false END) exist
 
     findBy: >-
-      SELECT * FROM import WHERE (:batch is null or batch=:batch)
-          AND (:status is null or status=:status)
-          AND (:content is null or content=:content)
+      SELECT * FROM import WHERE (:content IS NULL OR content=:content)
+          AND (:status IS NULL OR status = :status)
+          AND (:batch IS NULL OR batch = :batch)
+          AND (:creator IS NULL OR creator = :creator)
+          AND (:before IS NULL OR created < :before)
+          AND (:after IS NULL OR created > :after)
 
     findOne: >-
       SELECT * FROM import WHERE id=:id
