@@ -21,13 +21,14 @@ At the end of the install, there is a suggestion to add the mysql location to th
 echo 'export PATH="/usr/local/opt/mysql@5.6/bin:$PATH"' >> ~/.bash_profile
 ```
 
-Because brew isn't cool and directly sets the bind address you must modify `/usr/local/Cellar/mysql@5.6/5.6.34/homebrew.mxcl.mysql@5.6.plist` (make sure to use your minor version of the installation)
-and set `--bind-address=*`. You'll need to restart mysql after that, `brew services restart mysql@5.6`. If you get a `mysql.sock` error at this step, try
+Because brew isn't cool and directly sets the bind address you must modify `/usr/local/Cellar/mysql@5.6/5.6.34/homebrew.mxcl.mysql@5.6.plist` 
+(make sure to use your minor version of the installation) and set `--bind-address=*`. 
+You'll need to restart mysql after that, `brew services restart mysql@5.6`. You may need to fully stop and start
+the service if you get a `mysql.sock` error at this point:
 ```bash
 brew services stop mysql@5.6
 brew services start mysql@5.6 
 ```
-While it is supposed to work the same, it did not work me. The second option does not show the error. 
 
 You may need to grant permissions to 'root'@'%':
 ```bash

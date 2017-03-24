@@ -16,7 +16,6 @@ dependencies {
     // cloud stream
     compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
     compile 'org.springframework.cloud:spring-cloud-stream'
-
     testCompile 'org.springframework.cloud:spring-cloud-stream-test-support'
 
     // auth
@@ -25,8 +24,10 @@ dependencies {
     compile 'org.springframework.security:spring-security-ldap'
     compile 'org.springframework:spring-tx'  // because of artifact resolution issue
     compile 'com.unboundid:unboundid-ldapsdk'
-
     testCompile 'org.springframework.security:spring-security-test'
+
+    // aws
+    compile 'org.springframework.cloud:spring-cloud-starter-aws'
 
     // this is for retrying connection to config server
     compile 'org.springframework.boot:spring-boot-starter-aop'

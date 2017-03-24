@@ -36,6 +36,8 @@ services:
     image: fwsbac/rdw-ingest-import-service
     ports:
       - 8080:8080
+    volumes:
+      - /tmp:/tmp
     depends_on:
       - config-server
       - rabbitmq
