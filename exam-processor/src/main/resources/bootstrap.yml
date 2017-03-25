@@ -11,3 +11,7 @@ spring:
       fail-fast: ${CONFIG_SERVICE_ENABLED:false}
       label: ${CONFIG_SERVICE_LABEL:develop,master}
       uri: ${CONFIG_SERVICE_URL:http://localhost:8888}
+      # defaults of 1000/2000 are a bit too needy
+      retry:
+        initial-interval: 2000
+        max-interval: 3000
