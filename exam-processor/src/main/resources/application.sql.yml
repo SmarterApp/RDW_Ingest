@@ -60,8 +60,8 @@ sql:
                                     (:exam_id, :subject_claim_score_id, :scale_score, :scale_score_std_err, :category)
     examItem:
       create: >-
-        INSERT INTO exam_item (exam_id, item_natural_id, score, score_status, response) VALUES
-                            (:exam_id, :item_natural_id, :score, :score_status, :response)
+        INSERT INTO exam_item (exam_id, item_natural_id, score, score_status, response, position, max_score) VALUES
+                            (:exam_id, :item_natural_id, :score, :score_status, :response, :position, :max_score)
     examStudent:
       create: >-
         INSERT INTO exam_student (grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type) VALUES
@@ -75,8 +75,8 @@ sql:
 
     iabExamItem:
       create: >-
-        INSERT INTO iab_exam_item (iab_exam_id, item_natural_id, score, score_status, response) VALUES
-                                 (:iab_exam_id, :item_natural_id, :score, :score_status, :response)
+        INSERT INTO iab_exam_item (iab_exam_id, item_natural_id, score, score_status, response, position, max_score) VALUES
+                                 (:iab_exam_id, :item_natural_id, :score, :score_status, :response, :position, :max_score)
 
     iabExamStudent:
       create: >-
