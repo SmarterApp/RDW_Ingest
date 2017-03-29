@@ -28,8 +28,10 @@ dependencies {
     compile 'org.opentestsystem.rdw.common:rdw-common-model'
     compile 'org.opentestsystem.rdw.common:rdw-common-utils'
     compile 'mysql:mysql-connector-java'
+    compile "org.springframework.boot:spring-boot-devtools"
 
     compile 'org.apache.commons:commons-csv:+'
+    compile 'commons-validator:commons-validator:1.6'
 
 
 }
