@@ -1,0 +1,65 @@
+sql:
+  # AssessmentTypeRepository
+  asmtType:
+    findIdByCode: >-
+        SELECT id FROM asmt_type WHERE code= :code
+
+  # SubjectRepositoryImpl
+  subject:
+    findIdByName: >-
+        SELECT id FROM subject WHERE name= :name
+
+  # GradeRepositoryImpl
+  grade:
+    findIdByCode: >-
+        SELECT id FROM grade WHERE code= :code
+
+  # AssessmentRepository
+  assessment:
+    findIdByNaturalId: >-
+        SELECT id FROM asmt WHERE natural_id= :natural_id
+
+    create: >-
+        INSERT INTO asmt (natural_id, grade_id,type_id, subject_id, academic_year) VALUES
+                       (:natural_id, :grade_id, :type_id, :subject_id, :academic_year)
+
+  #ClaimRepository
+  claim:
+    findIdByCode: >-
+        SELECT id FROM claim WHERE code= :code
+
+  #DepthOfKnowledgeRepository
+  dok:
+    findByLevel: >-
+        SELECT level FROM depth_of_knowledge WHERE level= :level
+
+  #MathPracticeRepository
+  mathPractice:
+    findById: >-
+        SELECT practice FROM math_practice WHERE practice= :practice
+
+  #TargetRepository
+  target:
+    findIdByCodeAndClaim: >-
+        SELECT id FROM target WHERE code= :code AND claim_id= :claimId
+
+  # ItemRepository
+  item:
+    create: >-
+       INSERT INTO exam (exam_student_id, asmt_id, asmt_version, opportunity, status, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, achievement_level, completed_at) VALUES
+                       (:exam_student_id, :asmt_id, :asmt_version, :opportunity, :status, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :achievement_level, :completed_at)
+    examClaimScore:
+      create: >-
+        INSERT INTO exam_claim_score (exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
+                                    (:exam_id, :subject_claim_score_id, :scale_score, :scale_score_std_err, :category)
+    examItem:
+      create: >-
+        INSERT INTO exam_item (exam_id, item_natural_id, score, score_status, response, position, max_score,
+                                  trait_evidence_elaboration_score, trait_evidence_elaboration_score_status, trait_evidence_elaboration_max_score,
+                                  trait_organization_purpose_score, trait_organization_purpose_score_status, trait_organization_purpose_max_score,
+                                  trait_conventions_score, trait_conventions_score_status, trait_conventions_max_score) VALUES
+                            (:exam_id, :item_natural_id, :score, :score_status, :response, :position, :max_score,
+                                  :trait_evidence_elaboration_score, :trait_evidence_elaboration_score_status, :trait_evidence_elaboration_max_score,
+                                  :trait_organization_purpose_score, :trait_organization_purpose_score_status, :trait_organization_purpose_max_score,
+                                  :trait_conventions_score, :trait_conventions_score_status, :trait_conventions_max_score)
+
