@@ -35,7 +35,7 @@ sql:
 
   #MathPracticeRepository
   mathPractice:
-    findById: >-
+    findByPractice: >-
         SELECT practice FROM math_practice WHERE practice= :practice
 
   #TargetRepository
@@ -44,22 +44,7 @@ sql:
         SELECT id FROM target WHERE code= :code AND claim_id= :claimId
 
   # ItemRepository
-  item:
-    create: >-
-       INSERT INTO exam (exam_student_id, asmt_id, asmt_version, opportunity, status, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, achievement_level, completed_at) VALUES
-                       (:exam_student_id, :asmt_id, :asmt_version, :opportunity, :status, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :achievement_level, :completed_at)
-    examClaimScore:
-      create: >-
-        INSERT INTO exam_claim_score (exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
-                                    (:exam_id, :subject_claim_score_id, :scale_score, :scale_score_std_err, :category)
-    examItem:
-      create: >-
-        INSERT INTO exam_item (exam_id, item_natural_id, score, score_status, response, position, max_score,
-                                  trait_evidence_elaboration_score, trait_evidence_elaboration_score_status, trait_evidence_elaboration_max_score,
-                                  trait_organization_purpose_score, trait_organization_purpose_score_status, trait_organization_purpose_max_score,
-                                  trait_conventions_score, trait_conventions_score_status, trait_conventions_max_score) VALUES
-                            (:exam_id, :item_natural_id, :score, :score_status, :response, :position, :max_score,
-                                  :trait_evidence_elaboration_score, :trait_evidence_elaboration_score_status, :trait_evidence_elaboration_max_score,
-                                  :trait_organization_purpose_score, :trait_organization_purpose_score_status, :trait_organization_purpose_max_score,
-                                  :trait_conventions_score, :trait_conventions_score_status, :trait_conventions_max_score)
+  #item:
+  #  create: >-
+
 
