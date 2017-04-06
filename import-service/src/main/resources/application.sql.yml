@@ -20,6 +20,7 @@ sql:
           AND (:creator IS NULL OR creator = :creator)
           AND (:before IS NULL OR created < :before)
           AND (:after IS NULL OR created > :after)
+          LIMIT 100
 
     findOne: >-
       SELECT * FROM import WHERE id=:id
