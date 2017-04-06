@@ -1,0 +1,50 @@
+sql:
+  # AssessmentTypeRepository
+  asmtType:
+    findIdByCode: >-
+        SELECT id FROM asmt_type WHERE code= :code
+
+  # SubjectRepositoryImpl
+  subject:
+    findIdByName: >-
+        SELECT id FROM subject WHERE name= :name
+
+  # GradeRepositoryImpl
+  grade:
+    findIdByCode: >-
+        SELECT id FROM grade WHERE code= :code
+
+  # AssessmentRepository
+  assessment:
+    findIdByNaturalId: >-
+        SELECT id FROM asmt WHERE natural_id= :natural_id
+
+    create: >-
+        INSERT INTO asmt (natural_id, grade_id,type_id, subject_id, academic_year) VALUES
+                       (:natural_id, :grade_id, :type_id, :subject_id, :academic_year)
+
+  #ClaimRepository
+  claim:
+    findIdByCode: >-
+        SELECT id FROM claim WHERE code= :code
+
+  #DepthOfKnowledgeRepository
+  dok:
+    findByLevel: >-
+        SELECT level FROM depth_of_knowledge WHERE level= :level
+
+  #MathPracticeRepository
+  mathPractice:
+    findByPractice: >-
+        SELECT practice FROM math_practice WHERE practice= :practice
+
+  #TargetRepository
+  target:
+    findIdByCodeAndClaim: >-
+        SELECT id FROM target WHERE code= :code AND claim_id= :claimId
+
+  # ItemRepository
+  #item:
+  #  create: >-
+
+
