@@ -20,5 +20,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-actuator'
     compile 'org.springframework.boot:spring-boot-starter-web'
 
+    compile "com.google.code.gson:gson:2.8.0"
+
     testCompile 'org.springframework:spring-test'
 }
