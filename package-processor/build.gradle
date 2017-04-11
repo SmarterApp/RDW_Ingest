@@ -31,9 +31,6 @@ dependencies {
     compile "org.springframework.boot:spring-boot-devtools"
 
     compile 'org.apache.commons:commons-csv:+'
-    compile 'commons-validator:commons-validator:1.6'
-
-
 }
 
 // this is for creating metadata

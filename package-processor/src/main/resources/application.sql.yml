@@ -2,49 +2,58 @@ sql:
   # AssessmentTypeRepository
   asmtType:
     findIdByCode: >-
-        SELECT id FROM asmt_type WHERE code= :code
+      SELECT id FROM asmt_type WHERE code= :code
 
   # SubjectRepositoryImpl
   subject:
     findIdByName: >-
-        SELECT id FROM subject WHERE name= :name
+      SELECT id FROM subject WHERE name= :name
 
   # GradeRepositoryImpl
   grade:
     findIdByCode: >-
-        SELECT id FROM grade WHERE code= :code
+      SELECT id FROM grade WHERE code= :code
 
   # AssessmentRepository
   assessment:
     findIdByNaturalId: >-
-        SELECT id FROM asmt WHERE natural_id= :natural_id
+      SELECT id FROM asmt WHERE natural_id= :natural_id
 
     create: >-
-        INSERT INTO asmt (natural_id, grade_id,type_id, subject_id, academic_year) VALUES
-                       (:natural_id, :grade_id, :type_id, :subject_id, :academic_year)
+      INSERT INTO asmt (natural_id, grade_id,type_id, subject_id, academic_year, name, label, version) VALUES
+                       (:naturalId, :gradeId, :typeId, :subjectId, :academicYear, :name, :label, :version)
+    assessmentScore:
+      create: >-
+        INSERT INTO asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score) SELECT (SELECT id FROM asmt WHERE natural_id=:asmtId), :cutPoint1, :cutPoint2, :cutPoint3, :minScore, :maxScore
 
   #ClaimRepository
   claim:
     findIdByCode: >-
-        SELECT id FROM claim WHERE code= :code
+      SELECT id FROM claim WHERE code= :code
 
   #DepthOfKnowledgeRepository
   dok:
     findByLevel: >-
-        SELECT level FROM depth_of_knowledge WHERE level= :level
+      SELECT level FROM depth_of_knowledge WHERE level= :level
 
   #MathPracticeRepository
   mathPractice:
     findByPractice: >-
-        SELECT practice FROM math_practice WHERE practice= :practice
+      SELECT practice FROM math_practice WHERE practice= :practice
 
   #TargetRepository
   target:
     findIdByCodeAndClaim: >-
-        SELECT id FROM target WHERE code= :code AND claim_id= :claimId
+      SELECT id FROM target WHERE code= :code AND claim_id = (SELECT id FROM claim WHERE code= :claimCode)
+
+
 
   # ItemRepository
-  #item:
-  #  create: >-
+  item:
+    create: >-
+      INSERT INTO item (asmt_id, claim_id, target_id, natural_id, math_practice, allow_calc, dok, difficulty)
+                        select (select id as asmt_id from asmt where natural_id=:asmtId), :claimId, :targetId, :itemId, :mathPractice, :allowCalc, :dokLevel, :difficulty
+
+
 
 
