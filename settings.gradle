@@ -10,4 +10,6 @@ rootProject.name = "rdw-ingest"
 rootProject.children.each {
     it.name = rootProject.name + "-" + it.name
 }
+include 'accessibility-processor'
+findProject(':accessibility-processor')?.name = 'rdw-ingest-accessibility-processor '
 
