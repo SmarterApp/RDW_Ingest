@@ -33,8 +33,8 @@ sql:
 
   #DepthOfKnowledgeRepository
   dok:
-    findByLevel: >-
-      SELECT level FROM depth_of_knowledge WHERE level= :level
+    findIdByLevelAndSubject: >-
+      SELECT id FROM depth_of_knowledge WHERE level= :level and subject_id = (SELECT id FROM subject WHERE name = :subjectName)
 
   #MathPracticeRepository
   mathPractice:
@@ -51,8 +51,8 @@ sql:
   # ItemRepository
   item:
     create: >-
-      INSERT INTO item (asmt_id, claim_id, target_id, natural_id, math_practice, allow_calc, dok, difficulty, max_points)
-                        select (select id as asmt_id from asmt where natural_id=:asmtId), :claimId, :targetId, :itemId, :mathPractice, :allowCalc, :dok, :difficulty, :maxPoints
+      INSERT INTO item (asmt_id, claim_id, target_id, natural_id, math_practice, allow_calc, dok_id, difficulty, max_points)
+                        select (select id as asmt_id from asmt where natural_id=:asmtId), :claimId, :targetId, :itemId, :mathPractice, :allowCalc, :dokId, :difficulty, :maxPoints
 
 
 
