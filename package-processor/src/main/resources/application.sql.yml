@@ -52,7 +52,7 @@ sql:
   item:
     create: >-
       INSERT INTO item (asmt_id, claim_id, target_id, natural_id, math_practice, allow_calc, dok, difficulty, max_points)
-                        select (select id as asmt_id from asmt where natural_id=:asmtId), :claimId, :targetId, :itemId, :mathPractice, :allowCalc, :dokLevel, :difficulty, :maxPoints
+                        select (select id as asmt_id from asmt where natural_id=:asmtId), :claimId, :targetId, :itemId, :mathPractice, :allowCalc, :dok, :difficulty, :maxPoints
 
 
 
