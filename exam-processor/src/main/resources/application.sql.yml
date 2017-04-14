@@ -57,8 +57,8 @@ sql:
   # ExamRepository
   exam:
     create: >-
-       INSERT INTO exam (exam_student_id, asmt_id, asmt_version, opportunity, status, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, achievement_level, completed_at) VALUES
-                       (:exam_student_id, :asmt_id, :asmt_version, :opportunity, :status, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :achievement_level, :completed_at)
+       INSERT INTO exam (exam_student_id, school_year,  asmt_id, asmt_version, opportunity, status, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, achievement_level, completed_at) VALUES
+                       (:exam_student_id, :school_year, :asmt_id, :asmt_version, :opportunity, :status, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :achievement_level, :completed_at)
     examClaimScore:
       create: >-
         INSERT INTO exam_claim_score (exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
@@ -82,8 +82,8 @@ sql:
   # IabExamRepository
   iabExam:
     create: >-
-      INSERT INTO iab_exam (iab_exam_student_id, asmt_id, asmt_version, opportunity, status, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, category, completed_at) VALUES
-                           (:iab_exam_student_id, :asmt_id, :asmt_version, :opportunity, :status, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :category, :completed_at)
+      INSERT INTO iab_exam (iab_exam_student_id, school_year, asmt_id, asmt_version, opportunity, status, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, category, completed_at) VALUES
+                           (:iab_exam_student_id, :school_year, :asmt_id, :asmt_version, :opportunity, :status, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :category, :completed_at)
 
     iabExamItem:
       create: >-
