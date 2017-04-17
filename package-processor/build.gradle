@@ -21,7 +21,6 @@ dependencies {
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'org.springframework.cloud:spring-cloud-stream-test-support'
 
-    compile project(':rdw-ingest-common')
     compile "com.google.code.gson:gson:2.8.0"
     compile 'com.google.guava:guava'
     compile 'org.opentestsystem.rdw.common:rdw-common-messaging'
@@ -31,6 +30,9 @@ dependencies {
     compile "org.springframework.boot:spring-boot-devtools"
 
     compile 'org.apache.commons:commons-csv:+'
+
+    compile project(':rdw-ingest-common')
+    testCompile project(path: ':rdw-ingest-common', configuration: 'tests')
 }
 
 // this is for creating metadata
