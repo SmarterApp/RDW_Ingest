@@ -84,3 +84,20 @@ services:
       - CONFIG_SERVICE_URL=http://config-server:8888
     extra_hosts:
       - "dwhost:$DATAWAREHOUSE_HOST"
+
+  accessibility-processor:
+    image: fwsbac/rdw-ingest-accessibility-processor
+    ports:
+      - 8083:8080
+    depends_on:
+      - config-server
+      - rabbitmq
+    links:
+      - config-server
+      - rabbitmq
+    environment:
+      - spring.profiles.active=local-docker
+      - CONFIG_SERVICE_ENABLED=true
+      - CONFIG_SERVICE_URL=http://config-server:8888
+    extra_hosts:
+      - "dwhost:$DATAWAREHOUSE_HOST"
