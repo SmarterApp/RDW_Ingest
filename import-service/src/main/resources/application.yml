@@ -11,6 +11,8 @@ cloud:
     region:
       auto: false
       static: us-west-2
+    stack:
+      auto: false
 
 spring:
   datasource:
