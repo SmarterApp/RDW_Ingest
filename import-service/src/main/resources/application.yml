@@ -11,6 +11,11 @@ cloud:
     region:
       auto: false
       static: us-west-2
+    # disable CloudFormation stuff
+    stack:
+      auto: false
+    credentials:
+      instance-profile: false
 
 spring:
   datasource:
