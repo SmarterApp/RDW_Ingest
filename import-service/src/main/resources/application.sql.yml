@@ -13,20 +13,39 @@ sql:
     exists: >-
       SELECT (CASE WHEN EXISTS (SELECT 1 FROM import WHERE id=:id) THEN true ELSE false END) exist
 
-    findBy: >-
-      SELECT * FROM import WHERE (:content IS NULL OR content=:content)
-          AND (:status IS NULL OR status = :status)
-          AND (:batch IS NULL OR batch = :batch)
-          AND (:creator IS NULL OR creator = :creator)
-          AND (:before IS NULL OR created < :before)
-          AND (:after IS NULL OR created > :after)
-          LIMIT 100
-
     findOne: >-
       SELECT * FROM import WHERE id=:id
 
     findOneByDigest: >-
       SELECT * FROM import WHERE digest=:digest
+
+    findAll: >-
+     SELECT * FROM import i
+
+    whereClause: >-
+      WHERE (:content IS NULL OR i.content=:content)
+        AND (:status IS NULL OR i.status = :status)
+        AND (:batch IS NULL OR i.batch = :batch)
+        AND (:creator IS NULL OR i.creator = :creator)
+        AND (:before IS NULL OR i.created < :before)
+        AND (:after IS NULL OR i.created > :after)
+
+    content:
+      exams: >-
+        SELECT s.ssid, a.natural_id, e.completed_at
+        FROM import i
+          JOIN exam e ON e.import_id = i.id
+          JOIN exam_student es ON es.id = e.exam_student_id
+          JOIN student s ON s.id = es.student_id
+          JOIN asmt a ON a.id = e.asmt_id
+
+      iabExams: >-
+        SELECT s.ssid, a.natural_id, ie.completed_at
+        FROM import i
+          JOIN iab_exam ie ON ie.import_id = i.id
+          JOIN iab_exam_student ies ON ies.id = ie.iab_exam_student_id
+          JOIN student s ON s.id = ies.student_id
+          JOIN asmt a ON a.id = ie.asmt_id
 
   importStatus:
     findAll: >-
