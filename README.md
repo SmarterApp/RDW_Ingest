@@ -2,6 +2,7 @@
 RDW ingest applications:
 1. Import Service - RESTful API for submitting test results (exams), packages, etc.
 1. Exam Processor - Spring Cloud Stream application for processing test results.
+1. Package Processor - Spring Cloud Stream application for processing assessment packages.
 
 RDW Ingest uses other processes:
 1. MySQL - warehouse and reporting databases
@@ -47,6 +48,9 @@ cd warehouse
 ```
 
 ### Building
+If you're reading this you might want to build the artifacts from scratch. That's great but know that you can run
+the applications using docker images without all the mucking about in source (see `Running` below). That said ...
+
 RDW_Ingest apps make use of RDW_Common modules. Because there is no common artifact repository, you must do something
 to make the artifacts available. You could make an uber project in your IDE. Or you could build common locally:
 ```bash
@@ -77,18 +81,19 @@ java                                    8-jre-alpine        d85b17c6762e        
 ```
 
 ### Running
-The apps are wrapped in docker containers and should be built and run that way. There is a docker-compose spec
-to make it easy: it runs RabbitMQ, the configuration server and all the RDW_Ingest applications. Please read the
-comments in the docker-compose script for setting required environment variables. Then invoke docker-compose, e.g.:
+The apps are wrapped in docker containers and should be built and run that way. Descriptors can be found for various
+environments in RDW_Deployment. For example to run a local docker deployment:
 ```bash
-cd docker
-docker-compose up -d
-docker logs -f docker_import-service_1
+git clone https://gitlab.com/fairwaytech/RDW_Deployment
+cd RDW_Deployment/local-docker
+docker-compose -f config.yml -f ingest.yml up -d
 ```
+Please read the comments in the docker scripts for setting required environment variables.
+
 To stop a single service, use regular docker commands; to stop them all use docker-compose, e.g.:
 ```bash
 docker stop docker_import-service_1
-docker-compose down
+docker-compose -f config.yml -f ingest.yml down
 ```
 
 You can use a REST client to hit end-points, e.g.
@@ -98,23 +103,5 @@ GET /exams/imports/:id   should return an import request payload
 GET /exams/imports?batch=<batch>&status=<status>  should return a list of imports matching criteria
 ```
 
-After cycling through some builds you will end up with a number of dangling images, e.g.:
-```bash
-docker images
-REPOSITORY                          TAG                 IMAGE ID            CREATED             SIZE
-fwsbac/rdw-ingest-import-service    latest              ad78b95ae39f        2 minutes ago       140 MB
-<none>                              <none>              13b96a973d59        About an hour ago   140 MB
-<none>                              <none>              cb5063cbcc56        2 hours ago         140 MB
-<none>                              <none>              2236259b73f0        3 hours ago         140 MB
-fwsbac/rdw-ingest-exam-processor    latest              293d8744377d        3 hours ago         132 MB
-<none>                              <none>              bdae5c1151d5        24 hours ago        140 MB
-<none>                              <none>              233d2f87c185        24 hours ago        132 MB
-```
-These can be quickly cleaned up:
-```bash
-docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
-```
-
 ### Documentation TODO
-* Make README.md more user-facing
 * Make a CHANGE_LOG file

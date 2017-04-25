@@ -1,6 +1,6 @@
 ## RDW_Ingest for Developers
 
-This document is targeted at developers contributing to the RDW_Ingest project.
+This document is targeted at developers contributing to the RDW_Ingest project. Please check README.md for more info.
 
 ### Coding Conventions
 
@@ -16,8 +16,9 @@ names for external services.
 * Secrets should be specified only in the config-repo file, and they should be encrypted using the config server.
 
 ### Version Control Conventions
-Repo: https://github.com/SmarterApp/RDW_Ingest
+Source Repo: https://github.com/SmarterApp/RDW_Ingest
 Config Repo: https://gitlab.com/fairwaytech/sbac-config-repo
+Deployment Repo: https://gitlab.com/fairwaytech/RDW_Deployment
 
 This project follows the common convention of having two main branches with infinite lifetime: `master` is the main
 branch where HEAD contains the production-ready state, while `develop` is the main branch where HEAD contains the 
@@ -26,6 +27,26 @@ latest changes for the next release.
 Use feature branches off of `develop` for all new features. Use a prefix of `feature/` to highlight those branches.
 For example, the new shoesize feature work would be in `feature/shoesize`. Create pull requests from the feature
 branch to `develop` to solicit code reviews and feedback. Once approved use `squash and merge` into `develop`.
+
+### Building
+The README outlines basic building steps.
+
+After cycling through some builds you will end up with a number of dangling images, e.g.:
+```bash
+docker images
+REPOSITORY                          TAG                 IMAGE ID            CREATED             SIZE
+fwsbac/rdw-ingest-import-service    latest              ad78b95ae39f        2 minutes ago       140 MB
+<none>                              <none>              13b96a973d59        About an hour ago   140 MB
+<none>                              <none>              cb5063cbcc56        2 hours ago         140 MB
+<none>                              <none>              2236259b73f0        3 hours ago         140 MB
+fwsbac/rdw-ingest-exam-processor    latest              293d8744377d        3 hours ago         132 MB
+<none>                              <none>              bdae5c1151d5        24 hours ago        140 MB
+<none>                              <none>              233d2f87c185        24 hours ago        132 MB
+```
+These can be quickly cleaned up:
+```bash
+docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
+```
 
 ### Running
 
