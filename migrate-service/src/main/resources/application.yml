@@ -7,7 +7,7 @@ spring:
     stream:
       bindings:
         input:
-          destination: PACKAGE
+          destination: MIGRATE
           group: default
 
   datasource:
@@ -18,11 +18,3 @@ spring:
     validationQuery: SELECT 1
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
-    maxActive: 20
-    initialSize: 4
-    maxWait: 10000
-
-  jackson:
-    default-property-inclusion: non_null
-    serialization:
-      WRITE_DATES_AS_TIMESTAMPS: false
