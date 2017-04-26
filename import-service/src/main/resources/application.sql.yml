@@ -1,5 +1,13 @@
 sql:
   import:
+    queryWhereClause: >-
+      (:content IS NULL OR content=:content)
+      AND (:status IS NULL OR status = :status)
+      AND (:batch IS NULL OR batch = :batch)
+      AND (:creator IS NULL OR creator = :creator)
+      AND (:before IS NULL OR created < :before)
+      AND (:after IS NULL OR created > :after)
+
     count: >-
       SELECT count(*) from import
 
@@ -14,13 +22,7 @@ sql:
       SELECT (CASE WHEN EXISTS (SELECT 1 FROM import WHERE id=:id) THEN true ELSE false END) exist
 
     findBy: >-
-      SELECT * FROM import WHERE (:content IS NULL OR content=:content)
-          AND (:status IS NULL OR status = :status)
-          AND (:batch IS NULL OR batch = :batch)
-          AND (:creator IS NULL OR creator = :creator)
-          AND (:before IS NULL OR created < :before)
-          AND (:after IS NULL OR created > :after)
-          LIMIT 100
+      SELECT * FROM import WHERE ${sql.import.queryWhereClause} LIMIT 100
 
     findOne: >-
       SELECT * FROM import WHERE id=:id
