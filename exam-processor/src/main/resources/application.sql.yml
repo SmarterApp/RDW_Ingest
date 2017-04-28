@@ -118,3 +118,19 @@ sql:
 
     delete: >-
         DELETE FROM student_ethnicity where student_id = :student_id
+
+  studentGroup:
+    create: >-
+      INSERT INTO student_group (name, school_id, school_year, subject_id, active, creator, created)
+        VALUES (:name, :school_id, :school_year, :subject_id, :active, :creator, :created)
+
+    findOneByName: >-
+      SELECT id, name, school_id, school_year, subject_id, active, creator, created FROM student_group
+        WHERE name=:name
+
+    findIdByNameAndSchoolAndYear: >-
+      SELECT id FROM student_group
+        WHERE name=:name AND school_id=:school_id AND school_year=:school_year
+
+    addStudentMembership: >-
+      INSERT IGNORE INTO student_group_membership (student_group_id, student_id) VALUES (?, ?)
