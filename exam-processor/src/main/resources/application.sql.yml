@@ -124,10 +124,6 @@ sql:
       INSERT INTO student_group (name, school_id, school_year, subject_id, active, creator, created)
         VALUES (:name, :school_id, :school_year, :subject_id, :active, :creator, :created)
 
-    findOneByName: >-
-      SELECT id, name, school_id, school_year, subject_id, active, creator, created FROM student_group
-        WHERE name=:name
-
     findIdByNameAndSchoolAndYear: >-
       SELECT id FROM student_group
         WHERE name=:name AND school_id=:school_id AND school_year=:school_year
