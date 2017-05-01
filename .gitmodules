@@ -1,3 +1,4 @@
 [submodule "RDW_Schema"]
 	path = RDW_Schema
 	url = https://github.com/SmarterApp/RDW_Schema
+	branch = feature/migrating_to_use_gradle

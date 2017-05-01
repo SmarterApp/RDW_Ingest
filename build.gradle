@@ -14,17 +14,27 @@ buildscript {
     }
 }
 
-
 apply plugin: 'io.spring.dependency-management'
 
 allprojects {
     group = 'org.opentestsystem.rdw.ingest'
-    version = '0.0.1-SNAPSHOT'
+    version = '0.0.1'
 
     apply plugin: 'idea'
     apply plugin: 'propdeps'
     apply plugin: 'propdeps-maven'
     apply plugin: 'propdeps-idea'
+
+
+}
+task migrateAll(type: GradleBuild) {
+    dir = "RDW_Schema"
+    tasks = ["migrateAll"]
+}
+
+task cleanAll(type: GradleBuild) {
+    dir = "RDW_Schema"
+    tasks = ["cleanAll"]
 }
 
 subprojects {
@@ -89,37 +99,12 @@ subprojects {
         entryPoint("java", "-jar", "${jar.archivePath.name}")
     }
 
-    task updateSchema() {
-
+    test {
+        exclude '**/*IT.*'
     }
 
-    sourceSets {
-        integrationTest {
-            java {
-                compileClasspath += main.output + test.output
-                runtimeClasspath += main.output + test.output
-                srcDir file('src/test/java')
-                //exclude '**/*IT.*'
-            }
-            resources.srcDir file('src/test/resources')
-        }
-    }
-
-    sourceSets {
-        test {
-            java {
-                exclude '**/*IT.*'
-            }
-        }
-    }
-    configurations {
-        integrationTestCompile.extendsFrom testCompile
-        integrationTestRuntime.extendsFrom testRuntime
-    }
-
-    task integrationTest(type: Test) {
-        testClassesDir = sourceSets.integrationTest.output.classesDir
-        classpath = sourceSets.integrationTest.runtimeClasspath
+    task integrationTest(type: Test, dependsOn:[":cleanAll", ":migrateAll"]) {
+        include '**/*IT.*'
         outputs.upToDateWhen { false }
     }
     check.dependsOn integrationTest
@@ -129,4 +114,22 @@ subprojects {
         reports.html.destination = file("${reporting.baseDir}/${name}")
     }
 
+}
+
+
+
+test.dependsOn("cleanAll", "migrateAll")
+
+
+if (project.hasProperty("buildNumber")) {
+    println "I have the build version: " + version + "." + buildNumber
+    project.setVersion(project.version + "." + buildNumber)
+    println "I have the build version: " + version
+}
+
+task myTask {
+    if (project.hasProperty("myVersion")) {
+        project.setVersion(myVersion)
+        println "I have the build version: " + version
+    }
 }
