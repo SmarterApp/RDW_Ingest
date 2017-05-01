@@ -1,18 +1,27 @@
 server:
   port: 8761
 
-eureka:
-  client:
-    healthCheck:
-      enabled: true
-    lease:
-      duration: 5
-    register-with-eureka: false
-    fetch-registry: true
+spring:
+  mail:
+    host: email-smtp.us-west-2.amazonaws.com
+    port: 465
+    protocol: smtps
+    username: AKIAJWRL6G2TLAJDGJGQ
+    password: Au1RgG2u7/FK2Z43aZu556Lu/Y6x8uwZy08eT3aO7oSO
 
-logging:
-  level:
-    com:
-      netflix:
-        eureka: OFF
-        discovery: OFF
+repository:
+  import:
+    host: http://localhost:8080
+    auth:
+      token:
+      username: dwtest@example.com
+      password: password
+
+
+task:
+  sendReconciliationReport:
+    email:
+      to: bsavage@fairwaytech.com
+      from: bsavage@fairwaytech.com
+      subject: Daily Reconciliation Report
+      message: Please see attached CSV file for the daily imported exams.
