@@ -1,0 +1,57 @@
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+
+apply plugin: 'com.bmuschko.docker-remote-api'
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+    // handy for creating metadata with @ConfigurationProperties
+    optional "org.springframework.boot:spring-boot-configuration-processor"
+
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework.boot:spring-boot-starter-cache'
+    compile 'org.springframework.boot:spring-boot-starter-jdbc'
+    compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
+    compile 'org.springframework.cloud:spring-cloud-starter-config'
+    compile 'org.springframework.cloud:spring-cloud-stream'
+
+    // this is for retrying connection to config server
+    compile 'org.springframework.boot:spring-boot-starter-aop'
+    compile 'org.springframework.retry:spring-retry'
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.springframework.cloud:spring-cloud-stream-test-support'
+
+    compile "com.google.code.gson:gson:2.8.0"
+    compile 'com.google.guava:guava'
+    compile 'org.opentestsystem.rdw.common:rdw-common-messaging'
+    compile 'org.opentestsystem.rdw.common:rdw-common-model'
+    compile 'org.opentestsystem.rdw.common:rdw-common-utils'
+    compile 'mysql:mysql-connector-java'
+
+    compile project(':rdw-ingest-common')
+    testCompile project(path: ':rdw-ingest-common', configuration: 'tests')
+}
+
+// this is for creating metadata
+compileJava.dependsOn(processResources)
+
+// trigger creation of build-info.properties
+classes.dependsOn(createBuildInfoFile)
+
+// task to build the docker image
+task buildImage(type: DockerBuildImage, dependsOn:[build, createDockerfile]) {
+    dockerFile = createDockerfile.destFile
+    inputDir = project.file('build/docker/')
+    tag = "fwsbac/${project.name}"
+    doFirst {
+        copy {
+            from jar
+            into inputDir
+        }
+    }
+}
+
+// to use this, you must use docker login to set up docker hub credentials
+task pushImage(type:Exec, dependsOn:[buildImage]) {
+    commandLine("docker", "push", "fwsbac/${project.name}")
+}
