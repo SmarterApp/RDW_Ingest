@@ -6,8 +6,8 @@ spring:
     host: email-smtp.us-west-2.amazonaws.com
     port: 465
     protocol: smtps
-    username: AKIAJWRL6G2TLAJDGJGQ
-    password: Au1RgG2u7/FK2Z43aZu556Lu/Y6x8uwZy08eT3aO7oSO
+    username:
+    password:
 
 repository:
   import:
