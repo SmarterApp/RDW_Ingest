@@ -49,8 +49,8 @@ sql:
 
     # this is a stubbed out method - TODO: to be deleted
     create: >-
-        INSERT INTO asmt (natural_id, grade_id,type_id, subject_id, school_year) VALUES
-                       (:natural_id, :grade_id, :type_id, :subject_id, :school_year)
+        INSERT INTO asmt (natural_id, grade_id,type_id, subject_id, school_year, import_id) VALUES
+                       (:natural_id, :grade_id, :type_id, :subject_id, :school_year, (select id from import limit 1))
 
     # this is a stubbed out method - TODO: to be deleted
     createItems: >-
@@ -113,8 +113,27 @@ sql:
                                   (:grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status, :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type)
 
   studentEthnicity:
+    findAllIds:
+      SELECT ethnicity_id from student_ethnicity where student_id = :student_id
+
     create: >-
         INSERT INTO student_ethnicity (student_id, ethnicity_id) VALUES (:student_id, :ethnicity_id)
 
     delete: >-
         DELETE FROM student_ethnicity where student_id = :student_id
+
+  student:
+    updateImportId:
+        UPDATE student SET import_id = :import_id WHERE id = :student_id
+
+  studentGroup:
+    create: >-
+      INSERT INTO student_group (name, school_id, school_year, subject_id, active, creator, created, import_id)
+        VALUES (:name, :school_id, :school_year, :subject_id, :active, :creator, :created, :import_id)
+
+    findIdByNameAndSchoolAndYear: >-
+      SELECT id FROM student_group
+        WHERE name=:name AND school_id=:school_id AND school_year=:school_year
+
+    addStudentMembership: >-
+      INSERT IGNORE INTO student_group_membership (student_group_id, student_id) VALUES (?, ?)
