@@ -1,6 +1,6 @@
 spring:
   mail:
-    host: email-smtp.us-west-2.amazonaws.com
+    host: local
     port: 465
     protocol: smtps
 
@@ -14,6 +14,7 @@ repository:
 
 task:
   sendReconciliationReport:
+    cron: 0 16 15 * * *
     email:
       to: bsavage@fairwaytech.com
       from: bsavage@fairwaytech.com
