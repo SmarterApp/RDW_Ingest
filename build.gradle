@@ -27,15 +27,6 @@ allprojects {
 
 
 }
-task migrateAll(type: GradleBuild) {
-    dir = "RDW_Schema"
-    tasks = ["migrateAll"]
-}
-
-task cleanAll(type: GradleBuild) {
-    dir = "RDW_Schema"
-    tasks = ["cleanAll"]
-}
 
 subprojects {
     apply plugin: 'java'
@@ -116,20 +107,17 @@ subprojects {
 
 }
 
-
-
-test.dependsOn("cleanAll", "migrateAll")
-
-
-if (project.hasProperty("buildNumber")) {
-    println "I have the build version: " + version + "." + buildNumber
-    project.setVersion(project.version + "." + buildNumber)
-    println "I have the build version: " + version
+task migrateAll(type: GradleBuild) {
+    dir = "RDW_Schema"
+    tasks = ["migrateAll"]
 }
 
-task myTask {
-    if (project.hasProperty("myVersion")) {
-        project.setVersion(myVersion)
-        println "I have the build version: " + version
-    }
+task cleanAll(type: GradleBuild) {
+    dir = "RDW_Schema"
+    tasks = ["cleanAll"]
+}
+
+if (project.hasProperty("buildNumber")) {
+    project.setVersion(project.version + "." + buildNumber)
+    println "I will be using build version: " + version
 }
