@@ -7,10 +7,6 @@ spring:
 repository:
   import:
     host: http://localhost:8080
-    auth:
-      token:
-      username: dwtest@example.com
-      password: password
 
 task:
   sendReconciliationReport:
