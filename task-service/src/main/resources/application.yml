@@ -14,9 +14,10 @@ repository:
 
 task:
   sendReconciliationReport:
-    cron: 0 16 15 * * *
+    cron: 0 5 9 * * *
+    query:
     email:
-      to: bsavage@fairwaytech.com
-      from: bsavage@fairwaytech.com
+      to: fairway.sbac.rdw.dev@gmail.com
+      from: fairway.sbac.rdw.dev@gmail.com
       subject: Daily Reconciliation Report
       message: Please see attached CSV file for the daily imported exams.
