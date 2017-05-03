@@ -105,6 +105,8 @@ subprojects {
         reports.html.destination = file("${reporting.baseDir}/${name}")
     }
 
+    integrationTest.dependsOn ":cleanAll",":migrateAll"
+
 }
 
 task migrateAll(type: GradleBuild) {
