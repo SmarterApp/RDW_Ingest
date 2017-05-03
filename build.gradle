@@ -94,7 +94,7 @@ subprojects {
         exclude '**/*IT.*'
     }
 
-    task integrationTest(type: Test, dependsOn:[":cleanAll", ":migrateAll"]) {
+    task integrationTest(type: Test, dependsOn:[":cleanAllTest", ":migrateAllTest"]) {
         include '**/*IT.*'
         outputs.upToDateWhen { false }
     }
@@ -105,18 +105,18 @@ subprojects {
         reports.html.destination = file("${reporting.baseDir}/${name}")
     }
 
-    integrationTest.dependsOn ":cleanAll",":migrateAll"
+    integrationTest.dependsOn ":cleanAllTest",":migrateAllTest"
 
 }
 
-task migrateAll(type: GradleBuild) {
+task migrateAllTest(type: GradleBuild) {
     dir = "RDW_Schema"
-    tasks = ["migrateAll"]
+    tasks = ["migrateAllTest"]
 }
 
-task cleanAll(type: GradleBuild) {
+task cleanAllTest(type: GradleBuild) {
     dir = "RDW_Schema"
-    tasks = ["cleanAll"]
+    tasks = ["cleanAllTest"]
 }
 
 if (project.hasProperty("buildNumber")) {
