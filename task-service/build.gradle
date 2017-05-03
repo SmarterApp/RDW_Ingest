@@ -1,0 +1,50 @@
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+
+apply plugin: 'com.bmuschko.docker-remote-api'
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+    // handy for creating metadata with @ConfigurationProperties
+    optional "org.springframework.boot:spring-boot-configuration-processor"
+
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework.cloud:spring-cloud-starter-config'
+
+    compile 'org.opentestsystem.rdw.common:rdw-common-model'
+
+    // enables email
+    compile 'org.springframework.boot:spring-boot-starter-mail'
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.springframework.cloud:spring-cloud-stream-test-support'
+}
+
+// this is for creating metadata
+compileJava.dependsOn(processResources)
+
+classes.dependsOn(createBuildInfoFile)
+
+bootRun {
+    addResources = true
+    if (project.hasProperty('jvmArgs')) {
+        jvmArgs project.jvmArgs.split('\\s+')
+    }
+}
+
+// task to build the docker image
+task buildImage(type:DockerBuildImage, dependsOn:[build, createDockerfile]) {
+    dockerFile = createDockerfile.destFile
+    inputDir = project.file('build/docker/')
+    tag = "fwsbac/${project.name}"
+    doFirst {
+        copy {
+            from jar
+            into inputDir
+        }
+    }
+}
+
+// to use this, you must use docker login to set up docker hub credentials
+task pushImage(type:Exec, dependsOn:[buildImage]) {
+    commandLine("docker", "push", "fwsbac/${project.name}")
+}

@@ -1,0 +1,19 @@
+spring:
+  mail:
+    host: local
+    port: 465
+    protocol: smtps
+
+repository:
+  import:
+    host: http://localhost:8080
+
+task:
+  sendReconciliationReport:
+    cron: 0 5 9 * * *
+    query:
+    email:
+      to: fairway.sbac.rdw.dev@gmail.com
+      from: fairway.sbac.rdw.dev@gmail.com
+      subject: Daily Reconciliation Report
+      message: Please see attached CSV file for the daily imported exams.
