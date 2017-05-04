@@ -25,6 +25,10 @@ allprojects {
     apply plugin: 'propdeps-maven'
     apply plugin: 'propdeps-idea'
 
+    if (project.hasProperty("buildNumber")) {
+        project.setVersion(project.version.split("-")[0] + "." + buildNumber)
+    }
+
 }
 
 subprojects {
@@ -101,7 +105,7 @@ subprojects {
         }
     }
 
-    check.dependsOn integrationTest
+    //check.dependsOn integrationTest
     //integrationTest.mustRunAfter test
 
     tasks.withType(Test) {
@@ -119,6 +123,3 @@ task cleanAllTest(type: GradleBuild) {
     tasks = ["cleanAll-test"]
 }
 
-if (project.hasProperty("buildNumber")) {
-    project.setVersion(project.version.split("-")[0] + "." + buildNumber)
-}
