@@ -6,7 +6,10 @@ spring:
 
 repository:
   import:
-    host: http://localhost:8080
+    scheme: http
+    host: localhost:8080
+    username:
+    password:
 
 task:
   sendReconciliationReport:
