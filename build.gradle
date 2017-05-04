@@ -121,5 +121,4 @@ task cleanAllTest(type: GradleBuild) {
 
 if (project.hasProperty("buildNumber")) {
     project.setVersion(project.version.split("-")[0] + "." + buildNumber)
-    println "I will be using build version: " + version
 }
