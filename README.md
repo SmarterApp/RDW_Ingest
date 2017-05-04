@@ -2,6 +2,7 @@
 RDW ingest applications:
 1. Import Service - RESTful API for submitting test results (exams), packages, etc.
 1. Exam Processor - Spring Cloud Stream application for processing test results.
+1. Package Processor - Spring Cloud Stream application for processing Assessment Packages.
 
 RDW Ingest uses other processes:
 1. MySQL - warehouse and reporting databases
@@ -37,13 +38,13 @@ mysql> GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
 mysql> exit
 ```
 
-The applications depend on the database being configured properly. This is done using RDW_Schema.
+The applications depend on the database being configured properly. See instructions below under[Running](#Running)
+
+
+### Cloning
+This project has a RDW_Schema as a submodule, so to clone, us the following:
 ```bash
-git clone https://github.com/SmarterApp/RDW_Schema
-cd RDW_Schema
-git checkout develop
-cd warehouse
-../scripts/migrate
+git clone --recursive https://github.com/SmarterApp/RDW_Ingest
 ```
 
 ### Building
@@ -53,15 +54,16 @@ to make the artifacts available. You could make an uber project in your IDE. Or 
 git clone https://github.com/SmarterApp/RDW_Common
 cd RDW_Common
 git checkout develop
-./gradlew build install
+./gradlew install
 ```
 
-Now you should be able to build and test the ingest apps:
+Now you should be able to build and test the ingest apps from where you cloned this project:
 ```bash
-git clone https://github.com/SmarterApp/RDW_Ingest
 cd RDW_Ingest
 git checkout develop
-gradle build
+./gradlew build
+or to also run Integration Tests
+./gradlew build IT 
 ```
 Code coverage reports can be found in each project under `./build/reports/jacoco/test/html/index.html` 
 
@@ -77,6 +79,13 @@ java                                    8-jre-alpine        d85b17c6762e        
 ```
 
 ### Running
+The applications depend on the database being configured properly. This project has the RDW_Schema submodule pinned at a
+version that is compatible with the current version of this project, so there is no need to separately clone the RDW_Schema.
+```bash
+cd RDW_Schema
+./gradlew cleanAll migrateAll
+```
+
 The apps are wrapped in docker containers and should be built and run that way. There is a docker-compose spec
 to make it easy: it runs RabbitMQ, the configuration server and all the RDW_Ingest applications. Please read the
 comments in the docker-compose script for setting required environment variables. Then invoke docker-compose, e.g.:
