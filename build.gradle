@@ -24,6 +24,11 @@ allprojects {
     apply plugin: 'propdeps'
     apply plugin: 'propdeps-maven'
     apply plugin: 'propdeps-idea'
+
+    if (project.hasProperty("buildNumber")) {
+        project.setVersion(project.version.split("-")[0] + "." + buildNumber)
+    }
+
 }
 
 subprojects {
@@ -88,4 +93,34 @@ subprojects {
         exposePort(8080)
         entryPoint("java", "-jar", "${jar.archivePath.name}")
     }
+
+    test {
+        exclude '**/*IT.*'
+    }
+
+    task integrationTest(type: Test, dependsOn:[":cleanAllTest", ":migrateAllTest"]) {
+        include '**/*IT.*'
+        outputs.upToDateWhen { false }
+        doLast {
+            println "Running Integration Tests..."
+        }
+    }
+
+    //check.dependsOn integrationTest
+    //integrationTest.mustRunAfter test
+
+    tasks.withType(Test) {
+        reports.html.destination = file("${reporting.baseDir}/${name}")
+    }
 }
+
+task migrateAllTest(type: GradleBuild) {
+    dir = "RDW_Schema"
+    tasks = ["migrateAll-test"]
+}
+
+task cleanAllTest(type: GradleBuild) {
+    dir = "RDW_Schema"
+    tasks = ["cleanAll-test"]
+}
+
