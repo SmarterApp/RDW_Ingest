@@ -38,7 +38,7 @@ mysql> GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
 mysql> exit
 ```
 
-The applications depend on the database being configured properly. See instructions below under[Running](#Running)
+The applications depend on the database being configured properly. See instructions below under [Running](#running)
 
 
 ### Cloning
