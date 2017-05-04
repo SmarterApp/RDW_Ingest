@@ -101,3 +101,21 @@ services:
       - CONFIG_SERVICE_URL=http://config-server:8888
     extra_hosts:
       - "dwhost:$DATAWAREHOUSE_HOST"
+
+  task-service:
+    image: fwsbac/rdw-ingest-task-service
+    ports:
+      - 8084:8080
+    depends_on:
+      - config-server
+      - import-service
+    links:
+      - config-server
+      - import-service
+    environment:
+      - spring.profiles.active=local-docker
+      - CONFIG_SERVICE_ENABLED=true
+      - CONFIG_SERVICE_URL=http://config-server:8888
+    extra_hosts:
+      - "dwhost:$DATAWAREHOUSE_HOST"
+
