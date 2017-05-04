@@ -83,6 +83,8 @@ The applications depend on the database being configured properly. This project 
 version that is compatible with the current version of this project, so there is no need to separately clone the RDW_Schema.
 ```bash
 cd RDW_Schema
+./gradlew migrateAll
+or to completely clean out any existing data you might have, if you already have the database set up:
 ./gradlew cleanAll migrateAll
 ```
 
