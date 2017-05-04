@@ -94,20 +94,24 @@ subprojects {
         entryPoint("java", "-jar", "${jar.archivePath.name}")
     }
 
-    test {
-        exclude '**/*IT.*'
-    }
+    test.exclude '**/*IT.*'
 
-    task integrationTest(type: Test, dependsOn:[":cleanAllTest", ":migrateAllTest"]) {
+    //This task for for manually running the integration tests against schemas being developed simultaneously with this
+    // project, versus the schemas that are "fixed" under the RDW_Schema submodule in this project
+    task manualIT(type: Test) {
         include '**/*IT.*'
         outputs.upToDateWhen { false }
+        doLast {
+            println "Running Manual Integration Tests..."
+        }
+    }
+
+    //The omission of the ':' in manualIT is on purpose - we need the relative path to manualIT
+    task IT(type: Test, dependsOn:[":cleanAllTest", ":migrateAllTest", "manualIT"]) {
         doLast {
             println "Running Integration Tests..."
         }
     }
-
-    //check.dependsOn integrationTest
-    //integrationTest.mustRunAfter test
 
     tasks.withType(Test) {
         reports.html.destination = file("${reporting.baseDir}/${name}")
@@ -115,11 +119,15 @@ subprojects {
 }
 
 task migrateAllTest(type: GradleBuild) {
+    group = "Schema"
+    description = "Cleans the schemas that integration tests depend on"
     dir = "RDW_Schema"
     tasks = ["migrateAll-test"]
 }
 
 task cleanAllTest(type: GradleBuild) {
+    group = "Schema"
+    description = "Migrates the schemas that integration tests depend on"
     dir = "RDW_Schema"
     tasks = ["cleanAll-test"]
 }
