@@ -1,19 +1,17 @@
 spring:
   mail:
     host: local
-    port: 465
-    protocol: smtps
 
 repository:
   import:
     scheme: http
-    host: localhost:8080
+    host: ${IMPORT_SERVICE_HOST:localhost:8080}
     username:
     password:
 
 task:
-  sendReconciliationReport:
-    cron: 0 5 9 * * *
+  send-reconciliation-report:
+    cron: 0 37 14 * * *
     query:
     email:
       to: fairway.sbac.rdw.dev@gmail.com
