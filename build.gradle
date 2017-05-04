@@ -18,13 +18,12 @@ apply plugin: 'io.spring.dependency-management'
 
 allprojects {
     group = 'org.opentestsystem.rdw.ingest'
-    version = '0.0.1'
+    version = '0.0.1-SNAPSHOT'
 
     apply plugin: 'idea'
     apply plugin: 'propdeps'
     apply plugin: 'propdeps-maven'
     apply plugin: 'propdeps-idea'
-
 
 }
 
@@ -97,29 +96,30 @@ subprojects {
     task integrationTest(type: Test, dependsOn:[":cleanAllTest", ":migrateAllTest"]) {
         include '**/*IT.*'
         outputs.upToDateWhen { false }
+        doLast {
+            println "Running Integration Tests..."
+        }
     }
+
     check.dependsOn integrationTest
-    integrationTest.mustRunAfter test
+    //integrationTest.mustRunAfter test
 
     tasks.withType(Test) {
         reports.html.destination = file("${reporting.baseDir}/${name}")
     }
-
-    integrationTest.dependsOn ":cleanAllTest",":migrateAllTest"
-
 }
 
 task migrateAllTest(type: GradleBuild) {
     dir = "RDW_Schema"
-    tasks = ["migrateAllTest"]
+    tasks = ["migrateAll-test"]
 }
 
 task cleanAllTest(type: GradleBuild) {
     dir = "RDW_Schema"
-    tasks = ["cleanAllTest"]
+    tasks = ["cleanAll-test"]
 }
 
 if (project.hasProperty("buildNumber")) {
-    project.setVersion(project.version + "." + buildNumber)
+    project.setVersion(project.version.split("-")[0] + "." + buildNumber)
     println "I will be using build version: " + version
 }
