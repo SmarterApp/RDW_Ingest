@@ -42,6 +42,7 @@ subprojects {
 
     dependencyManagement {
         dependencies {
+            dependency 'org.opentestsystem.rdw.common:rdw-common-archive:0.0.1-SNAPSHOT'
             dependency 'org.opentestsystem.rdw.common:rdw-common-messaging:0.0.1-SNAPSHOT'
             dependency 'org.opentestsystem.rdw.common:rdw-common-model:0.0.1-SNAPSHOT'
             dependency 'org.opentestsystem.rdw.common:rdw-common-utils:0.0.1-SNAPSHOT'
