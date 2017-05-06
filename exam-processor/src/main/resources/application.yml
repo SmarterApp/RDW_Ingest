@@ -12,6 +12,7 @@ spring:
       bindings:
         input:
           destination: EXAM
+          group: default
 
   datasource:
     url: jdbc:mysql://localhost:3306/warehouse?useSSL=false
@@ -21,3 +22,6 @@ spring:
     validationQuery: SELECT 1
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
+    maxActive: 20
+    initialSize: 4
+    maxWait: 10000

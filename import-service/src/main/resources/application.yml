@@ -11,8 +11,28 @@ cloud:
     region:
       auto: false
       static: us-west-2
+    # disable CloudFormation stuff
+    stack:
+      auto: false
+    credentials:
+      instance-profile: false
 
 spring:
+  # Force the (rabbit) queues to be created when posting messages so, even if
+  # there are no consumers running, the messages will not get lost. Routing is
+  # dynamic based on content but there is no way to do that here so we must
+  # explicitly declare all possible output channels here (EXAM, PACKAGE, etc.).
+  # The group names must be coordinated with the consumer application configs.
+  cloud:
+    stream:
+      bindings:
+        EXAM:
+          producer:
+            requiredGroups: default
+        PACKAGE:
+          producer:
+            requiredGroups: default
+
   datasource:
     url: jdbc:mysql://localhost:3306/warehouse?useSSL=false
     username: root
@@ -21,6 +41,9 @@ spring:
     validationQuery: SELECT 1
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
+    maxActive: 20
+    initialSize: 4
+    maxWait: 10000
 
   jackson:
     default-property-inclusion: non_null
