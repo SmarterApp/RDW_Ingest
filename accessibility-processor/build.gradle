@@ -30,7 +30,6 @@ dependencies {
     compile 'mysql:mysql-connector-java'
     compile "org.springframework.boot:spring-boot-devtools"
 
-    compile 'org.apache.commons:commons-csv:+'
 }
 
 // this is for creating metadata
