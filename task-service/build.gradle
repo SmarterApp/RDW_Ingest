@@ -9,6 +9,7 @@ dependencies {
 
     compile 'org.springframework.boot:spring-boot-starter-actuator'
     compile 'org.springframework.cloud:spring-cloud-starter-config'
+    compile 'org.springframework:spring-tx'  // because of artifact resolution issue
     compile 'org.opentestsystem.rdw.common:rdw-common-utils'
 
     // enables email
@@ -18,7 +19,12 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-aop'
     compile 'org.springframework.retry:spring-retry'
 
-//    compile project(':rdw-ingest-common')
+    // required by rdw-ingest-common
+    compile 'mysql:mysql-connector-java'
+
+    // used for status endpoint
+    compile project(':rdw-ingest-common')
+
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
 
