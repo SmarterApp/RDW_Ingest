@@ -19,7 +19,7 @@ spring:
 repository:
   import:
     scheme: http
-    host: ${IMPORT_SERVICE_HOST:localhost:8080}
+    host: localhost:8080
 
 task:
   send-reconciliation-report:
