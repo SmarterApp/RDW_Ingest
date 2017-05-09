@@ -3,11 +3,12 @@ RDW ingest applications:
 1. Import Service - RESTful API for submitting test results (exams), packages, etc.
 1. Exam Processor - Spring Cloud Stream application for processing test results.
 1. Package Processor - Spring Cloud Stream application for processing Assessment Packages.
+1. Task Service - Spring Boot application for running scheduled tasks.
 
 RDW Ingest uses other processes:
 1. MySQL - warehouse and reporting databases
 1. RabbitMQ - message queue
-1. Configuration Server - centralized configuration server
+1. Configuration Server - centralized Spring configuration server
 
 #### MySQL
 MySQL is required for building (integration tests) and running these applications. To better match production, MySQL
@@ -42,7 +43,7 @@ The applications depend on the database being configured properly. See instructi
 
 
 ### Cloning
-This project has a RDW_Schema as a submodule, so to clone, us the following:
+This project has a RDW_Schema as a submodule, so when cloning use the recursive flag:
 ```bash
 git clone --recursive https://github.com/SmarterApp/RDW_Ingest
 ```
