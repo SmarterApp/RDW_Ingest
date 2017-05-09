@@ -3,6 +3,8 @@ include 'import-service'
 include 'exam-processor'
 include 'package-processor'
 include 'migrate-service'
+include 'migrate-reporting'
+include 'task-service'
 
 // It is considered good practice to explicitly set the root project name
 rootProject.name = "rdw-ingest"

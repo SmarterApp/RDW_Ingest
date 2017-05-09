@@ -20,10 +20,7 @@ dependencies {
 
     // auth
     compile 'org.springframework.boot:spring-boot-starter-security'
-    compile 'org.springframework.ldap:spring-ldap-core'
-    compile 'org.springframework.security:spring-security-ldap'
-    compile 'org.springframework:spring-tx'  // because of artifact resolution issue
-    compile 'com.unboundid:unboundid-ldapsdk'
+    compile 'org.springframework.security.oauth:spring-security-oauth2'
     testCompile 'org.springframework.security:spring-security-test'
 
     // csv reader

@@ -101,11 +101,42 @@ services:
       - CONFIG_SERVICE_URL=http://config-server:8888
     extra_hosts:
       - "dwhost:$DATAWAREHOUSE_HOST"
-      
+
+  task-service:
+    image: fwsbac/rdw-ingest-task-service
+    ports:
+      - 8084:8080
+    depends_on:
+      - config-server
+    links:
+      - config-server
+      - import-service
+    environment:
+      - spring.profiles.active=local-docker
+      - CONFIG_SERVICE_ENABLED=true
+      - CONFIG_SERVICE_URL=http://config-server:8888
+    extra_hosts:
+      - "dwhost:$DATAWAREHOUSE_HOST"
+
+  migrate-reporting:
+    image: fwsbac/rdw-ingest-migrate-reporting
+    ports:
+      - 8085:8080
+    depends_on:
+      - config-server
+    links:
+      - config-server
+    environment:
+      - spring.profiles.active=local-docker
+      - CONFIG_SERVICE_ENABLED=true
+      - CONFIG_SERVICE_URL=http://config-server:8888
+    extra_hosts:
+      - "dwhost:$DATAWAREHOUSE_HOST"
+
   accessibility-processor:
     image: fwsbac/rdw-ingest-accessibility-processor
     ports:
-      - 8084:8080
+      - 8085:8080
     depends_on:
       - config-server
       - rabbitmq
@@ -118,4 +149,3 @@ services:
       - CONFIG_SERVICE_URL=http://config-server:8888
     extra_hosts:
       - "dwhost:$DATAWAREHOUSE_HOST"
-

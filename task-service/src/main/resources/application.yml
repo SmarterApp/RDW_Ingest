@@ -1,0 +1,32 @@
+# do NOT leave this in; it is only disabled to aid in debugging
+# either actuator end-points need to be served up on another port that is not exposed outside network
+# or we need to enable security and create an internal user that has the ACTUATOR role
+management:
+  security:
+    enabled: false
+
+spring:
+  mail:
+    host: local
+  datasource:
+    url: jdbc:mysql://localhost:3306/warehouse?useSSL=false
+    username: root
+    password:
+    testWhileIdle: true
+    driverClassName: com.mysql.jdbc.Driver
+    initialize: false
+
+repository:
+  import:
+    scheme: http
+    host: ${IMPORT_SERVICE_HOST:localhost:8080}
+
+task:
+  send-reconciliation-report:
+    cron: 0 37 14 * * *
+    query:
+    email:
+      to: fairway.sbac.rdw.dev@gmail.com
+      from: fairway.sbac.rdw.dev@gmail.com
+      subject: Daily Reconciliation Report
+      message: Please see attached CSV file for the daily imported exams.
