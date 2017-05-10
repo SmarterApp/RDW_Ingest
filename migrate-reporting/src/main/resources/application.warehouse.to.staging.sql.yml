@@ -1,10 +1,4 @@
 sql:
-  reporting:
-    findMigrateLastImportId: >-
-      SELECT MAX(m.last_import_id)
-        FROM reporting.migrate m
-        WHERE m.status > 0
-
   warehouse:
     findMaxExamImportId: >-
       SELECT MAX(i.id)
