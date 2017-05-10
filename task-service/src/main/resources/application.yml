@@ -16,15 +16,10 @@ spring:
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
 
-repository:
-  import:
-    scheme: http
-    host: localhost:8080
-
 task:
   send-reconciliation-report:
-    cron: 0 37 14 * * *
-    query:
+    cron: 0 0 14 * * *
+    query: content=EXAM&status=PROCESSED&after=-PT24H
     email:
       to: fairway.sbac.rdw.dev@gmail.com
       from: fairway.sbac.rdw.dev@gmail.com

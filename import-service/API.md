@@ -162,38 +162,5 @@ This end-point may be used to get the current status of an import request.
 curl --header "Authorization:Bearer {access_token}" https://import-service/exams/imports/19529
 ```
 
-#### Get Import Reconciliation Report
-This report summarizes exams that have been recently imported, collated into CSV format. The defaults will present
-all exam import requests submitted in the last 24 hours that have made it to the PROCESSED state. If custom behavior
-is desired, parameters may be set; note that, if any parameter is set, all the defaults are cleared. So, for example,
-if `after=-PT10H&before=-PT1H` is desired (to reduce time window), the status must be set `status=PROCESSED` as well.
-
-* URL: `/exams/imports/reconciliation`
-* Method: `GET`
-* Params (see comment above):
-  * `batch=MyBatchLabel`
-  * `status=PROCESSED`
-  * `creator=user@example.com`
-  * `before=-PT1H`
-  * `after=-PT24H`
-* Headers:
-  * `Accept:text/csv`
-  * `Authorization: Bearer {access_token}`
-* Success Response:
-  * Code: 200 (OK)
-  * Content:
-```text
-student_id,asmt_guid,date_taken
-ASIXTHGRADER20,(SBAC)SBAC-IAB-FIXED-G6M-EE-Winter-2016-2017,20161012
-...
-```
-* Error Response:
-  * Code: 401 (Unauthorized)
-* Sample Call (curl):
-```bash
-curl --header "Authorization:Bearer {access_token}" 
-  https://import-service/exams/imports/reconciliation?status=PROCESSED&after=-PT10H
-```
-
 ### TODO
 * Investigate using [Spring REST Docs](http://projects.spring.io/spring-restdocs/).
