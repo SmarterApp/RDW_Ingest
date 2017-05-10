@@ -9,24 +9,6 @@ spring:
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
 
-  warehouse_datasource:
-    url: jdbc:mysql://localhost:3306/warehouse-test?useSSL=false
-    username: root
-    password:
-    testWhileIdle: true
-    validationQuery: SELECT 1
-    driverClassName: com.mysql.jdbc.Driver
-    initialize: false
-
-  reporting_datasource:
-    url: jdbc:mysql://localhost:3306/reporting-test?useSSL=false
-    username: root
-    password:
-    testWhileIdle: true
-    validationQuery: SELECT 1
-    driverClassName: com.mysql.jdbc.Driver
-    initialize: false
-
   batch:
     job:
       enabled: false
