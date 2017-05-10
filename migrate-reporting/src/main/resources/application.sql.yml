@@ -1,13 +1,13 @@
 sql:
   reporting:
     findMigrateLastImportId: >-
-      SELECT MAX(reporting.migrate.last_import_id)
-        FROM reporting.migrate
-        WHERE reporting.migrate.status > 0
+      SELECT MAX(m.last_import_id)
+        FROM ${rdw.sql.reporting}.migrate m
+        WHERE m.status > 0
 
   warehouse:
     findMaxExamImportId: >-
-      SELECT MAX(import.id)
-        FROM import
-          JOIN import_content ON import.content = import_content.id
-        WHERE import_content.name = 'EXAM'
+      SELECT MAX(i.id)
+        FROM ${rdw.sql.warehouse}.import i
+          JOIN ${rdw.sql.warehouse}.import_content ic ON i.content = ic.id
+        WHERE ic.name = 'EXAM'
