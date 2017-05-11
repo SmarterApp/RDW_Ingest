@@ -5,6 +5,7 @@ include 'package-processor'
 include 'migrate-service'
 include 'migrate-reporting'
 include 'task-service'
+include 'accessibility-processor'
 
 // It is considered good practice to explicitly set the root project name
 rootProject.name = "rdw-ingest"
@@ -13,6 +14,4 @@ rootProject.name = "rdw-ingest"
 rootProject.children.each {
     it.name = rootProject.name + "-" + it.name
 }
-include 'accessibility-processor'
-findProject(':accessibility-processor')?.name = 'rdw-ingest-accessibility-processor '
 

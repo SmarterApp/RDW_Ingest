@@ -136,7 +136,7 @@ services:
   accessibility-processor:
     image: fwsbac/rdw-ingest-accessibility-processor
     ports:
-      - 8085:8080
+      - 8086:8080
     depends_on:
       - config-server
       - rabbitmq
