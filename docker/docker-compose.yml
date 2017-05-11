@@ -110,7 +110,6 @@ services:
       - config-server
     links:
       - config-server
-      - import-service
     environment:
       - spring.profiles.active=local-docker
       - CONFIG_SERVICE_ENABLED=true

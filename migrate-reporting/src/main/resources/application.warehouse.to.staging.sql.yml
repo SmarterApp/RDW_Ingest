@@ -1,0 +1,7 @@
+sql:
+  warehouse:
+    findMaxExamImportId: >-
+      SELECT MAX(i.id)
+        FROM warehouse.import i
+          JOIN warehouse.import_content ic ON i.content = ic.id
+        WHERE ic.name = 'EXAM'
