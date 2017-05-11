@@ -8,6 +8,7 @@ OpenAM server.
 
 #### Create Password Grant Token
 Accepts x-www-form-urlencoded data including client and user credentials and returns an access token.
+* Host: OpenAM
 * URL: `/auth/oauth2/access_token`
 * Method: `POST`
 * URL Params: 
@@ -48,6 +49,7 @@ curl -s -X POST \
 
 #### Create Client Credentials Token
 Accepts x-www-form-urlencoded data including client credentials and returns an access token.
+* Host: OpenAM
 * URL: `/auth/oauth2/access_token`
 * Method: `POST`
 * URL Params: 
@@ -121,6 +123,7 @@ content. Thus submitting a payload a second time will no-op and return the curre
 ```
 * Error Response:
   * Code: 401 (Unauthorized)
+  * Code: 403 (Forbidden)
 * Sample Call (curl):
 ```bash
 curl -X POST --header "Authorization:Bearer {access_token}" --header "Content-Type:application/xml" \
@@ -157,6 +160,7 @@ This end-point may be used to get the current status of an import request.
 ```
 * Error Response:
   * Code: 401 (Unauthorized)
+  * Code: 403 (Forbidden)
 * Sample Call (curl):
 ```bash
 curl --header "Authorization:Bearer {access_token}" https://import-service/exams/imports/19529
