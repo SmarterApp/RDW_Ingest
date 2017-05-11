@@ -95,6 +95,8 @@ format, creating new exam import requests. The import requests are processed and
 Import payloads are hashed and duplicate content is detected, returning any previous import request for the given
 content. Thus submitting a payload a second time will no-op and return the current status of the previous import.
 
+This end-point requires credentials with the `ASMTDATALOAD` role.
+
 * URL: `/exams/imports`
 * Method: `POST`
 * Params: none
@@ -122,8 +124,8 @@ content. Thus submitting a payload a second time will no-op and return the curre
 }
 ```
 * Error Response:
-  * Code: 401 (Unauthorized)
-  * Code: 403 (Forbidden)
+  * Code: 401 (Unauthorized) if token is missing or invalid.
+  * Code: 403 (Forbidden) if token doesn't provide the `ASTMDATALOAD` role.
 * Sample Call (curl):
 ```bash
 curl -X POST --header "Authorization:Bearer {access_token}" --header "Content-Type:application/xml" \
@@ -132,6 +134,8 @@ curl -X POST --header "Authorization:Bearer {access_token}" --header "Content-Ty
   
 #### Get Import Request
 This end-point may be used to get the current status of an import request.
+
+This end-point requires credentials with the `ASMTDATALOAD` role.
 
 * URL: `/exams/imports/{id}`
 * Method: `GET`
@@ -159,8 +163,8 @@ This end-point may be used to get the current status of an import request.
 }
 ```
 * Error Response:
-  * Code: 401 (Unauthorized)
-  * Code: 403 (Forbidden)
+  * Code: 401 (Unauthorized) if token is missing or invalid.
+  * Code: 403 (Forbidden) if token doesn't provide the `ASTMDATALOAD` role.
 * Sample Call (curl):
 ```bash
 curl --header "Authorization:Bearer {access_token}" https://import-service/exams/imports/19529
