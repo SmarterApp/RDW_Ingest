@@ -8,6 +8,7 @@ OpenAM server.
 
 #### Create Password Grant Token
 Accepts x-www-form-urlencoded data including client and user credentials and returns an access token.
+* Host: OpenAM
 * URL: `/auth/oauth2/access_token`
 * Method: `POST`
 * URL Params: 
@@ -48,6 +49,7 @@ curl -s -X POST \
 
 #### Create Client Credentials Token
 Accepts x-www-form-urlencoded data including client credentials and returns an access token.
+* Host: OpenAM
 * URL: `/auth/oauth2/access_token`
 * Method: `POST`
 * URL Params: 
@@ -93,6 +95,8 @@ format, creating new exam import requests. The import requests are processed and
 Import payloads are hashed and duplicate content is detected, returning any previous import request for the given
 content. Thus submitting a payload a second time will no-op and return the current status of the previous import.
 
+This end-point requires credentials with the `ASMTDATALOAD` role.
+
 * URL: `/exams/imports`
 * Method: `POST`
 * Params: none
@@ -120,7 +124,8 @@ content. Thus submitting a payload a second time will no-op and return the curre
 }
 ```
 * Error Response:
-  * Code: 401 (Unauthorized)
+  * Code: 401 (Unauthorized) if token is missing or invalid.
+  * Code: 403 (Forbidden) if token doesn't provide the `ASTMDATALOAD` role.
 * Sample Call (curl):
 ```bash
 curl -X POST --header "Authorization:Bearer {access_token}" --header "Content-Type:application/xml" \
@@ -129,6 +134,8 @@ curl -X POST --header "Authorization:Bearer {access_token}" --header "Content-Ty
   
 #### Get Import Request
 This end-point may be used to get the current status of an import request.
+
+This end-point requires credentials with the `ASMTDATALOAD` role.
 
 * URL: `/exams/imports/{id}`
 * Method: `GET`
@@ -156,10 +163,44 @@ This end-point may be used to get the current status of an import request.
 }
 ```
 * Error Response:
-  * Code: 401 (Unauthorized)
+  * Code: 401 (Unauthorized) if token is missing or invalid.
+  * Code: 403 (Forbidden) if token doesn't provide the `ASTMDATALOAD` role.
 * Sample Call (curl):
 ```bash
 curl --header "Authorization:Bearer {access_token}" https://import-service/exams/imports/19529
+```
+
+### Status Endpoints
+End-points for querying the status of the system. These are intended primarily for operations but can be useful when
+initially connecting to the system.
+
+#### Get Diagnostic Status
+This end-point may be used to get the status of the import service.
+
+This end-point requires credentials (a client-credentials grant is sufficient).
+
+* URL: `/status`
+* Method: `GET`
+* URL Params:
+  * `level=#` where # can be 0-5; optional, default is `level=0`
+* Headers:
+  * `Authorization: Bearer {access_token}`
+* Success Response:
+  * Code: 200 (OK)
+  * Content: varies based on level; for `level=0`:
+```json
+{
+  "statusText": "Ideal",
+  "statusRating": 4,
+  "level": 0,
+  "dateTime": "2017-05-11T23:26:51.523+0000"
+}
+```
+* Error Response:
+  * Code: 401 (Unauthorized) if token is missing or invalid.
+* Sample Call (curl):
+```bash
+curl --header "Authorization:Bearer {access_token}" https://import-service/status?level=2
 ```
 
 ### TODO
