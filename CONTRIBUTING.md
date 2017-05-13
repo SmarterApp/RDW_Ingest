@@ -44,10 +44,16 @@ git checkout -b feature/<your feature>
 While you are making changes to the schema, you can be making corresponding changes in Ingest and running integration 
 tests against your new RDW_Schema changes. When you are done with changes in RDW_Schema, you can commit and push the 
 RDW_Schema repo as you would normally do, but from the RDW_Schema subdirectory.
+```bash
+git add -u
+git commit -m "<message>"
+git push -u origin <your branch name>
+```
   
 When you are done, the Ingest project's "version" of RDW_Schema will be at the commit hash of your new code changes, 
 and will be under "Changes not staged for commit" section of 
 ```bash
+//under the RDW_Ingest parent directory...
 git status 
 ```
 At this point, your current RDW_Schema submodule is out of sync with what your RDW_Ingest project is expecting. And, 
