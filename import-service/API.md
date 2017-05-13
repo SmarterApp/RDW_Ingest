@@ -97,13 +97,24 @@ content. Thus submitting a payload a second time will no-op and return the curre
 
 This end-point requires credentials with the `ASMTDATALOAD` role.
 
+There are two ways of posting exam content: with a raw body of type `application/xml` or form-data (file upload).
+
 * URL: `/exams/imports`
 * Method: `POST`
-* Params: none
+* URL Params: any URL param will be preserved as properties for the upload, well-known params:
+  * `batch=<batchtag>`
+  * `filename=<originalFileName>`  (not needed for form-data)
 * Headers:
-  * `Content-Type:application/xml`
   * `Authorization: Bearer {access_token}`
-* Body: TRT
+* Headers (raw body):
+  * `Content-Type:application/xml`
+* Body (raw body): TRT
+* Headers (form-data):
+  * `Content-Type:multipart/form-data`
+* Form data (form-data):
+  * `file` - the upload file
+  * `filename=<filename>`
+  * any other form data will be preserved as properties for the upload
 * Success Response:
   * Code: 202 (Accepted)
   * Content:
@@ -126,10 +137,15 @@ This end-point requires credentials with the `ASMTDATALOAD` role.
 * Error Response:
   * Code: 401 (Unauthorized) if token is missing or invalid.
   * Code: 403 (Forbidden) if token doesn't provide the `ASTMDATALOAD` role.
-* Sample Call (curl):
+* Sample Call (raw body):
 ```bash
 curl -X POST --header "Authorization:Bearer {access_token}" --header "Content-Type:application/xml" \
-  --data-binary "<TDSReport><Test..." https://import-service/exams/imports
+  --data-binary "<TDSReport><Test..." https://import-service/exams/imports?batch=WinterICA&filename=winterICA.1.xml
+```
+* Sample Call (form-data):
+```bash
+curl -X POST --header "Authorization:Bearer {access_token}" -F file=@winterICA.1.xml -F batch=WinterICA \
+  https://import-service/exams/imports
 ```
   
 #### Get Import Request
@@ -158,16 +174,77 @@ This end-point requires credentials with the `ASMTDATALOAD` role.
   "_links": {
     "self": {
       "href": "http://localhost:8080/exams/imports/19529"
-    }
+    },
+    "payload": {
+      "href": "http://localhost:8080/exams/imports/19529/payload"
+    },
+    "payload-properties": {
+      "href": "http://localhost:8080/exams/imports/19529/payload/properties"
+    }  
   }
 }
 ```
 * Error Response:
   * Code: 401 (Unauthorized) if token is missing or invalid.
   * Code: 403 (Forbidden) if token doesn't provide the `ASTMDATALOAD` role.
+  * Code: 404 (Not Found) if no import with the given id exists.
 * Sample Call (curl):
 ```bash
 curl --header "Authorization:Bearer {access_token}" https://import-service/exams/imports/19529
+```
+
+#### Get Import Payload
+This end-point may be used to get the payload for an import request. 
+
+This end-point requires credentials with the `ASMTDATALOAD` role.
+
+* URL: `/exams/imports/{id}/payload`
+* Method: `GET`
+* Params: none
+* Headers:
+  * `Authorization: Bearer {access_token}`
+* Success Response:
+  * Code: 200 (OK)
+  * Content: File attachment
+* Error Response:
+  * Code: 401 (Unauthorized) if token is missing or invalid.
+  * Code: 403 (Forbidden) if token doesn't provide the `ASTMDATALOAD` role.
+  * Code: 404 (Not Found) if no import with the given id exists.
+* Sample Call (curl):
+```bash
+curl --header "Authorization:Bearer {access_token}" https://import-service/exams/imports/19529/payload
+```
+
+#### Get Import Payload Properties
+This end-point may be used to get the payload properties for an import request. This can be useful because not all
+the properties for an import are stored in the data warehouse, some are archived only with the payload.
+
+This end-point requires credentials with the `ASMTDATALOAD` role.
+
+* URL: `/exams/imports/{id}/payload/properties`
+* Method: `GET`
+* Params: none
+* Headers:
+  * `Authorization: Bearer {access_token}`
+* Success Response:
+  * Code: 200 (OK)
+  * Content: 
+```json
+{
+  "content-type": "application/xml",
+  "filename": "test.xml",
+  "batch": "CAF4901EA92C0A77A6DB6C37E8582852",
+  "tenancy-chain": "|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||",
+  "username": "user@example.com"
+}
+```
+* Error Response:
+  * Code: 401 (Unauthorized) if token is missing or invalid.
+  * Code: 403 (Forbidden) if token doesn't provide the `ASTMDATALOAD` role.
+  * Code: 404 (Not Found) if no import with the given id exists.
+* Sample Call (curl):
+```bash
+curl --header "Authorization:Bearer {access_token}" https://import-service/exams/imports/19529/payload/properties
 ```
 
 ### Status Endpoints
