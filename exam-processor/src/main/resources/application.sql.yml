@@ -49,8 +49,8 @@ sql:
 
     # this is a stubbed out method - TODO: to be deleted
     create: >-
-        INSERT INTO asmt (natural_id, grade_id,type_id, subject_id, school_year, import_id) VALUES
-                       (:natural_id, :grade_id, :type_id, :subject_id, :school_year, (select id from import limit 1))
+        INSERT INTO asmt (natural_id, name, grade_id, type_id, subject_id, school_year, import_id) VALUES
+                       (:natural_id, :name, :grade_id, :type_id, :subject_id, :school_year, (select id from import limit 1))
 
     # this is a stubbed out method - TODO: to be deleted
     createItems: >-
