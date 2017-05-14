@@ -70,7 +70,7 @@ sql:
                   LEFT JOIN reporting.administration_condition rac ON rac.id = sac.id
                 WHERE rac.id IS NULL;
 
-            delete: ->
+            delete: >-
               DELETE rac FROM reporting.administration_condition rac
                 WHERE NOT EXISTS(SELECT id FROM staging.staging_administration_condition WHERE id = rac.id);
 
