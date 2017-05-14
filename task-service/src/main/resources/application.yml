@@ -19,7 +19,7 @@ spring:
 task:
   send-reconciliation-report:
     cron: 0 0 14 * * *
-    query: content=EXAM&status=PROCESSED&after=-PT24H
+    query: status=PROCESSED&after=-PT24H
     email:
       to: fairway.sbac.rdw.dev@gmail.com
       from: fairway.sbac.rdw.dev@gmail.com
