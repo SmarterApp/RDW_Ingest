@@ -1,7 +1,7 @@
 spring:
 
   batch_datasource:
-    url: jdbc:mysql://localhost:3306/spring_batch_reporting-test?useSSL=false
+    url: jdbc:mysql://localhost:3306/spring_batch_reporting_test?useSSL=false
     username: root
     password:
     testWhileIdle: true
