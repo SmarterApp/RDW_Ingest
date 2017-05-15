@@ -50,6 +50,11 @@ spring:
     initialSize: 4
     maxWait: 10000
 
+  http:
+    multipart:
+      max-file-size: 32MB
+      max-request-size: 32MB
+
   jackson:
     default-property-inclusion: non_null
     serialization:

@@ -1,290 +1,317 @@
 sql:
-
-  reporting:
-    findMigrateLastImportId:  >-
-      SELECT MAX(m.last_import_id)
-        FROM reporting.migrate m
-        WHERE m.status > 0
-
   migrate:
     entities:
+        # ------------ grade  -------------------------------------------------------------------
+        grade:
+          sql:
+            update:  >-
+                UPDATE reporting.grade rg
+                  JOIN staging.staging_grade sg ON sg.id = rg.id
+                SET
+                  rg.name = sg.name,
+                  rg.code = sg.code;
+            insert: >-
+                INSERT INTO reporting.grade ( id, code, name)
+                  SELECT
+                    sg.id,
+                    sg.code,
+                    sg.name
+                  FROM staging.staging_grade sg
+                    LEFT JOIN reporting.grade rg ON rg.id = sg.id
+                  WHERE rg.id IS NULL;
+            delete: >-
+                DELETE rg FROM reporting.grade rg
+                  WHERE NOT EXISTS(SELECT id FROM staging.staging_grade WHERE id = rg.id);
+
         # ------------ completeness  -------------------------------------------------------------------
         completeness:
-          update:  >-
-              UPDATE reporting.completeness rc
-                 JOIN staging.staging_completeness sc ON sc.id = rc.id
-              SET
-               rc.name = sc.name;
+          sql:
+            update:  >-
+                UPDATE reporting.completeness rc
+                   JOIN staging.staging_completeness sc ON sc.id = rc.id
+                SET
+                 rc.name = sc.name;
 
-          insert:  >-
-              INSERT INTO reporting.completeness ( id, name)
-                SELECT
-                  sc.id,
-                  sc.name
-                FROM staging.staging_completeness sc
-                LEFT JOIN reporting.completeness rc ON rc.id = sc.id
-                WHERE rc.id IS NULL;
+            insert:  >-
+                INSERT INTO reporting.completeness ( id, name)
+                  SELECT
+                    sc.id,
+                    sc.name
+                  FROM staging.staging_completeness sc
+                  LEFT JOIN reporting.completeness rc ON rc.id = sc.id
+                  WHERE rc.id IS NULL;
 
-          delete: >-
-             DELETE rc FROM reporting.completeness rc
-              WHERE NOT EXISTS(SELECT id FROM staging.staging_completeness WHERE id = rc.id);
-                         
+            delete: >-
+               DELETE rc FROM reporting.completeness rc
+                WHERE NOT EXISTS(SELECT id FROM staging.staging_completeness WHERE id = rc.id);
+
         # ------------ Administration Condition ---------------------------------------------------------
         administration_condition:
-          update:  >-
-            UPDATE reporting.administration_condition rac
-              JOIN staging.staging_administration_condition sac ON sac.id = rac.id
-            SET
-              rac.name = sac.name;
+          sql:
+            update:  >-
+              UPDATE reporting.administration_condition rac
+                JOIN staging.staging_administration_condition sac ON sac.id = rac.id
+              SET
+                rac.name = sac.name;
 
-          insert:  >-
-            INSERT INTO reporting.administration_condition ( id, name)
-              SELECT
-                sac.id,
-                sac.name
-              FROM staging.staging_administration_condition sac
-                LEFT JOIN reporting.administration_condition rac ON rac.id = sac.id
-              WHERE rac.id IS NULL;
-          
-          delete: ->
-            DELETE rac FROM reporting.administration_condition rac
-              WHERE NOT EXISTS(SELECT id FROM staging.staging_administration_condition WHERE id = rac.id);
+            insert:  >-
+              INSERT INTO reporting.administration_condition ( id, name)
+                SELECT
+                  sac.id,
+                  sac.name
+                FROM staging.staging_administration_condition sac
+                  LEFT JOIN reporting.administration_condition rac ON rac.id = sac.id
+                WHERE rac.id IS NULL;
+
+            delete: >-
+              DELETE rac FROM reporting.administration_condition rac
+                WHERE NOT EXISTS(SELECT id FROM staging.staging_administration_condition WHERE id = rac.id);
 
        # ------------ Ethnicity ------------------------------------------------------------------------
         ethnicity:
-          update:  >-
-            UPDATE reporting.ethnicity re
-              JOIN staging.staging_ethnicity se ON se.id = re.id
-            SET
-              re.name = se.name;
+          sql:
+            update:  >-
+              UPDATE reporting.ethnicity re
+                JOIN staging.staging_ethnicity se ON se.id = re.id
+              SET
+                re.name = se.name;
 
-          insert:  >-
-            INSERT INTO reporting.ethnicity ( id, name)
-              SELECT
-                se.id,
-                se.name
-              FROM staging.staging_ethnicity se
-                LEFT JOIN reporting.ethnicity re ON re.id = se.id
-              WHERE re.id IS NULL;
-          delete: >-
-              DELETE re FROM reporting.ethnicity re
-                WHERE NOT EXISTS(SELECT id FROM staging.staging_ethnicity WHERE id = re.id);
+            insert:  >-
+              INSERT INTO reporting.ethnicity ( id, name)
+                SELECT
+                  se.id,
+                  se.name
+                FROM staging.staging_ethnicity se
+                  LEFT JOIN reporting.ethnicity re ON re.id = se.id
+                WHERE re.id IS NULL;
+            delete: >-
+                DELETE re FROM reporting.ethnicity re
+                  WHERE NOT EXISTS(SELECT id FROM staging.staging_ethnicity WHERE id = re.id);
 
       # ------------ Gender ------------------------------------------------------------------------
         gender:
-          update:  >-
-            UPDATE reporting.gender rg
-              JOIN staging.staging_gender sg ON sg.id = rg.id
-            SET
-              rg.name = sg.name;
+          sql:
+            update:  >-
+              UPDATE reporting.gender rg
+                JOIN staging.staging_gender sg ON sg.id = rg.id
+              SET
+                rg.name = sg.name;
 
-          insert:  >-
-            INSERT INTO reporting.gender ( id, name)
-              SELECT
-                sg.id,
-                sg.name
-              FROM staging.staging_gender sg
-                LEFT JOIN reporting.gender rg ON rg.id = sg.id
-              WHERE rg.id IS NULL;
+            insert:  >-
+              INSERT INTO reporting.gender ( id, name)
+                SELECT
+                  sg.id,
+                  sg.name
+                FROM staging.staging_gender sg
+                  LEFT JOIN reporting.gender rg ON rg.id = sg.id
+                WHERE rg.id IS NULL;
 
-          delete: >-
-             DELETE rg FROM reporting.gender rg
-              WHERE NOT EXISTS(SELECT id FROM staging.staging_gender WHERE id = rg.id);
+            delete: >-
+               DELETE rg FROM reporting.gender rg
+                WHERE NOT EXISTS(SELECT id FROM staging.staging_gender WHERE id = rg.id);
 
       # ------------ Accommodation ------------------------------------------------------------------------
         accommodation:
-          update:  >-
-            UPDATE reporting.accommodation ra
-              JOIN staging.staging_accommodation sa ON sa.id = ra.id
-            SET
-              ra.code = sa.code;
+          sql:
+            update:  >-
+              UPDATE reporting.accommodation ra
+                JOIN staging.staging_accommodation sa ON sa.id = ra.id
+              SET
+                ra.code = sa.code;
 
-          insert:  >-
-            INSERT INTO reporting.accommodation ( id, code)
-              SELECT
-                sa.id,
-                sa.code
-              FROM staging.staging_accommodation sa
-                LEFT JOIN reporting.accommodation ra ON ra.id = sa.id
-              WHERE ra.id IS NULL;
+            insert:  >-
+              INSERT INTO reporting.accommodation ( id, code)
+                SELECT
+                  sa.id,
+                  sa.code
+                FROM staging.staging_accommodation sa
+                  LEFT JOIN reporting.accommodation ra ON ra.id = sa.id
+                WHERE ra.id IS NULL;
 
-          delete: >-
-             DELETE ra FROM reporting.accommodation ra
-              WHERE NOT EXISTS(SELECT id FROM staging.staging_accommodation WHERE id = ra.id);
+            delete: >-
+               DELETE ra FROM reporting.accommodation ra
+                WHERE NOT EXISTS(SELECT id FROM staging.staging_accommodation WHERE id = ra.id);
 
       # ------------ Claim ------------------------------------------------------------------------
         claim:
-          update:  >-
-            UPDATE reporting.claim rc
-              JOIN staging.staging_claim sc ON sc.id = rc.id
-            SET
-              rc.code = sc.code,
-              rc.subject_id = sc.subject_id,
-              rc.name = sc.name,
-            rc.description = sc.description;
+          sql:
+            update:  >-
+              UPDATE reporting.claim rc
+                JOIN staging.staging_claim sc ON sc.id = rc.id
+              SET
+                rc.code = sc.code,
+                rc.subject_id = sc.subject_id,
+                rc.name = sc.name,
+              rc.description = sc.description;
 
-          insert:  >-
-            INSERT INTO reporting.claim ( id, subject_id, code, name, description)
-              SELECT
-                sc.id,
-                sc.subject_id,
-                sc.code,
-                sc.name,
-                sc.description
-              FROM staging.staging_claim sc
-                LEFT JOIN reporting.claim rc ON rc.id = sc.id
-              WHERE rc.id IS NULL;
+            insert:  >-
+              INSERT INTO reporting.claim ( id, subject_id, code, name, description)
+                SELECT
+                  sc.id,
+                  sc.subject_id,
+                  sc.code,
+                  sc.name,
+                  sc.description
+                FROM staging.staging_claim sc
+                  LEFT JOIN reporting.claim rc ON rc.id = sc.id
+                WHERE rc.id IS NULL;
 
-          delete: >-
-              DELETE rc FROM reporting.claim rc
-                WHERE NOT EXISTS(SELECT id FROM staging.staging_claim WHERE id = rc.id);
+            delete: >-
+                DELETE rc FROM reporting.claim rc
+                  WHERE NOT EXISTS(SELECT id FROM staging.staging_claim WHERE id = rc.id);
 
       #  ------------ Subject Claim Score --------------------------------------------------------------------
         subject_claim_score:
-          update:  >-
-            UPDATE reporting.subject_claim_score rc
-              JOIN staging.staging_subject_claim_score sc ON sc.id = rc.id
-            SET
-              rc.subject_id = sc.subject_id,
-              rc.asmt_type_id = sc.asmt_type_id,
-              rc.code = sc.code,
-              rc.name = sc.name;
+          sql:
+            update:  >-
+              UPDATE reporting.subject_claim_score rc
+                JOIN staging.staging_subject_claim_score sc ON sc.id = rc.id
+              SET
+                rc.subject_id = sc.subject_id,
+                rc.asmt_type_id = sc.asmt_type_id,
+                rc.code = sc.code,
+                rc.name = sc.name;
 
-          insert:  >-
-            INSERT INTO reporting.subject_claim_score ( id, subject_id, asmt_type_id, code, name)
-              SELECT
-                sc.id,
-                sc.subject_id,
-                sc.asmt_type_id,
-                sc.code,
-                sc.name
-              FROM staging.staging_subject_claim_score sc
-                LEFT JOIN reporting.subject_claim_score rc ON rc.id = sc.id
-              WHERE rc.id IS NULL;
+            insert:  >-
+              INSERT INTO reporting.subject_claim_score ( id, subject_id, asmt_type_id, code, name)
+                SELECT
+                  sc.id,
+                  sc.subject_id,
+                  sc.asmt_type_id,
+                  sc.code,
+                  sc.name
+                FROM staging.staging_subject_claim_score sc
+                  LEFT JOIN reporting.subject_claim_score rc ON rc.id = sc.id
+                WHERE rc.id IS NULL;
 
-          delete: >-
-            DELETE rc FROM reporting.subject_claim_score rc
-              WHERE NOT EXISTS(SELECT id FROM staging.staging_subject_claim_score WHERE id = rc.id);
+            delete: >-
+              DELETE rc FROM reporting.subject_claim_score rc
+                WHERE NOT EXISTS(SELECT id FROM staging.staging_subject_claim_score WHERE id = rc.id);
 
       # ------------ Target ---------------------------------------------------------------------------
         target:
-          update:  >-
-            UPDATE reporting.target rt
-              JOIN staging.staging_target st ON st.id = rt.id
-            SET
-              rt.claim_id = st.claim_id,
-              rt.code = st.code,
-              rt.description = st.description;
+          sql:
+            update:  >-
+              UPDATE reporting.target rt
+                JOIN staging.staging_target st ON st.id = rt.id
+              SET
+                rt.claim_id = st.claim_id,
+                rt.code = st.code,
+                rt.description = st.description;
 
-          insert:  >-
-            INSERT INTO reporting.target ( id, claim_id, code, description)
-              SELECT
-                st.id,
-                st.claim_id,
-                st.code,
-                st.description
-              FROM staging.staging_target st
-                LEFT JOIN reporting.target rt ON rt.id = st.id
-              WHERE rt.id IS NULL;
+            insert:  >-
+              INSERT INTO reporting.target ( id, claim_id, code, description)
+                SELECT
+                  st.id,
+                  st.claim_id,
+                  st.code,
+                  st.description
+                FROM staging.staging_target st
+                  LEFT JOIN reporting.target rt ON rt.id = st.id
+                WHERE rt.id IS NULL;
 
-          delete:
-            DELETE rt FROM reporting.target rt
-              WHERE NOT EXISTS(SELECT id FROM staging.staging_target WHERE id = rt.id);
+            delete:
+              DELETE rt FROM reporting.target rt
+                WHERE NOT EXISTS(SELECT id FROM staging.staging_target WHERE id = rt.id);
 
       # ------------ Depth of knowledge ---------------------------------------------------------------------------
         depth_of_knowledge:
-          update:  >-
-            UPDATE reporting.depth_of_knowledge rdok
-              JOIN staging.staging_depth_of_knowledge sdok ON sdok.id = rdok.id
-            SET
-              rdok.level = sdok.level,
-              rdok.subject_id = sdok.subject_id,
-              rdok.reference = sdok.reference,
-              rdok.description = sdok.description;
+          sql:
+            update:  >-
+              UPDATE reporting.depth_of_knowledge rdok
+                JOIN staging.staging_depth_of_knowledge sdok ON sdok.id = rdok.id
+              SET
+                rdok.level = sdok.level,
+                rdok.subject_id = sdok.subject_id,
+                rdok.reference = sdok.reference,
+                rdok.description = sdok.description;
 
-          insert:  >-
-            INSERT INTO reporting.depth_of_knowledge ( id, level, subject_id, description, reference)
-              SELECT
-                sdok.id,
-                sdok.level,
-                sdok.subject_id,
-                sdok.description,
-                sdok.reference
-              FROM staging.staging_depth_of_knowledge sdok
-                LEFT JOIN reporting.depth_of_knowledge rdok ON rdok.id = sdok.id
-              WHERE rdok.id IS NULL;
+            insert:  >-
+              INSERT INTO reporting.depth_of_knowledge ( id, level, subject_id, description, reference)
+                SELECT
+                  sdok.id,
+                  sdok.level,
+                  sdok.subject_id,
+                  sdok.description,
+                  sdok.reference
+                FROM staging.staging_depth_of_knowledge sdok
+                  LEFT JOIN reporting.depth_of_knowledge rdok ON rdok.id = sdok.id
+                WHERE rdok.id IS NULL;
 
-          delete: >-
-             DELETE rdok FROM reporting.depth_of_knowledge rdok
-              WHERE NOT EXISTS(SELECT id FROM staging.staging_depth_of_knowledge WHERE id = rdok.id);
+            delete: >-
+               DELETE rdok FROM reporting.depth_of_knowledge rdok
+                WHERE NOT EXISTS(SELECT id FROM staging.staging_depth_of_knowledge WHERE id = rdok.id);
 
       # ------------ Math Practice ---------------------------------------------------------------------------
         math_practice:
-          update:  >-
-            UPDATE reporting.math_practice rmp
-              JOIN staging.staging_math_practice smp ON smp.practice = rmp.practice
-            SET
-              rmp.description = smp.description;
+          sql:
+            update:  >-
+              UPDATE reporting.math_practice rmp
+                JOIN staging.staging_math_practice smp ON smp.practice = rmp.practice
+              SET
+                rmp.description = smp.description;
 
-          insert:  >-
-            INSERT INTO reporting.math_practice ( practice, description)
-              SELECT
-                smp.practice,
-                smp.description
-              FROM staging.staging_math_practice smp
-                LEFT JOIN reporting.math_practice rmp ON rmp.practice = smp.practice
-              WHERE rmp.practice IS NULL;
+            insert:  >-
+              INSERT INTO reporting.math_practice ( practice, description)
+                SELECT
+                  smp.practice,
+                  smp.description
+                FROM staging.staging_math_practice smp
+                  LEFT JOIN reporting.math_practice rmp ON rmp.practice = smp.practice
+                WHERE rmp.practice IS NULL;
 
-          delete: >-
-            DELETE rmp FROM reporting.math_practice rmp
-                WHERE NOT EXISTS(SELECT practice FROM staging.staging_math_practice WHERE practice = rmp.practice);
+            delete: >-
+              DELETE rmp FROM reporting.math_practice rmp
+                  WHERE NOT EXISTS(SELECT practice FROM staging.staging_math_practice WHERE practice = rmp.practice);
 
       # ------------ Item Trait Score ---------------------------------------------------------------------------
         item_trait_score:
-          update:  >-
-            UPDATE reporting.item_trait_score rit
-              JOIN staging.staging_item_trait_score sit ON sit.id = rit.id
-            SET
-              rit.dimension = sit.dimension;
+          sql:
+            update:  >-
+              UPDATE reporting.item_trait_score rit
+                JOIN staging.staging_item_trait_score sit ON sit.id = rit.id
+              SET
+                rit.dimension = sit.dimension;
 
-          insert:  >-
-            INSERT INTO reporting.item_trait_score ( id, dimension)
-              SELECT
-                sit.id,
-                sit.dimension
-              FROM staging.staging_item_trait_score sit
-                LEFT JOIN reporting.item_trait_score rit ON rit.id = sit.id
-              WHERE rit.id IS NULL;
+            insert:  >-
+              INSERT INTO reporting.item_trait_score ( id, dimension)
+                SELECT
+                  sit.id,
+                  sit.dimension
+                FROM staging.staging_item_trait_score sit
+                  LEFT JOIN reporting.item_trait_score rit ON rit.id = sit.id
+                WHERE rit.id IS NULL;
 
-          delete: >-
-             DELETE rit FROM reporting.item_trait_score rit
-                WHERE NOT EXISTS(SELECT id FROM staging.staging_item_trait_score WHERE id = rit.id);
+            delete: >-
+               DELETE rit FROM reporting.item_trait_score rit
+                  WHERE NOT EXISTS(SELECT id FROM staging.staging_item_trait_score WHERE id = rit.id);
 
       # ------------ Item Difficulty Cuts ---------------------------------------------------------------------------
         item_difficulty_cuts:
-          update:  >-
-            UPDATE reporting.item_difficulty_cuts ridc
-              JOIN staging.staging_item_difficulty_cuts sidc ON sidc.id = ridc.id
-            SET
-              ridc.asmt_type_id = sidc.asmt_type_id,
-              ridc.subject_id = sidc.subject_id,
-              ridc.grade_id = sidc.grade_id,
-              ridc.moderate_low_end = sidc.moderate_low_end,
-              ridc.difficult_low_end = sidc.difficult_low_end;
+          sql:
+            update:  >-
+              UPDATE reporting.item_difficulty_cuts ridc
+                JOIN staging.staging_item_difficulty_cuts sidc ON sidc.id = ridc.id
+              SET
+                ridc.asmt_type_id = sidc.asmt_type_id,
+                ridc.subject_id = sidc.subject_id,
+                ridc.grade_id = sidc.grade_id,
+                ridc.moderate_low_end = sidc.moderate_low_end,
+                ridc.difficult_low_end = sidc.difficult_low_end;
 
-          insert:  >-
-            INSERT INTO reporting.item_difficulty_cuts (id, asmt_type_id, subject_id, grade_id, moderate_low_end, difficult_low_end)
-              SELECT
-                sidc.id,
-                sidc.asmt_type_id,
-                sidc.subject_id,
-                sidc.grade_id,
-                sidc.moderate_low_end,
-                sidc.difficult_low_end
-              FROM staging.staging_item_difficulty_cuts sidc
-                LEFT JOIN reporting.item_difficulty_cuts ridc ON ridc.id = sidc.id
-              WHERE ridc.id IS NULL;
+            insert:  >-
+              INSERT INTO reporting.item_difficulty_cuts (id, asmt_type_id, subject_id, grade_id, moderate_low_end, difficult_low_end)
+                SELECT
+                  sidc.id,
+                  sidc.asmt_type_id,
+                  sidc.subject_id,
+                  sidc.grade_id,
+                  sidc.moderate_low_end,
+                  sidc.difficult_low_end
+                FROM staging.staging_item_difficulty_cuts sidc
+                  LEFT JOIN reporting.item_difficulty_cuts ridc ON ridc.id = sidc.id
+                WHERE ridc.id IS NULL;
 
-          delete: >-
-              DELETE ridc FROM reporting.item_difficulty_cuts ridc
-                  WHERE NOT EXISTS(SELECT id FROM staging.staging_item_difficulty_cuts WHERE id = ridc.id);
+            delete: >-
+                DELETE ridc FROM reporting.item_difficulty_cuts ridc
+                    WHERE NOT EXISTS(SELECT id FROM staging.staging_item_difficulty_cuts WHERE id = ridc.id);
