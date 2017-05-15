@@ -315,3 +315,160 @@ sql:
             delete: >-
                 DELETE ridc FROM reporting.item_difficulty_cuts ridc
                     WHERE NOT EXISTS(SELECT id FROM staging.staging_item_difficulty_cuts WHERE id = ridc.id);
+
+      # ############## IAB Exams #######################################################################
+      # ------------ iab_exam_available_accommodation --------------------------------------------------
+        iab_exam_available_accommodation:
+          sql:
+            delete: >-
+              DELETE FROM reporting.iab_exam_available_accommodation
+                WHERE iab_exam_id IN
+                      (SELECT id from staging.staging_iab_exam WHERE deleted = 1 );
+
+        # ------------ iab_exam_item -------------------------------------------------------------------
+        iab_exam_item:
+          sql:
+            delete: >-
+              DELETE FROM reporting.iab_exam_item
+                WHERE iab_exam_id IN (SELECT id from staging.staging_iab_exam WHERE deleted = 1 );
+
+        # ------------ iab_exam -------------------------------------------------------------------
+        iab_exam:
+          sql:
+            delete: >-
+              DELETE FROM reporting.iab_exam
+                WHERE id IN (SELECT id from staging.staging_iab_exam WHERE deleted = 1 );
+
+        # ############## ICA and Summative Exams ####################################################################
+        # ------------ exam_available_accommodation -------------------------------------------------------------------
+        exam_available_accommodation:
+          sql:
+            delete: >-
+              DELETE FROM reporting.exam_available_accommodation
+                WHERE exam_id IN (SELECT id from staging.staging_exam WHERE deleted = 1 );
+
+        # ------------ exam_item -------------------------------------------------------------------
+        exam_item:
+          sql:
+            delete: >-
+              DELETE FROM reporting.exam_item
+                WHERE exam_id IN (SELECT id from staging.staging_exam WHERE deleted = 1 );
+
+        # ------------ exam -------------------------------------------------------------------
+        exam:
+          sql:
+            delete: >-
+              DELETE FROM reporting.exam WHERE id IN (SELECT id from staging.staging_exam WHERE deleted = 1 );
+
+      # ############## Student Group #######################################################################
+      # ------------ iab_exam_available_accommodation --------------------------------------------------
+        student_group_membership:
+          sql:
+            delete: >-
+              DELETE from reporting.student_group_membership
+                WHERE student_group_id IN
+                  (SELECT id FROM staging.staging_student_group WHERE deleted = 1 or active = 0);
+
+      # ------------ user_student_group --------------------------------------------------
+        user_student_group:
+          sql:
+            delete: >-
+              DELETE from reporting.user_student_group
+                WHERE student_group_id IN
+                  (SELECT id FROM staging.staging_student_group WHERE deleted = 1 or active = 0);
+
+      # ------------ student_group --------------------------------------------------
+        student_group:
+          sql:
+            delete: >-
+              DELETE FROM reporting.student_group
+                WHERE id IN
+                  (SELECT id FROM staging.staging_student_group WHERE deleted = 1 or active = 0);
+
+      # ############## School/District ###################################################################
+      # ------------ school ------------------------------------------------------------------------------
+        school:
+          sql:
+            insert: >-
+              INSERT INTO reporting.school (id, natural_id, name, district_id, import_id)
+               SELECT
+                 ss.id,
+                 ss.natural_id,
+                 ss.name,
+                 ss.district_id,
+                 ss.import_id
+               FROM staging.staging_school ss
+                 LEFT JOIN reporting.school rs ON rs.id = ss.id
+               WHERE rs.id IS NULL AND ss.deleted = 0;
+
+            update: >-
+              UPDATE reporting.school rs
+                JOIN staging.staging_school ss ON ss.id = rs.id
+              SET rs.name = ss.name,
+                rs.district_id = ss.district_id,
+                rs.import_id = ss.import_id
+              WHERE ss.deleted = 0;
+
+            delete: >-
+              DELETE FROM reporting.school WHERE id IN (SELECT id FROM staging.staging_school WHERE deleted = 1);
+
+      # ------------ district ------------------------------------------------------------------------------
+        district:
+          sql:
+            insert: >-
+              INSERT INTO reporting.district(id, natural_id,name)
+                SELECT
+                  sd.id,
+                  sd.natural_id,
+                  sd.name
+                FROM staging.staging_district sd
+                  LEFT JOIN reporting.district rd ON rd.id = sd.id
+                WHERE rd.id IS NULL;
+
+            update: >-
+              UPDATE reporting.district d
+                JOIN staging.staging_district sd ON sd.id = d.id
+              SET d.name = sd.name;
+
+            delete: >-
+              DELETE FROM reporting.district
+                WHERE id in (SELECT district_id from staging.staging_school WHERE deleted = 1)
+                    AND NOT EXISTS(SELECT id from reporting.school WHERE district_id = id);
+
+      # ############## Student  ###################################################################
+      # ------------ student_ethnicity -----------------------------------------------------------------------
+        student_ethnicity:
+          sql:
+            delete: >-
+              DELETE FROM reporting.student_ethnicity
+                WHERE student_id IN (SELECT id FROM staging.staging_student WHERE deleted = 1);
+
+      # ------------ student -----------------------------------------------------------------------
+        student:
+          sql:
+            delete: >-
+              DELETE FROM reporting.student
+                WHERE id in (SELECT id FROM staging.staging_student WHERE deleted = 1);
+
+      # ############## Assessment  ###################################################################
+      # ------------ asmt_score -----------------------------------------------------------------------
+        asmt_score:
+          sql:
+            delete: >-
+              DELETE FROM reporting.asmt_score
+                WHERE asmt_id IN (SELECT id FROM staging.staging_asmt WHERE deleted = 1);
+
+      # ------------ item -----------------------------------------------------------------------
+        item:
+          sql:
+            delete: >-
+              DELETE FROM reporting.item
+                WHERE asmt_id IN (SELECT id FROM staging.staging_asmt WHERE deleted = 1);
+
+      # ------------ asmt -----------------------------------------------------------------------
+        asmt:
+          sql:
+            delete: >-
+                DELETE FROM reporting.asmt
+                  WHERE id IN (SELECT id FROM staging.staging_asmt WHERE deleted = 1);
+
