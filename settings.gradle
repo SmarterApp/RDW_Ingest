@@ -4,7 +4,6 @@ include 'exam-processor'
 include 'package-processor'
 include 'migrate-reporting'
 include 'task-service'
-include 'accessibility-processor'
 
 // It is considered good practice to explicitly set the root project name
 rootProject.name = "rdw-ingest"
