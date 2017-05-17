@@ -153,7 +153,7 @@ This end-point may be used to get the current status of an import request.
 
 This end-point requires credentials with the `ASMTDATALOAD` role.
 
-* URL: `/exams/imports/{id}`
+* URL: `/imports/{id}`
 * Method: `GET`
 * Params: none
 * Headers:
@@ -173,13 +173,13 @@ This end-point requires credentials with the `ASMTDATALOAD` role.
   "message": "{\"elementName\":\"Sex\",\"value\":\"M\",\"error\":\"unknown gender name [M]\"},{\"elementName\":\"GradeLevelWhenAssessed\",\"value\":\"SIXTHGRADE\",\"error\":\"unknown grade code [SIXTHGRADE]\"}",
   "_links": {
     "self": {
-      "href": "http://localhost:8080/exams/imports/19529"
+      "href": "http://localhost:8080/imports/19529"
     },
     "payload": {
-      "href": "http://localhost:8080/exams/imports/19529/payload"
+      "href": "http://localhost:8080/imports/19529/payload"
     },
     "payload-properties": {
-      "href": "http://localhost:8080/exams/imports/19529/payload/properties"
+      "href": "http://localhost:8080/imports/19529/payload/properties"
     }  
   }
 }
@@ -190,7 +190,7 @@ This end-point requires credentials with the `ASMTDATALOAD` role.
   * Code: 404 (Not Found) if no import with the given id exists.
 * Sample Call (curl):
 ```bash
-curl --header "Authorization:Bearer {access_token}" https://import-service/exams/imports/19529
+curl --header "Authorization:Bearer {access_token}" https://import-service/imports/19529
 ```
 
 #### Get Import Payload
@@ -198,7 +198,7 @@ This end-point may be used to get the payload for an import request.
 
 This end-point requires credentials with the `ASMTDATALOAD` role.
 
-* URL: `/exams/imports/{id}/payload`
+* URL: `/imports/{id}/payload`
 * Method: `GET`
 * Params: none
 * Headers:
@@ -212,7 +212,7 @@ This end-point requires credentials with the `ASMTDATALOAD` role.
   * Code: 404 (Not Found) if no import with the given id exists.
 * Sample Call (curl):
 ```bash
-curl --header "Authorization:Bearer {access_token}" https://import-service/exams/imports/19529/payload
+curl --header "Authorization:Bearer {access_token}" https://import-service/imports/19529/payload
 ```
 
 #### Get Import Payload Properties
@@ -221,7 +221,7 @@ the properties for an import are stored in the data warehouse, some are archived
 
 This end-point requires credentials with the `ASMTDATALOAD` role.
 
-* URL: `/exams/imports/{id}/payload/properties`
+* URL: `/imports/{id}/payload/properties`
 * Method: `GET`
 * Params: none
 * Headers:
@@ -244,7 +244,7 @@ This end-point requires credentials with the `ASMTDATALOAD` role.
   * Code: 404 (Not Found) if no import with the given id exists.
 * Sample Call (curl):
 ```bash
-curl --header "Authorization:Bearer {access_token}" https://import-service/exams/imports/19529/payload/properties
+curl --header "Authorization:Bearer {access_token}" https://import-service/imports/19529/payload/properties
 ```
 
 ### Status Endpoints
