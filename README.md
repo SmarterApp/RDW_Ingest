@@ -86,7 +86,7 @@ version that is compatible with the current version of this project, so there is
 cd RDW_Schema
 ./gradlew migrateAll
 or to completely clean out any existing data you might have, if you already have the database set up:
-./gradlew cleanAll migrateAll
+./gradlew cleanAllTest migrateAllTest
 ```
 
 The apps are wrapped in docker containers and should be built and run that way. There is a docker-compose spec

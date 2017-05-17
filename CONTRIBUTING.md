@@ -62,6 +62,7 @@ RDW_Schema should be merged to develop and then resynced with the RDW_Ingest pro
 changes because you don't want to be moving the submodule pointer to a feature branch. To move the submodule pointer to 
 the new develop branch tip, do the following:
 ```bash
+git reset HEAD RDW_Schema
 git submodule update --remote
 ```
 This pulls the latest from the RDW_Schema develop branch in to your submodule. If you run "git status", you will also now
