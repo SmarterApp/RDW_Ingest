@@ -52,6 +52,31 @@ sql:
       INSERT INTO item (asmt_id, claim_id, target_id, natural_id, math_practice, allow_calc, dok_id, difficulty, max_points)
                         select (select id as asmt_id from asmt where natural_id=:asmtId), :claimId, :targetId, :itemId, :mathPractice, :allowCalc, :dokId, :difficulty, :maxPoints
 
+  # AccommodationRepository
+  accommodation:
+    findIdByCode: >-
+      SELECT id FROM accommodation WHERE code= :code
+
+    create: >-
+      INSERT IGNORE INTO accommodation (code) VALUES (:code)
+
+  # LanguageRepository
+  language:
+    findIdByCode: >-
+      SELECT id FROM language WHERE code= :code
+
+  # AccommodationTranslationRepository
+  accommodationTranslation:
+    create: >-
+      INSERT INTO accommodation_translation (accommodation_id, language_id, label)
+         SELECT (SELECT id AS accommodation_id FROM accommodation WHERE code = :accCode), :langId, :label
+           ON DUPLICATE KEY UPDATE label=:label
+
+    findByAccCodeAndLangCode: >-
+      SELECT id FROM accommodation_translation WHERE accommodation_id=:accId AND language_id=:langId
+
+    updateTranslation: >-
+      UPDATE accommodation_translation SET label=:label WHERE accommodation_id=:accId AND language_id=:langId
 
 
 

@@ -6,8 +6,11 @@ spring:
   cloud:
     stream:
       bindings:
-        input:
+        packageInput:
           destination: PACKAGE
+          group: default
+        codesInput:
+          destination: CODES
           group: default
 
   datasource:
