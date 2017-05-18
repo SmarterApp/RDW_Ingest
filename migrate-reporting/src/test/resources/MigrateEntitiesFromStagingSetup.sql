@@ -32,3 +32,39 @@ INSERT INTO staging_test.staging_item (id, claim_id, target_id, natural_id, asmt
   (-982, -98, null, '200-59217', -98, -98, -2.32, 1, null, null, -99),
   (-983, -98, null, '200-59208', -98, -98, -0.32, 1, null, null, -99),
   (-984, -98, null, '200-30901', -98, -98, -0.32, 1, null, null, -99);
+
+-- ------------------------------------------ Student and Groups  ------------------------------------------------------------------------------------------------
+
+ INSERT INTO staging_test.staging_student (id, ssid, last_or_surname, first_name, middle_name, gender_id, first_entry_into_us_school_at, lep_entry_at,
+        lep_exit_at, birthday, import_id, migrate_id, deleted) VALUES
+   (-89, '89', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -89, -99, 0),
+   (-88, '88', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -88, -99, 0),
+   (-87, '87', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -87, -99, 0),
+   (-86, '86', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -86, -99, 0);
+
+INSERT INTO staging_test.staging_student_ethnicity(id, student_id, ethnicity_id) values
+    (-1,  -89,  -99),
+    (-2,  -88,  -98),
+    (-3,  -87,  -98),
+    (-4,  -86,  -98),
+    (-5,  -86,  -99);
+
+INSERT INTO staging_test.staging_student_group (id, creator, school_id, school_year, name, subject_id, import_id, migrate_id, active, deleted) VALUES
+   (-91, 'dwtest@example.com', -99, 2017, 'Test Student Group 9', null, -79, -99, 1, 0),
+   (-8, 'dwtest@example.com', -1, 2017, 'Test Student Group 8', null, -79, -99, 1, 0),
+   (-7, 'dwtest@example.com', -1, 2017, 'Test Student Group 7', null, -79, -99, 1, 0);
+
+ INSERT INTO staging_test.staging_student_group_membership (student_group_id, student_id) VALUES
+   (-91, -89),
+   (-91, -88),
+   (-91, -87),
+   (-91, -86),
+   (-8, -87),
+   (-7, -87),
+   (-7, -86);
+
+ INSERT INTO staging_test.staging_user_student_group (student_group_id, user_login) VALUES
+   (-91, 'dwtest@example.com-91'),
+   (-8, 'dwtest@example.com-8'),
+   (-7, 'dwtest@example.com-7'),
+   (-91, 'dwtest@example.com-91-2');

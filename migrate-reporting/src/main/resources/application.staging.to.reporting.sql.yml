@@ -364,6 +364,22 @@ sql:
       # ------------ iab_exam_available_accommodation --------------------------------------------------
         student_group_membership:
           sql:
+            insert: >-
+              INSERT INTO reporting.student_group_membership ( student_group_id, student_id)
+                SELECT
+                  ssgm.student_group_id,
+                  ssgm.student_id
+                FROM staging.staging_student_group_membership ssgm
+                  LEFT JOIN reporting.student_group_membership rsgm
+                    ON (rsgm.student_group_id = ssgm.student_group_id AND rsgm.student_id = ssgm.student_id)
+                WHERE rsgm.student_group_id IS NULL;
+
+            deleteAsPartOfParentUpdate: >-
+              DELETE rsgm FROM reporting.student_group_membership rsgm
+              WHERE student_group_id in (select id from staging.staging_student_group where deleted = 0 and active = 1)
+                    AND NOT EXISTS(SELECT student_group_id FROM staging.staging_student_group_membership
+              WHERE student_group_id = rsgm.student_group_id AND student_id = rsgm.student_id);
+
             delete: >-
               DELETE from reporting.student_group_membership
                 WHERE student_group_id IN
@@ -372,6 +388,22 @@ sql:
       # ------------ user_student_group --------------------------------------------------
         user_student_group:
           sql:
+            insert: >-
+              INSERT INTO reporting.user_student_group ( student_group_id, user_login)
+                SELECT
+                  susg.student_group_id,
+                  susg.user_login
+                FROM staging.staging_user_student_group susg
+                  LEFT JOIN reporting.user_student_group rusg
+                    ON (rusg.student_group_id = susg.student_group_id AND rusg.user_login = susg.user_login)
+                WHERE rusg.student_group_id IS NULL;
+
+            deleteAsPartOfParentUpdate: >-
+              DELETE rsug FROM reporting.user_student_group rsug
+                 WHERE student_group_id in (select id from staging.staging_student_group where deleted = 0 and active = 1)
+                    AND NOT EXISTS(SELECT student_group_id FROM staging.staging_user_student_group
+                                     WHERE student_group_id = rsug.student_group_id AND user_login = rsug.user_login);
+
             delete: >-
               DELETE from reporting.user_student_group
                 WHERE student_group_id IN
@@ -380,6 +412,34 @@ sql:
       # ------------ student_group --------------------------------------------------
         student_group:
           sql:
+            insert: >-
+              INSERT INTO reporting.student_group (id, name, school_id, school_year, subject_id, creator, created, import_id)
+                SELECT
+                  ssg.id,
+                  ssg.name,
+                  ssg.school_id,
+                  ssg.school_year,
+                  ssg.subject_id,
+                  ssg.creator,
+                  ssg.created,
+                  ssg.import_id
+                FROM staging.staging_student_group ssg
+                  LEFT JOIN reporting.student_group rsg ON rsg.id = ssg.id
+                WHERE rsg.id IS NULL AND ssg.deleted = 0 AND ssg.active = 1;
+
+            update: >-
+              UPDATE reporting.student_group rsg
+                JOIN staging.staging_student_group ssg ON ssg.id = rsg.id
+              SET
+                rsg.name = ssg.name,
+                rsg.school_id = ssg.school_id,
+                rsg.school_year = ssg.school_year,
+                rsg.subject_id = ssg.subject_id,
+                rsg.creator = ssg.creator,
+                rsg.created = ssg.created,
+                rsg.import_id = ssg.import_id
+              WHERE ssg.deleted = 0 AND ssg.active = 1;
+
             delete: >-
               DELETE FROM reporting.student_group
                 WHERE id IN
@@ -431,14 +491,31 @@ sql:
               SET d.name = sd.name;
 
             delete: >-
-              DELETE FROM reporting.district
+              DELETE rd FROM reporting.district rd
                 WHERE id in (SELECT district_id from staging.staging_school WHERE deleted = 1)
-                    AND NOT EXISTS(SELECT id from reporting.school WHERE district_id = id);
+                    AND NOT EXISTS(SELECT id from reporting.school WHERE district_id = rd.id);
 
       # ############## Student  ###################################################################
       # ------------ student_ethnicity -----------------------------------------------------------------------
         student_ethnicity:
           sql:
+            insert: >-
+              INSERT INTO reporting.student_ethnicity (id, student_id, ethnicity_id)
+                SELECT
+                  sue.id,
+                  sue.student_id,
+                  sue.ethnicity_id
+                FROM staging.staging_student_ethnicity sue
+                  LEFT JOIN reporting.student_ethnicity rse
+                    ON (rse.student_id = sue.student_id AND rse.ethnicity_id = sue.ethnicity_id)
+                WHERE rse.student_id IS NULL;
+
+            deleteAsPartOfParentUpdate: >-
+             DELETE rse FROM reporting.student_ethnicity rse
+                WHERE student_id in (select student_id from staging.staging_student where deleted = 0)
+                     AND NOT EXISTS(SELECT student_id FROM staging.staging_student_ethnicity
+                            WHERE student_id = rse.student_id AND ethnicity_id = rse.ethnicity_id);
+
             delete: >-
               DELETE FROM reporting.student_ethnicity
                 WHERE student_id IN (SELECT id FROM staging.staging_student WHERE deleted = 1);
@@ -446,6 +523,40 @@ sql:
       # ------------ student -----------------------------------------------------------------------
         student:
           sql:
+            insert: >-
+              INSERT INTO reporting.student (id, ssid, last_or_surname, first_name, middle_name, gender_id, first_entry_into_us_school_at,
+                                             lep_entry_at, lep_exit_at, birthday, import_id)
+                SELECT
+                  ss.id,
+                  ss.ssid,
+                  ss.last_or_surname,
+                  ss.first_name,
+                  ss.middle_name,
+                  ss.gender_id,
+                  ss.first_entry_into_us_school_at,
+                  ss.lep_entry_at,
+                  ss.lep_exit_at,
+                  ss.birthday,
+                  ss.import_id
+                FROM staging.staging_student ss
+                  LEFT JOIN reporting.student rs ON rs.id = ss.id
+                WHERE rs.id IS NULL and ss.deleted = 0;
+
+            update: >-
+              UPDATE reporting.student rs
+                JOIN staging.staging_student ss ON ss.id = rs.id
+              SET
+                rs.last_or_surname = ss.last_or_surname,
+                rs.first_name = ss.first_name,
+                rs.middle_name = ss.middle_name,
+                rs.gender_id = ss.gender_id,
+                rs.first_entry_into_us_school_at = ss.first_entry_into_us_school_at,
+                rs.lep_entry_at = ss.lep_entry_at,
+                rs.lep_exit_at = ss.lep_exit_at,
+                rs.birthday = ss.birthday,
+                rs.import_id = ss.import_id
+              WHERE ss.deleted = 0
+
             delete: >-
               DELETE FROM reporting.student
                 WHERE id in (SELECT id FROM staging.staging_student WHERE deleted = 1);
