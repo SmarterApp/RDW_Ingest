@@ -42,12 +42,12 @@ INSERT INTO staging_test.staging_item (id, claim_id, target_id, natural_id, asmt
    (-87, '87', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -87, -99, 0),
    (-86, '86', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -86, -99, 0);
 
-INSERT INTO staging_test.staging_student_ethnicity(id, student_id, ethnicity_id) values
-    (-1,  -89,  -99),
-    (-2,  -88,  -98),
-    (-3,  -87,  -98),
-    (-4,  -86,  -98),
-    (-5,  -86,  -99);
+INSERT INTO staging_test.staging_student_ethnicity(student_id, ethnicity_id) values
+    (-89,  -99),
+    (-88,  -98),
+    (-87,  -98),
+    (-86,  -98),
+    (-86,  -99);
 
 INSERT INTO staging_test.staging_student_group (id, creator, school_id, school_year, name, subject_id, import_id, migrate_id, active, deleted) VALUES
    (-91, 'dwtest@example.com', -99, 2017, 'Test Student Group 9', null, -79, -99, 1, 0),
