@@ -26,8 +26,8 @@ INSERT INTO reporting_test.student (id, ssid, last_or_surname, first_name, middl
         lep_exit_at, birthday, import_id) VALUES
    (-89, '89', 'TestName', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -89);
 
-INSERT INTO reporting_test.student_ethnicity(id, student_id, ethnicity_id) values
-    (-1,  -89,  -99);
+INSERT INTO reporting_test.student_ethnicity(student_id, ethnicity_id) values
+    (-89,  -99);
 
 INSERT INTO reporting_test.student_group (id, creator, school_id, school_year, name, subject_id, import_id) VALUES
    (-91, 'TestName', -1, 2017, 'Test Student Group 9', null, -79);

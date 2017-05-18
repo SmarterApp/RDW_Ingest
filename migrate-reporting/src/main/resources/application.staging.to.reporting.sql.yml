@@ -500,9 +500,8 @@ sql:
         student_ethnicity:
           sql:
             insert: >-
-              INSERT INTO reporting.student_ethnicity (id, student_id, ethnicity_id)
+              INSERT INTO reporting.student_ethnicity (student_id, ethnicity_id)
                 SELECT
-                  sue.id,
                   sue.student_id,
                   sue.ethnicity_id
                 FROM staging.staging_student_ethnicity sue
