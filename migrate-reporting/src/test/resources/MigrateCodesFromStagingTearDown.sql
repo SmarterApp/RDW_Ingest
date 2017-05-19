@@ -23,3 +23,5 @@ DELETE FROM reporting_test.target  WHERE id IN (-99,-98);
 DELETE FROM reporting_test.item_difficulty_cuts  WHERE id IN (-99,-98);
 DELETE FROM reporting_test.grade WHERE id IN (-99,-98);
 DELETE FROM reporting_test.claim WHERE id IN (-99,-98);
+
+DELETE FROM reporting_test.migrate;

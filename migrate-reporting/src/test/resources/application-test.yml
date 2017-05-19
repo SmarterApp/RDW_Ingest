@@ -1,3 +1,7 @@
+migrate:
+  batch:
+    initialDelay: 500000
+
 spring:
 
   batch_datasource:

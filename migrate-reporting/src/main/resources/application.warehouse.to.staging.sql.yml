@@ -1,23 +1,4 @@
 sql:
-  stage:
-    entities:
-        # ------------ import  --------------------------------------------------------------------
-        import:
-          sql:
-            findMaxImportId:  >-
-              SELECT MAX(i.id)
-                FROM warehouse.import i
-              WHERE i.status >= 0
-            findMinImportId:  >-
-              SELECT MIN(i.id)
-                FROM warehouse.import i
-              WHERE i.status >= 0
-            findLastMigratedImportId:  >-
-              SELECT MAX(m.last_import_id)
-                FROM reporting.migrate m
-              WHERE m.status = 20
-
-
   # ------------ original format ------------------------------------------------------------------
   # todo: refactor names
   warehouseToStage:
