@@ -33,6 +33,7 @@ DElETE FROM reporting_test.item where id in ( -990, -991, -992, -993, -980, -981
 DElETE FROM reporting_test.asmt_score where asmt_id in ( -99, -98);
 DElETE FROM reporting_test.asmt where id in ( -99, -98);
 
+DELETE FROM reporting_test.migrate;
 
 
 

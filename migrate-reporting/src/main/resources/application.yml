@@ -1,5 +1,10 @@
-spring:
+migrate:
+  batch:
+    size: 1000
+    delay: 50000
+    initialDelay: -1
 
+spring:
   batch_datasource:
     url: jdbc:mysql://localhost:3306/spring_batch_reporting?useSSL=false
     username: root
@@ -17,6 +22,10 @@ spring:
     validationQuery: SELECT 1
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
+
+  batch:
+    job:
+      enabled: false
 
 logging:
   level:
