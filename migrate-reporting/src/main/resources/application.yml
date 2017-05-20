@@ -2,7 +2,6 @@ migrate:
   batch:
     size: 1000
     delay: 50000
-    initialDelay: -1
 
 spring:
   batch_datasource:
