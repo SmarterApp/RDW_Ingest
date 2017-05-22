@@ -1,0 +1,150 @@
+{
+  "districts": [
+    {
+      "id": "572d7630e4b0ed2c55c37e34",
+      "entityId": "DISTRICT9",
+      "entityName": "District 9 - Prawn Town",
+      "parentEntityId": "CA",
+      "stateAbbreviation": "CA",
+      "nationwideIdentifier": null,
+      "parentId": "572d7606e4b0ed2c55c37e33",
+      "action": "UPD",
+      "tenantType": "DISTRICT",
+      "formatType": "DISTRICT",
+      "entityType": "DISTRICT",
+      "alternateKey": "entityId: DISTRICT9, stateAbbreviation: CA",
+      "parentEntityType": "STATE",
+      "url": "/district/572d7630e4b0ed2c55c37e34"
+    },
+    {
+      "id": "58110e07e4b03140a8c0ba28",
+      "entityId": "DISTRICT2",
+      "entityName": "District 2 - San Diego",
+      "parentEntityId": "CA",
+      "stateAbbreviation": "CA",
+      "nationwideIdentifier": null,
+      "parentId": "572d7606e4b0ed2c55c37e33",
+      "action": "UPD",
+      "tenantType": "DISTRICT",
+      "formatType": "DISTRICT",
+      "entityType": "DISTRICT",
+      "alternateKey": "entityId: DISTRICT2, stateAbbreviation: CA",
+      "parentEntityType": "STATE",
+      "url": "/district/58110e07e4b03140a8c0ba28"
+    }
+  ],
+  "groupofinstitutions": {
+    "searchResults": [
+      {
+        "id": "58ec645ce4b07da58f50825a",
+        "entityId": "GROUP1",
+        "entityName": "Group 1",
+        "parentEntityId": "DISTRICT2",
+        "stateAbbreviation": "CA",
+        "parentId": "58110e07e4b03140a8c0ba28",
+        "action": "UPD",
+        "tenantType": "INSTITUTION_GROUP",
+        "formatType": "GROUPOFINSTITUTIONS",
+        "entityType": "GROUPOFINSTITUTIONS",
+        "alternateKey": "entityId: GROUP1, stateAbbreviation: CA",
+        "parentEntityType": "DISTRICT",
+        "url": "/groupofinstitutions/58ec645ce4b07da58f50825a"
+      }
+    ],
+    "currentPage": 0,
+    "returnCount": 1,
+    "pageSize": 1000,
+    "totalCount": 1,
+    "sortKey": "_id",
+    "sortDirection": "ASC",
+    "nextPageUrl": null,
+    "prevPageUrl": null
+  },
+  "institutions": {
+    "searchResults": [
+      {
+        "id": "57325fc6e4b0ed2c55c37e40",
+        "entityId": "DS9001",
+        "entityName": "District 9 Institution 1",
+        "parentEntityId": "DISTRICT9",
+        "stateAbbreviation": "CA",
+        "nationwideIdentifier": "NCESID001",
+        "parentId": "572d7630e4b0ed2c55c37e34",
+        "action": "UPD",
+        "tenantType": "INSTITUTION",
+        "formatType": "INSTITUTION",
+        "entityType": "INSTITUTION",
+        "alternateKey": "entityId: DS9001, stateAbbreviation: CA",
+        "parentEntityType": "DISTRICT"
+      },
+      {
+        "id": "58110e9fe4b03140a8c0ba29",
+        "entityId": "DS9002",
+        "entityName": "San Diego Institution",
+        "parentEntityId": "DISTRICT2",
+        "stateAbbreviation": "CA",
+        "nationwideIdentifier": "NCESID002",
+        "parentId": "58110e07e4b03140a8c0ba28",
+        "action": "UPD",
+        "tenantType": "INSTITUTION",
+        "formatType": "INSTITUTION",
+        "entityType": "INSTITUTION",
+        "alternateKey": "entityId: DS9002, stateAbbreviation: CA",
+        "parentEntityType": "DISTRICT"
+      },
+      {
+        "id": "58ec64b4e4b07da58f50825b",
+        "entityId": "DS80001",
+        "entityName": "SubGroup1-1",
+        "parentEntityId": "GROUP1",
+        "stateAbbreviation": "CA",
+        "nationwideIdentifier": "DS80001",
+        "parentId": "58ec645ce4b07da58f50825a",
+        "action": "UPD",
+        "tenantType": "INSTITUTION",
+        "formatType": "INSTITUTION",
+        "entityType": "INSTITUTION",
+        "alternateKey": "entityId: DS80001, stateAbbreviation: CA",
+        "parentEntityType": "GROUPOFINSTITUTIONS"
+      },
+      {
+        "id": "58ec64cbe4b07da58f50825c",
+        "entityId": "DS80002",
+        "entityName": "SubGroup1-2",
+        "parentEntityId": "GROUP1",
+        "stateAbbreviation": "CA",
+        "nationwideIdentifier": "DS80002",
+        "parentId": "58ec645ce4b07da58f50825a",
+        "action": "UPD",
+        "tenantType": "INSTITUTION",
+        "formatType": "INSTITUTION",
+        "entityType": "INSTITUTION",
+        "alternateKey": "entityId: DS80002, stateAbbreviation: CA",
+        "parentEntityType": "GROUPOFINSTITUTIONS"
+      },
+      {
+        "id": "58ec64cbe4b07da58f50825d",
+        "entityId": "DS1111",
+        "entityName": "NoParent",
+        "parentEntityId": "DoesNotExist",
+        "stateAbbreviation": "CA",
+        "nationwideIdentifier": "DS1111",
+        "parentId": "58ec645ce4b07ef58f50825a",
+        "action": "UPD",
+        "tenantType": "INSTITUTION",
+        "formatType": "INSTITUTION",
+        "entityType": "INSTITUTION",
+        "alternateKey": "entityId: DS1111, stateAbbreviation: CA",
+        "parentEntityType": "DISTRICT"
+      }
+    ],
+    "currentPage": 0,
+    "returnCount": 4,
+    "pageSize": 1000,
+    "totalCount": 4,
+    "sortKey": "_id",
+    "sortDirection": "ASC",
+    "nextPageUrl": null,
+    "prevPageUrl": null
+  }
+}
