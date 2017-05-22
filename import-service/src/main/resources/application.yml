@@ -31,13 +31,16 @@ spring:
   cloud:
     stream:
       bindings:
+        CODES:
+          producer:
+            requiredGroups: default
         EXAM:
           producer:
             requiredGroups: default
-        PACKAGE:
+        ORGANIZATION:
           producer:
             requiredGroups: default
-        CODES:
+        PACKAGE:
           producer:
             requiredGroups: default
 
