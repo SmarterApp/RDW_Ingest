@@ -5,8 +5,8 @@ sql:
         SELECT MAX(m.last_import_id) FROM reporting.migrate m WHERE m.status = 20
 
       create:
-        INSERT INTO reporting.migrate (id, status, first_import_id, last_import_id)
-          VALUES (:id, :status, :first_import_id, :last_import_id);
+        INSERT INTO reporting.migrate (job_id, status, first_import_id, last_import_id)
+          VALUES (:job_id, :status, :first_import_id, :last_import_id);
 
       updateStatusById:
          UPDATE reporting.migrate
