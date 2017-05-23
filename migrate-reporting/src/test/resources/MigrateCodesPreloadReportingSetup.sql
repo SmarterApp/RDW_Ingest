@@ -10,6 +10,6 @@ INSERT INTO reporting_test.math_practice  VALUES (-99,'before test');
 INSERT INTO reporting_test.item_trait_score VALUES (-99,'before test');
 INSERT INTO reporting_test.target  VALUES (-99,-99,'10-1','before test');
 INSERT INTO reporting_test.item_difficulty_cuts  VALUES (-99, 1, 2, -99,-2.2,-3.3);
-
-
+INSERT INTO reporting_test.language VALUES (-99,'before test');
+INSERT INTO reporting_test.accommodation_translation VALUES (-99, -99,'before test');
 

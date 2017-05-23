@@ -316,6 +316,57 @@ sql:
                 DELETE ridc FROM reporting.item_difficulty_cuts ridc
                     WHERE NOT EXISTS(SELECT id FROM staging.staging_item_difficulty_cuts WHERE id = ridc.id);
 
+      # ------------ Language ------------------------------------------------------------------------
+              language:
+                sql:
+                  update:  >-
+                    UPDATE reporting.accommodation ra
+                      JOIN staging.staging_accommodation sa ON sa.id = ra.id
+                    SET
+                      ra.code = sa.code;
+
+                  insert:  >-
+                    INSERT INTO reporting.language ( id, code)
+                      SELECT
+                        sl.id,
+                        sl.code
+                      FROM staging.staging_language sl
+                        LEFT JOIN reporting.language rl ON rl.id = sl.id
+                      WHERE rl.id IS NULL;
+
+                  delete: >-
+                    DELETE rl FROM reporting.language rl
+                      WHERE NOT EXISTS(SELECT id FROM staging.staging_language WHERE id = rl.id);
+
+      # ------------ Accommodation Translation ------------------------------------------------------------------------
+              accommodation_translation:
+                sql:
+                  update:  >-
+                    UPDATE reporting.accommodation_translation rat
+                      JOIN staging.staging_accommodation_translation sat
+                        ON sat.accommodation_id = rat.accommodation_id AND
+                          sat.language_id = rat.language_id
+                    SET
+                      rat.label = sat.label;
+
+                  insert:  >-
+                    INSERT INTO reporting.accommodation_translation (accommodation_id, language_id, label)
+                      SELECT
+                        sat.accommodation_id,
+                        sat.language_id,
+                        sat.label
+                      FROM staging.staging_accommodation_translation sat
+                        LEFT JOIN reporting.accommodation_translation rat
+                          ON rat.accommodation_id = sat.accommodation_id AND
+                            rat.language_id = sat.language_id
+                      WHERE ra.id IS NULL;
+
+                  delete: >-
+                     DELETE rat FROM reporting.accommodation_translation rat
+                        WHERE NOT EXISTS(SELECT accommodation_id, language_id FROM staging.staging_accommodation
+                          WHERE accommodation_id = rat.accommodation_id AND
+                            language_id = rat.language_id);
+
       # ############## IAB Exams #######################################################################
       # ------------ iab_exam_available_accommodation --------------------------------------------------
         iab_exam_available_accommodation:

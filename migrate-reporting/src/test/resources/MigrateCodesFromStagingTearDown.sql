@@ -10,6 +10,9 @@ DELETE FROM staging_test.staging_target WHERE id IN (-99,-98);
 DELETE FROM staging_test.staging_item_difficulty_cuts  WHERE id IN (-99,-98);
 DELETE FROM staging_test.staging_claim WHERE id IN (-99,-98);
 DELETE FROM staging_test.staging_grade WHERE id IN (-99,-98);
+DELETE FROM staging_test.staging_language WHERE id IN (-99, -98);
+DELETE FROM staging_test.staging_accommodation_translation WHERE accommodation_id IN (-99, -98) AND language_id in (-99, -98);
+
 
 DELETE FROM reporting_test.completeness WHERE id IN (-99,-98);
 DELETE FROM reporting_test.administration_condition WHERE id IN (-99,-98, -97, -96);
@@ -23,5 +26,7 @@ DELETE FROM reporting_test.target  WHERE id IN (-99,-98);
 DELETE FROM reporting_test.item_difficulty_cuts  WHERE id IN (-99,-98);
 DELETE FROM reporting_test.grade WHERE id IN (-99,-98);
 DELETE FROM reporting_test.claim WHERE id IN (-99,-98);
+DELETE FROM reporting_test.language WHERE id IN (-99, -98);
+DELETE FROM reporting_test.accommodation_translation WHERE accommodation_id IN (-99, -98) AND language_id in (-99, -98);
 
 DELETE FROM reporting_test.migrate;
