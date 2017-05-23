@@ -15,9 +15,18 @@ sql:
 
   warehouse:
     import:
-      findMaxImportId:  >-
-          SELECT MAX(i.id) FROM warehouse.import i WHERE i.status >= 0
-
       findMinImportId:  >-
-          SELECT MIN(i.id) FROM warehouse.import i WHERE i.status >= 0
+        SELECT MIN(i.id) FROM warehouse.import i WHERE i.status >= 0
+
+      findMaxImportIdNotMigrated:  >-
+        SELECT max(available.id) id
+        FROM
+          (SELECT id
+           FROM warehouse.import
+           WHERE id > :last_import_id
+            AND status >= 0
+           ORDER BY id ASC
+           LIMIT :batch_size
+          ) AS available;
+
 
