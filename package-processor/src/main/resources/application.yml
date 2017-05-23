@@ -6,11 +6,14 @@ spring:
   cloud:
     stream:
       bindings:
-        packageInput:
-          destination: PACKAGE
-          group: default
         codesInput:
           destination: CODES
+          group: default
+        organizationInput:
+          destination: ORGANIZATION
+          group: default
+        packageInput:
+          destination: PACKAGE
           group: default
 
   datasource:
