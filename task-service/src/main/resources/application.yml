@@ -15,6 +15,10 @@ spring:
     testWhileIdle: true
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
 
 task:
   send-reconciliation-report:
