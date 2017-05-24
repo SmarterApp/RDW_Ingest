@@ -21,3 +21,24 @@ sql:
     findReportingSubjectClaimScores: >-
       SELECT rscs.id, rscs.subject_id, rscs.asmt_type_id, rscs.code, rscs.name
         FROM reporting.subject_claim_score rscs ORDER BY rscs.id ASC
+
+    entities:
+        # ------------ district  -------------------------------------------------------------------
+        district:
+          sql:
+            warehouseRead: >-
+              SELECT
+                  wd.id,
+                  wd.natural_id,
+                  wd.name
+                FROM warehouse.district wd
+                WHERE EXISTS(
+                    SELECT id from warehouse.school ws
+                    WHERE district_id = wd.id
+                          AND ws.deleted = 0
+                          AND import_id >= :start_import_id
+                          AND import_id <= :end_importId)
+
+            stagingInsert: >-
+              INSERT INTO staging.staging_district (id, natural_id, name, migrate_id) VALUES
+                (:id, :natural_id, :name, :migrate_id)
