@@ -14,8 +14,13 @@ dependencies {
     // enables email
     compile 'org.springframework.boot:spring-boot-starter-mail'
 
-    // csv reader
+    // csv
     compile group: 'net.sf.supercsv', name: 'super-csv', version: '2.4.0'
+
+    // auth
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'org.springframework.security.oauth:spring-security-oauth2'
+    testCompile 'org.springframework.security:spring-security-test'
 
     // this is for retrying connection to config server
     compile 'org.springframework.boot:spring-boot-starter-aop'
@@ -27,6 +32,9 @@ dependencies {
     compile project(':rdw-ingest-common')
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
+
+    // fixes java 8 time marshaling
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.7'
 }
 
 // this is for creating metadata
