@@ -10,5 +10,5 @@ INSERT INTO staging_test.staging_math_practice  VALUES (-99,'Make sense of probl
 INSERT INTO staging_test.staging_item_trait_score VALUES (-99,'Conventions'),(-98,'Evidence/Elaboration');
 INSERT INTO staging_test.staging_target  VALUES (-99,-99,'10-1','WORD MEANINGS: Determine intended meanings of words..'),(-98,-98,'10-12','WORD MEANINGS:..)');
 INSERT INTO staging_test.staging_item_difficulty_cuts  VALUES (-99, 1, 2, -99,-1.93882,-0.43906),(-98 ,1, 2, -98,-1.51022,0.14288);
-INSERT INTO staging_test.staging_language VALUES (-99,'spa'),(-98,'eng');
+INSERT INTO staging_test.staging_language VALUES (-99,'lan'),(-98,'gua');
 INSERT INTO staging_test.staging_accommodation_translation VALUES (-99, -99,'Hola'),(-98, -98,'Hello');
