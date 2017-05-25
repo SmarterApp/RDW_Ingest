@@ -22,7 +22,161 @@ sql:
       SELECT rscs.id, rscs.subject_id, rscs.asmt_type_id, rscs.code, rscs.name
         FROM reporting.subject_claim_score rscs ORDER BY rscs.id ASC
 
+    truncateStageList:
+      - TRUNCATE TABLE staging.staging_grade
+      - TRUNCATE TABLE staging.staging_completeness
+      - TRUNCATE TABLE staging.staging_administration_condition
+      - TRUNCATE TABLE staging.staging_ethnicity
+      - TRUNCATE TABLE staging.staging_gender
+      - TRUNCATE TABLE staging.staging_accommodation
+      - TRUNCATE TABLE staging.staging_claim
+      - TRUNCATE TABLE staging.staging_target
+      - TRUNCATE TABLE staging.staging_depth_of_knowledge
+      - TRUNCATE TABLE staging.staging_math_practice
+      - TRUNCATE TABLE staging.staging_item_trait_score
+      - TRUNCATE TABLE staging.staging_item_difficulty_cuts
+      - TRUNCATE TABLE staging.staging_iab_exam_student
+      - TRUNCATE TABLE staging.staging_iab_exam
+      - TRUNCATE TABLE staging.staging_iab_exam_item
+      - TRUNCATE TABLE staging.staging_iab_exam_available_accommodation
+      - TRUNCATE TABLE staging.staging_exam_student
+      - TRUNCATE TABLE staging.staging_exam
+      - TRUNCATE TABLE staging.staging_exam_item
+      - TRUNCATE TABLE staging.staging_exam_available_accommodation
+      - TRUNCATE TABLE staging.staging_exam_claim_score
+      - TRUNCATE TABLE staging.staging_school
+      - TRUNCATE TABLE staging.staging_district
+      - TRUNCATE TABLE staging.staging_student
+      - TRUNCATE TABLE staging.staging_student_ethnicity
+      - TRUNCATE TABLE staging.staging_student_group
+      - TRUNCATE TABLE staging.staging_student_group_membership
+      - TRUNCATE TABLE staging.staging_user_student_group
+      - TRUNCATE TABLE staging.staging_asmt
+      - TRUNCATE TABLE staging.staging_asmt_score
+      - TRUNCATE TABLE staging.staging_item
+
     entities:
+        # ------------ grade  -------------------------------------------------------------------
+        grade:
+          sql:
+            warehouseRead: >-
+              SELECT id, code, name from warehouse.grade
+
+            stagingInsert: >-
+              INSERT INTO staging.staging_grade (id, code, name) VALUES
+                (:id, :code, :name)
+
+        # ------------ completeness  -------------------------------------------------------------
+        completeness:
+          sql:
+            warehouseRead: >-
+              SELECT id, name from warehouse.completeness
+
+            stagingInsert: >-
+              INSERT INTO staging.staging_completeness (id, name) VALUES
+                (:id, :name)
+
+        # ------------ administration_condition  -------------------------------------------------------------
+        administration_condition:
+          sql:
+            warehouseRead: >-
+              SELECT id, name from warehouse.administration_condition
+
+            stagingInsert: >-
+              INSERT INTO staging.staging_administration_condition (id, name) VALUES
+                (:id, :name)
+
+        # ------------ ethnicity  -------------------------------------------------------------
+        ethnicity:
+          sql:
+            warehouseRead: >-
+             SELECT id, name from warehouse.ethnicity
+
+            stagingInsert: >-
+              INSERT INTO staging.staging_ethnicity (id, name) VALUES
+                (:id, :name)
+
+        # ------------ gender  -------------------------------------------------------------
+        gender:
+          sql:
+            warehouseRead: >-
+             SELECT id, name from warehouse.gender
+
+            stagingInsert: >-
+              INSERT INTO staging.staging_gender (id, name) VALUES
+                (:id, :name)
+
+        # ------------ accommodation  -------------------------------------------------------------
+        accommodation:
+          sql:
+            warehouseRead: >-
+             SELECT id, code from warehouse.accommodation
+
+            stagingInsert: >-
+              INSERT INTO staging.staging_accommodation (id, code) VALUES
+                (:id, :code)
+
+        # ------------ claim  -------------------------------------------------------------
+        claim:
+          sql:
+            warehouseRead: >-
+             SELECT id, subject_id, code, name, description from warehouse.claim
+
+            stagingInsert: >-
+              INSERT INTO staging.staging_claim (id, subject_id, code, name, description) VALUES
+                (:id, :subject_id, :code, :name, :description)
+
+        # ------------ target  -------------------------------------------------------------
+        target:
+          sql:
+            warehouseRead: >-
+             SELECT id, claim_id, code, description from warehouse.target
+
+            stagingInsert: >-
+              INSERT INTO staging.staging_target (id, claim_id, code, description) VALUES
+                (:id, :claim_id, :code, :description)
+
+        # ------------ depth_of_knowledge  -------------------------------------------------------------
+        depth_of_knowledge:
+          sql:
+            warehouseRead: >-
+             SELECT id, level, subject_id, description, reference from warehouse.depth_of_knowledge
+
+            stagingInsert: >-
+              INSERT INTO staging.staging_depth_of_knowledge (id, level, subject_id, description, reference) VALUES
+                (:id, :level, :subject_id, :description, :reference)
+
+        # ------------ math_practice  -------------------------------------------------------------
+        math_practice:
+          sql:
+            warehouseRead: >-
+              SELECT practice, description from warehouse.math_practice
+
+            stagingInsert: >-
+              INSERT INTO staging.staging_math_practice (practice, description) VALUES
+                (:practice, :description)
+
+        # ------------ item_trait_score  -------------------------------------------------------------
+        item_trait_score:
+          sql:
+            warehouseRead: >-
+              SELECT id, dimension from warehouse.item_trait_score
+
+            stagingInsert: >-
+              INSERT INTO staging.staging_item_trait_score (id, dimension) VALUES
+                (:id, :dimension)
+
+        # ------------ item_difficulty_cuts  -------------------------------------------------------------
+        item_difficulty_cuts:
+          sql:
+            warehouseRead: >-
+              SELECT id, asmt_type_id, subject_id,grade_id, moderate_low_end, difficult_low_end from warehouse.item_difficulty_cuts
+
+            stagingInsert: >-
+              INSERT INTO staging.staging_item_difficulty_cuts (id, asmt_type_id, subject_id, grade_id, moderate_low_end, difficult_low_end) VALUES
+                (:id, :asmt_type_id, :subject_id, :grade_id, :moderate_low_end, :difficult_low_end)
+
+
         # ------------ district  -------------------------------------------------------------------
         district:
           sql:
@@ -36,7 +190,8 @@ sql:
                     SELECT id from warehouse.school ws
                     WHERE district_id = wd.id
                           AND ws.deleted = 0
-                          AND ((import_id >= :start_import_id AND import_id <= :end_importId) OR ( update_import_id >= :start_import_id AND update_import_id <= :end_importId) )
+                          AND ( (import_id >= :start_import_id AND import_id <= :end_import_id) OR
+                                (update_import_id >= :start_import_id AND update_import_id <= :end_import_id) )
                 )
 
             stagingInsert: >-
