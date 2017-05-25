@@ -14,23 +14,28 @@
 
 version: '2'
 services:
-  config-server:
-    image: fwsbac/configuration-service:latest
-    container_name: config-server
-    ports:
-      - 8888:8888
-    environment:
-      - CONFIG_SERVICE_REPO
-      - ENCRYPT_KEY
-      - GIT_USER
-      - GIT_PASSWORD
-
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq
     ports:
       - 5672:5672
       - 15672:15672
+
+  config-server:
+    image: fwsbac/configuration-service:latest
+    container_name: config-server
+    ports:
+      - 8888:8888
+    depends_on:
+      - rabbitmq
+    environment:
+      - CONFIG_SERVICE_REPO
+      - ENCRYPT_KEY
+      - GIT_USER
+      - GIT_PASSWORD
+      - SPRING_RABBITMQ_ADDRESSES=rabbitmq:5672
+      - SPRING_RABBITMQ_USERNAME=guest
+      - SPRING_RABBITMQ_PASSWORD=guest
 
   import-service:
     image: fwsbac/rdw-ingest-import-service
@@ -91,8 +96,10 @@ services:
       - 8084:8080
     depends_on:
       - config-server
+      - import-service
     links:
       - config-server
+      - import-service
     environment:
       - spring.profiles.active=local-docker
       - CONFIG_SERVICE_ENABLED=true

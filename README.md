@@ -4,11 +4,14 @@ RDW ingest applications:
 1. Exam Processor - Spring Cloud Stream application for processing test results.
 1. Package Processor - Spring Cloud Stream application for processing Assessment Packages.
 1. Task Service - Spring Boot application for running scheduled tasks.
+1. Migrate Reporting - Spring Boot application for migrating data from the warehouse to the reporting data mart.
 
 RDW Ingest uses other processes:
 1. MySQL - warehouse and reporting databases
 1. RabbitMQ - message queue
 1. Configuration Server - centralized Spring configuration server
+1. OpenAM - centralized auth server
+1. ART - Administration and Registration Tools
 
 #### MySQL
 MySQL is required for building (integration tests) and running these applications. To better match production, MySQL
@@ -101,13 +104,6 @@ To stop a single service, use regular docker commands; to stop them all use dock
 ```bash
 docker stop docker_import-service_1
 docker-compose down
-```
-
-You can use a REST client to hit end-points, e.g.
-```text
-POST /exams/imports  with an XML payload should return an import request payload
-GET /exams/imports/:id   should return an import request payload
-GET /exams/imports?batch=<batch>&status=<status>  should return a list of imports matching criteria
 ```
 
 After cycling through some builds you will end up with a number of dangling images, e.g.:
