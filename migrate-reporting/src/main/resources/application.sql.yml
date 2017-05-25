@@ -24,7 +24,7 @@ sql:
           (SELECT id
            FROM warehouse.import
            WHERE id > :last_import_id
-            AND status >= 0
+            AND status = 1
            ORDER BY id ASC
            LIMIT :batch_size
           ) AS available;
