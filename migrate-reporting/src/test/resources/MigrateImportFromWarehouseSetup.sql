@@ -6,8 +6,8 @@ WHERE id = 1;
 -- Completed migration import id's in reporting
 -- First migrate completed does not exist in warehouse, just for testing
 INSERT INTO reporting_test.migrate (id, job_id, status, first_import_id, last_import_id) VALUES
-  (-1, 1, 20, -1020, -1011),
-  (-2, 2, 20, -1010, -1001);
+  (-10, 1, 20, -1020, -1011),
+  (-9, 2, 20, -1010, -1001);
 
 -- Test import records in warehouse
 -- todo: what is batch and message for?

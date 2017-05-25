@@ -1,24 +1,32 @@
 sql:
   reporting:
     migrate:
-      findLastMigratedImportId:  >-
+      findLastMigratedImportId: >-
         SELECT MAX(m.last_import_id) FROM reporting.migrate m WHERE m.status = 20
 
-      create:
+      create: >-
         INSERT INTO reporting.migrate (job_id, status, first_import_id, last_import_id)
-          VALUES (:job_id, :status, :first_import_id, :last_import_id);
+          VALUES (:job_id, :status, :first_import_id, :last_import_id)
 
-      updateStatusById:
-         UPDATE reporting.migrate
-             SET status = :status
-        WHERE id = :id
+      delete: >-
+        DELETE FROM reporting.migrate WHERE id = :id
+
+      updateStatusById: >-
+        UPDATE reporting.migrate SET status = :status
+          WHERE id = :id
+
+      lastStatus: >-
+        SELECT status FROM reporting.migrate ORDER BY id DESC LIMIT 1
+
+      lastStatusAlt: >-
+        SELECT status FROM reporting.migrate WHERE id = (SELECT MAX(id) FROM reporting.migrate)
 
   warehouse:
     import:
-      findMinImportId:  >-
+      findMinImportId: >-
         SELECT MIN(i.id) FROM warehouse.import i WHERE i.status >= 0
 
-      findMaxImportIdNotMigrated:  >-
+      findMaxImportIdNotMigrated: >-
         SELECT max(available.id) id
         FROM
           (SELECT id
