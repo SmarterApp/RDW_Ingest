@@ -43,8 +43,8 @@ sql:
 
   #TargetRepository
   target:
-    findIdByCodeAndClaim: >-
-      SELECT id FROM target WHERE code= :code AND claim_id = (SELECT id FROM claim WHERE code= :claimCode)
+    findIdByNaturalIdAndClaim: >-
+      SELECT id FROM target WHERE natural_id= :naturalId AND claim_id = (SELECT id FROM claim WHERE code= :claimCode)
 
   # ItemRepository
   item:
