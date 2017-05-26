@@ -18,9 +18,6 @@ sql:
       lastStatus: >-
         SELECT status FROM reporting.migrate ORDER BY id DESC LIMIT 1
 
-      lastStatusAlt: >-
-        SELECT status FROM reporting.migrate WHERE id = (SELECT MAX(id) FROM reporting.migrate)
-
   warehouse:
     import:
       findMinImportId: >-
