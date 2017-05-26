@@ -36,6 +36,8 @@ sql:
       - TRUNCATE TABLE staging.staging_math_practice
       - TRUNCATE TABLE staging.staging_item_trait_score
       - TRUNCATE TABLE staging.staging_item_difficulty_cuts
+      - TRUNCATE TABLE staging.staging_language
+      - TRUNCATE TABLE staging.staging_accommodation_translation
 
     entities:
         # ------------ grade  -------------------------------------------------------------------
@@ -158,6 +160,25 @@ sql:
               INSERT INTO staging.staging_item_difficulty_cuts (id, asmt_type_id, subject_id, grade_id, moderate_low_end, difficult_low_end) VALUES
                 (:id, :asmt_type_id, :subject_id, :grade_id, :moderate_low_end, :difficult_low_end)
 
+        # ------------ language  -------------------------------------------------------------
+        language:
+          sql:
+            warehouseRead: >-
+              SELECT id, code from warehouse.language
+
+            stagingInsert: >-
+              INSERT INTO staging.staging_language (id, code) VALUES
+                (:id, :code)
+
+        # ------------ accommodation_translation  -------------------------------------------------------------
+        accommodation_translation:
+          sql:
+            warehouseRead: >-
+              SELECT accommodation_id, language_id, label from warehouse.accommodation_translation
+
+            stagingInsert: >-
+              INSERT INTO staging.staging_accommodation_translation (accommodation_id, language_id, label) VALUES
+                (:accommodation_id, :language_id, :label)
 
         # ------------ district  -------------------------------------------------------------------
         district:
