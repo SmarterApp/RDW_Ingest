@@ -22,6 +22,7 @@ sql:
       SELECT rscs.id, rscs.subject_id, rscs.asmt_type_id, rscs.code, rscs.name
         FROM reporting.subject_claim_score rscs ORDER BY rscs.id ASC
 
+    # Will use the complete list as warehouse to stage is completed.
     truncateStageList:
       - TRUNCATE TABLE staging.staging_grade
       - TRUNCATE TABLE staging.staging_completeness
@@ -35,25 +36,6 @@ sql:
       - TRUNCATE TABLE staging.staging_math_practice
       - TRUNCATE TABLE staging.staging_item_trait_score
       - TRUNCATE TABLE staging.staging_item_difficulty_cuts
-      - TRUNCATE TABLE staging.staging_iab_exam_student
-      - TRUNCATE TABLE staging.staging_iab_exam
-      - TRUNCATE TABLE staging.staging_iab_exam_item
-      - TRUNCATE TABLE staging.staging_iab_exam_available_accommodation
-      - TRUNCATE TABLE staging.staging_exam_student
-      - TRUNCATE TABLE staging.staging_exam
-      - TRUNCATE TABLE staging.staging_exam_item
-      - TRUNCATE TABLE staging.staging_exam_available_accommodation
-      - TRUNCATE TABLE staging.staging_exam_claim_score
-      - TRUNCATE TABLE staging.staging_school
-      - TRUNCATE TABLE staging.staging_district
-      - TRUNCATE TABLE staging.staging_student
-      - TRUNCATE TABLE staging.staging_student_ethnicity
-      - TRUNCATE TABLE staging.staging_student_group
-      - TRUNCATE TABLE staging.staging_student_group_membership
-      - TRUNCATE TABLE staging.staging_user_student_group
-      - TRUNCATE TABLE staging.staging_asmt
-      - TRUNCATE TABLE staging.staging_asmt_score
-      - TRUNCATE TABLE staging.staging_item
 
     entities:
         # ------------ grade  -------------------------------------------------------------------
