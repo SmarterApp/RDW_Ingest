@@ -86,7 +86,7 @@ curl -s -X POST \
 ```
 
 ### Exam Endpoints
-End-points for dealing with exams aka test results.
+End-points for submitting exams aka test results.
 As mentioned above, all end-points require a valid token, the examples use `{access_token}` as a placeholder.
 
 #### Create Exam Import Request
@@ -147,6 +147,92 @@ curl -X POST --header "Authorization:Bearer {access_token}" --header "Content-Ty
 curl -X POST --header "Authorization:Bearer {access_token}" -F file=@winterICA.1.xml -F batch=WinterICA \
   https://import-service/exams/imports
 ```
+  
+### Organization Endpoints
+End-points for submitting organization data; this includes districts, schools, and groups of institutions. 
+As mentioned above, all end-points require a valid token, the examples use `{access_token}` as a placeholder.
+
+#### Create Organization Import Request
+Accepts JSON payload, compatible with the format produced by ART. The payload should contain all the organization
+data necessary to resolve all contents; for example, if a school is in a group under a district, all three must
+be present in the payload. The payload must be valid JSON but the exact structure doesn't matter a lot: the system
+will parse the payload looking for the required fields: `entityType`, `entityId`, `entityName`, `parentEntityId`. 
+
+This end-point requires credentials with the `ASMTDATALOAD` role.
+
+There are two ways of posting content: with a raw body of type `application/json` or form-data (file upload).
+
+* URL: `/organizations/imports`
+* Method: `POST`
+* URL Params: any URL param will be preserved as properties for the upload, well-known params:
+  * `filename=<originalFileName>`  (not needed for form-data)
+* Headers:
+  * `Authorization: Bearer {access_token}`
+* Headers (raw body):
+  * `Content-Type:application/json`
+* Body (raw body): JSON payload, contrived example:
+```json
+{ "districts": [
+    {
+      "id": "572d7630e4b0ed2c55c37e34",
+      "entityId": "DISTRICT9",
+      "entityName": "District 9 - Prawn Town",
+      "parentEntityId": "CA",
+       "entityType": "DISTRICT"
+    }, ...
+  ], "schools": [
+    {
+      "id": "57325fc6e4b0ed2c55c37e40",
+      "entityId": "DS9001",
+      "entityName": "Prawn Town Middle School",
+      "parentEntityId": "DISTRICT9",
+      "nationwideIdentifier": "NCESID001",
+      "entityType": "INSTITUTION"
+    }, ...
+  ]
+}
+```
+* Headers (form-data):
+  * `Content-Type:multipart/form-data`
+* Form data (form-data):
+  * `file` - the upload file
+  * `filename=<filename>`
+  * any other form data will be preserved as properties for the upload
+* Success Response:
+  * Code: 202 (Accepted)
+  * Content:
+```json
+{
+  "id": 19529,
+  "content": "ORGANIZATION",
+  "contentType": "application/json",
+  "digest": "5899C64887FE25BC1F015FD7C26476E4",
+  "status": "ACCEPTED",
+  "creator": "user@example.com",
+  "created": "2017-05-08T19:45:20.476Z",
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/exams/imports/19529"
+    }
+  }
+}
+```
+* Error Response:
+  * Code: 401 (Unauthorized) if token is missing or invalid.
+  * Code: 403 (Forbidden) if token doesn't provide the `ASTMDATALOAD` role.
+* Sample Call (raw body):
+```bash
+curl -X POST --header "Authorization:Bearer {access_token}" --header "Content-Type:application/json" \
+  --data-binary "{ \"districts\": [..." https://import-service/organizations/imports?filename=ART.json
+```
+* Sample Call (form-data):
+```bash
+curl -X POST --header "Authorization:Bearer {access_token}" -F file=@ART.json https://import-service/organizations/imports
+``` 
+    
+### Import Endpoints
+End-points for querying imports.
+As mentioned above, all end-points require a valid token, the examples use `{access_token}` as a placeholder.
   
 #### Get Import Request
 This end-point may be used to get the current status of an import request.
