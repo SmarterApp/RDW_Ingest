@@ -34,7 +34,7 @@ sql:
   #DepthOfKnowledgeRepository
   dok:
     findIdByLevelAndSubject: >-
-      SELECT id FROM depth_of_knowledge WHERE level= :level and subject_id = (SELECT id FROM subject WHERE name = :subjectName)
+      SELECT id FROM depth_of_knowledge WHERE level= :level and subject_id = :subjectId
 
   #MathPracticeRepository
   mathPractice:
@@ -44,13 +44,26 @@ sql:
   #TargetRepository
   target:
     findIdByNaturalIdAndClaim: >-
-      SELECT id FROM target WHERE natural_id= :naturalId AND claim_id = (SELECT id FROM claim WHERE code= :claimCode)
+      SELECT id FROM target WHERE natural_id= :naturalId AND claim_id = :claimId
+
+  commonCoreStandard:
+    findIdsBySubjectNameAndNaturalIds: >-
+       SELECT id FROM common_core_standard WHERE natural_id in (:naturalIds) AND subject_id = :subjectId
 
   # ItemRepository
   item:
     create: >-
       INSERT INTO item (asmt_id, claim_id, target_id, natural_id, math_practice, allow_calc, dok_id, difficulty, max_points)
                         select (select id as asmt_id from asmt where natural_id=:asmtId), :claimId, :targetId, :itemId, :mathPractice, :allowCalc, :dokId, :difficulty, :maxPoints
+
+    commonCoreStandardCreate: >-
+      INSERT INTO item_common_core_standard(item_id, common_core_standard_id)
+          SELECT (SELECT id from item where natural_id = :item_natural_id), :common_core_standard_id
+
+    otherTargetCreate: >-
+      INSERT INTO item_other_target(item_id, target_id)
+          SELECT (SELECT id from item where natural_id = :item_natural_id), :target_id
+
 
   # AccommodationRepository
   accommodation:
