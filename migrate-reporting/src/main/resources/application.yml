@@ -1,7 +1,11 @@
+management:
+  security:
+    enabled: false
+
 migrate:
   batch:
     size: 1000
-    delay: 50000
+    delay: 300000
 
 spring:
   batch_datasource:
@@ -26,8 +30,13 @@ spring:
     job:
       enabled: false
 
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+
 logging:
   level:
     org.springframework.transaction: INFO
-    org.springframework.jdbc.core.JdbcTemplate: INFO
+    org.springframework.jdbc.core.JdbcTemplate: DEBUG
     org.springframework.jdbc.datasource.DataSourceTransactionManager: INFO

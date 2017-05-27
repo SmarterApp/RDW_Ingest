@@ -30,20 +30,36 @@ branch to `develop` to solicit code reviews and feedback. Once approved use `squ
 #### Developing with Dependent Submodules
 This section covers the development scenario of working on RDW_Schema and RDW_Ingest together.
 
-This project utilizes git submodules (independent git repo, but checked out at a desired commit)for the RDW_Schema that 
-it depends on. This means the project's RDW_Schema submodule is "pointing" to a commit in the RDW_Schema git repo that 
-is the correct version of that project that is known to be working correctly with Ingest. During development, you may 
-want to develop in RDW_Schema and make changes, test with Ingest, etc. Since RDW_Schema is in a "detached head" status, 
-you will need to do the following to get RDW_Schema in a good state:
+This project utilizes git submodules (independent git repo, but checked out at a desired commit) for the RDW_Schema that 
+it depends on. This means the project's RDW_Schema submodule is "pointing" or "anchored" to a commit in the RDW_Schema git repo that 
+is the correct version that is known to be working correctly with Ingest. To make sure you have the 
+correct version of the submodule pulled down when you 'pull' from the latest develop:
+```bash
+git pull --recurse-submodules
+git submodule update
+```
+During development, you may  want to develop in RDW_Schema and make changes, test with Ingest, etc. 
+
+There are two ways to do it: from the RDW_Ingest project itself, or a standalone clone of RDW_Schema project.
+
+##### Developing with Dependent Submodule within RDW_Ingest
+Since RDW_Schema is in a "detached head" status, you will need to do the following to get RDW_Schema in a good state:
 ```bash
 cd RDW_Schema
 git pull
 git checkout develop
+git pull (yes, again, just to make sure develop is up to date)
 git checkout -b feature/<your feature>
 ```
 While you are making changes to the schema, you can be making corresponding changes in Ingest and running integration 
-tests against your new RDW_Schema changes. When you are done with changes in RDW_Schema, you can commit and push the 
-RDW_Schema repo as you would normally do, but from the RDW_Schema subdirectory.
+tests against your new RDW_Schema changes. Please note that unless your IntelliJ is configured to run unit tests through gradle, 
+the migrate script will not be run before the test. You can run it manually before you run your tests:
+```bash
+//under the RDW_Ingest parent directory
+ ./gradlew cleanalltest migratealltest
+```
+When you are done with changes in RDW_Schema, you can commit and push the RDW_Schema repo as you would normally do, but 
+from the RDW_Schema subdirectory.
 ```bash
 git add -u
 git commit -m "<message>"
@@ -70,6 +86,18 @@ see RDW_Schema under the "Changes not staged for commit" section. You can now ad
 your changes, and push them to the server. The RDW_Schema submodule pointer is now pointing at the version that matches
 your Ingest changes.
 
+##### Developing with Dependent Submodule within a standalone clone of RDW_Schema
+If you choose to make changes within a standalone clone of RDW_Schema and want to test RDW_Ingest with the local changes to
+the schema, then you need to refresh the schema on the test db instances:
+```bash
+//under the RDW_Schema directory...
+./gradlew cleanAll-test migrateAll-test
+```
+and then run the integration test skipping the migrate scripts execution:
+```bash
+//under the RDW_Ingest directory...
+ ./gradlew build manualIT
+```
 
 ### Running
 
