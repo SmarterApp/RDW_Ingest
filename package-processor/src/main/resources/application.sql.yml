@@ -43,11 +43,11 @@ sql:
 
   #TargetRepository
   target:
-    findIdByNaturalIdAndClaim: >-
+    findIdByNaturalIdAndClaimId: >-
       SELECT id FROM target WHERE natural_id= :naturalId AND claim_id = :claimId
 
   commonCoreStandard:
-    findIdsBySubjectNameAndNaturalIds: >-
+    findIdsBySubjectIdAndNaturalIds: >-
        SELECT id FROM common_core_standard WHERE natural_id in (:naturalIds) AND subject_id = :subjectId
 
   # ItemRepository
