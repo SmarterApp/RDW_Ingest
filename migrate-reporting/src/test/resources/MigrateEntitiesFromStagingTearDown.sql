@@ -15,6 +15,8 @@ DElETE FROM staging_test.staging_school where id in ( -99, -98, -1);
 DElETE FROM staging_test.staging_district where id in ( -99, -98, -1);
 
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
+DElETE FROM staging_test.staging_item_other_target where item_id in (-991, -990, -980);
+DElETE FROM staging_test.staging_item_common_core_standard where item_id in (-991, -990, -980);
 DElETE FROM staging_test.staging_item where asmt_id in ( -11, -99, -98);
 DElETE FROM staging_test.staging_asmt_score where asmt_id in ( -99, -98);
 DElETE FROM staging_test.staging_asmt where id in (-11, -99, -98);
@@ -49,6 +51,8 @@ DElETE FROM reporting_test.school where id in ( -99, -98, -1);
 DElETE FROM reporting_test.district where id in ( -99, -98, -1);
 
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
+DElETE FROM reporting_test.item_other_target where item_id in (-991, -990, -980);
+DElETE FROM reporting_test.item_common_core_standard where item_id in (-991, -990, -980);
 DElETE FROM reporting_test.item where asmt_id in ( -11, -99, -98);
 DElETE FROM reporting_test.asmt_score where asmt_id in ( -99, -98);
 DElETE FROM reporting_test.asmt where id in ( -11, -99, -98);
