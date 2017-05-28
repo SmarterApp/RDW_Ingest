@@ -32,6 +32,7 @@ sql:
       - TRUNCATE TABLE staging.staging_accommodation
       - TRUNCATE TABLE staging.staging_claim
       - TRUNCATE TABLE staging.staging_target
+      - TRUNCATE TABLE staging.staging_common_core_standard
       - TRUNCATE TABLE staging.staging_depth_of_knowledge
       - TRUNCATE TABLE staging.staging_math_practice
       - TRUNCATE TABLE staging.staging_item_trait_score
@@ -119,6 +120,18 @@ sql:
             stagingInsert: >-
               INSERT INTO staging.staging_target (id, claim_id, code, description) VALUES
                 (:id, :claim_id, :code, :description)
+
+
+        # ------------ common_core_standard  -------------------------------------------------------------
+        common_core_standard:
+          sql:
+            warehouseRead: >-
+             SELECT id, natural_id, subject_id, description from warehouse.common_core_standard
+
+            stagingInsert: >-
+              INSERT INTO staging.staging_common_core_standard (id, natural_id, subject_id, description) VALUES
+                (:id, :natural_id, :subject_id, :description)
+
 
         # ------------ depth_of_knowledge  -------------------------------------------------------------
         depth_of_knowledge:

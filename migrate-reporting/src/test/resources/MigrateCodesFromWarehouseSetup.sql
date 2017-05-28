@@ -13,6 +13,7 @@ INSERT INTO warehouse_test.depth_of_knowledge  VALUES (-99,1,1,'Recall and Repro
 INSERT INTO warehouse_test.math_practice  VALUES (-99,'Make sense of problems and persevere in solving them'),(-98,'Reason abstractly and quantitatively');
 INSERT INTO warehouse_test.item_trait_score VALUES (-99,'Conventions-test'),(-98,'Evidence/Elaboration-test');
 INSERT INTO warehouse_test.target VALUES (-99, 'natural-99', -99,'10-1','WORD MEANINGS: Determine intended meanings of words..'),(-98, 'natural-99', -98,'10-12','WORD MEANINGS:..)');
+INSERT INTO warehouse_test.common_core_standard VALUES (-99, 'natural-99', 1,'ccommon core -99'),(-98, 'natural-99', 2, 'common core -98');
 INSERT INTO warehouse_test.item_difficulty_cuts  VALUES (-99, 1, 2, -99,-1.93882,-0.43906),(-98 ,1, 2, -98,-1.51022,0.14288);
 INSERT INTO warehouse_test.language VALUES (-99,'lan'),(-98,'gua');
 INSERT INTO warehouse_test.accommodation_translation VALUES (-99, -99,'Hola'),(-98, -98,'Hello');

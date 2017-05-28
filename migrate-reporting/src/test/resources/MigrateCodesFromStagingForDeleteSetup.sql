@@ -9,6 +9,7 @@ INSERT INTO staging_test.staging_depth_of_knowledge VALUES (-98, 2, 1, 'Basic Sk
 INSERT INTO staging_test.staging_math_practice VALUES (-98, 'Reason abstractly and quantitatively');
 INSERT INTO staging_test.staging_item_trait_score VALUES (-98, 'Evidence/Elaboration-test');
 INSERT INTO staging_test.staging_target VALUES (-98, -98, '10-12', 'WORD MEANINGS:..)');
+INSERT INTO staging_test.staging_common_core_standard VALUES (-98, 'naturalid98', 2, 'standard 98');
 INSERT INTO staging_test.staging_item_difficulty_cuts (id, asmt_type_id, subject_id, grade_id, moderate_low_end, difficult_low_end) VALUES (-98, 1, 2, -98, -1.51022, 0.14288);
 INSERT INTO staging_test.staging_language VALUES (-98,'gua');
 INSERT INTO staging_test.staging_accommodation_translation VALUES (-98, -98, 'Adios');
