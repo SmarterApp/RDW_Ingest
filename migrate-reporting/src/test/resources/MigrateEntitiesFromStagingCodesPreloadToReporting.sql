@@ -9,6 +9,7 @@ INSERT INTO reporting_test.depth_of_knowledge  VALUES (-99,1,1,'Recall and Repro
 INSERT INTO reporting_test.math_practice  VALUES (-99,'Make sense of problems and persevere in solving them'),(-98,'Reason abstractly and quantitatively');
 INSERT INTO reporting_test.item_trait_score VALUES (-99,'Conventions-test'),(-98,'Evidence/Elaboration-test');
 INSERT INTO reporting_test.target  VALUES (-99,-99,'10-1','WORD MEANINGS: Determine intended meanings of words..'),(-98,-98,'10-12','WORD MEANINGS:..)');
+INSERT INTO reporting_test.common_core_standard  VALUES (-99,'naturalid-99', 1,'common core 99.'),(-98, 'naturalid-98', 2,'common core 98');
 INSERT INTO reporting_test.item_difficulty_cuts  VALUES (-99, 1, 2, -99,-1.93882,-0.43906),(-98 ,1, 2, -98,-1.51022,0.14288);
 
 

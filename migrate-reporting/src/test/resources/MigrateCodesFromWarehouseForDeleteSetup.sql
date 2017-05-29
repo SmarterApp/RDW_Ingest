@@ -13,6 +13,7 @@ INSERT INTO warehouse_test.depth_of_knowledge VALUES (-98, 2, 1, 'Basic Skills a
 INSERT INTO warehouse_test.math_practice VALUES (-98, 'Reason abstractly and quantitatively');
 INSERT INTO warehouse_test.item_trait_score VALUES (-98, 'Evidence/Elaboration-test');
 INSERT INTO warehouse_test.target VALUES (-98, 'natural-98', -98, '10-12', 'WORD MEANINGS:..)');
+INSERT INTO warehouse_test.common_core_standard VALUES (-98,'natural-98', 2, 'common core 98..)');
 INSERT INTO warehouse_test.item_difficulty_cuts (id, asmt_type_id, subject_id, grade_id, moderate_low_end, difficult_low_end) VALUES (-98, 1, 2, -98, -1.51022, 0.14288);
 INSERT INTO warehouse_test.language VALUES (-98,'gua');
 INSERT INTO warehouse_test.accommodation_translation VALUES (-98, -98, 'Adios');

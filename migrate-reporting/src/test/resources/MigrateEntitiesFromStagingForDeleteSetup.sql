@@ -7,6 +7,7 @@ DELETE FROM staging_test.staging_district WHERE id = -99;
 UPDATE staging_test.staging_asmt SET deleted = 1 WHERE id = -99;
 DELETE FROM staging_test.staging_asmt_score WHERE asmt_id = -99;
 DELETE FROM staging_test.staging_item WHERE asmt_id = -99;
+DELETE FROM staging_test.staging_item_other_target WHERE item_id = -990;
 
 -- ------------------------------------------ Student and Groups  ------------------------------------------------------------------------------------------------
 UPDATE staging_test.staging_student SET deleted = 1 WHERE id = -89;
