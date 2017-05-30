@@ -6,21 +6,21 @@ sql:
 
   # JdbcEthnicityRepository
   ethnicity:
-    findIdByName: >-
-        SELECT id FROM ethnicity WHERE name= :name
+    findIdByCode: >-
+        SELECT id FROM ethnicity WHERE code= :code
 
-    findAllNames: >-
-        SELECT name FROM ethnicity
+    findAllCodes: >-
+        SELECT code FROM ethnicity
 
   # JdbcGenderRepository
   gender:
-    findIdByName: >-
-        SELECT id FROM gender WHERE name= :name
+    findIdByCode: >-
+        SELECT id FROM gender WHERE code= :code
 
   # JdbcGenderRepository
   subject:
-    findIdByName: >-
-        SELECT id FROM subject WHERE name= :name
+    findIdByCode: >-
+        SELECT id FROM subject WHERE code= :code
 
   # JdbcGradeRepository
   grade:
@@ -29,13 +29,13 @@ sql:
 
   # JdbcAdminConditionRepository
   administrationCondition:
-    findIdByName: >-
-        SELECT id FROM administration_condition WHERE name= :name
+    findIdByCode: >-
+        SELECT id FROM administration_condition WHERE code= :code
 
   # JdbcCompletenessnRepository
   completeness:
-    findIdByName: >-
-        SELECT id FROM completeness WHERE name= :name
+    findIdByCode: >-
+        SELECT id FROM completeness WHERE code= :code
 
   # ItemTraitRepository
   itemTraitScore:

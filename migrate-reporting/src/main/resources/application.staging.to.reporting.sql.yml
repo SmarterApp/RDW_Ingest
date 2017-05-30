@@ -30,13 +30,13 @@ sql:
                 UPDATE reporting.completeness rc
                    JOIN staging.staging_completeness sc ON sc.id = rc.id
                 SET
-                 rc.name = sc.name;
+                 rc.code = sc.code;
 
             insert:  >-
-                INSERT INTO reporting.completeness ( id, name)
+                INSERT INTO reporting.completeness ( id, code)
                   SELECT
                     sc.id,
-                    sc.name
+                    sc.code
                   FROM staging.staging_completeness sc
                   LEFT JOIN reporting.completeness rc ON rc.id = sc.id
                   WHERE rc.id IS NULL;
@@ -52,13 +52,13 @@ sql:
               UPDATE reporting.administration_condition rac
                 JOIN staging.staging_administration_condition sac ON sac.id = rac.id
               SET
-                rac.name = sac.name;
+                rac.code = sac.code;
 
             insert:  >-
-              INSERT INTO reporting.administration_condition ( id, name)
+              INSERT INTO reporting.administration_condition ( id, code)
                 SELECT
                   sac.id,
-                  sac.name
+                  sac.code
                 FROM staging.staging_administration_condition sac
                   LEFT JOIN reporting.administration_condition rac ON rac.id = sac.id
                 WHERE rac.id IS NULL;
@@ -74,13 +74,13 @@ sql:
               UPDATE reporting.ethnicity re
                 JOIN staging.staging_ethnicity se ON se.id = re.id
               SET
-                re.name = se.name;
+                re.code = se.code;
 
             insert:  >-
-              INSERT INTO reporting.ethnicity ( id, name)
+              INSERT INTO reporting.ethnicity ( id, code)
                 SELECT
                   se.id,
-                  se.name
+                  se.code
                 FROM staging.staging_ethnicity se
                   LEFT JOIN reporting.ethnicity re ON re.id = se.id
                 WHERE re.id IS NULL;
@@ -95,13 +95,13 @@ sql:
               UPDATE reporting.gender rg
                 JOIN staging.staging_gender sg ON sg.id = rg.id
               SET
-                rg.name = sg.name;
+                rg.code = sg.code;
 
             insert:  >-
-              INSERT INTO reporting.gender ( id, name)
+              INSERT INTO reporting.gender ( id, code)
                 SELECT
                   sg.id,
-                  sg.name
+                  sg.code
                 FROM staging.staging_gender sg
                   LEFT JOIN reporting.gender rg ON rg.id = sg.id
                 WHERE rg.id IS NULL;

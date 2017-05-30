@@ -6,8 +6,8 @@ sql:
 
   # SubjectRepositoryImpl
   subject:
-    findIdByName: >-
-      SELECT id FROM subject WHERE name= :name
+    findIdByCode: >-
+      SELECT id FROM subject WHERE code= :code
 
   # GradeRepositoryImpl
   grade:

@@ -1,5 +1,5 @@
 INSERT INTO reporting_test.grade (id, code, name) VALUES (-99,'AA','before test');
-INSERT INTO reporting_test.completeness (id, name) VALUES (-99, 'before');
+INSERT INTO reporting_test.completeness (id, code) VALUES (-99, 'before');
 INSERT INTO reporting_test.administration_condition VALUES (-99,'before test');
 INSERT INTO reporting_test.ethnicity VALUES (-99,'before test');
 INSERT INTO reporting_test.gender VALUES (-99,'before test');
