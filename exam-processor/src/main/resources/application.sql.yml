@@ -47,6 +47,9 @@ sql:
     findIdByCode: >-
         SELECT id FROM accommodation WHERE code= :code
 
+    findIdsByCodes: >-
+        SELECT id FROM accommodation WHERE code in (:codes)
+
   # JdbcAssessmentRepository
   assessment:
     findOneByNaturalId: >-
