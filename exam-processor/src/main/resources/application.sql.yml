@@ -1,10 +1,10 @@
 sql:
-  # AssessmentTypeRepository
+  # JdbcAssessmentTypeRepository
   asmtType:
     findCodeById: >-
         SELECT code FROM asmt_type WHERE id= :id
 
-  # EthnicityRepositoryImpl
+  # JdbcEthnicityRepository
   ethnicity:
     findIdByName: >-
         SELECT id FROM ethnicity WHERE name= :name
@@ -12,37 +12,45 @@ sql:
     findAllNames: >-
         SELECT name FROM ethnicity
 
-  # GenderRepositoryImpl
+  # JdbcGenderRepository
   gender:
     findIdByName: >-
         SELECT id FROM gender WHERE name= :name
 
-  # GenderRepositoryImpl
+  # JdbcGenderRepository
   subject:
     findIdByName: >-
         SELECT id FROM subject WHERE name= :name
 
-  # GradeRepositoryImpl
+  # JdbcGradeRepository
   grade:
     findIdByCode: >-
         SELECT id FROM grade WHERE code= :code
 
- # AdminConditionRepositoryImpl
+  # JdbcAdminConditionRepository
   administrationCondition:
     findIdByName: >-
         SELECT id FROM administration_condition WHERE name= :name
 
- # CompletenessnRepositoryImpl
+  # JdbcCompletenessnRepository
   completeness:
     findIdByName: >-
         SELECT id FROM completeness WHERE name= :name
 
- # ItemTraitRepository
+  # ItemTraitRepository
   itemTraitScore:
     findAll: >-
         SELECT * from item_trait_score
 
-  # AssessmentRepository
+  # JdbcAccommodationRepository
+  accommodation:
+    findIdByCode: >-
+        SELECT id FROM accommodation WHERE code= :code
+
+    findIdsByCodes: >-
+        SELECT id FROM accommodation WHERE code in (:codes)
+
+  # JdbcAssessmentRepository
   assessment:
     findOneByNaturalId: >-
         SELECT id, natural_id, name, label, grade_id,type_id, subject_id, school_year FROM asmt WHERE natural_id= :natural_id
@@ -65,7 +73,7 @@ sql:
       findAllForAssessment: >-
         SELECT id, natural_id from item where asmt_id = :asmt_id order by natural_id asc
 
-  # ExamRepository
+  # JdbcExamRepository
   exam:
     create: >-
        INSERT INTO exam (exam_student_id, school_year, import_id, update_import_id, asmt_id, asmt_version, opportunity, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, achievement_level, completed_at) VALUES
@@ -90,7 +98,11 @@ sql:
         INSERT INTO exam_student (grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type) VALUES
                               (:grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status, :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type)
 
-  # IabExamRepository
+    accommodation:
+          create: >-
+            INSERT INTO exam_available_accommodation (exam_id, accommodation_id) VALUES (:exam_id, :accommodation_id)
+
+  # JdbcIabExamRepository
   iabExam:
     create: >-
       INSERT INTO iab_exam (iab_exam_student_id, school_year, import_id, update_import_id, asmt_id, asmt_version, opportunity, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, category, completed_at) VALUES
@@ -111,6 +123,10 @@ sql:
       create: >-
         INSERT INTO iab_exam_student (grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type) VALUES
                                   (:grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status, :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type)
+
+    iabAccommodation:
+      create: >-
+        INSERT INTO iab_exam_available_accommodation (iab_exam_id, accommodation_id) VALUES (:iab_exam_id, :accommodation_id)
 
   studentEthnicity:
     findAllIds:
