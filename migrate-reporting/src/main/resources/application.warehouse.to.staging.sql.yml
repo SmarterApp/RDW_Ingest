@@ -40,6 +40,13 @@ sql:
       - TRUNCATE TABLE staging.staging_language
       - TRUNCATE TABLE staging.staging_accommodation_translation
 
+    findDistinctImportContentInRange: >-
+      SELECT DISTINCT wi.content
+      FROM warehouse.import wi
+      WHERE wi.status = 1
+            AND wi.id >= :first_import_id
+            AND wi.id <= :last_import_id
+
     entities:
         # ------------ grade  -------------------------------------------------------------------
         grade:
