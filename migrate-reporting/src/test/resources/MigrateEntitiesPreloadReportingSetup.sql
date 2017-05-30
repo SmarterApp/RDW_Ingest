@@ -30,6 +30,10 @@ INSERT INTO reporting_test.item_other_target(item_id, target_id) values
  (-990, -98),
  (-991, -98);
 
+INSERT INTO reporting_test.item_common_core_standard(item_id, common_core_standard_id) values
+ (-990, -98),
+ (-991, -98);
+
 -- ------------------------------------------ Student and Groups  ------------------------------------------------------------------------------------------------
 INSERT INTO reporting_test.student (id, ssid, last_or_surname, first_name, middle_name, gender_id, first_entry_into_us_school_at, lep_entry_at,
         lep_exit_at, birthday, import_id) VALUES
