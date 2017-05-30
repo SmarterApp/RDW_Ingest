@@ -3,7 +3,7 @@
  * Need to make sure constraints to not conflict with initial DML
  */
 INSERT INTO warehouse_test.grade (id, code, name) VALUES (-98, '98', '1st-grade');
-INSERT INTO warehouse_test.completeness (id, name) VALUES (-98, 'test55');
+INSERT INTO warehouse_test.completeness (id, code) VALUES (-98, 'test55');
 INSERT INTO warehouse_test.administration_condition VALUES (-98, 'NS-test'), (-97, 'SD-test'), (-96, 'Valid-test');
 INSERT INTO warehouse_test.ethnicity VALUES (-98, 'Asian-test');
 INSERT INTO warehouse_test.gender VALUES (-98, 'Male-test');
