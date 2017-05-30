@@ -11,11 +11,13 @@ WHERE id = 1;
 
 -- Add import id's so content type is set up in "warehouse" step.
 
+-- School and District -19 to -1
 INSERT INTO warehouse_test.import (id, status, content, contentType, digest, batch, creator) VALUES
-  (-1, 1, 4, 'application/xml', 'hash-school', 'batch', 'dwtest@example.com');
+  (-1, 1, 4, 'application/xml', 'hash-school', 'batch', 'dwtest@example.com'),
+  (-2, 1, 4, 'application/xml', 'hash-school', 'batch', 'dwtest@example.com');
 
 INSERT INTO warehouse_test.import (id, status, content, contentType, digest, batch, creator) VALUES
-  (-2, 1, 2, 'application/xml', 'hash-asmt', 'batch', 'dwtest@example.com');
+  (-20, 1, 2, 'application/xml', 'hash-asmt', 'batch', 'dwtest@example.com');
 
 INSERT INTO warehouse_test.import (id, status, content, contentType, digest, batch, creator) VALUES
   (-79, 1, 5, 'application/xml', 'hash-group', 'batch', 'dwtest@example.com');
