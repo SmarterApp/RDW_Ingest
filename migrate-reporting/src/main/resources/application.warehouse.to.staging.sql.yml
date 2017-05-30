@@ -8,9 +8,9 @@ sql:
           JOIN warehouse.import_content ic ON i.content = ic.id
         WHERE ic.name = 'EXAM'
     findWarehouseSubjects: >-
-      SELECT ws.id, ws.name FROM warehouse.subject ws ORDER BY ws.id ASC
+      SELECT ws.id, ws.code FROM warehouse.subject ws ORDER BY ws.id ASC
     findReportingSubjects: >-
-      SELECT rs.id, rs.name FROM reporting.subject rs ORDER BY rs.id ASC
+      SELECT rs.id, rs.code FROM reporting.subject rs ORDER BY rs.id ASC
     findWarehouseAsmtTypes: >-
       SELECT wat.id, wat.code, wat.name FROM warehouse.asmt_type wat ORDER BY wat.id ASC
     findReportingAsmtTypes: >-
@@ -55,41 +55,41 @@ sql:
         completeness:
           sql:
             warehouseRead: >-
-              SELECT id, name from warehouse.completeness
+              SELECT id, code from warehouse.completeness
 
             stagingInsert: >-
-              INSERT INTO staging.staging_completeness (id, name) VALUES
-                (:id, :name)
+              INSERT INTO staging.staging_completeness (id, code) VALUES
+                (:id, :code)
 
         # ------------ administration_condition  -------------------------------------------------------------
         administration_condition:
           sql:
             warehouseRead: >-
-              SELECT id, name from warehouse.administration_condition
+              SELECT id, code from warehouse.administration_condition
 
             stagingInsert: >-
-              INSERT INTO staging.staging_administration_condition (id, name) VALUES
-                (:id, :name)
+              INSERT INTO staging.staging_administration_condition (id, code) VALUES
+                (:id, :code)
 
         # ------------ ethnicity  -------------------------------------------------------------
         ethnicity:
           sql:
             warehouseRead: >-
-             SELECT id, name from warehouse.ethnicity
+             SELECT id, code from warehouse.ethnicity
 
             stagingInsert: >-
-              INSERT INTO staging.staging_ethnicity (id, name) VALUES
-                (:id, :name)
+              INSERT INTO staging.staging_ethnicity (id, code) VALUES
+                (:id, :code)
 
         # ------------ gender  -------------------------------------------------------------
         gender:
           sql:
             warehouseRead: >-
-             SELECT id, name from warehouse.gender
+             SELECT id, code from warehouse.gender
 
             stagingInsert: >-
-              INSERT INTO staging.staging_gender (id, name) VALUES
-                (:id, :name)
+              INSERT INTO staging.staging_gender (id, code) VALUES
+                (:id, :code)
 
         # ------------ accommodation  -------------------------------------------------------------
         accommodation:
