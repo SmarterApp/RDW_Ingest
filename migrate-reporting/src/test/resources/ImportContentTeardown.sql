@@ -4,4 +4,4 @@ INSERT INTO warehouse_test.import (id, status, content, contentType, digest) VAL
 
 -- Delete imports
 DELETE FROM warehouse_test.import
-WHERE id IN (-1, -2, -89, -88, -87, -86, -79, -90, -99);
+WHERE id IN (-1, -2, -20, -89, -88, -87, -86, -79, -90, -99);

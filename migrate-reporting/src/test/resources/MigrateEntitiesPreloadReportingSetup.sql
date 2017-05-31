@@ -1,10 +1,13 @@
+--
+--  todo: make sure import id's are aligned with ImportContentSetup.sql
+--
 -- ------------------------------------------ School/Districts --------------------------------------------------------------------------------------------------
 INSERT INTO reporting_test.district (id, name, natural_id) VALUES
   (-1, 'Before Test -1', 'natural_id-1'),
   (-99, 'Before Test -99', 'natural_id-99');
 
 INSERT INTO reporting_test.school (id, district_id, name, natural_id, import_id) VALUES
-  (-1, -1, 'Before Test -1', 'natural_id-1', -1),
+  (-1, -1, 'Before Test -1', 'natural_id-1', -2000),
   (-99, -99, 'Before Test -99', 'natural_id-99', -1);
 
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
