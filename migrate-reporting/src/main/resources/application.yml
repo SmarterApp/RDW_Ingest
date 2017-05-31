@@ -1,3 +1,4 @@
+# this app is expected to run inside the security perimeter so disable security for actuator end-points
 management:
   security:
     enabled: false
