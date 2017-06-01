@@ -1,18 +1,16 @@
 --
--- Clean up warehouse.
--- todo: as entities complete replace staging with warehouse
---
+-- Clean up warehouse
 -- ------------------------------------------ IAB Exams ---------------------------------------------------------------------------------------------
 DELETE FROM warehouse_test.iab_exam_available_accommodation where iab_exam_id in (-88, -87, -86, -85, -84);
 DELETE FROM warehouse_test.iab_exam_item where iab_exam_id in (-88, -87, -86, -85, -84);
 DELETE FROM warehouse_test.iab_exam where id in (-88, -87, -86, -85, -84);
 DELETE FROM warehouse_test.iab_exam_student where id in (-18, -17, -16);
 
-DELETE FROM staging_test.staging_exam_available_accommodation where exam_id in (-88, -87, -86, -85, -84);
-DELETE FROM staging_test.staging_exam_item where exam_id in (-88, -87, -86, -85, -84);
-DELETE FROM staging_test.staging_exam_claim_score where exam_id in (-88, -87, -86, -85, -84);
-DELETE FROM staging_test.staging_exam where id in (-88, -87, -86, -85, -84);
-DELETE FROM staging_test.staging_exam_student where id in (-18, -17, -16);
+DELETE FROM warehouse_test.exam_available_accommodation where exam_id in (-88, -87, -86, -85, -84);
+DELETE FROM warehouse_test.exam_item where exam_id in (-88, -87, -86, -85, -84);
+DELETE FROM warehouse_test.exam_claim_score where exam_id in (-88, -87, -86, -85, -84);
+DELETE FROM warehouse_test.exam where id in (-88, -87, -86, -85, -84);
+DELETE FROM warehouse_test.exam_student where id in (-18, -17, -16);
 
 -- ------------------------------------------ Student and Groups  ------------------------------------------------------------------------------------------------
 DELETE FROM warehouse_test.student_group_membership where student_group_id in ( -91, -8, -7);
