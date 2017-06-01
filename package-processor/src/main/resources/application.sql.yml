@@ -90,5 +90,12 @@ sql:
     updateTranslation: >-
       UPDATE accommodation_translation SET label=:label WHERE accommodation_id=:accId AND language_id=:langId
 
+  status:
+    readTest: >-
+      SELECT code FROM asmt_type
 
+    writeTest: >-
+      INSERT INTO asmt_type (id, code, name) VALUES (47, 'tst', 'status test')
 
+    writeRevert: >-
+      DELETE FROM asmt_type WHERE id = 47
