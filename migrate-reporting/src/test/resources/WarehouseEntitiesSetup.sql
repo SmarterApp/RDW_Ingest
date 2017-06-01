@@ -1,7 +1,14 @@
 --
--- update_import_id = import_id on create.
---
 -- ---------------------------------------- School/Districts --------------------------------------------------------------------------------------------------
+
+-- preload -------------------------------------------------------------------------------------------------------
+INSERT INTO warehouse_test.district (id, name, natural_id) VALUES
+  (-1, 'Preload District -1', 'natural_id-1');
+
+INSERT INTO warehouse_test.school (id, district_id, name, natural_id, deleted, import_id, update_import_id) VALUES
+  (-1, -1, 'Preload School -1', 'natural_id-1', 0, -5000, -5000);
+-- preload -------------------------------------------------------------------------------------------------------
+
 INSERT INTO warehouse_test.district (id, name, natural_id) VALUES
   (-99, 'Sample District -99', 'natural_id-99');
 
@@ -54,26 +61,50 @@ INSERT INTO staging_test.staging_item_common_core_standard(item_id, common_core_
 
 -- ------------------------------------------ Student and Groups  ------------------------------------------------------------------------------------------------
 
-INSERT INTO staging_test.staging_student (id, ssid, last_or_surname, first_name, middle_name, gender_id, first_entry_into_us_school_at, lep_entry_at,
-                                          lep_exit_at, birthday, import_id, migrate_id, deleted) VALUES
-  (-89, '89', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -89, -99, 0),
-  (-88, '88', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -88, -99, 0),
-  (-87, '87', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -87, -99, 0),
-  (-86, '86', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -86, -99, 0);
+-- preload -------------------------------------------------------------------------------------------------------
 
-INSERT INTO staging_test.staging_student_ethnicity(student_id, ethnicity_id) values
+-- added before the test.
+INSERT INTO warehouse_test.student (id, ssid, last_or_surname, first_name, middle_name, gender_id, first_entry_into_us_school_at, lep_entry_at,
+                                    lep_exit_at, birthday, import_id, update_import_id, deleted) VALUES
+  (-11, '11', 'LastName-preload', 'FirstName-preload', 'MiddleName-preload', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -5000, -5000, 0);
+
+#
+# INSERT INTO reporting_test.student (id, ssid, last_or_surname, first_name, middle_name, gender_id, first_entry_into_us_school_at, lep_entry_at,
+#   lep_exit_at, birthday, import_id) VALUES
+#   (-11, '11', 'TestName', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -5000),
+#   (-89, '89', 'TestName', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -5000);
+# INSERT INTO reporting_test.student_ethnicity(student_id, ethnicity_id) values
+#   (-89,  -99);
+# INSERT INTO reporting_test.student_group (id, creator, school_id, school_year, name, subject_id, import_id) VALUES
+#   (-91, 'TestName', -1, 2017, 'Test Student Group 9', null, -79);
+# INSERT INTO reporting_test.student_group_membership (student_group_id, student_id) VALUES
+#   (-91, -89);
+# INSERT INTO reporting_test.user_student_group (student_group_id, user_login) VALUES
+#   (-91, 'dwtest@example.com-91');
+
+-- preload -------------------------------------------------------------------------------------------------------
+
+INSERT INTO warehouse_test.student (id, ssid, last_or_surname, first_name, middle_name, gender_id, first_entry_into_us_school_at, lep_entry_at,
+                                          lep_exit_at, birthday, import_id, update_import_id, deleted) VALUES
+  (-89, '89', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -5000, -89, 1),
+  (-88, '88', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -88, -88, 0),
+  (-87, '87', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -87, -87, 0),
+  (-86, '86', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -86, -86, 0);
+
+INSERT INTO warehouse_test.student_ethnicity(student_id, ethnicity_id) values
   (-89,  -99),
   (-88,  -98),
   (-87,  -98),
   (-86,  -98),
   (-86,  -99);
 
-INSERT INTO staging_test.staging_student_group (id, creator, school_id, school_year, name, subject_id, import_id, migrate_id, active, deleted) VALUES
-  (-91, 'dwtest@example.com', -99, 2017, 'Test Student Group 9', null, -79, -99, 1, 0),
-  (-8, 'dwtest@example.com', -1, 2017, 'Test Student Group 8', null, -79, -99, 1, 0),
-  (-7, 'dwtest@example.com', -1, 2017, 'Test Student Group 7', null, -79, -99, 1, 0);
+-- student_group added at import -5000 and deleted at import -79
+INSERT INTO warehouse_test.student_group (id, creator, school_id, school_year, name, subject_id, import_id, update_import_id, active, deleted) VALUES
+  (-91, 'dwtest@example.com', -99, 2017, 'Test Student Group 9 - updated school', null, -5000, -79, 1, 1),
+  (-8, 'dwtest@example.com', -1, 2017, 'Test Student Group 8', null, -79, -79, 1, 0),
+  (-7, 'dwtest@example.com', -1, 2017, 'Test Student Group 7', null, -79, -79, 1, 0);
 
-INSERT INTO staging_test.staging_student_group_membership (student_group_id, student_id) VALUES
+INSERT INTO warehouse_test.student_group_membership (student_group_id, student_id) VALUES
   (-91, -89),
   (-91, -88),
   (-91, -87),
@@ -82,11 +113,12 @@ INSERT INTO staging_test.staging_student_group_membership (student_group_id, stu
   (-7, -87),
   (-7, -86);
 
-INSERT INTO staging_test.staging_user_student_group (student_group_id, user_login) VALUES
+INSERT INTO warehouse_test.user_student_group (student_group_id, user_login) VALUES
   (-91, 'dwtest@example.com-91'),
   (-8, 'dwtest@example.com-8'),
   (-7, 'dwtest@example.com-7'),
   (-91, 'dwtest@example.com-91-2');
+
 
 -- ------------------------------------------ IAB Exams ---------------------------------------------------------------------------------------------
 
