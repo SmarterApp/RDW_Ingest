@@ -7,7 +7,6 @@ dependencies {
     // handy for creating metadata with @ConfigurationProperties
     optional "org.springframework.boot:spring-boot-configuration-processor"
 
-    compile 'org.springframework.boot:spring-boot-starter-actuator'
     compile 'org.springframework.boot:spring-boot-starter-cache'
     compile 'org.springframework.boot:spring-boot-starter-jdbc'
     compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
@@ -25,6 +24,7 @@ dependencies {
     compile 'com.google.guava:guava'
     compile 'org.opentestsystem.rdw.common:rdw-common-messaging'
     compile 'org.opentestsystem.rdw.common:rdw-common-model'
+    compile 'org.opentestsystem.rdw.common:rdw-common-status'
     compile 'org.opentestsystem.rdw.common:rdw-common-utils'
     compile 'mysql:mysql-connector-java'
 
