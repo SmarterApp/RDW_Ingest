@@ -8,7 +8,6 @@ dependencies {
     optional "org.springframework.boot:spring-boot-configuration-processor"
 
     compile 'org.springframework.boot:spring-boot-starter-batch'
-    //compile 'org.springframework.boot:spring-boot-starter-actuator'
     compile 'org.springframework.boot:spring-boot-starter-jdbc'
     compile 'org.springframework.cloud:spring-cloud-starter-config'
 
@@ -20,6 +19,7 @@ dependencies {
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'org.springframework.batch:spring-batch-test'
 
+    compile 'org.opentestsystem.rdw.common:rdw-common-status'
     compile 'org.opentestsystem.rdw.common:rdw-common-utils'
     compile 'com.google.guava:guava'
     compile 'mysql:mysql-connector-java'
