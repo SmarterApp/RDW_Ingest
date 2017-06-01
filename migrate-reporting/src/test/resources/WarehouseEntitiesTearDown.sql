@@ -3,10 +3,10 @@
 -- todo: as entities complete replace staging with warehouse
 --
 -- ------------------------------------------ IAB Exams ---------------------------------------------------------------------------------------------
-DELETE FROM staging_test.staging_iab_exam_available_accommodation where iab_exam_id in (-88, -87, -86, -85, -84);
-DELETE FROM staging_test.staging_iab_exam_item where iab_exam_id in (-88, -87, -86, -85, -84);
-DELETE FROM staging_test.staging_iab_exam where id in (-88, -87, -86, -85, -84);
-DELETE FROM staging_test.staging_iab_exam_student where id in (-18, -17, -16);
+DELETE FROM warehouse_test.iab_exam_available_accommodation where iab_exam_id in (-88, -87, -86, -85, -84);
+DELETE FROM warehouse_test.iab_exam_item where iab_exam_id in (-88, -87, -86, -85, -84);
+DELETE FROM warehouse_test.iab_exam where id in (-88, -87, -86, -85, -84);
+DELETE FROM warehouse_test.iab_exam_student where id in (-18, -17, -16);
 
 DELETE FROM staging_test.staging_exam_available_accommodation where exam_id in (-88, -87, -86, -85, -84);
 DELETE FROM staging_test.staging_exam_item where exam_id in (-88, -87, -86, -85, -84);

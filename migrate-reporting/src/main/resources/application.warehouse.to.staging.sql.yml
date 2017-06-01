@@ -51,6 +51,10 @@ sql:
       - TRUNCATE TABLE staging.staging_item
       - TRUNCATE TABLE staging.staging_item_common_core_standard
       - TRUNCATE TABLE staging.staging_item_other_target
+      - TRUNCATE TABLE staging.staging_iab_exam_student
+      - TRUNCATE TABLE staging.staging_iab_exam
+      - TRUNCATE TABLE staging.staging_iab_exam_item
+      - TRUNCATE TABLE staging.staging_iab_exam_available_accommodation
 
     findDistinctImportContentInRange: >-
       SELECT DISTINCT wi.content
@@ -484,5 +488,119 @@ sql:
               INSERT INTO staging.staging_item_other_target (item_id, target_id) VALUES
                 (:item_id, :target_id)
 
+        ##### EXAM ImportContent Type ####
+        #
+        # ------------ iab_exam_student  -------------------------------------------------------------------
+        iab_exam_student:
+          sql:
+            warehouseRead: >-
+              SELECT
+                wies.id,
+                wies.grade_id,
+                wies.student_id,
+                wies.school_id,
+                wies.iep,
+                wies.lep,
+                wies.section504,
+                wies.economic_disadvantage,
+                wies.migrant_status,
+                wies.eng_prof_lvl,
+                wies.t3_program_type,
+                wies.language_code,
+                wies.prim_disability_type
+              FROM warehouse.iab_exam  wie
+                JOIN warehouse.iab_exam_student wies ON wie.iab_exam_student_id = wies.id
+              WHERE
+                ( wie.import_id IN (SELECT id FROM warehouse.import WHERE status = 1 AND id >= :start_import_id AND id <= :end_import_id) OR
+                  wie.update_import_id IN (SELECT id FROM warehouse.import WHERE status = 1 AND id >= :start_import_id AND id <= :end_import_id) )
+                AND wie.scale_score is not null
+                AND wie.deleted = 0
+            stagingInsert: >-
+              INSERT INTO staging.staging_iab_exam_student (id, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage,
+                                      migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type, migrate_id) VALUES
+                            (:id, :grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage,
+                             :migrant_status, :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type, :migrate_id)
 
+        # ------------ iab_exam  -------------------------------------------------------------------
+        iab_exam:
+          sql:
+            warehouseRead: >-
+              SELECT
+                wie.id,
+                wie.iab_exam_student_id,
+                wie.school_year,
+                wie.asmt_id,
+                wie.asmt_version,
+                wie.opportunity,
+                wie.completeness_id,
+                wie.administration_condition_id,
+                wie.session_id,
+                wie.category,
+                round(wie.scale_score) AS scale_score,
+                wie.scale_score_std_err,
+                wie.completed_at,
+                wie.deleted,
+                wie.update_import_id AS import_id
+              FROM warehouse.iab_exam wie
+                WHERE
+                  ( wie.import_id IN (SELECT id FROM warehouse.import WHERE status = 1 AND id >= :start_import_id AND id <= :end_import_id) OR
+                    wie.update_import_id IN (SELECT id FROM warehouse.import WHERE status = 1 AND id >= :start_import_id AND id <= :end_import_id) )
+                  AND wie.scale_score is not null
+            stagingInsert: >-
+              INSERT INTO staging.staging_iab_exam (id, iab_exam_student_id, school_year, asmt_id, asmt_version, opportunity, completeness_id,
+                           administration_condition_id, session_id, category, scale_score, scale_score_std_err, completed_at, deleted, import_id, migrate_id) VALUES
+                           (:id, :iab_exam_student_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id,
+                            :administration_condition_id, :session_id, :category, :scale_score, :scale_score_std_err, :completed_at, :deleted, :import_id, :migrate_id)
 
+        # ------------ iab_exam_item  -------------------------------------------------------------------
+        iab_exam_item:
+          sql:
+            warehouseRead: >-
+              SELECT
+                wiei.id,
+                wiei.iab_exam_id,
+                wiei.item_id,
+                round(wiei.score) AS score,
+                wiei.score_status,
+                wiei.position,
+                wiei.response,
+                round(wiei.trait_evidence_elaboration_score) AS trait_evidence_elaboration_score,
+                wiei.trait_evidence_elaboration_score_status,
+                round(wiei.trait_organization_purpose_score) AS trait_organization_purpose_score,
+                wiei.trait_organization_purpose_score_status,
+                round(wiei.trait_conventions_score) AS trait_conventions_score,
+                wiei.trait_conventions_score_status
+              FROM warehouse.iab_exam_item wiei
+                JOIN warehouse.iab_exam wie ON wiei.iab_exam_id = wie.id
+              WHERE
+                ( wie.import_id IN (SELECT id FROM warehouse.import WHERE status = 1 AND id >= :start_import_id AND id <= :end_import_id) OR
+                  wie.update_import_id IN (SELECT id FROM warehouse.import WHERE status = 1 AND id >= :start_import_id AND id <= :end_import_id) )
+                AND wie.scale_score IS NOT NULL
+                AND wie.deleted = 0
+            stagingInsert: >-
+              INSERT INTO staging.staging_iab_exam_item (id, iab_exam_id, item_id, score, score_status, position, response,
+                                                         trait_evidence_elaboration_score, trait_evidence_elaboration_score_status,
+                                                         trait_organization_purpose_score, trait_organization_purpose_score_status,
+                                                         trait_conventions_score, trait_conventions_score_status, migrate_id) VALUES
+                                                          (:id, :iab_exam_id, :item_id, :score, :score_status, :position, :response,
+                                                           :trait_evidence_elaboration_score, :trait_evidence_elaboration_score_status,
+                                                           :trait_organization_purpose_score, :trait_organization_purpose_score_status,
+                                                           :trait_conventions_score, :trait_conventions_score_status, :migrate_id)
+
+        # ------------ iab_exam_available_accommodation  -------------------------------------------------------------------
+        iab_exam_available_accommodation:
+          sql:
+            warehouseRead: >-
+              SELECT
+                wieaa.iab_exam_id,
+                wieaa.accommodation_id
+              FROM warehouse.iab_exam_available_accommodation wieaa
+                JOIN warehouse.iab_exam wie ON wieaa.iab_exam_id = wie.id
+              WHERE
+                ( wie.import_id IN (SELECT id FROM warehouse.import WHERE status = 1 AND id >= :start_import_id AND id <= :end_import_id) OR
+                  wie.update_import_id IN (SELECT id FROM warehouse.import WHERE status = 1 AND id >= :start_import_id AND id <= :end_import_id) )
+                AND wie.scale_score is not null
+                AND wie.deleted = 0
+            stagingInsert: >-
+              INSERT INTO staging.staging_iab_exam_available_accommodation (iab_exam_id, accommodation_id) VALUES
+                (:iab_exam_id, :accommodation_id)
