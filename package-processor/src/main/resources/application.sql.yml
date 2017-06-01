@@ -58,12 +58,11 @@ sql:
 
     commonCoreStandardCreate: >-
       INSERT INTO item_common_core_standard(item_id, common_core_standard_id)
-          SELECT (SELECT id from item where natural_id = :item_natural_id), :common_core_standard_id
+          SELECT (SELECT i.id from item i join asmt a on i.asmt_id = a.id where i.natural_id = :item_natural_id and a.natural_id=:asmtId) , :common_core_standard_id
 
     otherTargetCreate: >-
       INSERT INTO item_other_target(item_id, target_id)
-          SELECT (SELECT id from item where natural_id = :item_natural_id), :target_id
-
+          SELECT (SELECT i.id from item i join asmt a on i.asmt_id = a.id  where i.natural_id = :item_natural_id and a.natural_id=:asmtId), :target_id
 
   # AccommodationRepository
   accommodation:
