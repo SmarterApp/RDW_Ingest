@@ -24,6 +24,7 @@ dependencies {
     compile 'com.google.guava:guava'
     compile 'org.opentestsystem.rdw.common:rdw-common-messaging'
     compile 'org.opentestsystem.rdw.common:rdw-common-model'
+    compile 'org.opentestsystem.rdw.common:rdw-common-status'
     compile 'org.opentestsystem.rdw.common:rdw-common-utils'
     compile 'mysql:mysql-connector-java'
     compile "org.springframework.boot:spring-boot-devtools"
