@@ -81,43 +81,18 @@ INSERT INTO staging_test.staging_student_group (id, creator, school_id, school_y
    (-7, 'dwtest@example.com-7'),
    (-91, 'dwtest@example.com-91-2');
 
--- ------------------------------------------ IAB Exams ---------------------------------------------------------------------------------------------
-
-INSERT INTO staging_test.staging_iab_exam_student ( id, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage,
-            migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type, migrate_id) VALUES
- ( -18, -98, -89, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null, -99),
- ( -17, -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null, -99),
- ( -16, -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null, -99);
-
-INSERT INTO  staging_test.staging_iab_exam ( id, iab_exam_student_id, school_year, asmt_id, asmt_version, opportunity, completeness_id,
-        administration_condition_id, session_id, category, scale_score, scale_score_std_err, completed_at, import_id, deleted, migrate_id) VALUES
-(-88, -18, 2016, -99,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88),
-(-87, -17, 2016, -11,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88),
-(-86, -16, 2016, -11,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88);
-
-INSERT INTO staging_test.staging_iab_exam_available_accommodation (iab_exam_id, accommodation_id) VALUES
-    (-88, -98),
-    (-87, -98);
-
-INSERT INTO staging_test.staging_iab_exam_item (id, iab_exam_id, item_id, score, score_status, response, position, migrate_id) VALUES
-   (-1, -88,  -9, 1, 'SCORED', '<response><math xmlns="http://www.w3.org/1998/Math/MathML" title="10"><mstyle><mn>10</mn></mstyle></math></response>', 1, -88),
-   (-2, -88,  -8, 1, 'SCORED', 'D', 2, -88),
-   (-3, -88,  -7, 0, 'SCORED', 'C', 3, -88),
-   (-4, -88,  -6, -1, 'SCORED', null, 16, -88),
-   (-5, -87,  -6, -1, 'SCORED', null, 16, -88);
 -- ------------------------------------------  Exams ------------------------------------------------------------------------------------------------
-
 INSERT INTO staging_test.staging_exam_student ( id, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage,
             migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type, migrate_id) VALUES
  ( -18, -98, -89, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null, -99),
  ( -17, -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null, -99),
  ( -16, -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null, -99);
 
-INSERT INTO  staging_test.staging_exam ( id, exam_student_id, school_year, asmt_id, asmt_version, opportunity, completeness_id,
-        administration_condition_id, session_id, achievement_level, scale_score, scale_score_std_err, completed_at, import_id, deleted, migrate_id) VALUES
-(-88, -18, 2016, -99,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88),
-(-87, -17, 2016, -11,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88),
-(-86, -16, 2016, -11,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88);
+INSERT INTO  staging_test.staging_exam ( id, type_id,  exam_student_id, school_year, asmt_id, asmt_version, opportunity, completeness_id,
+        administration_condition_id, session_id, performance_level, scale_score, scale_score_std_err, completed_at, import_id, deleted, migrate_id) VALUES
+(-88, 1, -18, 2016, -99,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88),
+(-87, 1, -17, 2016, -11,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88),
+(-86, 1, -16, 2016, -11,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88);
 
 INSERT INTO staging_test.staging_exam_available_accommodation (exam_id, accommodation_id) VALUES
     (-88, -98),
