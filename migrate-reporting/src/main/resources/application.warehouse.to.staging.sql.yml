@@ -361,9 +361,6 @@ sql:
               WHERE
                 ( wsg.import_id IN (SELECT id FROM warehouse.import WHERE status = 1 AND id >= :start_import_id AND id <= :end_import_id) OR
                   wsg.update_import_id IN (SELECT id FROM warehouse.import WHERE status = 1 AND id >= :start_import_id AND id <= :end_import_id) )
-                AND (ws.import_id IN (SELECT id FROM warehouse.import WHERE status = 1 AND id >= :start_import_id AND id <= :end_import_id) OR
-                  ws.update_import_id IN (SELECT id FROM warehouse.import WHERE status = 1 AND id >= :start_import_id AND id <= :end_import_id)
-                )
                 AND (wsg.deleted = 0 and wsg.active = 1)
             stagingInsert: >-
               INSERT INTO staging.staging_student_group_membership (student_group_id, student_id) VALUES
