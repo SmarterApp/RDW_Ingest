@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Accessibility xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	
+	<!-- ================================================================================================= -->
+	<!-- ================================================================================================= -->
+	<!-- MASTER RESOURCE FAMILY -->
+	<!-- ================================================================================================= -->
+	<!-- ================================================================================================= -->
+	
+	<MasterResourceFamily>
+
+		<SingleSelectResource>
+			<Code>AmericanSignLanguage</Code>
+			<Order>1</Order>
+			<DefaultSelection/>
+      <ResourceType>Accommodation</ResourceType>
+			<!-- Text is required so this will fail validation -->
+		</SingleSelectResource>
+
+	</MasterResourceFamily>
+
+</Accessibility>

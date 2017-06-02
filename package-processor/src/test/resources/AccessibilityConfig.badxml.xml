@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Accessibility xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	
+	<!-- ================================================================================================= -->
+	<!-- ================================================================================================= -->
+	<!-- MASTER RESOURCE FAMILY -->
+	<!-- ================================================================================================= -->
+	<!-- ================================================================================================= -->
+	
+	<MasterResourceFamily>
+
+		<SingleSelectResource>
+			<Code>AmericanSignLanguage</Code>
+			<Order>1</Order>
+			<DefaultSelection/>
+      <ResourceType>Accommodation</ResourceType>
+			<Text>
+				<Language>eng</Language>
+				<Label>American Sign Language</Label>
+				<Description>Some students who are deaf or hard of hearing and who typically use ASL may need this accommodation when accessing text-based content in the assessment. The use of this accommodation may result in the student needing additional overall time to complete the assessment. For many students who are deaf or hard of hearing, viewing signs is the only way to access information presented orally. It is important to note, however, that some students who are hard of hearing will be able to listen to information presented orally if provided with appropriate amplification and a setting in which extraneous sounds do not interfere with clear presentation of the audio presentation in a listening test. (EMBEDDED)</Description>
+		</SingleSelectResource>
+
+	</MasterResourceFamily>
+
+</Accessibility>
