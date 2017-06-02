@@ -9,7 +9,11 @@ WHERE id = 1;
 -- 4  ORGANIZATION
 -- 5  GROUPS
 
--- Add import id's so content type is set up in "warehouse" step.
+-- Preload - To emulate data already migrated use an early import id.
+-- WarehouseEntitiesSetup adds to warehouse. These imports skipped in test run.
+-- Content type does not matter, just needs to be there.
+INSERT INTO warehouse_test.import (id, status, content, contentType, digest, batch, creator) VALUES
+  (-5000, 1, 2, 'application/xml', 'hash-preload', 'batch', 'dwtest@example.com');
 
 -- School and District -19 to -1
 INSERT INTO warehouse_test.import (id, status, content, contentType, digest, batch, creator) VALUES
