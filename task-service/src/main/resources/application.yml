@@ -1,7 +1,10 @@
-# this app is expected to run inside the security perimeter so disable security for actuator end-points
+# this app is expected to run inside the security perimeter so disable security for actuator end-points and,
+# since those are the only end-points, switch to a less standard port using the main server.port config
 management:
   security:
     enabled: false
+server:
+  port: 8008
 
 spring:
   mail:
@@ -44,5 +47,5 @@ task:
 #        password:
 #    import-service-client:
 #      organizations-imports-url: http://localhost:8080/organizations/imports
-#      status-url: http://localhost:8080/status
+#      status-url: http://localhost:8081/status
 #      stub-auth: sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||

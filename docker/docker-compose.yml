@@ -41,11 +41,9 @@ services:
     image: fwsbac/rdw-ingest-import-service
     ports:
       - 8080:8080
+      - 8081:8008
     volumes:
       - /tmp:/tmp
-    depends_on:
-      - config-server
-      - rabbitmq
     links:
       - config-server
       - rabbitmq
@@ -59,10 +57,7 @@ services:
   exam-processor:
     image: fwsbac/rdw-ingest-exam-processor
     ports:
-      - 8081:8080
-    depends_on:
-      - config-server
-      - rabbitmq
+      - 8082:8008
     links:
       - config-server
       - rabbitmq
@@ -76,10 +71,7 @@ services:
   package-processor:
     image: fwsbac/rdw-ingest-package-processor
     ports:
-      - 8082:8080
-    depends_on:
-      - config-server
-      - rabbitmq
+      - 8083:8008
     links:
       - config-server
       - rabbitmq
@@ -93,11 +85,10 @@ services:
   task-service:
     image: fwsbac/rdw-ingest-task-service
     ports:
-      - 8084:8080
-    depends_on:
-      - config-server
+      - 8084:8008
     links:
       - config-server
+      - import-service
     environment:
       - spring.profiles.active=local-docker
       - CONFIG_SERVICE_ENABLED=true
@@ -108,9 +99,7 @@ services:
   migrate-reporting:
     image: fwsbac/rdw-ingest-migrate-reporting
     ports:
-      - 8085:8080
-    depends_on:
-      - config-server
+      - 8085:8008
     links:
       - config-server
     environment:

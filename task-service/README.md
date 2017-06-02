@@ -73,6 +73,6 @@ task:
   update-organizations:
     import-service-client:
       organizations-imports-url: http://localhost:8080/organizations/imports
-      status-url: http://localhost:8080/status
+      status-url: http://localhost:8081/status
       stub-auth: sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||
 ```
