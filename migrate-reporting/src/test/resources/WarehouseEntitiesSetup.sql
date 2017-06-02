@@ -107,45 +107,19 @@ INSERT INTO warehouse_test.user_student_group (student_group_id, user_login) VAL
   (-7, 'dwtest@example.com-7'),
   (-91, 'dwtest@example.com-91-2');
 
--- ------------------------------------------ IAB Exams ---------------------------------------------------------------------------------------------
+-- ------------------------------------------  Exams ---------------------------------------------------------------------------------------------
 
-INSERT INTO warehouse_test.iab_exam_student ( id, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage,
+INSERT INTO warehouse_test.exam_student ( id, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage,
                                                     migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type) VALUES
   ( -18, -98, -89, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
   ( -17, -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
   ( -16, -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null);
 
-INSERT INTO  warehouse_test.iab_exam ( id, iab_exam_student_id, school_year, asmt_id, asmt_version, opportunity, completeness_id,
-                                      administration_condition_id, session_id, category, scale_score, scale_score_std_err, completed_at, import_id, update_import_id, deleted) VALUES
-  (-88, -18, 2016, -99,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -5000, -88, 1),
-  (-87, -17, 2016, -11,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -88, -88, 0),
-  (-86, -16, 2016, -11,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -88, -88, 0);
-
-INSERT INTO warehouse_test.iab_exam_available_accommodation (iab_exam_id, accommodation_id) VALUES
-  (-88, -98),
-  (-87, -98);
-
-INSERT INTO warehouse_test.iab_exam_item (id, iab_exam_id, item_id, score, score_status, response, position) VALUES
-  (-1, -88,  -9, 1, 'SCORED', '<response><math xmlns="http://www.w3.org/1998/Math/MathML" title="10"><mstyle><mn>10</mn></mstyle></math></response>', 1),
-  (-2, -88,  -8, 1, 'SCORED', 'D', 2),
-  (-3, -88,  -7, 0, 'SCORED', 'C', 3),
-  (-4, -88,  -6, -1, 'SCORED', null, 16),
-  (-5, -87,  -6, -1, 'SCORED', null, 16);
-
--- ------------------------------------------  Exams ------------------------------------------------------------------------------------------------
-
-INSERT INTO warehouse_test.exam_student ( id, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage,
-                                                migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type) VALUES
-  ( -18, -98, -89, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
-  ( -17, -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
-  ( -16, -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null);
-
-INSERT INTO  warehouse_test.exam ( id, exam_student_id, school_year, asmt_id, asmt_version, opportunity, completeness_id,
-                                         administration_condition_id, session_id, achievement_level, scale_score, scale_score_std_err, completed_at,
-                                         import_id, update_import_id, deleted) VALUES
-  (-88, -18, 2016, -99,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -5000, -88, 1),
-  (-87, -17, 2016, -11,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -88, -88, 0),
-  (-86, -16, 2016, -11,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -88, -88, 0);
+INSERT INTO  warehouse_test.exam ( id, type_id, exam_student_id, school_year, asmt_id, asmt_version, opportunity, completeness_id,
+                                      administration_condition_id, session_id, performance_level, scale_score, scale_score_std_err, completed_at, import_id, update_import_id, deleted) VALUES
+  (-88, 1, -18, 2016, -99,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -5000, -88, 1),
+  (-87, 1, -17, 2016, -11,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -88, -88, 0),
+  (-86, 1, -16, 2016, -11,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -88, -88, 0);
 
 INSERT INTO warehouse_test.exam_available_accommodation (exam_id, accommodation_id) VALUES
   (-88, -98),
@@ -157,6 +131,3 @@ INSERT INTO warehouse_test.exam_item (id, exam_id, item_id, score, score_status,
   (-3, -88,  -7, 0, 'SCORED', 'C', 3),
   (-4, -88,  -6, -1, 'SCORED', null, 16),
   (-5, -87,  -6, -1, 'SCORED', null, 16);
-
-INSERT INTO warehouse_test.exam_claim_score (id, exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
-  (-1, -88, 1, 2014, 0.19, 1);

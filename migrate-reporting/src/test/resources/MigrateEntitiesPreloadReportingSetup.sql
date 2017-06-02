@@ -55,25 +55,10 @@ INSERT INTO reporting_test.student_group_membership (student_group_id, student_i
 INSERT INTO reporting_test.user_student_group (student_group_id, user_login) VALUES
    (-91, 'dwtest@example.com-91');
 
--- ------------------------------------------ IAB Exams ---------------------------------------------------------------------------------------------
-
-INSERT INTO  reporting_test.iab_exam ( id, school_year, asmt_id, asmt_version, opportunity, completeness_id,
-                                administration_condition_id, session_id, category, scale_score, scale_score_std_err,
-                                completed_at, import_id, grade_id, student_id, school_id, iep, lep,
-                                section504, economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type, language_code,
-                                prim_disability_type) VALUES
-(-88,  2016, -99,  null, 1, 1, 1, 'test', 1, 2145, 0.17, '2016-08-14', -87, -98, -89, -1, 1, 1, 0, 0, 1, 'test', 'test', 'eng', null);
-
-INSERT INTO reporting_test.iab_exam_available_accommodation (iab_exam_id, accommodation_id) VALUES
-    (-88, -98);
-
-INSERT INTO reporting_test.iab_exam_item (id, iab_exam_id, item_id, score, score_status, response, position) VALUES
-   (-1, -88,  -9, 1, 'SCORED', 'test', 1);
-
 -- ------------------------------------------ Exams ---------------------------------------------------------------------------------------------
 
-INSERT INTO  reporting_test.exam ( id, school_year, asmt_id, asmt_version, opportunity, completeness_id,
-                                administration_condition_id, session_id, achievement_level, scale_score, scale_score_std_err,
+INSERT INTO  reporting_test.exam ( id, type_id, school_year, asmt_id, asmt_version, opportunity, completeness_id,
+                                administration_condition_id, session_id, performance_level, scale_score, scale_score_std_err,
                                 completed_at, import_id, grade_id, student_id, school_id, iep, lep,
                                 section504, economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type, language_code,
                                 prim_disability_type,
@@ -81,7 +66,7 @@ INSERT INTO  reporting_test.exam ( id, school_year, asmt_id, asmt_version, oppor
                                 claim2_scale_score, claim2_scale_score_std_err,claim2_category,
                                 claim3_scale_score, claim3_scale_score_std_err,claim3_category,
                                 claim4_scale_score, claim4_scale_score_std_err,claim4_category ) VALUES
-(-88,  2016, -99,  null, 1, 1, 1, 'test', 1, 2145, 0.17, '2016-08-14', -88, -98, -89, -1, 1, 1, 0, 0, 1, 'test', 'test', 'eng', null,
+(-88, 1,  2016, -99,  null, 1, 1, 1, 'test', 1, 2145, 0.17, '2016-08-14', -88, -98, -89, -1, 1, 1, 0, 0, 1, 'test', 'test', 'eng', null,
     2000, 0.11, 1, 2100, 0.12, 2, 2500, 0.13, 3, 3000, .15, 4);
 
 INSERT INTO reporting_test.exam_available_accommodation (exam_id, accommodation_id) VALUES

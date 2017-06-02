@@ -18,13 +18,9 @@ DELETE from staging_test.staging_student_group_membership where student_group_id
 DELETE from staging_test.staging_user_student_group where student_group_id = -91;
 
 -- ------------------------------------------ IAB Exams ---------------------------------------------------------------------------------------------
-UPDATE staging_test.staging_iab_exam SET deleted = 1 WHERE id = -88;
-DELETE from staging_test.staging_iab_exam_student WHERE id = -18;
-DELETE from staging_test.staging_iab_exam_available_accommodation  WHERE iab_exam_id = -88;
-DELETE from staging_test.staging_iab_exam_item  WHERE iab_exam_id = -88;
-
- ------------------------------------------  Exams ---------------------------------------------------------------------------------------------
 UPDATE staging_test.staging_exam SET deleted = 1 WHERE id = -88;
 DELETE from staging_test.staging_exam_student WHERE id = -18;
 DELETE from staging_test.staging_exam_available_accommodation  WHERE exam_id = -88;
 DELETE from staging_test.staging_exam_item  WHERE exam_id = -88;
+
+

@@ -76,8 +76,8 @@ sql:
   # JdbcExamRepository
   exam:
     create: >-
-       INSERT INTO exam (exam_student_id, school_year, import_id, update_import_id, asmt_id, asmt_version, opportunity, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, achievement_level, completed_at) VALUES
-                       (:exam_student_id, :school_year, :import_id, :update_import_id, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :achievement_level, :completed_at)
+       INSERT INTO exam (type_id, exam_student_id, school_year, import_id, update_import_id, asmt_id, asmt_version, opportunity, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, performance_level, completed_at) VALUES
+                       (:type_id, :exam_student_id, :school_year, :import_id, :update_import_id, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :performance_level, :completed_at)
     examClaimScore:
       create: >-
         INSERT INTO exam_claim_score (exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
@@ -101,32 +101,6 @@ sql:
     accommodation:
           create: >-
             INSERT INTO exam_available_accommodation (exam_id, accommodation_id) VALUES (:exam_id, :accommodation_id)
-
-  # JdbcIabExamRepository
-  iabExam:
-    create: >-
-      INSERT INTO iab_exam (iab_exam_student_id, school_year, import_id, update_import_id, asmt_id, asmt_version, opportunity, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, category, completed_at) VALUES
-                           (:iab_exam_student_id, :school_year, :import_id, :update_import_id, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :category, :completed_at)
-
-    iabExamItem:
-      create: >-
-        INSERT INTO iab_exam_item (iab_exam_id, item_id, score, score_status, response, position,
-                                          trait_evidence_elaboration_score, trait_evidence_elaboration_score_status,
-                                          trait_organization_purpose_score, trait_organization_purpose_score_status,
-                                          trait_conventions_score, trait_conventions_score_status) VALUES
-                                 (:iab_exam_id, :item_id, :score, :score_status, :response, :position,
-                                          :trait_evidence_elaboration_score, :trait_evidence_elaboration_score_status,
-                                          :trait_organization_purpose_score, :trait_organization_purpose_score_status,
-                                          :trait_conventions_score, :trait_conventions_score_status)
-
-    iabExamStudent:
-      create: >-
-        INSERT INTO iab_exam_student (grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type) VALUES
-                                  (:grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status, :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type)
-
-    iabAccommodation:
-      create: >-
-        INSERT INTO iab_exam_available_accommodation (iab_exam_id, accommodation_id) VALUES (:iab_exam_id, :accommodation_id)
 
   studentEthnicity:
     findAllIds:

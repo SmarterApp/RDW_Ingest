@@ -15,21 +15,6 @@ sql:
         AND (:after IS NULL OR i.created > :after)
       LIMIT 100000
 
-    iabExams: >-
-      SELECT s.ssid, a.natural_id, ie.completed_at
-      FROM import i
-        JOIN iab_exam ie ON ie.import_id = i.id
-        JOIN iab_exam_student ies ON ies.id = ie.iab_exam_student_id
-        JOIN student s ON s.id = ies.student_id
-        JOIN asmt a ON a.id = ie.asmt_id
-      WHERE (i.content=1)
-        AND (:status IS NULL OR i.status = :status)
-        AND (:batch IS NULL OR i.batch = :batch)
-        AND (:creator IS NULL OR i.creator = :creator)
-        AND (:before IS NULL OR i.created < :before)
-        AND (:after IS NULL OR i.created > :after)
-      LIMIT 100000
-
     count: >-
       SELECT count(*) FROM import i
       WHERE (content=1)
@@ -41,8 +26,8 @@ sql:
     status: >-
       SELECT  s.ssid, a.natural_id, ie.completed_at
         FROM import i
-          JOIN iab_exam ie ON ie.import_id = i.id
-          JOIN iab_exam_student ies ON ies.id = ie.iab_exam_student_id
+          JOIN exam ie ON ie.import_id = i.id
+          JOIN exam_student ies ON ies.id = ie.exam_student_id
           JOIN student s ON s.id = ies.student_id
           JOIN asmt a ON a.id = ie.asmt_id
         LIMIT 1
