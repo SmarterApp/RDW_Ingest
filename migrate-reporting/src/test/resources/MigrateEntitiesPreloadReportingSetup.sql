@@ -7,7 +7,7 @@ INSERT INTO reporting_test.district (id, name, natural_id) VALUES
   (-99, 'Before Test -99', 'natural_id-99');
 
 INSERT INTO reporting_test.school (id, district_id, name, natural_id, import_id) VALUES
-  (-1, -1, 'Before Test -1', 'natural_id-1', -2000),
+  (-1, -1, 'Before Test -1', 'natural_id-1', -5000),
   (-99, -99, 'Before Test -99', 'natural_id-99', -1);
 
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
@@ -40,14 +40,14 @@ INSERT INTO reporting_test.item_common_core_standard(item_id, common_core_standa
 -- ------------------------------------------ Student and Groups  ------------------------------------------------------------------------------------------------
 INSERT INTO reporting_test.student (id, ssid, last_or_surname, first_name, middle_name, gender_id, first_entry_into_us_school_at, lep_entry_at,
         lep_exit_at, birthday, import_id) VALUES
-   (-11, '11', 'TestName', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -89),
-   (-89, '89', 'TestName', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -89);
+   (-11, '11', 'TestName', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -5000),
+   (-89, '89', 'TestName', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -5000);
 
 INSERT INTO reporting_test.student_ethnicity(student_id, ethnicity_id) values
     (-89,  -99);
 
 INSERT INTO reporting_test.student_group (id, creator, school_id, school_year, name, subject_id, import_id) VALUES
-   (-91, 'TestName', -1, 2017, 'Test Student Group 9', null, -79);
+   (-91, 'TestName', -1, 2017, 'Test Student Group 9', null, -5000);
 
 INSERT INTO reporting_test.student_group_membership (student_group_id, student_id) VALUES
    (-91, -89);

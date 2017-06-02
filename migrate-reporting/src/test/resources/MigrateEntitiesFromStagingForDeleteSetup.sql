@@ -13,7 +13,7 @@ DELETE FROM staging_test.staging_item_common_core_standard WHERE item_id = -990;
 -- ------------------------------------------ Student and Groups  ------------------------------------------------------------------------------------------------
 UPDATE staging_test.staging_student SET deleted = 1 WHERE id = -89;
 UPDATE staging_test.staging_student_group SET deleted = 1 WHERE id = -91;
-DELETE from staging_test.staging_student_ethnicity where student_id = -91;
+DELETE from staging_test.staging_student_ethnicity where student_id = -89;
 DELETE from staging_test.staging_student_group_membership where student_group_id = -91;
 DELETE from staging_test.staging_user_student_group where student_group_id = -91;
 
