@@ -1,6 +1,8 @@
-# this application has its own security configurer that doesn't play nice with
-# the management web security auto configuration so disable that ...
+# this application' security configurer doesn't play nice with the management web security auto configuration
+# so disable that and, like the other apps, switch the actuator end-points to a less standard port
+# (note that the server.port should still be set to the default 8080)
 management:
+  port: 8008
   security:
     enabled: false
 

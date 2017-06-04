@@ -1,7 +1,10 @@
-# this app is expected to run inside the security perimeter so disable security for actuator end-points
+# this app is expected to run inside the security perimeter so disable security for actuator end-points and,
+# since those are the only end-points, switch to a less standard port using the main server.port config
 management:
   security:
     enabled: false
+server:
+  port: 8008
 
 migrate:
   batch:

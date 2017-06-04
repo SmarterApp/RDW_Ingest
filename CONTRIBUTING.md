@@ -107,13 +107,13 @@ locally from the IDE. This works fine; after using docker-compose to launch all 
 application you're working on, then launch it from the IDE. Note that this defaults to running without a 
 configuration server; since the embedded property files do not contain any secrets they must be specified on the
 command line. The server port may also have to be specified to avoid conflict with other running applications, 
-e.g. `--server.port=8081`.
+e.g. `--server.port=8082`.
 
 #### Running Standalone
 The artifacts are Spring Boot executable jars so you can just run them. Just as when running from the IDE the default
 is to run without a configuration server so all secrets must be specified as program arguments and ports must be
 specified to avoid conflict.
 ```bash
-java -jar import-service/build/libs/rdw-ingest-import-service-0.0.1-SNAPSHOT.jar --server.port=8080
-java -jar exam-processor/build/libs/rdw-ingest-exam-processor-0.0.1-SNAPSHOT.jar --server.port=8081
+java -jar import-service/build/libs/rdw-ingest-import-service-0.0.1-SNAPSHOT.jar
+java -jar exam-processor/build/libs/rdw-ingest-exam-processor-0.0.1-SNAPSHOT.jar --server.port=8082
 ```

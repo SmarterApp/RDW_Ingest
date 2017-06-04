@@ -91,7 +91,7 @@ subprojects {
         volume('/tmp')
         label([maintainer: 'Fairway Technologies'])
         copyFile("${jar.archivePath.name}", "${jar.archivePath.name}")
-        exposePort(8080)
+        exposePort(8008, 8080)
         entryPoint("java", "-jar", "${jar.archivePath.name}")
     }
 
