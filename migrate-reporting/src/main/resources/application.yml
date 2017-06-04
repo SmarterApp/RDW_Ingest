@@ -10,7 +10,7 @@ migrate:
 
 spring:
   batch_datasource:
-    url: jdbc:mysql://localhost:3306/spring_batch_reporting?useSSL=false
+    url: jdbc:mysql://localhost:3306/spring_batch_reporting?useSSL=false&rewriteBatchedStatements
     username: root
     password:
     testWhileIdle: true

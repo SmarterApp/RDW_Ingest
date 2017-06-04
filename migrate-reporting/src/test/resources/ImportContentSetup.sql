@@ -3,9 +3,9 @@ DELETE FROM warehouse_test.import
 WHERE id = 1;
 
 -- Content types
--- 1	EXAM
--- 2	PACKAGE
--- 3	CODES
+-- 1  EXAM
+-- 2  PACKAGE
+-- 3  CODES
 -- 4  ORGANIZATION
 -- 5  GROUPS
 
@@ -30,7 +30,8 @@ INSERT INTO warehouse_test.import (id, status, content, contentType, digest, bat
   (-89, 1, 5, 'application/xml', 'hash-student', 'batch', 'dwtest@example.com'),
   (-88, 1, 5, 'application/xml', 'hash-student', 'batch', 'dwtest@example.com'),
   (-87, 1, 5, 'application/xml', 'hash-student', 'batch', 'dwtest@example.com'),
-  (-86, 1, 5, 'application/xml', 'hash-student', 'batch', 'dwtest@example.com');
+  (-86, 1, 5, 'application/xml', 'hash-student', 'batch', 'dwtest@example.com'),
+  (2000, 1, 2, 'application/xml', 'hash-student-future-time', 'batch', 'dwtest@example.com');
 
 INSERT INTO warehouse_test.import (id, status, content, contentType, digest, batch, creator) VALUES
   (-90, 1, 1, 'application/xml', 'hash-iab_exam', 'batch', 'dwtest@example.com');

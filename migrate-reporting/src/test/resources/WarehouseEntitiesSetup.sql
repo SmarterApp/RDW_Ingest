@@ -77,7 +77,8 @@ INSERT INTO warehouse_test.student (id, ssid, last_or_surname, first_name, middl
   (-89, '89', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -5000, -89, 1),
   (-88, '88', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -88, -88, 0),
   (-87, '87', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -87, -87, 0),
-  (-86, '86', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -86, -86, 0);
+  (-86, '86', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -86, -86, 0),
+  (-33, '33', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', 2000, 2000, 0);
 
 INSERT INTO warehouse_test.student_ethnicity(student_id, ethnicity_id) values
   (-89,  -99),
@@ -99,7 +100,8 @@ INSERT INTO warehouse_test.student_group_membership (student_group_id, student_i
   (-91, -86),
   (-8, -87),
   (-7, -87),
-  (-7, -86);
+  (-7, -86),
+  (-7, -33);
 
 INSERT INTO warehouse_test.user_student_group (student_group_id, user_login) VALUES
   (-91, 'dwtest@example.com-91'),
