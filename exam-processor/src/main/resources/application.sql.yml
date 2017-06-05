@@ -58,7 +58,7 @@ sql:
     # this is a stubbed out method - TODO: to be deleted
     create: >-
         INSERT INTO asmt (natural_id, name, label, grade_id, type_id, subject_id, school_year, import_id, update_import_id) VALUES
-                       (:natural_id, :name, :label, :grade_id, :type_id, :subject_id, :school_year, (select id from import limit 1), (select id from import limit 1))
+                       (:natural_id, :name, :label, :grade_id, :type_id, :subject_id, :school_year, :import_id, :update_import_id)
 
     # this is a stubbed out method - TODO: to be deleted
     createItems: >-
@@ -127,3 +127,8 @@ sql:
 
     addStudentMembership: >-
       INSERT IGNORE INTO student_group_membership (student_group_id, student_id) VALUES (?, ?)
+
+    updateImportId:
+      UPDATE student_group
+       SET update_import_id = :update_import_id
+      WHERE id = :id
