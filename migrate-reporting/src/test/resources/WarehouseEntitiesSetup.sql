@@ -29,10 +29,10 @@ INSERT INTO warehouse_test.asmt (id, natural_id, grade_id, type_id, subject_id, 
   -- (-99, '(SBAC)SBAC-IAB-ASMT TEST-99', -99, 2, 1, 2016, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', 'test', '9835', 1, -5000, -20);
 
 INSERT INTO warehouse_test.item (id, claim_id, target_id, natural_id, asmt_id, dok_id, difficulty, max_points, math_practice, allow_calc) VALUES
-  (-9,   -99, -98, '200-2010',  -11, -99, -0.23, 2, -99, 0),
-  (-8,   -99, -98, '200-2010',  -11, -99, -0.23, 2, -99, 0),
-  (-7,   -99, -98, '200-2010',  -11, -99, -0.23, 2, -99, 0),
-  (-6,   -99, -98, '200-2010',  -11, -99, -0.23, 2, -99, 0);
+  (-9,   -99, -98, '200-2019',  -11, -99, -0.23, 2, -99, 0),
+  (-8,   -99, -98, '200-2018',  -11, -99, -0.23, 2, -99, 0),
+  (-7,   -99, -98, '200-2017',  -11, -99, -0.23, 2, -99, 0),
+  (-6,   -99, -98, '200-2016',  -11, -99, -0.23, 2, -99, 0);
 -- preload -------------------------------------------------------------------------------------------------------
 
 INSERT INTO warehouse_test.asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name, label, version, deleted, import_id, update_import_id) VALUES
