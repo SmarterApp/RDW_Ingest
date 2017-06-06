@@ -55,15 +55,10 @@ sql:
     findOneByNaturalId: >-
         SELECT id, natural_id, name, label, grade_id,type_id, subject_id, school_year FROM asmt WHERE natural_id= :natural_id
 
-    # this is a stubbed out method - TODO: to be deleted
-    create: >-
-        INSERT INTO asmt (natural_id, name, label, grade_id, type_id, subject_id, school_year, import_id, update_import_id) VALUES
-                       (:natural_id, :name, :label, :grade_id, :type_id, :subject_id, :school_year, :import_id, :update_import_id)
-
-    # this is a stubbed out method - TODO: to be deleted
+    # this is a stubbed out method with fakes claim and target ids to comply with db constraints- TODO: to be deleted
     createItems: >-
-        INSERT INTO item (claim_id, target_id, natural_id, asmt_id, dok_id, difficulty, max_points, math_practice, allow_calc) VALUES
-          (null, null, :natural_id, :asmt_id, 1, 0.5, 5, null, null)
+        INSERT IGNORE INTO item (claim_id, target_id, natural_id, asmt_id, dok_id, difficulty, max_points, math_practice, allow_calc) VALUES
+          ( (select id from claim where subject_id in (select subject_id from asmt where id = ?) limit 1), (select id from target where claim_id = (select id from claim where subject_id in (select subject_id from asmt where id = ?) limit 1) limit 1), ?, ?, 1, 0.5, 5, null, null)
 
     subjectClaimScore:
       findBySubjectAndAsmtType: >-
@@ -117,10 +112,6 @@ sql:
         UPDATE student SET update_import_id = :update_import_id WHERE id = :student_id
 
   studentGroup:
-    create: >-
-      INSERT INTO student_group (name, school_id, school_year, subject_id, active, creator, created, import_id, update_import_id)
-        VALUES (:name, :school_id, :school_year, :subject_id, :active, :creator, :created, :import_id, :update_import_id)
-
     findIdByNameAndSchoolAndYear: >-
       SELECT id FROM student_group
         WHERE name=:name AND school_id=:school_id AND school_year=:school_year
@@ -129,6 +120,4 @@ sql:
       INSERT IGNORE INTO student_group_membership (student_group_id, student_id) VALUES (?, ?)
 
     updateImportId:
-      UPDATE student_group
-       SET update_import_id = :update_import_id
-      WHERE id = :id
+      UPDATE student_group SET update_import_id = ? WHERE id = ?
