@@ -55,9 +55,9 @@ sql:
     findOneByNaturalId: >-
         SELECT id, natural_id, name, label, grade_id,type_id, subject_id, school_year FROM asmt WHERE natural_id= :natural_id
 
-    # this is a stubbed out method - TODO: to be deleted
+    # this is a stubbed out method with fakes claim and target ids to comply with db constraints- TODO: to be deleted
     createItems: >-
-        INSERT INTO item (claim_id, target_id, natural_id, asmt_id, dok_id, difficulty, max_points, math_practice, allow_calc) VALUES
+        INSERT IGNORE INTO item (claim_id, target_id, natural_id, asmt_id, dok_id, difficulty, max_points, math_practice, allow_calc) VALUES
           ( (select id from claim where subject_id in (select subject_id from asmt where id = ?) limit 1), (select id from target where claim_id = (select id from claim where subject_id in (select subject_id from asmt where id = ?) limit 1) limit 1), ?, ?, 1, 0.5, 5, null, null)
 
     subjectClaimScore:
