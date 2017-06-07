@@ -12,6 +12,6 @@ INSERT INTO reporting_test.item_trait_score VALUES (-99,'Conventions-test'),(-98
 INSERT INTO reporting_test.target  VALUES (-99,-99,'10-1','WORD MEANINGS: Determine intended meanings of words..'),(-98,-98,'10-12','WORD MEANINGS:..)');
 INSERT INTO reporting_test.common_core_standard  VALUES (-99,'naturalid99', 1, 'common core 99'),(-98, 'naturalid98', 2,'common core 98');
 INSERT INTO reporting_test.item_difficulty_cuts  VALUES (-99, 1, 2, -99,-1.93882,-0.43906),(-98 ,1, 2, -98,-1.51022,0.14288);
-
-
+INSERT INTO reporting_test.language VALUES (-99,'bef');
+INSERT INTO reporting_test.accommodation_translation VALUES (-99, -99,'before test');
 
