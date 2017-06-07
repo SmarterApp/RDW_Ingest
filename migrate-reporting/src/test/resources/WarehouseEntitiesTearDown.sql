@@ -1,4 +1,6 @@
 --
+-- Can be used if test does not add all records.
+--
 -- Clean up warehouse
 -- ---------------------------------------------- Exams ---------------------------------------------------------------------------------------------
 DELETE FROM warehouse_test.exam_available_accommodation where exam_id in (-88, -87, -86, -85, -84);
