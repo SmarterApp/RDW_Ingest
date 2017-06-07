@@ -38,7 +38,7 @@ project.ext.schemaBaseDir =  "$buildDir/schema/"
 // Set version dependencies. This allows the cli to force version, e.g. `-Pcommon=SNAPSHOT`
 
 String rdwCommonVersion = project.hasProperty("common") ? project.property("common") : "21"
-String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "68"
+String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "69"
 
 //Creating a schema configuration for facilitating unzipping and copying sql scripts
 configurations {
