@@ -20,10 +20,39 @@ plugins {
 
 apply plugin: 'io.spring.dependency-management'
 
-// Set version dependencies
+// JFrog artifactory setup
+
+artifactory {
+    contextUrl = "https://airdev.jfrog.io/airdev"
+    resolve {
+        repository {
+            repoKey = 'libs-releases'
+            maven = true
+        }
+    }
+}
+
+//Initializing some properties for use in extracting schema dependency and finding schema tasks
+project.ext.schemaBaseDir =  "$buildDir/schema/"
+
+// Set version dependencies. This allows the cli to force version, e.g. `-Pcommon=SNAPSHOT`
 
 String rdwCommonVersion = project.hasProperty("common") ? project.property("common") : "21"
-String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "100"
+String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "69"
+
+//Creating a schema configuration for facilitating unzipping and copying sql scripts
+configurations {
+    rdwSchema
+    repositories {
+        mavenLocal()
+    }
+}
+
+//Declaring root project dependency on schema
+dependencies {
+    rdwSchema("org.opentestsystem.rdw.schema:rdw-schema:0.0.1-${rdwSchemaVersion}@zip")
+}
+
 
 allprojects {
     group = 'org.opentestsystem.rdw.ingest'
@@ -38,7 +67,6 @@ allprojects {
     if (project.hasProperty("buildNumber")) {
         project.setVersion(project.version.toString().replaceAll("SNAPSHOT", "${buildNumber}"))
     }
-
 }
 
 subprojects {
@@ -129,30 +157,38 @@ subprojects {
     }
 }
 
-//Schema tasks
-
-task migrateAllTest(type: GradleBuild) {
-    group = "Schema"
-    description = "Cleans the schemas that integration tests depend on"
-    dir = "RDW_Schema"
-    tasks = ["migrateAll-test"]
+// Helper function to get the unzipped schema directory path at runtime.
+def schemaDir() {
+    schemaBaseDir + configurations.rdwSchema.singleFile.name.take(configurations.rdwSchema.singleFile.name.lastIndexOf('.'))
 }
 
-task cleanAllTest(type: GradleBuild) {
+//Schema extraction task
+task extractSchema(type: Sync) {
+    dependsOn configurations.rdwSchema
+
+    from { // use of closure defers evaluation until execution time
+        zipTree(configurations.rdwSchema.singleFile)
+    }
+    into schemaBaseDir
+}
+
+task migrateAllTest(type: GradleBuild, dependsOn: extractSchema) {
+    group = "Schema"
+    description = "Cleans the schemas that integration tests depend on"
+    doFirst {
+        dir { schemaDir() }
+    }
+    tasks = ["migrateAll-test"]
+
+}
+
+task cleanAllTest(type: GradleBuild, dependsOn: extractSchema) {
     group = "Schema"
     description = "Migrates the schemas that integration tests depend on"
-    dir = "RDW_Schema"
+    doFirst {
+        dir { schemaDir() }
+    }
     tasks = ["cleanAll-test"]
 }
 
-// JFrog setup
 
-artifactory {
-    contextUrl = "https://airdev.jfrog.io/airdev"
-    resolve {
-        repository {
-            repoKey = 'libs-releases'
-            maven = true
-        }
-    }
-}
