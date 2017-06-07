@@ -14,7 +14,16 @@ buildscript {
     }
 }
 
+plugins {
+    id 'com.jfrog.artifactory' version '4.4.18'
+}
+
 apply plugin: 'io.spring.dependency-management'
+
+// Set version dependencies
+
+String rdwCommonVersion = project.hasProperty("common") ? project.property("common") : "21"
+String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "100"
 
 allprojects {
     group = 'org.opentestsystem.rdw.ingest'
@@ -24,9 +33,10 @@ allprojects {
     apply plugin: 'propdeps'
     apply plugin: 'propdeps-maven'
     apply plugin: 'propdeps-idea'
+    apply plugin: "com.jfrog.artifactory"
 
     if (project.hasProperty("buildNumber")) {
-        project.setVersion(project.version.split("-")[0] + "." + buildNumber)
+        project.setVersion(project.version.toString().replaceAll("SNAPSHOT", "${buildNumber}"))
     }
 
 }
@@ -47,11 +57,11 @@ subprojects {
 
     dependencyManagement {
         dependencies {
-            dependency 'org.opentestsystem.rdw.common:rdw-common-archive:0.0.1-SNAPSHOT'
-            dependency 'org.opentestsystem.rdw.common:rdw-common-messaging:0.0.1-SNAPSHOT'
-            dependency 'org.opentestsystem.rdw.common:rdw-common-model:0.0.1-SNAPSHOT'
-            dependency 'org.opentestsystem.rdw.common:rdw-common-status:0.0.1-SNAPSHOT'
-            dependency 'org.opentestsystem.rdw.common:rdw-common-utils:0.0.1-SNAPSHOT'
+            dependency "org.opentestsystem.rdw.common:rdw-common-archive:0.0.1-${rdwCommonVersion}"
+            dependency "org.opentestsystem.rdw.common:rdw-common-messaging:0.0.1-${rdwCommonVersion}"
+            dependency "org.opentestsystem.rdw.common:rdw-common-model:0.0.1-${rdwCommonVersion}"
+            dependency "org.opentestsystem.rdw.common:rdw-common-status:0.0.1-${rdwCommonVersion}"
+            dependency "org.opentestsystem.rdw.common:rdw-common-utils:0.0.1-${rdwCommonVersion}"
 
             dependency 'com.google.guava:guava:21.0'
         }
@@ -119,6 +129,8 @@ subprojects {
     }
 }
 
+//Schema tasks
+
 task migrateAllTest(type: GradleBuild) {
     group = "Schema"
     description = "Cleans the schemas that integration tests depend on"
@@ -133,3 +145,14 @@ task cleanAllTest(type: GradleBuild) {
     tasks = ["cleanAll-test"]
 }
 
+// JFrog setup
+
+artifactory {
+    contextUrl = "https://airdev.jfrog.io/airdev"
+    resolve {
+        repository {
+            repoKey = 'libs-releases'
+            maven = true
+        }
+    }
+}
