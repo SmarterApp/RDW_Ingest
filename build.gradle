@@ -172,7 +172,6 @@ task extractSchema(type: Sync) {
     into schemaBaseDir
 }
 
-
 //These are the tasks available in the Schema dependency that we would want to use in this project
 def taskMap = ["migrateAll": "Migrates the schemas that are required for running locally",
                "cleanAll": "Cleans the schemas that are required for running locally",
