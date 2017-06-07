@@ -52,13 +52,19 @@ git clone --recursive https://github.com/SmarterApp/RDW_Ingest
 ```
 
 ### Building
-RDW_Ingest apps make use of RDW_Common modules. Because there is no common artifact repository, you must do something
-to make the artifacts available. You could make an uber project in your IDE. Or you could build common locally:
+RDW_Ingest apps make use of RDW_Common modules. If you are developing RDW_Common and would like to test changes in this 
+project, you can build RDW_Common locally and install your changes to the local repository:
 ```bash
 git clone https://github.com/SmarterApp/RDW_Common
 cd RDW_Common
 git checkout develop
+//make code changes
 ./gradlew install
+```
+Then to use those new changes, you can specify the SNAPSHOT version of RDW_Common
+```bash
+//In RDW_Ingest
+./gradlew build it -Pcommon=SNAPSHOT
 ```
 
 Now you should be able to build and test the ingest apps from where you cloned this project:
@@ -67,7 +73,7 @@ cd RDW_Ingest
 git checkout develop
 ./gradlew build
 or to also run Integration Tests
-./gradlew build IT 
+./gradlew build it 
 ```
 Code coverage reports can be found in each project under `./build/reports/jacoco/test/html/index.html` 
 
@@ -83,13 +89,12 @@ java                                    8-jre-alpine        d85b17c6762e        
 ```
 
 ### Running
-The applications depend on the database being configured properly. This project has the RDW_Schema submodule pinned at a
-version that is compatible with the current version of this project, so there is no need to separately clone the RDW_Schema.
+Running the applications locally depends on the local database being configured properly.
 ```bash
-cd RDW_Schema
-./gradlew migrateAll
-or to completely clean out any existing data you might have, if you already have the database set up:
-./gradlew cleanAllTest migrateAllTest
+To completely clean out any existing data you might have and start fresh:
+./gradlew cleanallprod migrateallprod
+or, if you want to use a different version of the schema, say version 68 of RDW_Schema
+./gradlew -Pschema=68 cleannallprod migrateallprod
 ```
 
 The apps are wrapped in docker containers and should be built and run that way. There is a docker-compose spec

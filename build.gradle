@@ -172,23 +172,19 @@ task extractSchema(type: Sync) {
     into schemaBaseDir
 }
 
-task migrateAllTest(type: GradleBuild, dependsOn: extractSchema) {
-    group = "Schema"
-    description = "Cleans the schemas that integration tests depend on"
-    doFirst {
-        dir { schemaDir() }
+//These are the tasks available in the Schema dependency that we would want to use in this project
+def taskMap = ["migrateAll": "Migrates the schemas that are required for running locally",
+               "cleanAll": "Cleans the schemas that are required for running locally",
+               "migrateAll-test": "Migrates the schemas that integration tests depend on",
+               "cleanAll-test": "Cleans the schemas that integration tests depend on"]
+
+taskMap.keySet().each { key ->
+    task(key.contains("-test")?"${key.take(key.lastIndexOf('-test'))}Test":"${key}Prod", type: GradleBuild, dependsOn: extractSchema) {
+        group = "Schema"
+        description = taskMap[key]
+        doFirst {
+            dir { schemaDir() }
+        }
+        tasks = [key]
     }
-    tasks = ["migrateAll-test"]
-
 }
-
-task cleanAllTest(type: GradleBuild, dependsOn: extractSchema) {
-    group = "Schema"
-    description = "Migrates the schemas that integration tests depend on"
-    doFirst {
-        dir { schemaDir() }
-    }
-    tasks = ["cleanAll-test"]
-}
-
-
