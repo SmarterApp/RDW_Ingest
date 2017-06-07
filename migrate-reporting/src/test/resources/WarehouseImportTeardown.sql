@@ -1,4 +1,4 @@
--- todo: remove this from initial dml
+-- add back what initial dml adds
 INSERT INTO warehouse_test.import (id, status, content, contentType, digest) VALUES
   (1, 1, 3, 'initial load', 'initial load');
 

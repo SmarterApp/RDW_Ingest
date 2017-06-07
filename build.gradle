@@ -34,7 +34,6 @@ artifactory {
 
 //Initializing some properties for use in extracting schema dependency and finding schema tasks
 project.ext.schemaBaseDir =  "$buildDir/schema/"
-//project.ext.schemaDir = ""  //initializing so it
 
 // Set version dependencies. This allows the cli to force version, e.g. `-Pcommon=SNAPSHOT`
 
