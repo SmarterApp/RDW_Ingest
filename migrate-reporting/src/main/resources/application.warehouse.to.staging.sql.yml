@@ -247,7 +247,7 @@ sql:
                 FROM warehouse.district wd
                 WHERE EXISTS(
                     SELECT id from warehouse.school ws
-                    WHERE district_id = wd.id
+                    WHERE ws.district_id = wd.id
                           AND ws.deleted = 0
                           AND (
                             ws.import_id IN (SELECT id FROM warehouse.import WHERE status = 1 AND id >= :start_import_id AND id <= :end_import_id) OR
