@@ -20,18 +20,12 @@ sql:
 
   warehouse:
     import:
-      findMinImportId: >-
-        SELECT MIN(i.id) FROM warehouse.import i WHERE i.status >= 0
+      findAllImportStatus: >-
+        SELECT name FROM warehouse.import_status
 
-      findMaxImportIdNotMigrated: >-
-        SELECT max(available.id) id
-        FROM
-          (SELECT id
-           FROM warehouse.import
-           WHERE id > :last_import_id
-            AND status = 1
-           ORDER BY id ASC
-           LIMIT :batch_size
-          ) AS available;
-
-
+      findImportState: >-
+        SELECT start, stop, blocker FROM (
+          (SELECT MIN(id) AS blocker FROM warehouse.import WHERE status = 0 AND id <= if(:prev IS NULL, :size, (:prev + :size))) s1,
+          (SELECT MIN(id) AS start FROM warehouse.import WHERE (:prev IS NULL OR id > :prev) AND status = 1) s2,
+          (SELECT MAX(id) AS stop FROM warehouse.import WHERE (:prev IS NULL OR id > :prev) AND id <= if(:prev IS NULL, :size, (:prev + :size)) AND status = 1) s3
+        )
