@@ -56,6 +56,8 @@
         <ExamineeAttribute name="LEPExitDate" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="TitleIIILanguageInstructionProgramType" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="PrimaryDisabilityType" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
+        <!-- these are not from the real data, they are for a shortcut to create groups and assign student to a group -->
+        <ExamineeAttribute context="FINAL" contextDate="2017-03-01T08:08:34.787000" name="StudentGroupName" value="Math" />
         <ExamineeRelationship name="ResponsibleDistrictIdentifier" value="UCLALS" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
         <ExamineeRelationship name="OrganizationName" value="UCLA" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
         <ExamineeRelationship name="ResponsibleInstitutionIdentifier" value="APTEST1" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
