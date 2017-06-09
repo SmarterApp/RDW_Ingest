@@ -22,7 +22,7 @@ DElETE FROM warehouse_test.district where id in (-99, -98, -1);
 
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
 DElETE FROM warehouse_test.item_other_target where item_id in (-991, -990, -980);
-DElETE FROM warehouse_test.item_common_core_standard where item_id in (-991, -990, -980);
+DElETE FROM warehouse_test.item_common_core_standard where item_id in (-991, -990, -980, -9, -8);
 DElETE FROM warehouse_test.item where asmt_id in ( -11, -99, -98);
 DElETE FROM warehouse_test.asmt_score where asmt_id in ( -99, -98);
 DElETE FROM warehouse_test.asmt where id in (-11, -99, -98);
@@ -47,7 +47,7 @@ DElETE FROM reporting_test.district where id in ( -99, -98, -1);
 
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
 DElETE FROM reporting_test.item_other_target where item_id in (-991, -990, -980);
-DElETE FROM reporting_test.item_common_core_standard where item_id in (-991, -990, -980);
+DElETE FROM reporting_test.item_common_core_standard where item_id in (-991, -990, -980, -9, -8);
 DElETE FROM reporting_test.item where asmt_id in ( -11, -99, -98);
 DElETE FROM reporting_test.asmt_score where asmt_id in ( -99, -98);
 DElETE FROM reporting_test.asmt where id in ( -11, -99, -98);

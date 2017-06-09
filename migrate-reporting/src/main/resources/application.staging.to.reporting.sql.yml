@@ -312,36 +312,6 @@ sql:
                DELETE rit FROM reporting.item_trait_score rit
                   WHERE NOT EXISTS(SELECT id FROM staging.staging_item_trait_score WHERE id = rit.id);
 
-      # ------------ Item Difficulty Cuts ---------------------------------------------------------------------------
-        item_difficulty_cuts:
-          sql:
-            update:  >-
-              UPDATE reporting.item_difficulty_cuts ridc
-                JOIN staging.staging_item_difficulty_cuts sidc ON sidc.id = ridc.id
-              SET
-                ridc.asmt_type_id = sidc.asmt_type_id,
-                ridc.subject_id = sidc.subject_id,
-                ridc.grade_id = sidc.grade_id,
-                ridc.moderate_low_end = sidc.moderate_low_end,
-                ridc.difficult_low_end = sidc.difficult_low_end;
-
-            insert:  >-
-              INSERT INTO reporting.item_difficulty_cuts (id, asmt_type_id, subject_id, grade_id, moderate_low_end, difficult_low_end)
-                SELECT
-                  sidc.id,
-                  sidc.asmt_type_id,
-                  sidc.subject_id,
-                  sidc.grade_id,
-                  sidc.moderate_low_end,
-                  sidc.difficult_low_end
-                FROM staging.staging_item_difficulty_cuts sidc
-                  LEFT JOIN reporting.item_difficulty_cuts ridc ON ridc.id = sidc.id
-                WHERE ridc.id IS NULL;
-
-            delete: >-
-                DELETE ridc FROM reporting.item_difficulty_cuts ridc
-                    WHERE NOT EXISTS(SELECT id FROM staging.staging_item_difficulty_cuts WHERE id = ridc.id);
-
       # ------------ Language ------------------------------------------------------------------------
         language:
           sql:
@@ -478,7 +448,7 @@ sql:
                                           migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type,
                                           type_id, school_year, asmt_id, asmt_version, opportunity, completeness_id,
                                           administration_condition_id, session_id, performance_level, scale_score, scale_score_std_err,
-                                          import_id,
+                                          import_id, completed_at,
                                           claim1_scale_score, claim1_scale_score_std_err, claim1_category,
                                           claim2_scale_score, claim2_scale_score_std_err, claim2_category,
                                           claim3_scale_score, claim3_scale_score_std_err, claim3_category,
@@ -509,6 +479,7 @@ sql:
                   se.scale_score,
                   se.scale_score_std_err,
                   se.import_id,
+                  se.completed_at,
                   claim1.scale_score as claim1_scale_score,
                   claim1.scale_score_std_err as claim1_scale_score_std_err,
                   claim1.category as claim1_category,
@@ -885,34 +856,44 @@ sql:
         item:
           sql:
             insert: >-
-              INSERT INTO reporting.item ( id, claim_id, target_id, natural_id, asmt_id, math_practice, allow_calc, dok_id,
-                                           difficulty, max_points)
+              INSERT INTO reporting.item ( id, claim_id, claim_code,  target_id, target_code, common_core_standard_ids, natural_id, asmt_id, math_practice, allow_calc, dok_id,
+                                           difficulty_code, max_points)
                 SELECT
                   si.id,
                   si.claim_id,
+                  rc.code,
                   si.target_id,
+                  rt.code,
+                  si.common_core_standard_ids,
                   si.natural_id,
                   si.asmt_id,
                   si.math_practice,
                   si.allow_calc,
                   si.dok_id,
-                  si.difficulty,
+                  si.difficulty_code,
                   si.max_points
                 FROM staging.staging_item si
                   LEFT JOIN reporting.item ri ON ri.id = si.id
+                   JOIN reporting.claim rc on rc.id = si.claim_id
+                   JOIN reporting.target rt on rt.id = si.target_id
                 WHERE ri.id IS NULL;
 
             update: >-
               UPDATE reporting.item ri
                 JOIN staging.staging_item si ON ri.id = si.id
+                JOIN reporting.claim rc on rc.id = si.claim_id
+                JOIN reporting.target rt on rt.id = si.target_id
               SET
                 ri.claim_id      = si.claim_id,
+                ri.claim_code    = rc.code,
                 ri.target_id     = si.target_id,
+                ri.target_code   = rt.code,
+                ri.common_core_standard_ids  = si.common_core_standard_ids,
                 ri.asmt_id       = si.asmt_id,
                 ri.math_practice = si.math_practice,
                 ri.allow_calc    = si.allow_calc,
                 ri.dok_id        = si.dok_id,
-                ri.difficulty    = si.difficulty,
+                ri.difficulty_code  = si.difficulty_code,
                 ri.max_points    = si.max_points;
 
             deleteAsPartOfParentUpdate: >-

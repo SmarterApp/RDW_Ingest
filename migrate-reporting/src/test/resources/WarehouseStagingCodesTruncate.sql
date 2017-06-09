@@ -13,7 +13,6 @@ TRUNCATE staging_test.staging_math_practice;
 TRUNCATE staging_test.staging_item_trait_score;
 TRUNCATE staging_test.staging_target;
 TRUNCATE staging_test.staging_common_core_standard;
-TRUNCATE staging_test.staging_item_difficulty_cuts;
 TRUNCATE staging_test.staging_claim;
 TRUNCATE staging_test.staging_grade;
 TRUNCATE staging_test.staging_language;
