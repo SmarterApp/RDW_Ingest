@@ -21,7 +21,7 @@ buildscript {
         maven { url 'http://repo.spring.io/plugins-release' }
     }
     dependencies {
-        classpath("com.bmuschko:gradle-docker-plugin:3.0.5")
+        classpath("com.bmuschko:gradle-docker-plugin:3.0.7")
         classpath("io.spring.gradle:dependency-management-plugin:1.0.0.RELEASE")
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE")
         classpath('org.springframework.build.gradle:propdeps-plugin:0.0.7')
@@ -34,10 +34,10 @@ plugins {
 
 apply plugin: 'io.spring.dependency-management'
 
-// Set version dependencies. This allows the cli to force version, e.g. `-Pcommon=SNAPSHOT`
+// Set version dependencies. This allows the cli to force version, e.g. `-Pcommon=0.0.1-SNAPSHOT`
 
-String rdwCommonVersion = project.hasProperty("common") ? project.property("common") : "21"
-String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "69"
+String rdwCommonVersion = project.hasProperty("common") ? project.property("common") : "0.0.1-21"
+String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "0.0.1-71"
 
 
 allprojects {
@@ -71,11 +71,11 @@ subprojects {
 
     dependencyManagement {
         dependencies {
-            dependency "org.opentestsystem.rdw.common:rdw-common-archive:0.0.1-${rdwCommonVersion}"
-            dependency "org.opentestsystem.rdw.common:rdw-common-messaging:0.0.1-${rdwCommonVersion}"
-            dependency "org.opentestsystem.rdw.common:rdw-common-model:0.0.1-${rdwCommonVersion}"
-            dependency "org.opentestsystem.rdw.common:rdw-common-status:0.0.1-${rdwCommonVersion}"
-            dependency "org.opentestsystem.rdw.common:rdw-common-utils:0.0.1-${rdwCommonVersion}"
+            dependency "org.opentestsystem.rdw.common:rdw-common-archive:${rdwCommonVersion}"
+            dependency "org.opentestsystem.rdw.common:rdw-common-messaging:${rdwCommonVersion}"
+            dependency "org.opentestsystem.rdw.common:rdw-common-model:${rdwCommonVersion}"
+            dependency "org.opentestsystem.rdw.common:rdw-common-status:${rdwCommonVersion}"
+            dependency "org.opentestsystem.rdw.common:rdw-common-utils:${rdwCommonVersion}"
 
             dependency 'com.google.guava:guava:21.0'
         }
@@ -200,7 +200,7 @@ configurations {
 
 //Declaring root project dependency on RDW_Schema for running integration tests
 dependencies {
-    rdwSchema("org.opentestsystem.rdw.schema:rdw-schema:0.0.1-${rdwSchemaVersion}@zip")
+    rdwSchema("org.opentestsystem.rdw.schema:rdw-schema:${rdwSchemaVersion}@zip")
 }
 
 
