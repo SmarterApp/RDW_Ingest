@@ -1,6 +1,3 @@
-import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
-
-apply plugin: 'com.bmuschko.docker-remote-api'
 apply plugin: 'org.springframework.boot'
 
 dependencies {
@@ -24,28 +21,4 @@ dependencies {
     compile 'com.google.guava:guava'
     compile 'mysql:mysql-connector-java'
 
-}
-
-// this is for creating metadata
-compileJava.dependsOn(processResources)
-
-// trigger creation of build-info.properties
-classes.dependsOn(createBuildInfoFile)
-
-// task to build the docker image
-task buildImage(type:DockerBuildImage, dependsOn:[build, createDockerfile]) {
-    dockerFile = createDockerfile.destFile
-    inputDir = project.file('build/docker/')
-    tag = "fwsbac/${project.name}"
-    doFirst {
-        copy {
-            from jar
-            into inputDir
-        }
-    }
-}
-
-// to use this, you must use docker login to set up docker hub credentials
-task pushImage(type:Exec, dependsOn:[buildImage]) {
-    commandLine("docker", "push", "fwsbac/${project.name}")
 }

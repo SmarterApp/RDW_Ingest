@@ -1,3 +1,17 @@
+/*
+ * Copyright 2017 Regents of the University of California. Licensed under the Educational Community License, Version
+ * 2.0 (the "license"); you may not use this file except in compliance with the License. You may obtain a copy of the
+ * license at
+ *
+ * https://opensource.org/licenses/ECL-2.0
+ *
+ * Unless required under applicable law or agreed to in writing, software distributed under the License is distributed
+ * in an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for
+ * specific language governing permissions and limitations under the license.
+ */
+
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
 import com.bmuschko.gradle.docker.tasks.image.Dockerfile
 
 buildscript {
@@ -20,38 +34,10 @@ plugins {
 
 apply plugin: 'io.spring.dependency-management'
 
-// JFrog artifactory setup
-
-artifactory {
-    contextUrl = "https://airdev.jfrog.io/airdev"
-    resolve {
-        repository {
-            repoKey = 'libs-releases'
-            maven = true
-        }
-    }
-}
-
-//Initializing some properties for use in extracting schema dependency and finding schema tasks
-project.ext.schemaBaseDir =  "$buildDir/schema/"
-
 // Set version dependencies. This allows the cli to force version, e.g. `-Pcommon=SNAPSHOT`
 
 String rdwCommonVersion = project.hasProperty("common") ? project.property("common") : "21"
 String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "69"
-
-//Creating a schema configuration for facilitating unzipping and copying sql scripts
-configurations {
-    rdwSchema
-    repositories {
-        mavenLocal()
-    }
-}
-
-//Declaring root project dependency on schema
-dependencies {
-    rdwSchema("org.opentestsystem.rdw.schema:rdw-schema:0.0.1-${rdwSchemaVersion}@zip")
-}
 
 
 allprojects {
@@ -121,22 +107,62 @@ subprojects {
         }
     }
 
-    // task to create Dockerfile
-    // (http://bmuschko.github.io/gradle-docker-plugin/docs/groovydoc/com/bmuschko/gradle/docker/tasks/image/Dockerfile.html)
-    task createDockerfile(type: Dockerfile) {
-        destFile = project.file('build/docker/Dockerfile')
-        from('java:8-jre-alpine')
-        volume('/tmp')
-        label([maintainer: 'Fairway Technologies'])
-        copyFile("${jar.archivePath.name}", "${jar.archivePath.name}")
-        exposePort(8008, 8080)
-        entryPoint("java", "-jar", "${jar.archivePath.name}")
+    /***********************************************************
+     * Docker setup for all subprojects except rdw-ingest-common,
+     *  which doesn't have a docker image
+     ***********************************************************/
+
+    if (it.name != "rdw-ingest-common") {
+        apply plugin: 'com.bmuschko.docker-remote-api'
+
+        // this is for creating metadata
+        compileJava.dependsOn(processResources)
+
+        classes.dependsOn(createBuildInfoFile)
+
+        docker {
+            registryCredentials {
+                username = dockerHubUser
+                password = dockerHubPassword
+                email = dockerHubEmail
+            }
+        }
+
+        // task to create Dockerfile
+        // (http://bmuschko.github.io/gradle-docker-plugin/docs/groovydoc/com/bmuschko/gradle/docker/tasks/image/Dockerfile.html)
+        task createDockerfile(type: Dockerfile) {
+            destFile = project.file('build/docker/Dockerfile')
+            from('java:8-jre-alpine')
+            volume('/tmp')
+            label([maintainer: 'Fairway Technologies'])
+            copyFile("${jar.archivePath.name}", "${jar.archivePath.name}")
+            exposePort(8008, 8080)
+            entryPoint("java", "-jar", "${jar.archivePath.name}")
+        }
+
+        task buildImage(type:DockerBuildImage, dependsOn:[build, createDockerfile]) {
+            dockerFile = createDockerfile.destFile
+            inputDir = project.file('build/docker/')
+            tag = "fwsbac/${project.name}"
+            doFirst {
+                copy {
+                    from jar
+                    into inputDir
+                }
+            }
+        }
+
+        // to use this, you must use valid docker credentials, which can be set in the gradle.properties file
+        task dockerPushImage(type: DockerPushImage, dependsOn: buildImage) {
+            imageName = "fwsbac/${project.name}"
+        }
     }
 
+    //Skip running integration tests automatically, because integration tests can be long
     test.exclude '**/*IT.*'
 
-    //This task for for manually running the integration tests against schemas being developed simultaneously with this
-    // project, versus the schemas that are "fixed" under the RDW_Schema submodule in this project
+    //This task for for manually running the integration tests without automatically cleaning and creating
+    // the test database schemas
     task manualIT(type: Test) {
         outputs.upToDateWhen { false }
         doFirst {
@@ -144,7 +170,7 @@ subprojects {
         }
     }
 
-    //The omission of the ':' in manualIT is on purpose - we need the relative path to manualIT
+    //Specific integration test task that will automatially clean and migrate the test database schemas
     task IT(type: Test, dependsOn:[":cleanAllTest", ":migrateAllTest"]) {
         outputs.upToDateWhen { false }
         doFirst {
@@ -156,6 +182,27 @@ subprojects {
         reports.html.destination = file("${reporting.baseDir}/${name}")
     }
 }
+
+/********************************************
+ * RDW_Schema artifact dependency setup
+ *******************************************/
+
+//Initializing some properties for use in extracting schema dependency and finding schema tasks
+project.ext.schemaBaseDir =  "$buildDir/schema/"
+
+//Creating a schema configuration for facilitating unzipping and copying sql scripts
+configurations {
+    rdwSchema
+    repositories {
+        mavenLocal()
+    }
+}
+
+//Declaring root project dependency on RDW_Schema for running integration tests
+dependencies {
+    rdwSchema("org.opentestsystem.rdw.schema:rdw-schema:0.0.1-${rdwSchemaVersion}@zip")
+}
+
 
 // Helper function to get the unzipped schema directory path at runtime.
 def schemaDir() {
@@ -172,6 +219,12 @@ task extractSchema(type: Sync) {
     into schemaBaseDir
 }
 
+/**********************************************************************
+ * Dynamically creating the tasks to run against the database schema
+ * The rdw-schema dependency contains a build.gradle file that defines
+ *   specific tasks related to the schemas
+ *********************************************************************/
+
 //These are the tasks available in the Schema dependency that we would want to use in this project
 def taskMap = ["migrateAll": "Migrates the schemas that are required for running locally",
                "cleanAll": "Cleans the schemas that are required for running locally",
@@ -186,5 +239,18 @@ taskMap.keySet().each { key ->
             dir { schemaDir() }
         }
         tasks = [key]
+    }
+}
+
+/****************************
+* JFrog Artifactory setup
+*****************************/
+artifactory {
+    contextUrl = "https://airdev.jfrog.io/airdev"
+    resolve {
+        repository {
+            repoKey = 'libs-releases'
+            maven = true
+        }
     }
 }
