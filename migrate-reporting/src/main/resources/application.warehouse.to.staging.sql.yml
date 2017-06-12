@@ -307,8 +307,8 @@ sql:
               FROM warehouse.student_ethnicity wse
                 JOIN warehouse.student ws ON ws.id = wse.student_id
               WHERE
-                (ws.import_id IN (SELECT id FROM warehouse.import WHERE status = 1 AND id >= -2000 AND id <= 2000) OR
-                 ws.update_import_id IN (SELECT id FROM warehouse.import WHERE status = 1 AND id >= -2000 AND id <= 2000) )
+                (ws.import_id IN (SELECT id FROM warehouse.import WHERE status = 1 AND id >= :start_import_id AND id <= :end_import_id) OR
+                 ws.update_import_id IN (SELECT id FROM warehouse.import WHERE status = 1 AND id >= :start_import_id AND id <= :end_import_id) )
                 AND ws.deleted = 0
             stagingInsert: >-
               INSERT INTO staging.staging_student_ethnicity (ethnicity_id, student_id) VALUES
