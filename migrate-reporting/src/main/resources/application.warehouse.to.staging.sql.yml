@@ -36,7 +36,6 @@ sql:
       - TRUNCATE TABLE staging.staging_depth_of_knowledge
       - TRUNCATE TABLE staging.staging_math_practice
       - TRUNCATE TABLE staging.staging_item_trait_score
-      - TRUNCATE TABLE staging.staging_item_difficulty_cuts
       - TRUNCATE TABLE staging.staging_language
       - TRUNCATE TABLE staging.staging_accommodation_translation
       - TRUNCATE TABLE staging.staging_school
@@ -187,16 +186,6 @@ sql:
             stagingInsert: >-
               INSERT INTO staging.staging_item_trait_score (id, dimension) VALUES
                 (:id, :dimension)
-
-        # ------------ item_difficulty_cuts  -------------------------------------------------------------
-        item_difficulty_cuts:
-          sql:
-            warehouseRead: >-
-              SELECT id, asmt_type_id, subject_id,grade_id, moderate_low_end, difficult_low_end from warehouse.item_difficulty_cuts
-
-            stagingInsert: >-
-              INSERT INTO staging.staging_item_difficulty_cuts (id, asmt_type_id, subject_id, grade_id, moderate_low_end, difficult_low_end) VALUES
-                (:id, :asmt_type_id, :subject_id, :grade_id, :moderate_low_end, :difficult_low_end)
 
         # ------------ language  -------------------------------------------------------------
         language:
@@ -444,17 +433,23 @@ sql:
                 wi.math_practice,
                 wi.allow_calc,
                 wi.dok_id,
-                wi.difficulty,
-                round(wi.max_points) AS max_points
+                wi.difficulty_code,
+                round(wi.max_points) AS max_points,
+                ccs.common_core_standard_ids
               FROM warehouse.item  wi
                 JOIN warehouse.asmt wa ON wa.id = wi.asmt_id
+                LEFT JOIN
+                  ( SELECT wiccs.item_id as item_id, GROUP_CONCAT(wccs.natural_id ORDER BY wccs.id SEPARATOR '|') as common_core_standard_ids
+                      FROM warehouse.item_common_core_standard wiccs
+                        JOIN  warehouse.common_core_standard wccs on wccs.id = wiccs.common_core_standard_id
+                      GROUP BY wiccs.item_id) AS ccs on ccs.item_id = wi.id
               WHERE
                 ( wa.import_id IN (SELECT id FROM warehouse.import WHERE status = 1 AND id >= :start_import_id AND id <= :end_import_id) OR
                   wa.update_import_id IN (SELECT id FROM warehouse.import WHERE status = 1 AND id >= :start_import_id AND id <= :end_import_id) )
                 AND wa.deleted = 0;
             stagingInsert: >-
-              INSERT INTO staging.staging_item (id, claim_id, target_id, natural_id, asmt_id, math_practice, allow_calc, dok_id, difficulty, max_points, migrate_id) VALUES
-                (:id, :claim_id, :target_id, :natural_id, :asmt_id, :math_practice, :allow_calc, :dok_id, :difficulty, :max_points, :migrate_id)
+              INSERT INTO staging.staging_item (id, claim_id, target_id, natural_id, asmt_id, math_practice, allow_calc, dok_id, difficulty_code, max_points, common_core_standard_ids,  migrate_id) VALUES
+                (:id, :claim_id, :target_id, :natural_id, :asmt_id, :math_practice, :allow_calc, :dok_id, :difficulty_code, :max_points, :common_core_standard_ids, :migrate_id)
 
         # ------------ item_common_core_standard  -------------------------------------------------------------------
         item_common_core_standard:

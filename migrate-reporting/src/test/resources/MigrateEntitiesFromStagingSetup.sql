@@ -21,17 +21,17 @@ INSERT INTO staging_test.staging_asmt_score (asmt_id, cut_point_1, cut_point_2, 
   (-99, 2442, 2502, 2582, 2201, 2701, -99),
   (-98, 2442, 2502, 2582, 2201, 2701, -99);
 
-INSERT INTO staging_test.staging_item (id, claim_id, target_id, natural_id, asmt_id, dok_id, difficulty, max_points, math_practice, allow_calc, migrate_id) VALUES
-  (-990, -99, -99, '200-2010',  -99, -99, -0.23, 2, -99, 0, -99),
-  (-991, -99, -99, '200-18943', -99, -99, -0.13, 2, -98, 0, -99),
-  (-992, -99, -99, '200-8906',  -99, -99, -0.03, 2, -99, 1, -99),
-  (-993, -99, -99, '200-2014',  -99, -98,  1.23, 2, -98, 1, -99),
+INSERT INTO staging_test.staging_item (id, claim_id, target_id, natural_id, asmt_id, dok_id, difficulty_code, max_points, math_practice, allow_calc, migrate_id) VALUES
+  (-990, -99, -99, '200-2010',  -99, -99, 'M', 2, -99, 0, -99),
+  (-991, -99, -99, '200-18943', -99, -99, 'E', 2, -98, 0, -99),
+  (-992, -99, -99, '200-8906',  -99, -99, 'E', 2, -99, 1, -99),
+  (-993, -99, -99, '200-2014',  -99, -98, 'D', 2, -98, 1, -99),
 
-  (-980, -98, -98, '200-60347', -98, -98, -0.32, 1, null, null, -99),
-  (-981, -98, -98, '200-51719', -98, -98, -1.32, 1, null, null, -99),
-  (-982, -98, -98, '200-59217', -98, -98, -2.32, 1, null, null, -99),
-  (-983, -98, -98, '200-59208', -98, -98, -0.32, 1, null, null, -99),
-  (-984, -98, -98, '200-30901', -98, -98, -0.32, 1, null, null, -99);
+  (-980, -98, -98, '200-60347', -98, -98, 'M', 1, null, null, -99),
+  (-981, -98, -98, '200-51719', -98, -98, 'E', 1, null, null, -99),
+  (-982, -98, -98, '200-59217', -98, -98, 'E', 1, null, null, -99),
+  (-983, -98, -98, '200-59208', -98, -98, 'D', 1, null, null, -99),
+  (-984, -98, -98, '200-30901', -98, -98, 'D', 1, null, null, -99);
 
 INSERT INTO staging_test.staging_item_other_target(item_id, target_id) values
  (-990, -98),
