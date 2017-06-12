@@ -10,8 +10,8 @@
         <ExamineeAttribute name="StudentIdentifier" value="AFOURTHGRADER17" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
         <ExamineeAttribute name="MiddleName" value="MiddleName116" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
         <ExamineeAttribute name="AlternateSSID" value="FOURTHGRADER17" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
-        <ExamineeAttribute name="HispanicOrLatinoEthnicity" value="NO" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
-        <ExamineeAttribute name="AmericanIndianOrAlaskaNative" value="NO" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
+        <ExamineeAttribute name="HispanicOrLatinoEthnicity" value="YES" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
+        <ExamineeAttribute name="AmericanIndianOrAlaskaNative" value="YES" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
         <ExamineeAttribute name="Asian" value="YES" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
         <ExamineeAttribute name="BlackOrAfricanAmerican" value="NO" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
         <ExamineeAttribute name="White" value="NO" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
@@ -37,8 +37,8 @@
         <ExamineeAttribute name="StudentIdentifier" value="AFOURTHGRADER17" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="MiddleName" value="MiddleName116" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="AlternateSSID" value="FOURTHGRADER17" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="HispanicOrLatinoEthnicity" value="NO" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="AmericanIndianOrAlaskaNative" value="NO" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
+        <ExamineeAttribute name="HispanicOrLatinoEthnicity" value="YES" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
+        <ExamineeAttribute name="AmericanIndianOrAlaskaNative" value="YES" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="Asian" value="YES" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="BlackOrAfricanAmerican" value="NO" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="White" value="NO" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
