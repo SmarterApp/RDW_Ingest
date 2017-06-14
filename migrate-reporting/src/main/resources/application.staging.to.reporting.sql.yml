@@ -384,8 +384,9 @@ sql:
                           WHERE exam_id = r.exam_id AND accommodation_id = r.accommodation_id);
 
             delete: >-
-              DELETE FROM reporting.exam_available_accommodation
-                WHERE exam_id IN (SELECT id from staging.staging_exam WHERE deleted = 1 );
+              DELETE reaa FROM reporting.exam_available_accommodation reaa
+                JOIN staging.staging_exam se ON se.id = reaa.exam_id
+              WHERE se.deleted = 1;
 
         # ------------ exam_item -------------------------------------------------------------------
         exam_item:
@@ -433,12 +434,14 @@ sql:
 
             deleteAsPartOfParentUpdate: >-
               DELETE ri FROM reporting.exam_item ri
-                  WHERE ri.exam_id in (select id from staging.staging_exam where deleted = 0)
-                    AND  NOT EXISTS(SELECT id FROM staging.staging_exam_item WHERE id = ri.id);
+                JOIN staging.staging_exam se ON se.id = ri.exam_id
+              WHERE
+                se.deleted = 0 AND NOT EXISTS(SELECT id FROM staging.staging_exam_item WHERE id = ri.id);
 
             delete: >-
-              DELETE FROM reporting.exam_item
-                WHERE exam_id IN (SELECT id from staging.staging_exam WHERE deleted = 1 );
+              DELETE ri
+               FROM reporting.exam_item ri JOIN staging.staging_exam se ON se.id = ri.exam_id
+              WHERE se.deleted = 1;
 
         # ------------ exam -------------------------------------------------------------------
         exam:
@@ -614,7 +617,9 @@ sql:
               WHERE se.deleted = 0;
 
             delete: >-
-              DELETE FROM reporting.exam WHERE id IN (SELECT id from staging.staging_exam WHERE deleted = 1 );
+              DELETE re FROM reporting.exam re
+                JOIN staging.staging_exam se on se.id = re.id
+              WHERE se.deleted = 1;
 
       # ############## Student Group #######################################################################
       # ------------ student_group_membership --------------------------------------------------
@@ -632,14 +637,17 @@ sql:
 
             deleteAsPartOfParentUpdate: >-
               DELETE rsgm FROM reporting.student_group_membership rsgm
-              WHERE student_group_id in (select id from staging.staging_student_group where deleted = 0 and active = 1)
-                    AND NOT EXISTS(SELECT student_group_id FROM staging.staging_student_group_membership
-              WHERE student_group_id = rsgm.student_group_id AND student_id = rsgm.student_id);
+                JOIN staging.staging_student_group ssg ON ssg.id = student_group_id
+              WHERE deleted = 0 and active = 1
+                    AND NOT EXISTS(
+                      SELECT student_group_id FROM staging.staging_student_group_membership
+                          WHERE student_group_id = rsgm.student_group_id AND student_id = rsgm.student_id
+                    );
 
             delete: >-
-              DELETE from reporting.student_group_membership
-                WHERE student_group_id IN
-                  (SELECT id FROM staging.staging_student_group WHERE deleted = 1 or active = 0);
+              DELETE rsgm from reporting.student_group_membership rsgm
+               JOIN staging.staging_student_group ssg on ssg.id = rsgm.student_group_id
+              WHERE ssg.deleted = 1 or ssg.active = 0;
 
       # ------------ user_student_group --------------------------------------------------
         user_student_group:
@@ -656,14 +664,16 @@ sql:
 
             deleteAsPartOfParentUpdate: >-
               DELETE rsug FROM reporting.user_student_group rsug
-                 WHERE student_group_id in (select id from staging.staging_student_group where deleted = 0 and active = 1)
+                 JOIN staging.staging_student_group ssg ON ssg.id = rsug.student_group_id
+              WHERE ssg.deleted = 0 and ssg.active = 1
                     AND NOT EXISTS(SELECT student_group_id FROM staging.staging_user_student_group
-                                     WHERE student_group_id = rsug.student_group_id AND user_login = rsug.user_login);
+                                     WHERE student_group_id = rsug.student_group_id AND user_login = rsug.user_login
+                    );
 
             delete: >-
-              DELETE from reporting.user_student_group
-                WHERE student_group_id IN
-                  (SELECT id FROM staging.staging_student_group WHERE deleted = 1 or active = 0);
+              DELETE rusg from reporting.user_student_group rusg
+               JOIN staging.staging_student_group ssg ON ssg.id = rusg.student_group_id
+              WHERE ssg.deleted = 1 or ssg.active = 0;
 
       # ------------ student_group --------------------------------------------------
         student_group:
@@ -697,9 +707,9 @@ sql:
               WHERE ssg.deleted = 0 AND ssg.active = 1;
 
             delete: >-
-              DELETE FROM reporting.student_group
-                WHERE id IN
-                  (SELECT id FROM staging.staging_student_group WHERE deleted = 1 or active = 0);
+              DELETE rsg FROM reporting.student_group rsg
+               JOIN staging.staging_student_group ssg ON ssg.id = rsg.id
+              WHERE ssg.deleted = 1 or ssg.active = 0;
 
       # ############## School/District ###################################################################
       # ------------ school ------------------------------------------------------------------------------
@@ -726,7 +736,9 @@ sql:
               WHERE ss.deleted = 0;
 
             delete: >-
-              DELETE FROM reporting.school WHERE id IN (SELECT id FROM staging.staging_school WHERE deleted = 1);
+              DELETE rs FROM reporting.school rs
+                JOIN staging.staging_school ss on ss.id = rs.id
+              WHERE ss.deleted = 1;
 
       # ------------ district ------------------------------------------------------------------------------
         district:
@@ -767,13 +779,14 @@ sql:
 
             deleteAsPartOfParentUpdate: >-
              DELETE rse FROM reporting.student_ethnicity rse
-                WHERE student_id in (select student_id from staging.staging_student where deleted = 0)
-                     AND NOT EXISTS(SELECT student_id FROM staging.staging_student_ethnicity
+                JOIN staging.staging_student ss on ss.id = rse.student_id
+              WHERE ss.deleted = 0
+                  AND NOT EXISTS(SELECT student_id FROM staging.staging_student_ethnicity
                             WHERE student_id = rse.student_id AND ethnicity_id = rse.ethnicity_id);
-
             delete: >-
-              DELETE FROM reporting.student_ethnicity
-                WHERE student_id IN (SELECT id FROM staging.staging_student WHERE deleted = 1);
+              DELETE rse FROM reporting.student_ethnicity rse
+                JOIN staging.staging_student ss on ss.id = rse.student_id
+              WHERE ss.deleted = 1;
 
       # ------------ student -----------------------------------------------------------------------
         student:
@@ -813,8 +826,9 @@ sql:
               WHERE ss.deleted = 0
 
             delete: >-
-              DELETE FROM reporting.student
-                WHERE id in (SELECT id FROM staging.staging_student WHERE deleted = 1);
+              DELETE rs FROM reporting.student rs
+                JOIN staging.staging_student ss ON ss.id = rs.id
+              WHERE ss.deleted = 1;
 
       # ############## Assessment  ###################################################################
       # ------------ asmt_score -----------------------------------------------------------------------
@@ -845,12 +859,14 @@ sql:
 
             deleteAsPartOfParentUpdate: >-
               DELETE rs FROM reporting.asmt_score rs
-                WHERE rs.asmt_id in (select asmt_id from staging.staging_asmt where deleted = 0)
+                JOIN staging.staging_asmt sa ON sa.id = rs.asmt_id
+              WHERE sa.deleted = 0
                     AND NOT EXISTS(SELECT asmt_id FROM staging.staging_asmt_score WHERE asmt_id = rs.asmt_id);
 
             delete: >-
-              DELETE FROM reporting.asmt_score
-                WHERE asmt_id IN (SELECT id FROM staging.staging_asmt WHERE deleted = 1);
+              DELETE ras FROM reporting.asmt_score ras
+                JOIN staging.staging_asmt sa ON sa.id = ras.asmt_id
+              WHERE sa.deleted = 1;
 
       # ------------ item -----------------------------------------------------------------------
         item:
@@ -898,12 +914,14 @@ sql:
 
             deleteAsPartOfParentUpdate: >-
               DELETE ri FROM reporting.item ri
-                WHERE ri.asmt_id in (select id from staging.staging_asmt where deleted = 0)
-                    AND  NOT EXISTS(SELECT id FROM staging.staging_item WHERE id = ri.id);
+                JOIN staging.staging_asmt sa ON sa.id = ri.asmt_id
+              WHERE sa.deleted = 0
+                AND  NOT EXISTS(SELECT id FROM staging.staging_item WHERE id = ri.id);
 
             delete: >-
-              DELETE FROM reporting.item
-                WHERE asmt_id IN (SELECT id FROM staging.staging_asmt WHERE deleted = 1);
+              DELETE ri FROM reporting.item ri
+                JOIN staging.staging_asmt sa ON sa.id = ri.asmt_id
+              WHERE sa.deleted = 1;
 
       # ------------ item_other_target -----------------------------------------------------------------------
         item_other_target:
@@ -920,14 +938,17 @@ sql:
 
             deleteAsPartOfParentUpdate: >-
               DELETE riot FROM reporting.item_other_target riot
-                WHERE item_id in
-                    (select id from reporting.item
-                        where asmt_id in (select id from staging.staging_asmt where deleted = 0))
-                   AND NOT EXISTS(SELECT item_id FROM staging.staging_item_other_target WHERE item_id = riot.item_id AND target_id = riot.target_id);
+                JOIN reporting.item ri ON ri.id = riot.item_id
+                JOIN staging.staging_asmt sa ON sa.id = ri.asmt_id
+              WHERE
+                deleted = 0
+                AND NOT EXISTS(SELECT item_id FROM staging.staging_item_other_target WHERE item_id = riot.item_id AND target_id = riot.target_id);
 
             delete: >-
-              DELETE riot FROM reporting.item_other_target riot WHERE item_id IN
-                  (SELECT id from reporting.item WHERE asmt_id IN (SELECT id FROM staging.staging_asmt WHERE deleted = 1));
+              DELETE riot FROM reporting.item_other_target riot
+                JOIN reporting.item ri ON ri.id = riot.item_id
+                JOIN staging.staging_asmt sa ON sa.id = ri.asmt_id
+              WHERE sa.deleted = 1;
 
       # ------------ item_common_core_standard -----------------------------------------------------------------------
         item_common_core_standard:
@@ -944,13 +965,16 @@ sql:
 
             deleteAsPartOfParentUpdate: >-
               DELETE riccs FROM reporting.item_common_core_standard riccs
-              WHERE item_id in
-                    (select id from reporting.item where asmt_id in (select id from staging.staging_asmt where deleted = 0))
-                    AND NOT EXISTS(SELECT item_id FROM staging.staging_item_common_core_standard WHERE item_id = riccs.item_id AND common_core_standard_id = riccs.common_core_standard_id);
+                JOIN reporting.item ri ON ri.id = riccs.item_id
+                JOIN staging.staging_asmt sa ON sa.id = ri.asmt_id
+              WHERE
+                deleted = 0
+                AND NOT EXISTS(SELECT item_id FROM staging.staging_item_common_core_standard WHERE item_id = riccs.item_id AND common_core_standard_id = riccs.common_core_standard_id);
 
             delete: >-
-              DELETE riccs FROM reporting.item_common_core_standard riccs WHERE item_id IN
-                  (SELECT id from reporting.item WHERE asmt_id IN (SELECT id FROM staging.staging_asmt WHERE deleted = 1))
+              DELETE riccs FROM reporting.item_common_core_standard riccs
+                JOIN reporting.item ri ON ri.id = riccs.item_id
+                JOIN staging.staging_asmt sa ON sa.id = ri.asmt_id WHERE sa.deleted = 1;
 
       # ------------ asmt -----------------------------------------------------------------------
         asmt:
@@ -1026,5 +1050,4 @@ sql:
               WHERE sa.deleted = 0;
 
             delete: >-
-                DELETE FROM reporting.asmt
-                  WHERE id IN (SELECT id FROM staging.staging_asmt WHERE deleted = 1);
+                DELETE ra FROM reporting.asmt ra JOIN staging.staging_asmt sa on sa.id = ra.id WHERE sa.deleted = 1;
