@@ -21,7 +21,7 @@ sql:
                   WHERE rg.id IS NULL;
             delete: >-
                 DELETE rg FROM reporting.grade rg
-                  WHERE NOT EXISTS(SELECT id FROM staging.staging_grade WHERE id = rg.id);
+                  WHERE NOT EXISTS(SELECT sg.id FROM staging.staging_grade sg WHERE sg.id = rg.id);
 
         # ------------ completeness  -------------------------------------------------------------------
         completeness:
@@ -43,7 +43,7 @@ sql:
 
             delete: >-
                DELETE rc FROM reporting.completeness rc
-                WHERE NOT EXISTS(SELECT id FROM staging.staging_completeness WHERE id = rc.id);
+                WHERE NOT EXISTS(SELECT sc.id FROM staging.staging_completeness sc WHERE sc.id = rc.id);
 
         # ------------ Administration Condition ---------------------------------------------------------
         administration_condition:
@@ -65,7 +65,7 @@ sql:
 
             delete: >-
               DELETE rac FROM reporting.administration_condition rac
-                WHERE NOT EXISTS(SELECT id FROM staging.staging_administration_condition WHERE id = rac.id);
+                WHERE NOT EXISTS(SELECT sac.id FROM staging.staging_administration_condition sac WHERE sac.id = rac.id);
 
        # ------------ Ethnicity ------------------------------------------------------------------------
         ethnicity:
@@ -86,7 +86,7 @@ sql:
                 WHERE re.id IS NULL;
             delete: >-
                 DELETE re FROM reporting.ethnicity re
-                  WHERE NOT EXISTS(SELECT id FROM staging.staging_ethnicity WHERE id = re.id);
+                  WHERE NOT EXISTS(SELECT se.id FROM staging.staging_ethnicity se WHERE se.id = re.id);
 
       # ------------ Gender ------------------------------------------------------------------------
         gender:
@@ -108,7 +108,7 @@ sql:
 
             delete: >-
                DELETE rg FROM reporting.gender rg
-                WHERE NOT EXISTS(SELECT id FROM staging.staging_gender WHERE id = rg.id);
+                WHERE NOT EXISTS(SELECT sg.id FROM staging.staging_gender sg WHERE sg.id = rg.id);
 
       # ------------ Accommodation ------------------------------------------------------------------------
         accommodation:
@@ -130,7 +130,7 @@ sql:
 
             delete: >-
                DELETE ra FROM reporting.accommodation ra
-                WHERE NOT EXISTS(SELECT id FROM staging.staging_accommodation WHERE id = ra.id);
+                WHERE NOT EXISTS(SELECT sa.id FROM staging.staging_accommodation sa WHERE sa.id = ra.id);
 
       # ------------ Claim ------------------------------------------------------------------------
         claim:
@@ -158,7 +158,7 @@ sql:
 
             delete: >-
                 DELETE rc FROM reporting.claim rc
-                  WHERE NOT EXISTS(SELECT id FROM staging.staging_claim WHERE id = rc.id);
+                  WHERE NOT EXISTS(SELECT sc.id FROM staging.staging_claim sc WHERE sc.id = rc.id);
 
       #  ------------ Subject Claim Score --------------------------------------------------------------------
         subject_claim_score:
@@ -185,8 +185,8 @@ sql:
                 WHERE rc.id IS NULL;
 
             delete: >-
-              DELETE rc FROM reporting.subject_claim_score rc
-                WHERE NOT EXISTS(SELECT id FROM staging.staging_subject_claim_score WHERE id = rc.id);
+              DELETE rscs FROM reporting.subject_claim_score rscs
+                WHERE NOT EXISTS(SELECT sscs.id FROM staging.staging_subject_claim_score sscs WHERE sscs.id = rscs.id);
 
       # ------------ Target ---------------------------------------------------------------------------
         target:
@@ -212,7 +212,7 @@ sql:
 
             delete:
               DELETE rt FROM reporting.target rt
-                WHERE NOT EXISTS(SELECT id FROM staging.staging_target WHERE id = rt.id);
+                WHERE NOT EXISTS(SELECT st.id FROM staging.staging_target st WHERE st.id = rt.id);
 
       # ------------ Common Core Standard  ------------------------------------------------------------------------
         common_core_standard:
@@ -238,7 +238,7 @@ sql:
 
             delete:
               DELETE rccs FROM reporting.common_core_standard rccs
-                 WHERE NOT EXISTS(SELECT id FROM staging.staging_common_core_standard WHERE id = rccs.id);
+                 WHERE NOT EXISTS(SELECT sccs.id FROM staging.staging_common_core_standard sccs WHERE sccs.id = rccs.id);
 
       # ------------ Depth of knowledge ---------------------------------------------------------------------------
         depth_of_knowledge:
@@ -266,7 +266,7 @@ sql:
 
             delete: >-
                DELETE rdok FROM reporting.depth_of_knowledge rdok
-                WHERE NOT EXISTS(SELECT id FROM staging.staging_depth_of_knowledge WHERE id = rdok.id);
+                WHERE NOT EXISTS(SELECT sdok.id FROM staging.staging_depth_of_knowledge sdok WHERE sdok.id = rdok.id);
 
       # ------------ Math Practice ---------------------------------------------------------------------------
         math_practice:
@@ -288,7 +288,7 @@ sql:
 
             delete: >-
               DELETE rmp FROM reporting.math_practice rmp
-                  WHERE NOT EXISTS(SELECT practice FROM staging.staging_math_practice WHERE practice = rmp.practice);
+                  WHERE NOT EXISTS(SELECT smp.practice FROM staging.staging_math_practice smp WHERE smp.practice = rmp.practice);
 
       # ------------ Item Trait Score ---------------------------------------------------------------------------
         item_trait_score:
@@ -310,7 +310,7 @@ sql:
 
             delete: >-
                DELETE rit FROM reporting.item_trait_score rit
-                  WHERE NOT EXISTS(SELECT id FROM staging.staging_item_trait_score WHERE id = rit.id);
+                  WHERE NOT EXISTS(SELECT sits.id FROM staging.staging_item_trait_score sits WHERE sits.id = rit.id);
 
       # ------------ Language ------------------------------------------------------------------------
         language:
@@ -332,7 +332,7 @@ sql:
 
             delete: >-
               DELETE rl FROM reporting.language rl
-                WHERE NOT EXISTS(SELECT id FROM staging.staging_language WHERE id = rl.id);
+                WHERE NOT EXISTS(SELECT sl.id FROM staging.staging_language sl WHERE sl.id = rl.id);
 
       # ------------ Accommodation Translation ------------------------------------------------------------------------
         accommodation_translation:
@@ -359,9 +359,12 @@ sql:
 
             delete: >-
                DELETE rat FROM reporting.accommodation_translation rat
-                  WHERE NOT EXISTS(SELECT accommodation_id, language_id FROM staging.staging_accommodation_translation
-                    WHERE accommodation_id = rat.accommodation_id AND
-                      language_id = rat.language_id);
+                  WHERE NOT EXISTS(
+                    SELECT sat.accommodation_id, sat.language_id
+                      FROM staging.staging_accommodation_translation sat
+                    WHERE
+                      sat.accommodation_id = rat.accommodation_id
+                      AND sat.language_id = rat.language_id);
 
         # ############################## Exams ####################################################################
         # ------------ exam_available_accommodation -------------------------------------------------------------------
@@ -379,9 +382,13 @@ sql:
 
             deleteAsPartOfParentUpdate: >-
               DELETE r FROM reporting.exam_available_accommodation r
-                WHERE exam_id in (select id from staging.staging_exam where deleted = 0)
-                    AND NOT EXISTS(SELECT exam_id FROM staging.staging_exam_available_accommodation
-                          WHERE exam_id = r.exam_id AND accommodation_id = r.accommodation_id);
+                WHERE
+                    r.exam_id in (select se.id from staging.staging_exam se where se.deleted = 0)
+                    AND NOT EXISTS(
+                      SELECT seac.exam_id
+                        FROM staging.staging_exam_available_accommodation seac
+                      WHERE seac.exam_id = r.exam_id
+                        AND seac.accommodation_id = r.accommodation_id);
 
             delete: >-
               DELETE reaa FROM reporting.exam_available_accommodation reaa
@@ -436,7 +443,7 @@ sql:
               DELETE ri FROM reporting.exam_item ri
                 JOIN staging.staging_exam se ON se.id = ri.exam_id
               WHERE
-                se.deleted = 0 AND NOT EXISTS(SELECT id FROM staging.staging_exam_item WHERE id = ri.id);
+                se.deleted = 0 AND NOT EXISTS(SELECT sei.id FROM staging.staging_exam_item sei WHERE sei.id = ri.id);
 
             delete: >-
               DELETE ri
@@ -498,37 +505,37 @@ sql:
                 FROM staging.staging_exam se
                   JOIN staging.staging_exam_student ses ON se.exam_student_id = ses.id
                   LEFT JOIN (
-                               SELECT exam_id
-                                 ,scale_score
-                                 ,scale_score_std_err
-                                 ,category
+                               SELECT s.exam_id
+                                 ,s.scale_score
+                                 ,s.scale_score_std_err
+                                 ,s.category
                                FROM staging.staging_exam_claim_score s
                                  INNER JOIN reporting.exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
                                                                                     AND m.num = 1
                              ) AS claim1 ON claim1.exam_id = se.id
                   LEFT JOIN (
-                               SELECT exam_id
-                                 ,scale_score
-                                 ,scale_score_std_err
-                                 ,category
+                               SELECT s.exam_id
+                                 ,s.scale_score
+                                 ,s.scale_score_std_err
+                                 ,s.category
                                FROM staging.staging_exam_claim_score s
                                  INNER JOIN reporting.exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
                                                                                     AND m.num = 2
                              ) AS claim2 ON claim2.exam_id = se.id
                   LEFT JOIN (
-                               SELECT exam_id
-                                 ,scale_score
-                                 ,scale_score_std_err
-                                 ,category
+                               SELECT s.exam_id
+                                 ,s.scale_score
+                                 ,s.scale_score_std_err
+                                 ,s.category
                                FROM staging.staging_exam_claim_score s
                                  INNER JOIN reporting.exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
                                                                                     AND m.num = 3
                              ) AS claim3 ON claim3.exam_id = se.id
                   LEFT JOIN (
-                              SELECT exam_id
-                                ,scale_score
-                                ,scale_score_std_err
-                                ,category
+                              SELECT s.exam_id
+                                ,s.scale_score
+                                ,s.scale_score_std_err
+                                ,s.category
                               FROM staging.staging_exam_claim_score s
                                 INNER JOIN reporting.exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
                                                                                    AND m.num = 4
@@ -541,37 +548,37 @@ sql:
                 JOIN staging.staging_exam se ON se.id = re.id
                 JOIN staging.staging_exam_student ses ON se.exam_student_id = ses.id
                 LEFT JOIN (
-                             SELECT exam_id
-                               ,scale_score
-                               ,scale_score_std_err
-                               ,category
+                             SELECT s.exam_id
+                               ,s.scale_score
+                               ,s.scale_score_std_err
+                               ,s.category
                              FROM staging.staging_exam_claim_score s
                                INNER JOIN reporting.exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
                                                                                   AND m.num = 1
                            ) AS claim1 ON claim1.exam_id = se.id
                 LEFT JOIN (
-                             SELECT exam_id
-                               ,scale_score
-                               ,scale_score_std_err
-                               ,category
+                             SELECT s.exam_id
+                               ,s.scale_score
+                               ,s.scale_score_std_err
+                               ,s.category
                              FROM staging.staging_exam_claim_score s
                                INNER JOIN reporting.exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
                                                                                   AND m.num = 2
                            ) AS claim2 ON claim2.exam_id = se.id
                 LEFT JOIN (
-                             SELECT exam_id
-                               ,scale_score
-                               ,scale_score_std_err
-                               ,category
+                             SELECT s.exam_id
+                               ,s.scale_score
+                               ,s.scale_score_std_err
+                               ,s.category
                              FROM staging.staging_exam_claim_score s
                                INNER JOIN reporting.exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
                                                                                   AND m.num = 3
                            ) AS claim3 ON claim3.exam_id = se.id
                 LEFT JOIN (
-                            SELECT exam_id
-                              ,scale_score
-                              ,scale_score_std_err
-                              ,category
+                            SELECT s.exam_id
+                              ,s.scale_score
+                              ,s.scale_score_std_err
+                              ,s.category
                             FROM staging.staging_exam_claim_score s
                               INNER JOIN reporting.exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
                                                                                  AND m.num = 4
@@ -631,17 +638,17 @@ sql:
                   ssgm.student_group_id,
                   ssgm.student_id
                 FROM staging.staging_student_group_membership ssgm
-                  LEFT JOIN reporting.student_group_membership rsgm
-                    ON (rsgm.student_group_id = ssgm.student_group_id AND rsgm.student_id = ssgm.student_id)
+                  LEFT JOIN reporting.student_group_membership rsgm ON (rsgm.student_group_id = ssgm.student_group_id AND rsgm.student_id = ssgm.student_id)
                 WHERE rsgm.student_group_id IS NULL;
 
             deleteAsPartOfParentUpdate: >-
               DELETE rsgm FROM reporting.student_group_membership rsgm
                 JOIN staging.staging_student_group ssg ON ssg.id = student_group_id
-              WHERE deleted = 0 and active = 1
+              WHERE ssg.deleted = 0
+                    AND ssg.active = 1
                     AND NOT EXISTS(
-                      SELECT student_group_id FROM staging.staging_student_group_membership
-                          WHERE student_group_id = rsgm.student_group_id AND student_id = rsgm.student_id
+                      SELECT ssgm.student_group_id FROM staging.staging_student_group_membership ssgm
+                          WHERE ssgm.student_group_id = rsgm.student_group_id AND ssgm.student_id = rsgm.student_id
                     );
 
             delete: >-
@@ -658,16 +665,20 @@ sql:
                   susg.student_group_id,
                   susg.user_login
                 FROM staging.staging_user_student_group susg
-                  LEFT JOIN reporting.user_student_group rusg
-                    ON (rusg.student_group_id = susg.student_group_id AND rusg.user_login = susg.user_login)
+                  LEFT JOIN reporting.user_student_group rusg ON (rusg.student_group_id = susg.student_group_id AND rusg.user_login = susg.user_login)
                 WHERE rusg.student_group_id IS NULL;
 
             deleteAsPartOfParentUpdate: >-
               DELETE rsug FROM reporting.user_student_group rsug
                  JOIN staging.staging_student_group ssg ON ssg.id = rsug.student_group_id
-              WHERE ssg.deleted = 0 and ssg.active = 1
-                    AND NOT EXISTS(SELECT student_group_id FROM staging.staging_user_student_group
-                                     WHERE student_group_id = rsug.student_group_id AND user_login = rsug.user_login
+              WHERE ssg.deleted = 0
+                    AND ssg.active = 1
+                    AND NOT EXISTS(
+                      SELECT susg.student_group_id
+                        FROM staging.staging_user_student_group susg
+                      WHERE
+                        susg.student_group_id = rsug.student_group_id
+                        AND susg.user_login = rsug.user_login
                     );
 
             delete: >-
@@ -760,8 +771,9 @@ sql:
 
             delete: >-
               DELETE rd FROM reporting.district rd
-                WHERE id in (SELECT district_id from staging.staging_school WHERE deleted = 1)
-                    AND NOT EXISTS(SELECT id from reporting.school WHERE district_id = rd.id);
+                WHERE
+                    rd.id in (SELECT ss.district_id from staging.staging_school ss WHERE ss.deleted = 1)
+                    AND NOT EXISTS(SELECT rs.id from reporting.school rs WHERE rs.district_id = rd.id);
 
       # ############## Student  ###################################################################
       # ------------ student_ethnicity -----------------------------------------------------------------------
@@ -781,8 +793,13 @@ sql:
              DELETE rse FROM reporting.student_ethnicity rse
                 JOIN staging.staging_student ss on ss.id = rse.student_id
               WHERE ss.deleted = 0
-                  AND NOT EXISTS(SELECT student_id FROM staging.staging_student_ethnicity
-                            WHERE student_id = rse.student_id AND ethnicity_id = rse.ethnicity_id);
+                  AND NOT EXISTS(
+                    SELECT sse.student_id
+                      FROM staging.staging_student_ethnicity sse
+                    WHERE sse.student_id = rse.student_id
+                    AND sse.ethnicity_id = rse.ethnicity_id
+                  );
+
             delete: >-
               DELETE rse FROM reporting.student_ethnicity rse
                 JOIN staging.staging_student ss on ss.id = rse.student_id
@@ -861,7 +878,7 @@ sql:
               DELETE rs FROM reporting.asmt_score rs
                 JOIN staging.staging_asmt sa ON sa.id = rs.asmt_id
               WHERE sa.deleted = 0
-                    AND NOT EXISTS(SELECT asmt_id FROM staging.staging_asmt_score WHERE asmt_id = rs.asmt_id);
+                    AND NOT EXISTS(SELECT sas.asmt_id FROM staging.staging_asmt_score sas WHERE sas.asmt_id = rs.asmt_id);
 
             delete: >-
               DELETE ras FROM reporting.asmt_score ras
@@ -916,7 +933,7 @@ sql:
               DELETE ri FROM reporting.item ri
                 JOIN staging.staging_asmt sa ON sa.id = ri.asmt_id
               WHERE sa.deleted = 0
-                AND  NOT EXISTS(SELECT id FROM staging.staging_item WHERE id = ri.id);
+                AND  NOT EXISTS(SELECT si.id FROM staging.staging_item si WHERE si.id = ri.id);
 
             delete: >-
               DELETE ri FROM reporting.item ri
@@ -941,8 +958,13 @@ sql:
                 JOIN reporting.item ri ON ri.id = riot.item_id
                 JOIN staging.staging_asmt sa ON sa.id = ri.asmt_id
               WHERE
-                deleted = 0
-                AND NOT EXISTS(SELECT item_id FROM staging.staging_item_other_target WHERE item_id = riot.item_id AND target_id = riot.target_id);
+                sa.deleted = 0
+                AND NOT EXISTS(
+                  SELECT siot.item_id
+                    FROM staging.staging_item_other_target siot
+                  WHERE siot.item_id = riot.item_id
+                  AND siot.target_id = riot.target_id
+                );
 
             delete: >-
               DELETE riot FROM reporting.item_other_target riot
@@ -968,8 +990,13 @@ sql:
                 JOIN reporting.item ri ON ri.id = riccs.item_id
                 JOIN staging.staging_asmt sa ON sa.id = ri.asmt_id
               WHERE
-                deleted = 0
-                AND NOT EXISTS(SELECT item_id FROM staging.staging_item_common_core_standard WHERE item_id = riccs.item_id AND common_core_standard_id = riccs.common_core_standard_id);
+                sa.deleted = 0
+                AND NOT EXISTS(
+                  SELECT sics.item_id
+                    FROM staging.staging_item_common_core_standard sics
+                  WHERE sics.item_id = riccs.item_id
+                    AND sics.common_core_standard_id = riccs.common_core_standard_id
+                  );
 
             delete: >-
               DELETE riccs FROM reporting.item_common_core_standard riccs
@@ -999,19 +1026,19 @@ sql:
                   claim4
                 FROM staging.staging_asmt sa
                   LEFT JOIN reporting.asmt ra ON ra.id = sa.id
-                  LEFT JOIN (SELECT code as claim1, rs.subject_id, rs.asmt_type_id FROM reporting.subject_claim_score rs
+                  LEFT JOIN (SELECT rs.code as claim1, rs.subject_id, rs.asmt_type_id FROM reporting.subject_claim_score rs
                             JOIN reporting.exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 1)
                       AS s1 ON sa.subject_id = s1.subject_id AND sa.type_id = s1.asmt_type_id
 
-                  LEFT JOIN (SELECT code as claim2, rs.subject_id, rs.asmt_type_id FROM reporting.subject_claim_score rs
+                  LEFT JOIN (SELECT rs.code as claim2, rs.subject_id, rs.asmt_type_id FROM reporting.subject_claim_score rs
                             JOIN reporting.exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 2)
                       AS s2 ON sa.subject_id = s2.subject_id AND sa.type_id = s2.asmt_type_id
 
-                  LEFT JOIN (SELECT code as claim3, rs.subject_id, rs.asmt_type_id FROM reporting.subject_claim_score rs
+                  LEFT JOIN (SELECT rs.code as claim3, rs.subject_id, rs.asmt_type_id FROM reporting.subject_claim_score rs
                             JOIN reporting.exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 3)
                       AS s3 ON sa.subject_id = s3.subject_id AND sa.type_id = s3.asmt_type_id
 
-                  LEFT JOIN (SELECT code as claim4, rs.subject_id, rs.asmt_type_id FROM reporting.subject_claim_score rs
+                  LEFT JOIN (SELECT rs.code as claim4, rs.subject_id, rs.asmt_type_id FROM reporting.subject_claim_score rs
                                  JOIN reporting.exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 4)
                       AS s4 ON sa.subject_id = s4.subject_id AND sa.type_id = s4.asmt_type_id
                 WHERE ra.id IS NULL and sa.deleted = 0;
@@ -1019,19 +1046,19 @@ sql:
             update: >-
               UPDATE reporting.asmt ra
                 JOIN staging.staging_asmt sa ON sa.id = ra.id
-                  LEFT JOIN (SELECT code as claim1, rs.subject_id, rs.asmt_type_id FROM reporting.subject_claim_score rs
+                  LEFT JOIN (SELECT rs.code as claim1, rs.subject_id, rs.asmt_type_id FROM reporting.subject_claim_score rs
                             JOIN reporting.exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 1)
                       AS s1 ON sa.subject_id = s1.subject_id AND sa.type_id = s1.asmt_type_id
 
-                  LEFT JOIN (SELECT code as claim2, rs.subject_id, rs.asmt_type_id FROM reporting.subject_claim_score rs
+                  LEFT JOIN (SELECT rs.code as claim2, rs.subject_id, rs.asmt_type_id FROM reporting.subject_claim_score rs
                             JOIN reporting.exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 2)
                       AS s2 ON sa.subject_id = s2.subject_id AND sa.type_id = s2.asmt_type_id
 
-                  LEFT JOIN (SELECT code as claim3, rs.subject_id, rs.asmt_type_id FROM reporting.subject_claim_score rs
+                  LEFT JOIN (SELECT rs.code as claim3, rs.subject_id, rs.asmt_type_id FROM reporting.subject_claim_score rs
                             JOIN reporting.exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 3)
                       AS s3 ON sa.subject_id = s3.subject_id AND sa.type_id = s3.asmt_type_id
 
-                  LEFT JOIN (SELECT code as claim4, rs.subject_id, rs.asmt_type_id FROM reporting.subject_claim_score rs
+                  LEFT JOIN (SELECT rs.code as claim4, rs.subject_id, rs.asmt_type_id FROM reporting.subject_claim_score rs
                                  JOIN reporting.exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 4)
                       AS s4 ON sa.subject_id = s4.subject_id AND sa.type_id = s4.asmt_type_id
               SET
