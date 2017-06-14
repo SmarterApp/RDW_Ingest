@@ -981,7 +981,7 @@ sql:
           sql:
             insert: >-
               INSERT INTO reporting.asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name,
-                                          label, version, import_id, claim_1_score_code, claim_2_score_code, claim_3_score_code, claim_4_score_code)
+                                          label, version, import_id, claim1_score_code, claim2_score_code, claim3_score_code, claim4_score_code)
                 SELECT
                   sa.id,
                   sa.natural_id,
@@ -1043,10 +1043,10 @@ sql:
                 ra.label       = sa.label,
                 ra.version     = sa.version,
                 ra.import_id   = sa.import_id,
-                ra.claim_1_score_code = claim1,
-                ra.claim_2_score_code = claim2,
-                ra.claim_3_score_code = claim3,
-                ra.claim_4_score_code = claim4
+                ra.claim1_score_code = claim1,
+                ra.claim2_score_code = claim2,
+                ra.claim3_score_code = claim3,
+                ra.claim4_score_code = claim4
               WHERE sa.deleted = 0;
 
             delete: >-
