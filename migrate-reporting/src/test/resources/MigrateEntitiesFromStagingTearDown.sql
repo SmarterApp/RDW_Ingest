@@ -28,7 +28,7 @@ DELETE FROM staging_test.staging_student_group where id in ( -91, -8, -7);
 -- ------------------------------------------  Exams ---------------------------------------------------------------------------------------------
 DELETE FROM reporting_test.exam_available_accommodation where exam_id in (-88, -87, -86, -85, -84);
 DELETE FROM reporting_test.exam_item where exam_id in (-88, -87, -86, -85, -84);
-DELETE FROM reporting_test.exam where id in (-88, -87, -86, -85, -84);
+DELETE FROM reporting_test.exam where id in (-88, -87, -86, -85, -84, -100);
 
 -- ------------------------------------------ Student and Groups  ------------------------------------------------------------------------------------------------
 DELETE FROM reporting_test.student_group_membership where student_group_id in ( -91, -8, -7);
