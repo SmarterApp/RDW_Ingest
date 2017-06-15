@@ -42,6 +42,32 @@ mysql> GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
 mysql> exit
 ```
 
+Additionaly, you need to configure MySQL setting in my.cnf file. Locate the file and add the following lines:
+```
+[mysqld]
+explicit_defaults_for_timestamp=1
+```
+
+If you do not know the location of my.cnf file, one way to check it is to run:
+```bash
+sudo fs_usage | grep my.cnf
+```
+This will report any filesystem activity in real-time related to that file.
+In another Terminal, restart your MySQL:
+```bash
+brew services restart mysql@5.6
+```
+On terminal with fs_usage, the proper location should be shown, e.g.
+```
+15:52:22  open            /usr/local/var/mysql/my.cnf
+```
+
+To verify that MySQL explicit_defaults_for_timestamp was set to 1:
+```bash
+mysql 
+mysql> SELECT @@explicit_defaults_for_timestamp;
+```
+
 The applications depend on the database being configured properly. See instructions below under [Running](#running)
 
 

@@ -61,10 +61,10 @@ INSERT INTO staging_test.staging_student_ethnicity(student_id, ethnicity_id) val
     (-86,  -98),
     (-86,  -99);
 
-INSERT INTO staging_test.staging_student_group (id, creator, school_id, school_year, name, subject_id, import_id, migrate_id, active, deleted) VALUES
-   (-91, 'dwtest@example.com', -99, 2017, 'Test Student Group 9', null, -79, -99, 1, 0),
-   (-8, 'dwtest@example.com', -1, 2017, 'Test Student Group 8', null, -79, -99, 1, 0),
-   (-7, 'dwtest@example.com', -1, 2017, 'Test Student Group 7', null, -79, -99, 1, 0);
+INSERT INTO staging_test.staging_student_group (id, creator, created, school_id, school_year, name, subject_id, import_id, migrate_id, active, deleted) VALUES
+   (-91, 'dwtest@example.com', NOW(), -99, 2017, 'Test Student Group 9', null, -79, -99, 1, 0),
+   (-8, 'dwtest@example.com',  NOW(), -1, 2017, 'Test Student Group 8', null, -79, -99, 1, 0),
+   (-7, 'dwtest@example.com',  NOW(), -1, 2017, 'Test Student Group 7', null, -79, -99, 1, 0);
 
  INSERT INTO staging_test.staging_student_group_membership (student_group_id, student_id) VALUES
    (-91, -89),
