@@ -25,7 +25,7 @@ apply plugin: 'io.spring.dependency-management'
 // Set version dependencies. This allows the cli to force version, e.g. `-Pcommon=0.0.1-SNAPSHOT`
 
 String rdwCommonVersion = project.hasProperty("common") ? project.property("common") : "0.0.1-21"
-String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "0.0.1-74"
+String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "0.0.1-77"
 
 
 allprojects {
@@ -216,11 +216,11 @@ task extractSchema(type: Sync) {
 //These are the tasks available in the Schema dependency that we would want to use in this project
 def taskMap = ["migrateAll": "Migrates the schemas that are required for running locally",
                "cleanAll": "Cleans the schemas that are required for running locally",
-               "migrateAll-test": "Migrates the schemas that integration tests depend on",
-               "cleanAll-test": "Cleans the schemas that integration tests depend on"]
+               "migrateAll_test": "Migrates the schemas that integration tests depend on",
+               "cleanAll_test": "Cleans the schemas that integration tests depend on"]
 
 taskMap.keySet().each { key ->
-    task(key.contains("-test")?"${key.take(key.lastIndexOf('-test'))}Test":"${key}Prod", type: GradleBuild, dependsOn: extractSchema) {
+    task(key.contains("_test")?"${key.take(key.lastIndexOf('_test'))}Test":"${key}Prod", type: GradleBuild, dependsOn: extractSchema) {
         group = "Schema"
         description = taskMap[key]
         doFirst {
