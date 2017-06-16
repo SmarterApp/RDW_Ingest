@@ -7,7 +7,7 @@ INSERT INTO warehouse_test.completeness (id, code) VALUES (-98, 'test55');
 INSERT INTO warehouse_test.administration_condition VALUES (-98, 'NS-test'), (-97, 'SD-test'), (-96, 'Valid-test');
 INSERT INTO warehouse_test.ethnicity VALUES (-98, 'Asian-test');
 INSERT INTO warehouse_test.gender VALUES (-98, 'Male-test');
-INSERT INTO warehouse_test.accommodation VALUES (-98, 'code2');
+INSERT INTO warehouse_test.accommodation VALUES (-98, 'code2-test');
 INSERT INTO warehouse_test.claim VALUES (-98, 2, 'claim-98', 'Write Effectively', 'Write Effectively - ..');
 INSERT INTO warehouse_test.depth_of_knowledge VALUES (-98, 2, 1, 'Basic Skills and Concepts', 'anything');
 INSERT INTO warehouse_test.math_practice VALUES (-98, 'Reason abstractly and quantitatively');
