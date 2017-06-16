@@ -11,6 +11,5 @@ INSERT INTO reporting_test.math_practice  VALUES (-99,'Make sense of problems an
 INSERT INTO reporting_test.item_trait_score VALUES (-99,'Conventions-test'),(-98,'Evidence/Elaboration-test');
 INSERT INTO reporting_test.target  VALUES (-99,-99,'target-99','WORD MEANINGS: Determine intended meanings of words..'),(-98,-98,'target-98','WORD MEANINGS:..)');
 INSERT INTO reporting_test.common_core_standard  VALUES (-99,'naturalid-99', 1, 'common core 99'),(-98, 'naturalid-98', 2,'common core 98');
-INSERT INTO reporting_test.language VALUES (-99,'bef');
-INSERT INTO reporting_test.accommodation_translation VALUES (-99, -99,'before test');
+INSERT INTO reporting_test.translations (namespace, content_code, language_code, label) VALUES ('backend', 'code1-test', 'lan', 'before test'), ('backend', 'code2-test', 'gua', 'before test 2');
 

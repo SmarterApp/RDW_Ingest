@@ -312,59 +312,38 @@ sql:
                DELETE rit FROM reporting.item_trait_score rit
                   WHERE NOT EXISTS(SELECT sits.id FROM staging.staging_item_trait_score sits WHERE sits.id = rit.id);
 
-      # ------------ Language ------------------------------------------------------------------------
-        language:
+      # ------------ Translations ------------------------------------------------------------------------
+        translations:
           sql:
             update:  >-
-              UPDATE reporting.language rl
-                JOIN staging.staging_language sl ON sl.id = rl.id
+              UPDATE reporting.translations rt
+                JOIN staging.staging_translations st
+                  ON st.content_code = rt.content_code AND st.namespace = rt.namespace AND
+                    st.language_code = rt.language_code
               SET
-                rl.code = sl.code;
+                rt.label = st.label;
 
             insert:  >-
-              INSERT INTO reporting.language ( id, code)
+              INSERT INTO reporting.translations (namespace, content_code, language_code, label)
                 SELECT
-                  sl.id,
-                  sl.code
-                FROM staging.staging_language sl
-                  LEFT JOIN reporting.language rl ON rl.id = sl.id
-                WHERE rl.id IS NULL;
+                  st.namespace,
+                  st.content_code,
+                  st.language_code,
+                  st.label
+                FROM staging.staging_translations st
+                  LEFT JOIN reporting.translations rt
+                    ON rt.content_code = st.content_code AND rt.language_code = st.language_code AND
+                       rt.namespace = st.namespace
+                WHERE rt.content_code IS NULL;
 
             delete: >-
-              DELETE rl FROM reporting.language rl
-                WHERE NOT EXISTS(SELECT sl.id FROM staging.staging_language sl WHERE sl.id = rl.id);
-
-      # ------------ Accommodation Translation ------------------------------------------------------------------------
-        accommodation_translation:
-          sql:
-            update:  >-
-              UPDATE reporting.accommodation_translation rat
-                JOIN staging.staging_accommodation_translation sat
-                  ON sat.accommodation_id = rat.accommodation_id AND
-                    sat.language_id = rat.language_id
-              SET
-                rat.label = sat.label;
-
-            insert:  >-
-              INSERT INTO reporting.accommodation_translation (accommodation_id, language_id, label)
-                SELECT
-                  sat.accommodation_id,
-                  sat.language_id,
-                  sat.label
-                FROM staging.staging_accommodation_translation sat
-                  LEFT JOIN reporting.accommodation_translation rat
-                    ON rat.accommodation_id = sat.accommodation_id AND
-                      rat.language_id = sat.language_id
-                WHERE rat.accommodation_id IS NULL;
-
-            delete: >-
-               DELETE rat FROM reporting.accommodation_translation rat
+               DELETE rt FROM reporting.translations rt
                   WHERE NOT EXISTS(
-                    SELECT sat.accommodation_id, sat.language_id
-                      FROM staging.staging_accommodation_translation sat
+                    SELECT st.content_code, st.language_code, st.namespace
+                      FROM staging.staging_translations st
                     WHERE
-                      sat.accommodation_id = rat.accommodation_id
-                      AND sat.language_id = rat.language_id);
+                      st.content_code = rt.content_code AND st.language_code = rt.language_code
+                      AND st.namespace = rt.namespace);
 
         # ############################## Exams ####################################################################
         # ------------ exam_available_accommodation -------------------------------------------------------------------
