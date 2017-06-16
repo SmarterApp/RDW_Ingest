@@ -10,4 +10,4 @@ INSERT INTO staging_test.staging_math_practice VALUES (-98, 'Reason abstractly a
 INSERT INTO staging_test.staging_item_trait_score VALUES (-98, 'Evidence/Elaboration-test');
 INSERT INTO staging_test.staging_target VALUES (-98, -98, 'target-98', 'WORD MEANINGS:..)');
 INSERT INTO staging_test.staging_common_core_standard VALUES (-98, 'naturalid-98', 2, 'standard 98');
-INSERT INTO staging_test.staging_translations (namespace, content_code, language_code, label) VALUES ('backend', 'code2-test', 'gua', 'Adios');
+INSERT INTO staging_test.staging_translation (namespace, label_code, language_code, label) VALUES ('backend', 'code2-test', 'gua', 'Adios');

@@ -35,7 +35,7 @@ sql:
       - TRUNCATE TABLE staging.staging_depth_of_knowledge
       - TRUNCATE TABLE staging.staging_math_practice
       - TRUNCATE TABLE staging.staging_item_trait_score
-      - TRUNCATE TABLE staging.staging_translations
+      - TRUNCATE TABLE staging.staging_translation
       - TRUNCATE TABLE staging.staging_school
       - TRUNCATE TABLE staging.staging_district
       - TRUNCATE TABLE staging.staging_student
@@ -189,12 +189,12 @@ sql:
         accommodation_translation:
           sql:
             warehouseRead: >-
-              SELECT a.code AS content_code, l.code AS language_code, wat.label FROM warehouse.accommodation_translation AS wat
+              SELECT a.code AS label_code, l.code AS language_code, wat.label FROM warehouse.accommodation_translation AS wat
                             JOIN (warehouse.language AS l, warehouse.accommodation AS a) ON wat.language_id=l.id AND wat.accommodation_id=a.id
 
             stagingInsert: >-
-              INSERT INTO staging.staging_translations (namespace, content_code, language_code, label) VALUES
-                ("backend", :content_code, :language_code, :label)
+              INSERT INTO staging.staging_translation (namespace, label_code, language_code, label) VALUES
+                ("backend", :label_code, :language_code, :label)
 
         ##### Entities migrated by import id range ####################################################################
         # todo: move these notes to contributing.md or somewhere else.
