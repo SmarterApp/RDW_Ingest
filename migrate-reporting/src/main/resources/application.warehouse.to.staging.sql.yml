@@ -35,8 +35,7 @@ sql:
       - TRUNCATE TABLE staging.staging_depth_of_knowledge
       - TRUNCATE TABLE staging.staging_math_practice
       - TRUNCATE TABLE staging.staging_item_trait_score
-      - TRUNCATE TABLE staging.staging_language
-      - TRUNCATE TABLE staging.staging_accommodation_translation
+      - TRUNCATE TABLE staging.staging_translation
       - TRUNCATE TABLE staging.staging_school
       - TRUNCATE TABLE staging.staging_district
       - TRUNCATE TABLE staging.staging_student
@@ -186,25 +185,16 @@ sql:
               INSERT INTO staging.staging_item_trait_score (id, dimension) VALUES
                 (:id, :dimension)
 
-        # ------------ language  -------------------------------------------------------------
-        language:
-          sql:
-            warehouseRead: >-
-              SELECT wl.id, wl.code from warehouse.language wl
-
-            stagingInsert: >-
-              INSERT INTO staging.staging_language (id, code) VALUES
-                (:id, :code)
-
         # ------------ accommodation_translation  -------------------------------------------------------------
         accommodation_translation:
           sql:
             warehouseRead: >-
-              SELECT wat.accommodation_id, wat.language_id, wat.label from warehouse.accommodation_translation wat
+              SELECT a.code AS label_code, l.code AS language_code, wat.label FROM warehouse.accommodation_translation AS wat
+                            JOIN (warehouse.language AS l, warehouse.accommodation AS a) ON wat.language_id=l.id AND wat.accommodation_id=a.id
 
             stagingInsert: >-
-              INSERT INTO staging.staging_accommodation_translation (accommodation_id, language_id, label) VALUES
-                (:accommodation_id, :language_id, :label)
+              INSERT INTO staging.staging_translation (namespace, label_code, language_code, label) VALUES
+                ("backend", :label_code, :language_code, :label)
 
         ##### Entities migrated by import id range ####################################################################
         # todo: move these notes to contributing.md or somewhere else.
