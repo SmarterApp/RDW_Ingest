@@ -148,4 +148,5 @@ INSERT INTO warehouse_test.exam_item (id, exam_id, item_id, score, score_status,
 INSERT INTO warehouse_test.exam_claim_score (id, exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
    (-1, -88, 1, 2014, 0.19, 1),
    (-2, -87, 1, 2014, 0.19, 1),
-   (-3, -85, 1, 2014, 0.19, 1);
+   (-3, -86, 1, 2014, 0.19, 1),
+   (-4, -85, 1, 2014, 0.19, 1);

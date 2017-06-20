@@ -740,7 +740,6 @@ sql:
               WHERE
                 wi.status = 1 AND wi.id >= :start_import_id AND wi.id <= :end_import_id
                 AND we.deleted = 0
-                AND (we.type_id in (1,3) OR (we.type_id = 2 and we.scale_score is not null))
 
             stagingInsert: >-
               INSERT INTO staging.staging_exam_student (id, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status,
@@ -771,7 +770,6 @@ sql:
               WHERE
                 wi.status = 1 AND wi.id >= :start_import_id AND wi.id <= :end_import_id
                 AND we.deleted = 0
-                AND (we.type_id in (1,3) OR (we.type_id = 2 and we.scale_score is not null))
 
             stagingInsert: >-
               INSERT IGNORE INTO staging.staging_exam_student (id, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status,
@@ -803,7 +801,6 @@ sql:
               FROM warehouse.exam we
                JOIN warehouse.import wi on wi.id = we.import_id
               WHERE wi.status = 1 AND wi.id >= :start_import_id AND wi.id <= :end_import_id
-                AND (we.type_id in (1,3) OR (we.type_id = 2 and we.scale_score is not null))
 
             stagingInsert: >-
               INSERT INTO staging.staging_exam (id, type_id, exam_student_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id,
@@ -833,7 +830,6 @@ sql:
               FROM warehouse.exam we
                 JOIN warehouse.import wi on wi.id = we.update_import_id
               WHERE wi.status = 1 AND wi.id >= :start_import_id AND wi.id <= :end_import_id
-                AND (we.type_id in (1,3) OR (we.type_id = 2 and we.scale_score is not null))
 
             stagingInsert: >-
               INSERT IGNORE INTO staging.staging_exam (id, type_id, exam_student_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id,
@@ -865,7 +861,6 @@ sql:
               WHERE
                 wi.status = 1 AND wi.id >= :start_import_id AND wi.id <= :end_import_id
                 AND we.deleted = 0
-                AND (we.type_id in (1,3) OR (we.type_id = 2 and we.scale_score is not null))
 
             stagingInsert: >-
               INSERT INTO staging.staging_exam_item (id, exam_id, item_id, score, score_status, position, response, trait_evidence_elaboration_score,
@@ -900,7 +895,6 @@ sql:
               WHERE
                 wi.status = 1 AND wi.id >= :start_import_id AND wi.id <= :end_import_id
                 AND we.deleted = 0
-                AND (we.type_id in (1,3) OR (we.type_id = 2 and we.scale_score is not null))
 
             stagingInsert: >-
               INSERT IGNORE INTO staging.staging_exam_item (id, exam_id, item_id, score, score_status, position, response, trait_evidence_elaboration_score,
@@ -925,7 +919,6 @@ sql:
               WHERE
                 wi.status = 1 AND wi.id >= :start_import_id AND wi.id <= :end_import_id
                 AND we.deleted = 0
-                AND (we.type_id in (1,3) OR (we.type_id = 2 and we.scale_score is not null))
 
             stagingInsert: >-
              INSERT INTO staging.staging_exam_available_accommodation (exam_id, accommodation_id) VALUES
@@ -943,7 +936,6 @@ sql:
               WHERE
                 wi.status = 1 AND wi.id >= :start_import_id AND wi.id <= :end_import_id
                 AND we.deleted = 0
-                AND (we.type_id in (1,3) OR (we.type_id = 2 and we.scale_score is not null))
 
             stagingInsert: >-
              INSERT IGNORE INTO staging.staging_exam_available_accommodation (exam_id, accommodation_id) VALUES
@@ -966,7 +958,6 @@ sql:
               WHERE
                 wi.status = 1 AND wi.id >= :start_import_id AND wi.id <= :end_import_id
                 AND we.deleted = 0
-                AND we.type_id in (1,3)
 
             stagingInsert: >-
               INSERT INTO staging.staging_exam_claim_score (id, exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
@@ -988,7 +979,6 @@ sql:
               WHERE
                 wi.status = 1 AND wi.id >= :start_import_id AND wi.id <= :end_import_id
                 AND we.deleted = 0
-                AND we.type_id in (1,3)
 
             stagingInsert: >-
               INSERT IGNORE INTO staging.staging_exam_claim_score (id, exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
