@@ -120,21 +120,33 @@ INSERT INTO warehouse_test.exam_student ( id, grade_id, student_id, school_id, i
                                                     migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type) VALUES
   ( -18, -98, -89, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
   ( -17, -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
-  ( -16, -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null);
+  ( -16, -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
+  ( -15, -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null);
 
 INSERT INTO  warehouse_test.exam ( id, type_id, exam_student_id, school_year, asmt_id, asmt_version, opportunity, completeness_id,
                                       administration_condition_id, session_id, performance_level, scale_score, scale_score_std_err, completed_at, import_id, update_import_id, deleted) VALUES
   (-88, 1, -18, 2016, -99,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -5000, -88, 1),
-  (-87, 1, -17, 2016, -11,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -88, -88, 0),
-  (-86, 1, -16, 2016, -11,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -88, -88, 0);
+  (-87, 1, -17, 2016, -11,  null, 1, 1, 1, 'session', 1, null, null, '2016-08-14', -88, -88, 0),
+  (-86, 2, -16, 2016, -11,  null, 1, 1, 1, 'session', 1, null, null, '2016-08-14', -88, -88, 0),
+  (-85, 1, -15, 2016, -11,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -88, -88, 0);
 
 INSERT INTO warehouse_test.exam_available_accommodation (exam_id, accommodation_id) VALUES
   (-88, -98),
-  (-87, -98);
+  (-87, -98),
+  (-86, -98),
+  (-85, -98);
 
 INSERT INTO warehouse_test.exam_item (id, exam_id, item_id, score, score_status, response, position) VALUES
   (-1, -88,  -9, 1, 'SCORED', '<response><math xmlns="http://www.w3.org/1998/Math/MathML" title="10"><mstyle><mn>10</mn></mstyle></math></response>', 1),
   (-2, -88,  -8, 1, 'SCORED', 'D', 2),
   (-3, -88,  -7, 0, 'SCORED', 'C', 3),
   (-4, -88,  -6, -1, 'SCORED', null, 16),
-  (-5, -87,  -6, -1, 'SCORED', null, 16);
+  (-5, -87,  -6, -1, 'SCORED', null, 16),
+  (-6, -85,  -6, -1, 'SCORED', null, 16),
+  (-7, -86,  -6, -1, 'SCORED', null, 16);
+
+INSERT INTO warehouse_test.exam_claim_score (id, exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
+   (-1, -88, 1, 2014, 0.19, 1),
+   (-2, -87, 1, 2014, 0.19, 1),
+   (-3, -86, 1, 2014, 0.19, 1),
+   (-4, -85, 1, 2014, 0.19, 1);
