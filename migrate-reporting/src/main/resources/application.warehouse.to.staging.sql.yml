@@ -197,19 +197,7 @@ sql:
                 ("backend", :label_code, :language_code, :label)
 
         ##### Entities migrated by import id range ####################################################################
-        # todo: move these notes to contributing.md or somewhere else.
-        # 1. Entities are 'Root' if their table has import_id and update_import_id
-        # 2. When selecting a range of entities only import.id's with a status = 1 are included
-        # 3. 'root-entity'.update_import_id always contains the most recent import.id
-        # 4. staging and reporting 'root-entities` do not have an update_import_id
-        # 5. staging and reporting 'root-entities` have import_id set to the warehouse update_import_id
-        # 6. deleted exists on 'root' entities in warehouse and staging to effect the delete in reporting.
-        # 7. Children of 'root' entities in warehouse and staging use the parent deleted flag to delete in reporting.
-        ###############################################################################################################
-
-        ##### Entities migrated by import id range ####################################################################
         # migrate_id is added by JdbcSqlCopyWarehouseToStagingRepository
-        # update_import_id is selected from warehouse as import_id because it always has the most recent import_id
         ###############################################################################################################
 
         ##### ORGANIZATION ImportContent Type ####
