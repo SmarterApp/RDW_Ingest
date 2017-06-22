@@ -436,8 +436,9 @@ sql:
               INSERT INTO reporting.exam (id, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage,
                                           migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type,
                                           type_id, school_year, asmt_id, asmt_version, opportunity, completeness_id,
-                                          administration_condition_id, session_id, performance_level, scale_score, scale_score_std_err,
-                                          import_id, completed_at,
+                                          completeness_code, administration_condition_id, administration_condition_code,
+                                          session_id, performance_level, scale_score, scale_score_std_err, import_id,
+                                          completed_at,
                                           claim1_scale_score, claim1_scale_score_std_err, claim1_category,
                                           claim2_scale_score, claim2_scale_score_std_err, claim2_category,
                                           claim3_scale_score, claim3_scale_score_std_err, claim3_category,
@@ -462,7 +463,9 @@ sql:
                   se.asmt_version,
                   se.opportunity,
                   se.completeness_id,
+                  rc.code,
                   se.administration_condition_id,
+                  rac.code,
                   se.session_id,
                   se.performance_level,
                   se.scale_score,
@@ -520,12 +523,16 @@ sql:
                                                                                    AND m.num = 4
                             ) AS claim4 ON claim4.exam_id = se.id
                   LEFT JOIN reporting.exam re ON re.id = se.id
+                  JOIN reporting.administration_condition rac ON rac.id = se.administration_condition_id
+                  JOIN reporting.completeness rc ON rc.id = se.completeness_id
                 WHERE re.id IS NULL AND se.deleted = 0;
 
             update: >-
               UPDATE reporting.exam re
                 JOIN staging.staging_exam se ON se.id = re.id
                 JOIN staging.staging_exam_student ses ON se.exam_student_id = ses.id
+                JOIN reporting.completeness rc ON re.completeness_id = rc.id
+                JOIN reporting.administration_condition rac ON rac.id = re.administration_condition_id
                 LEFT JOIN (
                              SELECT s.exam_id
                                ,s.scale_score
@@ -599,7 +606,9 @@ sql:
                 re.claim3_category = claim3.category,
                 re.claim4_scale_score = claim4.scale_score,
                 re.claim4_scale_score_std_err = claim4.scale_score_std_err,
-                re.claim4_category = claim4.category
+                re.claim4_category = claim4.category,
+                re.administration_condition_code = rac.code,
+                re.completeness_code = rc.code
               WHERE se.deleted = 0;
 
             delete: >-
@@ -759,13 +768,15 @@ sql:
         student_ethnicity:
           sql:
             insert: >-
-              INSERT INTO reporting.student_ethnicity (student_id, ethnicity_id)
+              INSERT INTO reporting.student_ethnicity (student_id, ethnicity_id, ethnicity_code)
                 SELECT
                   sue.student_id,
-                  sue.ethnicity_id
+                  sue.ethnicity_id,
+                  re.code
                 FROM staging.staging_student_ethnicity sue
                   LEFT JOIN reporting.student_ethnicity rse
                     ON (rse.student_id = sue.student_id AND rse.ethnicity_id = sue.ethnicity_id)
+                    JOIN reporting.ethnicity re on re.id = sue.ethnicity_id
                 WHERE rse.student_id IS NULL;
 
             deleteAsPartOfParentUpdate: >-
@@ -788,7 +799,7 @@ sql:
         student:
           sql:
             insert: >-
-              INSERT INTO reporting.student (id, ssid, last_or_surname, first_name, middle_name, gender_id, first_entry_into_us_school_at,
+              INSERT INTO reporting.student (id, ssid, last_or_surname, first_name, middle_name, gender_id, gender_code, first_entry_into_us_school_at,
                                              lep_entry_at, lep_exit_at, birthday, import_id)
                 SELECT
                   ss.id,
@@ -797,6 +808,7 @@ sql:
                   ss.first_name,
                   ss.middle_name,
                   ss.gender_id,
+                  rg.code,
                   ss.first_entry_into_us_school_at,
                   ss.lep_entry_at,
                   ss.lep_exit_at,
@@ -804,16 +816,19 @@ sql:
                   ss.import_id
                 FROM staging.staging_student ss
                   LEFT JOIN reporting.student rs ON rs.id = ss.id
+                  JOIN reporting.gender rg ON ss.gender_id = rg.id
                 WHERE rs.id IS NULL and ss.deleted = 0;
 
             update: >-
               UPDATE reporting.student rs
                 JOIN staging.staging_student ss ON ss.id = rs.id
+                JOIN reporting.gender rg ON ss.gender_id = rg.id
               SET
                 rs.last_or_surname = ss.last_or_surname,
                 rs.first_name = ss.first_name,
                 rs.middle_name = ss.middle_name,
                 rs.gender_id = ss.gender_id,
+                rs.gender_code = rg.code,
                 rs.first_entry_into_us_school_at = ss.first_entry_into_us_school_at,
                 rs.lep_entry_at = ss.lep_entry_at,
                 rs.lep_exit_at = ss.lep_exit_at,
@@ -987,7 +1002,8 @@ sql:
           sql:
             insert: >-
               INSERT INTO reporting.asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name,
-                                          label, version, import_id, claim1_score_code, claim2_score_code, claim3_score_code, claim4_score_code)
+                                          label, version, import_id, claim1_score_code, claim2_score_code, claim3_score_code, claim4_score_code,
+                                          cut_point_1, cut_point_2, cut_point_3, min_score, max_score)
                 SELECT
                   sa.id,
                   sa.natural_id,
@@ -1002,7 +1018,12 @@ sql:
                   claim1,
                   claim2,
                   claim3,
-                  claim4
+                  claim4,
+                  sas.cut_point_1,
+                  sas.cut_point_2,
+                  sas.cut_point_3,
+                  sas.min_score,
+                  sas.max_score
                 FROM staging.staging_asmt sa
                   LEFT JOIN reporting.asmt ra ON ra.id = sa.id
                   LEFT JOIN (SELECT rs.code as claim1, rs.subject_id, rs.asmt_type_id FROM reporting.subject_claim_score rs
@@ -1020,6 +1041,7 @@ sql:
                   LEFT JOIN (SELECT rs.code as claim4, rs.subject_id, rs.asmt_type_id FROM reporting.subject_claim_score rs
                                  JOIN reporting.exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 4)
                       AS s4 ON sa.subject_id = s4.subject_id AND sa.type_id = s4.asmt_type_id
+                  JOIN staging.staging_asmt_score sas ON sa.id = sas.asmt_id
                 WHERE ra.id IS NULL and sa.deleted = 0;
 
             update: >-
@@ -1040,6 +1062,7 @@ sql:
                   LEFT JOIN (SELECT rs.code as claim4, rs.subject_id, rs.asmt_type_id FROM reporting.subject_claim_score rs
                                  JOIN reporting.exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 4)
                       AS s4 ON sa.subject_id = s4.subject_id AND sa.type_id = s4.asmt_type_id
+                JOIN staging.staging_asmt_score sas ON ra.id = sas.asmt_id
               SET
                 ra.grade_id    = sa.grade_id,
                 ra.type_id     = sa.type_id,
@@ -1052,7 +1075,12 @@ sql:
                 ra.claim1_score_code = claim1,
                 ra.claim2_score_code = claim2,
                 ra.claim3_score_code = claim3,
-                ra.claim4_score_code = claim4
+                ra.claim4_score_code = claim4,
+                ra.cut_point_1 = sas.cut_point_1,
+                ra.cut_point_2 = sas.cut_point_2,
+                ra.cut_point_3 = sas.cut_point_3,
+                ra.min_score = sas.min_score,
+                ra.max_score = sas.max_score
               WHERE sa.deleted = 0;
 
             delete: >-
