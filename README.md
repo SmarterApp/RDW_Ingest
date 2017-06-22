@@ -119,7 +119,7 @@ Running the applications locally depends on the local database being configured 
 To completely clean out any existing data you might have and start fresh:
 ./gradlew cleanallprod migrateallprod
 or, if you want to use a different version of the schema, say version 0.0.1-68 of RDW_Schema
-./gradlew -Pschema=0.0.1-68 cleannallprod migrateallprod
+./gradlew -Pschema=0.0.1-68 cleanallprod migrateallprod
 ```
 
 The apps are wrapped in docker containers and should be built and run that way. There is a docker-compose spec
@@ -152,6 +152,45 @@ These can be quickly cleaned up:
 ```bash
 docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
 ```
+
+### Loading Data
+To properly load data into the system involves a few steps. The supporting data must be loaded before test results
+can be submitted. This includes assessments, accommodations, organization data, and groups. 
+1. Get assessment packages in tabulator output. Usually for a given year.
+1. Get accessibility codes. This is an XML payload provided by SB.
+1. Use the Data Generator to generate sample TRTs and associated organization.json from the assessment package.
+1. Load the assessment packages, accommodations and organization data into the system.
+1. Load the generated TRTs into the system.
+1. Define student groups and user membership. Since the generated test results have student groups specified this 
+simply requires associating your favorite user login with one-or-more of those groups.
+
+This assumes you are running the ingest pipeline locally with normal configuration. 
+`{access_token}` should be replaced with `sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||`.
+And locally edit submit_xml.sh to point to localhost with the same bearer token.
+
+The data generator project has some sample output for steps 1 and 2 so, after following the details of setting up
+python you can generate the data and then load everything:
+```bash
+$ git clone https://github.com/SmarterApp/RDW_DataGenerator
+$ cd RDW_DataGenerator
+$ python ./data_generator/generate_data.py --state_type tiny --gen_iab --gen_ica --gen_item --xml_out --pkg_source ./in
+$ curl -X POST --header "Authorization:Bearer {access_token}" -F file=@"./in/FULL_2016.items.csv" http://localhost:8080/packages/imports
+$ curl -X POST --header "Authorization:Bearer {access_token}" -F file=@"./in/accommodations.xml" http://localhost:8080/accommodations/imports
+$ curl -X POST --header "Authorization:Bearer {access_token}" -F file=@"./out/organization.json" http://localhost:8080/organizations/imports
+$ ./scripts/submit_xml.sh
+```
+I usually associate my user login with all the groups from a single school. First i look at distributions, then i
+pick a school and add the user to all those groups:
+```sql
+use reporting;
+select * from student_group sg
+  join ( select student_group_id, count(*) as cnt from reporting.student_group_membership group by student_group_id order by cnt desc ) size
+  on size.student_group_id = sg.id;
+# find school that has a few groups in the top 10 then ...
+insert into reporting.user_student_group (student_group_id, user_login) 
+  SELECT id, 'dwtest@example.com' from reporting.student_group where school_id = 4;
+```
+
 
 ### Documentation TODO
 * Make README.md more user-facing
