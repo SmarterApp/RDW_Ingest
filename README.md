@@ -72,9 +72,8 @@ The applications depend on the database being configured properly. See instructi
 
 
 ### Cloning
-This project has a RDW_Schema as a submodule, so when cloning use the recursive flag:
 ```bash
-git clone --recursive https://github.com/SmarterApp/RDW_Ingest
+git clone https://github.com/SmarterApp/RDW_Ingest
 ```
 
 ### Building
