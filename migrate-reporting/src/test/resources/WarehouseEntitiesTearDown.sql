@@ -7,7 +7,7 @@ DELETE FROM warehouse_test.exam_available_accommodation where exam_id in (-88, -
 DELETE FROM warehouse_test.exam_item where exam_id in (-88, -87, -86, -85, -84);
 DELETE FROM warehouse_test.exam_claim_score where exam_id in (-88, -87, -86, -85, -84);
 DELETE FROM warehouse_test.exam where id in (-88, -87, -86, -85, -84);
-DELETE FROM warehouse_test.exam_student where id in (-18, -17, -16);
+DELETE FROM warehouse_test.exam_student where id in (-18, -17, -16, -15);
 
 -- ------------------------------------------ Student and Groups  ------------------------------------------------------------------------------------------------
 DELETE FROM warehouse_test.student_group_membership where student_group_id in ( -91, -8, -7);
