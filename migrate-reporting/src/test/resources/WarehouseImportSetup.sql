@@ -18,19 +18,21 @@ INSERT INTO warehouse_test.import (id, status, content, contentType, digest, bat
 -- School and District -19 to -1
 INSERT INTO warehouse_test.import (id, status, content, contentType, digest, batch, creator) VALUES
   (-1, 1, 4, 'application/xml', 'hash-school-99', 'batch', 'dwtest@example.com'),
-  (-2, 1, 4, 'application/xml', 'hash-school-98', 'batch', 'dwtest@example.com');
+  (-2, -1, 4, 'application/xml', 'hash-school-98', 'batch', 'dwtest@example.com');
 
 INSERT INTO warehouse_test.import (id, status, content, contentType, digest, batch, creator) VALUES
   (-20, 1, 2, 'application/xml', 'hash-asmt', 'batch', 'dwtest@example.com');
 
 INSERT INTO warehouse_test.import (id, status, content, contentType, digest, batch, creator) VALUES
-  (-79, 1, 5, 'application/xml', 'hash-group', 'batch', 'dwtest@example.com');
+  (-79, 1, 5, 'application/xml', 'hash-group', 'batch', 'dwtest@example.com'),
+  (-78, 0, 5, 'application/xml', 'hash-group', 'batch', 'dwtest@example.com');
 
 INSERT INTO warehouse_test.import (id, status, content, contentType, digest, batch, creator) VALUES
-  (-89, 1, 5, 'application/xml', 'hash-student', 'batch', 'dwtest@example.com'),
-  (-88, 1, 5, 'application/xml', 'hash-student', 'batch', 'dwtest@example.com'),
+  (-89, -1, 5, 'application/xml', 'hash-student', 'batch', 'dwtest@example.com'),
+  (-88, -1, 5, 'application/xml', 'hash-student', 'batch', 'dwtest@example.com'),
   (-87, 1, 5, 'application/xml', 'hash-student', 'batch', 'dwtest@example.com'),
   (-86, 1, 5, 'application/xml', 'hash-student', 'batch', 'dwtest@example.com'),
+  (-84, 0, 5, 'application/xml', 'hash-student', 'batch', 'dwtest@example.com'),
   (2000, 1, 2, 'application/xml', 'hash-student-future-time', 'batch', 'dwtest@example.com');
 
 INSERT INTO warehouse_test.import (id, status, content, contentType, digest, batch, creator) VALUES
