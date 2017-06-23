@@ -29,3 +29,9 @@ spring:
     maxActive: 20
     initialSize: 4
     maxWait: 10000
+
+jdbc:
+  retry:
+    default:
+      max-attempts: 4
+      delay: 30

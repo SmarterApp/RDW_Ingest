@@ -121,3 +121,6 @@ sql:
 
     updateImportId:
       UPDATE student_group SET update_import_id = ? WHERE id = ?
+
+    existsStudentInGroup:
+      SELECT (CASE WHEN EXISTS (SELECT 1 FROM student_group_membership WHERE student_group_id = :student_group_id and student_id = :student_id) THEN true ELSE false END) exist
