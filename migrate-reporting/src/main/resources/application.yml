@@ -13,7 +13,7 @@ migrate:
 
 spring:
   batch_datasource:
-    url: jdbc:mysql://localhost:3306/spring_batch_reporting?useSSL=false
+    url: jdbc:mysql://localhost:3306/spring_batch_reporting?useSSL=false&useLegacyDatetimeCode=false
     username: root
     password:
     testWhileIdle: true
@@ -22,7 +22,7 @@ spring:
     initialize: false
 
   warehouse_datasource:
-    url: jdbc:mysql://localhost:3306/warehouse?useSSL=false
+    url: jdbc:mysql://localhost:3306/warehouse?useSSL=false&useLegacyDatetimeCode=false
     username: root
     password:
     testWhileIdle: true
