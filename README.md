@@ -169,19 +169,19 @@ can be submitted. This includes assessments, accommodations, organization data, 
 1. Define student groups and user membership. Since the generated test results have student groups specified this 
 simply requires associating your favorite user login with one-or-more of those groups.
 
-This assumes you are running the ingest pipeline locally with normal configuration. 
-`{access_token}` should be replaced with `sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||`.
-And locally edit submit_xml.sh to point to localhost with the same bearer token.
+This assumes you are running the ingest pipeline locally with normal configuration. If you are doing this against
+a more production-like environment you'll need to replace the access token and edit submit_xml.sh appropriately.
 
-The data generator project has some sample output for steps 1 and 2 so, after following the details of setting up
-python you can generate the data and then load everything:
+The data generator project has some sample output for steps 1 and 2 so; use that to generate data and load everything
+(yes, this is cloning the data generator project but still using the docker image to do the work; if you really want
+you can run the data generator directly from source but that is left as an exercise for the reader):
 ```bash
 $ git clone https://github.com/SmarterApp/RDW_DataGenerator
 $ cd RDW_DataGenerator
-$ python ./data_generator/generate_data.py --state_type tiny --gen_iab --gen_ica --gen_item --xml_out --pkg_source ./in
-$ curl -X POST --header "Authorization:Bearer {access_token}" -F file=@"./in/FULL_2016.items.csv" http://localhost:8080/packages/imports
-$ curl -X POST --header "Authorization:Bearer {access_token}" -F file=@"./in/accommodations.xml" http://localhost:8080/accommodations/imports
-$ curl -X POST --header "Authorization:Bearer {access_token}" -F file=@"./out/organization.json" http://localhost:8080/organizations/imports
+$ docker run -v `pwd`/out:/src/data_generator/out -v `pwd`/in:/src/data_generator/in fwsbac/rdw-datagen --state_type tiny --gen_iab --gen_item --xml_out --pkg_source /src/data_generator/in
+$ curl -X POST --header "Authorization:Bearer sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||" -F file=@"./in/FULL_2016.items.csv" http://localhost:8080/packages/imports
+$ curl -X POST --header "Authorization:Bearer sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||" -F file=@"./in/accommodations.xml" http://localhost:8080/accommodations/imports
+$ curl -X POST --header "Authorization:Bearer sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||" -F file=@"./out/organization.json" http://localhost:8080/organizations/imports
 $ ./scripts/submit_xml.sh
 ```
 I usually associate my user login with all the groups from a single school. First i look at distributions, then i
