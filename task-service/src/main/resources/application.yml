@@ -10,7 +10,7 @@ spring:
   mail:
     host: local
   datasource:
-    url: jdbc:mysql://localhost:3306/warehouse?useSSL=false
+    url: jdbc:mysql://localhost:3306/warehouse?useSSL=false&useLegacyDatetimeCode=false
     username: root
     password:
     testWhileIdle: true
