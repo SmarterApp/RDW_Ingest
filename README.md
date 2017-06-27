@@ -42,7 +42,13 @@ mysql> GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
 mysql> exit
 ```
 
-Additionally, you need to configure MySQL settings in `my.cnf` file. Locate the file (for a brew install it will be
+You should load your timezone info, because we'll be forcing the timezone to 'UTC' in the next step. You may see 
+some warnings of skipped files but no errors when you do this:
+```bash
+mysql_tzinfo_to_sql /usr/share/zoneinfo | sed -e "s/Local time zone must be set--see zic manual page/local/" | mysql -u root mysql
+```
+
+Finally, you need to configure MySQL settings in `my.cnf` file. Locate the file (for a brew install it will be
 `/usr/local/Cellar/mysql@5.6/5.6.34/my.cnf` but if you can't find it try `sudo find -name my.cnf -print`) 
 and add the following lines:
 ```
@@ -73,7 +79,7 @@ mysql> SELECT @@system_time_zone, @@global.time_zone, @@session.time_zone;
 +--------------------+--------------------+---------------------+
 ```
 
-The applications depend on the database being configured properly. See instructions below under [Running](#running)
+The applications depend on the database schema being created properly. See instructions below under [Running](#running)
 
 
 ### Cloning
@@ -172,17 +178,17 @@ simply requires associating your favorite user login with one-or-more of those g
 This assumes you are running the ingest pipeline locally with normal configuration. If you are doing this against
 a more production-like environment you'll need to replace the access token and edit submit_xml.sh appropriately.
 
-The data generator project has some sample output for steps 1 and 2 so; use that to generate data and load everything
+The data generator project has some sample output for steps 1 and 2 so use that to generate data and load everything
 (yes, this is cloning the data generator project but still using the docker image to do the work; if you really want
 you can run the data generator directly from source but that is left as an exercise for the reader):
 ```bash
-$ git clone https://github.com/SmarterApp/RDW_DataGenerator
-$ cd RDW_DataGenerator
-$ docker run -v `pwd`/out:/src/data_generator/out -v `pwd`/in:/src/data_generator/in fwsbac/rdw-datagen --state_type tiny --gen_iab --gen_item --xml_out --pkg_source /src/data_generator/in
-$ curl -X POST --header "Authorization:Bearer sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||" -F file=@"./in/FULL_2016.items.csv" http://localhost:8080/packages/imports
-$ curl -X POST --header "Authorization:Bearer sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||" -F file=@"./in/accommodations.xml" http://localhost:8080/accommodations/imports
-$ curl -X POST --header "Authorization:Bearer sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||" -F file=@"./out/organization.json" http://localhost:8080/organizations/imports
-$ ./scripts/submit_xml.sh
+git clone https://github.com/SmarterApp/RDW_DataGenerator
+cd RDW_DataGenerator
+docker run -v `pwd`/out:/src/data_generator/out -v `pwd`/in:/src/data_generator/in fwsbac/rdw-datagen --state_type tiny --gen_iab --gen_item --xml_out --pkg_source /src/data_generator/in
+curl -X POST --header "Authorization:Bearer sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||" -F file=@"./in/FULL_2016.items.csv" http://localhost:8080/packages/imports
+curl -X POST --header "Authorization:Bearer sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||" -F file=@"./in/accommodations.xml" http://localhost:8080/accommodations/imports
+curl -X POST --header "Authorization:Bearer sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||" -F file=@"./out/organization.json" http://localhost:8080/organizations/imports
+./scripts/submit_xml.sh
 ```
 I usually associate my user login with all the groups from a single school. First i look at distributions, then i
 pick a school and add the user to all those groups:
