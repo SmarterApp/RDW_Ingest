@@ -161,7 +161,10 @@ fwsbac/rdw-ingest-exam-processor    latest              293d8744377d        3 ho
 ```
 These can be quickly cleaned up:
 ```bash
-docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
+docker container prune 
+# reply when prompted to confirm
+docker image prune 
+# reply when prompted to confirm
 ```
 
 ### Loading Data
@@ -184,7 +187,7 @@ you can run the data generator directly from source but that is left as an exerc
 ```bash
 git clone https://github.com/SmarterApp/RDW_DataGenerator
 cd RDW_DataGenerator
-docker run -v `pwd`/out:/src/data_generator/out -v `pwd`/in:/src/data_generator/in fwsbac/rdw-datagen --state_type tiny --gen_iab --gen_item --xml_out --pkg_source /src/data_generator/in
+docker run -v `pwd`/out:/src/data_generator/out -v `pwd`/in:/src/data_generator/in fwsbac/rdw-datagen --state_type tiny --gen_iab --gen_ica --gen_item --xml_out --pkg_source /src/data_generator/in
 curl -X POST --header "Authorization:Bearer sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||" -F file=@"./in/FULL_2016.items.csv" http://localhost:8080/packages/imports
 curl -X POST --header "Authorization:Bearer sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||" -F file=@"./in/accommodations.xml" http://localhost:8080/accommodations/imports
 curl -X POST --header "Authorization:Bearer sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||" -F file=@"./out/organization.json" http://localhost:8080/organizations/imports
