@@ -19,14 +19,14 @@ INSERT INTO reporting_test.asmt_score (asmt_id, cut_point_1, cut_point_2, cut_po
   (-99, 2442, 2502, 2582, 2201, 2701);
 
 INSERT INTO reporting_test.item (id, claim_id, claim_code, target_id, target_code, common_core_standard_ids, natural_id, asmt_id, dok_id, difficulty_code, max_points, math_practice, allow_calc) VALUES
-  (-9,   -99, 'claim', -98, 'target', null, '200-2010',  -11, -99, 'E', 2, -99, 0),
-  (-8,   -99, 'claim', -98, 'target', 'cc', '200-2010',  -11, -99, 'M', 2, -99, 0),
-  (-7,   -99, 'claim', -98, 'target', 'cc', '200-2010',  -11, -99, 'D', 2, -99, 0),
-  (-6,   -99, 'claim', -98, 'target', 'cc', '200-2010',  -11, -99, 'D', 2, -99, 0),
-  (-990, -99, 'claim', -98, 'target', 'cc', '200-2010',  -99, -99, 'D', 2, -99, 0),
+  (-9,   -99, 'claim', -98, 'target', null, '200-2009',  -11, -99, 'E', 2, -99, 0),
+  (-8,   -99, 'claim', -98, 'target', 'cc', '200-2008',  -11, -99, 'M', 2, -99, 0),
+  (-7,   -99, 'claim', -98, 'target', 'cc', '200-2007',  -11, -99, 'D', 2, -99, 0),
+  (-6,   -99, 'claim', -98, 'target', 'cc', '200-2006',  -11, -99, 'D', 2, -99, 0),
+  (-990, -99, 'claim', -98, 'target', 'cc', '200-2990',  -99, -99, 'D', 2, -99, 0),
   (-991, -99, 'claim', -98, 'target', 'cc', '200-18943', -99, -99, 'D', 2, -98, 0),
-  (-992, -99, 'claim', -98, 'target', 'cc', '200-8906',  -99, -99, 'D', 2, -99, 1),
-  (-993, -99, 'claim', -98, 'target', 'cc', '200-2014',  -99, -98, 'D', 2, -98, 1);
+  (-992, -99, 'claim', -98, 'target', 'cc', '200-2992',  -99, -99, 'D', 2, -99, 1),
+  (-993, -99, 'claim', -98, 'target', 'cc', '200-2993',  -99, -98, 'D', 2, -98, 1);
 
 
 INSERT INTO reporting_test.item_other_target(item_id, target_id) values
