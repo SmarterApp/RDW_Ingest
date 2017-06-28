@@ -10,8 +10,6 @@ INSERT INTO reporting_test.migrate (id, job_id, status, first_import_id, last_im
   (-9, 2, 20, -1010, -1001);
 
 -- Test import records in warehouse
--- todo: what is batch and message for?
--- todo: when migration is complete does status need to be changed to PUBLISHED ?
 -- 1	EXAM
 -- 2	PACKAGE
 -- 3	CODES
