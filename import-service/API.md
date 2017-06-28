@@ -91,7 +91,7 @@ As mentioned above, all end-points require a valid token, the examples use `{acc
 
 #### Create Exam Import Request
 Accepts payloads in Test Result Transmission ([TRT](http://www.smarterapp.org/documents/TestResultsTransmissionFormat.pdf)) 
-format, creating new exam import requests. The import requests are processed and published to the reporting data mart.
+format, creating new exam import requests. The import requests are processed and migrated to the reporting data mart.
 Import payloads are hashed and duplicate content is detected, returning any previous import request for the given
 content. Thus submitting a payload a second time will no-op and return the current status of the previous import.
 
