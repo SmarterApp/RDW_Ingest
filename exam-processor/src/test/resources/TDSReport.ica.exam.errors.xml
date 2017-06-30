@@ -1,6 +1,6 @@
 <TDSReport>
     <Test grade="6" mode="online" contract="SBAC" bankKey="200" testId="SBAC-ICA-FIXED-G6E-COMBINED-2017" subject="ELA" name="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-2017-Winter-2016-2017" handScoreProject="0" assessmentType="interim"
-          academicYear="2016" assessmentVersion="9787|9787"/>
+          academicYear="4294967295" assessmentVersion="9787|9787"/>
     <Examinee isDemo="0" key="4054">
         <ExamineeAttribute name="AlternateSSID" value="SIXTHGRADER20" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
         <ExamineeAttribute name="AlternateSSID" value="SIXTHGRADER20" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
@@ -69,7 +69,7 @@
         <ExamineeRelationship name="StateName" value="ARMED FORCES PACIFIC" context="INITIAL" contextDate="2016-10-13T02:25:31.032"/>
         <ExamineeRelationship name="StateName" value="ARMED FORCES PACIFIC" context="FINAL" contextDate="2016-10-13T02:32:25.002"/>
     </Examinee>
-    <Opportunity database="session" key="cd3f30b2-b631-4801-9472-3beaad0f1fb9" taId="uat_lab20@mailinator.com" taName="UAT Lab20" sessionId="Lab-32" windowId="ANNUAL" server="ip-172-19-0-179" qaLevel="" clientName="SBAC"
+    <Opportunity database="session" key="cd3f30b2-b631-4801-9472-3beaad0f1fb9" taId="uat_lab20@mailinator.com" taName="UAT Lab20" sessionId="" windowId="ANNUAL" server="ip-172-19-0-179" qaLevel="" clientName="SBAC"
                  reportingVersion="0" abnormalStarts="0" ftCount="0" dateCompleted=""
                  assessmentParticipantSessionPlatformUserAgent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36" effectiveDate="2016-10-13" itemCount="48" pauseCount="0"
                  completeStatus="Complete" status="completed" completeness="Complete" statusDate="2016-10-13T02:32:24.972" administrationCondition="" startDate="2016-10-13T02:25:49.066" oppId="5000018" opportunity="1" gracePeriodRestarts="0">
@@ -111,13 +111,13 @@
         <Score measureOf="4-CR" measureLabel="ThetaScore" value="-0.280005536500239" standardError="0.703508087023076"/>
         <Score measureOf="SOCK_R" measureLabel="ThetaScore" value="-0.668921562081719" standardError="0.509248104337775"/>
         <Score measureOf="SOCK_LS" measureLabel="ThetaScore" value="-1.08427761752295" standardError="0.939084597077567"/>
-        <Score measureOf="Overall" measureLabel="ScaleScore" value="bad data" standardError="23.5105791416061"/>
-        <Score measureOf="2-W" measureLabel="ScaleScore" value="bad data" standardError=""/>
+        <Score measureOf="Overall" measureLabel="ScaleScore" value="-1" standardError="23.5105791416061"/>
+        <Score measureOf="2-W" measureLabel="ScaleScore" value="0" standardError=""/>
         <Score measureOf="4-CR" measureLabel="ScaleScore" value="bad data" standardError=""/>
         <Score measureOf="SOCK_R" measureLabel="ScaleScore" value="bad data" standardError=""/>
         <Score measureOf="SOCK_LS" measureLabel="ScaleScore" value="bad data" standardError=""/>
         <Score measureOf="Overall" measureLabel="PerformanceLevel" value="bad data" standardError=""/>
-        <Score measureOf="2-W" measureLabel="PerformanceLevel" value="bad data" standardError=""/>
+        <Score measureOf="2-W" measureLabel="PerformanceLevel" value="0" standardError=""/>
         <Score measureOf="4-CR" measureLabel="PerformanceLevel" value="bad data" standardError="1"/>
         <Score measureOf="SOCK_R" measureLabel="PerformanceLevel" value="bad data" standardError=""/>
         <Score measureOf="SOCK_LS" measureLabel="PerformanceLevel" value="bad data" standardError=""/>
