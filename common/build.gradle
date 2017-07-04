@@ -7,7 +7,6 @@ bootRepackage.enabled = false
 bootRun.enabled = false
 
 dependencies {
-    compile 'com.google.guava:guava'
     compile 'org.springframework.boot:spring-boot-starter-jdbc'
     compile 'org.opentestsystem.rdw.common:rdw-common-messaging'
     compile 'org.opentestsystem.rdw.common:rdw-common-model'
@@ -19,7 +18,7 @@ dependencies {
     // for @NotNull
     compile 'javax.validation:validation-api'
 
-    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.google.code.gson:gson'
 
     testCompile 'org.springframework:spring-test'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
