@@ -18,7 +18,6 @@ dependencies {
 
     compile 'org.opentestsystem.rdw.common:rdw-common-status'
     compile 'org.opentestsystem.rdw.common:rdw-common-utils'
-    compile 'com.google.guava:guava'
     compile 'mysql:mysql-connector-java'
 
 }

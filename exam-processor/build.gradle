@@ -18,8 +18,7 @@ dependencies {
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'org.springframework.cloud:spring-cloud-stream-test-support'
 
-    compile "com.google.code.gson:gson:2.8.0"
-    compile 'com.google.guava:guava'
+    compile "com.google.code.gson:gson"
     compile 'org.opentestsystem.rdw.common:rdw-common-messaging'
     compile 'org.opentestsystem.rdw.common:rdw-common-model'
     compile 'org.opentestsystem.rdw.common:rdw-common-status'
