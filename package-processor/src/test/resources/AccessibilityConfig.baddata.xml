@@ -65,15 +65,15 @@
 					<Description>Students with some physical disabilities (including both fine motor and gross motor skills) may need to use the alternate response options accommodation. Some alternate response options are external devices that must be plugged in and be compatible with the assessment delivery platform. Use of this support will likely also require separate setting or extra time. (NON-EMBEDDED)</Description>
 				</Text>
 			</Selection>
-			<!--<Selection>-->
-				<!--<Code>NEA_RA_Stimuli</Code>-->
-				<!--<Order>3</Order>-->
-				<!--<Text>-->
-					<!--<Language>eng</Language>-->
-					<!--<Label>Read Aloud CAT Reading Passages</Label>-->
-					<!--<Description>This accommodation is appropriate for a very small number of students (estimated to be approximately 1–2% of students with disabilities participating in a general assessment). For students in grades 3–5, read aloud will not be an available accommodation. Content experts agree that this accommodation should not be provided during these grades because it would compromise the construct being measured. For students in grades 6–8 and 11, read aloud is available as an accommodation for students whose need is documented in an IEP or 504 plan. Reports can be run to indicate the percent of students who had access to read aloud on reading test passages. Readers should be provided to students on an individual basis – not to a group of students. A student should have the option of asking a reader to slow down or repeat text. Use of this support will likely also require separate setting or extra time. (NON-EMBEDDED)</Description>-->
-				<!--</Text>-->
-			<!--</Selection>-->
+			<Selection>
+				<Code>NEA_RA_Stimuli_very_very_long_code</Code>
+				<Order>3</Order>
+				<Text>
+					<Language>eng</Language>
+					<Label>Read Aloud CAT Reading Passages, very very long value</Label>
+					<Description>This accommodation is appropriate for a very small number of students (estimated to be approximately 1–2% of students with disabilities participating in a general assessment). For students in grades 3–5, read aloud will not be an available accommodation. Content experts agree that this accommodation should not be provided during these grades because it would compromise the construct being measured. For students in grades 6–8 and 11, read aloud is available as an accommodation for students whose need is documented in an IEP or 504 plan. Reports can be run to indicate the percent of students who had access to read aloud on reading test passages. Readers should be provided to students on an individual basis – not to a group of students. A student should have the option of asking a reader to slow down or repeat text. Use of this support will likely also require separate setting or extra time. (NON-EMBEDDED)</Description>
+				</Text>
+			</Selection>
 			<!--<Selection>-->
 				<!--<Code>NEA_SC_WritItems</Code>-->
 				<!--<Order>4</Order>-->
