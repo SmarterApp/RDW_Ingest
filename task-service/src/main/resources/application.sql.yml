@@ -13,6 +13,7 @@ sql:
         AND (:creator IS NULL OR i.creator = :creator)
         AND (:before IS NULL OR i.created < :before)
         AND (:after IS NULL OR i.created > :after)
+      ORDER BY i.id
       LIMIT 100000
 
     count: >-

@@ -30,7 +30,7 @@
         <ExamineeAttribute name="TitleIIILanguageInstructionProgramType" value="LongTitleIIILanguageInstructionProgramType" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
         <ExamineeAttribute name="PrimaryDisabilityType" value="LongPrimaryDisabilityType" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
         <!-- these are not from the real data, they are for a shortcut to create groups and assign student to a group -->
-        <ExamineeAttribute context="FINAL" contextDate="2017-03-01T08:08:34.787000" name="StudentGroupName" value="Math" />
+        <ExamineeAttribute context="FINAL" contextDate="2017-03-01T08:08:34.787000" name="StudentGroupName" value="LongGroupName1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890012345678901234567890123456789012345678901234567890" />
         <ExamineeRelationship name="ResponsibleDistrictIdentifier" value="UCLALS" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
         <ExamineeRelationship name="OrganizationName" value="UCLA" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
         <ExamineeRelationship name="ResponsibleInstitutionIdentifier" value="APTEST1" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
