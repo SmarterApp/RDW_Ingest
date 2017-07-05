@@ -53,7 +53,12 @@ sql:
   # JdbcAssessmentRepository
   assessment:
     findOneByNaturalId: >-
-        SELECT id, natural_id, name, label, grade_id,type_id, subject_id, school_year FROM asmt WHERE natural_id= :natural_id
+        SELECT a.id, a.natural_id, a.name, a.label, a.grade_id, g.code as grade_code, a.type_id, at.code as type_code, a.subject_id, s.code as subject_code, a.school_year
+          FROM asmt a
+            JOIN subject s ON s.id = a.subject_id
+            JOIN grade g ON g.id = a.grade_id
+            JOIN asmt_type at ON at.id = a.type_id
+          WHERE a.natural_id= :natural_id
 
     # this is a stubbed out method with fakes claim and target ids to comply with db constraints- TODO: to be deleted
     createItems: >-
