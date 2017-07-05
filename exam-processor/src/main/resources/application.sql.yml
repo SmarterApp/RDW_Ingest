@@ -76,8 +76,8 @@ sql:
   # JdbcExamRepository
   exam:
     create: >-
-       INSERT INTO exam (type_id, exam_student_id, school_year, import_id, update_import_id, asmt_id, asmt_version, opportunity, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, performance_level, completed_at) VALUES
-                       (:type_id, :exam_student_id, :school_year, :import_id, :update_import_id, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :performance_level, :completed_at)
+       INSERT INTO exam (type_id, exam_student_id, school_year, import_id, update_import_id, asmt_id, asmt_version, opportunity, oppId, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, performance_level, completed_at) VALUES
+                       (:type_id, :exam_student_id, :school_year, :import_id, :update_import_id, :asmt_id, :asmt_version, :opportunity, :oppId, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :performance_level, :completed_at)
     examClaimScore:
       create: >-
         INSERT INTO exam_claim_score (exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
