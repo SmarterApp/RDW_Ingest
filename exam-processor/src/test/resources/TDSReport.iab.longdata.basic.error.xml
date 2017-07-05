@@ -3,12 +3,12 @@
           academicYear="2016" assessmentVersion="9786"/>
     <Examinee isDemo="0" key="4054">
         <ExamineeAttribute name="Birthdate" value="1900-01-01" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
-        <ExamineeAttribute name="FirstName" value="Name116" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
+        <ExamineeAttribute name="FirstName" value="VeryLongFirstName12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
         <ExamineeAttribute name="Sex" value="Female" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
         <ExamineeAttribute name="GradeLevelWhenAssessed" value="04" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
-        <ExamineeAttribute name="LastOrSurname" value="LastName116" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
-        <ExamineeAttribute name="StudentIdentifier" value="AFOURTHGRADER17" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
-        <ExamineeAttribute name="MiddleName" value="MiddleName116" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
+        <ExamineeAttribute name="LastOrSurname" value="VeryLongLastName12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
+        <ExamineeAttribute name="StudentIdentifier" value="VeryLongSSID12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
+        <ExamineeAttribute name="MiddleName" value="VeryLongMiddleName12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
         <ExamineeAttribute name="AlternateSSID" value="FOURTHGRADER17" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
         <ExamineeAttribute name="HispanicOrLatinoEthnicity" value="YES" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
         <ExamineeAttribute name="AmericanIndianOrAlaskaNative" value="YES" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
@@ -22,40 +22,13 @@
         <ExamineeAttribute name="Section504Status" value="NO" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
         <ExamineeAttribute name="EconomicDisadvantageStatus" value="NO" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
         <ExamineeAttribute name="MigrantStatus" value="NO" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
-        <ExamineeAttribute name="LanguageCode" value="" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
-        <ExamineeAttribute name="EnglishLanguageProficiencyLevel" value="" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
+        <ExamineeAttribute name="LanguageCode" value="LongLanguageCode" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
+        <ExamineeAttribute name="EnglishLanguageProficiencyLevel" value="LongEnglishLanguageProficiencyLevel012345678" context="FINAL" contextDate="2016-10-12T21:51:46.003"/>
         <ExamineeAttribute name="FirstEntryDateIntoUSSchool" value="" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
         <ExamineeAttribute name="LimitedEnglishProficiencyEntryDate" value="" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
         <ExamineeAttribute name="LEPExitDate" value="" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
-        <ExamineeAttribute name="TitleIIILanguageInstructionProgramType" value="" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
-        <ExamineeAttribute name="PrimaryDisabilityType" value="" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
-        <ExamineeAttribute name="Birthdate" value="1900-01-01" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="FirstName" value="Name116" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="Sex" value="Female" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="GradeLevelWhenAssessed" value="04" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="LastOrSurname" value="LastName116" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="StudentIdentifier" value="AFOURTHGRADER17" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="MiddleName" value="MiddleName116" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="AlternateSSID" value="FOURTHGRADER17" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="HispanicOrLatinoEthnicity" value="YES" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="AmericanIndianOrAlaskaNative" value="YES" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="Asian" value="YES" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="BlackOrAfricanAmerican" value="NO" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="White" value="NO" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="NativeHawaiianOrOtherPacificIslander" value="NO" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="DemographicRaceTwoOrMoreRaces" value="NO" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="IDEAIndicator" value="NO" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="LEPStatus" value="NO" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="Section504Status" value="NO" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="EconomicDisadvantageStatus" value="NO" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="MigrantStatus" value="NO" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="LanguageCode" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="EnglishLanguageProficiencyLevel" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="FirstEntryDateIntoUSSchool" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="LimitedEnglishProficiencyEntryDate" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="LEPExitDate" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="TitleIIILanguageInstructionProgramType" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
-        <ExamineeAttribute name="PrimaryDisabilityType" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
+        <ExamineeAttribute name="TitleIIILanguageInstructionProgramType" value="LongTitleIIILanguageInstructionProgramType" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
+        <ExamineeAttribute name="PrimaryDisabilityType" value="LongPrimaryDisabilityType" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
         <!-- these are not from the real data, they are for a shortcut to create groups and assign student to a group -->
         <ExamineeAttribute context="FINAL" contextDate="2017-03-01T08:08:34.787000" name="StudentGroupName" value="Math" />
         <ExamineeRelationship name="ResponsibleDistrictIdentifier" value="UCLALS" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>

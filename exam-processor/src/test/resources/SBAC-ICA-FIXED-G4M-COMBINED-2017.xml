@@ -16,8 +16,8 @@
         <ExamineeAttribute name="DemographicRaceTwoOrMoreRaces" value="NO" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
         <ExamineeAttribute name="EconomicDisadvantageStatus" value="NO" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
         <ExamineeAttribute name="EconomicDisadvantageStatus" value="NO" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
-        <ExamineeAttribute name="EnglishLanguageProficiencLevel" value="" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
-        <ExamineeAttribute name="EnglishLanguageProficiencLevel" value="" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
+        <ExamineeAttribute name="EnglishLanguageProficiencyLevel" value="" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
+        <ExamineeAttribute name="EnglishLanguageProficiencyLevel" value="" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
         <ExamineeAttribute name="FirstEntryDateIntoUSSchool" value="" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
         <ExamineeAttribute name="FirstEntryDateIntoUSSchool" value="" context="FINAL" contextDate="2016-10-12T18:25:13.052"/>
         <ExamineeAttribute name="FirstName" value="Name119" context="INITIAL" contextDate="2016-10-12T18:14:01.866"/>
