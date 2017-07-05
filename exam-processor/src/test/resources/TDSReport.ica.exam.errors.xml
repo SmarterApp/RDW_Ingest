@@ -144,7 +144,7 @@
         <GenericVariable name="STATUS" value="scored" context="COMPONENT_2"/>
         <GenericVariable name="TESTID" value="SBAC-ICA-FIXED-G6E-Perf-ImportanceOfNutrition" context="COMPONENT_2"/>
         <Item responseDuration="3" pageTime="0" pageNumber="1" pageVisits="0" numberVisits="2" format="MC" adminDate="2016-10-13T02:26:43.319" clientId="" key="46849" bankKey="200" position="1" contentLevel="2-W|8-6"
-              strand="2-W" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
+              strand="2-W" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1" mimeType="text/plain" segmentId="(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-ELA-6-Winter-2016-2017">
             <Response date="2016-10-13T02:26:46.344" type="value">A</Response>
             <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
                 <ScoreRationale>
