@@ -578,6 +578,7 @@ sql:
                 wi.asmt_id,
                 wi.math_practice,
                 wi.allow_calc,
+                wi.position,
                 wi.dok_id,
                 wi.difficulty_code,
                 round(wi.max_points) AS max_points,
@@ -596,8 +597,8 @@ sql:
                   AND wa.deleted = 0
 
             stagingInsert: >-
-              INSERT INTO staging.staging_item (id, claim_id, target_id, natural_id, asmt_id, math_practice, allow_calc, dok_id, difficulty_code, max_points, common_core_standard_ids,  migrate_id) VALUES
-                (:id, :claim_id, :target_id, :natural_id, :asmt_id, :math_practice, :allow_calc, :dok_id, :difficulty_code, :max_points, :common_core_standard_ids, :migrate_id)
+              INSERT INTO staging.staging_item (id, claim_id, target_id, natural_id, asmt_id, math_practice, allow_calc, position, dok_id, difficulty_code, max_points, common_core_standard_ids,  migrate_id) VALUES
+                (:id, :claim_id, :target_id, :natural_id, :asmt_id, :math_practice, :allow_calc, :position, :dok_id, :difficulty_code, :max_points, :common_core_standard_ids, :migrate_id)
 
         item_by_update_import_id:
           sql:
@@ -610,6 +611,7 @@ sql:
                 wi.asmt_id,
                 wi.math_practice,
                 wi.allow_calc,
+                wi.position,
                 wi.dok_id,
                 wi.difficulty_code,
                 round(wi.max_points) AS max_points,
@@ -626,8 +628,8 @@ sql:
                WHERE wimport.status != 0 AND wimport.id >= :start_import_id AND wimport.id <= :end_import_id AND wa.deleted = 0
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging.staging_item (id, claim_id, target_id, natural_id, asmt_id, math_practice, allow_calc, dok_id, difficulty_code, max_points, common_core_standard_ids,  migrate_id) VALUES
-                (:id, :claim_id, :target_id, :natural_id, :asmt_id, :math_practice, :allow_calc, :dok_id, :difficulty_code, :max_points, :common_core_standard_ids, :migrate_id)
+              INSERT IGNORE INTO staging.staging_item (id, claim_id, target_id, natural_id, asmt_id, math_practice, allow_calc, position, dok_id, difficulty_code, max_points, common_core_standard_ids,  migrate_id) VALUES
+                (:id, :claim_id, :target_id, :natural_id, :asmt_id, :math_practice, :allow_calc, :position, :dok_id, :difficulty_code, :max_points, :common_core_standard_ids, :migrate_id)
 
         # ------------ item_common_core_standard  -------------------------------------------------------------------
         item_common_core_standard:
