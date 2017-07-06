@@ -9,9 +9,9 @@ INSERT INTO reporting_test.school (id, district_id, name, natural_id, import_id)
   (-99, -99, 'Before Test -99', 'natural_id-99', -1);
 
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
-INSERT INTO reporting_test.asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name, label, version, import_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score) VALUES
-   (-11, '(SBAC)SBAC-IAB-ASMT TEST-11', -98, 2, 1, 2016, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', 'test', '9835', -1, 2442, 2502, 2582, 2201, 2701),
-   (-99, '(SBAC)SBAC-IAB-ASMT TEST-99', -99, 2, 1, 2016, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', 'test', '9835', -1, 2442, 2502, 2582, 2201, 2701);
+INSERT INTO reporting_test.asmt (id, natural_id, grade_id, grade_code, type_id, subject_id, school_year, name, label, version, import_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score) VALUES
+   (-11, '(SBAC)SBAC-IAB-ASMT TEST-11', -98, '98', 2, 1, 2016, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', 'test', '9835', -1, 2442, 2502, 2582, 2201, 2701),
+   (-99, '(SBAC)SBAC-IAB-ASMT TEST-99', -99, '99', 2, 1, 2016, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', 'test', '9835', -1, 2442, 2502, 2582, 2201, 2701);
 
 INSERT INTO reporting_test.asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score) VALUES
   (-99, 2442, 2502, 2582, 2201, 2701);
@@ -55,17 +55,17 @@ INSERT INTO reporting_test.user_student_group (student_group_id, user_login) VAL
 
 -- ------------------------------------------ Exams ---------------------------------------------------------------------------------------------
 
-INSERT INTO  reporting_test.exam ( id, type_id, school_year, asmt_id, asmt_version, opportunity, completeness_id,
+INSERT INTO  reporting_test.exam (id, type_id, school_year, asmt_id, asmt_version, opportunity, completeness_id,
                                 administration_condition_id, administration_condition_code, session_id, performance_level,
                                 scale_score, scale_score_std_err, completed_at, import_id, grade_id, student_id, school_id,
                                 iep, lep, section504, economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type,
-                                language_code, prim_disability_type, completeness_code,
+                                language_code, prim_disability_type, completeness_code, grade_code,
                                 claim1_scale_score, claim1_scale_score_std_err,claim1_category,
                                 claim2_scale_score, claim2_scale_score_std_err,claim2_category,
                                 claim3_scale_score, claim3_scale_score_std_err,claim3_category,
                                 claim4_scale_score, claim4_scale_score_std_err,claim4_category ) VALUES
-(-88, 1,  2016, -99,  null, 1, -99, -99, 'before test', 'test', 1, 2145, 0.17, '2016-08-14', -88, -98, -89, -1, 1, 1, 0, 0, 1, 'test', 'test', 'eng', null,
-    'before', 2000, 0.11, 1, 2100, 0.12, 2, 2500, 0.13, 3, 3000, .15, 4);
+(-88, 1,  2016, -99,  null, 1, -99, -99, 'before test', 'test', 1, 2145, 0.17, '2016-08-14', -88, -98, -89, -1, 1, 1, 0, 0, 1,
+  'test', 'test', 'eng', null, 'before', '98', 2000, 0.11, 1, 2100, 0.12, 2, 2500, 0.13, 3, 3000, .15, 4);
 
 INSERT INTO reporting_test.exam_available_accommodation (exam_id, accommodation_id) VALUES
     (-88, -98);
