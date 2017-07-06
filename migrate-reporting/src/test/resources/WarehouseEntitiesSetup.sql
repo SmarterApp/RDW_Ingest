@@ -27,11 +27,11 @@ INSERT INTO warehouse_test.school (id, district_id, name, natural_id, deleted, i
 INSERT INTO warehouse_test.asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name, label, version, deleted, import_id, update_import_id) VALUES
   (-11, '(SBAC)SBAC-IAB-ASMT TEST-11', -98, 2, 1, 2016, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', 'test', '9835', 0, -5000, -5000);
 
-INSERT INTO warehouse_test.item (id, claim_id, target_id, natural_id, asmt_id, dok_id, difficulty, difficulty_code, max_points, math_practice, allow_calc) VALUES
-  (-9,   -99, -98, '200-2019',  -11, -99, -0.23, 'E', 2, -99, 0),
-  (-8,   -99, -98, '200-2018',  -11, -99, -0.23, 'E', 2, -99, 0),
-  (-7,   -99, -98, '200-2017',  -11, -99, -0.23, 'E', 2, -99, 0),
-  (-6,   -99, -98, '200-2016',  -11, -99, -0.23, 'E', 2, -99, 0);
+INSERT INTO warehouse_test.item (id, claim_id, target_id, natural_id, asmt_id, dok_id, difficulty, difficulty_code, max_points, math_practice, allow_calc, position) VALUES
+  (-9,   -99, -98, '200-2019',  -11, -99, -0.23, 'E', 2, -99, 0, 1),
+  (-8,   -99, -98, '200-2018',  -11, -99, -0.23, 'E', 2, -99, 0, 2),
+  (-7,   -99, -98, '200-2017',  -11, -99, -0.23, 'E', 2, -99, 0, 3),
+  (-6,   -99, -98, '200-2016',  -11, -99, -0.23, 'E', 2, -99, 0, 4);
 
   INSERT INTO warehouse_test.item_common_core_standard(item_id, common_core_standard_id) values
   (-9, -98),
@@ -48,17 +48,16 @@ INSERT INTO warehouse_test.asmt_score (asmt_id, cut_point_1, cut_point_2, cut_po
   (-99, 2442, 2502, 2582, 2201, 2701),
   (-98, 2442, 2502, 2582, 2201, 2701);
 
-INSERT INTO warehouse_test.item (id, claim_id, target_id, natural_id, asmt_id, dok_id, difficulty, difficulty_code, max_points, math_practice, allow_calc) VALUES
-  (-990, -99, -99, '200-2010',  -99, -99, -0.23, 'E',  2, -99, 0),
-  (-991, -99, -99, '200-18943', -99, -99, -0.13, 'E', 2, -98, 0),
-  (-992, -99, -99, '200-8906',  -99, -99, -0.03, 'E', 2, -99, 1),
-  (-993, -99, -99, '200-2014',  -99, -98,  1.23, 'D', 2, -98, 1),
-
-  (-980, -98, -98, '200-60347', -98, -98, -0.32, 'E', 1, null, null),
-  (-981, -98, -98, '200-51719', -98, -98, -1.32, 'D', 1, null, null),
-  (-982, -98, -98, '200-59217', -98, -98, -2.32, 'D', 1, null, null),
-  (-983, -98, -98, '200-59208', -98, -98, -0.32, 'D', 1, null, null),
-  (-984, -98, -98, '200-30901', -98, -98, -0.32, 'D', 1, null, null);
+INSERT INTO warehouse_test.item (id, claim_id, target_id, natural_id, asmt_id, dok_id, difficulty, difficulty_code, max_points, math_practice, allow_calc, position) VALUES
+  (-990, -99, -99, '200-2010',  -99, -99, -0.23, 'E',  2, -99, 0, 4),
+  (-991, -99, -99, '200-18943', -99, -99, -0.13, 'E', 2, -98, 0, 3),
+  (-992, -99, -99, '200-8906',  -99, -99, -0.03, 'E', 2, -99, 1, 2),
+  (-993, -99, -99, '200-2014',  -99, -98,  1.23, 'D', 2, -98, 1, 1),
+  (-980, -98, -98, '200-60347', -98, -98, -0.32, 'E', 1, null, null, 5),
+  (-981, -98, -98, '200-51719', -98, -98, -1.32, 'D', 1, null, null, 4),
+  (-982, -98, -98, '200-59217', -98, -98, -2.32, 'D', 1, null, null, 3),
+  (-983, -98, -98, '200-59208', -98, -98, -0.32, 'D', 1, null, null, 2),
+  (-984, -98, -98, '200-30901', -98, -98, -0.32, 'D', 1, null, null, 1);
 
 INSERT INTO warehouse_test.item_other_target(item_id, target_id) values
   (-990, -98),

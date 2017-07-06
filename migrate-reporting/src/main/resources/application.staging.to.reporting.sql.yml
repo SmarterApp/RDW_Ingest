@@ -883,8 +883,8 @@ sql:
         item:
           sql:
             insert: >-
-              INSERT INTO reporting.item ( id, claim_id, claim_code,  target_id, target_code, common_core_standard_ids, natural_id, asmt_id, math_practice, allow_calc, dok_id,
-                                           difficulty_code, max_points)
+              INSERT INTO reporting.item ( id, claim_id, claim_code,  target_id, target_code, common_core_standard_ids, natural_id, asmt_id,
+                  math_practice, allow_calc, position, dok_id, difficulty_code, max_points)
                 SELECT
                   si.id,
                   si.claim_id,
@@ -896,6 +896,7 @@ sql:
                   si.asmt_id,
                   si.math_practice,
                   si.allow_calc,
+                  si.position,
                   si.dok_id,
                   si.difficulty_code,
                   si.max_points
@@ -919,6 +920,7 @@ sql:
                 ri.asmt_id       = si.asmt_id,
                 ri.math_practice = si.math_practice,
                 ri.allow_calc    = si.allow_calc,
+                ri.position      = si.position,
                 ri.dok_id        = si.dok_id,
                 ri.difficulty_code  = si.difficulty_code,
                 ri.max_points    = si.max_points;
