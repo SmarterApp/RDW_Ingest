@@ -1,8 +1,3 @@
--- Delete imports loaded by initial dml.
--- todo: we should eventually remove this from
-DELETE FROM warehouse_test.import
-WHERE id = 1;
-
 -- Completed migration import id's in reporting
 -- First migrate completed does not exist in warehouse, just for testing
 INSERT INTO reporting_test.migrate (id, job_id, status, first_import_id, last_import_id) VALUES
