@@ -433,12 +433,12 @@ sql:
         exam:
           sql:
             insert: >-
-              INSERT INTO reporting.exam (id, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage,
-                                          migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type,
-                                          type_id, school_year, asmt_id, asmt_version, opportunity, completeness_id,
-                                          completeness_code, administration_condition_id, administration_condition_code,
-                                          session_id, performance_level, scale_score, scale_score_std_err, import_id,
-                                          completed_at,
+              INSERT INTO reporting.exam (id, grade_id, grade_code, student_id, school_id, iep, lep, section504,
+                                          economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type,
+                                          language_code, prim_disability_type, type_id, school_year, asmt_id, asmt_version,
+                                          opportunity, completeness_id, completeness_code, administration_condition_id,
+                                          administration_condition_code, session_id, performance_level, scale_score,
+                                          scale_score_std_err, import_id, completed_at,
                                           claim1_scale_score, claim1_scale_score_std_err, claim1_category,
                                           claim2_scale_score, claim2_scale_score_std_err, claim2_category,
                                           claim3_scale_score, claim3_scale_score_std_err, claim3_category,
@@ -446,6 +446,7 @@ sql:
                 SELECT
                   se.id,
                   ses.grade_id,
+                  rg.code,
                   ses.student_id,
                   ses.school_id,
                   ses.iep,
@@ -525,6 +526,7 @@ sql:
                   LEFT JOIN reporting.exam re ON re.id = se.id
                   JOIN reporting.administration_condition rac ON rac.id = se.administration_condition_id
                   JOIN reporting.completeness rc ON rc.id = se.completeness_id
+                  JOIN reporting.grade rg ON rg.id = ses.grade_id
                 WHERE re.id IS NULL AND se.deleted = 0;
 
             update: >-
@@ -533,6 +535,7 @@ sql:
                 JOIN staging.staging_exam_student ses ON se.exam_student_id = ses.id
                 JOIN reporting.completeness rc ON re.completeness_id = rc.id
                 JOIN reporting.administration_condition rac ON rac.id = re.administration_condition_id
+                JOIN reporting.grade rg ON rg.id = ses.grade_id
                 LEFT JOIN (
                              SELECT s.exam_id
                                ,s.scale_score
@@ -571,6 +574,7 @@ sql:
                           ) AS claim4 ON claim4.exam_id = se.id
               SET
                 re.grade_id = ses.grade_id,
+                re.grade_code = rg.code,
                 re.student_id = ses.student_id,
                 re.school_id = ses.school_id,
                 re.iep = ses.iep,
@@ -799,8 +803,8 @@ sql:
         student:
           sql:
             insert: >-
-              INSERT INTO reporting.student (id, ssid, last_or_surname, first_name, middle_name, gender_id, gender_code, first_entry_into_us_school_at,
-                                             lep_entry_at, lep_exit_at, birthday, import_id)
+              INSERT INTO reporting.student (id, ssid, last_or_surname, first_name, middle_name, gender_id, gender_code,
+                                             first_entry_into_us_school_at, lep_entry_at, lep_exit_at, birthday, import_id)
                 SELECT
                   ss.id,
                   ss.ssid,
@@ -1003,13 +1007,14 @@ sql:
         asmt:
           sql:
             insert: >-
-              INSERT INTO reporting.asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name,
+              INSERT INTO reporting.asmt (id, natural_id, grade_id, grade_code, type_id, subject_id, school_year, name,
                                           label, version, import_id, claim1_score_code, claim2_score_code, claim3_score_code, claim4_score_code,
                                           cut_point_1, cut_point_2, cut_point_3, min_score, max_score)
                 SELECT
                   sa.id,
                   sa.natural_id,
                   sa.grade_id,
+                  rg.code,
                   sa.type_id,
                   sa.subject_id,
                   sa.school_year,
@@ -1044,6 +1049,7 @@ sql:
                                  JOIN reporting.exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 4)
                       AS s4 ON sa.subject_id = s4.subject_id AND sa.type_id = s4.asmt_type_id
                   JOIN staging.staging_asmt_score sas ON sa.id = sas.asmt_id
+                  JOIN reporting.grade rg ON rg.id = sa.grade_id
                 WHERE ra.id IS NULL and sa.deleted = 0;
 
             update: >-
@@ -1065,8 +1071,10 @@ sql:
                                  JOIN reporting.exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 4)
                       AS s4 ON sa.subject_id = s4.subject_id AND sa.type_id = s4.asmt_type_id
                 JOIN staging.staging_asmt_score sas ON ra.id = sas.asmt_id
+                JOIN reporting.grade rg ON rg.id = sa.grade_id
               SET
                 ra.grade_id    = sa.grade_id,
+                ra.grade_code  = rg.code,
                 ra.type_id     = sa.type_id,
                 ra.subject_id  = sa.subject_id,
                 ra.school_year = sa.school_year,
