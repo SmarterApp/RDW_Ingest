@@ -365,6 +365,3 @@ This end-point requires credentials (a client-credentials grant is sufficient).
 ```bash
 curl --header "Authorization:Bearer {access_token}" https://import-service/status?level=2
 ```
-
-### TODO
-* Investigate using [Spring REST Docs](http://projects.spring.io/spring-restdocs/).

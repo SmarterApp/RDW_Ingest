@@ -204,8 +204,3 @@ select * from student_group sg
 insert into reporting.user_student_group (student_group_id, user_login) 
   SELECT id, 'dwtest@example.com' from reporting.student_group where school_id = 4;
 ```
-
-
-### Documentation TODO
-* Make README.md more user-facing
-* Make a CHANGE_LOG file
