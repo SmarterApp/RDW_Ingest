@@ -32,7 +32,7 @@ sql:
     findIdByCode: >-
         SELECT id FROM administration_condition WHERE code= :code
 
-  # JdbcCompletenessnRepository
+  # JdbcCompletenessRepository
   completeness:
     findIdByCode: >-
         SELECT id FROM completeness WHERE code= :code
@@ -53,17 +53,11 @@ sql:
   # JdbcAssessmentRepository
   assessment:
     findOneByNaturalId: >-
-        SELECT a.id, a.natural_id, a.name, a.label, a.grade_id, g.code as grade_code, a.type_id, at.code as type_code, a.subject_id, s.code as subject_code, a.school_year
+        SELECT a.id, a.natural_id, g.code as grade_code, a.type_id, a.subject_id, s.code as subject_code
           FROM asmt a
             JOIN subject s ON s.id = a.subject_id
             JOIN grade g ON g.id = a.grade_id
-            JOIN asmt_type at ON at.id = a.type_id
           WHERE a.natural_id= :natural_id
-
-    # this is a stubbed out method with fakes claim and target ids to comply with db constraints- TODO: to be deleted
-    createItems: >-
-        INSERT IGNORE INTO item (claim_id, target_id, natural_id, asmt_id, dok_id, difficulty, difficulty_code, max_points, math_practice, allow_calc) VALUES
-          ( (select id from claim where subject_id in (select subject_id from asmt where id = ?) limit 1), (select id from target where claim_id = (select id from claim where subject_id in (select subject_id from asmt where id = ?) limit 1) limit 1), ?, ?, 1, 0.5, 'D', 5, null, null)
 
     subjectClaimScore:
       findBySubjectAndAsmtType: >-
@@ -99,8 +93,8 @@ sql:
                               (:grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status, :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type)
 
     accommodation:
-          create: >-
-            INSERT INTO exam_available_accommodation (exam_id, accommodation_id) VALUES (:exam_id, :accommodation_id)
+      create: >-
+        INSERT INTO exam_available_accommodation (exam_id, accommodation_id) VALUES (:exam_id, :accommodation_id)
 
   studentEthnicity:
     findAllIds:

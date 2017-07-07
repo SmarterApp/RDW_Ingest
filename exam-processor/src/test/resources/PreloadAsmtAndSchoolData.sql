@@ -1,0 +1,78 @@
+INSERT INTO import (id, status, content, contentType, digest, batch, replay_id, creator, created, updated, message) VALUES
+   (-1, 0, 1, 'application/xml', '1D849A91956B74350FF895F067F115E6', NULL, NULL, NULL, '2017-07-06 00:00:00.000000', '2017-07-06 23:16:45.640627', NULL);
+
+INSERT INTO asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name, label, version, import_id, update_import_id, deleted) VALUES
+  (20, '(SBAC)SBAC-IAB-FIXED-G4M-G-MATH-4-Winter-2016-2017', 4, 2, 1, 2016, 'SBAC-IAB-FIXED-G4M-G-MATH-4', 'SBAC-IAB-FIXED-G4M-G-MATH-4', NULL, -1, -1, 0),
+  (21, '(SBAC)SBAC-ICA-FIXED-G6E-COMBINED-2017-Winter-2016-2017', 6, 1, 2, 2016, 'SBAC-ICA-FIXED-G6E-COMBINED-2017', 'SBAC-ICA-FIXED-G6E-COMBINED-2017', NULL, -1, -1, 0),
+  (22, '(SBAC)SBAC-IAB-FIXED-G6E-LangVocab-ELA-6-Winter-2016-2017', 6, 2, 2, 2016, 'SBAC-IAB-FIXED-G6E-LangVocab-ELA-6', 'SBAC-IAB-FIXED-G6E-LangVocab-ELA-6', NULL, -1, -1, 0),
+  (23, '(SBAC)SBAC-IAB-FIXED-G6E-ReadLit-ELA-6-Winter-2016-2017', 6, 2, 2, 2016, 'SBAC-IAB-FIXED-G6E-ReadLit-ELA-6', 'SBAC-IAB-FIXED-G6E-ReadLit-ELA-6', NULL, -1, -1, 0),
+  (24, '(SBAC)SBAC-IAB-FIXED-G6M-EE-Winter-2016-2017', 6, 2, 1, 2016, 'SBAC-IAB-FIXED-G6M-EE', 'SBAC-IAB-FIXED-G6M-EE', NULL, -1, -1, 0),
+  (25, '(SBAC)SBAC-ICA-FIXED-G4M-COMBINED-2017-Winter-2016-2017', 4, 1, 1, 2016, 'SBAC-ICA-FIXED-G4M-COMBINED-2017', 'SBAC-ICA-FIXED-G4M-COMBINED-2017', NULL, -1, -1, 0),
+  (26, '(SBAC)SBAC-ICA-FIXED-G6M-COMBINED-2017-Winter-2016-2017', 6, 1, 1, 2016, 'SBAC-ICA-FIXED-G6M-COMBINED-2017', 'SBAC-ICA-FIXED-G6M-COMBINED-2017', NULL, -1, -1, 0);
+
+INSERT INTO item (id, claim_id, target_id, natural_id, asmt_id, math_practice, allow_calc, dok_id, difficulty_code, difficulty, max_points, position) VALUES
+  (347, 8, 1, '200-22608', 20, NULL, NULL, 1, 'D', 0.5, 5, NULL), (348, 8, 1, '200-82292', 20, NULL, NULL, 1, 'D', 0.5, 5, NULL), (349, 8, 1, '200-84662', 20, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (350, 8, 1, '200-82290', 20, NULL, NULL, 1, 'D', 0.5, 5, NULL), (351, 8, 1, '200-90289', 20, NULL, NULL, 1, 'D', 0.5, 5, NULL), (352, 8, 1, '200-90299', 20, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (353, 8, 1, '200-82656', 20, NULL, NULL, 1, 'D', 0.5, 5, NULL), (354, 8, 1, '200-90323', 20, NULL, NULL, 1, 'D', 0.5, 5, NULL), (355, 8, 1, '200-91720', 20, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (356, 8, 1, '200-89142', 20, NULL, NULL, 1, 'D', 0.5, 5, NULL), (357, 8, 1, '200-16283', 20, NULL, NULL, 1, 'D', 0.5, 5, NULL), (358, 1, 844, '200-37321', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (359, 1, 844, '200-37243', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (360, 1, 844, '200-37241', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (361, 1, 844, '200-35421', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (362, 1, 844, '200-36357', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (363, 1, 844, '200-36951', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (364, 1, 844, '200-32474', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (365, 1, 844, '200-33244', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (366, 1, 844, '200-37245', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (367, 1, 844, '200-41340', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (368, 1, 844, '200-32476', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (369, 1, 844, '200-58821', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (370, 1, 844, '200-32478', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (371, 1, 844, '200-30973', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (372, 1, 844, '200-53850', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (373, 1, 844, '200-25307', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (374, 1, 844, '200-56561', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (375, 1, 844, '200-25303', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (376, 1, 844, '200-25305', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (377, 1, 844, '200-46849', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (378, 1, 844, '200-37435', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (379, 1, 844, '200-37115', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (380, 1, 844, '200-37433', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (381, 1, 844, '200-30482', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (382, 1, 844, '200-37113', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (383, 1, 844, '200-58239', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (384, 1, 844, '200-37117', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (385, 1, 844, '200-35418', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (386, 1, 844, '200-53858', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (387, 1, 844, '200-36947', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (388, 1, 844, '200-58717', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (389, 1, 844, '200-27511', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (390, 1, 844, '200-70064', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (391, 1, 844, '200-45960', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (392, 1, 844, '200-52498', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (393, 1, 844, '200-52618', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (394, 1, 844, '200-37307', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (395, 1, 844, '200-32214', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (396, 1, 844, '200-52500', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (397, 1, 844, '200-52424', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (398, 1, 844, '200-29321', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (399, 1, 844, '200-31075', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (400, 1, 844, '200-36405', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (401, 1, 844, '200-36963', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (402, 1, 844, '200-32448', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (403, 1, 844, '200-56557', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (404, 1, 844, '200-44973', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (405, 1, 844, '200-37251', 21, NULL, NULL, 1, 'D', 0.5, 5, NULL), (417, 1, 844, '200-44726', 22, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (418, 1, 844, '200-44748', 22, NULL, NULL, 1, 'D', 0.5, 5, NULL), (419, 1, 844, '200-46829', 22, NULL, NULL, 1, 'D', 0.5, 5, NULL), (420, 1, 844, '200-45918', 22, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (421, 1, 844, '200-36333', 22, NULL, NULL, 1, 'D', 0.5, 5, NULL), (422, 1, 844, '200-36405', 22, NULL, NULL, 1, 'D', 0.5, 5, NULL), (423, 1, 844, '200-58249', 22, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (424, 1, 844, '200-36419', 22, NULL, NULL, 1, 'D', 0.5, 5, NULL), (425, 1, 844, '200-43353', 22, NULL, NULL, 1, 'D', 0.5, 5, NULL), (426, 1, 844, '200-44750', 22, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (427, 1, 844, '200-46831', 22, NULL, NULL, 1, 'D', 0.5, 5, NULL), (428, 1, 844, '200-44742', 22, NULL, NULL, 1, 'D', 0.5, 5, NULL), (429, 1, 844, '200-45842', 22, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (430, 1, 844, '200-44746', 22, NULL, NULL, 1, 'D', 0.5, 5, NULL), (431, 1, 844, '200-41943', 22, NULL, NULL, 1, 'D', 0.5, 5, NULL), (432, 1, 844, '200-41634', 23, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (433, 1, 844, '200-37435', 23, NULL, NULL, 1, 'D', 0.5, 5, NULL), (434, 1, 844, '200-37433', 23, NULL, NULL, 1, 'D', 0.5, 5, NULL), (435, 1, 844, '200-37437', 23, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (436, 1, 844, '200-53858', 23, NULL, NULL, 1, 'D', 0.5, 5, NULL), (437, 1, 844, '200-32448', 23, NULL, NULL, 1, 'D', 0.5, 5, NULL), (438, 1, 844, '200-52566', 23, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (439, 1, 844, '200-52620', 23, NULL, NULL, 1, 'D', 0.5, 5, NULL), (440, 1, 844, '200-52554', 23, NULL, NULL, 1, 'D', 0.5, 5, NULL), (441, 1, 844, '200-52556', 23, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (442, 1, 844, '200-53850', 23, NULL, NULL, 1, 'D', 0.5, 5, NULL), (443, 1, 844, '200-52550', 23, NULL, NULL, 1, 'D', 0.5, 5, NULL), (444, 1, 844, '200-52498', 23, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (445, 1, 844, '200-56201', 23, NULL, NULL, 1, 'D', 0.5, 5, NULL), (446, 1, 844, '200-52560', 23, NULL, NULL, 1, 'D', 0.5, 5, NULL), (447, 8, 1, '200-15940', 24, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (448, 8, 1, '200-700', 24, NULL, NULL, 1, 'D', 0.5, 5, NULL), (449, 8, 1, '200-14350', 24, NULL, NULL, 1, 'D', 0.5, 5, NULL), (450, 8, 1, '200-16561', 24, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (451, 8, 1, '200-14338', 24, NULL, NULL, 1, 'D', 0.5, 5, NULL), (452, 8, 1, '200-4091', 24, NULL, NULL, 1, 'D', 0.5, 5, NULL), (453, 8, 1, '200-14249', 24, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (454, 8, 1, '200-375', 24, NULL, NULL, 1, 'D', 0.5, 5, NULL), (455, 8, 1, '200-24563', 24, NULL, NULL, 1, 'D', 0.5, 5, NULL), (456, 8, 1, '200-4093', 24, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (457, 8, 1, '200-9665', 24, NULL, NULL, 1, 'D', 0.5, 5, NULL), (458, 8, 1, '200-13808', 24, NULL, NULL, 1, 'D', 0.5, 5, NULL), (459, 8, 1, '200-45586', 24, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (460, 8, 1, '200-12092', 24, NULL, NULL, 1, 'D', 0.5, 5, NULL), (461, 8, 1, '200-6006', 24, NULL, NULL, 1, 'D', 0.5, 5, NULL), (462, 8, 1, '200-5950', 24, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (463, 8, 1, '200-30073', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL), (464, 8, 1, '200-13999', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL), (465, 8, 1, '200-11531', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (466, 8, 1, '200-18943', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL), (467, 8, 1, '200-25662', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL), (468, 8, 1, '200-45230', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (469, 8, 1, '200-25665', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL), (470, 8, 1, '200-7672', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL), (471, 8, 1, '200-44225', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (472, 8, 1, '200-2024', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL), (473, 8, 1, '200-2662', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL), (474, 8, 1, '200-5711', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (475, 8, 1, '200-25666', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL), (476, 8, 1, '200-25667', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL), (477, 8, 1, '200-29627', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (478, 8, 1, '200-2622', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL), (479, 8, 1, '200-257', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL), (480, 8, 1, '200-10116', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (481, 8, 1, '200-11525', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL), (482, 8, 1, '200-13468', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL), (483, 8, 1, '200-8890', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (484, 8, 1, '200-7762', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL), (485, 8, 1, '200-6692', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL), (486, 8, 1, '200-29233', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (487, 8, 1, '200-16054', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL), (488, 8, 1, '200-7666', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL), (489, 8, 1, '200-25659', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (490, 8, 1, '200-1628', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL), (491, 8, 1, '200-16273', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL), (492, 8, 1, '200-2012', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (493, 8, 1, '200-7742', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL), (494, 8, 1, '200-2773', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL), (495, 8, 1, '200-2014', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (496, 8, 1, '200-20843', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL), (497, 8, 1, '200-25655', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL), (498, 8, 1, '200-25515', 25, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (547, 8, 1, '200-4978', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL), (548, 8, 1, '200-13310', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL), (549, 8, 1, '200-13312', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (550, 8, 1, '200-16565', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL), (551, 8, 1, '200-13311', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL), (552, 8, 1, '200-16561', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (553, 8, 1, '200-14362', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL), (554, 8, 1, '200-383', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL), (555, 8, 1, '200-14428', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (556, 8, 1, '200-13313', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL), (557, 8, 1, '200-13876', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL), (558, 8, 1, '200-24179', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (559, 8, 1, '200-27583', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL), (560, 8, 1, '200-25681', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL), (561, 8, 1, '200-9559', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (562, 8, 1, '200-5950', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL), (563, 8, 1, '200-1516', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL), (564, 8, 1, '200-3973', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (565, 8, 1, '200-25766', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL), (566, 8, 1, '200-24579', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL), (567, 8, 1, '200-1496', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (568, 8, 1, '200-14350', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL), (569, 8, 1, '200-13309', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL), (570, 8, 1, '200-690', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (571, 8, 1, '200-26162', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL), (572, 8, 1, '200-13308', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL), (573, 8, 1, '200-375', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (574, 8, 1, '200-24563', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL), (575, 8, 1, '200-4093', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL), (576, 8, 1, '200-25973', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (577, 8, 1, '200-9665', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL), (578, 8, 1, '200-49686', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL), (579, 8, 1, '200-12092', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL),
+  (580, 8, 1, '200-4870', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL), (581, 8, 1, '200-25679', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL), (582, 8, 1, '200-5108', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL);
+
+INSERT INTO district (id, natural_id, name) VALUES
+  (5,'UCLALS','UCLA');
+
+INSERT INTO school (id, district_id, natural_id, name, import_id, update_import_id, deleted) VALUES
+  (6,5,'APTEST1','APTESTSCHOOL',-1,-1,0);
