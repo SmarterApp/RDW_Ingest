@@ -343,7 +343,7 @@ sql:
                       FROM staging.staging_translation st
                     WHERE
                       st.label_code = rt.label_code AND st.language_code = rt.language_code
-                      AND st.namespace = rt.namespace);
+                      AND st.namespace = rt.namespace) AND rt.namespace = (SELECT backend from reporting.namespace_constants);
 
         # ############################## Exams ####################################################################
         # ------------ exam_available_accommodation -------------------------------------------------------------------
