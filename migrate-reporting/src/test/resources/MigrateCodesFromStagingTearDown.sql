@@ -18,7 +18,7 @@ DELETE FROM reporting_test.completeness WHERE id IN (-99,-98);
 DELETE FROM reporting_test.administration_condition WHERE id IN (-99,-98, -97, -96);
 DELETE FROM reporting_test.ethnicity WHERE id IN (-99,-98);
 DELETE FROM reporting_test.gender  WHERE id IN (-99,-98);
-DELETE FROM reporting_test.translation WHERE label_code IN ('code1-test', 'code2-test', 'before_test_code') AND language_code in ('lan', 'gua', 'bef') AND namespace = 'backend';
+DELETE FROM reporting_test.translation WHERE  namespace IN ('backend', 'frontend');
 DELETE FROM reporting_test.accommodation WHERE id IN (-99,-98);
 DELETE FROM reporting_test.depth_of_knowledge  WHERE id IN (-99,-98);
 DELETE FROM reporting_test.math_practice  WHERE practice IN (-99,-98);
