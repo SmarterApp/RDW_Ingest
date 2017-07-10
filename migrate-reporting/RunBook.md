@@ -13,7 +13,7 @@ The service start up parameters that are worth noting:
 - ```--migrate.batch.size=1000``` - a number of import ids migrated in one chunk/iteration.
 
 The service is not built to be horizontally scalable. Starting more than one migrate reporting service will cause 
-unpredictable behavior. The batch size can be adjusted for performance, it is a trade off between small transaction
+unpredictable behavior. The batch size can be adjusted for performance; it is a trade off between small transaction
 size and overall throughput. Because the database is the limiting resource, the effect may not be large. As an
 example, in a particular staging environment adjusting the batch size from 1000 to 2000 increased overall migrate 
 rate by 33% (from 33/s to 44/s).
