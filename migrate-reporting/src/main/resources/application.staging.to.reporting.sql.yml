@@ -336,6 +336,10 @@ sql:
                        rt.namespace = st.namespace
                 WHERE rt.label_code IS NULL;
 
+            # --- With this delete, we don't want to delete anything that isn't part of the "backend" namespace
+            # --- The "backend" namespace is hardcoded in the staging table for anything that is in the warehouse for translation
+            # --- Insert and update don't need the extra check because they are already checking against the staging table
+            # --- value, which is already set to "backend" and they will only update rows with that namespace.
             delete: >-
                DELETE rt FROM reporting.translation rt
                   WHERE NOT EXISTS(
