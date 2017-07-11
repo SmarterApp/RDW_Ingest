@@ -112,7 +112,7 @@
         <Score measureOf="SOCK_R" measureLabel="ThetaScore" value="-0.668921562081719" standardError="0.509248104337775"/>
         <Score measureOf="SOCK_LS" measureLabel="ThetaScore" value="-1.08427761752295" standardError="0.939084597077567"/>
         <Score measureOf="Overall" measureLabel="ScaleScore" value="-1" standardError="23.5105791416061"/>
-        <Score measureOf="2-W" measureLabel="ScaleScore" value="0" standardError=""/>
+        <Score measureOf="2-W" measureLabel="ScaleScore" value="-2017" standardError=""/>
         <Score measureOf="4-CR" measureLabel="ScaleScore" value="bad data" standardError=""/>
         <Score measureOf="SOCK_R" measureLabel="ScaleScore" value="bad data" standardError=""/>
         <Score measureOf="SOCK_LS" measureLabel="ScaleScore" value="bad data" standardError=""/>
