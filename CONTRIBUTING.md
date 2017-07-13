@@ -60,3 +60,42 @@ specified to avoid conflict.
 java -jar import-service/build/libs/rdw-ingest-import-service-0.0.1-SNAPSHOT.jar
 java -jar exam-processor/build/libs/rdw-ingest-exam-processor-0.0.1-SNAPSHOT.jar --server.port=8082
 ```
+
+#### FTP Server
+The task service likes to use FTP to send reconciliation reports. If you don't have an FTP server but want to test
+that functionality, you can use docker to run ProFTPD. Either directly run it and modify the task service 
+application.yml to hit localhost:
+```bash
+docker run -d --name ftpd -e FTP_USERNAME=alice -e FTP_PASSWORD=pswd -v /tmp/ftpd:/home/alice -p 20:20 -p 21:21 hauptmedia/proftpd
+```
+```bash
+task:
+  send-reconciliation-report:
+    cron: 0 0/1 * * * *
+    query: status=PROCESSED
+    ftp-sender:
+      server:localhost
+      username:alice
+      password:pswd
+```
+Or, set it all in the docker-compose.yml:
+```yaml
+  ftpd:
+    image: hauptmedia/proftpd
+    container_name: ftpd
+    ports:
+      - 0021:0021
+      - 0020:0020
+    volumes:
+      - /tmp/ftpd:/home/alice
+    environment:
+      - FTP_USERNAME=alice
+      - FTP_PASSWORD=pswd
+...
+  task-service:
+    links:
+      - ftpd
+    environment:
+      - task.send-reconciliation-report.ftp-sender.server=ftpd
+```
+Either way, the reconciliation reports should appear in `/tmp/ftpd` if things are working properly.
