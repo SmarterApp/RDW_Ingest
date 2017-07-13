@@ -28,3 +28,13 @@ dependencies {
     compile project(':rdw-ingest-common')
     testCompile project(path: ':rdw-ingest-common', configuration: 'tests')
 }
+
+//This will allow for running of the multithreaded test application
+task runMTTest(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+
+    main = 'org.opentestsystem.rdw.ingest.processor.multithreaded.MultiThreadedApplicationTest'
+
+    description = 'task to run the MultiThreadedApplication test as a separate test app'
+
+}
