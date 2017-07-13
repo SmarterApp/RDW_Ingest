@@ -1,34 +1,32 @@
 sql:
   import:
     exams: >-
-      SELECT s.ssid, a.natural_id, e.completed_at
+      SELECT s.ssid, a.natural_id, e.school_year, e.oppId, i.batch, i.id
       FROM import i
         JOIN exam e ON e.import_id = i.id
         JOIN exam_student es ON es.id = e.exam_student_id
         JOIN student s ON s.id = es.student_id
         JOIN asmt a ON a.id = e.asmt_id
-      WHERE (i.content=1)
-        AND (:status IS NULL OR i.status = :status)
+      WHERE i.content = 1 AND i.replay_id IS NULL
         AND (:batch IS NULL OR i.batch = :batch)
         AND (:creator IS NULL OR i.creator = :creator)
         AND (:before IS NULL OR i.created < :before)
         AND (:after IS NULL OR i.created > :after)
       ORDER BY i.id
-      LIMIT 100000
 
     count: >-
       SELECT count(*) FROM import i
-      WHERE (content=1)
+      WHERE i.content = 1 AND i.replay_id IS NULL
         AND (:batch IS NULL OR i.batch = :batch)
         AND (:creator IS NULL OR i.creator = :creator)
         AND (:before IS NULL OR i.created < :before)
         AND (:after IS NULL OR i.created > :after)
 
     status: >-
-      SELECT  s.ssid, a.natural_id, ie.completed_at
+      SELECT s.ssid, a.natural_id, e.school_year, e.oppId, i.batch, i.id
         FROM import i
-          JOIN exam ie ON ie.import_id = i.id
-          JOIN exam_student ies ON ies.id = ie.exam_student_id
-          JOIN student s ON s.id = ies.student_id
-          JOIN asmt a ON a.id = ie.asmt_id
+          JOIN exam e ON e.import_id = i.id
+          JOIN exam_student es ON es.id = e.exam_student_id
+          JOIN student s ON s.id = es.student_id
+          JOIN asmt a ON a.id = e.asmt_id
         LIMIT 1
