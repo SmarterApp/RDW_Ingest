@@ -167,11 +167,19 @@ subprojects {
         }
     }
 
-    //Specific integration test task that will automatially clean and migrate the test database schemas
+    //Specific integration test task that will automatically clean and migrate the test database schemas
     task IT(type: Test, dependsOn:[":cleanAllTest", ":migrateAllTest"]) {
         outputs.upToDateWhen { false }
         doFirst {
             println "Running Integration Tests..."
+        }
+    }
+
+    //Specific integration test task that will automatically migrate the test database schemas
+    task moIT(type: Test, dependsOn:[":migrateAllTest"]) {
+        outputs.upToDateWhen { false }
+        doFirst {
+            println "Running Integration Tests without cleaning database (flyway migrate only)..."
         }
     }
 
