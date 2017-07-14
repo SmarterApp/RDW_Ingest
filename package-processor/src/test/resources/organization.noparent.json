@@ -125,8 +125,8 @@
       {
         "id": "58ec64cbe4b07da58f50825d",
         "entityId": "DS1111",
-        "entityName": "Charter",
-        "parentEntityId": "DISTRICT2",
+        "entityName": "NoParent",
+        "parentEntityId": "DoesNotExist",
         "stateAbbreviation": "CA",
         "nationwideIdentifier": "DS1111",
         "parentId": "58ec645ce4b07ef58f50825a",

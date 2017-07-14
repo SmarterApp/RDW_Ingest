@@ -1,0 +1,47 @@
+{
+  "districts": [
+    {
+      "id": "572d7630e4b0ed2c55c37e34",
+      "entityId": "DISTRICT9",
+      "entityName": "District 9 - Prawn Town",
+      "parentEntityId": "CA",
+      "stateAbbreviation": "CA",
+      "nationwideIdentifier": null,
+      "parentId": "572d7606e4b0ed2c55c37e33",
+      "action": "UPD",
+      "tenantType": "DISTRICT",
+      "formatType": "DISTRICT",
+      "entityType": "DISTRICT",
+      "alternateKey": "entityId: DISTRICT9, stateAbbreviation: CA",
+      "parentEntityType": "STATE",
+      "url": "/district/572d7630e4b0ed2c55c37e34"
+    }
+  ],
+  "institutions": {
+    "searchResults": [
+      {
+        "id": "57325fc6e4b0ed2c55c37e40",
+        "entityId": "AnIdThatIsMoreThan40CharactersWhichIsTheLimit",
+        "entityName": "District 9 Institution 1",
+        "parentEntityId": "DISTRICT9",
+        "stateAbbreviation": "CA",
+        "nationwideIdentifier": "NCESID001",
+        "parentId": "572d7630e4b0ed2c55c37e34",
+        "action": "UPD",
+        "tenantType": "INSTITUTION",
+        "formatType": "INSTITUTION",
+        "entityType": "INSTITUTION",
+        "alternateKey": "entityId: DS9001, stateAbbreviation: CA",
+        "parentEntityType": "DISTRICT"
+      }
+    ],
+    "currentPage": 0,
+    "returnCount": 4,
+    "pageSize": 1000,
+    "totalCount": 4,
+    "sortKey": "_id",
+    "sortDirection": "ASC",
+    "nextPageUrl": null,
+    "prevPageUrl": null
+  }
+}
