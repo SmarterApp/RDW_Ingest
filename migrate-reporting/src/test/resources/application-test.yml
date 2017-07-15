@@ -1,3 +1,5 @@
 spring:
   batch_datasource:
-    url: jdbc:mysql://localhost:3306/spring_batch_reporting_test?useSSL=false&useLegacyDatetimeCode=false
+    url: ${database_url}spring_batch_reporting_test?useSSL=false&useLegacyDatetimeCode=false
+    username: ${database_user}
+    password: ${database_password}
