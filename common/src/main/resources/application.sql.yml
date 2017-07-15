@@ -12,3 +12,6 @@ sql:
   school:
     findIdByNaturalId: >-
       SELECT id FROM school WHERE natural_id = ?
+
+    upsert: >-
+      CALL school_upsert(?, ?, ?, ?, ?, @p_id)
