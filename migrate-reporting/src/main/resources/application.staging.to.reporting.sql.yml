@@ -832,6 +832,7 @@ sql:
                 JOIN staging.staging_student ss ON ss.id = rs.id
                 JOIN reporting.gender rg ON ss.gender_id = rg.id
               SET
+                rs.ssid = ss.ssid,
                 rs.last_or_surname = ss.last_or_surname,
                 rs.first_name = ss.first_name,
                 rs.middle_name = ss.middle_name,
