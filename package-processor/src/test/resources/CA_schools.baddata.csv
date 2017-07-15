@@ -5,10 +5,13 @@ County-District Code^School Code^Auth CDS Code^County Name^District Name^School 
 0100123^0100123^01612590100123^Alameda^East Oakland Leadership Academy^East Oakland Leadership Academy^Y^DF^N
 0561580^6111884^05615806111884^Calaveras^Vallecito Union District modified to have a name that is so long it is considered to be bad data^Avery Middle^N^^N
 0610066^0610066^06100660610066^Colusa^Colusa County Office of Education School District^Colusa County Office of Education District Level Program^N^^N
+
 1075275^6112544^10752756112544^Fresno^Sierra Unified^Lodge Pole Elementary (Alternative) with trailing text that makes the name much too long to be handled by our system^N^^N
 1075408^1030253^10754081030253^Fresno^Riverdale Joint Unified^Horizon High^N^^N
+
 1262679^6007678^12626796007678^Humboldt^Arcata Elementary^Arcata Elementary^N^^N
 1262687^0107110^12626870107110^Humboldt^Northern Humboldt Union High^Six Rivers Charter High^Y^LF^N
+
 1964733^6061568^19647336061568^Los Angeles^Los Angeles Unified^Woodland Hills Academy^N^^N
 1964733^6061576^19647336061576^Los Angeles^Los Angeles Unified^Robert E. Peary Middle^N^^N
 1964733^6061584^19647336061584^Los Angeles^Los Angeles Unified^Gaspar De Portola Middle^N^^N
