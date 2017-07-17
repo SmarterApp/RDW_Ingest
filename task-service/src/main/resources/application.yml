@@ -6,9 +6,19 @@ management:
 server:
   port: 8008
 
+# there needs to be a default aws region configured
+cloud:
+  aws:
+    region:
+      auto: false
+      static: us-west-2
+    # disable CloudFormation stuff
+    stack:
+      auto: false
+    credentials:
+      instance-profile: false
+
 spring:
-  mail:
-    host: local
   datasource:
     url: jdbc:mysql://localhost:3306/warehouse?useSSL=false&useLegacyDatetimeCode=false
     username: root
@@ -26,10 +36,14 @@ task:
 #  send-reconciliation-report:
 #    cron: 0 0 14 * * *
 #    query: status=PROCESSED&after=-PT24H
-#    ftp-sender:
-#      server:
-#      username:
-#      password:
+#    senders:
+#      - type: ftp
+#        server:
+#        username:
+#        password:
+#      - type: log
+#      - type: archive
+#        root: file:///tmp/
   # by default, this task is disabled for local dev environment; uncomment and set secrets/hosts to test
 #  update-organizations:
 #    cron: 0 0 4 * * *
