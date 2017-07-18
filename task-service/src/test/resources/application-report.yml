@@ -1,0 +1,12 @@
+task:
+  send-reconciliation-report:
+    cron: 0 0 14 * * *
+    query: status=PROCESSED&after=-PT24H
+    senders:
+      - type: log
+      - type: ftp
+        server: localhost
+        username: test
+        password: pswd
+      - type: archive
+        root: file:///tmp/

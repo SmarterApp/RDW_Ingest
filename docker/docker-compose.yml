@@ -86,6 +86,8 @@ services:
     image: fwsbac/rdw-ingest-task-service
     ports:
       - 8084:8008
+    volumes:
+      - /tmp:/tmp
     links:
       - config-server
       - import-service
