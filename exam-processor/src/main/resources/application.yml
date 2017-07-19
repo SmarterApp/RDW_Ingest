@@ -38,8 +38,8 @@ jdbc:
 
 sbac:
   scaleScore:
-    min: 0
-    max: 3000
+    min: 1500
+    max: 3500
   itemScore:
     min: -1
     max: 20
