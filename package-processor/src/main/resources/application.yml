@@ -36,3 +36,11 @@ spring:
     default-property-inclusion: non_null
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
+
+sbac:
+  scaleScore:
+    min: 0
+    max: 3000
+  itemScore:
+    min: -1
+    max: 20
