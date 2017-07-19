@@ -824,7 +824,7 @@ sql:
                   ss.import_id
                 FROM staging.staging_student ss
                   LEFT JOIN reporting.student rs ON rs.id = ss.id
-                  JOIN reporting.gender rg ON ss.gender_id = rg.id
+                  LEFT JOIN reporting.gender rg ON ss.gender_id = rg.id
                 WHERE rs.id IS NULL and ss.deleted = 0;
 
             update: >-
