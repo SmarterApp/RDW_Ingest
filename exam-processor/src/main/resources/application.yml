@@ -35,3 +35,11 @@ jdbc:
     default:
       max-attempts: 4
       delay: 30
+
+sbac:
+  scaleScore:
+    min: 1500
+    max: 3500
+  itemScore:
+    min: -1
+    max: 20
