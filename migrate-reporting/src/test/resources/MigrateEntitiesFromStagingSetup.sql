@@ -52,7 +52,7 @@ INSERT INTO staging_test.staging_item_common_core_standard(item_id, common_core_
    (-89, '89', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -89, -99, 0),
    (-88, '88', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -88, -99, 0),
    (-87, '87', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -87, -99, 0),
-   (-86, '86', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -86, -99, 0);
+   (-86, '86', 'LastName2', 'FirstName2', 'MiddleName2', null, '2012-08-14', '2012-11-13', null, '2000-01-01', -86, -99, 0);
 
 INSERT INTO staging_test.staging_student_ethnicity(student_id, ethnicity_id) values
     (-89,  -99),
