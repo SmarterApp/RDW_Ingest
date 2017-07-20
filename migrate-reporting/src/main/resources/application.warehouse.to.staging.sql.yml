@@ -860,7 +860,7 @@ sql:
                                               (:id, :exam_id, :item_id, :score, :score_status, :position, :response, :trait_evidence_elaboration_score,
                                                  :trait_evidence_elaboration_score_status, :trait_organization_purpose_score,
                                                  :trait_organization_purpose_score_status, :trait_conventions_score,
-                                                 :trait_conventions_score_status, migrate_id)
+                                                 :trait_conventions_score_status, :migrate_id)
 
         exam_item_by_update_import_id:
           sql:
@@ -894,7 +894,7 @@ sql:
                                               (:id, :exam_id, :item_id, :score, :score_status, :position, :response, :trait_evidence_elaboration_score,
                                                  :trait_evidence_elaboration_score_status, :trait_organization_purpose_score,
                                                  :trait_organization_purpose_score_status, :trait_conventions_score,
-                                                 :trait_conventions_score_status, migrate_id)
+                                                 :trait_conventions_score_status, :migrate_id)
 
         # ------------ exam_available_accommodation  ---------------------------------------------------------------------------------------
         exam_available_accommodation:
