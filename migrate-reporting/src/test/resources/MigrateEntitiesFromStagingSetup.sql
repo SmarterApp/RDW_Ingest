@@ -89,13 +89,14 @@ INSERT INTO staging_test.staging_exam_student ( id, grade_id, student_id, school
  ( -16, -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null, -99);
 
 INSERT INTO  staging_test.staging_exam ( id, type_id,  exam_student_id, school_year, asmt_id, asmt_version, opportunity, completeness_id,
-        administration_condition_id, session_id, performance_level, scale_score, scale_score_std_err, completed_at, import_id, deleted, migrate_id) VALUES
-(-88, 1, -18, 2016, -99,  null, 1, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88),
-(-87, 1, -17, 2016, -11,  null, 1, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88),
-(-86, 1, -16, 2016, -11,  null, 1, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88);
+        administration_condition_id, session_id, performance_level, scale_score, scale_score_std_err, available_accommodation_codes, completed_at, import_id, deleted, migrate_id) VALUES
+(-88, 1, -18, 2016, -99,  null, 1, -99, -99, 'session', 1, 2145, 0.17, 'code1-test|code2-test', '2016-08-14', -88, 0, -88),
+(-87, 1, -17, 2016, -11,  null, 1, -99, -99, 'session', 1, 2145, 0.17, 'code1-test', '2016-08-14', -88, 0, -88),
+(-86, 1, -16, 2016, -11,  null, 1, -99, -99, 'session', 1, 2145, 0.17, null, '2016-08-14', -88, 0, -88);
 
 INSERT INTO staging_test.staging_exam_available_accommodation (exam_id, accommodation_id) VALUES
     (-88, -98),
+    (-88, -99),
     (-87, -98);
 
 INSERT INTO staging_test.staging_exam_item (id, exam_id, item_id, score, score_status, response, position, migrate_id) VALUES

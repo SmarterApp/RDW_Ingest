@@ -6,7 +6,7 @@ INSERT INTO staging_test.staging_gender VALUES (-98, 'Male-test');
 INSERT INTO staging_test.staging_accommodation VALUES (-98, 'code2-test');
 INSERT INTO staging_test.staging_claim VALUES (-98, 2, '2-W', 'Write Effectively', 'Write Effectively - ..');
 INSERT INTO staging_test.staging_depth_of_knowledge VALUES (-98, 2, 1, 'Basic Skills and Concepts', 'anything');
-INSERT INTO staging_test.staging_math_practice VALUES (-98, 'Reason abstractly and quantitatively');
+INSERT INTO staging_test.staging_math_practice VALUES (-98, 'Reason abstractly and quantitatively', '-8');
 INSERT INTO staging_test.staging_item_trait_score VALUES (-98, 'Evidence/Elaboration-test');
 INSERT INTO staging_test.staging_target VALUES (-98, -98, 'target-98', 'WORD MEANINGS:..)');
 INSERT INTO staging_test.staging_common_core_standard VALUES (-98, 'naturalid-98', 2, 'standard 98');
