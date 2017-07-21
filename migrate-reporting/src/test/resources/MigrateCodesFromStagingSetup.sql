@@ -6,7 +6,7 @@ INSERT INTO staging_test.staging_gender VALUES (-99,'Female-test'),(-98,'Male-te
 INSERT INTO staging_test.staging_accommodation VALUES(-99, 'code1-test'),( -98 ,'code2-test');
 INSERT INTO staging_test.staging_claim VALUES (-99 ,2,'1-IT','Read Analytically: Informational Text','Read Analytically: Informational Text ...'),( -98,2,'2-W','Write Effectively','Write Effectively - ..');
 INSERT INTO staging_test.staging_depth_of_knowledge  VALUES (-99,1,1,'Recall and Reproduction','something'),(-98,2,1,'Basic Skills and Concepts','anything');
-INSERT INTO staging_test.staging_math_practice  VALUES (-99,'Make sense of problems and persevere in solving them'),(-98,'Reason abstractly and quantitatively');
+INSERT INTO staging_test.staging_math_practice  VALUES (-99,'Make sense of problems and persevere in solving them', '-9'),(-98,'Reason abstractly and quantitatively', '-8');
 INSERT INTO staging_test.staging_item_trait_score VALUES (-99,'Conventions-test'),(-98,'Evidence/Elaboration-test');
 INSERT INTO staging_test.staging_target VALUES (-99, -99,'target-99','WORD MEANINGS: Determine intended meanings of words..'),(-98, -98,'target-98','WORD MEANINGS:..)');
 INSERT INTO staging_test.staging_common_core_standard VALUES (-99,'naturalid-99', 1, 'standard 99.'),(-98, 'naturalid-98',  2, 'standard 98:..)');

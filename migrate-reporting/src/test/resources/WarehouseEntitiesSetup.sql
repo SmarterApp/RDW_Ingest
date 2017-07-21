@@ -131,6 +131,7 @@ INSERT INTO  warehouse_test.exam ( id, type_id, exam_student_id, school_year, as
 
 INSERT INTO warehouse_test.exam_available_accommodation (exam_id, accommodation_id) VALUES
   (-88, -98),
+  (-88, -99),
   (-87, -98),
   (-86, -98),
   (-85, -98);

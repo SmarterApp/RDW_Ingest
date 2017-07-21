@@ -275,13 +275,15 @@ sql:
               UPDATE reporting.math_practice rmp
                 JOIN staging.staging_math_practice smp ON smp.practice = rmp.practice
               SET
-                rmp.description = smp.description;
+                rmp.description = smp.description,
+                rmp.code = smp.code;
 
             insert:  >-
-              INSERT INTO reporting.math_practice ( practice, description)
+              INSERT INTO reporting.math_practice ( practice, description, code)
                 SELECT
                   smp.practice,
-                  smp.description
+                  smp.description,
+                  smp.code
                 FROM staging.staging_math_practice smp
                   LEFT JOIN reporting.math_practice rmp ON rmp.practice = smp.practice
                 WHERE rmp.practice IS NULL;
@@ -446,7 +448,8 @@ sql:
                                           claim1_scale_score, claim1_scale_score_std_err, claim1_category,
                                           claim2_scale_score, claim2_scale_score_std_err, claim2_category,
                                           claim3_scale_score, claim3_scale_score_std_err, claim3_category,
-                                          claim4_scale_score, claim4_scale_score_std_err, claim4_category)
+                                          claim4_scale_score, claim4_scale_score_std_err, claim4_category,
+                                          available_accommodation_codes)
                 SELECT
                   se.id,
                   ses.grade_id,
@@ -488,7 +491,8 @@ sql:
                   claim3.category as claim3_category,
                   claim4.scale_score as claim4_scale_score,
                   claim4.scale_score_std_err as claim4_scale_score_std_err,
-                  claim4.category as claim4_category
+                  claim4.category as claim4_category,
+                  se.available_accommodation_codes
                 FROM staging.staging_exam se
                   JOIN staging.staging_exam_student ses ON se.exam_student_id = ses.id
                   LEFT JOIN (
@@ -616,7 +620,8 @@ sql:
                 re.claim4_scale_score_std_err = claim4.scale_score_std_err,
                 re.claim4_category = claim4.category,
                 re.administration_condition_code = rac.code,
-                re.completeness_code = rc.code
+                re.completeness_code = rc.code,
+                re.available_accommodation_codes = se.available_accommodation_codes
               WHERE se.deleted = 0;
 
             delete: >-
@@ -893,7 +898,7 @@ sql:
           sql:
             insert: >-
               INSERT INTO reporting.item ( id, claim_id, claim_code,  target_id, target_code, common_core_standard_ids, natural_id, asmt_id,
-                  math_practice, allow_calc, position, dok_id, difficulty_code, max_points)
+                  math_practice, math_practice_code, allow_calc, position, dok_id, dok_level_subject_id, difficulty_code, max_points)
                 SELECT
                   si.id,
                   si.claim_id,
@@ -904,15 +909,19 @@ sql:
                   si.natural_id,
                   si.asmt_id,
                   si.math_practice,
+                  rmp.code as math_practice_code,
                   si.allow_calc,
                   si.position,
                   si.dok_id,
+                  concat(rdok.level, '_', rdok.subject_id) as dok_level_subject_id,
                   si.difficulty_code,
                   si.max_points
                 FROM staging.staging_item si
                   LEFT JOIN reporting.item ri ON ri.id = si.id
                    JOIN reporting.claim rc on rc.id = si.claim_id
                    JOIN reporting.target rt on rt.id = si.target_id
+                   JOIN reporting.depth_of_knowledge rdok ON rdok.id = si.dok_id
+                   LEFT JOIN reporting.math_practice rmp on rmp.practice = si.math_practice
                 WHERE ri.id IS NULL;
 
             update: >-
@@ -920,6 +929,8 @@ sql:
                 JOIN staging.staging_item si ON ri.id = si.id
                 JOIN reporting.claim rc on rc.id = si.claim_id
                 JOIN reporting.target rt on rt.id = si.target_id
+                JOIN reporting.depth_of_knowledge rdok ON rdok.id = si.dok_id
+                LEFT JOIN reporting.math_practice rmp on rmp.practice = si.math_practice
               SET
                 ri.claim_id      = si.claim_id,
                 ri.claim_code    = rc.code,
@@ -928,9 +939,11 @@ sql:
                 ri.common_core_standard_ids  = si.common_core_standard_ids,
                 ri.asmt_id       = si.asmt_id,
                 ri.math_practice = si.math_practice,
+                ri.math_practice_code = rmp.code,
                 ri.allow_calc    = si.allow_calc,
                 ri.position      = si.position,
                 ri.dok_id        = si.dok_id,
+                ri.dok_level_subject_id = concat(rdok.level, '_', rdok.subject_id),
                 ri.difficulty_code  = si.difficulty_code,
                 ri.max_points    = si.max_points;
 
