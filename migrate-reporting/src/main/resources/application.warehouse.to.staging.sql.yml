@@ -787,25 +787,16 @@ sql:
                 we.scale_score_std_err,
                 we.completed_at,
                 we.deleted,
-                we.update_import_id AS import_id,
-                code.codes as available_accommodation_codes
+                we.update_import_id AS import_id
               FROM warehouse.exam we
                JOIN warehouse.import wi on wi.id = we.import_id
-               LEFT JOIN
-                     (SELECT
-                        weaa.exam_id as exam_id,
-                        GROUP_CONCAT(wa.code ORDER BY wa.id SEPARATOR '|') AS codes
-                      FROM warehouse.exam_available_accommodation weaa
-                        JOIN warehouse.accommodation wa ON wa.id = weaa.accommodation_id
-                      GROUP BY weaa.exam_id
-                     ) AS code ON code.exam_id = we.id
-              WHERE wi.status != 0 AND wi.id >= :start_import_id AND wi.id <= :end_import_id
+                             WHERE wi.status != 0 AND wi.id >= :start_import_id AND wi.id <= :end_import_id
 
             stagingInsert: >-
               INSERT INTO staging.staging_exam (id, type_id, exam_student_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id,
-                                                 session_id, performance_level, scale_score, scale_score_std_err, available_accommodation_codes, completed_at, deleted, import_id, migrate_id) VALUES
+                                                 session_id, performance_level, scale_score, scale_score_std_err, completed_at, deleted, import_id, migrate_id) VALUES
                                                (:id, :type_id, :exam_student_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id,
-                                                :session_id, :performance_level, :scale_score, :scale_score_std_err, :available_accommodation_codes, :completed_at, :deleted, :import_id, :migrate_id)
+                                                :session_id, :performance_level, :scale_score, :scale_score_std_err, :completed_at, :deleted, :import_id, :migrate_id)
         exam_by_update_import_id:
           sql:
             warehouseRead: >-
@@ -825,25 +816,16 @@ sql:
                 we.scale_score_std_err,
                 we.completed_at,
                 we.deleted,
-                we.update_import_id AS import_id,
-                code.codes as available_accommodation_codes
+                we.update_import_id AS import_id
               FROM warehouse.exam we
                 JOIN warehouse.import wi on wi.id = we.update_import_id
-                LEFT JOIN
-                  (SELECT
-                      weaa.exam_id as exam_id,
-                      GROUP_CONCAT(wa.code ORDER BY wa.id SEPARATOR '|') AS codes
-                    FROM warehouse.exam_available_accommodation weaa
-                      JOIN warehouse.accommodation wa ON wa.id = weaa.accommodation_id
-                      GROUP BY weaa.exam_id
-                  ) AS code ON code.exam_id = we.id
-              WHERE wi.status != 0 AND wi.id >= :start_import_id AND wi.id <= :end_import_id
+                           WHERE wi.status != 0 AND wi.id >= :start_import_id AND wi.id <= :end_import_id
 
             stagingInsert: >-
               INSERT IGNORE INTO staging.staging_exam (id, type_id, exam_student_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id,
-                                                 session_id, performance_level, scale_score, scale_score_std_err, available_accommodation_codes, completed_at, deleted, import_id, migrate_id) VALUES
+                                                 session_id, performance_level, scale_score, scale_score_std_err, completed_at, deleted, import_id, migrate_id) VALUES
                                                (:id, :type_id, :exam_student_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id,
-                                                :session_id, :performance_level, :scale_score, :scale_score_std_err, :available_accommodation_codes, :completed_at, :deleted, :import_id, :migrate_id)
+                                                :session_id, :performance_level, :scale_score, :scale_score_std_err, :completed_at, :deleted, :import_id, :migrate_id)
 
         # ------------ exam_item  ---------------------------------------------------------------------------------------
         exam_item:
