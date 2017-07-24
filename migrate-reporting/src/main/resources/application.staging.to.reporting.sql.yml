@@ -492,7 +492,7 @@ sql:
                   claim4.scale_score as claim4_scale_score,
                   claim4.scale_score_std_err as claim4_scale_score_std_err,
                   claim4.category as claim4_category,
-                  se.available_accommodation_codes
+                  code.codes
                 FROM staging.staging_exam se
                   JOIN staging.staging_exam_student ses ON se.exam_student_id = ses.id
                   LEFT JOIN (
@@ -535,6 +535,12 @@ sql:
                   JOIN reporting.administration_condition rac ON rac.id = se.administration_condition_id
                   JOIN reporting.completeness rc ON rc.id = se.completeness_id
                   JOIN reporting.grade rg ON rg.id = ses.grade_id
+                  LEFT JOIN
+                    (SELECT seaa.exam_id as exam_id, GROUP_CONCAT(ra.code ORDER BY ra.id SEPARATOR '|') AS codes
+                      FROM staging.staging_exam_available_accommodation seaa
+                        JOIN reporting.accommodation ra ON ra.id = seaa.accommodation_id
+                      GROUP BY seaa.exam_id
+                    ) AS code ON code.exam_id = se.id
                 WHERE re.id IS NULL AND se.deleted = 0;
 
             update: >-
@@ -580,6 +586,12 @@ sql:
                               INNER JOIN reporting.exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
                                                                                  AND m.num = 4
                           ) AS claim4 ON claim4.exam_id = se.id
+                LEFT JOIN
+                        (SELECT seaa.exam_id as exam_id, GROUP_CONCAT(ra.code ORDER BY ra.id SEPARATOR '|') AS codes
+                            FROM staging.staging_exam_available_accommodation seaa
+                              JOIN reporting.accommodation ra ON ra.id = seaa.accommodation_id
+                            GROUP BY seaa.exam_id
+                        ) AS code ON code.exam_id = se.id
               SET
                 re.grade_id = ses.grade_id,
                 re.grade_code = rg.code,
@@ -621,7 +633,7 @@ sql:
                 re.claim4_category = claim4.category,
                 re.administration_condition_code = rac.code,
                 re.completeness_code = rc.code,
-                re.available_accommodation_codes = se.available_accommodation_codes
+                re.available_accommodation_codes = code.codes
               WHERE se.deleted = 0;
 
             delete: >-
