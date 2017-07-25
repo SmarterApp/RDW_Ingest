@@ -10,7 +10,7 @@ migrate:
   batch:
     size: 4000
     delay: 60000
-    gridSize: 4
+    gridSize: 2
 
 spring:
   batch_datasource:
