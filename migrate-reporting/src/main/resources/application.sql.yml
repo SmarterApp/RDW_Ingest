@@ -1,12 +1,12 @@
 sql:
   reporting:
     migrate:
-      findLastMigratedImportId: >-
-        SELECT MAX(m.last_import_id) FROM reporting.migrate m WHERE m.status = 20
+      findLastMigratedAt: >-
+        SELECT MAX(m.last_at) FROM reporting.migrate m WHERE m.status = 20
 
       create: >-
-        INSERT INTO reporting.migrate (job_id, status, first_import_id, last_import_id)
-          VALUES (:job_id, :status, :first_import_id, :last_import_id)
+        INSERT INTO reporting.migrate (job_id, status, first_at, last_at)
+          VALUES (:job_id, :status, :first_at, :last_at)
 
       delete: >-
         DELETE FROM reporting.migrate WHERE id = :id
@@ -21,11 +21,30 @@ sql:
   warehouse:
     import:
       findAllImportStatus: >-
-        SELECT name FROM warehouse.import_status
+         SELECT name FROM warehouse.import_status
 
       findImportState: >-
-        SELECT start, stop, blocker FROM (
-          (SELECT MIN(id) AS blocker FROM warehouse.import WHERE status = 0 AND id <= if(:prev IS NULL, :size, (:prev + :size))) s1,
-          (SELECT MIN(id) AS start FROM warehouse.import WHERE (:prev IS NULL OR id > :prev) AND status = 1) s2,
-          (SELECT MAX(id) AS stop FROM warehouse.import WHERE (:prev IS NULL OR id > :prev) AND id <= if(:prev IS NULL, :size, (:prev + :size)) AND status = 1) s3
-        )
+         SELECT start, stop, cnt FROM (
+
+            (SELECT CASE WHEN :prev IS NULL
+               THEN MIN(created)
+                    ELSE :prev END AS start
+             FROM warehouse.import) s1,
+
+            (SELECT
+                MAX(updated) AS stop,
+                count(*)     AS cnt
+              FROM (SELECT updated
+                    FROM warehouse.import
+                    WHERE status != 0 AND (:prev IS NULL OR updated >= :prev)
+                    ORDER BY updated
+                    LIMIT :size) AS batch) s2
+          )
+
+      existsCodeImportContentInTimeRange:
+          SELECT 1 AS existsCodeImportContent
+            FROM warehouse.import wi
+          WHERE wi.content = 3
+             AND ((wi.status != 0 AND wi.updated >= :first_at AND wi.updated <= :last_at) OR
+               (wi.status = 0 AND wi.created <= :last_at))
+          LIMIT 1

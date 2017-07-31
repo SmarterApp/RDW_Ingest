@@ -449,7 +449,7 @@ sql:
                                           claim2_scale_score, claim2_scale_score_std_err, claim2_category,
                                           claim3_scale_score, claim3_scale_score_std_err, claim3_category,
                                           claim4_scale_score, claim4_scale_score_std_err, claim4_category,
-                                          available_accommodation_codes)
+                                          available_accommodation_codes, updated)
                 SELECT
                   se.id,
                   ses.grade_id,
@@ -492,7 +492,8 @@ sql:
                   claim4.scale_score as claim4_scale_score,
                   claim4.scale_score_std_err as claim4_scale_score_std_err,
                   claim4.category as claim4_category,
-                  code.codes
+                  code.codes,
+                  se.updated
                 FROM staging.staging_exam se
                   JOIN staging.staging_exam_student ses ON se.exam_student_id = ses.id
                   LEFT JOIN (
@@ -703,7 +704,7 @@ sql:
         student_group:
           sql:
             insert: >-
-              INSERT INTO reporting.student_group (id, name, school_id, school_year, subject_id, creator, created, import_id)
+              INSERT INTO reporting.student_group (id, name, school_id, school_year, subject_id, creator, created, import_id, updated)
                 SELECT
                   ssg.id,
                   ssg.name,
@@ -712,7 +713,8 @@ sql:
                   ssg.subject_id,
                   ssg.creator,
                   ssg.created,
-                  ssg.import_id
+                  ssg.import_id,
+                  ssg.updated
                 FROM staging.staging_student_group ssg
                   LEFT JOIN reporting.student_group rsg ON rsg.id = ssg.id
                 WHERE rsg.id IS NULL AND ssg.deleted = 0 AND ssg.active = 1;
@@ -727,7 +729,8 @@ sql:
                 rsg.subject_id = ssg.subject_id,
                 rsg.creator = ssg.creator,
                 rsg.created = ssg.created,
-                rsg.import_id = ssg.import_id
+                rsg.import_id = ssg.import_id,
+                rsg.updated = ssg.updated
               WHERE ssg.deleted = 0 AND ssg.active = 1;
 
             delete: >-
@@ -740,13 +743,14 @@ sql:
         school:
           sql:
             insert: >-
-              INSERT INTO reporting.school (id, natural_id, name, district_id, import_id)
+              INSERT INTO reporting.school (id, natural_id, name, district_id, import_id, updated)
                SELECT
                  ss.id,
                  ss.natural_id,
                  ss.name,
                  ss.district_id,
-                 ss.import_id
+                 ss.import_id,
+                 ss.updated
                FROM staging.staging_school ss
                  LEFT JOIN reporting.school rs ON rs.id = ss.id
                WHERE rs.id IS NULL AND ss.deleted = 0;
@@ -756,7 +760,8 @@ sql:
                 JOIN staging.staging_school ss ON ss.id = rs.id
               SET rs.name = ss.name,
                 rs.district_id = ss.district_id,
-                rs.import_id = ss.import_id
+                rs.import_id = ss.import_id,
+                rs.updated = ss.updated
               WHERE ss.deleted = 0;
 
             delete: >-
@@ -825,7 +830,7 @@ sql:
           sql:
             insert: >-
               INSERT INTO reporting.student (id, ssid, last_or_surname, first_name, middle_name, gender_id, gender_code,
-                                             first_entry_into_us_school_at, lep_entry_at, lep_exit_at, birthday, import_id)
+                                             first_entry_into_us_school_at, lep_entry_at, lep_exit_at, birthday, import_id, updated)
                 SELECT
                   ss.id,
                   ss.ssid,
@@ -838,7 +843,8 @@ sql:
                   ss.lep_entry_at,
                   ss.lep_exit_at,
                   ss.birthday,
-                  ss.import_id
+                  ss.import_id,
+                  ss.updated
                 FROM staging.staging_student ss
                   LEFT JOIN reporting.student rs ON rs.id = ss.id
                   LEFT JOIN reporting.gender rg ON ss.gender_id = rg.id
@@ -859,7 +865,8 @@ sql:
                 rs.lep_entry_at = ss.lep_entry_at,
                 rs.lep_exit_at = ss.lep_exit_at,
                 rs.birthday = ss.birthday,
-                rs.import_id = ss.import_id
+                rs.import_id = ss.import_id,
+                rs.updated = ss.updated
               WHERE ss.deleted = 0
 
             delete: >-
@@ -1039,7 +1046,7 @@ sql:
             insert: >-
               INSERT INTO reporting.asmt (id, natural_id, grade_id, grade_code, type_id, subject_id, school_year, name,
                                           label, version, import_id, claim1_score_code, claim2_score_code, claim3_score_code, claim4_score_code,
-                                          cut_point_1, cut_point_2, cut_point_3, min_score, max_score)
+                                          cut_point_1, cut_point_2, cut_point_3, min_score, max_score, updated)
                 SELECT
                   sa.id,
                   sa.natural_id,
@@ -1060,7 +1067,8 @@ sql:
                   sas.cut_point_2,
                   sas.cut_point_3,
                   sas.min_score,
-                  sas.max_score
+                  sas.max_score,
+                  sa.updated
                 FROM staging.staging_asmt sa
                   LEFT JOIN reporting.asmt ra ON ra.id = sa.id
                   LEFT JOIN (SELECT rs.code as claim1, rs.subject_id, rs.asmt_type_id FROM reporting.subject_claim_score rs
@@ -1120,7 +1128,8 @@ sql:
                 ra.cut_point_2 = sas.cut_point_2,
                 ra.cut_point_3 = sas.cut_point_3,
                 ra.min_score = sas.min_score,
-                ra.max_score = sas.max_score
+                ra.max_score = sas.max_score,
+                ra.updated = sa.updated
               WHERE sa.deleted = 0;
 
             delete: >-
