@@ -634,7 +634,8 @@ sql:
                 re.claim4_category = claim4.category,
                 re.administration_condition_code = rac.code,
                 re.completeness_code = rc.code,
-                re.available_accommodation_codes = code.codes
+                re.available_accommodation_codes = code.codes,
+                re.updated = se.updated
               WHERE se.deleted = 0;
 
             delete: >-
