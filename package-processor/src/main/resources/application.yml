@@ -28,9 +28,10 @@ spring:
     validationQuery: SELECT 1
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
-    maxActive: 20
+    maxActive: 10
+    maxIdle: 10
     initialSize: 4
-    maxWait: 10000
+    maxWait: 30000
 
   jackson:
     default-property-inclusion: non_null

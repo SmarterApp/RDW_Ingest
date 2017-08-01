@@ -27,7 +27,6 @@ apply plugin: 'io.spring.dependency-management'
 String rdwCommonVersion = project.hasProperty("common") ? project.property("common") : "0.0.1-25"
 String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "0.0.1-124"
 
-
 allprojects {
     group = 'org.opentestsystem.rdw.ingest'
     version = '0.0.1-SNAPSHOT'
