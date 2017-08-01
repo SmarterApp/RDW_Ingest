@@ -22,9 +22,9 @@ spring:
     initialize: false
 
   warehouse_datasource:
-    url: jdbc:mysql://rdw-aurora-qa-warehouse.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306/warehouse?useSSL=false&useLegacyDatetimeCode=false
-    username: sbac
-    password: cabscabs
+    url: jdbc:mysql://localhost:3306/warehouse?useSSL=false&useLegacyDatetimeCode=false
+    username: root
+    password:
     testWhileIdle: true
     validationQuery: SELECT 1
     driverClassName: com.mysql.jdbc.Driver
