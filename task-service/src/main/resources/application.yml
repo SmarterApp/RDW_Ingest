@@ -24,8 +24,11 @@ spring:
     username: root
     password:
     testWhileIdle: true
+    validationQuery: SELECT 1
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
+    maxActive: 10
+    initialSize: 4
   jackson:
     default-property-inclusion: non_null
     serialization:
