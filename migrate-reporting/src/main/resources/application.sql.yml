@@ -5,8 +5,8 @@ sql:
         SELECT MAX(m.last_at) FROM reporting.migrate m WHERE m.status = 20
 
       create: >-
-        INSERT INTO reporting.migrate (job_id, status, first_at, last_at)
-          VALUES (:job_id, :status, :first_at, :last_at)
+        INSERT INTO reporting.migrate (job_id, status, first_at, last_at, size, migrate_codes)
+          VALUES (:job_id, :status, :first_at, :last_at, :size, :migrate_codes)
 
       delete: >-
         DELETE FROM reporting.migrate WHERE id = :id
