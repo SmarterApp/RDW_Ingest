@@ -4,8 +4,8 @@ sql:
       SELECT count(*) from import
 
     create: >-
-      INSERT INTO import (status, content, contentType, digest, batch, creator, created, message)
-        VALUES (:status, :content, :contentType, :digest, :batch, :creator, :created, :message)
+      INSERT INTO import (status, content, contentType, digest, batch, creator, message)
+        VALUES (:status, :content, :contentType, :digest, :batch, :creator, :message)
 
     delete: >-
       DELETE FROM import WHERE id=:id
