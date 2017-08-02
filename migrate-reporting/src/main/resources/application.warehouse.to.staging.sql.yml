@@ -23,36 +23,36 @@ sql:
 
   # ------------ Truncate ------------------------------------------------------------------
     truncateStageList:
-      - TRUNCATE TABLE staging.staging_grade
-      - TRUNCATE TABLE staging.staging_completeness
-      - TRUNCATE TABLE staging.staging_administration_condition
-      - TRUNCATE TABLE staging.staging_ethnicity
-      - TRUNCATE TABLE staging.staging_gender
-      - TRUNCATE TABLE staging.staging_accommodation
-      - TRUNCATE TABLE staging.staging_claim
-      - TRUNCATE TABLE staging.staging_target
-      - TRUNCATE TABLE staging.staging_common_core_standard
-      - TRUNCATE TABLE staging.staging_depth_of_knowledge
-      - TRUNCATE TABLE staging.staging_math_practice
-      - TRUNCATE TABLE staging.staging_item_trait_score
-      - TRUNCATE TABLE staging.staging_translation
-      - TRUNCATE TABLE staging.staging_school
-      - TRUNCATE TABLE staging.staging_district
-      - TRUNCATE TABLE staging.staging_student
-      - TRUNCATE TABLE staging.staging_student_ethnicity
-      - TRUNCATE TABLE staging.staging_student_group
-      - TRUNCATE TABLE staging.staging_student_group_membership
-      - TRUNCATE TABLE staging.staging_user_student_group
-      - TRUNCATE TABLE staging.staging_asmt
-      - TRUNCATE TABLE staging.staging_asmt_score
-      - TRUNCATE TABLE staging.staging_item
-      - TRUNCATE TABLE staging.staging_item_common_core_standard
-      - TRUNCATE TABLE staging.staging_item_other_target
-      - TRUNCATE TABLE staging.staging_exam_student
-      - TRUNCATE TABLE staging.staging_exam
-      - TRUNCATE TABLE staging.staging_exam_item
-      - TRUNCATE TABLE staging.staging_exam_available_accommodation
-      - TRUNCATE TABLE staging.staging_exam_claim_score
+      - TRUNCATE TABLE reporting.staging_grade
+      - TRUNCATE TABLE reporting.staging_completeness
+      - TRUNCATE TABLE reporting.staging_administration_condition
+      - TRUNCATE TABLE reporting.staging_ethnicity
+      - TRUNCATE TABLE reporting.staging_gender
+      - TRUNCATE TABLE reporting.staging_accommodation
+      - TRUNCATE TABLE reporting.staging_claim
+      - TRUNCATE TABLE reporting.staging_target
+      - TRUNCATE TABLE reporting.staging_common_core_standard
+      - TRUNCATE TABLE reporting.staging_depth_of_knowledge
+      - TRUNCATE TABLE reporting.staging_math_practice
+      - TRUNCATE TABLE reporting.staging_item_trait_score
+      - TRUNCATE TABLE reporting.staging_translation
+      - TRUNCATE TABLE reporting.staging_school
+      - TRUNCATE TABLE reporting.staging_district
+      - TRUNCATE TABLE reporting.staging_student
+      - TRUNCATE TABLE reporting.staging_student_ethnicity
+      - TRUNCATE TABLE reporting.staging_student_group
+      - TRUNCATE TABLE reporting.staging_student_group_membership
+      - TRUNCATE TABLE reporting.staging_user_student_group
+      - TRUNCATE TABLE reporting.staging_asmt
+      - TRUNCATE TABLE reporting.staging_asmt_score
+      - TRUNCATE TABLE reporting.staging_item
+      - TRUNCATE TABLE reporting.staging_item_common_core_standard
+      - TRUNCATE TABLE reporting.staging_item_other_target
+      - TRUNCATE TABLE reporting.staging_exam_student
+      - TRUNCATE TABLE reporting.staging_exam
+      - TRUNCATE TABLE reporting.staging_exam_item
+      - TRUNCATE TABLE reporting.staging_exam_available_accommodation
+      - TRUNCATE TABLE reporting.staging_exam_claim_score
 
     entities:
         # ------------ grade  -------------------------------------------------------------------
@@ -62,7 +62,7 @@ sql:
               SELECT wg.id, wg.code, wg.name from warehouse.grade wg
 
             stagingInsert: >-
-              INSERT INTO staging.staging_grade (id, code, name) VALUES
+              INSERT INTO reporting.staging_grade (id, code, name) VALUES
                 (:id, :code, :name)
 
         # ------------ completeness  -------------------------------------------------------------
@@ -72,7 +72,7 @@ sql:
               SELECT wc.id, wc.code from warehouse.completeness wc
 
             stagingInsert: >-
-              INSERT INTO staging.staging_completeness (id, code) VALUES
+              INSERT INTO reporting.staging_completeness (id, code) VALUES
                 (:id, :code)
 
         # ------------ administration_condition  -------------------------------------------------------------
@@ -82,7 +82,7 @@ sql:
               SELECT wac.id, wac.code from warehouse.administration_condition wac
 
             stagingInsert: >-
-              INSERT INTO staging.staging_administration_condition (id, code) VALUES
+              INSERT INTO reporting.staging_administration_condition (id, code) VALUES
                 (:id, :code)
 
         # ------------ ethnicity  -------------------------------------------------------------
@@ -92,7 +92,7 @@ sql:
              SELECT we.id, we.code from warehouse.ethnicity we
 
             stagingInsert: >-
-              INSERT INTO staging.staging_ethnicity (id, code) VALUES
+              INSERT INTO reporting.staging_ethnicity (id, code) VALUES
                 (:id, :code)
 
         # ------------ gender  -------------------------------------------------------------
@@ -102,7 +102,7 @@ sql:
              SELECT wg.id, wg.code from warehouse.gender wg
 
             stagingInsert: >-
-              INSERT INTO staging.staging_gender (id, code) VALUES
+              INSERT INTO reporting.staging_gender (id, code) VALUES
                 (:id, :code)
 
         # ------------ accommodation  -------------------------------------------------------------
@@ -112,7 +112,7 @@ sql:
              SELECT wa.id, wa.code from warehouse.accommodation wa
 
             stagingInsert: >-
-              INSERT INTO staging.staging_accommodation (id, code) VALUES
+              INSERT INTO reporting.staging_accommodation (id, code) VALUES
                 (:id, :code)
 
         # ------------ claim  -------------------------------------------------------------
@@ -122,7 +122,7 @@ sql:
              SELECT wc.id, wc.subject_id, wc.code, wc.name, wc.description from warehouse.claim wc
 
             stagingInsert: >-
-              INSERT INTO staging.staging_claim (id, subject_id, code, name, description) VALUES
+              INSERT INTO reporting.staging_claim (id, subject_id, code, name, description) VALUES
                 (:id, :subject_id, :code, :name, :description)
 
         # ------------ target  -------------------------------------------------------------
@@ -132,7 +132,7 @@ sql:
              SELECT wt.id, wt.claim_id, wt.code, wt.description from warehouse.target wt
 
             stagingInsert: >-
-              INSERT INTO staging.staging_target (id, claim_id, code, description) VALUES
+              INSERT INTO reporting.staging_target (id, claim_id, code, description) VALUES
                 (:id, :claim_id, :code, :description)
 
 
@@ -143,7 +143,7 @@ sql:
              SELECT wccs.id, wccs.natural_id, wccs.subject_id, wccs.description from warehouse.common_core_standard wccs
 
             stagingInsert: >-
-              INSERT INTO staging.staging_common_core_standard (id, natural_id, subject_id, description) VALUES
+              INSERT INTO reporting.staging_common_core_standard (id, natural_id, subject_id, description) VALUES
                 (:id, :natural_id, :subject_id, :description)
 
 
@@ -154,7 +154,7 @@ sql:
              SELECT wdok.id, wdok.level, wdok.subject_id, wdok.description, wdok.reference from warehouse.depth_of_knowledge wdok
 
             stagingInsert: >-
-              INSERT INTO staging.staging_depth_of_knowledge (id, level, subject_id, description, reference) VALUES
+              INSERT INTO reporting.staging_depth_of_knowledge (id, level, subject_id, description, reference) VALUES
                 (:id, :level, :subject_id, :description, :reference)
 
         # ------------ math_practice  -------------------------------------------------------------
@@ -164,7 +164,7 @@ sql:
               SELECT wmp.practice, wmp.description, wmp.code from warehouse.math_practice wmp
 
             stagingInsert: >-
-              INSERT INTO staging.staging_math_practice (practice, description, code) VALUES
+              INSERT INTO reporting.staging_math_practice (practice, description, code) VALUES
                 (:practice, :description, :code)
 
         # ------------ item_trait_score  -------------------------------------------------------------
@@ -174,7 +174,7 @@ sql:
               SELECT wits.id, wits.dimension from warehouse.item_trait_score wits
 
             stagingInsert: >-
-              INSERT INTO staging.staging_item_trait_score (id, dimension) VALUES
+              INSERT INTO reporting.staging_item_trait_score (id, dimension) VALUES
                 (:id, :dimension)
 
         # ------------ accommodation_translation  -------------------------------------------------------------
@@ -185,7 +185,7 @@ sql:
                             JOIN (warehouse.language AS l, warehouse.accommodation AS a) ON wat.language_id=l.id AND wat.accommodation_id=a.id
 
             stagingInsert: >-
-              INSERT INTO staging.staging_translation (namespace, label_code, language_code, label) VALUES
+              INSERT INTO reporting.staging_translation (namespace, label_code, language_code, label) VALUES
                 ("backend", :label_code, :language_code, :label)
 
         ##### Entities migrated by import id range ####################################################################
@@ -211,7 +211,7 @@ sql:
                 )
 
             stagingInsert: >-
-              INSERT INTO staging.staging_district (id, natural_id, name, migrate_id) VALUES
+              INSERT INTO reporting.staging_district (id, natural_id, name, migrate_id) VALUES
                 (:id, :natural_id, :name, :migrate_id)
 
         district_by_update_import_id:
@@ -230,7 +230,7 @@ sql:
                       )
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging.staging_district (id, natural_id, name, migrate_id) VALUES
+              INSERT IGNORE INTO reporting.staging_district (id, natural_id, name, migrate_id) VALUES
                 (:id, :natural_id, :name, :migrate_id)
 
         # ------------ school  -------------------------------------------------------------------
@@ -250,7 +250,7 @@ sql:
               WHERE ws.created > :first_at AND ws.created <= :last_at
 
             stagingInsert: >-
-              INSERT INTO staging.staging_school (id, natural_id, name, import_id, deleted, district_id, updated, migrate_id) VALUES
+              INSERT INTO reporting.staging_school (id, natural_id, name, import_id, deleted, district_id, updated, migrate_id) VALUES
                 (:id, :natural_id, :name, :import_id, :deleted, :district_id, :updated, :migrate_id)
 
         school_by_update_import_id:
@@ -269,7 +269,7 @@ sql:
               WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging.staging_school (id, natural_id, name, import_id, deleted, district_id, updated, migrate_id) VALUES
+              INSERT IGNORE INTO reporting.staging_school (id, natural_id, name, import_id, deleted, district_id, updated, migrate_id) VALUES
                 (:id, :natural_id, :name, :import_id, :deleted, :district_id, :updated, :migrate_id)
 
 
@@ -297,7 +297,7 @@ sql:
               WHERE ws.created > :first_at AND ws.created <= :last_at
 
             stagingInsert: >-
-              INSERT INTO staging.staging_student (id, ssid, last_or_surname, first_name, middle_name, gender_id, first_entry_into_us_school_at,
+              INSERT INTO reporting.staging_student (id, ssid, last_or_surname, first_name, middle_name, gender_id, first_entry_into_us_school_at,
                                lep_entry_at, lep_exit_at, birthday, import_id, deleted, updated, migrate_id) VALUES
                 (:id, :ssid, :last_or_surname, :first_name, :middle_name, :gender_id, :first_entry_into_us_school_at,
                               :lep_entry_at, :lep_exit_at, :birthday, :import_id, :deleted, :updated, :migrate_id)
@@ -323,7 +323,7 @@ sql:
               WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging.staging_student (id, ssid, last_or_surname, first_name, middle_name, gender_id, first_entry_into_us_school_at,
+              INSERT IGNORE INTO reporting.staging_student (id, ssid, last_or_surname, first_name, middle_name, gender_id, first_entry_into_us_school_at,
                                lep_entry_at, lep_exit_at, birthday, import_id, deleted, updated, migrate_id) VALUES
                 (:id, :ssid, :last_or_surname, :first_name, :middle_name, :gender_id, :first_entry_into_us_school_at,
                               :lep_entry_at, :lep_exit_at, :birthday, :import_id, :deleted, :updated, :migrate_id)
@@ -341,7 +341,7 @@ sql:
                     AND ws.deleted = 0
 
             stagingInsert: >-
-              INSERT INTO staging.staging_student_ethnicity (ethnicity_id, student_id) VALUES
+              INSERT INTO reporting.staging_student_ethnicity (ethnicity_id, student_id) VALUES
                 ( :ethnicity_id, :student_id )
 
         student_ethnicity_by_update_import_id:
@@ -356,7 +356,7 @@ sql:
                     AND ws.deleted = 0
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging.staging_student_ethnicity (ethnicity_id, student_id) VALUES
+              INSERT IGNORE INTO reporting.staging_student_ethnicity (ethnicity_id, student_id) VALUES
                 ( :ethnicity_id, :student_id )
 
         # ------------ student_group  -------------------------------------------------------------------
@@ -379,7 +379,7 @@ sql:
               WHERE wsg.created > :first_at AND wsg.created <= :last_at
 
             stagingInsert: >-
-              INSERT INTO staging.staging_student_group (id, name, school_id, school_year, subject_id, active, creator, created, import_id, deleted, updated, migrate_id) VALUES
+              INSERT INTO reporting.staging_student_group (id, name, school_id, school_year, subject_id, active, creator, created, import_id, deleted, updated, migrate_id) VALUES
                 (:id, :name, :school_id, :school_year, :subject_id, :active, :creator, :created, :import_id, :deleted, :updated, :migrate_id)
 
         student_group_by_update_import_id:
@@ -401,7 +401,7 @@ sql:
               WHERE wsg.updated > :first_at AND wsg.updated <= :last_at and wsg.updated <> wsg.created
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging.staging_student_group (id, name, school_id, school_year, subject_id, active, creator, created, import_id, deleted, updated, migrate_id) VALUES
+              INSERT IGNORE INTO reporting.staging_student_group (id, name, school_id, school_year, subject_id, active, creator, created, import_id, deleted, updated, migrate_id) VALUES
                 (:id, :name, :school_id, :school_year, :subject_id, :active, :creator, :created, :import_id, :deleted, :updated, :migrate_id)
 
         # ------------ student_group_membership  -------------------------------------------------------------------
@@ -419,7 +419,7 @@ sql:
                 AND wsg.deleted = 0 AND wsg.active != 0
 
             stagingInsert: >-
-              INSERT INTO staging.staging_student_group_membership (student_group_id, student_id) VALUES
+              INSERT INTO reporting.staging_student_group_membership (student_group_id, student_id) VALUES
                 (:student_group_id, :student_id)
 
         # ------------ staging_user_student_group  -------------------------------------------------------------------
@@ -435,7 +435,7 @@ sql:
                 AND wsg.deleted = 0 and wsg.active != 0
 
             stagingInsert: >-
-              INSERT INTO staging.staging_user_student_group (student_group_id, user_login) VALUES
+              INSERT INTO reporting.staging_user_student_group (student_group_id, user_login) VALUES
                 (:student_group_id, :user_login)
 
         user_student_group_by_update_import_id:
@@ -450,7 +450,7 @@ sql:
                 AND wsg.deleted = 0 and wsg.active != 0
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging.staging_user_student_group (student_group_id, user_login) VALUES
+              INSERT IGNORE INTO reporting.staging_user_student_group (student_group_id, user_login) VALUES
                 (:student_group_id, :user_login)
 
         ##### PACKAGE ImportContent Type ####
@@ -476,7 +476,7 @@ sql:
               WHERE  wa.created > :first_at AND wa.created <= :last_at
 
             stagingInsert: >-
-              INSERT INTO staging.staging_asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name, label, version, import_id, deleted, updated, migrate_id) VALUES
+              INSERT INTO reporting.staging_asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name, label, version, import_id, deleted, updated, migrate_id) VALUES
                 (:id, :natural_id, :grade_id, :type_id, :subject_id, :school_year, :name, :label, :version, :import_id, :deleted, :updated, :migrate_id)
 
         asmt_by_update_import_id:
@@ -499,7 +499,7 @@ sql:
               WHERE  wa.updated > :first_at AND wa.updated <= :last_at AND wa.updated <> wa.created
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging.staging_asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name, label, version, import_id, deleted, updated, migrate_id) VALUES
+              INSERT IGNORE INTO reporting.staging_asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name, label, version, import_id, deleted, updated, migrate_id) VALUES
                 (:id, :natural_id, :grade_id, :type_id, :subject_id, :school_year, :name, :label, :version, :import_id, :deleted, :updated, :migrate_id)
 
         # ------------ asmt_score  -------------------------------------------------------------------
@@ -519,7 +519,7 @@ sql:
                 AND wa.deleted = 0
 
             stagingInsert: >-
-              INSERT INTO staging.staging_asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score, migrate_id) VALUES
+              INSERT INTO reporting.staging_asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score, migrate_id) VALUES
                 (:asmt_id, :cut_point_1, :cut_point_2, :cut_point_3, :min_score, :max_score, :migrate_id)
 
         asmt_score_by_update_import_id:
@@ -538,7 +538,7 @@ sql:
                 AND wa.deleted = 0
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging.staging_asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score, migrate_id) VALUES
+              INSERT IGNORE INTO reporting.staging_asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score, migrate_id) VALUES
                 (:asmt_id, :cut_point_1, :cut_point_2, :cut_point_3, :min_score, :max_score, :migrate_id)
 
         # ------------ item  -------------------------------------------------------------------
@@ -570,7 +570,7 @@ sql:
                   AND wa.deleted = 0
 
             stagingInsert: >-
-              INSERT INTO staging.staging_item (id, claim_id, target_id, natural_id, asmt_id, math_practice, allow_calc, position, dok_id, difficulty_code, max_points, common_core_standard_ids,  migrate_id) VALUES
+              INSERT INTO reporting.staging_item (id, claim_id, target_id, natural_id, asmt_id, math_practice, allow_calc, position, dok_id, difficulty_code, max_points, common_core_standard_ids,  migrate_id) VALUES
                 (:id, :claim_id, :target_id, :natural_id, :asmt_id, :math_practice, :allow_calc, :position, :dok_id, :difficulty_code, :max_points, :common_core_standard_ids, :migrate_id)
 
         item_by_update_import_id:
@@ -601,7 +601,7 @@ sql:
                   AND wa.deleted = 0
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging.staging_item (id, claim_id, target_id, natural_id, asmt_id, math_practice, allow_calc, position, dok_id, difficulty_code, max_points, common_core_standard_ids,  migrate_id) VALUES
+              INSERT IGNORE INTO reporting.staging_item (id, claim_id, target_id, natural_id, asmt_id, math_practice, allow_calc, position, dok_id, difficulty_code, max_points, common_core_standard_ids,  migrate_id) VALUES
                 (:id, :claim_id, :target_id, :natural_id, :asmt_id, :math_practice, :allow_calc, :position, :dok_id, :difficulty_code, :max_points, :common_core_standard_ids, :migrate_id)
 
         # ------------ item_common_core_standard  -------------------------------------------------------------------
@@ -618,7 +618,7 @@ sql:
                 AND wa.deleted = 0
 
             stagingInsert: >-
-              INSERT INTO staging.staging_item_common_core_standard (common_core_standard_id, item_id) VALUES
+              INSERT INTO reporting.staging_item_common_core_standard (common_core_standard_id, item_id) VALUES
                 (:common_core_standard_id, :item_id)
 
         item_common_core_standard_by_update_import_id:
@@ -634,7 +634,7 @@ sql:
                 AND wa.deleted = 0
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging.staging_item_common_core_standard (common_core_standard_id, item_id) VALUES
+              INSERT IGNORE INTO reporting.staging_item_common_core_standard (common_core_standard_id, item_id) VALUES
                 (:common_core_standard_id, :item_id)
 
         # ------------ item_other_target  -------------------------------------------------------------------
@@ -651,7 +651,7 @@ sql:
                 AND wa.deleted = 0
 
             stagingInsert: >-
-              INSERT INTO staging.staging_item_other_target (item_id, target_id) VALUES
+              INSERT INTO reporting.staging_item_other_target (item_id, target_id) VALUES
                 (:item_id, :target_id)
 
         item_other_target_by_update_import_id:
@@ -667,7 +667,7 @@ sql:
                 AND wa.deleted = 0
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging.staging_item_other_target (item_id, target_id) VALUES
+              INSERT IGNORE INTO reporting.staging_item_other_target (item_id, target_id) VALUES
                 (:item_id, :target_id)
 
         ##### EXAM ImportContent Type ####
@@ -695,7 +695,7 @@ sql:
                AND we.deleted = 0
 
             stagingInsert: >-
-              INSERT INTO staging.staging_exam_student (id, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status,
+              INSERT INTO reporting.staging_exam_student (id, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status,
                                                                         eng_prof_lvl, t3_program_type, language_code, prim_disability_type, migrate_id) VALUES
                                                        (:id, :grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status,
                                                                         :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type, :migrate_id)
@@ -723,7 +723,7 @@ sql:
                AND we.deleted = 0
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging.staging_exam_student (id, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status,
+              INSERT IGNORE INTO reporting.staging_exam_student (id, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status,
                                                                         eng_prof_lvl, t3_program_type, language_code, prim_disability_type, migrate_id) VALUES
                                                        (:id, :grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status,
                                                                         :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type, :migrate_id)
@@ -754,7 +754,7 @@ sql:
               WHERE we.created > :first_at AND we.created <= :last_at
 
             stagingInsert: >-
-              INSERT INTO staging.staging_exam (id, type_id, exam_student_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id,
+              INSERT INTO reporting.staging_exam (id, type_id, exam_student_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id,
                                                  session_id, performance_level, scale_score, scale_score_std_err, completed_at, deleted, import_id, updated, migrate_id) VALUES
                                                (:id, :type_id, :exam_student_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id,
                                                 :session_id, :performance_level, :scale_score, :scale_score_std_err, :completed_at, :deleted, :import_id, :updated, :migrate_id)
@@ -783,7 +783,7 @@ sql:
               WHERE we.updated > :first_at AND we.updated <= :last_at AND we.updated <> we.created
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging.staging_exam (id, type_id, exam_student_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id,
+              INSERT IGNORE INTO reporting.staging_exam (id, type_id, exam_student_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id,
                                                  session_id, performance_level, scale_score, scale_score_std_err, completed_at, deleted, import_id, updated, migrate_id) VALUES
                                                (:id, :type_id, :exam_student_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id,
                                                 :session_id, :performance_level, :scale_score, :scale_score_std_err, :completed_at, :deleted, :import_id, :updated, :migrate_id)
@@ -812,7 +812,7 @@ sql:
                AND we.deleted = 0
 
             stagingInsert: >-
-              INSERT INTO staging.staging_exam_item (id, exam_id, item_id, score, score_status, position, response, trait_evidence_elaboration_score,
+              INSERT INTO reporting.staging_exam_item (id, exam_id, item_id, score, score_status, position, response, trait_evidence_elaboration_score,
                                               trait_evidence_elaboration_score_status, trait_organization_purpose_score,
                                               trait_organization_purpose_score_status, trait_conventions_score,
                                               trait_conventions_score_status, migrate_id) VALUES
@@ -844,7 +844,7 @@ sql:
                AND we.deleted = 0
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging.staging_exam_item (id, exam_id, item_id, score, score_status, position, response, trait_evidence_elaboration_score,
+              INSERT IGNORE INTO reporting.staging_exam_item (id, exam_id, item_id, score, score_status, position, response, trait_evidence_elaboration_score,
                                               trait_evidence_elaboration_score_status, trait_organization_purpose_score,
                                               trait_organization_purpose_score_status, trait_conventions_score,
                                               trait_conventions_score_status, migrate_id) VALUES
@@ -866,7 +866,7 @@ sql:
                 AND we.deleted = 0
 
             stagingInsert: >-
-             INSERT INTO staging.staging_exam_available_accommodation (exam_id, accommodation_id) VALUES
+             INSERT INTO reporting.staging_exam_available_accommodation (exam_id, accommodation_id) VALUES
                (:exam_id, :accommodation_id)
 
         exam_available_accommodation_by_update_import_id:
@@ -881,7 +881,7 @@ sql:
                 AND we.deleted = 0
 
             stagingInsert: >-
-             INSERT IGNORE INTO staging.staging_exam_available_accommodation (exam_id, accommodation_id) VALUES
+             INSERT IGNORE INTO reporting.staging_exam_available_accommodation (exam_id, accommodation_id) VALUES
                (:exam_id, :accommodation_id)
 
         # ------------ exam_claim_score  ---------------------------------------------------------------------------------------
@@ -901,7 +901,7 @@ sql:
                 AND we.deleted = 0
 
             stagingInsert: >-
-              INSERT INTO staging.staging_exam_claim_score (id, exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
+              INSERT INTO reporting.staging_exam_claim_score (id, exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
                 (:id, :exam_id, :subject_claim_score_id, :scale_score, :scale_score_std_err, :category)
 
         exam_claim_score_by_update_import_id:
@@ -920,5 +920,5 @@ sql:
                 AND we.deleted = 0
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging.staging_exam_claim_score (id, exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
+              INSERT IGNORE INTO reporting.staging_exam_claim_score (id, exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
                 (:id, :exam_id, :subject_claim_score_id, :scale_score, :scale_score_std_err, :category)
