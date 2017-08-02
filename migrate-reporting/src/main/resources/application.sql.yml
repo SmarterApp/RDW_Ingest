@@ -36,7 +36,7 @@ sql:
                 count(*)     AS cnt
               FROM (SELECT updated
                     FROM warehouse.import
-                    WHERE status != 0 AND (:prev IS NULL OR updated >= :prev) AND updated < CURRENT_TIMESTAMP(6)
+                    WHERE status != 0 AND (:prev IS NULL OR updated > :prev) AND updated < CURRENT_TIMESTAMP(6)
                     ORDER BY updated
                     LIMIT :size) AS batch) s2
           )

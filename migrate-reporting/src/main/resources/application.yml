@@ -12,8 +12,8 @@ migrate:
     delay: 60000
 
 spring:
-  batch_datasource:
-    url: jdbc:mysql://localhost:3306/spring_batch_reporting?useSSL=false&useLegacyDatetimeCode=false&rewriteBatchedStatements=true
+  reporting_datasource:
+    url: jdbc:mysql://localhost:3306/reporting?useSSL=false&useLegacyDatetimeCode=false&rewriteBatchedStatements=true
     username: root
     password:
     testWhileIdle: true
