@@ -852,7 +852,7 @@ sql:
                   ss.birthday,
                   ss.import_id,
                   ss.updated,
-                  migrate_id
+                  ss.migrate_id
                 FROM reporting.staging_student ss
                   LEFT JOIN reporting.student rs ON rs.id = ss.id
                   LEFT JOIN reporting.gender rg ON ss.gender_id = rg.id
