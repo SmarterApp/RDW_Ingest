@@ -17,7 +17,7 @@ sql:
       SELECT * FROM import WHERE id=:id
 
     findOneByDigest: >-
-      SELECT * FROM import WHERE digest=:digest AND replay_id IS NULL
+      SELECT * FROM import WHERE digest=:digest
 
     findBy: >-
       SELECT *
@@ -30,26 +30,6 @@ sql:
         AND (:after IS NULL OR i.created > :after)
       ORDER BY i.id
       LIMIT :limit
-
-    updateNullReplayIdBy: >-
-      UPDATE import i SET i.replay_id=:replayid
-      WHERE (:content IS NULL OR i.content=:content)
-        AND (:status IS NULL OR i.status = :status)
-        AND (:batch IS NULL OR i.batch = :batch)
-        AND (:creator IS NULL OR i.creator = :creator)
-        AND (:before IS NULL OR i.created < :before)
-        AND (:after IS NULL OR i.created > :after)
-        AND i.replay_id IS NULL
-      LIMIT :limit
-
-    findByReplayId: >-
-      SELECT * FROM import WHERE replay_id=:replayid
-
-    updateReplayId: >-
-      UPDATE import SET replay_id=:replayid WHERE id=:id
-
-    clearReplayId: >-
-      UPDATE import SET replay_id=NULL WHERE replay_id=:replayid
 
   importStatus:
     findAll: >-

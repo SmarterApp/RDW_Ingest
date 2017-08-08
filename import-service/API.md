@@ -317,7 +317,7 @@ This end-point requires credentials with the `ASMTDATALOAD` role.
   * Content: 
 ```json
 {
-  "content-type": "application/xml",
+  "Content-Type": "application/xml",
   "filename": "test.xml",
   "batch": "CAF4901EA92C0A77A6DB6C37E8582852",
   "tenancy-chain": "|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||",
