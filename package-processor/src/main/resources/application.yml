@@ -5,6 +5,9 @@ management:
     enabled: false
 server:
   port: 8008
+  tomcat:
+    max-connections: 2
+    max-threads: 2
 
 spring:
   cloud:

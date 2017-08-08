@@ -5,6 +5,9 @@ management:
     enabled: false
 server:
   port: 8008
+  tomcat:
+    max-connections: 2
+    max-threads: 2
 
 # there needs to be a default aws region configured
 cloud:
@@ -29,6 +32,7 @@ spring:
     initialize: false
     maxActive: 10
     initialSize: 4
+
   jackson:
     default-property-inclusion: non_null
     serialization:
