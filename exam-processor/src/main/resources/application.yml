@@ -5,6 +5,9 @@ management:
     enabled: false
 server:
   port: 8008
+  tomcat:
+    max-connections: 2
+    max-threads: 2
 
 spring:
   cache:
@@ -29,6 +32,11 @@ spring:
     maxActive: 10
     initialSize: 4
     maxWait: 10000
+
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
 
 jdbc:
   retry:
