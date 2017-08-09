@@ -11,7 +11,7 @@ sql:
         AND (:batch IS NULL OR i.batch = :batch)
         AND (:creator IS NULL OR i.creator = :creator)
         AND (:before IS NULL OR i.created < :before)
-        AND (:after IS NULL OR i.created > :after)
+        AND (:after IS NULL OR i.updated > :after)
       ORDER BY i.id
 
     count: >-
@@ -20,7 +20,7 @@ sql:
         AND (:batch IS NULL OR i.batch = :batch)
         AND (:creator IS NULL OR i.creator = :creator)
         AND (:before IS NULL OR i.created < :before)
-        AND (:after IS NULL OR i.created > :after)
+        AND (:after IS NULL OR i.updated > :after)
 
     status: >-
       SELECT s.ssid, a.natural_id, e.school_year, e.oppId, i.batch, i.id
