@@ -6,9 +6,10 @@ management:
   security:
     enabled: false
 
-# there needs to be a default aws region configured
+# spring auto-configured aws defense
 cloud:
   aws:
+    # there must be a default region when running locally
     region:
       auto: false
       static: us-west-2
@@ -17,6 +18,10 @@ cloud:
       auto: false
     credentials:
       instance-profile: false
+
+# use LocalArchiveService by default
+archive:
+  root: file:///tmp/
 
 # cause StubTokenServices to be used
 security:
