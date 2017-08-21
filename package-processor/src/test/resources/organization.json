@@ -136,6 +136,18 @@
         "entityType": "INSTITUTION",
         "alternateKey": "entityId: DS1111, stateAbbreviation: CA",
         "parentEntityType": "DISTRICT"
+      },
+      {
+        "id": "58ec64cbe4b07da58f50825d",
+        "entityId": "54721570000000",
+        "entityName": "Miss Entered Charter",
+        "parentEntityId": "CA",
+        "stateAbbreviation": "CA",
+        "nationwideIdentifier": "54721570000000",
+        "parentId": "CA",
+        "action": "UPD",
+        "entityType": "INSTITUTION",
+        "parentEntityType": "STATE"
       }
     ],
     "currentPage": 0,
