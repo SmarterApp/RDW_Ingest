@@ -1,0 +1,6 @@
+spring-boot: ${spring-boot.formatted-version}
+ __   __          __                          __
+|__) |  \ |  |   |__)  _   _ |   _   _   _   |__)  _  _   _  _  _  _  _   _
+| \  |__/ |/\|   |    (_| (_ |( (_| (_) (-   |    |  (_) (_ (- _) _) (_) |
+                                    _/
+© The Regents of the University of California – Smarter Balanced Assessment Consortium
