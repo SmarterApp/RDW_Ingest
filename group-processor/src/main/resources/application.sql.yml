@@ -1,0 +1,174 @@
+sql:
+  process-batch:
+    entities:
+      # ------------ Standardize NULLS
+      # Replace empty values with NULLs
+      standardize:
+        sql:
+          student: >-
+            UPDATE upload_student_group
+            SET group_user_login = NULL
+            WHERE group_user_login = ''
+                  AND batch_id = :batch_id
+
+          group: >-
+            UPDATE upload_student_group
+            SET student_ssid = NULL
+            WHERE student_ssid = ''
+                  AND batch_id = :batch_id;
+
+          subject: >-
+            UPDATE upload_student_group
+            SET subject_code = NULL
+            WHERE subject_code = ''
+                  AND batch_id = :batch_id;
+
+      # ------------ Setup DB Ids
+      # Set DB ids for known schools, students, groups
+      bind-references:
+        sql:
+          school: >-
+            UPDATE upload_student_group sgl
+              JOIN school s ON sgl.school_natural_id = s.natural_id
+              LEFT JOIN subject sub ON sub.code = sgl.subject_code
+            SET school_id = s.id,
+              subject_id  =
+              CASE WHEN sub.code IS NULL OR sub.code = 'All'
+                THEN NULL
+              ELSE sub.id
+              END
+            WHERE batch_id = :batch_id
+
+          student: >-
+            UPDATE upload_student_group sgl
+              JOIN student s ON sgl.student_ssid = s.ssid
+            SET student_id = s.id
+            WHERE s.deleted = 0
+                  AND batch_id = :batch_id
+
+          group: >-
+            UPDATE upload_student_group sgl
+              JOIN student_group sg ON sgl.name = sg.name AND sgl.school_year = sg.school_year AND sgl.school_id = sg.school_id
+            SET group_id = sg.id
+            WHERE batch_id = :batch_id
+
+      # ------------ Import Student SSIDs
+      # Import deleted/non-existent student SSIDs
+      import-students:
+        sql:
+          stage-new: >-
+            INSERT IGNORE INTO upload_student_group_import (batch_id, school_id, ref, ref_type)
+              SELECT
+                batch_id,
+                school_id,
+                student_ssid,
+                1
+              FROM upload_student_group sgl
+              WHERE sgl.student_id IS NULL
+                    AND sgl.student_ssid IS NOT NULL
+                    AND sgl.batch_id = :batch_id
+
+          stage-deleted: >-
+            INSERT IGNORE INTO upload_student_group_import (batch_id, school_id, ref, ref_type)
+              SELECT
+                batch_id,
+                school_id,
+                student_ssid,
+                0
+              FROM upload_student_group sgl
+                JOIN student s ON sgl.student_ssid = s.ssid
+              WHERE s.deleted = 1
+                    AND sgl.student_ssid IS NOT NULL
+                    AND sgl.batch_id = :batch_id
+
+          create-imports: >-
+            INSERT INTO import (status, content, contentType, digest, batch)
+              SELECT DISTINCT
+                0                           AS status,
+                5                           AS content,
+                'group batch student'       AS contentType,
+                cast(school_id as CHAR(32)) AS digest,
+                cast(:batch_id AS CHAR(50)) AS batch
+              FROM upload_student_group_import sgl
+              WHERE ref_type IN (0, 1)
+                    AND batch_id = :batch_id
+
+          assign-imports: >-
+            UPDATE upload_student_group_import sgl
+              JOIN (SELECT
+                      id,
+                      cast(digest AS SIGNED INTEGER) AS school_id
+                    FROM import
+                    WHERE status = 0
+                          AND contentType = 'group batch student'
+                          AND cast(batch AS UNSIGNED) = :batch_id) AS si
+                ON si.school_id = sgl.school_id
+            SET sgl.import_id = si.id
+            WHERE sgl.ref_type IN (0, 1)
+                  AND sgl.batch_id = :batch_id
+
+          propagate-imports: >-
+            UPDATE upload_student_group sgl
+              JOIN ( select distinct school_id, import_id from upload_student_group_import where batch_id = :batch_id) i
+                ON i.school_id = sgl.school_id
+            SET sgl.import_id = i.import_id
+            WHERE student_id IS NULL
+                  AND sgl.batch_id = :batch_id
+
+          insert-missing: >-
+            INSERT IGNORE INTO student (ssid, import_id, update_import_id)
+              SELECT
+                DISTINCT
+                student_ssid,
+                sgl.import_id,
+                sgl.import_id
+              FROM upload_student_group sgl
+                LEFT JOIN student s ON sgl.student_ssid = s.ssid
+              WHERE s.id IS NULL
+                    AND sgl.student_ssid IS NOT NULL
+                    AND sgl.import_id IS NOT NULL
+                    AND sgl.batch_id = :batch_id
+
+          update-deleted: >-
+            UPDATE student s
+              JOIN upload_student_group sgl ON sgl.student_id = s.id
+            SET
+              s.deleted          = 0,
+              s.update_import_id = sgl.import_id
+            WHERE s.deleted = 1
+                  AND sgl.student_ssid IS NOT NULL
+                  AND sgl.import_id IS NOT NULL
+                  AND sgl.batch_id = :batch_id
+
+          update-migration: >-
+            UPDATE import i
+              JOIN upload_student_group_import sgli ON sgli.import_id = i.id
+            SET i.status = :import_status
+            WHERE i.status = 0
+                  AND sgli.ref_type = 1
+                  AND sgli.batch_id = :batch_id
+
+          assign-imported-students: >-
+            UPDATE upload_student_group sgl
+              JOIN student s ON sgl.student_ssid = s.ssid
+            SET sgl.student_id = s.id
+            WHERE student_id IS NULL
+                  AND batch_id = :batch_id
+
+          clean-import-refs: >-
+            UPDATE upload_student_group sgl
+            SET import_id = NULL
+            WHERE batch_id = :batch_id
+
+          clean-import-stage: >-
+            DELETE FROM upload_student_group_import
+            WHERE batch_id = :batch_id
+
+
+      # ------------ Validate ------------------------------------------------------------------
+      validate:
+        sql:
+          invalid-school-exists: >-
+            SELECT 1 FROM upload_student_group WHERE school_id IS NULL AND batch_id = :batch_id LIMIT 1;
+          invalid-subject-exists: >-
+            SELECT 1 FROM upload_student_group WHERE subject_id IS NULL AND batch_id = :batch_id LIMIT 1;
