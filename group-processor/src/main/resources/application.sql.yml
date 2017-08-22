@@ -81,6 +81,7 @@ sql:
                     AND sgl.student_ssid IS NOT NULL
                     AND sgl.batch_id = :batch_id
 
+          #TODO review this, should we modify import table to have batch_ref_id and ref_id fields to avoid casting?
           create-imports: >-
             INSERT INTO import (status, content, contentType, digest, batch)
               SELECT DISTINCT
