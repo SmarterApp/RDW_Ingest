@@ -14,13 +14,15 @@ sql:
         AND (:after IS NULL OR i.updated > :after)
       ORDER BY i.id
 
-    count: >-
-      SELECT count(*) FROM import i
-      WHERE i.content = 1
-        AND (:batch IS NULL OR i.batch = :batch)
-        AND (:creator IS NULL OR i.creator = :creator)
-        AND (:before IS NULL OR i.created < :before)
-        AND (:after IS NULL OR i.updated > :after)
+    exists: >-
+      SELECT EXISTS(
+        SELECT 1 FROM import i
+        WHERE i.content = 1
+          AND (:batch IS NULL OR i.batch = :batch)
+          AND (:creator IS NULL OR i.creator = :creator)
+          AND (:before IS NULL OR i.created < :before)
+          AND (:after IS NULL OR i.updated > :after)
+        LIMIT 1)
 
     status: >-
       SELECT s.ssid, a.natural_id, e.school_year, e.oppId, i.batch, i.id
@@ -29,4 +31,5 @@ sql:
           JOIN exam_student es ON es.id = e.exam_student_id
           JOIN student s ON s.id = es.student_id
           JOIN asmt a ON a.id = e.asmt_id
+        WHERE i.content = 1
         LIMIT 1
