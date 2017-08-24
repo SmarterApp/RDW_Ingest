@@ -1,6 +1,24 @@
 management:
   security:
     enabled: false
+
+# spring auto-configured aws defense
+cloud:
+  aws:
+    # there must be a default region when running locally
+    region:
+      auto: false
+      static: us-west-2
+    # disable CloudFormation stuff
+    stack:
+      auto: false
+    credentials:
+      instance-profile: false
+
+# use LocalArchiveService by default
+archive:
+  root: file:///tmp/
+
 server:
   port: 8008
   tomcat:
@@ -30,3 +48,4 @@ spring:
     default-property-inclusion: non_null
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
+
