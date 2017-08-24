@@ -69,7 +69,7 @@ INSERT INTO warehouse_test.student_ethnicity(student_id, ethnicity_id) values
 INSERT INTO warehouse_test.student_group (id, creator, school_id, school_year, name, subject_id, import_id, update_import_id, active, deleted, created, updated) VALUES
   (-91, 'dwtest@example.com', -99, 2017, 'Test Student Group 9 - updated school', null, -5000, -79, 1, 1, '2017-05-18 19:05:33.967000', '2017-07-18 19:10:34.966000'),
   (-8, 'dwtest@example.com', -1, 2017, 'Test Student Group 8', null, -79, -79, 1, 0, '2017-07-18 19:10:34.966000', '2017-07-18 19:10:34.966000'),
-  (-7, 'dwtest@example.com', -1, 2017, 'Test Student Group 7', null, -79, -79, 1, 0, '2017-07-18 19:10:34.966000', '2017-07-18 19:10:34.966000');
+  (-7, 'dwtest@example.com', -1, 2017, 'Test Student Group 7', null, -79, -79, 1, 0, '2017-07-18 19:10:34.966000', '2017-07-18 20:16:33.966000');
 
 INSERT INTO warehouse_test.student_group_membership (student_group_id, student_id) VALUES
   (-91, -89),
