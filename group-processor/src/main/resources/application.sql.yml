@@ -1,4 +1,11 @@
 sql:
+
+  update-batch: >-
+    UPDATE upload_student_group_batch
+    SET status = :status,
+      message = :message
+    WHERE id = :batch_id
+
   process-batch:
     entities:
       # ------------ Standardize NULLS
