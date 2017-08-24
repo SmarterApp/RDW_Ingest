@@ -407,17 +407,15 @@ sql:
             WHERE batch_id = :batch_id
 
 
-      # ------------ Load from S3 or local ---------------------------------------------------------
-      load:
-        sql:
-          fromFile: >-
-            LOAD DATA %s :uri INTO TABLE upload_student_group FIELDS TERMINATED BY ','
-            IGNORE 1 LINES
-            (group_name, school_natural_id, school_year, @vsubject_code, @vstudent_ssid, @vgroup_user_login)
-            SET
-              batch_id = :batch_id,
-              subject_code = nullif(TRIM(BOTH '\r' FROM TRIM(@vsubject_code)), ''),
-              student_ssid = nullif(TRIM(BOTH '\r' FROM TRIM(@vstudent_ssid)), ''),
-              group_user_login = nullif(TRIM(BOTH '\r' FROM TRIM(@vgroup_user_login)), '')
+  # ------------ Load from S3 or local ---------------------------------------------------------
+  load-csv: >-
+    LOAD DATA %s :uri INTO TABLE upload_student_group FIELDS TERMINATED BY ','
+    IGNORE 1 LINES
+    (group_name, school_natural_id, school_year, @vsubject_code, @vstudent_ssid, @vgroup_user_login)
+    SET
+      batch_id = :batch_id,
+      subject_code = nullif(TRIM(BOTH '\r' FROM TRIM(@vsubject_code)), ''),
+      student_ssid = nullif(TRIM(BOTH '\r' FROM TRIM(@vstudent_ssid)), ''),
+      group_user_login = nullif(TRIM(BOTH '\r' FROM TRIM(@vgroup_user_login)), '')
 
 
