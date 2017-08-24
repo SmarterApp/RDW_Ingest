@@ -1,4 +1,4 @@
-INSERT INTO upload_student_group (batch_id, name, school_year, school_natural_id, school_id, student_ssid, student_id) VALUES
+INSERT INTO upload_student_group (batch_id, group_name, school_year, school_natural_id, school_id, student_ssid, student_id) VALUES
   -- Existing Student
   (33, 'Test Student Group 8', 2017, 'natural_id-1', -1, '88', -88),
   -- No student

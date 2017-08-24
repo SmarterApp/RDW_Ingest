@@ -34,7 +34,7 @@ spring:
           group: default
 
   datasource:
-    url: jdbc:mysql://localhost:3306/warehouse?useSSL=false&useLegacyDatetimeCode=false&characterEncoding=utf8&rewriteBatchedStatements=true
+    url: jdbc:mysql://localhost:3306/warehouse?useSSL=false&useLegacyDatetimeCode=false&characterEncoding=utf8&rewriteBatchedStatements=true&sessionVariables=group_concat_max_len=10000
     username: root
     password:
     testWhileIdle: true
