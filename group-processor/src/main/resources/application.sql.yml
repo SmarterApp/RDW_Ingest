@@ -362,7 +362,7 @@ sql:
 
           add-updated-users: >-
             INSERT IGNORE INTO user_student_group (student_group_id, user_login)
-              SELECT
+              SELECT DISTINCT
                 upload.group_id,
                 upload.group_user_login
               FROM upload_student_group upload
@@ -382,7 +382,7 @@ sql:
 
           add-updated-students: >-
             INSERT IGNORE INTO student_group_membership (student_group_id, student_id)
-              SELECT
+              SELECT DISTINCT
                 upload.group_id,
                 upload.student_id
               FROM upload_student_group upload
