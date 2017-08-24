@@ -361,7 +361,7 @@ sql:
             WHERE users.student_group_id IS NOT NULL
 
           add-updated-users: >-
-            INSERT INTO user_student_group (student_group_id, user_login)
+            INSERT IGNORE INTO user_student_group (student_group_id, user_login)
               SELECT
                 upload.group_id,
                 upload.group_user_login
@@ -381,7 +381,7 @@ sql:
             WHERE students.student_group_id IS NOT NULL
 
           add-updated-students: >-
-            INSERT INTO student_group_membership (student_group_id, student_id)
+            INSERT IGNORE INTO student_group_membership (student_group_id, student_id)
               SELECT
                 upload.group_id,
                 upload.student_id
