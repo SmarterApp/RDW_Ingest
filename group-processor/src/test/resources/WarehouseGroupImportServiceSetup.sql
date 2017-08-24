@@ -9,6 +9,7 @@ INSERT INTO upload_student_group (batch_id, group_name, school_year, school_natu
   (33, 'Test Student Group 7', 2017, 'natural_id-98', -98, '88', -88, -7, null, null),
   -- User change groups
   (33, 'Test Student Group 8', 2017, 'natural_id-1', -1, null, null, -8, 'user1@somewhere.com', null),
+  (33, 'Test Student Group 8', 2017, 'natural_id-1', -1, null, null, -8, 'user1@somewhere.com', null),
   (33, 'Test Student Group 8', 2017, 'natural_id-1', -1, null, null, -8, 'user2@somewhere.com', null),
   (33, 'Test Student Group 7', 2017, 'natural_id-98', -98, null, null, -7, 'user3@somewhere.com', null),
   -- Subject change group
