@@ -22,7 +22,7 @@ services:
       - 15672:15672
 
   config-server:
-    image: fwsbac/configuration-service:latest
+    image: smarterbalanced/configuration-service:3.1.0.RELEASE
     container_name: config-server
     ports:
       - 8888:8888
@@ -38,7 +38,7 @@ services:
       - SPRING_RABBITMQ_PASSWORD=guest
 
   import-service:
-    image: fwsbac/rdw-ingest-import-service
+    image: smarterbalanced/rdw-ingest-import-service
     ports:
       - 8080:8080
       - 8081:8008
@@ -55,7 +55,7 @@ services:
       - "dwhost:$DATAWAREHOUSE_HOST"
 
   exam-processor:
-    image: fwsbac/rdw-ingest-exam-processor
+    image: smarterbalanced/rdw-ingest-exam-processor
     ports:
       - 8082:8008
     links:
@@ -69,7 +69,7 @@ services:
       - "dwhost:$DATAWAREHOUSE_HOST"
 
   package-processor:
-    image: fwsbac/rdw-ingest-package-processor
+    image: smarterbalanced/rdw-ingest-package-processor
     ports:
       - 8083:8008
     links:
@@ -83,7 +83,7 @@ services:
       - "dwhost:$DATAWAREHOUSE_HOST"
 
   task-service:
-    image: fwsbac/rdw-ingest-task-service
+    image: smarterbalanced/rdw-ingest-task-service
     ports:
       - 8084:8008
     volumes:
@@ -99,7 +99,7 @@ services:
       - "dwhost:$DATAWAREHOUSE_HOST"
 
   migrate-reporting:
-    image: fwsbac/rdw-ingest-migrate-reporting
+    image: smarterbalanced/rdw-ingest-migrate-reporting
     ports:
       - 8085:8008
     links:

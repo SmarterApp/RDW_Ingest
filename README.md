@@ -118,8 +118,8 @@ You must explicitly build the docker images:
 $ gradle buildImage
 $ docker images
 REPOSITORY                              TAG                 IMAGE ID            CREATED             SIZE
-fwsbac/rdw-ingest-import-service        latest              fc700c6e8518        14 minutes ago      131 MB
-fwsbac/rdw-ingest-exam-processor        latest              cf83654e781f        9 seconds ago       130 MB
+smarterbalanced/rdw-ingest-import-service        latest              fc700c6e8518        14 minutes ago      131 MB
+smarterbalanced/rdw-ingest-exam-processor        latest              cf83654e781f        9 seconds ago       130 MB
 rabbitmq                                3-management        cda8025c010b        3 weeks ago         179 MB
 java                                    8-jre-alpine        d85b17c6762e        6 weeks ago         108 MB
 ```
@@ -151,11 +151,11 @@ After cycling through some builds you will end up with a number of dangling imag
 ```bash
 docker images
 REPOSITORY                          TAG                 IMAGE ID            CREATED             SIZE
-fwsbac/rdw-ingest-import-service    latest              ad78b95ae39f        2 minutes ago       140 MB
+smarterbalanced/rdw-ingest-import-service    latest              ad78b95ae39f        2 minutes ago       140 MB
 <none>                              <none>              13b96a973d59        About an hour ago   140 MB
 <none>                              <none>              cb5063cbcc56        2 hours ago         140 MB
 <none>                              <none>              2236259b73f0        3 hours ago         140 MB
-fwsbac/rdw-ingest-exam-processor    latest              293d8744377d        3 hours ago         132 MB
+smarterbalanced/rdw-ingest-exam-processor    latest              293d8744377d        3 hours ago         132 MB
 <none>                              <none>              bdae5c1151d5        24 hours ago        140 MB
 <none>                              <none>              233d2f87c185        24 hours ago        132 MB
 ```
@@ -187,7 +187,7 @@ you can run the data generator directly from source but that is left as an exerc
 ```bash
 git clone https://github.com/SmarterApp/RDW_DataGenerator
 cd RDW_DataGenerator
-docker run -v `pwd`/out:/src/data_generator/out -v `pwd`/in:/src/data_generator/in fwsbac/rdw-datagen --state_type tiny --gen_iab --gen_ica --gen_item --xml_out --pkg_source /src/data_generator/in
+docker run -v `pwd`/out:/src/data_generator/out -v `pwd`/in:/src/data_generator/in smarterbalanced/rdw-datagen --state_type tiny --gen_iab --gen_ica --gen_item --xml_out --pkg_source /src/data_generator/in
 curl -X POST --header "Authorization:Bearer sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||" -F file=@"./in/FULL_2016.items.csv" http://localhost:8080/packages/imports
 curl -X POST --header "Authorization:Bearer sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||" -F file=@"./in/accommodations.xml" http://localhost:8080/accommodations/imports
 curl -X POST --header "Authorization:Bearer sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||" -F file=@"./out/organization.json" http://localhost:8080/organizations/imports
