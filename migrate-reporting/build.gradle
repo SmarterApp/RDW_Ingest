@@ -19,5 +19,9 @@ dependencies {
     compile 'org.opentestsystem.rdw.common:rdw-common-status'
     compile 'org.opentestsystem.rdw.common:rdw-common-utils'
     compile 'mysql:mysql-connector-java'
+}
 
+// migrate is a memory hog, and there is only one instance running so ...
+createDockerfile {
+    ext.java_opts = ["-Xmx768m"]
 }
