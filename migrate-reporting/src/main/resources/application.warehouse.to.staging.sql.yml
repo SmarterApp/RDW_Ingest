@@ -415,7 +415,7 @@ sql:
                 JOIN warehouse.student_group wsg ON wsg.id = wsgm.student_group_id
                 JOIN warehouse.student ws ON ws.id = wsgm.student_id
               WHERE ( (wsg.created > :first_at AND wsg.created <= :last_at) OR (wsg.updated > :first_at AND wsg.updated <= :last_at) )
-                AND ( (ws.created > :first_at AND ws.created <= :last_at) OR (ws.updated > :first_at AND ws.updated <= :last_at) )
+                AND ws.created <= :last_at AND ws.deleted = 0
                 AND wsg.deleted = 0 AND wsg.active != 0
 
             stagingInsert: >-
