@@ -348,7 +348,6 @@ sql:
                 ON sg.id = loading.group_id
             SET sg.subject_id = loading.subject_id,
               sg.update_import_id = loading.import_id
-            WHERE NOT sg.subject_id <=> loading.subject_id
 
           clear-updated-users: >-
             DELETE users FROM user_student_group users
