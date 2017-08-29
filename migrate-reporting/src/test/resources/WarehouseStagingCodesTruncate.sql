@@ -8,6 +8,7 @@ TRUNCATE reporting_test.staging_ethnicity;
 TRUNCATE reporting_test.staging_gender;
 TRUNCATE reporting_test.staging_translation;
 TRUNCATE reporting_test.staging_accommodation;
+TRUNCATE reporting_test.staging_school_year;
 TRUNCATE reporting_test.staging_depth_of_knowledge;
 TRUNCATE reporting_test.staging_math_practice;
 TRUNCATE reporting_test.staging_item_trait_score;

@@ -4,6 +4,7 @@ INSERT INTO reporting_test.staging_administration_condition VALUES (-98, 'NS-tes
 INSERT INTO reporting_test.staging_ethnicity VALUES (-98, 'Asian-test');
 INSERT INTO reporting_test.staging_gender VALUES (-98, 'Male-test');
 INSERT INTO reporting_test.staging_accommodation VALUES (-98, 'code2-test');
+INSERT INTO reporting_test.staging_school_year VALUES (1998);
 INSERT INTO reporting_test.staging_claim VALUES (-98, 2, '2-W', 'Write Effectively', 'Write Effectively - ..');
 INSERT INTO reporting_test.staging_depth_of_knowledge VALUES (-98, 2, 1, 'Basic Skills and Concepts', 'anything');
 INSERT INTO reporting_test.staging_math_practice(practice, description, code) VALUES (-98, 'Reason abstractly and quantitatively', '-8');

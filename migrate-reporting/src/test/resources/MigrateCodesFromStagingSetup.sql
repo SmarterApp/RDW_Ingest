@@ -4,6 +4,7 @@ INSERT INTO reporting_test.staging_administration_condition VALUES (-99,'IN-test
 INSERT INTO reporting_test.staging_ethnicity VALUES (-99,'AmericanIndianOrAlaskaNative-test'),(-98,'Asian-test');
 INSERT INTO reporting_test.staging_gender VALUES (-99,'Female-test'),(-98,'Male-test');
 INSERT INTO reporting_test.staging_accommodation VALUES(-99, 'code1-test'),( -98 ,'code2-test');
+INSERT INTO reporting_test.staging_school_year VALUES(1999),(1998);
 INSERT INTO reporting_test.staging_claim VALUES (-99 ,2,'1-IT','Read Analytically: Informational Text','Read Analytically: Informational Text ...'),( -98,2,'2-W','Write Effectively','Write Effectively - ..');
 INSERT INTO reporting_test.staging_depth_of_knowledge  VALUES (-99,1,1,'Recall and Reproduction','something'),(-98,2,1,'Basic Skills and Concepts','anything');
 INSERT INTO reporting_test.staging_math_practice(practice, description, code) VALUES (-99,'Make sense of problems and persevere in solving them', '-9'),(-98,'Reason abstractly and quantitatively', '-8');

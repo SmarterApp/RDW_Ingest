@@ -132,6 +132,24 @@ sql:
                DELETE ra FROM reporting.accommodation ra
                 WHERE NOT EXISTS(SELECT sa.id FROM reporting.staging_accommodation sa WHERE sa.id = ra.id);
 
+      # ------------ School Year ------------------------------------------------------------------------
+        school_year:
+          sql:
+            update:  >-
+              SELECT 1;
+
+            insert:  >-
+              INSERT INTO reporting.school_year (year)
+                SELECT
+                  sy.year
+                FROM reporting.staging_school_year sy
+                  LEFT JOIN reporting.school_year ry ON ry.year = sy.year
+                WHERE ry.year IS NULL;
+
+            delete: >-
+               DELETE ry FROM reporting.school_year ry
+                WHERE NOT EXISTS(SELECT sy.year FROM reporting.staging_school_year sy WHERE sy.year = ry.year);
+
       # ------------ Claim ------------------------------------------------------------------------
         claim:
           sql:

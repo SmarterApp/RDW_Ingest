@@ -10,8 +10,8 @@ INSERT INTO reporting_test.staging_school (id, district_id, name, natural_id, de
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
 
 INSERT INTO reporting_test.staging_asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name, label, version, deleted, migrate_id, import_id, updated) VALUES
-   (-99, '(SBAC)SBAC-IAB-ASMT TEST', -99, 2, 1, 2016, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', 'MTH IAB G4 OperationsAlgebraicThinking', '9835', 0, -99, -1, '2017-07-18 20:14:34.000000'),
-   (-98, 'SBAC)SBAC-ICA-ASMT TEST', -98, 1, 2, 2016, 'SBAC-ICA-FIXED-G5E-COMBINED-2017', 'Grade 5 ELA', '9831', 0, -99, -1, '2017-07-18 20:14:34.000000');
+   (-99, '(SBAC)SBAC-IAB-ASMT TEST', -99, 2, 1, 1999, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', 'MTH IAB G4 OperationsAlgebraicThinking', '9835', 0, -99, -1, '2017-07-18 20:14:34.000000'),
+   (-98, 'SBAC)SBAC-ICA-ASMT TEST', -98, 1, 2, 1999, 'SBAC-ICA-FIXED-G5E-COMBINED-2017', 'Grade 5 ELA', '9831', 0, -99, -1, '2017-07-18 20:14:34.000000');
 
 INSERT INTO reporting_test.staging_asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score, migrate_id) VALUES
   (-99, 2442, 2502, 2582, 2201, 2701, -99),
@@ -58,9 +58,9 @@ INSERT INTO reporting_test.staging_student_ethnicity(student_id, ethnicity_id) v
     (-86,  -99);
 
 INSERT INTO reporting_test.staging_student_group (id, creator, created, school_id, school_year, name, subject_id, import_id, migrate_id, active, deleted, updated) VALUES
-   (-91, 'dwtest@example.com', NOW(), -99, 2017, 'Test Student Group 9', null, -79, -99, 1, 0, '2017-07-18 20:14:34.000000'),
-   (-8, 'dwtest@example.com',  NOW(), -1, 2017, 'Test Student Group 8', null, -79, -99, 1, 0, '2017-07-18 20:14:34.000000'),
-   (-7, 'dwtest@example.com',  NOW(), -1, 2017, 'Test Student Group 7', null, -79, -99, 1, 0, '2017-07-18 20:14:34.000000');
+   (-91, 'dwtest@example.com', NOW(), -99, 1999, 'Test Student Group 9', null, -79, -99, 1, 0, '2017-07-18 20:14:34.000000'),
+   (-8, 'dwtest@example.com',  NOW(), -1, 1999, 'Test Student Group 8', null, -79, -99, 1, 0, '2017-07-18 20:14:34.000000'),
+   (-7, 'dwtest@example.com',  NOW(), -1, 1999, 'Test Student Group 7', null, -79, -99, 1, 0, '2017-07-18 20:14:34.000000');
 
  INSERT INTO reporting_test.staging_student_group_membership (student_group_id, student_id) VALUES
    (-91, -89),
@@ -86,9 +86,9 @@ INSERT INTO reporting_test.staging_exam_student ( id, grade_id, student_id, scho
 
 INSERT INTO  reporting_test.staging_exam ( id, type_id,  exam_student_id, school_year, asmt_id, asmt_version, opportunity, completeness_id,
         administration_condition_id, session_id, performance_level, scale_score, scale_score_std_err, completed_at, import_id, deleted, migrate_id, updated) VALUES
-(-88, 1, -18, 2016, -99,  null, 1, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000'),
-(-87, 1, -17, 2016, -11,  null, 1, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000'),
-(-86, 1, -16, 2016, -11,  null, 1, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000');
+(-88, 1, -18, 1999, -99,  null, 1, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000'),
+(-87, 1, -17, 1999, -11,  null, 1, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000'),
+(-86, 1, -16, 1999, -11,  null, 1, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000');
 
 INSERT INTO reporting_test.staging_exam_available_accommodation (exam_id, accommodation_id) VALUES
     (-88, -98),

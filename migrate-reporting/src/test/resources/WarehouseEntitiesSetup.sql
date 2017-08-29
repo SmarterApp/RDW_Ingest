@@ -11,9 +11,9 @@ INSERT INTO warehouse_test.school (id, district_id, name, natural_id, deleted, i
   (-98, -98, 'Sample School -98', 'natural_id-98', 0, -2, -2, '2017-07-18 20:13:34.000000', '2017-07-18 20:13:34.000000');
 
 INSERT INTO warehouse_test.asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name, label, version, deleted, import_id, update_import_id, created, updated) VALUES
-  (-11, '(SBAC)SBAC-IAB-ASMT TEST-11', -98, 2, 1, 2016, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', 'test', '9835', 0, -5000, -5000, '2017-05-18 19:05:33.967000', '2017-05-18 20:06:34.966000'),
-  (-99, '(SBAC)SBAC-IAB-ASMT TEST', -99, 2, 1, 2016, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', 'MTH IAB G4 OperationsAlgebraicThinking', '9835', 1, -5000, -20, '2017-07-18 19:05:34.966000', '2017-07-18 19:05:34.966000'),
-  (-98, 'SBAC)SBAC-ICA-ASMT TEST', -98, 1, 2, 2016, 'SBAC-ICA-FIXED-G5E-COMBINED-2017', 'Grade 5 ELA', '9831', 0, -20, -20, '2017-07-18 19:05:34.966000', '2017-07-18 19:05:34.966000');
+  (-11, '(SBAC)SBAC-IAB-ASMT TEST-11', -98, 2, 1, 1999, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', 'test', '9835', 0, -5000, -5000, '2017-05-18 19:05:33.967000', '2017-05-18 20:06:34.966000'),
+  (-99, '(SBAC)SBAC-IAB-ASMT TEST', -99, 2, 1, 1999, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', 'MTH IAB G4 OperationsAlgebraicThinking', '9835', 1, -5000, -20, '2017-07-18 19:05:34.966000', '2017-07-18 19:05:34.966000'),
+  (-98, 'SBAC)SBAC-ICA-ASMT TEST', -98, 1, 2, 1999, 'SBAC-ICA-FIXED-G5E-COMBINED-2017', 'Grade 5 ELA', '9831', 0, -20, -20, '2017-07-18 19:05:34.966000', '2017-07-18 19:05:34.966000');
 
 INSERT INTO warehouse_test.item (id, claim_id, target_id, natural_id, asmt_id, dok_id, difficulty, difficulty_code, max_points, math_practice, allow_calc, position) VALUES
   (-9,   -99, -98, '200-2019',  -11, -99, -0.23, 'E', 2, -99, 0, 1),
@@ -67,9 +67,9 @@ INSERT INTO warehouse_test.student_ethnicity(student_id, ethnicity_id) values
 
 -- student_group added at import -5000 and deleted at import -79
 INSERT INTO warehouse_test.student_group (id, creator, school_id, school_year, name, subject_id, import_id, update_import_id, active, deleted, created, updated) VALUES
-  (-91, 'dwtest@example.com', -99, 2017, 'Test Student Group 9 - updated school', null, -5000, -79, 1, 1, '2017-05-18 19:05:33.967000', '2017-07-18 19:10:34.966000'),
-  (-8, 'dwtest@example.com', -1, 2017, 'Test Student Group 8', null, -79, -79, 1, 0, '2017-07-18 19:10:34.966000', '2017-07-18 19:10:34.966000'),
-  (-7, 'dwtest@example.com', -1, 2017, 'Test Student Group 7', null, -79, -79, 1, 0, '2017-07-18 19:10:34.966000', '2017-07-18 20:16:33.966000');
+  (-91, 'dwtest@example.com', -99, 1999, 'Test Student Group 9 - updated school', null, -5000, -79, 1, 1, '2017-05-18 19:05:33.967000', '2017-07-18 19:10:34.966000'),
+  (-8, 'dwtest@example.com', -1, 1999, 'Test Student Group 8', null, -79, -79, 1, 0, '2017-07-18 19:10:34.966000', '2017-07-18 19:10:34.966000'),
+  (-7, 'dwtest@example.com', -1, 1999, 'Test Student Group 7', null, -79, -79, 1, 0, '2017-07-18 19:10:34.966000', '2017-07-18 20:16:33.966000');
 
 INSERT INTO warehouse_test.student_group_membership (student_group_id, student_id) VALUES
   (-91, -89),
@@ -98,10 +98,10 @@ INSERT INTO warehouse_test.exam_student ( id, grade_id, student_id, school_id, i
 INSERT INTO  warehouse_test.exam ( id, type_id, exam_student_id, school_year, asmt_id, asmt_version, opportunity, completeness_id,
                                       administration_condition_id, session_id, performance_level, scale_score, scale_score_std_err, completed_at,
                                       import_id, update_import_id, deleted, created, updated) VALUES
-  (-88, 1, -18, 2016, -99,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -5000, -88, 1, '2017-05-18 19:05:33.967000', '2017-07-18 19:06:07.966000'),
-  (-87, 1, -17, 2016, -11,  null, 1, 1, 1, 'session', 1, null, null, '2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000'),
-  (-86, 2, -16, 2016, -11,  null, 1, 1, 1, 'session', 1, null, null, '2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000'),
-  (-85, 1, -15, 2016, -11,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000');
+  (-88, 1, -18, 1999, -99,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -5000, -88, 1, '2017-05-18 19:05:33.967000', '2017-07-18 19:06:07.966000'),
+  (-87, 1, -17, 1999, -11,  null, 1, 1, 1, 'session', 1, null, null, '2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000'),
+  (-86, 2, -16, 1999, -11,  null, 1, 1, 1, 'session', 1, null, null, '2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000'),
+  (-85, 1, -15, 1999, -11,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000');
 
 INSERT INTO warehouse_test.exam_available_accommodation (exam_id, accommodation_id) VALUES
   (-88, -98),
