@@ -29,6 +29,7 @@ sql:
       - TRUNCATE TABLE reporting.staging_ethnicity
       - TRUNCATE TABLE reporting.staging_gender
       - TRUNCATE TABLE reporting.staging_accommodation
+      - TRUNCATE TABLE reporting.staging_school_year
       - TRUNCATE TABLE reporting.staging_claim
       - TRUNCATE TABLE reporting.staging_target
       - TRUNCATE TABLE reporting.staging_common_core_standard
@@ -114,6 +115,16 @@ sql:
             stagingInsert: >-
               INSERT INTO reporting.staging_accommodation (id, code) VALUES
                 (:id, :code)
+
+        # ------------ school_year  -------------------------------------------------------------
+        school_year:
+          sql:
+            warehouseRead: >-
+             SELECT wy.year from warehouse.school_year wy
+
+            stagingInsert: >-
+              INSERT INTO reporting.staging_school_year (year) VALUES
+                (:year)
 
         # ------------ claim  -------------------------------------------------------------
         claim:
