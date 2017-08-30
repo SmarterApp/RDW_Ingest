@@ -116,7 +116,7 @@ sql:
               INSERT INTO reporting.staging_accommodation (id, code) VALUES
                 (:id, :code)
 
-        # ------------ accommodation  -------------------------------------------------------------
+        # ------------ school_year  -------------------------------------------------------------
         school_year:
           sql:
             warehouseRead: >-
