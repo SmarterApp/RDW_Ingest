@@ -80,3 +80,26 @@ task:
 #      organizations-imports-url: http://localhost:8080/organizations/imports
 #      status-url: http://localhost:8081/status
 #      stub-auth: sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||
+  # by default, this task is disabled for local dev environment; uncomment and set secrets/hosts to test
+#  resubmit-hung-imports:
+#    cron: 0 0 4 * * *
+#    state: CA
+#    art-client:
+#      districts-url: https://art-deployment.sbtds.org/rest/district?stateAbbreviation={state}&pageSize=5000
+#      groups-of-schools-url: https://art-deployment.sbtds.org/rest/groupofinstitution?stateAbbreviation={state}&pageSize=1000
+#      schools-url: https://art-deployment.sbtds.org/rest/institution?stateAbbreviation={state}&pageSize=20000
+#      status-url: https://art-deployment.sbtds.org/rest/status
+#      oauth2:
+#        access-token-uri: https://sso-deployment.sbtds.org:443/auth/oauth2/access_token?realm=/sbac
+#        client-id: sbacdw
+#        client-secret:
+#        username: ca.admin@example.com
+#        password:
+#    import-service-client:
+#      organizations-imports-url: http://localhost:8080/organizations/imports
+#      groups-imports-url: http://localhost:8080/groups/imports
+#      packages-imports-url: http://localhost:8080/packages/imports
+#      exams-imports-url: http://localhost:8080/exams/imports
+#      accommodations-imports-url: http://localhost:8080/accommodations/imports
+#      status-url: http://localhost:8081/status
+#      stub-auth: sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||
