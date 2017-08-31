@@ -39,7 +39,7 @@ SNAPSHOT version of the RDW_Schema:
 and then run the integration tests as usual, but using the local SNAPSHOT version of RDW_Schema:
 ```bash
 //under the RDW_Ingest directory...
- ./gradlew build it -Pschema=0.0.1-SNAPSHOT
+ ./gradlew build it -Pschema=1.0.0-SNAPSHOT
 ```
 
 ### Running
@@ -57,8 +57,8 @@ The artifacts are Spring Boot executable jars so you can just run them. Just as 
 is to run without a configuration server so all secrets must be specified as program arguments and ports must be
 specified to avoid conflict.
 ```bash
-java -jar import-service/build/libs/rdw-ingest-import-service-0.0.1-SNAPSHOT.jar
-java -jar exam-processor/build/libs/rdw-ingest-exam-processor-0.0.1-SNAPSHOT.jar --server.port=8082
+java -jar import-service/build/libs/rdw-ingest-import-service-1.0.0-SNAPSHOT.jar
+java -jar exam-processor/build/libs/rdw-ingest-exam-processor-1.0.0-SNAPSHOT.jar --server.port=8082
 ```
 
 #### FTP Server
