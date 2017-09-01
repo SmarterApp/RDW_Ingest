@@ -163,7 +163,7 @@ subprojects {
 
         // to use this, you must use valid docker credentials, which can be set in the gradle.properties file
         task dockerPushImage(type: DockerPushImage, dependsOn: buildImage) {
-            imageName = "${dockerPrefix}/${project.name}"
+            imageName = "${dockerPrefix}/${project.name}" + (project.hasProperty("release") ? ":${project.version}" : "")
         }
     }
 
