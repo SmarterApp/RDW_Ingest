@@ -100,7 +100,7 @@ git checkout develop
 Then to use those new changes, you can specify the SNAPSHOT version of RDW_Common
 ```bash
 //In RDW_Ingest
-./gradlew build it -Pcommon=0.0.1-SNAPSHOT
+./gradlew build it -Pcommon=1.0.0-SNAPSHOT
 ```
 
 Now you should be able to build and test the ingest apps from where you cloned this project:
@@ -129,8 +129,8 @@ Running the applications locally depends on the local database being configured 
 ```bash
 To completely clean out any existing data you might have and start fresh:
 ./gradlew cleanallprod migrateallprod
-or, if you want to use a different version of the schema, say version 0.0.1-68 of RDW_Schema
-./gradlew -Pschema=0.0.1-68 cleanallprod migrateallprod
+or, if you want to use a different version of the schema, say version 1.0.0-68 of RDW_Schema
+./gradlew -Pschema=1.0.0-68 cleanallprod migrateallprod
 ```
 
 The apps are wrapped in docker containers and should be built and run that way. There is a docker-compose spec

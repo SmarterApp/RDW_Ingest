@@ -22,15 +22,15 @@ plugins {
 
 apply plugin: 'io.spring.dependency-management'
 
-// Set version dependencies. This allows the cli to force version, e.g. `-Pcommon=0.0.1-SNAPSHOT`
+// Set version dependencies. This allows the cli to force version, e.g. `-Pcommon=1.0.0-SNAPSHOT`
 
-String rdwCommonVersion = project.hasProperty("common") ? project.property("common") : "0.0.1-39"
-String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "0.0.1-186"
+String rdwCommonVersion = project.hasProperty("common") ? project.property("common") : "1.0.0-41"
+String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "1.0.0-191"
 String dockerPrefix = "smarterbalanced"
 
 allprojects {
     group = 'org.opentestsystem.rdw.ingest'
-    version = '0.0.1-SNAPSHOT'
+    version = '1.0.0-SNAPSHOT'
 
     apply plugin: 'idea'
     apply plugin: 'propdeps'
@@ -152,7 +152,7 @@ subprojects {
         task buildImage(type:DockerBuildImage, dependsOn:[build, createDockerfile]) {
             dockerFile = createDockerfile.destFile
             inputDir = project.file('build/docker/')
-            tag = "${dockerPrefix}/${project.name}"
+            tag = "${dockerPrefix}/${project.name}" + (project.hasProperty("release") ? ":${project.version}" : "")
             doFirst {
                 copy {
                     from jar
@@ -163,7 +163,7 @@ subprojects {
 
         // to use this, you must use valid docker credentials, which can be set in the gradle.properties file
         task dockerPushImage(type: DockerPushImage, dependsOn: buildImage) {
-            imageName = "${dockerPrefix}/${project.name}"
+            imageName = "${dockerPrefix}/${project.name}" + (project.hasProperty("release") ? ":${project.version}" : "")
         }
     }
 

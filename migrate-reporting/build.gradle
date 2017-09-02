@@ -21,7 +21,8 @@ dependencies {
     compile 'mysql:mysql-connector-java'
 }
 
-// migrate is a memory hog, and there is only one instance running so ...
+// migrate is a bit of a memory hog; for batch size 2000, -Xmx512m is a good heap size
+// (for a batch size of 4000, this should be set to at least -Xmx768m)
 createDockerfile {
-    ext.java_opts = ["-Xmx768m"]
+    ext.java_opts = ["-Xmx512m"]
 }
