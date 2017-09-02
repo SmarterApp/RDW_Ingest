@@ -70,7 +70,11 @@ INSERT INTO warehouse_test.student_group (id, creator, school_id, school_year, n
   (-91, 'dwtest@example.com', -99, 2017, 'Test Student Group 9 - updated school', null, -5000, -79, 1, 1, '2017-05-18 19:05:33.967000', '2017-07-18 19:10:34.966000'),
   (-8, 'dwtest@example.com', -1, 2017, 'Test Student Group 8', null, -79, -79, 1, 0, '2017-07-18 19:10:34.966000', '2017-07-18 19:10:34.966000'),
   (-7, 'dwtest@example.com', -98, 2017, 'Test Student Group 7', null, -79, -79, 1, 0, '2017-07-18 19:10:34.966000', '2017-07-18 19:10:34.966000'),
-  (-6, 'dwtest@example.com', -1, 2017, 'Test Student Group 6', null, -79, -79, 1, 0, '2017-07-18 19:10:34.966000', '2017-07-18 19:10:34.966000');
+  (-6, 'dwtest@example.com', -1, 2017, 'Test Student Group 6', null, -79, -79, 1, 0, '2017-07-18 19:10:34.966000', '2017-07-18 19:10:34.966000'),
+  (-5, 'dwtest@example.com', -1, 2017, 'No Student Group', null, -79, -79, 1, 0, '2017-07-18 19:10:34.966000', '2017-07-18 19:10:34.966000'),
+  (-4, 'dwtest@example.com', -1, 2017, 'No User Group', null, -79, -79, 1, 0, '2017-07-18 19:10:34.966000', '2017-07-18 19:10:34.966000'),
+  (-3, 'dwtest@example.com', -1, 2017, 'Existing Student Group', null, -79, -79, 1, 0, '2017-07-18 19:10:34.966000', '2017-07-18 19:10:34.966000'),
+  (-2, 'dwtest@example.com', -1, 2017, 'Existing User Group', null, -79, -79, 1, 0, '2017-07-18 19:10:34.966000', '2017-07-18 19:10:34.966000');
 
 INSERT INTO warehouse_test.student_group_membership (student_group_id, student_id) VALUES
   (-91, -89),
@@ -83,7 +87,8 @@ INSERT INTO warehouse_test.student_group_membership (student_group_id, student_i
   (-7, -33),
   (-6, -87),
   (-6, -86),
-  (-6, -33);
+  (-6, -33),
+  (-3, -33);
 
 INSERT INTO warehouse_test.user_student_group (student_group_id, user_login) VALUES
   (-91, 'dwtest@example.com-91'),
@@ -91,7 +96,8 @@ INSERT INTO warehouse_test.user_student_group (student_group_id, user_login) VAL
   (-7, 'dwtest@example.com-7'),
   (-91, 'dwtest@example.com-91-2'),
   (-6, 'dwtest@example.com-6-1'),
-  (-6, 'dwtest@example.com-6-2');
+  (-6, 'dwtest@example.com-6-2'),
+  (-2, 'dwtest@example.com-6-2');
 
 
 INSERT INTO warehouse_test.exam_student ( id, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage,
