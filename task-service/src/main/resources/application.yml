@@ -96,10 +96,6 @@ task:
 #        username: ca.admin@example.com
 #        password:
 #    import-service-client:
-#      organizations-imports-url: http://localhost:8080/organizations/imports
-#      groups-imports-url: http://localhost:8080/groups/imports
-#      packages-imports-url: http://localhost:8080/packages/imports
-#      exams-imports-url: http://localhost:8080/exams/imports
-#      accommodations-imports-url: http://localhost:8080/accommodations/imports
+#      exams-imports-url: http://localhost:8080/exams/imports/resubmit
 #      status-url: http://localhost:8081/status
 #      stub-auth: sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||
