@@ -195,63 +195,75 @@ sql:
               SELECT
                 batch_id,
                 school_id,
-                concat(loading.group_name, loading.school_id, loading.school_year),
+                concat(name, school_id, school_year),
                 3
               FROM (
-                     SELECT
-                       batch_id,
-                       school_id,
-                       group_id,
-                       group_name,
-                       GROUP_CONCAT(student_id ORDER BY student_id) AS students,
-                       school_year
-                     FROM upload_student_group
-                     WHERE student_id IS NOT NULL
-                           AND batch_id = :batch_id
-                           AND school_id = :school_id
-                     GROUP BY group_id) AS loading
-                JOIN
-                (
                   SELECT
-                    student_group_id,
-                    GROUP_CONCAT(student_id ORDER BY student_id) AS students
-                  FROM student_group_membership
-                  GROUP BY student_group_id
+                    grp.id,
+                    grp.school_id,
+                    grp.name,
+                    grp.school_year,
+                    upload.batch_id,
+                    GROUP_CONCAT(membership.student_id ORDER BY membership.student_id) AS students
+                  FROM student_group grp
+                    JOIN upload_student_group upload
+                      ON grp.id = upload.group_id
+                    LEFT JOIN student_group_membership membership
+                      ON membership.student_group_id = grp.id
+                  WHERE upload.batch_id = :batch_id
+                    AND upload.school_id = :school_id
+                  GROUP BY grp.id
                 ) AS existing
-                  ON existing.student_group_id = loading.group_id
-              WHERE existing.students <> loading.students;
+              LEFT JOIN (
+                  SELECT
+                    group_id,
+                    GROUP_CONCAT(student_id ORDER BY student_id) AS students
+                  FROM upload_student_group
+                  WHERE student_id IS NOT NULL
+                        AND batch_id = :batch_id
+                        AND school_id = :school_id
+                  GROUP BY group_id
+                ) AS loading
+                ON existing.id = loading.group_id
+              WHERE NOT existing.students <=> loading.students
 
           stage-user-change: >-
             INSERT IGNORE INTO upload_student_group_import (batch_id, school_id, ref, ref_type)
               SELECT
                 batch_id,
                 school_id,
-                concat(loading.group_name, loading.school_id, loading.school_year),
+                concat(name, school_id, school_year),
                 4
               FROM (
-                     SELECT
-                       batch_id,
-                       school_id,
-                       group_id,
-                       group_name,
-                       GROUP_CONCAT(group_user_login ORDER BY group_user_login) AS users,
-                       school_year
-                     FROM
-                       (select DISTINCT batch_id, school_id, group_id, group_name, school_year, group_user_login from upload_student_group) u
-                     WHERE group_user_login IS NOT NULL
-                           AND batch_id = :batch_id
-                           AND school_id = :school_id
-                     GROUP BY group_id) AS loading
-                JOIN
-                (
                   SELECT
-                    student_group_id,
+                    grp.id,
+                    grp.school_id,
+                    grp.name,
+                    grp.school_year,
+                    upload.batch_id,
                     GROUP_CONCAT(user_login ORDER BY user_login) AS users
-                  FROM user_student_group
-                  GROUP BY student_group_id
-                ) AS existing
-                  ON existing.student_group_id = loading.group_id
-              WHERE existing.users <> loading.users;
+                  FROM student_group grp
+                    JOIN upload_student_group upload
+                      ON grp.id = upload.group_id
+                    LEFT JOIN user_student_group user
+                      on user.student_group_id = grp.id
+                  WHERE upload.batch_id = :batch_id
+                    AND upload.school_id = :school_id
+                  GROUP BY grp.id
+                  ) AS existing
+              LEFT JOIN (
+                  SELECT
+                    group_id,
+                    GROUP_CONCAT(group_user_login ORDER BY group_user_login) AS users
+                  FROM
+                    (select DISTINCT batch_id, school_id, group_id, group_user_login from upload_student_group) u
+                  WHERE group_user_login IS NOT NULL
+                        AND batch_id = :batch_id
+                        AND school_id = :school_id
+                  GROUP BY group_id
+                ) AS loading
+                ON existing.id = loading.group_id
+              WHERE NOT existing.users <=> loading.users;
 
           stage-subject-change: >-
             INSERT IGNORE INTO upload_student_group_import (batch_id, school_id, ref, ref_type)
@@ -449,5 +461,3 @@ sql:
       subject_code = nullif(TRIM(REPLACE(@vsubject_code, '\r', '')), ''),
       student_ssid = nullif(TRIM(REPLACE(@vstudent_ssid, '\r', '')), ''),
       group_user_login = nullif(TRIM(REPLACE(@vgroup_user_login, '\r', '')), '')
-
-
