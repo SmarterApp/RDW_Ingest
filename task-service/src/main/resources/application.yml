@@ -82,7 +82,7 @@ task:
 #      stub-auth: sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||
   # by default, this task is disabled for local dev environment; uncomment and set secrets/hosts to test
 #  replay-lost-imports:
-#    cron: 0 0 4 * * *
+#    cron: 51 * * * * *
 #    import-service-client:
 #      exams-imports-url: http://localhost:8080/exams/imports/resubmit
 #      status-url: http://localhost:8081/status
