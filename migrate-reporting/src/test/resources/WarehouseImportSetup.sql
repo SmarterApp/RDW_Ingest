@@ -1,8 +1,8 @@
 -- Delete imports loaded by initial dml.
-DELETE FROM warehouse_test.import;
+DELETE FROM import;
 
 -- Content type- 3 = CODES
-INSERT INTO warehouse_test.import (id, status, content, contentType, digest, batch, creator, created, updated) VALUES
+INSERT INTO import (id, status, content, contentType, digest, batch, creator, created, updated) VALUES
   (2000,  1, 2, 'application/xml', 'student-future',  'batch', 'dwtest@example.com', '2017-08-18 20:09:33.966000', '2017-07-18 20:16:34.966000'),
   (-1,    1, 4, 'application/xml', 'hash-school-99',  'batch', 'dwtest@example.com', '2017-07-18 20:08:13.966000', '2017-07-18 20:14:34.966000'),
   (-2,   -1, 4, 'application/xml', 'hash-school-98',  'batch', 'dwtest@example.com', '2017-07-18 20:08:12.966000', '2017-07-18 20:13:34.966000'),

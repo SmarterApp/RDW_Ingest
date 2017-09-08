@@ -2,26 +2,26 @@ sql:
   reporting:
     migrate:
       findLastMigratedAt: >-
-        SELECT MAX(m.last_at) FROM reporting.migrate m WHERE m.status = 20
+        SELECT MAX(m.last_at) FROM migrate m WHERE m.status = 20
 
       create: >-
-        INSERT INTO reporting.migrate (job_id, status, first_at, last_at, size, migrate_codes)
+        INSERT INTO migrate (job_id, status, first_at, last_at, size, migrate_codes)
           VALUES (:job_id, :status, :first_at, :last_at, :size, :migrate_codes)
 
       delete: >-
-        DELETE FROM reporting.migrate WHERE id = :id
+        DELETE FROM migrate WHERE id = :id
 
       updateStatusById: >-
-        UPDATE reporting.migrate SET status = :status
+        UPDATE migrate SET status = :status
           WHERE id = :id
 
       lastStatus: >-
-        SELECT status FROM reporting.migrate ORDER BY id DESC LIMIT 1
+        SELECT status FROM migrate ORDER BY id DESC LIMIT 1
 
   warehouse:
     import:
       findAllImportStatus: >-
-         SELECT name FROM warehouse.import_status
+         SELECT name FROM import_status
 
       findImportState: >-
          SELECT start, stop, cnt FROM (
@@ -29,13 +29,13 @@ sql:
             (SELECT CASE WHEN :prev IS NULL
                THEN MIN(created)
                     ELSE :prev END AS start
-             FROM warehouse.import) s1,
+             FROM import) s1,
 
             (SELECT
                 MAX(updated) AS stop,
                 count(*)     AS cnt
               FROM (SELECT updated
-                    FROM warehouse.import
+                    FROM import
                     WHERE status != 0 AND (:prev IS NULL OR updated > :prev) AND updated < CURRENT_TIMESTAMP(6)
                     ORDER BY updated
                     LIMIT :size) AS batch) s2
@@ -43,7 +43,7 @@ sql:
 
       existsCodeImportContentInTimeRange:
           SELECT 1 AS existsCodeImportContent
-            FROM warehouse.import wi
+            FROM import wi
           WHERE wi.content = 3
              AND ((wi.status != 0 AND wi.updated >= :first_at AND wi.updated <= :last_at) OR
                (wi.status = 0 AND wi.created <= :last_at))
