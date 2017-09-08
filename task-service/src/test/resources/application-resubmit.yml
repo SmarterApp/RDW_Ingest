@@ -1,0 +1,7 @@
+task:
+  resubmit-unprocessed-imports:
+    cron: 0 0 4 * * *
+    import-service-client:
+      exams-imports-url: http://localhost:8080/exams/imports/resubmit
+      status-url: http://localhost:8081/status
+      stub-auth: sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||
