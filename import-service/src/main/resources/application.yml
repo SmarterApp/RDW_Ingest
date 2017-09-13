@@ -58,7 +58,9 @@ spring:
             requiredGroups: default
 
   datasource:
-    url: jdbc:mysql://localhost:3306/warehouse?useSSL=false&useLegacyDatetimeCode=false&characterEncoding=utf8
+    url-server: localhost:3306
+    url-schema: warehouse
+    url: jdbc:mysql://${spring.datasource.url-server}/${spring.datasource.url-schema}?useSSL=false&useLegacyDatetimeCode=false&characterEncoding=utf8
     username: root
     password:
     testWhileIdle: true

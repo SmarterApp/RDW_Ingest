@@ -24,7 +24,9 @@ cloud:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/warehouse?useSSL=false&characterEncoding=utf8&useLegacyDatetimeCode=false
+    url-server: localhost:3306
+    url-schema: warehouse
+    url: jdbc:mysql://${spring.datasource.url-server}/${spring.datasource.url-schema}?useSSL=false&characterEncoding=utf8&useLegacyDatetimeCode=false
     username: root
     password:
     testWhileIdle: true
