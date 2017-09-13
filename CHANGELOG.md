@@ -1,5 +1,9 @@
 ## Change Log
 
+#### 1.x.y
+
+* NOTE: change datasource URL configuration
+
 #### 1.0.1 - 2017-09-12
 
 * Fix reconciliation report to properly reset query time range.
