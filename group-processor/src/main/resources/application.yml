@@ -1,6 +1,13 @@
+# this app is expected to run inside the security perimeter so disable security for actuator end-points and,
+# since those are the only end-points, switch to a less standard port using the main server.port config
 management:
   security:
     enabled: false
+server:
+  port: 8008
+  tomcat:
+    max-connections: 2
+    max-threads: 2
 
 # spring auto-configured aws defense
 cloud:
@@ -18,12 +25,6 @@ cloud:
 # use LocalArchiveService by default
 archive:
   root: file:///tmp/
-
-server:
-  port: 8008
-  tomcat:
-    max-connections: 2
-    max-threads: 2
 
 spring:
   cloud:
@@ -48,4 +49,3 @@ spring:
     default-property-inclusion: non_null
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
-
