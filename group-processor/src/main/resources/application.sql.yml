@@ -3,7 +3,7 @@ sql:
   update-batch: >-
     UPDATE upload_student_group_batch
     SET status = :status,
-      message = :message
+      message = coalesce(:message, message)
     WHERE id = :batch_id
 
   find-schools-by-batch: >-
