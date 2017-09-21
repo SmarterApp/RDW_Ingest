@@ -96,6 +96,10 @@ sql:
       create: >-
         INSERT INTO exam_available_accommodation (exam_id, accommodation_id) VALUES (:exam_id, :accommodation_id)
 
+  school:
+    findIdByNaturalId: >-
+      SELECT id FROM school WHERE natural_id = :natural_id
+
   studentEthnicity:
     findAllIds:
       SELECT ethnicity_id from student_ethnicity where student_id = :student_id

@@ -70,6 +70,7 @@ task:
 #    cron: 0 0 4 * * *
 #    state: CA
 #    art-client:
+#      groups-of-districts-url: https://art-deployment.sbtds.org/rest/groupofdistrict?stateAbbreviation={state}&pageSize=1000
 #      districts-url: https://art-deployment.sbtds.org/rest/district?stateAbbreviation={state}&pageSize=5000
 #      groups-of-schools-url: https://art-deployment.sbtds.org/rest/groupofinstitution?stateAbbreviation={state}&pageSize=1000
 #      schools-url: https://art-deployment.sbtds.org/rest/institution?stateAbbreviation={state}&pageSize=20000
