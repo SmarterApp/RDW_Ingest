@@ -111,7 +111,7 @@ sql:
   #JdbcSchoolRepository
   district:
     findAll: >-
-      SELECT * FROM district
+      SELECT id, natural_id, name, external_id FROM district
     insert: >-
       INSERT INTO district (natural_id, name, external_id) VALUES (:natural_id, :name, :external_id)
     update: >-
@@ -119,7 +119,7 @@ sql:
 
   districtGroup:
     findAll: >-
-      SELECT * FROM district_group
+      SELECT id, natural_id, name, external_id FROM district_group
     insert: >-
       INSERT INTO district_group (natural_id, name, external_id) VALUES (:natural_id, :name, :external_id)
     update: >-
@@ -127,7 +127,8 @@ sql:
 
   school:
     findAll: >-
-      SELECT * FROM school
+      SELECT id, natural_id, name, external_id, district_id, district_group_id, school_group_id
+        FROM school
     insert: >-
       INSERT INTO school (natural_id, name, external_id, district_id, district_group_id, school_group_id, import_id, update_import_id)
         VALUES (:natural_id, :name, :external_id, :district_id, :district_group_id, :school_group_id, :import_id, :import_id)
@@ -143,7 +144,7 @@ sql:
 
   schoolGroup:
     findAll: >-
-      SELECT * FROM school_group
+      SELECT id, natural_id, name, external_id FROM school_group
     insert: >-
       INSERT INTO school_group (natural_id, name, external_id) VALUES (:natural_id, :name, :external_id)
     update: >-
