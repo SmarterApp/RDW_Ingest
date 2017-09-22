@@ -2,6 +2,7 @@
 RDW ingest applications:
 1. Import Service - RESTful API for submitting test results (exams), packages, etc.
 1. Exam Processor - Spring Cloud Stream application for processing test results.
+1. Group Processor - Spring Cloud Stream application for processing student groups.
 1. Package Processor - Spring Cloud Stream application for processing Assessment Packages.
 1. Task Service - Spring Boot application for running scheduled tasks.
 1. Migrate Reporting - Spring Boot application for migrating data from the warehouse to the reporting data mart.
