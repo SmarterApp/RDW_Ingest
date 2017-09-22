@@ -1,12 +1,16 @@
-## Import Service
+## Ingest Services
+
+This document describes the service end-points for the ingest services.
+* The import service has data loading end-points.
+* The task service has task trigger end-points. 
+* All services have diagnostic end-points. 
 
 ### Authentication and Authorization
-The import service requires OAuth2 access tokens for all end-points. For most end-points this must be a password
-grant token requested by a trusted client for a user of the system (the permissions are associated with the user). 
-Some end-points require only a client-credentials grant (without user credentials). Tokens are fetched from the 
-OpenAM server.
+The import service requires an OAuth2 access token for the data loading end-points. This is a password grant token 
+requested from the OpenAM server by a trusted client for a user of the system (the permissions are associated with 
+the user). 
 
-#### Create Password Grant Token
+#### Fetch Password Grant Access Token
 Accepts x-www-form-urlencoded data including client and user credentials and returns an access token.
 * Host: OpenAM
 * URL: `/auth/oauth2/access_token`
@@ -22,24 +26,24 @@ Accepts x-www-form-urlencoded data including client and user credentials and ret
 * Success Response:
   * Code: 200 (OK)
   * Content: 
-```json
-{
-  "scope": "cn givenName mail sbacTenancyChain sbacUUID sn",
-  "expires_in": 36000,
-  "token_type": "Bearer",
-  "refresh_token": "639ddaa9-f993-4c52-aec5-923d5a21ee23",
-  "access_token": "464e5ea8-3572-4145-bdc8-64a4a581a38e"
-} 
-```
+    ```json
+    {
+      "scope": "cn givenName mail sbacTenancyChain sbacUUID sn",
+      "expires_in": 36000,
+      "token_type": "Bearer",
+      "refresh_token": "639ddaa9-f993-4c52-aec5-923d5a21ee23",
+      "access_token": "464e5ea8-3572-4145-bdc8-64a4a581a38e"
+    } 
+    ```
 * Error Response:
   * Code: 400 (Bad Request)
   * Content (specific error and description will vary):
-```json
-{
-  "error": "invalid_client",
-  "error_description": "Client authentication failed"
-}
-```
+    ```json
+    {
+      "error": "invalid_client",
+      "error_description": "Client authentication failed"
+    }
+    ```
 * Sample Call (curl):
 ```bash
 curl -s -X POST \
@@ -47,43 +51,53 @@ curl -s -X POST \
   https://openam/auth/oauth2/access_token?realm=/sbac
 ```
 
-#### Create Client Credentials Token
-Accepts x-www-form-urlencoded data including client credentials and returns an access token.
+#### Test Access Token
+Although not needed during normal operations, this call can be used to check an access token.
 * Host: OpenAM
-* URL: `/auth/oauth2/access_token`
-* Method: `POST`
+* URL: `/auth/oauth2/tokeninfo`
+* Method: `GET`
 * URL Params: 
-  * `realm=/sbac`
-* Data Params (except for `grant_type` values given are examples and should be replaced with real values):
-  * `grant_type=client_credentials`
-  * `client_id=client`
-  * `client_secret=ClientSecret`
+  * `access_token={access_token}`
 * Success Response:
   * Code: 200 (OK)
   * Content: 
-```json
-{
-  "scope": "cn givenName mail sbacTenancyChain sbacUUID sn",
-  "expires_in": 36000,
-  "token_type": "Bearer",
-  "access_token": "854dbb6e-7df2-40d2-86b5-a78ac1cb4ad2"
-} 
-```
+    ```json
+    {
+      "sbacUUID": "599758d9e4b0fbecbf5fc586",
+      "mail": "test@example.com",
+      "sn": "Test",
+      "scope": [
+         "sbacUUID",
+         "mail",
+         "sn",
+         "cn",
+         "sbacTenancyChain",
+         "givenName"
+      ],
+      "grant_type": "password",
+      "cn": "Test",
+      "realm": "/sbac",
+      "sbacTenancyChain": "|CA|ASMTDATALOAD|STATE|1000|ART_DL|||CA|CALIFORNIA|||||||||",
+      "token_type": "Bearer",
+      "expires_in": 35930,
+      "givenName": "Test",
+      "access_token": "20b55fc2-1b84-4412-8149-88cfa622db01"
+    }
+    ```
 * Error Response:
   * Code: 400 (Bad Request)
   * Content (specific error and description will vary):
-```json
-{
-  "error": "invalid_client",
-  "error_description": "Client authentication failed"
-}
-```
+    ```json
+    {
+      "error": "invalid_request",
+      "error_description": "Access Token not valid"
+    }
+    ```
 * Sample Call (curl):
 ```bash
-curl -s -X POST \
-  --data "grant_type=client_credentials&client_id=client&client_secret=secret" \
-  https://openam/auth/oauth2/access_token?realm=/sbac
+curl https://openam/auth/oauth2/tokeninfo?access_token=20b55fc2-1b84-4412-8149-88cfa622db01
 ```
+
 
 ### Exam Endpoints
 End-points for submitting exams aka test results.
@@ -95,10 +109,11 @@ format, creating new exam import requests. The import requests are processed and
 Import payloads are hashed and duplicate content is detected, returning any previous import request for the given
 content. Thus submitting a payload a second time will no-op and return the current status of the previous import.
 
-This end-point requires credentials with the `ASMTDATALOAD` role.
+This end-point requires user credentials with the `ASMTDATALOAD` role.
 
 There are two ways of posting exam content: with a raw body of type `application/xml` or form-data (file upload).
 
+* Host: import service
 * URL: `/exams/imports`
 * Method: `POST`
 * URL Params: any URL param will be preserved as properties for the upload, well-known params:
@@ -118,22 +133,22 @@ There are two ways of posting exam content: with a raw body of type `application
 * Success Response:
   * Code: 202 (Accepted)
   * Content:
-```json
-{
-  "id": 19529,
-  "content": "EXAM",
-  "contentType": "application/xml",
-  "digest": "5899C64887FE25BC1F015FD7C26476E4",
-  "status": "ACCEPTED",
-  "creator": "user@example.com",
-  "created": "2017-05-08T19:45:20.476Z",
-  "_links": {
-    "self": {
-      "href": "http://localhost:8080/exams/imports/19529"
+    ```json
+    {
+      "id": 19529,
+      "content": "EXAM",
+      "contentType": "application/xml",
+      "digest": "5899C64887FE25BC1F015FD7C26476E4",
+      "status": "ACCEPTED",
+      "creator": "user@example.com",
+      "created": "2017-05-08T19:45:20.476Z",
+      "_links": {
+        "self": {
+          "href": "http://import-service/imports/19529"
+        }
+      }
     }
-  }
-}
-```
+    ```
 * Error Response:
   * Code: 401 (Unauthorized) if token is missing or invalid.
   * Code: 403 (Forbidden) if token doesn't provide the `ASTMDATALOAD` role.
@@ -147,6 +162,39 @@ curl -X POST --header "Authorization:Bearer {access_token}" --header "Content-Ty
 curl -X POST --header "Authorization:Bearer {access_token}" -F file=@winterICA.1.xml -F batch=WinterICA \
   https://import-service/exams/imports
 ```
+  
+#### Resubmit Exams
+The system accepts and stores import payloads regardless of processing status. For imports with certain problems like 
+an unknown school or assessment, the import may be "replayed" once the underlying cause is resolved. For example, if
+the missing school is added to the system, all affected exams can be resubmitted, without requiring the client to 
+re-post the data. Note that this is meant as an operational utility; if it is being used regularly there are probably
+fundamental data flow issues. 
+
+* Host: import service
+* URL: `/exams/imports/resubmit`
+* Method: `POST`
+* URL Params: query params can be used to restrict which exams to include; typically the status
+  * `status=<status>` where status may be `UNKNOWN_SCHOOL`, `UNKNOWN_ASMT`, `ACCEPTED`
+  * `after=<interval>` where interval is like `-PT1H` 
+  * `creator=<creator>`
+  * `batch=<batchtag>`
+* Headers:
+  * `Authorization: Bearer {access_token}`
+* Success Response:
+  * Code: 200
+  * Content: number of exams found and resubmitted. Note that a single call is limited to 100. If the return value is
+  100, it is likely there are more exams matching the query and additional resubmit calls should be made. 
+    ```text
+    7
+    ```
+* Error Response:
+  * Code: 401 (Unauthorized) if token is missing or invalid.
+  * Code: 403 (Forbidden) if token doesn't provide the `ASTMDATALOAD` role.
+* Sample Call:
+```bash
+curl -X POST --header "Authorization:Bearer {access_token}" https://import-service/exams/imports/resubmit?status=UNKNOWN_SCHOOL
+```
+
   
 ### Organization Endpoints
 End-points for submitting organization data; this includes districts, schools, and groups of institutions. 
@@ -162,6 +210,7 @@ This end-point requires credentials with the `ASMTDATALOAD` role.
 
 There are two ways of posting content: with a raw body of type `application/json` or form-data (file upload).
 
+* Host: import service
 * URL: `/organizations/imports`
 * Method: `POST`
 * URL Params: any URL param will be preserved as properties for the upload, well-known params:
@@ -201,22 +250,22 @@ There are two ways of posting content: with a raw body of type `application/json
 * Success Response:
   * Code: 202 (Accepted)
   * Content:
-```json
-{
-  "id": 19529,
-  "content": "ORGANIZATION",
-  "contentType": "application/json",
-  "digest": "5899C64887FE25BC1F015FD7C26476E4",
-  "status": "ACCEPTED",
-  "creator": "user@example.com",
-  "created": "2017-05-08T19:45:20.476Z",
-  "_links": {
-    "self": {
-      "href": "http://localhost:8080/exams/imports/19529"
+    ```json
+    {
+      "id": 19529,
+      "content": "ORGANIZATION",
+      "contentType": "application/json",
+      "digest": "5899C64887FE25BC1F015FD7C26476E4",
+      "status": "ACCEPTED",
+      "creator": "user@example.com",
+      "created": "2017-05-08T19:45:20.476Z",
+      "_links": {
+        "self": {
+          "href": "http://import-service/imports/19529"
+        }
+      }
     }
-  }
-}
-```
+    ```
 * Error Response:
   * Code: 401 (Unauthorized) if token is missing or invalid.
   * Code: 403 (Forbidden) if token doesn't provide the `ASTMDATALOAD` role.
@@ -239,6 +288,7 @@ This end-point may be used to get the current status of an import request.
 
 This end-point requires credentials with the `ASMTDATALOAD` role.
 
+* Host: import service
 * URL: `/imports/{id}`
 * Method: `GET`
 * Params: none
@@ -247,29 +297,29 @@ This end-point requires credentials with the `ASMTDATALOAD` role.
 * Success Response:
   * Code: 200 (OK)
   * Content:
-```json
-{
-  "id": 19529,
-  "content": "EXAM",
-  "contentType": "application/xml",
-  "digest": "5899C64887FE25BC1F015FD7C26476E4",
-  "status": "BAD_DATA",
-  "creator": "user@example.com",
-  "created": "2017-05-08T19:45:20.476Z",
-  "message": "{\"elementName\":\"Sex\",\"value\":\"M\",\"error\":\"unknown gender name [M]\"},{\"elementName\":\"GradeLevelWhenAssessed\",\"value\":\"SIXTHGRADE\",\"error\":\"unknown grade code [SIXTHGRADE]\"}",
-  "_links": {
-    "self": {
-      "href": "http://localhost:8080/imports/19529"
-    },
-    "payload": {
-      "href": "http://localhost:8080/imports/19529/payload"
-    },
-    "payload-properties": {
-      "href": "http://localhost:8080/imports/19529/payload/properties"
-    }  
-  }
-}
-```
+    ```json
+    {
+      "id": 19529,
+      "content": "EXAM",
+      "contentType": "application/xml",
+      "digest": "5899C64887FE25BC1F015FD7C26476E4",
+      "status": "BAD_DATA",
+      "creator": "user@example.com",
+      "created": "2017-05-08T19:45:20.476Z",
+      "message": "{\"elementName\":\"Sex\",\"value\":\"M\",\"error\":\"unknown gender name [M]\"},{\"elementName\":\"GradeLevelWhenAssessed\",\"value\":\"SIXTHGRADE\",\"error\":\"unknown grade code [SIXTHGRADE]\"}",
+      "_links": {
+        "self": {
+          "href": "http://import-service/imports/19529"
+        },
+        "payload": {
+          "href": "http://import-service/imports/19529/payload"
+        },
+        "payload-properties": {
+          "href": "http://import-service/imports/19529/payload/properties"
+        }  
+      }
+    }
+    ```
 * Error Response:
   * Code: 401 (Unauthorized) if token is missing or invalid.
   * Code: 403 (Forbidden) if token doesn't provide the `ASTMDATALOAD` role.
@@ -284,6 +334,7 @@ This end-point may be used to get the payload for an import request.
 
 This end-point requires credentials with the `ASMTDATALOAD` role.
 
+* Host: import service
 * URL: `/imports/{id}/payload`
 * Method: `GET`
 * Params: none
@@ -307,6 +358,7 @@ the properties for an import are stored in the data warehouse, some are archived
 
 This end-point requires credentials with the `ASMTDATALOAD` role.
 
+* Host: import service
 * URL: `/imports/{id}/payload/properties`
 * Method: `GET`
 * Params: none
@@ -315,15 +367,15 @@ This end-point requires credentials with the `ASMTDATALOAD` role.
 * Success Response:
   * Code: 200 (OK)
   * Content: 
-```json
-{
-  "Content-Type": "application/xml",
-  "filename": "test.xml",
-  "batch": "CAF4901EA92C0A77A6DB6C37E8582852",
-  "tenancy-chain": "|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||",
-  "username": "user@example.com"
-}
-```
+    ```json
+    {
+      "Content-Type": "application/xml",
+      "filename": "test.xml",
+      "batch": "CAF4901EA92C0A77A6DB6C37E8582852",
+      "tenancy-chain": "|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||",
+      "username": "user@example.com"
+    }
+    ```
 * Error Response:
   * Code: 401 (Unauthorized) if token is missing or invalid.
   * Code: 403 (Forbidden) if token doesn't provide the `ASTMDATALOAD` role.
@@ -333,35 +385,69 @@ This end-point requires credentials with the `ASMTDATALOAD` role.
 curl --header "Authorization:Bearer {access_token}" https://import-service/imports/19529/payload/properties
 ```
 
+### Task Endpoints
+There are a few tasks that are configured to run periodically (typically once a day). These end-points allow those
+tasks to be manually triggered on demand. These end-points are part of the actuator framework so they are exposed 
+on a separate port (8008) and do not require authentication. 
+
+#### Update Organizations Task
+The update organization task retrieves all schools from ART and posts them to the import service. This is typically
+scheduled to happen every day in the wee hours. To trigger an immediate execution: 
+
+* Host: task service
+* URL: `/updateOrganizations`
+* Method: `POST`
+* Success Response:
+  * Code: 200
+* Sample Call:
+```bash
+curl -X POST http://localhost:8008/updateOrganizations
+```
+
 ### Status Endpoints
 End-points for querying the status of the system. These are intended primarily for operations but can be useful when
-initially connecting to the system.
+initially connecting to the system. These end-points are exposed on a separate port (8008) which is typically kept 
+behind the firewall in a private network. No authentication is required.
 
 #### Get Diagnostic Status
 This end-point may be used to get the status of the import service.
 
-This end-point requires credentials (a client-credentials grant is sufficient).
-
+* Host: any RDW service
 * URL: `/status`
 * Method: `GET`
 * URL Params:
   * `level=#` where # can be 0-5; optional, default is `level=0`
-* Headers:
-  * `Authorization: Bearer {access_token}`
 * Success Response:
   * Code: 200 (OK)
   * Content: varies based on level; for `level=0`:
-```json
-{
-  "statusText": "Ideal",
-  "statusRating": 4,
-  "level": 0,
-  "dateTime": "2017-05-11T23:26:51.523+0000"
-}
-```
-* Error Response:
-  * Code: 401 (Unauthorized) if token is missing or invalid.
+    ```json
+    {
+      "statusText": "Ideal",
+      "statusRating": 4,
+      "level": 0,
+      "dateTime": "2017-05-11T23:26:51.523+0000"
+    }
+    ```
 * Sample Call (curl):
 ```bash
-curl --header "Authorization:Bearer {access_token}" https://import-service/status?level=2
+curl http://localhost:8008/status?level=2
+```
+
+#### Actuator Endpoints
+As Spring Boot applications there are a number of `actuator` end-points that provide information about the status and
+configuration of the system. See [Actuator Endpoints](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html)
+for a full (technical) description of these end-points. Like the status end-point these are exposed on a separate port
+(8008) and do not require authentication. A list of the most useful:
+* Host: any RDW service
+* URL:
+  * `/health` - a simple health check
+  * `/info` - arbitrary application info
+  * `/configprops` - configuration properties
+  * `/env` - configurable environment properties
+  * `/loggers` - shows and modifies configuration of loggers
+  * `/metrics` - application metrics
+  * `/trace` - trace information, last 100 HTTP requests
+* Sample Call (curl):
+```bash
+curl http://localhost:8008/configprops
 ```
