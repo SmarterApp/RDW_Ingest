@@ -1,11 +1,17 @@
 -- ------------------------------------------ School/Districts --------------------------------------------------------------------------------------------------
+INSERT INTO staging_district_group (id, name, natural_id, migrate_id) VALUES
+  (-98, 'Sample District Group -98', 'natural_id-98', -99);
+
 INSERT INTO staging_district (id, name, natural_id, migrate_id) VALUES
   (-99, 'Sample District -99', 'natural_id-99', -99),
   (-98, 'Sample District -98', 'natural_id-98', -99);
 
-INSERT INTO staging_school (id, district_id, name, natural_id, deleted, migrate_id, import_id, updated) VALUES
-  (-99, -99, 'Sample School -99', 'natural_id-99', 0, -99, -1, '2017-07-18 20:14:34.000000'),
-  (-98, -98, 'Sample School -98', 'natural_id-98', 0, -99, -1, '2017-07-18 20:14:34.000000');
+INSERT INTO staging_school_group (id, name, natural_id, migrate_id) VALUES
+  (-98, 'Sample School Group -98', 'natural_id-98', -99);
+
+INSERT INTO staging_school (id, district_id, district_group_id, school_group_id, name, natural_id, deleted, migrate_id, import_id, updated) VALUES
+  (-99, -99, NULL, NULL, 'Sample School -99', 'natural_id-99', 0, -99, -1, '2017-07-18 20:14:34.000000'),
+  (-98, -98, -98, -98, 'Sample School -98', 'natural_id-98', 0, -99, -1, '2017-07-18 20:14:34.000000');
 
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
 

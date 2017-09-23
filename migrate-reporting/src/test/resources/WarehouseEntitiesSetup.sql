@@ -1,14 +1,21 @@
 -------------------------- Preload  entities into warehouse  -------------------------------------------------------------------------------------------------------
+INSERT INTO district_group (id, name, natural_id) VALUES
+  (-98, 'Sample District Group -98', 'natural_id-98');
+
 INSERT INTO district (id, name, natural_id) VALUES
   (-1, 'Preload District -1', 'natural_id-1'),
   (-99, 'Sample District -99', 'natural_id-99'),
   (-98, 'Sample District -98', 'natural_id-98');
 
-INSERT INTO school (id, district_id, name, natural_id, deleted, import_id, update_import_id, created, updated) VALUES
-  (-1, -1, 'Preload School -1', 'natural_id-1', 0, -5000, -5000, '2017-05-18 19:05:33.967000', '2017-05-18 20:06:34.966000'),
+INSERT INTO school_group (id, name, natural_id) VALUES
+  (-1, 'New School Group -1', 'natural_id-1'),
+  (-98, 'Sample School Group -98', 'natural_id-98');
+
+INSERT INTO school (id, district_id, district_group_id, school_group_id, name, natural_id, deleted, import_id, update_import_id, created, updated) VALUES
+  (-1, -1, NULL, -1, 'Preload School -1', 'natural_id-1', 0, -5000, -5000, '2017-05-18 19:05:33.967000', '2017-05-18 20:06:34.966000'),
 -- -99 is marked as deleted.  It's district will not be copied.
-  (-99, -99, 'Sample School -99', 'natural_id-99', 1, -1, -1, '2017-07-18 20:14:34.966000', '2017-07-18 20:14:34.000000'),
-  (-98, -98, 'Sample School -98', 'natural_id-98', 0, -2, -2, '2017-07-18 20:13:34.000000', '2017-07-18 20:13:34.000000');
+  (-99, -99, NULL, NULL, 'Sample School -99', 'natural_id-99', 1, -1, -1, '2017-07-18 20:14:34.966000', '2017-07-18 20:14:34.000000'),
+  (-98, -98, -98, -98, 'Sample School -98', 'natural_id-98', 0, -2, -2, '2017-07-18 20:13:34.000000', '2017-07-18 20:13:34.000000');
 
 INSERT INTO asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name, label, version, deleted, import_id, update_import_id, created, updated) VALUES
   (-11, '(SBAC)SBAC-IAB-ASMT TEST-11', -98, 2, 1, 1999, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', 'test', '9835', 0, -5000, -5000, '2017-05-18 19:05:33.967000', '2017-05-18 20:06:34.966000'),

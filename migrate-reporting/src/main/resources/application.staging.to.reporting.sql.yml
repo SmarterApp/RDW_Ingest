@@ -766,12 +766,15 @@ sql:
         school:
           sql:
             insert: >-
-              INSERT INTO school (id, natural_id, name, district_id, import_id, updated, migrate_id)
+              INSERT INTO school (id, natural_id, name, external_id, district_id, district_group_id, school_group_id, import_id, updated, migrate_id)
                SELECT
                  ss.id,
                  ss.natural_id,
                  ss.name,
+                 ss.external_id,
                  ss.district_id,
+                 ss.district_group_id,
+                 ss.school_group_id,
                  ss.import_id,
                  ss.updated,
                  ss.migrate_id
@@ -783,7 +786,10 @@ sql:
               UPDATE school rs
                 JOIN staging_school ss ON ss.id = rs.id
               SET rs.name = ss.name,
+                rs.external_id = ss.external_id,
                 rs.district_id = ss.district_id,
+                rs.district_group_id = ss.district_group_id,
+                rs.school_group_id = ss.school_group_id,
                 rs.import_id = ss.import_id,
                 rs.updated = ss.updated,
                 rs.migrate_id = ss.migrate_id
@@ -798,25 +804,64 @@ sql:
         district:
           sql:
             insert: >-
-              INSERT INTO district(id, natural_id,name)
-                SELECT
-                  sd.id,
-                  sd.natural_id,
-                  sd.name
-                FROM staging_district sd
-                  LEFT JOIN district rd ON rd.id = sd.id
-                WHERE rd.id IS NULL;
+              INSERT INTO district(id, natural_id, name, external_id)
+                SELECT sd.id, sd.natural_id, sd.name, sd.external_id
+                  FROM staging_district sd
+                    LEFT JOIN district rd ON rd.id = sd.id
+                  WHERE rd.id IS NULL;
 
             update: >-
-              UPDATE district d
-                JOIN staging_district sd ON sd.id = d.id
-              SET d.name = sd.name;
+              UPDATE district rd
+                JOIN staging_district sd ON sd.id = rd.id
+                SET rd.name = sd.name, rd.external_id = sd.external_id;
 
             delete: >-
               DELETE rd FROM district rd
                 WHERE
                     rd.id in (SELECT ss.district_id from staging_school ss WHERE ss.deleted = 1)
                     AND NOT EXISTS(SELECT rs.id from school rs WHERE rs.district_id = rd.id);
+
+      # ------------ district_group ------------------------------------------------------------------------------
+        district_group:
+          sql:
+            insert: >-
+              INSERT INTO district_group(id, natural_id, name, external_id)
+                SELECT sdg.id, sdg.natural_id, sdg.name, sdg.external_id
+                  FROM staging_district_group sdg
+                    LEFT JOIN district_group rdg ON rdg.id = sdg.id
+                  WHERE rdg.id IS NULL;
+
+            update: >-
+              UPDATE district_group rdg
+                JOIN staging_district_group sdg ON sdg.id = rdg.id
+                SET rdg.name = sdg.name, rdg.external_id = sdg.external_id;
+
+            delete: >-
+              DELETE rdg FROM district_group rdg
+                WHERE
+                    rdg.id in (SELECT ss.district_group_id from staging_school ss WHERE ss.deleted = 1)
+                    AND NOT EXISTS(SELECT rs.id from school rs WHERE rs.district_group_id = rdg.id);
+
+      # ------------ school_group ------------------------------------------------------------------------------
+        school_group:
+          sql:
+            insert: >-
+              INSERT INTO school_group(id, natural_id, name, external_id)
+                SELECT ssg.id, ssg.natural_id, ssg.name, ssg.external_id
+                  FROM staging_school_group ssg
+                    LEFT JOIN school_group rsg ON rsg.id = ssg.id
+                  WHERE rsg.id IS NULL;
+
+            update: >-
+              UPDATE school_group rsg
+                JOIN staging_school_group ssg ON ssg.id = rsg.id
+                SET rsg.name = ssg.name, rsg.external_id = ssg.external_id;
+
+            delete: >-
+              DELETE rsg FROM school_group rsg
+                WHERE
+                    rsg.id in (SELECT ss.school_group_id from staging_school ss WHERE ss.deleted = 1)
+                    AND NOT EXISTS(SELECT rs.id from school rs WHERE rs.school_group_id = rsg.id);
 
       # ############## Student  ###################################################################
       # ------------ student_ethnicity -----------------------------------------------------------------------

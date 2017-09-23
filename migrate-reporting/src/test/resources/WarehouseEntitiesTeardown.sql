@@ -15,6 +15,8 @@ DELETE FROM student_group where id in ( -91, -8, -7);
 -- ------------------------------------------ School/Districts --------------------------------------------------------------------------------------------------
 DELETE FROM school where id in (-99, -98, -1);
 DELETE FROM district where id in (-99, -98, -1);
+DELETE FROM district_group where id in (-98);
+DELETE FROM school_group where id in (-98, -1);
 
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
 DELETE FROM item_other_target where item_id in (-991, -990, -980);
