@@ -39,6 +39,8 @@ sql:
       - TRUNCATE TABLE staging_translation
       - TRUNCATE TABLE staging_school
       - TRUNCATE TABLE staging_district
+      - TRUNCATE TABLE staging_district_group
+      - TRUNCATE TABLE staging_school_group
       - TRUNCATE TABLE staging_student
       - TRUNCATE TABLE staging_student_ethnicity
       - TRUNCATE TABLE staging_student_group
@@ -205,83 +207,127 @@ sql:
 
         ##### ORGANIZATION ImportContent Type ####
         #
+        # ------------ district_group  -------------------------------------------------------------------
+        district_group:
+          sql:
+            warehouseRead: >-
+              SELECT wdg.id, wdg.natural_id, wdg.name, wdg.external_id
+                FROM district_group wdg
+                WHERE EXISTS(
+                  SELECT ws.id FROM school ws
+                    WHERE ws.created > :first_at AND ws.created <= :last_at
+                        AND ws.deleted = 0
+                        AND ws.district_group_id = wdg.id
+                )
+
+            stagingInsert: >-
+              INSERT INTO staging_district_group (id, natural_id, name, external_id, migrate_id) VALUES
+                (:id, :natural_id, :name, :external_id, :migrate_id)
+
+        district_group_by_update_import_id:
+          sql:
+            warehouseRead: >-
+              SELECT wdg.id, wdg.natural_id, wdg.name, wdg.external_id
+                FROM district_group wdg
+                WHERE EXISTS(
+                  SELECT ws.id FROM school ws
+                    WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
+                        AND ws.deleted = 0
+                        AND ws.district_group_id = wdg.id
+                      )
+
+            stagingInsert: >-
+              INSERT IGNORE INTO staging_district_group (id, natural_id, name, external_id, migrate_id) VALUES
+                (:id, :natural_id, :name, :external_id, :migrate_id)
+
         # ------------ district  -------------------------------------------------------------------
         district:
           sql:
             warehouseRead: >-
-              SELECT
-                  wd.id,
-                  wd.natural_id,
-                  wd.name
-                 FROM district wd
+              SELECT wd.id, wd.natural_id, wd.name, wd.external_id
+                FROM district wd
                 WHERE EXISTS(
-                    SELECT ws.id from school ws
+                  SELECT ws.id FROM school ws
                     WHERE ws.created > :first_at AND ws.created <= :last_at
                         AND ws.deleted = 0
                         AND ws.district_id = wd.id
                 )
 
             stagingInsert: >-
-              INSERT INTO staging_district (id, natural_id, name, migrate_id) VALUES
-                (:id, :natural_id, :name, :migrate_id)
+              INSERT INTO staging_district (id, natural_id, name, external_id, migrate_id) VALUES
+                (:id, :natural_id, :name, :external_id, :migrate_id)
 
         district_by_update_import_id:
           sql:
             warehouseRead: >-
-              SELECT
-                wd.id,
-                wd.natural_id,
-                wd.name
+              SELECT wd.id, wd.natural_id, wd.name, wd.external_id
                 FROM district wd
                 WHERE EXISTS(
-                  SELECT ws.id from school ws
+                  SELECT ws.id FROM school ws
                     WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
                         AND ws.deleted = 0
                         AND ws.district_id = wd.id
                       )
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging_district (id, natural_id, name, migrate_id) VALUES
-                (:id, :natural_id, :name, :migrate_id)
+              INSERT IGNORE INTO staging_district (id, natural_id, name, external_id, migrate_id) VALUES
+                (:id, :natural_id, :name, :external_id, :migrate_id)
+
+        # ------------ school_group  -------------------------------------------------------------------
+        school_group:
+          sql:
+            warehouseRead: >-
+              SELECT wsg.id, wsg.natural_id, wsg.name, wsg.external_id
+                FROM school_group wsg
+                WHERE EXISTS(
+                  SELECT ws.id FROM school ws
+                    WHERE ws.created > :first_at AND ws.created <= :last_at
+                        AND ws.deleted = 0
+                        AND ws.school_group_id = wsg.id
+                )
+
+            stagingInsert: >-
+              INSERT INTO staging_school_group (id, natural_id, name, external_id, migrate_id) VALUES
+                (:id, :natural_id, :name, :external_id, :migrate_id)
+
+        school_group_by_update_import_id:
+          sql:
+            warehouseRead: >-
+              SELECT wsg.id, wsg.natural_id, wsg.name, wsg.external_id
+                FROM school_group wsg
+                WHERE EXISTS(
+                  SELECT ws.id FROM school ws
+                    WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
+                        AND ws.deleted = 0
+                        AND ws.school_group_id = wsg.id
+                      )
+
+            stagingInsert: >-
+              INSERT IGNORE INTO staging_school_group (id, natural_id, name, external_id, migrate_id) VALUES
+                (:id, :natural_id, :name, :external_id, :migrate_id)
 
         # ------------ school  -------------------------------------------------------------------
         school:
           sql:
             warehouseRead: >-
-              SELECT
-                ws.id,
-                ws.natural_id,
-                ws.name,
-                ws.import_id,
-                ws.deleted,
-                ws.district_id,
-                ws.updated
-              FROM school ws
-                JOIN district wd ON wd.id = ws.district_id
-              WHERE ws.created > :first_at AND ws.created <= :last_at
+              SELECT ws.id, ws.natural_id, ws.name, ws.external_id, ws.import_id, ws.deleted, ws.district_id, ws.district_group_id, ws.school_group_id, ws.updated
+                FROM school ws
+                WHERE ws.created > :first_at AND ws.created <= :last_at
 
             stagingInsert: >-
-              INSERT INTO staging_school (id, natural_id, name, import_id, deleted, district_id, updated, migrate_id) VALUES
-                (:id, :natural_id, :name, :import_id, :deleted, :district_id, :updated, :migrate_id)
+              INSERT INTO staging_school (id, natural_id, name, external_id, import_id, deleted, district_id, district_group_id, school_group_id, updated, migrate_id) VALUES
+                (:id, :natural_id, :name, :external_id, :import_id, :deleted, :district_id, :district_group_id, :school_group_id, :updated, :migrate_id)
 
         school_by_update_import_id:
           sql:
             warehouseRead: >-
-              SELECT
-                ws.id,
-                ws.natural_id,
-                ws.name,
-                ws.import_id,
-                ws.deleted,
-                ws.district_id,
-                ws.updated
-              FROM school ws
-                JOIN district wd ON wd.id = ws.district_id
-              WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
+              SELECT ws.id, ws.natural_id, ws.name, ws.external_id, ws.import_id, ws.deleted, ws.district_id, ws.district_group_id, ws.school_group_id, ws.updated
+                FROM school ws
+                WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging_school (id, natural_id, name, import_id, deleted, district_id, updated, migrate_id) VALUES
-                (:id, :natural_id, :name, :import_id, :deleted, :district_id, :updated, :migrate_id)
+              INSERT IGNORE INTO staging_school (id, natural_id, name, external_id, import_id, deleted, district_id, district_group_id, school_group_id, updated, migrate_id) VALUES
+                (:id, :natural_id, :name, :external_id, :import_id, :deleted, :district_id, :district_group_id, :school_group_id, :updated, :migrate_id)
 
 
         ##### GROUPS ImportContent Type ####
