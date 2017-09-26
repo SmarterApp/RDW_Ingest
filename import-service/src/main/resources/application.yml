@@ -23,8 +23,10 @@ cloud:
 archive:
   root: file:///tmp/
 
-# cause StubTokenServices to be used
 security:
+  client: SBAC
+  state: CA
+  # cause StubTokenServices to be used
   oauth2:
     token-info-url: local
 
