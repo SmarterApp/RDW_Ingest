@@ -14,6 +14,11 @@ RDW Ingest uses other processes:
 1. OpenAM - centralized auth server
 1. ART - Administration and Registration Tools
 
+Additional documentation:
+1. [Change log](CHANGELOG.md)
+1. [Contributing developer notes](CONTRIBUTING.md)
+1. [API](API.md)
+
 #### MySQL
 MySQL is required for building (integration tests) and running these applications. To better match production, MySQL
 should be run as a native app outside the container framework . There are various ways to install it; please be sure 

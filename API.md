@@ -32,7 +32,7 @@ Accepts x-www-form-urlencoded data including client and user credentials and ret
       "expires_in": 36000,
       "token_type": "Bearer",
       "refresh_token": "639ddaa9-f993-4c52-aec5-923d5a21ee23",
-      "access_token": "464e5ea8-3572-4145-bdc8-64a4a581a38e"
+      "access_token": "20b55fc2-1b84-4412-8149-88cfa622db01"
     } 
     ```
 * Error Response:
@@ -98,18 +98,121 @@ Although not needed during normal operations, this call can be used to check an 
 curl https://openam/auth/oauth2/tokeninfo?access_token=20b55fc2-1b84-4412-8149-88cfa622db01
 ```
 
+### Import Endpoints
+The import service provides the end-points for submitting data to the system. The import requests are processed and 
+migrated to the reporting data mart. Import payloads are hashed and duplicate content is detected, returning any 
+previous import request for the given content. Thus submitting a payload a second time will safely no-op and return 
+the current status of the previous import.
+
+All data submissions result in an import being created. Thus a POST to `/exams/imports` will create an `import` 
+resource which can be accessed at `/imports/{id}` (note that `exams` is not in the path). These are the end-points
+for query imports.
+ 
+All end-points require a valid token, the examples use `{access_token}` as a placeholder. The token must provide 
+the `ASMTDATALOAD` role at the client or state level.
+
+#### Get Import Request
+This end-point may be used to get the current status of an import request.
+
+* Host: import service
+* URL: `/imports/{id}`
+* Method: `GET`
+* Params: none
+* Headers:
+  * `Authorization: Bearer {access_token}`
+* Success Response:
+  * Code: 200 (OK)
+  * Content:
+    ```json
+    {
+      "id": 19529,
+      "content": "EXAM",
+      "contentType": "application/xml",
+      "digest": "5899C64887FE25BC1F015FD7C26476E4",
+      "status": "BAD_DATA",
+      "creator": "user@example.com",
+      "created": "2017-05-08T19:45:20.476Z",
+      "message": "{\"elementName\":\"Sex\",\"value\":\"M\",\"error\":\"unknown gender name [M]\"},{\"elementName\":\"GradeLevelWhenAssessed\",\"value\":\"SIXTHGRADE\",\"error\":\"unknown grade code [SIXTHGRADE]\"}",
+      "_links": {
+        "self": {
+          "href": "http://import-service/imports/19529"
+        },
+        "payload": {
+          "href": "http://import-service/imports/19529/payload"
+        },
+        "payload-properties": {
+          "href": "http://import-service/imports/19529/payload/properties"
+        }  
+      }
+    }
+    ```
+* Error Response:
+  * Code: 401 (Unauthorized) if token is missing or invalid.
+  * Code: 403 (Forbidden) if token doesn't provide the `ASTMDATALOAD` role.
+  * Code: 404 (Not Found) if no import with the given id exists.
+* Sample Call (curl):
+```bash
+curl --header "Authorization:Bearer {access_token}" https://import-service/imports/19529
+```
+
+#### Get Import Payload
+This end-point may be used to get the payload for an import request. 
+
+* Host: import service
+* URL: `/imports/{id}/payload`
+* Method: `GET`
+* Params: none
+* Headers:
+  * `Authorization: Bearer {access_token}`
+* Success Response:
+  * Code: 200 (OK)
+  * Content: File attachment
+* Error Response:
+  * Code: 401 (Unauthorized) if token is missing or invalid.
+  * Code: 403 (Forbidden) if token doesn't provide the `ASTMDATALOAD` role.
+  * Code: 404 (Not Found) if no import with the given id exists.
+* Sample Call (curl):
+```bash
+curl --header "Authorization:Bearer {access_token}" https://import-service/imports/19529/payload
+```
+
+#### Get Import Payload Properties
+This end-point may be used to get the payload properties for an import request. This can be useful because not all
+the properties for an import are stored in the data warehouse, some are archived only with the payload.
+
+* Host: import service
+* URL: `/imports/{id}/payload/properties`
+* Method: `GET`
+* Params: none
+* Headers:
+  * `Authorization: Bearer {access_token}`
+* Success Response:
+  * Code: 200 (OK)
+  * Content: 
+    ```json
+    {
+      "Content-Type": "application/xml",
+      "filename": "test.xml",
+      "batch": "CAF4901EA92C0A77A6DB6C37E8582852",
+      "tenancy-chain": "|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||",
+      "username": "user@example.com"
+    }
+    ```
+* Error Response:
+  * Code: 401 (Unauthorized) if token is missing or invalid.
+  * Code: 403 (Forbidden) if token doesn't provide the `ASTMDATALOAD` role.
+  * Code: 404 (Not Found) if no import with the given id exists.
+* Sample Call (curl):
+```bash
+curl --header "Authorization:Bearer {access_token}" https://import-service/imports/19529/payload/properties
+```
+
 
 ### Exam Endpoints
 End-points for submitting exams aka test results.
-As mentioned above, all end-points require a valid token, the examples use `{access_token}` as a placeholder.
 
 #### Create Exam Import Request
-Accepts payloads in Test Result Transmission ([TRT](http://www.smarterapp.org/documents/TestResultsTransmissionFormat.pdf)) 
-format, creating new exam import requests. The import requests are processed and migrated to the reporting data mart.
-Import payloads are hashed and duplicate content is detected, returning any previous import request for the given
-content. Thus submitting a payload a second time will no-op and return the current status of the previous import.
-
-This end-point requires user credentials with the `ASMTDATALOAD` role.
+Accepts payloads in Test Result Transmission ([TRT][3]) format, creating new exam import requests. 
 
 There are two ways of posting exam content: with a raw body of type `application/xml` or form-data (file upload).
 
@@ -198,15 +301,12 @@ curl -X POST --header "Authorization:Bearer {access_token}" https://import-servi
   
 ### Organization Endpoints
 End-points for submitting organization data; this includes districts, schools, and groups of institutions. 
-As mentioned above, all end-points require a valid token, the examples use `{access_token}` as a placeholder.
 
 #### Create Organization Import Request
 Accepts JSON payload, compatible with the format produced by ART. The payload should contain all the organization
 data necessary to resolve all contents; for example, if a school is in a group under a district, all three must
 be present in the payload. The payload must be valid JSON but the exact structure doesn't matter a lot: the system
 will parse the payload looking for the required fields: `entityType`, `entityId`, `entityName`, `parentEntityId`. 
-
-This end-point requires credentials with the `ASMTDATALOAD` role.
 
 There are two ways of posting content: with a raw body of type `application/json` or form-data (file upload).
 
@@ -279,116 +379,147 @@ curl -X POST --header "Authorization:Bearer {access_token}" --header "Content-Ty
 curl -X POST --header "Authorization:Bearer {access_token}" -F file=@ART.json https://import-service/organizations/imports
 ``` 
     
-### Import Endpoints
-End-points for querying imports.
-As mentioned above, all end-points require a valid token, the examples use `{access_token}` as a placeholder.
-  
-#### Get Import Request
-This end-point may be used to get the current status of an import request.
+    
+### Accommodations Endpoints
+End-points for submitting accommodations data. This is data authored by Smarter Balanced that describes the various
+accessibility features available during testing. 
 
-This end-point requires credentials with the `ASMTDATALOAD` role.
+#### Create Accommodation Import Request
+Accepts payloads in the Smarter Balanced [Accessibility Configuration Specification][2] format.
+
+There are two ways of posting content: with a raw body of type `application/xml` or form-data (file upload).
 
 * Host: import service
-* URL: `/imports/{id}`
-* Method: `GET`
-* Params: none
+* URL: `/accommodations/imports`
+* Method: `POST`
+* URL Params: any URL param will be preserved as properties for the upload, well-known params:
+  * `filename=<originalFileName>`  (not needed for form-data)
 * Headers:
   * `Authorization: Bearer {access_token}`
+* Headers (raw body):
+  * `Content-Type:application/xml`
+* Body (raw body): XML payload, snippet:
+```xml
+<?xml version="1.0" encoding="utf‐8"?>
+<Accessibility>
+  <MasterResourceFamily>
+    <SingleSelectResource>
+      <Code>AmericanSignLanguage</Code>
+      <Order>1</Order>
+      <DefaultSelection/>
+      <ResourceType>Accommodation</ResourceType>
+      <Text>
+        <Language>eng</Language>
+        <Label>American Sign Language</Label>
+  ...
+</Accessibility>
+```
+* Headers (form-data):
+  * `Content-Type:multipart/form-data`
+* Form data (form-data):
+  * `file` - the upload file
+  * `filename=<filename>`
+  * any other form data will be preserved as properties for the upload
 * Success Response:
-  * Code: 200 (OK)
+  * Code: 202 (Accepted)
   * Content:
     ```json
     {
-      "id": 19529,
-      "content": "EXAM",
+      "id": 179583,
+      "content": "CODES",
       "contentType": "application/xml",
-      "digest": "5899C64887FE25BC1F015FD7C26476E4",
-      "status": "BAD_DATA",
+      "digest": "2278A9293FE3742C220EEE991E450156",
+      "status": "ACCEPTED",
       "creator": "user@example.com",
       "created": "2017-05-08T19:45:20.476Z",
-      "message": "{\"elementName\":\"Sex\",\"value\":\"M\",\"error\":\"unknown gender name [M]\"},{\"elementName\":\"GradeLevelWhenAssessed\",\"value\":\"SIXTHGRADE\",\"error\":\"unknown grade code [SIXTHGRADE]\"}",
       "_links": {
         "self": {
-          "href": "http://import-service/imports/19529"
-        },
-        "payload": {
-          "href": "http://import-service/imports/19529/payload"
-        },
-        "payload-properties": {
-          "href": "http://import-service/imports/19529/payload/properties"
-        }  
+          "href": "http://import-service/imports/179583"
+        }
       }
     }
     ```
 * Error Response:
   * Code: 401 (Unauthorized) if token is missing or invalid.
   * Code: 403 (Forbidden) if token doesn't provide the `ASTMDATALOAD` role.
-  * Code: 404 (Not Found) if no import with the given id exists.
-* Sample Call (curl):
+* Sample Call (raw body):
 ```bash
-curl --header "Authorization:Bearer {access_token}" https://import-service/imports/19529
+curl -X POST --header "Authorization:Bearer {access_token}" --header "Content-Type:application/xml" \
+  --data-binary "<?xml ..." https://import-service/accommodations/imports?filename=accommodations.xml
 ```
+* Sample Call (form-data):
+```bash
+curl -X POST --header "Authorization:Bearer {access_token}" -F file=@accommodations.xml https://import-service/accommodations/imports
+``` 
+        
+### Package Endpoints
+End-points for submitting assessment package data. This is data authored by Smarter Balanced that describes the 
+assessments, items and other test details. 
 
-#### Get Import Payload
-This end-point may be used to get the payload for an import request. 
+#### Create Package Import Request
+Accepts payloads in the Smarter Balanced Assessment Tabulator format. This is a CSV format produced by the internal
+tabulator utility. 
 
-This end-point requires credentials with the `ASMTDATALOAD` role.
+There are two ways of posting content: with a raw body of type `application/csv` or form-data (file upload).
 
 * Host: import service
-* URL: `/imports/{id}/payload`
-* Method: `GET`
-* Params: none
+* URL: `/packages/imports`
+* Method: `POST`
+* URL Params: any URL param will be preserved as properties for the upload, well-known params:
+  * `filename=<originalFileName>`  (not needed for form-data)
 * Headers:
   * `Authorization: Bearer {access_token}`
-* Success Response:
-  * Code: 200 (OK)
-  * Content: File attachment
-* Error Response:
-  * Code: 401 (Unauthorized) if token is missing or invalid.
-  * Code: 403 (Forbidden) if token doesn't provide the `ASTMDATALOAD` role.
-  * Code: 404 (Not Found) if no import with the given id exists.
-* Sample Call (curl):
-```bash
-curl --header "Authorization:Bearer {access_token}" https://import-service/imports/19529/payload
+* Headers (raw body):
+  * `Content-Type:application/csv`
+* Body (raw body): CSV payload, snippet:
+```csv
+AssessmentId,AssessmentName,AssessmentSubject,AssessmentGrade,AssessmentType,AssessmentSubtype,AssessmentLabel,AssessmentVersion,AcademicYear,FullItemKey,BankKey,ItemId,Filename,Version,ItemType,Grade,Standard,Claim,Target,PassageId,ASL,Braille,LanguageBraille,DOK,Language,AllowCalculator,MathematicalPractice,MaxPoints,Glossary,ScoringEngine,Spanish,IsFieldTest,IsActive,ResponseRequired,AdminRequired,ItemPosition,MeasurementModel,Weight,ScorePoints,a,b0_b,b1_c,b2,b3,avg_b,bpref1,bpref2,bpref3,bpref4,bpref5,bpref6,bpref7,CommonCore,ClaimContentTarget,SecondaryCommonCore,SecondaryClaimContentTarget,CutPoint1,ScaledLow1,ScaledHigh1,CutPoint2,ScaledLow2,ScaledHigh2,CutPoint3,ScaledLow3,ScaledHigh3,CutPoint4,ScaledLow4,ScaledHigh4
+(SBAC)SBAC-IAB-FIXED-G11E-BriefWrites-ELA-11-Winter-2014-2015,SBAC-IAB-FIXED-G11E-BriefWrites-ELA-11,ELA,11,interim,IAB,ELA IAB G11 BriefWrites,6579,2015,200-33218,200,33218,item-200-33218.xml,6580,SA,11,SBAC-ELA-v1:2-W|3-11,"2-W	","3-11	",,,,ENU-Braille,3,ENU,,,2,,HandScored,,FALSE,TRUE,TRUE,TRUE,2,IRTGPC,1,2,0.62844,-0.38994,2.66386,,,1.13696,(SBAC)SBAC-IAB-FIXED-G11E-BriefWrites-ELA-11-Winter-2014-2015,,SBAC-2-W|3-11,,,,,"11-12.W.2f	",2-W|3-11,,,1,2.30E+03,2.49E+03,2,2.49E+03,2.58E+03,3,2.58E+03,2.68E+03,4,2.68E+03,2.80E+03
+...
 ```
-
-#### Get Import Payload Properties
-This end-point may be used to get the payload properties for an import request. This can be useful because not all
-the properties for an import are stored in the data warehouse, some are archived only with the payload.
-
-This end-point requires credentials with the `ASMTDATALOAD` role.
-
-* Host: import service
-* URL: `/imports/{id}/payload/properties`
-* Method: `GET`
-* Params: none
-* Headers:
-  * `Authorization: Bearer {access_token}`
+* Headers (form-data):
+  * `Content-Type:multipart/form-data`
+* Form data (form-data):
+  * `file` - the upload file
+  * `filename=<filename>`
+  * any other form data will be preserved as properties for the upload
 * Success Response:
-  * Code: 200 (OK)
-  * Content: 
+  * Code: 202 (Accepted)
+  * Content:
     ```json
     {
-      "Content-Type": "application/xml",
-      "filename": "test.xml",
-      "batch": "CAF4901EA92C0A77A6DB6C37E8582852",
-      "tenancy-chain": "|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||",
-      "username": "user@example.com"
+      "id": 223190,
+      "content": "PACKAGE",
+      "contentType": "application/csv",
+      "digest": "3FE3742C220EEE991E4501562278A929",
+      "status": "ACCEPTED",
+      "creator": "user@example.com",
+      "created": "2017-05-08T19:45:20.476Z",
+      "_links": {
+        "self": {
+          "href": "http://import-service/imports/223190"
+        }
+      }
     }
     ```
 * Error Response:
   * Code: 401 (Unauthorized) if token is missing or invalid.
   * Code: 403 (Forbidden) if token doesn't provide the `ASTMDATALOAD` role.
-  * Code: 404 (Not Found) if no import with the given id exists.
-* Sample Call (curl):
+* Sample Call (raw body):
 ```bash
-curl --header "Authorization:Bearer {access_token}" https://import-service/imports/19529/payload/properties
+curl -X POST --header "Authorization:Bearer {access_token}" --header "Content-Type:application/xml" \
+  --data-binary "AssessmentId,..." https://import-service/packages/imports?filename=2017-2018.csv
 ```
-
+* Sample Call (form-data):
+```bash
+curl -X POST --header "Authorization:Bearer {access_token}" -F file=@2017-2018.csv https://import-service/packages/imports
+``` 
+        
+        
 ### Task Endpoints
 There are a few tasks that are configured to run periodically (typically once a day). These end-points allow those
-tasks to be manually triggered on demand. These end-points are part of the actuator framework so they are exposed 
-on a separate port (8008) and do not require authentication. 
+tasks to be manually triggered on demand. These end-points are part of the actuator framework so they are exposed on
+a separate port (8008) which is typically kept behind a firewall in a private network. No authentication is required. 
 
 #### Update Organizations Task
 The update organization task retrieves all schools from ART and posts them to the import service. This is typically
@@ -407,10 +538,10 @@ curl -X POST http://localhost:8008/updateOrganizations
 ### Status Endpoints
 End-points for querying the status of the system. These are intended primarily for operations but can be useful when
 initially connecting to the system. These end-points are exposed on a separate port (8008) which is typically kept 
-behind the firewall in a private network. No authentication is required.
+behind a firewall in a private network. No authentication is required.
 
 #### Get Diagnostic Status
-This end-point may be used to get the status of the import service.
+This end-point may be used to get the status of a service.
 
 * Host: any RDW service
 * URL: `/status`
@@ -435,9 +566,9 @@ curl http://localhost:8008/status?level=2
 
 #### Actuator Endpoints
 As Spring Boot applications there are a number of `actuator` end-points that provide information about the status and
-configuration of the system. See [Actuator Endpoints](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html)
-for a full (technical) description of these end-points. Like the status end-point these are exposed on a separate port
-(8008) and do not require authentication. A list of the most useful:
+configuration of the system. See [Actuator Endpoints][1] for a full (technical) description of these end-points. Like 
+the status end-point these are exposed on a separate port (8008) and do not require authentication. 
+A list of the most useful:
 * Host: any RDW service
 * URL:
   * `/health` - a simple health check
@@ -451,3 +582,7 @@ for a full (technical) description of these end-points. Like the status end-poin
 ```bash
 curl http://localhost:8008/configprops
 ```
+
+[1]: https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html
+[2]: http://www.smarterapp.org/documents/AccessibilityConfigurationFileSpecification.pdf
+[3]: http://www.smarterapp.org/documents/TestResultsTransmissionFormat.pdf
