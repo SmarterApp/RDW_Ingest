@@ -470,19 +470,19 @@ sql:
                                           available_accommodation_codes, updated, migrate_id)
                 SELECT
                   se.id,
-                  ses.grade_id,
+                  se.grade_id,
                   rg.code,
-                  ses.student_id,
-                  ses.school_id,
-                  ses.iep,
-                  ses.lep,
-                  ses.section504,
-                  ses.economic_disadvantage,
-                  ses.migrant_status,
-                  ses.eng_prof_lvl,
-                  ses.t3_program_type,
-                  ses.language_code,
-                  ses.prim_disability_type,
+                  se.student_id,
+                  se.school_id,
+                  se.iep,
+                  se.lep,
+                  se.section504,
+                  se.economic_disadvantage,
+                  se.migrant_status,
+                  se.eng_prof_lvl,
+                  se.t3_program_type,
+                  se.language_code,
+                  se.prim_disability_type,
                   se.type_id,
                   se.school_year,
                   se.asmt_id,
@@ -514,7 +514,6 @@ sql:
                   se.updated,
                   se.migrate_id
                 FROM staging_exam se
-                  JOIN staging_exam_student ses ON se.exam_student_id = ses.id
                   LEFT JOIN (
                                SELECT s.exam_id
                                  ,s.scale_score
@@ -554,7 +553,7 @@ sql:
                   LEFT JOIN exam re ON re.id = se.id
                   JOIN administration_condition rac ON rac.id = se.administration_condition_id
                   JOIN completeness rc ON rc.id = se.completeness_id
-                  JOIN grade rg ON rg.id = ses.grade_id
+                  JOIN grade rg ON rg.id = se.grade_id
                   LEFT JOIN
                     (SELECT seaa.exam_id as exam_id, GROUP_CONCAT(ra.code ORDER BY ra.id SEPARATOR '|') AS codes
                       FROM staging_exam_available_accommodation seaa
@@ -566,10 +565,9 @@ sql:
             update: >-
               UPDATE exam re
                 JOIN staging_exam se ON se.id = re.id
-                JOIN staging_exam_student ses ON se.exam_student_id = ses.id
                 JOIN completeness rc ON re.completeness_id = rc.id
                 JOIN administration_condition rac ON rac.id = re.administration_condition_id
-                JOIN grade rg ON rg.id = ses.grade_id
+                JOIN grade rg ON rg.id = se.grade_id
                 LEFT JOIN (
                              SELECT s.exam_id
                                ,s.scale_score
@@ -613,19 +611,19 @@ sql:
                             GROUP BY seaa.exam_id
                         ) AS code ON code.exam_id = se.id
               SET
-                re.grade_id = ses.grade_id,
+                re.grade_id = se.grade_id,
                 re.grade_code = rg.code,
-                re.student_id = ses.student_id,
-                re.school_id = ses.school_id,
-                re.iep = ses.iep,
-                re.lep = ses.lep,
-                re.section504 = ses.section504,
-                re.economic_disadvantage = ses.economic_disadvantage,
-                re.migrant_status = ses.migrant_status,
-                re.eng_prof_lvl = ses.eng_prof_lvl,
-                re.t3_program_type = ses.t3_program_type,
-                re.language_code = ses.language_code,
-                re.prim_disability_type = ses.prim_disability_type,
+                re.student_id = se.student_id,
+                re.school_id = se.school_id,
+                re.iep = se.iep,
+                re.lep = se.lep,
+                re.section504 = se.section504,
+                re.economic_disadvantage = se.economic_disadvantage,
+                re.migrant_status = se.migrant_status,
+                re.eng_prof_lvl = se.eng_prof_lvl,
+                re.t3_program_type = se.t3_program_type,
+                re.language_code = se.language_code,
+                re.prim_disability_type = se.prim_disability_type,
                 re.type_id = se.type_id,
                 re.school_year = se.school_year,
                 re.asmt_id = se.asmt_id,
