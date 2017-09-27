@@ -3,7 +3,6 @@ DELETE FROM exam_available_accommodation where exam_id in (-88, -87, -86, -85, -
 DELETE FROM exam_item where exam_id in (-88, -87, -86, -85, -84);
 DELETE FROM exam_claim_score where exam_id in (-88, -87, -86, -85, -84);
 DELETE FROM exam where id in (-88, -87, -86, -85, -84);
-DELETE FROM exam_student where id in (-18, -17, -16, -15);
 
 -- ------------------------------------------ Student and Groups  ------------------------------------------------------------------------------------------------
 DELETE FROM student_group_membership where student_group_id in ( -91, -8, -7);

@@ -70,8 +70,8 @@ sql:
   # JdbcExamRepository
   exam:
     create: >-
-      INSERT INTO exam (type_id, exam_student_id, school_year, import_id, update_import_id, asmt_id, asmt_version, opportunity, oppId, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, performance_level, completed_at) VALUES
-                       (:type_id, :exam_student_id, :school_year, :import_id, :update_import_id, :asmt_id, :asmt_version, :opportunity, :oppId, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :performance_level, :completed_at)
+      INSERT INTO exam (type_id, school_year, import_id, update_import_id, asmt_id, asmt_version, opportunity, oppId, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, performance_level, completed_at, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type) VALUES
+                       (:type_id, :school_year, :import_id, :update_import_id, :asmt_id, :asmt_version, :opportunity, :oppId, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :performance_level, :completed_at, :grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status, :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type)
 
     update: >-
       UPDATE exam
@@ -89,43 +89,53 @@ sql:
         scale_score = :scale_score,
         scale_score_std_err = :scale_score_std_err,
         performance_level = :performance_level,
-        completed_at = :completed_at
+        completed_at = :completed_at,
+        grade_id = :grade_id,
+        student_id = :student_id,
+        school_id = :school_id,
+        iep = :iep,
+        lep = :lep,
+        section504 = :section504,
+        economic_disadvantage = :economic_disadvantage,
+        migrant_status = :migrant_status,
+        eng_prof_lvl = :eng_prof_lvl,
+        t3_program_type = :t3_program_type,
+        language_code = :language_code,
+        prim_disability_type = :prim_disability_type
       WHERE id = :id
 
     findOne: >-
       SELECT
-        e.id,
-        e.type_id,
-        e.exam_student_id,
-        e.school_year,
-        e.asmt_id,
-        e.asmt_version,
-        e.opportunity,
-        e.oppId,
-        e.completeness_id,
-        e.administration_condition_id,
-        e.session_id,
-        e.scale_score,
-        e.scale_score_std_err,
-        e.performance_level,
-        e.completed_at,
-        est.grade_id,
-        est.student_id,
-        est.school_id,
-        est.iep,
-        est.lep,
-        est.section504,
-        est.economic_disadvantage,
-        est.migrant_status,
-        est.eng_prof_lvl,
-        est.t3_program_type,
-        est.language_code,
-        est.prim_disability_type
-      FROM exam e
-        JOIN exam_student est ON est.id = e.exam_student_id
-      WHERE e.asmt_id = :asmt_id
-        AND e.oppId = :opportunity_id
-        AND est.student_id = :student_id
+        id,
+        type_id,
+        school_year,
+        asmt_id,
+        asmt_version,
+        opportunity,
+        oppId,
+        completeness_id,
+        administration_condition_id,
+        session_id,
+        scale_score,
+        scale_score_std_err,
+        performance_level,
+        completed_at,
+        grade_id,
+        student_id,
+        school_id,
+        iep,
+        lep,
+        section504,
+        economic_disadvantage,
+        migrant_status,
+        eng_prof_lvl,
+        t3_program_type,
+        language_code,
+        prim_disability_type
+      FROM exam
+      WHERE asmt_id = :asmt_id
+        AND oppId = :opportunity_id
+        AND student_id = :student_id
 
     examClaimScore:
       create: >-
@@ -202,28 +212,6 @@ sql:
           trait_conventions_score_status
         FROM exam_item
         WHERE exam_id = :exam_id
-
-    examStudent:
-      create: >-
-        INSERT INTO exam_student (grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type) VALUES
-                              (:grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status, :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type)
-
-      update: >-
-        UPDATE exam_student
-        SET
-          grade_id = :grade_id,
-          student_id = :student_id,
-          school_id = :school_id,
-          iep = :iep,
-          lep = :lep,
-          section504 = :section504,
-          economic_disadvantage = :economic_disadvantage,
-          migrant_status = :migrant_status,
-          eng_prof_lvl = :eng_prof_lvl,
-          t3_program_type = :t3_program_type,
-          language_code = :language_code,
-          prim_disability_type = :prim_disability_type
-        WHERE id = :id
 
     accommodation:
       create: >-

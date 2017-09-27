@@ -18,12 +18,7 @@ INSERT INTO student (id, ssid, last_or_surname, first_name, gender_id, birthday,
   (-198, '6666666668', 'LastName8', 'FirstName8', 1, '2006-07-08', -98, -98),
   (-197, '6666666667', 'LastName7', 'FirstName7', 1, '2006-07-07', -97, -97);
 
-INSERT INTO exam_student (id, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage) VALUES
-  (-299, 11, -199, -12, 0, 0, 0, 0),
-  (-298, 11, -198, -12, 0, 0, 0, 0),
-  (-297, 11, -197, -12, 0, 0, 0, 0);
-
-INSERT INTO exam (id, type_id, exam_student_id, school_year, asmt_id, oppId, completeness_id, administration_condition_id, completed_at, import_id, update_import_id, session_id) VALUES
-  (-399, 1, -299, 2017, -20, '1021', 2, 1, '2017-05-12', -99, -99, 'session'),
-  (-398, 1, -298, 2017, -20, null, 2, 1, '2017-05-12', -98, -98, 'session'),
-  (-397, 1, -297, 2017, -20, '3333', 2, 1, '2017-05-12', -97, -97, 'session');
+INSERT INTO exam (id, type_id, school_year, asmt_id, oppId, completeness_id, administration_condition_id, completed_at, import_id, update_import_id, session_id, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage) VALUES
+  (-399, 1, 2017, -20, '1021', 2, 1, '2017-05-12', -99, -99, 'session', 11, -199, -12, 0, 0, 0, 0),
+  (-398, 1, 2017, -20, null, 2, 1, '2017-05-12', -98, -98, 'session', 11, -198, -12, 0, 0, 0, 0),
+  (-397, 1, 2017, -20, '3333', 2, 1, '2017-05-12', -97, -97, 'session', 11, -197, -12, 0, 0, 0, 0);

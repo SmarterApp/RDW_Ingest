@@ -4,7 +4,7 @@ DELETE FROM staging_exam_available_accommodation where exam_id in (-88, -87, -86
 DELETE FROM staging_exam_item where exam_id in (-88, -87, -86, -85, -84);
 DELETE FROM staging_exam_claim_score where exam_id in (-88, -87, -86, -85, -84);
 DELETE FROM staging_exam where id in (-88, -87, -86, -85, -84);
-DELETE FROM staging_exam_student where id in (-18, -17, -16);
+
 -- ------------------------------------------ School/Districts --------------------------------------------------------------------------------------------------
 DELETE FROM staging_school where id < 0;
 DELETE FROM staging_district where id in (-99, -98, -1);

@@ -51,7 +51,6 @@ sql:
       - TRUNCATE TABLE staging_item
       - TRUNCATE TABLE staging_item_common_core_standard
       - TRUNCATE TABLE staging_item_other_target
-      - TRUNCATE TABLE staging_exam_student
       - TRUNCATE TABLE staging_exam
       - TRUNCATE TABLE staging_exam_item
       - TRUNCATE TABLE staging_exam_available_accommodation
@@ -728,63 +727,6 @@ sql:
                 (:item_id, :target_id)
 
         ##### EXAM ImportContent Type ####
-        # ------------ exam_student  ---------------------------------------------------------------------------------------
-        exam_student:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wes.id,
-                wes.grade_id,
-                wes.student_id,
-                wes.school_id,
-                wes.iep,
-                wes.lep,
-                wes.section504,
-                wes.economic_disadvantage,
-                wes.migrant_status,
-                wes.eng_prof_lvl,
-                wes.t3_program_type,
-                wes.language_code,
-                wes.prim_disability_type
-              FROM exam we
-                JOIN exam_student wes ON we.exam_student_id = wes.id
-              WHERE we.created > :first_at AND we.created <= :last_at
-               AND we.deleted = 0
-
-            stagingInsert: >-
-              INSERT INTO staging_exam_student (id, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status,
-                                                                        eng_prof_lvl, t3_program_type, language_code, prim_disability_type, migrate_id) VALUES
-                                                       (:id, :grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status,
-                                                                        :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type, :migrate_id)
-
-        exam_student_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wes.id,
-                wes.grade_id,
-                wes.student_id,
-                wes.school_id,
-                wes.iep,
-                wes.lep,
-                wes.section504,
-                wes.economic_disadvantage,
-                wes.migrant_status,
-                wes.eng_prof_lvl,
-                wes.t3_program_type,
-                wes.language_code,
-                wes.prim_disability_type
-              FROM exam we
-                JOIN exam_student wes ON we.exam_student_id = wes.id
-              WHERE we.updated > :first_at AND we.updated <= :last_at AND we.updated <> we.created
-               AND we.deleted = 0
-
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_exam_student (id, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status,
-                                                                        eng_prof_lvl, t3_program_type, language_code, prim_disability_type, migrate_id) VALUES
-                                                       (:id, :grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status,
-                                                                        :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type, :migrate_id)
-
         # ------------ exam  ---------------------------------------------------------------------------------------
         exam:
           sql:
@@ -792,7 +734,6 @@ sql:
               SELECT
                 we.id,
                 we.type_id,
-                we.exam_student_id,
                 we.school_year,
                 we.asmt_id,
                 we.asmt_version,
@@ -806,22 +747,37 @@ sql:
                 we.completed_at,
                 we.deleted,
                 we.import_id,
-                we.updated
+                we.updated,
+                we.grade_id,
+                we.student_id,
+                we.school_id,
+                we.iep,
+                we.lep,
+                we.section504,
+                we.economic_disadvantage,
+                we.migrant_status,
+                we.eng_prof_lvl,
+                we.t3_program_type,
+                we.language_code,
+                we.prim_disability_type
               FROM exam we
               WHERE we.created > :first_at AND we.created <= :last_at
 
             stagingInsert: >-
-              INSERT INTO staging_exam (id, type_id, exam_student_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id,
-                                                 session_id, performance_level, scale_score, scale_score_std_err, completed_at, deleted, import_id, updated, migrate_id) VALUES
-                                               (:id, :type_id, :exam_student_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id,
-                                                :session_id, :performance_level, :scale_score, :scale_score_std_err, :completed_at, :deleted, :import_id, :updated, :migrate_id)
+              INSERT INTO staging_exam (id, type_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id,
+                                                 session_id, performance_level, scale_score, scale_score_std_err, completed_at, deleted, import_id, updated,
+                                                 grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status,
+                                                 eng_prof_lvl, t3_program_type, language_code, prim_disability_type, migrate_id) VALUES
+                                       (:id, :type_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id,
+                                                :session_id, :performance_level, :scale_score, :scale_score_std_err, :completed_at, :deleted, :import_id, :updated,
+                                                :grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status,
+                                                :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type, :migrate_id)
         exam_by_update_import_id:
           sql:
             warehouseRead: >-
               SELECT
                 we.id,
                 we.type_id,
-                we.exam_student_id,
                 we.school_year,
                 we.asmt_id,
                 we.asmt_version,
@@ -835,15 +791,31 @@ sql:
                 we.completed_at,
                 we.deleted,
                 we.import_id,
-                we.updated
+                we.updated,
+                we.grade_id,
+                we.student_id,
+                we.school_id,
+                we.iep,
+                we.lep,
+                we.section504,
+                we.economic_disadvantage,
+                we.migrant_status,
+                we.eng_prof_lvl,
+                we.t3_program_type,
+                we.language_code,
+                we.prim_disability_type
               FROM exam we
               WHERE we.updated > :first_at AND we.updated <= :last_at AND we.updated <> we.created
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging_exam (id, type_id, exam_student_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id,
-                                                 session_id, performance_level, scale_score, scale_score_std_err, completed_at, deleted, import_id, updated, migrate_id) VALUES
-                                               (:id, :type_id, :exam_student_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id,
-                                                :session_id, :performance_level, :scale_score, :scale_score_std_err, :completed_at, :deleted, :import_id, :updated, :migrate_id)
+              INSERT IGNORE INTO staging_exam (id, type_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id,
+                                                 session_id, performance_level, scale_score, scale_score_std_err, completed_at, deleted, import_id, updated,
+                                                 grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status,
+                                                 eng_prof_lvl, t3_program_type, language_code, prim_disability_type, migrate_id) VALUES
+                                              (:id, :type_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id,
+                                                 :session_id, :performance_level, :scale_score, :scale_score_std_err, :completed_at, :deleted, :import_id, :updated,
+                                                 :grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status,
+                                                 :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type, :migrate_id)
 
         # ------------ exam_item  ---------------------------------------------------------------------------------------
         exam_item:
