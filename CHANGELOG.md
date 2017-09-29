@@ -2,7 +2,8 @@
 
 #### 1.x.y
 
-* NOTE: change datasource URL configuration
+* NOTE: change datasource URL configuration.
+* NOTE: fix CSV load SQL (remove config hack for sql.load-csv).
 * Add handling of district and school groups (from ART).
 * Detect and handle exam update
 
