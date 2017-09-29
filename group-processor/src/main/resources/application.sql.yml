@@ -451,7 +451,7 @@ sql:
 
   # ------------ Load from S3 or local ---------------------------------------------------------
   load-csv: >-
-    LOAD DATA %s :uri INTO TABLE upload_student_group FIELDS TERMINATED BY ','
+    LOAD DATA %s :uri INTO TABLE upload_student_group FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
     IGNORE 1 LINES
     (@vgroup_name, @vschool_natural_id, school_year, @vsubject_code, @vstudent_ssid, @vgroup_user_login)
     SET
