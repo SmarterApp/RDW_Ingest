@@ -1,0 +1,29 @@
+apply plugin: 'org.springframework.boot'
+
+bootRepackage.enabled = false
+bootRun.enabled = false
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-batch'
+
+    // handy for creating metadata with @ConfigurationProperties
+    optional 'org.springframework.boot:spring-boot-configuration-processor'
+
+    compile project(':rdw-ingest-common')
+
+    testCompile 'org.springframework:spring-test'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+}
+
+task testsJar(type: Jar, dependsOn: testClasses) {
+    classifier = 'tests'
+    from sourceSets.test.output
+}
+configurations {
+    tests {
+        extendsFrom testRuntime
+    }
+}
+artifacts {
+    tests testsJar
+}
