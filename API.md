@@ -229,7 +229,7 @@ There are two ways of posting exam content: with a raw body of type `application
 * Body (raw body): TRT
 * Headers (form-data):
   * `Content-Type:multipart/form-data`
-* Form data (form-data):
+* Form Data (form-data):
   * `file` - the upload file
   * `filename=<filename>`
   * any other form data will be preserved as properties for the upload
@@ -343,7 +343,7 @@ There are two ways of posting content: with a raw body of type `application/json
 ```
 * Headers (form-data):
   * `Content-Type:multipart/form-data`
-* Form data (form-data):
+* Form Data (form-data):
   * `file` - the upload file
   * `filename=<filename>`
   * any other form data will be preserved as properties for the upload
@@ -416,7 +416,7 @@ There are two ways of posting content: with a raw body of type `application/xml`
 ```
 * Headers (form-data):
   * `Content-Type:multipart/form-data`
-* Form data (form-data):
+* Form Data (form-data):
   * `file` - the upload file
   * `filename=<filename>`
   * any other form data will be preserved as properties for the upload
@@ -479,7 +479,7 @@ AssessmentId,AssessmentName,AssessmentSubject,AssessmentGrade,AssessmentType,Ass
 ```
 * Headers (form-data):
   * `Content-Type:multipart/form-data`
-* Form data (form-data):
+* Form Data (form-data):
   * `file` - the upload file
   * `filename=<filename>`
   * any other form data will be preserved as properties for the upload
