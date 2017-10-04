@@ -104,11 +104,9 @@ subprojects {
     }
 
     /***********************************************************
-     * Docker setup for all subprojects except rdw-ingest-common,
-     *  which doesn't have a docker image
+     * Docker setup for all sub-projects that need it
      ***********************************************************/
-
-    if (it.name != "rdw-ingest-common" && it.name != "rdw-ingest-migrate-common") {
+    if (!it.hasProperty('skipDocker')) {
         apply plugin: 'com.bmuschko.docker-remote-api'
 
         // this is for creating metadata
