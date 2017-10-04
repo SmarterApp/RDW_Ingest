@@ -108,7 +108,7 @@ subprojects {
      *  which doesn't have a docker image
      ***********************************************************/
 
-    if (it.name != "rdw-ingest-common") {
+    if (it.name != "rdw-ingest-common" && it.name != "rdw-ingest-migrate-common") {
         apply plugin: 'com.bmuschko.docker-remote-api'
 
         // this is for creating metadata
