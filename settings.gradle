@@ -1,11 +1,11 @@
 include 'common'
-include 'import-service'
 include 'exam-processor'
-include 'package-processor'
+include 'group-processor'
+include 'import-service'
 include 'migrate-common'
 include 'migrate-reporting'
+include 'package-processor'
 include 'task-service'
-include 'group-processor'
 
 // It is considered good practice to explicitly set the root project name
 rootProject.name = "rdw-ingest"
