@@ -20,6 +20,9 @@ spring:
         input:
           destination: EXAM
           group: default
+        delete:
+          destination: EXAM_DELETE
+          group: default
 
   datasource:
     url: "\
