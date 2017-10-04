@@ -101,7 +101,8 @@ sql:
         eng_prof_lvl = :eng_prof_lvl,
         t3_program_type = :t3_program_type,
         language_code = :language_code,
-        prim_disability_type = :prim_disability_type
+        prim_disability_type = :prim_disability_type,
+        deleted = 0
       WHERE id = :id
 
     findOne: >-
@@ -136,6 +137,14 @@ sql:
       WHERE asmt_id = :asmt_id
         AND oppId = :opportunity_id
         AND student_id = :student_id
+
+    deleteByImportId: >-
+      UPDATE exam
+      SET
+        deleted = 1,
+        update_import_id = :import_id
+      WHERE
+        import_id = :deleted_import_id
 
     examClaimScore:
       create: >-
