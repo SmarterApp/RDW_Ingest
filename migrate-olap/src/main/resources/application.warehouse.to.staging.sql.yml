@@ -113,17 +113,19 @@ sql:
             warehouseRead: >-
               SELECT
                 ethnicity_id,
-                student_id
+                student_id,
+                ? as migrate_id
               FROM student_ethnicity
                 JOIN student ws ON ws.id = student_ethnicity.student_id
-              WHERE ? IS NOT NULL AND ws.created > ? AND ws.created <= ? AND ws.deleted = 0
+              WHERE ws.created > ? AND ws.created <= ? AND ws.deleted = 0
                 INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/student_ethnicity'
               FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_student_ethnicity(
                ethnicity_id,
-               student_id)
+               student_id,
+               migrate_id)
               FROM '${archive.root}/${migrate.aws.location}/student_ethnicity.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
@@ -134,17 +136,19 @@ sql:
             warehouseRead: >-
               SELECT
                 ethnicity_id,
-                student_id
+                student_id,
+                ? as migrate_id
               FROM student_ethnicity
                 JOIN student ws ON ws.id = student_ethnicity.student_id
-              WHERE ? IS NOT NULL AND ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
+              WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
                 INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/student_ethnicity_update'
               FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_student_ethnicity(
                 ethnicity_id,
-                student_id)
+                student_id,
+                migrate_id)
               FROM '${archive.root}/${migrate.aws.location}/student_ethnicity_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
