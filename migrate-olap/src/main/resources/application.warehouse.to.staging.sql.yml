@@ -1,0 +1,108 @@
+sql:
+  warehouseToStage:
+  # ------------ Truncate ------------------------------------------------------------------
+    truncateStageList:
+      - delete from staging_gender
+      - delete from staging_student
+
+    entities:
+        # ------------ gender  -------------------------------------------------------------------
+        gender:
+          sql:
+            warehouseRead: >-
+                SELECT
+                  id,
+                  code
+                FROM gender
+                INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/gender'
+                FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+                COPY staging_gender (id, code)
+                  FROM '${archive.root}/${migrate.aws.location}/gender.part_00000'
+                CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+                FORMAT AS CSV
+                DELIMITER ','
+
+        # ------------ ethnicity  -------------------------------------------------------------
+        ethnicity:
+          sql:
+            warehouseRead: >-
+                SELECT
+                  id,
+                  code
+                FROM ethnicity
+                INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/ethnicity'
+                FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+                COPY staging_ethnicity (id, code)
+                  FROM '${archive.root}/${migrate.aws.location}/ethnicity.part_00000'
+                CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+                FORMAT AS CSV
+                DELIMITER ','
+
+        # ------------ student  -------------------------------------------------------------------
+        student:
+          sql:
+            warehouseRead: >-
+             SELECT
+               id,
+               ssid,
+               last_or_surname,
+               first_name,
+               middle_name,
+               gender_id,
+               deleted,
+               ? as migrate_id
+             FROM student ws
+              WHERE ws.created > ? AND ws.created <= ?
+             INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/student'
+             FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+              COPY staging_student(
+                id,
+                ssid,
+                last_or_surname,
+                first_name,
+                middle_name,
+                gender_id,
+                deleted,
+                migrate_id)
+              FROM '${archive.root}/${migrate.aws.location}/student.part_00000'
+              CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+              FORMAT AS CSV
+              DELIMITER ','
+
+        student_update:
+          sql:
+            warehouseRead: >-
+             SELECT
+               id,
+               ssid,
+               last_or_surname,
+               first_name,
+               middle_name,
+               gender_id,
+               deleted,
+               ? as migrate_id
+             FROM student ws
+              WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
+             INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/student_update'
+             FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+              COPY staging_student(
+                id,
+                ssid,
+                last_or_surname,
+                first_name,
+                middle_name,
+                gender_id,
+                deleted,
+                migrate_id)
+              FROM '${archive.root}/${migrate.aws.location}/student_update.part_00000'
+              CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+              FORMAT AS CSV
+              DELIMITER ','
