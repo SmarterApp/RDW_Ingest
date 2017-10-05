@@ -73,7 +73,7 @@ spring:
 
   reporting_datasource:
     url: "\
-      jdbc:redshift://${spring.reporting_olap_datasource.url-server:localhost:3306?${spring.reporting_olap_datasource.url-schema:reporting_olap}
+      jdbc:redshift://${spring.spring.reporting_datasource.url-server:localhost:3306?${spring.spring.reporting_datasource.url-schema:reporting_olap}
       "
     username: root
     password:
