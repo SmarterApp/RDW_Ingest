@@ -1,0 +1,52 @@
+sql:
+  migrate:
+    entities:
+        # ------------ gender  -------------------------------------------------------------------
+        gender:
+          sql:
+            update:  >-
+               UPDATE gender
+               SET
+                 code = sg.code
+               FROM
+                  staging_gender sg where sg.id = gender.id;
+
+            insert: >-
+                INSERT INTO gender (id, code)
+                  SELECT DISTINCT
+                    sg.id,
+                    sg.code
+                  FROM staging_gender sg
+                    LEFT JOIN gender rg ON rg.id = sg.id
+                  WHERE rg.id IS NULL;
+            delete: >-
+               DELETE FROM gender
+               WHERE NOT EXISTS(SELECT sg.id FROM staging_gender sg WHERE sg.id = gender.id);
+
+      # ------------ student -----------------------------------------------------------------------
+        student:
+          sql:
+            insert: >-
+              INSERT INTO student (id,  gender_id, migrate_id)
+                SELECT DISTINCT
+                  ss.id,
+                  rg.id,
+                  ss.migrate_id
+                FROM staging_student ss
+                  LEFT JOIN student rs ON rs.id = ss.id
+                  LEFT JOIN gender rg ON ss.gender_id = rg.id
+                WHERE rs.id IS NULL and ss.deleted = 0;
+
+            update: >-
+              UPDATE student
+              SET
+                gender_id  = ss.gender_id,
+                migrate_id = ss.migrate_id
+              FROM staging_student ss
+                JOIN gender rg ON ss.gender_id = rg.id
+              WHERE ss.id = student.id;
+
+            delete: >-
+              DELETE FROM student
+                USING staging_student ss
+              WHERE ss.id = student.id AND ss.deleted = 1;

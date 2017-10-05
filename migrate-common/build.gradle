@@ -12,6 +12,8 @@ dependencies {
 
     compile project(':rdw-ingest-common')
 
+    compile 'org.opentestsystem.rdw.common:rdw-common-status'
+
     testCompile 'org.springframework:spring-test'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 }

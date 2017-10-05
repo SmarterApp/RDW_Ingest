@@ -18,15 +18,11 @@ dependencies {
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'org.springframework.batch:spring-batch-test'
 
+    compile 'org.opentestsystem.rdw.common:rdw-common-archive'
     compile 'org.opentestsystem.rdw.common:rdw-common-status'
     compile 'org.opentestsystem.rdw.common:rdw-common-utils'
     compile 'mysql:mysql-connector-java'
+    compile 'com.amazon.redshift:redshift-jdbc42-no-awssdk:1.2.8.1005'
 
     testCompile project(path: ':rdw-ingest-migrate-common', configuration: 'tests')
-}
-
-// migrate is a bit of a memory hog; for batch size 2000, -Xmx512m is a good heap size
-// (for a batch size of 4000, this should be set to at least -Xmx768m)
-createDockerfile {
-    ext.java_opts = ["-Xmx512m"]
 }
