@@ -2,10 +2,69 @@ sql:
   warehouseToStage:
   # ------------ Truncate ------------------------------------------------------------------
     truncateStageList:
+      - delete from staging_administration_condition
+      - delete from staging_completeness
+      - delete from staging_ethnicity
       - delete from staging_gender
+      - delete from staging_grade
       - delete from staging_student
+      - delete from staging_student_ethnicity
 
     entities:
+        # ------------ administration_condition  -------------------------------------------------------------------
+        administration_condition:
+          sql:
+            warehouseRead: >-
+                SELECT
+                  id,
+                  code
+                FROM administration_condition
+                INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/administration_condition'
+                FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+                COPY staging_administration_condition (id, code)
+                  FROM '${archive.root}/${migrate.aws.location}/administration_condition.part_00000'
+                CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+                FORMAT AS CSV
+                DELIMITER ','
+
+        # ------------ completeness  -------------------------------------------------------------------
+        completeness:
+          sql:
+            warehouseRead: >-
+                SELECT
+                  id,
+                  code
+                FROM completeness
+                INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/completeness'
+                FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+                COPY staging_completeness (id, code)
+                  FROM '${archive.root}/${migrate.aws.location}/completeness.part_00000'
+                CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+                FORMAT AS CSV
+                DELIMITER ','
+
+        # ------------ ethnicity  -------------------------------------------------------------------
+        ethnicity:
+          sql:
+            warehouseRead: >-
+                SELECT
+                  id,
+                  code
+                FROM ethnicity
+                INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/ethnicity'
+                FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+                COPY staging_ethnicity (id, code)
+                  FROM '${archive.root}/${migrate.aws.location}/ethnicity.part_00000'
+                CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+                FORMAT AS CSV
+                DELIMITER ','
+
         # ------------ gender  -------------------------------------------------------------------
         gender:
           sql:
@@ -24,20 +83,21 @@ sql:
                 FORMAT AS CSV
                 DELIMITER ','
 
-        # ------------ ethnicity  -------------------------------------------------------------
-        ethnicity:
+        # ------------ grade  -------------------------------------------------------------
+        grade:
           sql:
             warehouseRead: >-
                 SELECT
                   id,
-                  code
-                FROM ethnicity
-                INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/ethnicity'
+                  code,
+                  name
+                FROM grade
+                INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/grade'
                 FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
 
             stagingInsert: >-
-                COPY staging_ethnicity (id, code)
-                  FROM '${archive.root}/${migrate.aws.location}/ethnicity.part_00000'
+                COPY staging_grade (id, code, name)
+                  FROM '${archive.root}/${migrate.aws.location}/grade.part_00000'
                 CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
                 FORMAT AS CSV
                 DELIMITER ','

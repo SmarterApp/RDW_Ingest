@@ -1,6 +1,75 @@
 sql:
   migrate:
     entities:
+        # ------------ administration_condition  -------------------------------------------------------------------
+        administration_condition:
+          sql:
+            update:  >-
+               UPDATE administration_condition
+               SET
+                 code = sac.code
+               FROM
+                  staging_administration_condition sac where sac.id = administration_condition.id;
+
+            insert: >-
+                INSERT INTO administration_condition (id, code)
+                  SELECT
+                    sac.id,
+                    sac.code
+                  FROM staging_administration_condition sac
+                    LEFT JOIN administration_condition rac ON rac.id = sac.id
+                  WHERE rac.id IS NULL;
+
+            delete: >-
+               DELETE FROM administration_condition
+               WHERE NOT EXISTS(SELECT sac.id FROM staging_administration_condition sac WHERE sac.id = administration_condition.id);
+
+        # ------------ completeness  -------------------------------------------------------------------
+        completeness:
+          sql:
+            update:  >-
+               UPDATE completeness
+               SET
+                 code = sc.code
+               FROM
+                  staging_completeness sc where sc.id = completeness.id;
+
+            insert: >-
+                INSERT INTO completeness (id, code)
+                  SELECT
+                    sc.id,
+                    sc.code
+                  FROM staging_completeness sc
+                    LEFT JOIN completeness rc ON rc.id = sc.id
+                  WHERE rc.id IS NULL;
+
+            delete: >-
+               DELETE FROM completeness
+               WHERE NOT EXISTS(SELECT sc.id FROM staging_completeness sc WHERE sc.id = completeness.id);
+
+       # ------------ Ethnicity ------------------------------------------------------------------------
+        ethnicity:
+          sql:
+            update:  >-
+               UPDATE ethnicity
+               SET
+                 code = se.code
+               FROM
+                  staging_ethnicity se where ethnicity.id = se.id;
+
+            insert: >-
+                INSERT INTO ethnicity (id, code)
+                  SELECT
+                    se.id,
+                    se.code
+                  FROM staging_ethnicity se
+                    LEFT JOIN ethnicity re ON se.id = re.id
+                  WHERE re.id IS NULL;
+
+            delete: >-
+               DELETE FROM ethnicity
+               WHERE NOT EXISTS(SELECT se.id FROM staging_ethnicity se WHERE ethnicity.id = se.id);
+
         # ------------ gender  -------------------------------------------------------------------
         gender:
           sql:
@@ -13,7 +82,7 @@ sql:
 
             insert: >-
                 INSERT INTO gender (id, code)
-                  SELECT DISTINCT
+                  SELECT
                     sg.id,
                     sg.code
                   FROM staging_gender sg
@@ -23,27 +92,29 @@ sql:
                DELETE FROM gender
                WHERE NOT EXISTS(SELECT sg.id FROM staging_gender sg WHERE sg.id = gender.id);
 
-       # ------------ Ethnicity ------------------------------------------------------------------------
-        ethnicity:
+        # ------------ grade  -------------------------------------------------------------------
+        grade:
           sql:
             update:  >-
-               UPDATE ethnicity
+               UPDATE grade
                SET
-                 code = sg.code
+                 code = sg.code,
+                 name = sg.name
                FROM
-                  staging_ethnicity sg where sg.id = ethnicity.id;
+                  staging_grade sg where sg.id = grade.id;
 
             insert: >-
-                INSERT INTO ethnicity (id, code)
-                  SELECT DISTINCT
+                INSERT INTO grade (id, code, name)
+                  SELECT
                     sg.id,
-                    sg.code
-                  FROM staging_ethnicity sg
-                    LEFT JOIN ethnicity rg ON rg.id = sg.id
+                    sg.code,
+                    sg.name
+                  FROM staging_grade sg
+                    LEFT JOIN gender rg ON rg.id = sg.id
                   WHERE rg.id IS NULL;
             delete: >-
-               DELETE FROM ethnicity
-               WHERE NOT EXISTS(SELECT sg.id FROM staging_ethnicity sg WHERE sg.id = ethnicity.id);
+               DELETE FROM grade
+               WHERE NOT EXISTS(SELECT sg.id FROM staging_grade sg WHERE sg.id = grade.id);
 
       # ------------ student -----------------------------------------------------------------------
         student:
