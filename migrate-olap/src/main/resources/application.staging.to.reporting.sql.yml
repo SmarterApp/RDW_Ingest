@@ -23,6 +23,28 @@ sql:
                DELETE FROM gender
                WHERE NOT EXISTS(SELECT sg.id FROM staging_gender sg WHERE sg.id = gender.id);
 
+       # ------------ Ethnicity ------------------------------------------------------------------------
+        ethnicity:
+          sql:
+            update:  >-
+               UPDATE ethnicity
+               SET
+                 code = sg.code
+               FROM
+                  staging_ethnicity sg where sg.id = ethnicity.id;
+
+            insert: >-
+                INSERT INTO ethnicity (id, code)
+                  SELECT DISTINCT
+                    sg.id,
+                    sg.code
+                  FROM staging_ethnicity sg
+                    LEFT JOIN ethnicity rg ON rg.id = sg.id
+                  WHERE rg.id IS NULL;
+            delete: >-
+               DELETE FROM ethnicity
+               WHERE NOT EXISTS(SELECT sg.id FROM staging_ethnicity sg WHERE sg.id = ethnicity.id);
+
       # ------------ student -----------------------------------------------------------------------
         student:
           sql:
@@ -50,3 +72,28 @@ sql:
               DELETE FROM student
                 USING staging_student ss
               WHERE ss.id = student.id AND ss.deleted = 1;
+
+      # ------------ student_ethnicity -----------------------------------------------------------------------
+        student_ethnicity:
+          sql:
+            insert: >-
+               INSERT INTO student_ethnicity (student_id, ethnicity_id)
+                 SELECT
+                   sue.student_id,
+                   sue.ethnicity_id
+                 FROM staging_student_ethnicity sue
+                   LEFT JOIN student_ethnicity rse
+                     ON (rse.student_id = sue.student_id AND rse.ethnicity_id = sue.ethnicity_id)
+                   JOIN ethnicity re on re.id = sue.ethnicity_id
+                 WHERE rse.student_id IS NULL;
+
+            deleteAsPartOfParentUpdate: >-
+               DELETE FROM student_ethnicity
+                 USING staging_student ss
+               WHERE ss.id = student_ethnicity.student_id AND ss.deleted = 0
+                     AND NOT EXISTS(SELECT sse.student_id FROM staging_student_ethnicity sse WHERE sse.student_id = student_ethnicity.student_id AND sse.ethnicity_id = student_ethnicity.ethnicity_id)
+
+            delete: >-
+              DELETE FROM student_ethnicity
+                USING staging_student ss
+              WHERE ss.id = student_ethnicity.student_id AND ss.deleted = 1;
