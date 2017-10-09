@@ -168,3 +168,87 @@ sql:
               DELETE FROM student_ethnicity
                 USING staging_student ss
               WHERE ss.id = student_ethnicity.student_id AND ss.deleted = 1;
+
+      # ------------ asmt -----------------------------------------------------------------------
+        asmt:
+          sql:
+            insert: >-
+              INSERT INTO ica_asmt (id, grade_id, school_year, subject_id, name, migrate_id)
+                SELECT DISTINCT
+                  sa.id,
+                  sa.grade_id,
+                  sa.school_year,
+                  sa.subject_id,
+                  sa.name,
+                  sa.migrate_id
+                FROM staging_asmt sa
+                  LEFT JOIN ica_asmt ra ON ra.id = sa.id
+                WHERE ra.id IS NULL and sa.deleted = 0 AND sa.type_id = 1;
+
+            update: >-
+              UPDATE ica_asmt
+              SET
+                grade_id  = sa.grade_id,
+                school_year = sa.school_year,
+                subject_id = sa.subject_id,
+                name = sa.name,
+                migrate_id = sa.migrate_id
+              FROM staging_asmt sa WHERE sa.id = ica_asmt.id AND sa.type_id = 1;
+
+            delete: >-
+              DELETE FROM ica_asmt
+                USING staging_asmt sa
+              WHERE sa.id = ica_asmt.id AND sa.deleted = 1 AND sa.type_id = 1;
+
+      # ------------ school -----------------------------------------------------------------------
+        school:
+          sql:
+            insert: >-
+              INSERT INTO school (id, district_id, name, migrate_id)
+                SELECT DISTINCT
+                  ss.id,
+                  ss.district_id,
+                  ss.name,
+                  ss.migrate_id
+                FROM staging_school ss
+                  LEFT JOIN school rs ON rs.id = ss.id
+                WHERE rs.id IS NULL and ss.deleted = 0;
+
+            update: >-
+              UPDATE school
+              SET
+                district_id  = ss.district_id,
+                name  = ss.name,
+                migrate_id = ss.migrate_id
+              FROM staging_school ss
+              WHERE ss.id = school.id;
+
+            delete: >-
+              DELETE FROM school
+                USING staging_school ss
+              WHERE ss.id = school.id AND ss.deleted = 1;
+
+      # ------------ district -----------------------------------------------------------------------
+        district:
+          sql:
+            insert: >-
+              INSERT INTO district (id, name)
+                SELECT DISTINCT
+                  sd.id,
+                  sd.name
+                FROM staging_district sd
+                  LEFT JOIN district rd ON rd.id = sd.id
+                WHERE rd.id IS NULL;
+
+            update: >-
+              UPDATE district
+              SET
+                name  = sd.name
+              FROM staging_district sd
+              WHERE sd.id = district.id;
+
+            delete: >-
+              DELETE FROM district
+                USING staging_district sd
+              WHERE sd.id IN (SELECT district_id from staging_school WHERE deleted = 1)
+                  AND NOT EXISTS(SELECT rs.id from school rs WHERE rs.district_id = district.id);
