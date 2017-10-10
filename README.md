@@ -117,7 +117,12 @@ git checkout develop
 or to also run Integration Tests
 ./gradlew build it 
 ```
-Code coverage reports can be found in each project under `./build/reports/jacoco/test/html/index.html` 
+
+Code coverage reports can be found in each project under `./build/reports/coverage/index.html` after explicitly
+generating them using:
+```bash
+./gradlew coverage
+``` 
 
 You must explicitly build the docker images:
 ```bash
