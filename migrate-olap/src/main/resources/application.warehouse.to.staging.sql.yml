@@ -33,6 +33,7 @@ sql:
                 CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
                 FORMAT AS CSV
                 DELIMITER ','
+                COMPUPDATE OFF
 
         # ------------ completeness  -------------------------------------------------------------------
         completeness:
@@ -51,6 +52,7 @@ sql:
                 CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
                 FORMAT AS CSV
                 DELIMITER ','
+                COMPUPDATE OFF
 
         # ------------ ethnicity  -------------------------------------------------------------------
         ethnicity:
@@ -69,6 +71,7 @@ sql:
                 CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
                 FORMAT AS CSV
                 DELIMITER ','
+                COMPUPDATE OFF
 
         # ------------ gender  -------------------------------------------------------------------
         gender:
@@ -87,6 +90,7 @@ sql:
                 CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
                 FORMAT AS CSV
                 DELIMITER ','
+                COMPUPDATE OFF
 
         # ------------ grade  -------------------------------------------------------------
         grade:
@@ -106,6 +110,7 @@ sql:
                 CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
                 FORMAT AS CSV
                 DELIMITER ','
+                COMPUPDATE OFF
 
         # ------------ student  -------------------------------------------------------------------
         student:
@@ -139,6 +144,7 @@ sql:
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
+              COMPUPDATE OFF
 
         student_update:
           sql:
@@ -171,6 +177,7 @@ sql:
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
+              COMPUPDATE OFF
 
         # ------------ student_ethnicity  -------------------------------------------------------------------
         student_ethnicity:
@@ -195,6 +202,7 @@ sql:
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
+              COMPUPDATE OFF
 
         student_ethnicity_update:
           sql:
@@ -218,6 +226,7 @@ sql:
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
+              COMPUPDATE OFF
 
   # ------------ asmt  -------------------------------------------------------------------
         asmt:
@@ -252,6 +261,7 @@ sql:
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
+              COMPUPDATE OFF
 
         asmt_update:
           sql:
@@ -282,6 +292,7 @@ sql:
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
+              COMPUPDATE OFF
 
   # ------------ school  -------------------------------------------------------------------
         school:
@@ -309,6 +320,7 @@ sql:
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
+              COMPUPDATE OFF
 
         school_update:
           sql:
@@ -335,6 +347,7 @@ sql:
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
+              COMPUPDATE OFF
 
   # ------------ district  -------------------------------------------------------------------
         district:
@@ -358,6 +371,7 @@ sql:
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
+              COMPUPDATE OFF
 
         district_update:
           sql:
@@ -380,6 +394,7 @@ sql:
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
+              COMPUPDATE OFF
 
  # ------------ exam  -------------------------------------------------------------------
         exam:
@@ -437,6 +452,7 @@ sql:
                 CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
                 FORMAT AS CSV
                 DELIMITER ','
+                COMPUPDATE OFF
 
         exam_update:
           sql:
@@ -493,6 +509,7 @@ sql:
                 CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
                 FORMAT AS CSV
                 DELIMITER ','
+                COMPUPDATE OFF
 
  # ------------ exam_claim_score  -------------------------------------------------------------------
         exam_claim_score:
@@ -525,6 +542,7 @@ sql:
                 CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
                 FORMAT AS CSV
                 DELIMITER ','
+                COMPUPDATE OFF
 
         exam_claim_score_update:
           sql:
@@ -556,3 +574,4 @@ sql:
                 CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
                 FORMAT AS CSV
                 DELIMITER ','
+                COMPUPDATE OFF
