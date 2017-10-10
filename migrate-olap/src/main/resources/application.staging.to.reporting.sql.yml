@@ -295,7 +295,7 @@ sql:
                   se.student_id,
                   se.asmt_id,
                   se.grade_id,
-                  sa.grade_id,
+                  ra.grade_id,
                   se.school_year,
                   se.iep,
                   se.lep,
@@ -321,8 +321,7 @@ sql:
                   claim4.category as claim4_category,
                   se.migrate_id
                 FROM staging_exam se
-                  JOIN staging_asmt sa ON sa.id = se.asmt_id
-                  JOIN staging_student ss ON ss.id = se.student_id
+                  JOIN ica_asmt ra ON ra.id = se.asmt_id
                   LEFT JOIN fact_student_ica_exam fe on fe.id = se.id
                   LEFT JOIN (
                               SELECT DISTINCT s.exam_id
@@ -369,7 +368,7 @@ sql:
                   student_id                  = se.student_id,
                   asmt_id                     = se.asmt_id,
                   grade_id                    = se.grade_id,
-                  asmt_grade_id               = sa.grade_id,
+                  asmt_grade_id               = ra.grade_id,
                   school_year                 = se.school_year,
                   iep                         = se.iep,
                   lep                         = se.lep,
@@ -393,9 +392,8 @@ sql:
                   claim4_scale_score_std_err  = claim4.scale_score_std_err,
                   claim4_category             = claim4.category,
                   migrate_id                  = se.migrate_id
-                FROM staging_exam se
-                  JOIN staging_asmt sa ON sa.id = se.asmt_id
-                  JOIN staging_student ss ON ss.id = se.student_id
+                 FROM staging_exam se
+                  JOIN ica_asmt ra ON ra.id = se.asmt_id
                   LEFT JOIN fact_student_ica_exam fe ON fe.id = se.id
                   LEFT JOIN (
                               SELECT
