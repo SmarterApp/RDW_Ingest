@@ -62,8 +62,8 @@ java -jar exam-processor/build/libs/rdw-ingest-exam-processor-1.0.0-SNAPSHOT.jar
 ```
 
 #### FTP Server
-The task service likes to use FTP to send reconciliation reports. If you don't have an FTP server but want to test
-that functionality, you can use docker to run ProFTPD. Either directly run it and modify the task service 
+The task service can be configured to use FTP to send reconciliation reports. If you don't have an FTP server but want 
+to test that functionality, you can use docker to run ProFTPD. Either directly run it and modify the task service 
 application.yml to hit localhost:
 ```bash
 docker run -d --name ftpd -e FTP_USERNAME=alice -e FTP_PASSWORD=pswd -v /tmp/ftpd:/home/alice -p 20:20 -p 21:21 hauptmedia/proftpd
