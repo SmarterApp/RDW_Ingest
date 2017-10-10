@@ -9,6 +9,11 @@ sql:
       - delete from staging_grade
       - delete from staging_student
       - delete from staging_student_ethnicity
+      - delete from staging_school
+      - delete from staging_district
+      - delete from staging_asmt
+      - delete from staging_exam
+      - delete from staging_exam_claim_score
 
     entities:
         # ------------ administration_condition  -------------------------------------------------------------------
@@ -228,7 +233,7 @@ sql:
                deleted,
                ? as migrate_id
              FROM asmt wa
-              WHERE wa.type_id = 1 -- ICA only for now
+              WHERE wa.type_id = 1
                 AND wa.created > ? AND wa.created <= ?
              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/asmt'
              FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
@@ -376,3 +381,178 @@ sql:
               FORMAT AS CSV
               DELIMITER ','
 
+ # ------------ exam  -------------------------------------------------------------------
+        exam:
+          sql:
+            warehouseRead: >-
+                SELECT
+                  id,
+                  student_id,
+                  grade_id,
+                  school_id,
+                  iep,
+                  lep,
+                  section504,
+                  economic_disadvantage,
+                  migrant_status,
+                  type_id,
+                  school_year,
+                  asmt_id,
+                  completeness_id,
+                  administration_condition_id,
+                  scale_score,
+                  scale_score_std_err,
+                  performance_level,
+                  completed_at,
+                  deleted,
+                 ? as migrate_id
+                FROM exam we
+                  WHERE we.created > ? AND we.created <= ? AND type_id = 1
+                INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam'
+                FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+                COPY staging_exam(
+                  id,
+                  student_id,
+                  grade_id,
+                  school_id,
+                  iep,
+                  lep,
+                  section504,
+                  economic_disadvantage,
+                  migrant_status,
+                  type_id,
+                  school_year,
+                  asmt_id,
+                  completeness_id,
+                  administration_condition_id,
+                  scale_score,
+                  scale_score_std_err,
+                  performance_level,
+                  completed_at,
+                  deleted,
+                  migrate_id)
+                FROM '${archive.root}/${migrate.aws.location}/exam.part_00000'
+                CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+                FORMAT AS CSV
+                DELIMITER ','
+
+        exam_update:
+          sql:
+            warehouseRead: >-
+               SELECT
+                  id,
+                  student_id,
+                  grade_id,
+                  school_id,
+                  iep,
+                  lep,
+                  section504,
+                  economic_disadvantage,
+                  migrant_status,
+                  type_id,
+                  school_year,
+                  asmt_id,
+                  completeness_id,
+                  administration_condition_id,
+                  scale_score,
+                  scale_score_std_err,
+                  performance_level,
+                  completed_at,
+                  deleted,
+                 ? as migrate_id
+               FROM exam we
+                WHERE we.updated > ? AND we.updated <= ? AND we.updated <> we.created AND type_id = 1
+               INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_update'
+               FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+                COPY staging_exam(
+                  id,
+                  student_id,
+                  grade_id,
+                  school_id,
+                  iep,
+                  lep,
+                  section504,
+                  economic_disadvantage,
+                  migrant_status,
+                  type_id,
+                  school_year,
+                  asmt_id,
+                  completeness_id,
+                  administration_condition_id,
+                  scale_score,
+                  scale_score_std_err,
+                  performance_level,
+                  completed_at,
+                  deleted,
+                  migrate_id)
+                FROM '${archive.root}/${migrate.aws.location}/exam_update.part_00000'
+                CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+                FORMAT AS CSV
+                DELIMITER ','
+
+ # ------------ exam_claim_score  -------------------------------------------------------------------
+        exam_claim_score:
+          sql:
+            warehouseRead: >-
+                SELECT
+                  exam_claim_score.id,
+                  exam_id,
+                  subject_claim_score_id,
+                  exam_claim_score.scale_score,
+                  exam_claim_score.scale_score_std_err,
+                  exam_claim_score.category,
+                  ? as migrate_id
+                FROM exam_claim_score
+                  JOIN exam we ON we.id = exam_claim_score.exam_id
+                WHERE we.created > ? AND we.created <= ? AND we.deleted = 0 AND we.type_id = 1
+                INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_claim_score'
+                FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+                COPY staging_exam_claim_score(
+                  id,
+                  exam_id,
+                  subject_claim_score_id,
+                  scale_score,
+                  scale_score_std_err,
+                  category,
+                  migrate_id)
+                FROM '${archive.root}/${migrate.aws.location}/exam_claim_score.part_00000'
+                CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+                FORMAT AS CSV
+                DELIMITER ','
+
+        exam_claim_score_update:
+          sql:
+            warehouseRead: >-
+               SELECT
+                  exam_claim_score.id,
+                  exam_id,
+                  subject_claim_score_id,
+                  exam_claim_score.scale_score,
+                  exam_claim_score.scale_score_std_err,
+                  exam_claim_score.category,
+                  ? as migrate_id
+               FROM exam_claim_score
+                  JOIN exam we ON we.id = exam_claim_score.exam_id
+               WHERE we.updated > ? AND we.updated <= ? AND we.updated <> we.created AND type_id = 1
+               INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_claim_score_update'
+               FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+                COPY staging_exam_claim_score(
+                  id,
+                  exam_id,
+                  subject_claim_score_id,
+                  scale_score,
+                  scale_score_std_err,
+                  category,
+                  migrate_id)
+                FROM '${archive.root}/${migrate.aws.location}/exam_claim_score_update.part_00000'
+                CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+                FORMAT AS CSV
+                DELIMITER ','

@@ -149,7 +149,7 @@ sql:
           sql:
             insert: >-
                INSERT INTO student_ethnicity (student_id, ethnicity_id)
-                 SELECT
+                 SELECT DISTINCT
                    sue.student_id,
                    sue.ethnicity_id
                  FROM staging_student_ethnicity sue
@@ -252,3 +252,192 @@ sql:
                 USING staging_district sd
               WHERE sd.id IN (SELECT district_id from staging_school WHERE deleted = 1)
                   AND NOT EXISTS(SELECT rs.id from school rs WHERE rs.district_id = district.id);
+
+      # ------------ fact_student_ica_exam -----------------------------------------------------------------------
+        fact_student_ica_exam:
+          sql:
+            insert: >-
+              INSERT INTO fact_student_ica_exam (
+                id,
+                school_id,
+                student_id,
+                asmt_id,
+                grade_id,
+                asmt_grade_id,
+                school_year,
+                iep,
+                lep,
+                section504,
+                economic_disadvantage,
+                migrant_status,
+                completeness_id,
+                administration_condition_id,
+                scale_score,
+                scale_score_std_err,
+                performance_level,
+                claim1_scale_score,
+                claim1_scale_score_std_err,
+                claim1_category,
+                claim2_scale_score,
+                claim2_scale_score_std_err,
+                claim2_category,
+                claim3_scale_score,
+                claim3_scale_score_std_err,
+                claim3_category,
+                claim4_scale_score,
+                claim4_scale_score_std_err,
+                claim4_category,
+                migrate_id
+              )
+                SELECT DISTINCT
+                  se.id,
+                  se.school_id,
+                  se.student_id,
+                  se.asmt_id,
+                  se.grade_id,
+                  ra.grade_id,
+                  se.school_year,
+                  se.iep,
+                  se.lep,
+                  se.section504,
+                  se.economic_disadvantage,
+                  se.migrant_status,
+                  se.completeness_id,
+                  se.administration_condition_id,
+                  se.scale_score,
+                  se.scale_score_std_err,
+                  se.performance_level,
+                  claim1.scale_score as claim1_scale_score,
+                  claim1.scale_score_std_err as claim1_scale_score_std_err,
+                  claim1.category as claim1_category,
+                  claim2.scale_score as claim2_scale_score,
+                  claim2.scale_score_std_err as claim2_scale_score_std_err,
+                  claim2.category as claim2_category,
+                  claim3.scale_score as claim3_scale_score,
+                  claim3.scale_score_std_err as claim3_scale_score_std_err,
+                  claim3.category as claim3_category,
+                  claim4.scale_score as claim4_scale_score,
+                  claim4.scale_score_std_err as claim4_scale_score_std_err,
+                  claim4.category as claim4_category,
+                  se.migrate_id
+                FROM staging_exam se
+                  JOIN ica_asmt ra ON ra.id = se.asmt_id
+                  LEFT JOIN fact_student_ica_exam fe on fe.id = se.id
+                  LEFT JOIN (
+                              SELECT DISTINCT s.exam_id
+                                ,s.scale_score
+                                ,s.scale_score_std_err
+                                ,s.category
+                              FROM staging_exam_claim_score s
+                                INNER JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
+                                                                         AND m.num = 1
+                            ) AS claim1 ON claim1.exam_id = se.id
+                  LEFT JOIN (
+                              SELECT DISTINCT s.exam_id
+                                ,s.scale_score
+                                ,s.scale_score_std_err
+                                ,s.category
+                              FROM staging_exam_claim_score s
+                                INNER JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
+                                                                         AND m.num = 2
+                            ) AS claim2 ON claim2.exam_id = se.id
+                  LEFT JOIN (
+                              SELECT DISTINCT s.exam_id
+                                ,s.scale_score
+                                ,s.scale_score_std_err
+                                ,s.category
+                              FROM staging_exam_claim_score s
+                                INNER JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
+                                                                         AND m.num = 3
+                            ) AS claim3 ON claim3.exam_id = se.id
+                  LEFT JOIN (
+                              SELECT DISTINCT s.exam_id
+                                ,s.scale_score
+                                ,s.scale_score_std_err
+                                ,s.category
+                              FROM staging_exam_claim_score s
+                                INNER JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
+                                                                         AND m.num = 4
+                            ) AS claim4 ON claim4.exam_id = se.id
+                WHERE se.type_id = 1 AND se.deleted = 0 AND fe.id IS NULL;
+
+            update: >-
+                UPDATE fact_student_ica_exam
+                SET
+                  school_id                   = se.school_id,
+                  student_id                  = se.student_id,
+                  asmt_id                     = se.asmt_id,
+                  grade_id                    = se.grade_id,
+                  asmt_grade_id               = ra.grade_id,
+                  school_year                 = se.school_year,
+                  iep                         = se.iep,
+                  lep                         = se.lep,
+                  section504                  = se.section504,
+                  economic_disadvantage       = se.economic_disadvantage,
+                  migrant_status              = se.migrant_status,
+                  completeness_id             = se.completeness_id,
+                  administration_condition_id = se.administration_condition_id,
+                  scale_score                 = se.scale_score,
+                  scale_score_std_err         = se.scale_score_std_err,
+                  performance_level           = se.performance_level,
+                  claim1_scale_score          = claim1.scale_score,
+                  claim1_scale_score_std_err  = claim1.scale_score_std_err,
+                  claim1_category             = claim1.category,
+                  claim2_scale_score          = claim2.scale_score,
+                  claim2_category             = claim2.category,
+                  claim3_scale_score          = claim3.scale_score,
+                  claim3_scale_score_std_err  = claim3.scale_score_std_err,
+                  claim3_category             = claim3.category,
+                  claim4_scale_score          = claim4.scale_score,
+                  claim4_scale_score_std_err  = claim4.scale_score_std_err,
+                  claim4_category             = claim4.category,
+                  migrate_id                  = se.migrate_id
+                 FROM staging_exam se
+                  JOIN ica_asmt ra ON ra.id = se.asmt_id
+                  LEFT JOIN fact_student_ica_exam fe ON fe.id = se.id
+                  LEFT JOIN (
+                              SELECT
+                                s.exam_id,
+                                s.scale_score,
+                                s.scale_score_std_err,
+                                s.category
+                              FROM staging_exam_claim_score s
+                                INNER JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
+                                                                         AND m.num = 1
+                            ) AS claim1 ON claim1.exam_id = se.id
+                  LEFT JOIN (
+                              SELECT
+                                s.exam_id,
+                                s.scale_score,
+                                s.scale_score_std_err,
+                                s.category
+                              FROM staging_exam_claim_score s
+                                INNER JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
+                                                                         AND m.num = 2
+                            ) AS claim2 ON claim2.exam_id = se.id
+                  LEFT JOIN (
+                              SELECT
+                                s.exam_id,
+                                s.scale_score,
+                                s.scale_score_std_err,
+                                s.category
+                              FROM staging_exam_claim_score s
+                                INNER JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
+                                                                         AND m.num = 3
+                            ) AS claim3 ON claim3.exam_id = se.id
+                  LEFT JOIN (
+                              SELECT
+                                s.exam_id,
+                                s.scale_score,
+                                s.scale_score_std_err,
+                                s.category
+                              FROM staging_exam_claim_score s
+                                INNER JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
+                                                                         AND m.num = 4
+                            ) AS claim4 ON claim4.exam_id = se.id
+                WHERE se.id = fact_student_ica_exam.id  AND se.type_id = 1 AND se.deleted = 0;
+
+            delete: >-
+              DELETE FROM fact_student_ica_exam
+                USING staging_exam se
+              WHERE se.id = fact_student_ica_exam.id and se.deleted = 1;
