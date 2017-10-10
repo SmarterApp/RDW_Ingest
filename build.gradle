@@ -89,9 +89,6 @@ subprojects {
         testCompile 'junit:junit'
     }
 
-    // generate coverage report automatically (./build/reports/jacoco/test/html/index.html)
-    test.finalizedBy(jacocoTestReport)
-
     // task to generate build-info.properties with build.version, build.timestamp
     // using this approach instead of resource filtering to avoid modifying source
     task createBuildInfoFile(dependsOn: processResources) {
@@ -172,6 +169,7 @@ subprojects {
     //This task for for manually running the integration tests without automatically cleaning and creating
     // the test database schemas
     task manualIT(type: Test) {
+        include '**/*IT.*'
         outputs.upToDateWhen { false }
         doFirst {
             println "Running Manual Integration Tests..."
@@ -180,6 +178,7 @@ subprojects {
 
     //Specific integration test task that will automatically clean and migrate the test database schemas
     task IT(type: Test, dependsOn:[":cleanAllTest", ":migrateAllTest"]) {
+        include '**/*IT.*'
         outputs.upToDateWhen { false }
         doFirst {
             println "Running Integration Tests..."
@@ -188,14 +187,26 @@ subprojects {
 
     //Specific integration test task that will automatically migrate the test database schemas
     task moIT(type: Test, dependsOn:[":migrateAllTest"]) {
+        include '**/*IT.*'
         outputs.upToDateWhen { false }
         doFirst {
             println "Running Integration Tests without cleaning database (flyway migrate only)..."
         }
     }
 
-    tasks.withType(Test) {
-        reports.html.destination = file("${reporting.baseDir}/${name}")
+    task coverage(type: Task, dependsOn: [test, IT]) {
+        doFirst {
+            jacocoTestReport.executionData(test, IT)
+            jacocoTestReport.reports.html.destination = file("${reporting.baseDir}/${name}")
+
+            //Only include execution data that exists (handle projects without integration tests)
+            jacocoTestReport {
+                executionData = files(executionData.findAll {
+                    it.exists()
+                })
+            }
+        }
+        finalizedBy(jacocoTestReport)
     }
 }
 
