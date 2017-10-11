@@ -213,12 +213,12 @@ sql:
                 ? as migrate_id
               FROM student_ethnicity
                 JOIN student ws ON ws.id = student_ethnicity.student_id
-              WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
+              WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created AND ws.deleted = 0
                 INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/student_ethnicity_update'
               FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
 
             stagingInsert: >-
-              COPY staging_student_ethnicity(
+              COPY staging_student_ethnicity (
                 ethnicity_id,
                 student_id,
                 migrate_id)
@@ -269,6 +269,7 @@ sql:
              SELECT
                id,
                grade_id,
+               type_id,
                school_year,
                subject_id,
                name,
@@ -280,9 +281,10 @@ sql:
              FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
 
             stagingInsert: >-
-              COPY staging_asmtt(
+              COPY staging_asmt(
                 id,
                 grade_id,
+                type_id,
                 school_year,
                 subject_id,
                 name,

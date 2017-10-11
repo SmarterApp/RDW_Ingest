@@ -1,0 +1,8 @@
+archive:
+  root: s3://rdw-ci-archive
+
+spring:
+  migrate_datasource:
+    url-schema: migrate_olap_test
+  warehouse_datasource:
+    url-schema: warehouse_test

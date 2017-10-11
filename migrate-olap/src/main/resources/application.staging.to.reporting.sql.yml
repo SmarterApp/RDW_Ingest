@@ -110,7 +110,7 @@ sql:
                     sg.code,
                     sg.name
                   FROM staging_grade sg
-                    LEFT JOIN gender rg ON rg.id = sg.id
+                    LEFT JOIN grade rg ON rg.id = sg.id
                   WHERE rg.id IS NULL;
             delete: >-
                DELETE FROM grade
