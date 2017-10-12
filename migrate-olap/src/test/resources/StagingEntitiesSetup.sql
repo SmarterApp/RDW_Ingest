@@ -10,7 +10,7 @@ INSERT INTO staging_school (id, district_id, name, deleted, migrate_id) VALUES
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
 
 INSERT INTO staging_asmt (id,  grade_id, type_id, subject_id, school_year, name, deleted, migrate_id) VALUES
-   (-99, -99, 2, 1, 1999, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', 0, -99),
+   (-99, -99, 1, 1, 1999, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', 0, -99),
    (-98, -98, 1, 2, 1999, 'SBAC-ICA-FIXED-G5E-COMBINED-2017', 0, -99);
 
 ---- ------------------------------------------ Student  ------------------------------------------------------------------------------------------------
