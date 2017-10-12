@@ -10,7 +10,7 @@ INSERT INTO school (id, district_id, name, migrate_id) VALUES
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
 INSERT INTO ica_asmt (id, grade_id, subject_id, school_year, name, migrate_id) VALUES
    (-11, -98, 1, 1999, 'SBAC-IAB-FIXED-G4M-OA-MATH-4',  -1),
-   (-99, -99, 1, 1999, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', -1);
+   (-99, -99, 1, 1999, 'test', -1);
 
 -- ------------------------------------------ Student and Groups  ------------------------------------------------------------------------------------------------
 INSERT INTO student (id, gender_id, migrate_id) VALUES
