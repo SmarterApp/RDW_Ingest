@@ -420,7 +420,6 @@ sql:
                   scale_score,
                   scale_score_std_err,
                   performance_level,
-                  completed_at,
                   deleted,
                  ? as migrate_id
                 FROM exam we
@@ -447,7 +446,6 @@ sql:
                   scale_score,
                   scale_score_std_err,
                   performance_level,
-                  completed_at,
                   deleted,
                   migrate_id)
                 FROM '${archive.root}/${migrate.aws.location}/exam.part_00000'
@@ -477,7 +475,6 @@ sql:
                   scale_score,
                   scale_score_std_err,
                   performance_level,
-                  completed_at,
                   deleted,
                  ? as migrate_id
                FROM exam we
@@ -504,7 +501,6 @@ sql:
                   scale_score,
                   scale_score_std_err,
                   performance_level,
-                  completed_at,
                   deleted,
                   migrate_id)
                 FROM '${archive.root}/${migrate.aws.location}/exam_update.part_00000'
@@ -559,7 +555,7 @@ sql:
                   ? as migrate_id
                FROM exam_claim_score
                   JOIN exam we ON we.id = exam_claim_score.exam_id
-               WHERE we.updated > ? AND we.updated <= ? AND we.updated <> we.created AND type_id = 1
+               WHERE we.updated > ? AND we.updated <= ? AND we.updated <> we.created AND we.deleted = 0  AND type_id = 1
                INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_claim_score_update'
                FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
 
