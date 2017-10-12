@@ -249,9 +249,8 @@ sql:
 
             delete: >-
               DELETE FROM district
-                USING staging_district sd
-              WHERE sd.id IN (SELECT district_id from staging_school WHERE deleted = 1)
-                  AND NOT EXISTS(SELECT rs.id from school rs WHERE rs.district_id = district.id);
+               WHERE district.id IN (SELECT district_id from staging_school WHERE deleted = 1)
+                   AND NOT EXISTS(SELECT rs.id from school rs WHERE rs.district_id = district.id);
 
       # ------------ fact_student_ica_exam -----------------------------------------------------------------------
         fact_student_ica_exam:
