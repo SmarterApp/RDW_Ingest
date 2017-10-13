@@ -26,3 +26,11 @@ dependencies {
 
     testCompile project(path: ':rdw-ingest-migrate-common', configuration: 'tests')
 }
+
+task RST(type: Test) {
+    include '**/*RST.*'
+    outputs.upToDateWhen { false }
+    doFirst {
+        println "Running Redshift System Tests..."
+    }
+}

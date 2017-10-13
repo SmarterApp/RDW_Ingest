@@ -163,10 +163,10 @@ subprojects {
         }
     }
 
-    //Skip running integration tests automatically, because integration tests can be long
-    test.exclude '**/*IT.*'
+    // Skip running integration and system tests automatically, because they take a long time
+    test.exclude '**/*IT.*', '**/*RST.*'
 
-    //This task for for manually running the integration tests without automatically cleaning and creating
+    // This task for for manually running the integration tests without automatically cleaning and creating
     // the test database schemas
     task manualIT(type: Test) {
         include '**/*IT.*'
@@ -176,7 +176,7 @@ subprojects {
         }
     }
 
-    //Specific integration test task that will automatically clean and migrate the test database schemas
+    // Specific integration test task that will automatically clean and migrate the test database schemas
     task IT(type: Test, dependsOn:[":cleanAllTest", ":migrateAllTest"]) {
         include '**/*IT.*'
         outputs.upToDateWhen { false }
@@ -185,7 +185,7 @@ subprojects {
         }
     }
 
-    //Specific integration test task that will automatically migrate the test database schemas
+    // Specific integration test task that will automatically migrate the test database schemas
     task moIT(type: Test, dependsOn:[":migrateAllTest"]) {
         include '**/*IT.*'
         outputs.upToDateWhen { false }
@@ -199,7 +199,7 @@ subprojects {
             jacocoTestReport.executionData(test, IT)
             jacocoTestReport.reports.html.destination = file("${reporting.baseDir}/${name}")
 
-            //Only include execution data that exists (handle projects without integration tests)
+            // Only include execution data that exists (handle projects without integration tests)
             jacocoTestReport {
                 executionData = files(executionData.findAll {
                     it.exists()
