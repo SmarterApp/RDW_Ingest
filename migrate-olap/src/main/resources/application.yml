@@ -42,7 +42,7 @@ migrate:
       role: ${rdw.migrate.aws.redshift.role}
 
   batch:
-    size: 100000
+    size: 500000
     delay: 60000
 
 spring:
