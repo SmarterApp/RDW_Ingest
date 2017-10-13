@@ -38,6 +38,8 @@ INSERT INTO  staging_exam ( id, type_id, school_year, asmt_id,  completeness_id,
   (-86, 1, 1999, -11, -99, -99, 1, 2145, 0.17,  0, -88, -98, -11, -1, 1, 1, 0, 0, 1);
 
 INSERT INTO staging_exam_claim_score (id, exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category, migrate_id) VALUES
-   (-1, -88, 1, 2014, 0.19, 1, -99),
+   (-1, -88, 1, 2000, 0.19, 1, -99),
+   (-10, -88, 2, 3000, 0.19, 1, -99),
+   (-11, -88, 3, 4000, 0.19, 1, -99),
    (-2, -87, 1, 2014, 0.19, 1, -99),
    (-3, -86, 1, 2014, 0.19, 1, -99);
