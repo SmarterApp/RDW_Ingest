@@ -1,18 +1,13 @@
 # this app is expected to run inside the security perimeter so disable security for actuator end-points and,
 # since those are the only end-points, switch to a less standard port using the main server.port config
-# spring auto-configured aws defense
-# use LocalArchiveService by default
-archive:
-  root: ${rdw.resource.root:}
-  cloud:
-    aws:
-      # rdw-ingest
-      credentials:
-        accessKey: ${rdw.aws.access.key:}
-        secretKey: ${rdw.aws.secret.key:}
-      region:
-        auto: false
-        static: us-west-2
+management:
+  security:
+    enabled: false
+server:
+  port: 8008
+  tomcat:
+    max-connections: 2
+    max-threads: 2
 
 cloud:
   aws:
@@ -26,14 +21,19 @@ cloud:
     credentials:
       instance-profile: false
 
-management:
-  security:
-    enabled: false
-server:
-  port: 8008
-  tomcat:
-    max-connections: 2
-    max-threads: 2
+# TODO - why do we have placeholders in the main application.yml?
+# TODO - why not just make them set the values directly in configuration?
+archive:
+  root: ${rdw.resource.root:}
+  cloud:
+    aws:
+      # rdw-ingest
+      credentials:
+        accessKey: ${rdw.aws.access.key:}
+        secretKey: ${rdw.aws.secret.key:}
+      region:
+        auto: false
+        static: us-west-2
 
 migrate:
   aws:
@@ -71,9 +71,14 @@ spring:
     maxActive: 10
     initialSize: 4
 
-  reporting_datasource:
+  # http://docs.aws.amazon.com/redshift/latest/mgmt/configure-jdbc-options.html
+  # https://jdbc.postgresql.org/documentation/head/connect.html
+  # Note: the currentSchema parameter doesn't appear to work
+  olap_datasource:
     url: "\
-      jdbc:redshift://${spring.spring.reporting_datasource.url-server:localhost:3306?${spring.spring.reporting_datasource.url-schema:reporting_olap}
+      jdbc:redshift://${spring.olap_datasource.url-server:localhost:5432}/dev\
+      ?ApplicationName=rdw-migrate-olap\
+      &currentSchema=${spring.olap_datasource.url-schema:reporting_olap}
       "
     username: root
     password:
