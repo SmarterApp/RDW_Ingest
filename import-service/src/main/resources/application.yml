@@ -52,6 +52,9 @@ spring:
         EXAM:
           producer:
             requiredGroups: default
+        EXAM_DELETE:
+          producer:
+            requiredGroups: default
         ORGANIZATION:
           producer:
             requiredGroups: default
