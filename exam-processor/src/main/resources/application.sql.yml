@@ -70,8 +70,8 @@ sql:
   # JdbcExamRepository
   exam:
     create: >-
-      INSERT INTO exam (type_id, school_year, import_id, update_import_id, asmt_id, asmt_version, opportunity, oppId, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, performance_level, completed_at, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type) VALUES
-                       (:type_id, :school_year, :import_id, :update_import_id, :asmt_id, :asmt_version, :opportunity, :oppId, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :performance_level, :completed_at, :grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status, :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type)
+      INSERT INTO exam (type_id, school_year, import_id, update_import_id, asmt_id, asmt_version, opportunity, oppId, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, performance_level, completed_at, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type, status_date, deleted) VALUES
+                       (:type_id, :school_year, :import_id, :update_import_id, :asmt_id, :asmt_version, :opportunity, :oppId, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :performance_level, :completed_at, :grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status, :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type, :status_date, :deleted)
 
     update: >-
       UPDATE exam
@@ -101,7 +101,9 @@ sql:
         eng_prof_lvl = :eng_prof_lvl,
         t3_program_type = :t3_program_type,
         language_code = :language_code,
-        prim_disability_type = :prim_disability_type
+        prim_disability_type = :prim_disability_type,
+        status_date = :status_date,
+        deleted = :deleted
       WHERE id = :id
 
     findOne: >-
@@ -131,11 +133,12 @@ sql:
         eng_prof_lvl,
         t3_program_type,
         language_code,
-        prim_disability_type
+        prim_disability_type,
+        status_date,
+        deleted
       FROM exam
       WHERE asmt_id = :asmt_id
         AND oppId = :opportunity_id
-        AND student_id = :student_id
 
     examClaimScore:
       create: >-
