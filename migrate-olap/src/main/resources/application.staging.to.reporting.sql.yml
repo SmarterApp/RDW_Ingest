@@ -120,10 +120,11 @@ sql:
         student:
           sql:
             insert: >-
-              INSERT INTO student (id,  gender_id, migrate_id)
+              INSERT INTO student (id,  gender_id, update_import_id, migrate_id)
                 SELECT DISTINCT
                   ss.id,
                   rg.id,
+                  ss.update_import_id,
                   ss.migrate_id
                 FROM staging_student ss
                   LEFT JOIN student rs ON rs.id = ss.id
@@ -134,6 +135,7 @@ sql:
               UPDATE student
               SET
                 gender_id  = ss.gender_id,
+                update_import_id = ss.update_import_id,
                 migrate_id = ss.migrate_id
               FROM staging_student ss
                 JOIN gender rg ON ss.gender_id = rg.id
@@ -173,13 +175,14 @@ sql:
         asmt:
           sql:
             insert: >-
-              INSERT INTO ica_asmt (id, grade_id, school_year, subject_id, name, migrate_id)
+              INSERT INTO ica_asmt (id, grade_id, school_year, subject_id, name, update_import_id, migrate_id)
                 SELECT DISTINCT
                   sa.id,
                   sa.grade_id,
                   sa.school_year,
                   sa.subject_id,
                   sa.name,
+                  sa.update_import_id,
                   sa.migrate_id
                 FROM staging_asmt sa
                   LEFT JOIN ica_asmt ra ON ra.id = sa.id
@@ -192,6 +195,7 @@ sql:
                 school_year = sa.school_year,
                 subject_id = sa.subject_id,
                 name = sa.name,
+                update_import_id = sa.update_import_id,
                 migrate_id = sa.migrate_id
               FROM staging_asmt sa WHERE sa.id = ica_asmt.id AND sa.type_id = 1;
 
@@ -204,11 +208,12 @@ sql:
         school:
           sql:
             insert: >-
-              INSERT INTO school (id, district_id, name, migrate_id)
+              INSERT INTO school (id, district_id, name, update_import_id, migrate_id)
                 SELECT DISTINCT
                   ss.id,
                   ss.district_id,
                   ss.name,
+                  ss.update_import_id,
                   ss.migrate_id
                 FROM staging_school ss
                   LEFT JOIN school rs ON rs.id = ss.id
@@ -219,6 +224,7 @@ sql:
               SET
                 district_id  = ss.district_id,
                 name  = ss.name,
+                update_import_id = ss.update_import_id,
                 migrate_id = ss.migrate_id
               FROM staging_school ss
               WHERE ss.id = school.id;
@@ -286,6 +292,7 @@ sql:
                 claim4_scale_score,
                 claim4_scale_score_std_err,
                 claim4_category,
+                update_import_id,
                 migrate_id
               )
                 SELECT DISTINCT
@@ -318,6 +325,7 @@ sql:
                   claim4.scale_score as claim4_scale_score,
                   claim4.scale_score_std_err as claim4_scale_score_std_err,
                   claim4.category as claim4_category,
+                  se.update_import_id,
                   se.migrate_id
                 FROM staging_exam se
                   JOIN ica_asmt ra ON ra.id = se.asmt_id
@@ -390,6 +398,7 @@ sql:
                   claim4_scale_score          = claim4.scale_score,
                   claim4_scale_score_std_err  = claim4.scale_score_std_err,
                   claim4_category             = claim4.category,
+                  update_import_id            = se.update_import_id,
                   migrate_id                  = se.migrate_id
                  FROM staging_exam se
                   JOIN ica_asmt ra ON ra.id = se.asmt_id
