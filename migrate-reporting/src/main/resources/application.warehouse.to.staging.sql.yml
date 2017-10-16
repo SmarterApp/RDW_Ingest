@@ -309,24 +309,24 @@ sql:
         school:
           sql:
             warehouseRead: >-
-              SELECT ws.id, ws.natural_id, ws.name, ws.external_id, ws.import_id, ws.deleted, ws.district_id, ws.district_group_id, ws.school_group_id, ws.updated
+              SELECT ws.id, ws.natural_id, ws.name, ws.external_id, ws.update_import_id, ws.deleted, ws.district_id, ws.district_group_id, ws.school_group_id, ws.updated
                 FROM school ws
                 WHERE ws.created > :first_at AND ws.created <= :last_at
 
             stagingInsert: >-
-              INSERT INTO staging_school (id, natural_id, name, external_id, import_id, deleted, district_id, district_group_id, school_group_id, updated, migrate_id) VALUES
-                (:id, :natural_id, :name, :external_id, :import_id, :deleted, :district_id, :district_group_id, :school_group_id, :updated, :migrate_id)
+              INSERT INTO staging_school (id, natural_id, name, external_id, update_import_id, deleted, district_id, district_group_id, school_group_id, updated, migrate_id) VALUES
+                (:id, :natural_id, :name, :external_id, :update_import_id, :deleted, :district_id, :district_group_id, :school_group_id, :updated, :migrate_id)
 
         school_by_update_import_id:
           sql:
             warehouseRead: >-
-              SELECT ws.id, ws.natural_id, ws.name, ws.external_id, ws.import_id, ws.deleted, ws.district_id, ws.district_group_id, ws.school_group_id, ws.updated
+              SELECT ws.id, ws.natural_id, ws.name, ws.external_id, ws.update_import_id, ws.deleted, ws.district_id, ws.district_group_id, ws.school_group_id, ws.updated
                 FROM school ws
                 WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging_school (id, natural_id, name, external_id, import_id, deleted, district_id, district_group_id, school_group_id, updated, migrate_id) VALUES
-                (:id, :natural_id, :name, :external_id, :import_id, :deleted, :district_id, :district_group_id, :school_group_id, :updated, :migrate_id)
+              INSERT IGNORE INTO staging_school (id, natural_id, name, external_id, update_import_id, deleted, district_id, district_group_id, school_group_id, updated, migrate_id) VALUES
+                (:id, :natural_id, :name, :external_id, :update_import_id, :deleted, :district_id, :district_group_id, :school_group_id, :updated, :migrate_id)
 
 
         ##### GROUPS ImportContent Type ####
@@ -346,7 +346,7 @@ sql:
                 ws.lep_entry_at,
                 ws.lep_exit_at,
                 ws.birthday,
-                ws.import_id,
+                ws.update_import_id,
                 ws.deleted,
                 ws.updated
               FROM student ws
@@ -354,9 +354,9 @@ sql:
 
             stagingInsert: >-
               INSERT INTO staging_student (id, ssid, last_or_surname, first_name, middle_name, gender_id, first_entry_into_us_school_at,
-                               lep_entry_at, lep_exit_at, birthday, import_id, deleted, updated, migrate_id) VALUES
+                               lep_entry_at, lep_exit_at, birthday, update_import_id, deleted, updated, migrate_id) VALUES
                 (:id, :ssid, :last_or_surname, :first_name, :middle_name, :gender_id, :first_entry_into_us_school_at,
-                              :lep_entry_at, :lep_exit_at, :birthday, :import_id, :deleted, :updated, :migrate_id)
+                              :lep_entry_at, :lep_exit_at, :birthday, :update_import_id, :deleted, :updated, :migrate_id)
 
         student_by_update_import_id:
           sql:
@@ -372,7 +372,7 @@ sql:
                 ws.lep_entry_at,
                 ws.lep_exit_at,
                 ws.birthday,
-                ws.import_id,
+                ws.update_import_id,
                 ws.deleted,
                 ws.updated
               FROM student ws
@@ -380,9 +380,9 @@ sql:
 
             stagingInsert: >-
               INSERT IGNORE INTO staging_student (id, ssid, last_or_surname, first_name, middle_name, gender_id, first_entry_into_us_school_at,
-                               lep_entry_at, lep_exit_at, birthday, import_id, deleted, updated, migrate_id) VALUES
+                               lep_entry_at, lep_exit_at, birthday, update_import_id, deleted, updated, migrate_id) VALUES
                 (:id, :ssid, :last_or_surname, :first_name, :middle_name, :gender_id, :first_entry_into_us_school_at,
-                              :lep_entry_at, :lep_exit_at, :birthday, :import_id, :deleted, :updated, :migrate_id)
+                              :lep_entry_at, :lep_exit_at, :birthday, :update_import_id, :deleted, :updated, :migrate_id)
 
         # ------------ student_ethnicity  -------------------------------------------------------------------
         student_ethnicity:
@@ -428,15 +428,15 @@ sql:
                 wsg.active,
                 wsg.creator,
                 wsg.created,
-                wsg.import_id,
+                wsg.update_import_id,
                 wsg.deleted,
                 wsg.updated
               FROM student_group wsg
               WHERE wsg.created > :first_at AND wsg.created <= :last_at
 
             stagingInsert: >-
-              INSERT INTO staging_student_group (id, name, school_id, school_year, subject_id, active, creator, created, import_id, deleted, updated, migrate_id) VALUES
-                (:id, :name, :school_id, :school_year, :subject_id, :active, :creator, :created, :import_id, :deleted, :updated, :migrate_id)
+              INSERT INTO staging_student_group (id, name, school_id, school_year, subject_id, active, creator, created, update_import_id, deleted, updated, migrate_id) VALUES
+                (:id, :name, :school_id, :school_year, :subject_id, :active, :creator, :created, :update_import_id, :deleted, :updated, :migrate_id)
 
         student_group_by_update_import_id:
           sql:
@@ -450,15 +450,15 @@ sql:
                 wsg.active,
                 wsg.creator,
                 wsg.created,
-                wsg.import_id,
+                wsg.update_import_id,
                 wsg.deleted,
                 wsg.updated
               FROM student_group wsg
               WHERE wsg.updated > :first_at AND wsg.updated <= :last_at and wsg.updated <> wsg.created
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging_student_group (id, name, school_id, school_year, subject_id, active, creator, created, import_id, deleted, updated, migrate_id) VALUES
-                (:id, :name, :school_id, :school_year, :subject_id, :active, :creator, :created, :import_id, :deleted, :updated, :migrate_id)
+              INSERT IGNORE INTO staging_student_group (id, name, school_id, school_year, subject_id, active, creator, created, update_import_id, deleted, updated, migrate_id) VALUES
+                (:id, :name, :school_id, :school_year, :subject_id, :active, :creator, :created, :update_import_id, :deleted, :updated, :migrate_id)
 
         # ------------ student_group_membership  -------------------------------------------------------------------
         student_group_membership:
@@ -525,15 +525,15 @@ sql:
                 wa.name,
                 wa.label,
                 wa.version,
-                wa.import_id,
+                wa.update_import_id,
                 wa.deleted,
                 wa.updated
               FROM asmt wa
               WHERE  wa.created > :first_at AND wa.created <= :last_at
 
             stagingInsert: >-
-              INSERT INTO staging_asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name, label, version, import_id, deleted, updated, migrate_id) VALUES
-                (:id, :natural_id, :grade_id, :type_id, :subject_id, :school_year, :name, :label, :version, :import_id, :deleted, :updated, :migrate_id)
+              INSERT INTO staging_asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name, label, version, update_import_id, deleted, updated, migrate_id) VALUES
+                (:id, :natural_id, :grade_id, :type_id, :subject_id, :school_year, :name, :label, :version, :update_import_id, :deleted, :updated, :migrate_id)
 
         asmt_by_update_import_id:
           sql:
@@ -548,15 +548,15 @@ sql:
                 wa.name,
                 wa.label,
                 wa.version,
-                wa.import_id,
+                wa.update_import_id,
                 wa.deleted,
                 wa.updated
               FROM asmt wa
               WHERE  wa.updated > :first_at AND wa.updated <= :last_at AND wa.updated <> wa.created
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging_asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name, label, version, import_id, deleted, updated, migrate_id) VALUES
-                (:id, :natural_id, :grade_id, :type_id, :subject_id, :school_year, :name, :label, :version, :import_id, :deleted, :updated, :migrate_id)
+              INSERT IGNORE INTO staging_asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name, label, version, update_import_id, deleted, updated, migrate_id) VALUES
+                (:id, :natural_id, :grade_id, :type_id, :subject_id, :school_year, :name, :label, :version, :update_import_id, :deleted, :updated, :migrate_id)
 
         # ------------ asmt_score  -------------------------------------------------------------------
         asmt_score:
@@ -746,7 +746,7 @@ sql:
                 we.scale_score_std_err,
                 we.completed_at,
                 we.deleted,
-                we.import_id,
+                we.update_import_id,
                 we.updated,
                 we.grade_id,
                 we.student_id,
@@ -765,11 +765,11 @@ sql:
 
             stagingInsert: >-
               INSERT INTO staging_exam (id, type_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id,
-                                                 session_id, performance_level, scale_score, scale_score_std_err, completed_at, deleted, import_id, updated,
+                                                 session_id, performance_level, scale_score, scale_score_std_err, completed_at, deleted, update_import_id, updated,
                                                  grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status,
                                                  eng_prof_lvl, t3_program_type, language_code, prim_disability_type, migrate_id) VALUES
                                        (:id, :type_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id,
-                                                :session_id, :performance_level, :scale_score, :scale_score_std_err, :completed_at, :deleted, :import_id, :updated,
+                                                :session_id, :performance_level, :scale_score, :scale_score_std_err, :completed_at, :deleted, :update_import_id, :updated,
                                                 :grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status,
                                                 :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type, :migrate_id)
         exam_by_update_import_id:
@@ -790,7 +790,7 @@ sql:
                 we.scale_score_std_err,
                 we.completed_at,
                 we.deleted,
-                we.import_id,
+                we.update_import_id,
                 we.updated,
                 we.grade_id,
                 we.student_id,
@@ -809,11 +809,11 @@ sql:
 
             stagingInsert: >-
               INSERT IGNORE INTO staging_exam (id, type_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id,
-                                                 session_id, performance_level, scale_score, scale_score_std_err, completed_at, deleted, import_id, updated,
+                                                 session_id, performance_level, scale_score, scale_score_std_err, completed_at, deleted, update_import_id, updated,
                                                  grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status,
                                                  eng_prof_lvl, t3_program_type, language_code, prim_disability_type, migrate_id) VALUES
                                               (:id, :type_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id,
-                                                 :session_id, :performance_level, :scale_score, :scale_score_std_err, :completed_at, :deleted, :import_id, :updated,
+                                                 :session_id, :performance_level, :scale_score, :scale_score_std_err, :completed_at, :deleted, :update_import_id, :updated,
                                                  :grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status,
                                                  :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type, :migrate_id)
 

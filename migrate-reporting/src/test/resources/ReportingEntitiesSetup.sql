@@ -9,12 +9,12 @@ INSERT INTO district (id, name, natural_id) VALUES
 INSERT INTO school_group (id, name, natural_id) VALUES
   (-98, 'Before Test -98', 'natural_id-98');
 
-INSERT INTO school (id, district_id, district_group_id, school_group_id, name, natural_id, import_id, updated, migrate_id) VALUES
+INSERT INTO school (id, district_id, district_group_id, school_group_id, name, natural_id, update_import_id, updated, migrate_id) VALUES
   (-1, -1, NULL, NULL, 'Before Test -1', 'natural_id-1', -5000, '2017-05-18 20:06:34.966000', -1),
   (-99, -99, NULL, NULL, 'Before Test -99', 'natural_id-99', -1, '2017-07-18 20:14:34.000000', -1);
 
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
-INSERT INTO asmt (id, natural_id, grade_id, grade_code, type_id, subject_id, school_year, name, label, version, import_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score, updated, migrate_id) VALUES
+INSERT INTO asmt (id, natural_id, grade_id, grade_code, type_id, subject_id, school_year, name, label, version, update_import_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score, updated, migrate_id) VALUES
    (-11, '(SBAC)SBAC-IAB-ASMT TEST-11', -98, '98', 2, 1, 1999, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', 'test', '9835', -1, 2442, 2502, 2582, 2201, 2701, '2017-07-18 20:14:34.000000', -1),
    (-99, '(SBAC)SBAC-IAB-ASMT TEST-99', -99, '99', 2, 1, 1999, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', 'test', '9835', -1, 2442, 2502, 2582, 2201, 2701, '2017-07-18 20:14:34.000000', -1);
 
@@ -42,14 +42,14 @@ INSERT INTO item_common_core_standard(item_id, common_core_standard_id) values
 
 -- ------------------------------------------ Student and Groups  ------------------------------------------------------------------------------------------------
 INSERT INTO student (id, ssid, last_or_surname, first_name, middle_name, gender_id, gender_code, first_entry_into_us_school_at, lep_entry_at,
-        lep_exit_at, birthday, import_id, updated, migrate_id) VALUES
+        lep_exit_at, birthday, update_import_id, updated, migrate_id) VALUES
    (-11, '11', 'TestName', 'FirstName2', 'MiddleName2', -98, 'before_test', '2012-08-14', '2012-11-13', null, '2000-01-01', -5000, '2017-05-18 20:06:34.966000', -1),
    (-89, '89', 'TestName', 'FirstName2', 'MiddleName2', -98, 'before_test', '2012-08-14', '2012-11-13', null, '2000-01-01', -5000, '2017-05-18 20:06:34.966000', -1);
 
 INSERT INTO student_ethnicity(student_id, ethnicity_id, ethnicity_code) values
     (-89,  -99, 'before test');
 
-INSERT INTO student_group (id, creator, school_id, school_year, name, subject_id, import_id, created, updated, migrate_id) VALUES
+INSERT INTO student_group (id, creator, school_id, school_year, name, subject_id, update_import_id, created, updated, migrate_id) VALUES
    (-91, 'TestName', -1, 1999, 'Test Student Group 9', null, -5000, '2017-05-18 19:05:33.967000', '2017-05-18 20:06:34.966000', -1);
 
 INSERT INTO student_group_membership (student_group_id, student_id) VALUES
@@ -62,7 +62,7 @@ INSERT INTO user_student_group (student_group_id, user_login) VALUES
 
 INSERT INTO  exam (id, type_id, school_year, asmt_id, asmt_version, opportunity, completeness_id,
                                 administration_condition_id, administration_condition_code, session_id, performance_level,
-                                scale_score, scale_score_std_err, completed_at, import_id, grade_id, student_id, school_id,
+                                scale_score, scale_score_std_err, completed_at, update_import_id, grade_id, student_id, school_id,
                                 iep, lep, section504, economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type,
                                 language_code, prim_disability_type, completeness_code, grade_code,
                                 claim1_scale_score, claim1_scale_score_std_err,claim1_category,

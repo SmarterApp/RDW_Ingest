@@ -124,7 +124,7 @@ sql:
                middle_name,
                gender_id,
                deleted,
-               import_id,
+               update_import_id,
                ? as migrate_id
              FROM student ws
               WHERE ws.created > ? AND ws.created <= ?
@@ -140,7 +140,7 @@ sql:
                 middle_name,
                 gender_id,
                 deleted,
-                import_id,
+                update_import_id,
                 migrate_id)
               FROM '${archive.root}/${migrate.aws.location}/student.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
@@ -159,7 +159,7 @@ sql:
                middle_name,
                gender_id,
                deleted,
-               import_id,
+               update_import_id,
                ? as migrate_id
              FROM student ws
               WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
@@ -175,7 +175,7 @@ sql:
                 middle_name,
                 gender_id,
                 deleted,
-                import_id,
+                update_import_id,
                 migrate_id)
               FROM '${archive.root}/${migrate.aws.location}/student_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
@@ -244,7 +244,7 @@ sql:
                subject_id,
                name,
                deleted,
-               import_id,
+               update_import_id,
                ? as migrate_id
              FROM asmt wa
               WHERE wa.type_id = 1
@@ -261,7 +261,7 @@ sql:
                 subject_id,
                 name,
                 deleted,
-                import_id,
+                update_import_id,
                 migrate_id)
               FROM '${archive.root}/${migrate.aws.location}/asmt.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
@@ -280,7 +280,7 @@ sql:
                subject_id,
                name,
                deleted,
-               import_id,
+               update_import_id,
                ? as migrate_id
              FROM asmt wa
               WHERE wa.type_id = 1 AND wa.updated > ? AND wa.updated <= ? AND wa.updated <> wa.created
@@ -296,7 +296,7 @@ sql:
                 subject_id,
                 name,
                 deleted,
-                import_id,
+                update_import_id,
                 migrate_id)
               FROM '${archive.root}/${migrate.aws.location}/asmt_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
@@ -313,7 +313,7 @@ sql:
                district_id,
                name,
                deleted,
-               import_id,
+               update_import_id,
                ? as migrate_id
              FROM school ws
               WHERE ws.created > ? AND ws.created <= ?
@@ -326,7 +326,7 @@ sql:
                 district_id,
                 name,
                 deleted,
-                import_id,
+                update_import_id,
                 migrate_id)
               FROM '${archive.root}/${migrate.aws.location}/school.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
@@ -342,7 +342,7 @@ sql:
                district_id,
                name,
                deleted,
-               import_id,
+               update_import_id,
                ? as migrate_id
              FROM school ws
               WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
@@ -355,7 +355,7 @@ sql:
                 district_id,
                 name,
                 deleted,
-                import_id,
+                update_import_id,
                 migrate_id)
               FROM '${archive.root}/${migrate.aws.location}/school_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
@@ -433,7 +433,7 @@ sql:
                   scale_score_std_err,
                   performance_level,
                   deleted,
-                  import_id,
+                  update_import_id,
                  ? as migrate_id
                 FROM exam we
                   WHERE we.created > ? AND we.created <= ? AND type_id = 1
@@ -460,7 +460,7 @@ sql:
                   scale_score_std_err,
                   performance_level,
                   deleted,
-                  import_id,
+                  update_import_id,
                   migrate_id)
                 FROM '${archive.root}/${migrate.aws.location}/exam.part_00000'
                 CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
@@ -490,7 +490,7 @@ sql:
                   scale_score_std_err,
                   performance_level,
                   deleted,
-                  import_id,
+                  update_import_id,
                  ? as migrate_id
                FROM exam we
                 WHERE we.updated > ? AND we.updated <= ? AND we.updated <> we.created AND type_id = 1
@@ -517,7 +517,7 @@ sql:
                   scale_score_std_err,
                   performance_level,
                   deleted,
-                  import_id,
+                  update_import_id,
                   migrate_id)
                 FROM '${archive.root}/${migrate.aws.location}/exam_update.part_00000'
                 CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
