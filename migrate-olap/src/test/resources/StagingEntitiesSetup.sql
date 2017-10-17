@@ -32,10 +32,10 @@ INSERT INTO staging_student_ethnicity(student_id, ethnicity_id, migrate_id) valu
 INSERT INTO  staging_exam ( id, type_id, school_year, asmt_id,  completeness_id,
                             administration_condition_id, performance_level, scale_score, scale_score_std_err, deleted, migrate_id,
                             grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage,
-                            migrant_status, update_import_id) VALUES
-  (-88, 1, 1999, -99, -99, -99, 1, 2145, 0.17,  0, -88, -98, -89, -1, 1, 1, 0, 0, 1, -1),
-  (-87, 1, 1999, -11, -99, -99, 1, 2145, 0.17,  0, -88, -98, -11, -1, 1, 1, 0, 0, 1, -1),
-  (-86, 1, 1999, -11, -99, -99, 1, 2145, 0.17,  0, -88, -98, -11, -1, 1, 1, 0, 0, 1, -1);
+                            completed_at, migrant_status, update_import_id) VALUES
+  (-88, 1, 1999, -99, -99, -99, 1, 2145, 0.17,  0, -88, -98, -89, -1, 1, 1, 0, 0, '2016-08-14 19:05:33.967000', 1, -1),
+  (-87, 1, 1999, -11, -99, -99, 1, 2145, 0.17,  0, -88, -98, -11, -1, 1, 1, 0, 0, '2016-08-14 19:06:07.966000', 1, -1),
+  (-86, 1, 1999, -11, -99, -99, 1, 2145, 0.17,  0, -88, -98, -11, -1, 1, 1, 0, 0, '2016-08-14 19:06:07.966000', 1, -1);
 
 INSERT INTO staging_exam_claim_score (id, exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category, migrate_id) VALUES
    (-1, -88, 1, 2000, 0.19, 1, -99),

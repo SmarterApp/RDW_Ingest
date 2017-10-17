@@ -25,7 +25,8 @@ sql:
                   code
                 FROM administration_condition
                 INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/administration_condition'
-                FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+                FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                LINES TERMINATED BY '\n'
 
             stagingInsert: >-
                 COPY staging_administration_condition (id, code)
@@ -44,7 +45,8 @@ sql:
                   code
                 FROM completeness
                 INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/completeness'
-                FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+                FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                LINES TERMINATED BY '\n'
 
             stagingInsert: >-
                 COPY staging_completeness (id, code)
@@ -63,7 +65,8 @@ sql:
                   code
                 FROM ethnicity
                 INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/ethnicity'
-                FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+                FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                LINES TERMINATED BY '\n'
 
             stagingInsert: >-
                 COPY staging_ethnicity (id, code)
@@ -82,7 +85,8 @@ sql:
                   code
                 FROM gender
                 INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/gender'
-                FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+                FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                LINES TERMINATED BY '\n'
 
             stagingInsert: >-
                 COPY staging_gender (id, code)
@@ -102,7 +106,8 @@ sql:
                   name
                 FROM grade
                 INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/grade'
-                FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+                FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                LINES TERMINATED BY '\n'
 
             stagingInsert: >-
                 COPY staging_grade (id, code, name)
@@ -129,7 +134,8 @@ sql:
              FROM student ws
               WHERE ws.created > ? AND ws.created <= ?
              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/student'
-             FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+             FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                             LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_student(
@@ -164,7 +170,8 @@ sql:
              FROM student ws
               WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/student_update'
-             FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+             FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                             LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_student(
@@ -195,7 +202,8 @@ sql:
                 JOIN student ws ON ws.id = student_ethnicity.student_id
               WHERE ws.created > ? AND ws.created <= ? AND ws.deleted = 0
                 INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/student_ethnicity'
-              FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                              LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_student_ethnicity(
@@ -219,7 +227,8 @@ sql:
                 JOIN student ws ON ws.id = student_ethnicity.student_id
               WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created AND ws.deleted = 0
                 INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/student_ethnicity_update'
-              FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                              LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_student_ethnicity (
@@ -250,7 +259,8 @@ sql:
               WHERE wa.type_id = 1
                 AND wa.created > ? AND wa.created <= ?
              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/asmt'
-             FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+             FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                             LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_asmt(
@@ -285,7 +295,8 @@ sql:
              FROM asmt wa
               WHERE wa.type_id = 1 AND wa.updated > ? AND wa.updated <= ? AND wa.updated <> wa.created
              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/asmt_update'
-             FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+             FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                             LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_asmt(
@@ -318,7 +329,8 @@ sql:
              FROM school ws
               WHERE ws.created > ? AND ws.created <= ?
              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/school'
-             FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+             FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                             LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_school(
@@ -347,7 +359,8 @@ sql:
              FROM school ws
               WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/school_update'
-             FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+             FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                             LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_school(
@@ -374,7 +387,8 @@ sql:
              FROM district wd
               WHERE EXISTS( SELECT id FROM school  WHERE created > ? AND created <= ? AND deleted = 0 AND district_id = wd.id)
              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/district'
-             FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+             FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                             LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_district(
@@ -397,7 +411,8 @@ sql:
              FROM district wd
               WHERE EXISTS( SELECT id FROM school WHERE updated > ? AND updated <= ? AND updated <> created AND deleted = 0 AND district_id = wd.id)
              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/district_update'
-             FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+             FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                             LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_district(
@@ -432,13 +447,15 @@ sql:
                   scale_score,
                   scale_score_std_err,
                   performance_level,
+                  completed_at,
                   deleted,
                   update_import_id,
                  ? as migrate_id
                 FROM exam we
                   WHERE we.created > ? AND we.created <= ? AND type_id = 1
                 INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam'
-                FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+                FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                LINES TERMINATED BY '\n'
 
             stagingInsert: >-
                 COPY staging_exam(
@@ -459,6 +476,7 @@ sql:
                   scale_score,
                   scale_score_std_err,
                   performance_level,
+                  completed_at,
                   deleted,
                   update_import_id,
                   migrate_id)
@@ -489,13 +507,15 @@ sql:
                   scale_score,
                   scale_score_std_err,
                   performance_level,
+                  completed_at,
                   deleted,
                   update_import_id,
                  ? as migrate_id
                FROM exam we
                 WHERE we.updated > ? AND we.updated <= ? AND we.updated <> we.created AND type_id = 1
                INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_update'
-               FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+               LINES TERMINATED BY '\n'
 
             stagingInsert: >-
                 COPY staging_exam(
@@ -516,6 +536,7 @@ sql:
                   scale_score,
                   scale_score_std_err,
                   performance_level,
+                  completed_at,
                   deleted,
                   update_import_id,
                   migrate_id)
@@ -541,7 +562,8 @@ sql:
                   JOIN exam we ON we.id = exam_claim_score.exam_id
                 WHERE we.created > ? AND we.created <= ? AND we.deleted = 0 AND we.type_id = 1
                 INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_claim_score'
-                FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+                FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                LINES TERMINATED BY '\n'
 
             stagingInsert: >-
                 COPY staging_exam_claim_score(
@@ -573,7 +595,8 @@ sql:
                   JOIN exam we ON we.id = exam_claim_score.exam_id
                WHERE we.updated > ? AND we.updated <= ? AND we.updated <> we.created AND we.deleted = 0  AND type_id = 1
                INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_claim_score_update'
-               FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+               LINES TERMINATED BY '\n'
 
             stagingInsert: >-
                 COPY staging_exam_claim_score(
