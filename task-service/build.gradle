@@ -29,6 +29,7 @@ dependencies {
     compile project(':rdw-ingest-common')
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile project(':rdw-ingest-package-processor')
 
     // fixes java 8 time marshaling
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.7'
@@ -38,5 +39,13 @@ bootRun {
     addResources = true
     if (project.hasProperty('jvmArgs')) {
         jvmArgs project.jvmArgs.split('\\s+')
+    }
+}
+
+task AST(type: Test) {
+    include '**/*AST.*'
+    outputs.upToDateWhen { false }
+    doFirst {
+        println "Running ART System Tests..."
     }
 }
