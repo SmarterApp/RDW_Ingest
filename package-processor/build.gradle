@@ -30,3 +30,16 @@ dependencies {
     compile project(':rdw-ingest-common')
     testCompile project(path: ':rdw-ingest-common', configuration: 'tests')
 }
+
+task libraryJar(type: Jar, dependsOn: classes) {
+    classifier = 'library'
+    from sourceSets.main.output
+}
+configurations {
+    library {
+        extendsFrom testRuntime
+    }
+}
+artifacts {
+    library libraryJar
+}
