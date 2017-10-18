@@ -292,6 +292,7 @@ sql:
                 claim4_scale_score,
                 claim4_scale_score_std_err,
                 claim4_category,
+                completed_at,
                 update_import_id,
                 migrate_id
               )
@@ -325,6 +326,7 @@ sql:
                   claim4.scale_score as claim4_scale_score,
                   claim4.scale_score_std_err as claim4_scale_score_std_err,
                   claim4.category as claim4_category,
+                  se.completed_at,
                   se.update_import_id,
                   se.migrate_id
                 FROM staging_exam se
@@ -398,6 +400,7 @@ sql:
                   claim4_scale_score          = claim4.scale_score,
                   claim4_scale_score_std_err  = claim4.scale_score_std_err,
                   claim4_category             = claim4.category,
+                  completed_at                = se.completed_at,
                   update_import_id            = se.update_import_id,
                   migrate_id                  = se.migrate_id
                  FROM staging_exam se

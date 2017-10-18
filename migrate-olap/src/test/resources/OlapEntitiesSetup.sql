@@ -29,5 +29,5 @@ INSERT INTO  fact_student_ica_exam (id, school_year, asmt_id, asmt_grade_id, com
                                     claim2_scale_score, claim2_scale_score_std_err,claim2_category,
                                     claim3_scale_score, claim3_scale_score_std_err,claim3_category,
                                     claim4_scale_score, claim4_scale_score_std_err,claim4_category,
-                                    update_import_id, migrate_id) VALUES
-  (-88, 1999, -99, -98, -99, -99, 1, 2145, 0.17, -98, -89, -1, 1, 1, 0, 0, 1,  -2000, 0.11, 1, -2100, 0.12, 2, -2500, 0.13, 3, -3000, .15, 4, -1, -1);
+                                    completed_at, update_import_id, migrate_id) VALUES
+  (-88, 1999, -99, -98, -99, -99, 1, 2145, 0.17, -98, -89, -1, true, true, false, false, true,  -2000, 0.11, 1, -2100, 0.12, 2, -2500, 0.13, 3, -3000, .15, 4, '2016-08-14 19:05:33.000000', -1, -1);
