@@ -164,7 +164,7 @@ subprojects {
     }
 
     // Skip running integration and system tests automatically, because they take a long time
-    test.exclude '**/*IT.*', '**/*RST.*'
+    test.exclude '**/*IT.*', '**/*RST.*', '**/*AST.*'
 
     // This task for for manually running the integration tests without automatically cleaning and creating
     // the test database schemas
