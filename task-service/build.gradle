@@ -41,11 +41,3 @@ bootRun {
         jvmArgs project.jvmArgs.split('\\s+')
     }
 }
-
-task AST(type: Test) {
-    include '**/*AST.*'
-    outputs.upToDateWhen { false }
-    doFirst {
-        println "Running ART System Tests..."
-    }
-}
