@@ -50,6 +50,11 @@ sql:
     findIdsByCodes: >-
         SELECT id FROM accommodation WHERE code in (:codes)
 
+  # JdbcResponseTypeRepository
+  responseType:
+    findIdByCode: >-
+        SELECT id FROM response_type WHERE code= :code
+
   # JdbcAssessmentRepository
   assessment:
     findOneByNaturalId: >-
@@ -70,8 +75,12 @@ sql:
   # JdbcExamRepository
   exam:
     create: >-
-      INSERT INTO exam (type_id, school_year, import_id, update_import_id, asmt_id, asmt_version, opportunity, oppId, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, performance_level, completed_at, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type, status_date, deleted) VALUES
-                       (:type_id, :school_year, :import_id, :update_import_id, :asmt_id, :asmt_version, :opportunity, :oppId, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :performance_level, :completed_at, :grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status, :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type, :status_date, :deleted)
+      INSERT INTO exam (type_id, school_year, import_id, update_import_id, asmt_id, asmt_version, opportunity, oppId, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, performance_level, completed_at, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type, status_date, deleted,
+                        examinee_id, deliver_mode, hand_score_project, contract, test_reason, assessment_admin_started_at, started_at, force_submitted_at, status, item_count, field_test_count, pause_count, grace_period_restarts, abnormal_starts, test_window_id, test_administrator_id, responsible_organization_name, test_administrator_name, session_platform_user_agent, test_delivery_server, test_delivery_db,
+                          window_opportunity_count, theta_score, theta_score_std_err) VALUES
+                       (:type_id, :school_year, :import_id, :update_import_id, :asmt_id, :asmt_version, :opportunity, :oppId, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :performance_level, :completed_at, :grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status, :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type, :status_date, :deleted,
+                        :examinee_id, :deliver_mode, :hand_score_project, :contract, :test_reason, :assessment_admin_started_at, :started_at, :force_submitted_at, :status, :item_count, :field_test_count, :pause_count, :grace_period_restarts, :abnormal_starts, :test_window_id, :test_administrator_id, :responsible_organization_name, :test_administrator_name, :session_platform_user_agent, :test_delivery_server, :test_delivery_db,
+                        :window_opportunity_count, :theta_score, :theta_score_std_err)
 
     update: >-
       UPDATE exam
@@ -103,7 +112,32 @@ sql:
         language_code = :language_code,
         prim_disability_type = :prim_disability_type,
         status_date = :status_date,
-        deleted = :deleted
+        deleted = :deleted,
+        examinee_id = :examinee_id,
+        deliver_mode = :deliver_mode,
+        hand_score_project = :hand_score_project,
+        contract = :contract,
+        test_reason = :test_reason,
+        assessment_admin_started_at = :assessment_admin_started_at,
+        started_at = :started_at,
+        force_submitted_at = :force_submitted_at,
+        status_date = :status_date,
+        status = :status,
+        item_count = :item_count,
+        field_test_count = :field_test_count,
+        pause_count = :pause_count,
+        grace_period_restarts = :grace_period_restarts,
+        abnormal_starts = :abnormal_starts,
+        test_window_id = :test_window_id,
+        test_administrator_id = :test_administrator_id,
+        responsible_organization_name = :responsible_organization_name,
+        test_administrator_name = :test_administrator_name,
+        session_platform_user_agent = :session_platform_user_agent,
+        test_delivery_server = :test_delivery_server,
+        test_delivery_db = :test_delivery_db,
+        window_opportunity_count = :window_opportunity_count,
+        theta_score = :theta_score,
+        theta_score_std_err = :theta_score_std_err
       WHERE id = :id
 
     findOne: >-
@@ -135,15 +169,39 @@ sql:
         language_code,
         prim_disability_type,
         status_date,
-        deleted
+        deleted,
+        examinee_id,
+        deliver_mode,
+        hand_score_project,
+        contract,
+        test_reason,
+        assessment_admin_started_at,
+        started_at,
+        force_submitted_at,
+        status,
+        item_count,
+        field_test_count,
+        pause_count,
+        grace_period_restarts,
+        abnormal_starts,
+        test_window_id,
+        test_administrator_id,
+        responsible_organization_name,
+        test_administrator_name,
+        session_platform_user_agent,
+        test_delivery_server,
+        test_delivery_db,
+        window_opportunity_count,
+        theta_score,
+        theta_score_std_err        
       FROM exam
       WHERE asmt_id = :asmt_id
         AND oppId = :opportunity_id
 
     examClaimScore:
       create: >-
-        INSERT INTO exam_claim_score (exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
-                                    (:exam_id, :subject_claim_score_id, :scale_score, :scale_score_std_err, :category)
+        INSERT INTO exam_claim_score (exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category, theta_score, theta_score_std_err) VALUES
+                                    (:exam_id, :subject_claim_score_id, :scale_score, :scale_score_std_err, :category, :theta_score, :theta_score_std_err)
 
       update: >-
         UPDATE exam_claim_score
@@ -151,7 +209,9 @@ sql:
           subject_claim_score_id = :subject_claim_score_id,
           scale_score = :scale_score,
           scale_score_std_err = :scale_score_std_err,
-          category = :category
+          category = :category,
+          theta_score = :theta_score,
+          theta_score_std_err = :theta_score_std_err
         WHERE id = :id
 
       delete: >-
@@ -164,7 +224,9 @@ sql:
           subject_claim_score_id,
           scale_score,
           scale_score_std_err,
-          category
+          category,
+          theta_score,
+          theta_score_std_err
         FROM exam_claim_score
         WHERE exam_id = :exam_id
 
@@ -173,11 +235,17 @@ sql:
         INSERT INTO exam_item (exam_id, item_id, score, score_status, response, position,
                                   trait_evidence_elaboration_score, trait_evidence_elaboration_score_status,
                                   trait_organization_purpose_score, trait_organization_purpose_score_status,
-                                  trait_conventions_score, trait_conventions_score_status) VALUES
+                                  trait_conventions_score, trait_conventions_score_status,
+                                  administered_at, submitted_at, number_of_visits,
+                                  response_duration, response_content_type, client_id, page_number,
+                                  page_visits, page_time, response_type_id, submitted) VALUES
                             (:exam_id, :item_id, :score, :score_status, :response, :position,
                                   :trait_evidence_elaboration_score, :trait_evidence_elaboration_score_status,
                                   :trait_organization_purpose_score, :trait_organization_purpose_score_status,
-                                  :trait_conventions_score, :trait_conventions_score_status)
+                                  :trait_conventions_score, :trait_conventions_score_status,
+                                  :administered_at, :submitted_at, :number_of_visits,
+                                  :response_duration, :response_content_type, :client_id, :page_number,
+                                  :page_visits, :page_time, :response_type_id, :submitted)
 
       update: >-
         UPDATE exam_item
@@ -191,7 +259,18 @@ sql:
           trait_organization_purpose_score = :trait_organization_purpose_score,
           trait_organization_purpose_score_status = :trait_organization_purpose_score_status,
           trait_conventions_score = :trait_conventions_score,
-          trait_conventions_score_status = :trait_conventions_score_status
+          trait_conventions_score_status = :trait_conventions_score_status,
+          administered_at = :administered_at,
+          submitted_at = :submitted_at,
+          number_of_visits = :number_of_visits,
+          response_duration = :response_duration,
+          response_content_type = :response_content_type,
+          client_id = :client_id,
+          page_number = :page_number,
+          page_visits = :page_visits,
+          page_time = :page_time,
+          response_type_id = :response_type_id,
+          submitted = :submitted
         WHERE id = :id
 
       delete: >-
@@ -212,7 +291,18 @@ sql:
           trait_organization_purpose_score,
           trait_organization_purpose_score_status,
           trait_conventions_score,
-          trait_conventions_score_status
+          trait_conventions_score_status,
+          administered_at,
+          submitted_at,
+          number_of_visits,
+          response_duration,
+          response_content_type,
+          client_id,
+          page_number,
+          page_visits,
+          page_time,
+          response_type_id,
+          submitted
         FROM exam_item
         WHERE exam_id = :exam_id
 
