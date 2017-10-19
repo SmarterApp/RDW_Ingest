@@ -2,18 +2,21 @@ sql:
   warehouseToStage:
   # ------------ Truncate ------------------------------------------------------------------
     truncateStageList:
-      - delete from staging_administration_condition
-      - delete from staging_completeness
-      - delete from staging_ethnicity
-      - delete from staging_gender
-      - delete from staging_grade
-      - delete from staging_student
-      - delete from staging_student_ethnicity
-      - delete from staging_school
-      - delete from staging_district
-      - delete from staging_asmt
-      - delete from staging_exam
-      - delete from staging_exam_claim_score
+      # Turn off autocommit to allow TRUNCATE to process
+      - BEGIN
+      - truncate staging_administration_condition
+      - truncate staging_completeness
+      - truncate staging_ethnicity
+      - truncate staging_gender
+      - truncate staging_grade
+      - truncate staging_student
+      - truncate staging_student_ethnicity
+      - truncate staging_school
+      - truncate staging_district
+      - truncate staging_asmt
+      - truncate staging_exam
+      - truncate staging_exam_claim_score
+      - END
 
     entities:
         # ------------ administration_condition  -------------------------------------------------------------------
