@@ -1,0 +1,10 @@
+sbac:
+  scaleScore:
+    min: 1500
+    max: 3500
+  thetaScore:
+    min: -5
+    max: 5
+  itemScore:
+    min: -1
+    max: 20

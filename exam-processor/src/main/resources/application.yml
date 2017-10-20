@@ -45,19 +45,11 @@ spring:
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
 
+  profiles:
+    include: ingest-common
+
 jdbc:
   retry:
     default:
       max-attempts: 4
       delay: 30
-
-sbac:
-  scaleScore:
-    min: 1500
-    max: 3500
-  thetaScore:
-    min: -5
-    max: 5
-  itemScore:
-    min: -1
-    max: 20
