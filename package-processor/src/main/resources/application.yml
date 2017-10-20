@@ -23,6 +23,9 @@ spring:
           destination: PACKAGE
           group: default
 
+  profiles:
+    include: ingest-common
+
   datasource:
     url: "\
       jdbc:mysql://${spring.datasource.url-server:localhost:3306}/${spring.datasource.url-schema:warehouse}\
@@ -45,14 +48,3 @@ spring:
     default-property-inclusion: non_null
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
-
-sbac:
-  scaleScore:
-    min: 1500
-    max: 3500
-  thetaScore:
-    min: -5
-    max: 5
-  itemScore:
-    min: -1
-    max: 20
