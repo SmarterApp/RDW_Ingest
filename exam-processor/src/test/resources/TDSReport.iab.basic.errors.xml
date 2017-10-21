@@ -1,7 +1,7 @@
 <TDSReport>
     <Test grade="4" mode="online" contract="SBAC" bankKey="200" testId="SBAC-IAB-FIXED-G4M-G-MATH-4" subject="MATH"
           name="(SBAC)SBAC-IAB-FIXED-G4M-G-MATH-4-Winter-2016-2017" handScoreProject="0" assessmentType="interim" academicYear="2016" assessmentVersion="9786"/>
-    <Examinee isDemo="0" key="4054"><ExamineeAttribute name="Birthdate" value="bad data" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
+    <Examinee isDemo="1" key="4054"><ExamineeAttribute name="Birthdate" value="bad data" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="FirstName" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="Sex" value="bad data" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="GradeLevelWhenAssessed" value="bad data" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
