@@ -237,14 +237,14 @@ sql:
                                   trait_organization_purpose_score, trait_organization_purpose_score_status,
                                   trait_conventions_score, trait_conventions_score_status,
                                   administered_at, submitted_at, number_of_visits,
-                                  response_duration, response_content_type, client_id, page_number,
+                                  response_duration, response_content_type, page_number,
                                   page_visits, page_time, response_type_id, submitted) VALUES
                             (:exam_id, :item_id, :score, :score_status, :response, :position,
                                   :trait_evidence_elaboration_score, :trait_evidence_elaboration_score_status,
                                   :trait_organization_purpose_score, :trait_organization_purpose_score_status,
                                   :trait_conventions_score, :trait_conventions_score_status,
                                   :administered_at, :submitted_at, :number_of_visits,
-                                  :response_duration, :response_content_type, :client_id, :page_number,
+                                  :response_duration, :response_content_type, :page_number,
                                   :page_visits, :page_time, :response_type_id, :submitted)
 
       update: >-
@@ -265,7 +265,6 @@ sql:
           number_of_visits = :number_of_visits,
           response_duration = :response_duration,
           response_content_type = :response_content_type,
-          client_id = :client_id,
           page_number = :page_number,
           page_visits = :page_visits,
           page_time = :page_time,
@@ -297,7 +296,6 @@ sql:
           number_of_visits,
           response_duration,
           response_content_type,
-          client_id,
           page_number,
           page_visits,
           page_time,
