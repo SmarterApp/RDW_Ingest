@@ -330,7 +330,7 @@ sql:
         INSERT INTO student_ethnicity (student_id, ethnicity_id) VALUES (:student_id, :ethnicity_id)
 
     delete: >-
-        DELETE FROM student_ethnicity where student_id = :student_id
+        DELETE FROM student_ethnicity where ethnicity_id = :ethnicity_id and student_id = :student_id
 
   student:
     updateImportId:
