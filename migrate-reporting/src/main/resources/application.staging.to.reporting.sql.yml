@@ -898,7 +898,7 @@ sql:
           sql:
             insert: >-
               INSERT INTO student (id, ssid, last_or_surname, first_name, middle_name, gender_id, gender_code,
-                                             first_entry_into_us_school_at, lep_entry_at, lep_exit_at, birthday, update_import_id, updated, migrate_id)
+                                             first_entry_into_us_school_at, lep_entry_at, lep_exit_at, birthday, inferred_school_id, update_import_id, updated, migrate_id)
                 SELECT
                   ss.id,
                   ss.ssid,
@@ -911,6 +911,7 @@ sql:
                   ss.lep_entry_at,
                   ss.lep_exit_at,
                   ss.birthday,
+                  ss.inferred_school_id,
                   ss.update_import_id,
                   ss.updated,
                   ss.migrate_id
@@ -934,6 +935,7 @@ sql:
                 rs.lep_entry_at = ss.lep_entry_at,
                 rs.lep_exit_at = ss.lep_exit_at,
                 rs.birthday = ss.birthday,
+                rs.inferred_school_id = ss.inferred_school_id,
                 rs.update_import_id = ss.update_import_id,
                 rs.updated = ss.updated,
                 rs.migrate_id = ss.migrate_id
