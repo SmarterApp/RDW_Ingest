@@ -140,6 +140,13 @@ sql:
         theta_score_std_err = :theta_score_std_err
       WHERE id = :id
 
+    delete: >-
+        UPDATE exam
+        SET
+          deleted = 1,
+          update_import_id = :update_import_id
+        WHERE id = :id
+
     findOne: >-
       SELECT
         id,
