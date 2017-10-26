@@ -36,7 +36,7 @@ DELETE FROM exam where id in (-88, -87, -86, -85, -84, -100);
 DELETE FROM student_group_membership where student_group_id in ( -91, -8, -7);
 DELETE FROM user_student_group where student_group_id in ( -91, -8, -7);
 DELETE FROM student_ethnicity where student_id in ( -89, -88, -87, -86);
-DELETE FROM student where id in ( -11, -89, -88, -87, -86);
+DELETE FROM student where id in ( -11, -89, -88, -87, -86, -33);
 DELETE FROM student_group where id in ( -91, -8, -7);
 
 -- ------------------------------------------ School/Districts --------------------------------------------------------------------------------------------------
