@@ -15,6 +15,15 @@ the config-repo file. These are properties that vary depending on the environmen
 names for external services.
 * Secrets should be specified only in the config-repo file, and they should be encrypted using the config server.
 
+#### Logging Level
+When selecting the level to log a message consider the following:
+* TRACE.
+* DEBUG. 
+* INFO. Assume this is the log level in production, so don't be too chatty with it. It should be used to confirm 
+proper configuration and code paths that are not business-as-usual but also aren't problematic.
+* WARN. This is the level to use for a problem the application has handled but still needs attention.
+* ERROR. Assume that messages logged at this level will cause a person to be called in the middle of the night.
+
 ### Version Control Conventions
 Repo: https://github.com/SmarterApp/RDW_Ingest
 Config Repo: https://gitlab.com/fairwaytech/sbac-config-repo
