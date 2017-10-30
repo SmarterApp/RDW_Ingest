@@ -22,20 +22,21 @@ INSERT INTO asmt (id, natural_id, grade_id, type_id, subject_id, school_year, na
   (-99, '(SBAC)SBAC-IAB-ASMT TEST', -99, 2, 1, 1999, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', 'MTH IAB G4 OperationsAlgebraicThinking', '9835', 1, -5000, -20, '2017-07-18 19:05:34.966000', '2017-07-18 19:05:34.966000'),
   (-98, 'SBAC)SBAC-ICA-ASMT TEST', -98, 1, 2, 1999, 'SBAC-ICA-FIXED-G5E-COMBINED-2017', 'Grade 5 ELA', '9831', 0, -20, -20, '2017-07-18 19:05:34.966000', '2017-07-18 19:05:34.966000');
 
-INSERT INTO item (id, claim_id, target_id, natural_id, asmt_id, dok_id, difficulty, difficulty_code, max_points, math_practice, allow_calc, position) VALUES
-  (-9,   -99, -98, '200-2019',  -11, -99, -0.23, 'E', 2, -99, 0, 1),
-  (-8,   -99, -98, '200-2018',  -11, -99, -0.23, 'E', 2, -99, 0, 2),
-  (-7,   -99, -98, '200-2017',  -11, -99, -0.23, 'E', 2, -99, 0, 3),
-  (-6,   -99, -98, '200-2016',  -11, -99, -0.23, 'E', 2, -99, 0, 4),
-  (-990, -99, -99, '200-2010',  -99, -99, -0.23, 'E',  2, -99, 0, 4),
-  (-991, -99, -99, '200-18943', -99, -99, -0.13, 'E', 2, -98, 0, 3),
-  (-992, -99, -99, '200-8906',  -99, -99, -0.03, 'E', 2, -99, 1, 2),
-  (-993, -99, -99, '200-2014',  -99, -98,  1.23, 'D', 2, -98, 1, 1),
-  (-980, -98, -98, '200-60347', -98, -98, -0.32, 'E', 1, null, null, 5),
-  (-981, -98, -98, '200-51719', -98, -98, -1.32, 'D', 1, null, null, 4),
-  (-982, -98, -98, '200-59217', -98, -98, -2.32, 'D', 1, null, null, 3),
-  (-983, -98, -98, '200-59208', -98, -98, -0.32, 'D', 1, null, null, 2),
-  (-984, -98, -98, '200-30901', -98, -98, -0.32, 'D', 1, null, null, 1);
+INSERT INTO item (id, claim_id, target_id, natural_id, asmt_id, dok_id, difficulty, difficulty_code, max_points, math_practice, allow_calc, position,
+                field_test, active, type, options_count, answer_key) VALUES
+  (-9,   -99, -98, '200-2019',  -11, -99, -0.23, 'E', 2, -99, 0, 1, null, null, null, null, null),
+  (-8,   -99, -98, '200-2018',  -11, -99, -0.23, 'E', 2, -99, 0, 2, null, null, null, null, null),
+  (-7,   -99, -98, '200-2017',  -11, -99, -0.23, 'E', 2, -99, 0, 3, null, null, null, null, null),
+  (-6,   -99, -98, '200-2016',  -11, -99, -0.23, 'E', 2, -99, 0, 4, null, null, null, null, null),
+  (-990, -99, -99, '200-2010',  -99, -99, -0.23, 'E',  2, -99, 0, 4, null, null, null, null, null),
+  (-991, -99, -99, '200-18943', -99, -99, -0.13, 'E', 2, -98, 0, 3, false, true, 1, 0, 'key'),
+  (-992, -99, -99, '200-8906',  -99, -99, -0.03, 'E', 2, -99, 1, 2, false, true, 1, 0, 'key'),
+  (-993, -99, -99, '200-2014',  -99, -98,  1.23, 'D', 2, -98, 1, 1, false, true, 1, 0, 'key'),
+  (-980, -98, -98, '200-60347', -98, -98, -0.32, 'E', 1, null, null, 5, false, true, 1, 0, 'key'),
+  (-981, -98, -98, '200-51719', -98, -98, -1.32, 'D', 1, null, null, 4, false, true, 1, 0, 'key'),
+  (-982, -98, -98, '200-59217', -98, -98, -2.32, 'D', 1, null, null, 3, false, true, 1, 0, 'key'),
+  (-983, -98, -98, '200-59208', -98, -98, -0.32, 'D', 1, null, null, 2, false, true, 1, 0, 'key'),
+  (-984, -98, -98, '200-30901', -98, -98, -0.32, 'D', 1, null, null, 1, true, false, 2, 8, 'key');
 
   INSERT INTO item_common_core_standard(item_id, common_core_standard_id) values
   (-9, -98),

@@ -53,8 +53,8 @@ sql:
   # ItemRepository
   item:
     create: >-
-      INSERT INTO item (asmt_id, claim_id, target_id, natural_id, math_practice, allow_calc, dok_id, position, difficulty, max_points)
-                        select (select id as asmt_id from asmt where natural_id=:asmtId), :claimId, :targetId, :itemId, :mathPractice, :allowCalc, :dokId, :position, :difficulty, :maxPoints
+      INSERT INTO item (asmt_id, claim_id, target_id, natural_id, math_practice, allow_calc, dok_id, position, difficulty, max_points, field_test, active, type, options_count, answer_key)
+        select (select id as asmt_id from asmt where natural_id=:asmtId), :claimId, :targetId, :itemId, :mathPractice, :allowCalc, :dokId, :position, :difficulty, :maxPoints, :field_test, :active, :type, :options_count, :answer_key
 
     updateDifficultyCode:
       update item i
@@ -91,12 +91,6 @@ sql:
       INSERT INTO accommodation_translation (accommodation_id, language_id, label)
          SELECT (SELECT id AS accommodation_id FROM accommodation WHERE code = :accCode), :langId, :label
            ON DUPLICATE KEY UPDATE label=:label
-
-    findByAccCodeAndLangCode: >-
-      SELECT id FROM accommodation_translation WHERE accommodation_id=:accId AND language_id=:langId
-
-    updateTranslation: >-
-      UPDATE accommodation_translation SET label=:label WHERE accommodation_id=:accId AND language_id=:langId
 
   status:
     readTest: >-
