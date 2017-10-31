@@ -615,7 +615,12 @@ sql:
                 wi.dok_id,
                 wi.difficulty_code,
                 round(wi.max_points) AS max_points,
-                ccs.common_core_standard_ids
+                ccs.common_core_standard_ids,
+                wi.field_test,
+                wi.active,
+                wi.type,
+                wi.options_count,
+                wi.answer_key
               FROM item  wi
                 JOIN asmt wa ON wa.id = wi.asmt_id
                 LEFT JOIN
@@ -628,8 +633,8 @@ sql:
                   AND wa.deleted = 0
 
             stagingInsert: >-
-              INSERT INTO staging_item (id, claim_id, target_id, natural_id, asmt_id, math_practice, allow_calc, position, dok_id, difficulty_code, max_points, common_core_standard_ids,  migrate_id) VALUES
-                (:id, :claim_id, :target_id, :natural_id, :asmt_id, :math_practice, :allow_calc, :position, :dok_id, :difficulty_code, :max_points, :common_core_standard_ids, :migrate_id)
+              INSERT INTO staging_item (id, claim_id, target_id, natural_id, asmt_id, math_practice, allow_calc, position, dok_id, difficulty_code, max_points, common_core_standard_ids, field_test, active, type, options_count, answer_key, migrate_id) VALUES
+                (:id, :claim_id, :target_id, :natural_id, :asmt_id, :math_practice, :allow_calc, :position, :dok_id, :difficulty_code, :max_points, :common_core_standard_ids, :field_test, :active, :type, :options_count, :answer_key, :migrate_id)
 
         item_by_update_import_id:
           sql:
@@ -646,7 +651,12 @@ sql:
                 wi.dok_id,
                 wi.difficulty_code,
                 round(wi.max_points) AS max_points,
-                ccs.common_core_standard_ids
+                ccs.common_core_standard_ids,
+                wi.field_test,
+                wi.active,
+                wi.type,
+                wi.options_count,
+                wi.answer_key
               FROM item  wi
                 JOIN asmt wa ON wa.id = wi.asmt_id
                 LEFT JOIN
@@ -659,8 +669,8 @@ sql:
                   AND wa.deleted = 0
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging_item (id, claim_id, target_id, natural_id, asmt_id, math_practice, allow_calc, position, dok_id, difficulty_code, max_points, common_core_standard_ids,  migrate_id) VALUES
-                (:id, :claim_id, :target_id, :natural_id, :asmt_id, :math_practice, :allow_calc, :position, :dok_id, :difficulty_code, :max_points, :common_core_standard_ids, :migrate_id)
+              INSERT IGNORE INTO staging_item (id, claim_id, target_id, natural_id, asmt_id, math_practice, allow_calc, position, dok_id, difficulty_code, max_points, common_core_standard_ids, field_test, active, type, options_count, answer_key, migrate_id) VALUES
+                (:id, :claim_id, :target_id, :natural_id, :asmt_id, :math_practice, :allow_calc, :position, :dok_id, :difficulty_code, :max_points, :common_core_standard_ids, :field_test, :active, :type, :options_count, :answer_key, :migrate_id)
 
         # ------------ item_common_core_standard  -------------------------------------------------------------------
         item_common_core_standard:

@@ -989,7 +989,7 @@ sql:
           sql:
             insert: >-
               INSERT INTO item ( id, claim_id, claim_code,  target_id, target_code, common_core_standard_ids, natural_id, asmt_id,
-                  math_practice, math_practice_code, allow_calc, position, dok_id, dok_level_subject_id, difficulty_code, max_points)
+                  math_practice, math_practice_code, allow_calc, position, dok_id, dok_level_subject_id, difficulty_code, max_points, field_test, active, type, options_count, answer_key)
                 SELECT
                   si.id,
                   si.claim_id,
@@ -1006,7 +1006,12 @@ sql:
                   si.dok_id,
                   concat(rdok.level, '_', rdok.subject_id) as dok_level_subject_id,
                   si.difficulty_code,
-                  si.max_points
+                  si.max_points,
+                  si.field_test,
+                  si.active,
+                  si.type,
+                  si.options_count,
+                  si.answer_key
                 FROM staging_item si
                   LEFT JOIN item ri ON ri.id = si.id
                    JOIN claim rc on rc.id = si.claim_id
@@ -1036,7 +1041,12 @@ sql:
                 ri.dok_id        = si.dok_id,
                 ri.dok_level_subject_id = concat(rdok.level, '_', rdok.subject_id),
                 ri.difficulty_code  = si.difficulty_code,
-                ri.max_points    = si.max_points;
+                ri.max_points    = si.max_points,
+                ri.field_test    = si.field_test,
+                ri.active        = si.active,
+                ri.type          = si.type,
+                ri.options_count = si.options_count,
+                ri.answer_key    = si.answer_key
 
             deleteAsPartOfParentUpdate: >-
               DELETE ri FROM item ri
