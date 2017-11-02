@@ -16,11 +16,24 @@ sql:
 
   # AssessmentRepository
   assessment:
-    findIdByNaturalId: >-
-      SELECT id FROM asmt WHERE natural_id= :natural_id
+    findOneByNaturalId: >-
+        SELECT a.id, a.natural_id, a.grade_id, a.type_id, a.subject_id, a.school_year, a.name, a.label, a.version, s.cut_point_1, s.cut_point_2, s.cut_point_3, s.min_score, s.max_score
+           FROM asmt a JOIN asmt_score s ON s.asmt_id = a.id WHERE a.natural_id= :natural_id
+    item:
+      findAll: >-
+        SELECT i.id, i.claim_id, i.target_id, i.natural_id, i.math_practice, i.allow_calc, i.dok_id, i.position, i.difficulty, i.max_points, i.field_test, i.active, i.type, i.options_count, i.answer_key
+          FROM item i WHERE i.asmt_id= :asmt_id
+
+    itemCommonCoreStandard:
+      findAll: >-
+        SELECT iccs.item_id, iccs.common_core_standard_id FROM item_common_core_standard iccs JOIN item i on i.id = iccs.item_id  WHERE i.asmt_id= :asmt_id
+
+    itemOtherTarget:
+      findAll: >-
+        SELECT iot.item_id, iot.target_id FROM item_other_target iot JOIN item i on i.id = iot.item_id WHERE i.asmt_id= :asmt_id
 
     create: >-
-      INSERT INTO asmt (natural_id, grade_id,type_id, subject_id, school_year, name, label, version, import_id, update_import_id) VALUES
+      INSERT INTO asmt (natural_id, grade_id, type_id, subject_id, school_year, name, label, version, import_id, update_import_id) VALUES
                        (:naturalId, :gradeId, :typeId, :subjectId, :schoolYear, :name, :label, :version, :import_id, :update_import_id)
     assessmentScore:
       create: >-
