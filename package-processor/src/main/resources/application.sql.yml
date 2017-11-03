@@ -19,25 +19,87 @@ sql:
     findOneByNaturalId: >-
         SELECT a.id, a.natural_id, a.grade_id, a.type_id, a.subject_id, a.school_year, a.name, a.label, a.version, s.cut_point_1, s.cut_point_2, s.cut_point_3, s.min_score, s.max_score
            FROM asmt a JOIN asmt_score s ON s.asmt_id = a.id WHERE a.natural_id= :natural_id
+
+    update: >-
+       UPDATE asmt a
+        SET
+          a.school_year = :schoolYear,
+          a.name = :name,
+          a.label = :label,
+          a.version = :version,
+          a.update_import_id = :update_import_id
+    create: >-
+        INSERT INTO asmt (natural_id, grade_id, type_id, subject_id, school_year, name, label, version, import_id, update_import_id) VALUES
+                         (:naturalId, :gradeId, :typeId, :subjectId, :schoolYear, :name, :label, :version, :import_id, :update_import_id)
+
+    assessmentScore:
+       create: >-
+         INSERT INTO asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score) SELECT (SELECT id FROM asmt WHERE natural_id=:asmtId), :cutPoint1, :cutPoint2, :cutPoint3, :minScore, :maxScore
+
+       update: >-
+         UPDATE asmt_score s
+           SET
+             s.cut_point_1 = :cutPoint1,
+             s.cut_point_2 = :cutPoint2,
+             s.cut_point_3 = :cutPoint3,
+             s.min_score = :minScore,
+             s.max_score = :maxScore
+
     item:
       findAll: >-
         SELECT i.id, i.claim_id, i.target_id, i.natural_id, i.math_practice, i.allow_calc, i.dok_id, i.position, i.difficulty, i.max_points, i.field_test, i.active, i.type, i.options_count, i.answer_key
           FROM item i WHERE i.asmt_id= :asmt_id
 
-    itemCommonCoreStandard:
-      findAll: >-
-        SELECT iccs.item_id, iccs.common_core_standard_id FROM item_common_core_standard iccs JOIN item i on i.id = iccs.item_id  WHERE i.asmt_id= :asmt_id
-
-    itemOtherTarget:
-      findAll: >-
-        SELECT iot.item_id, iot.target_id FROM item_other_target iot JOIN item i on i.id = iot.item_id WHERE i.asmt_id= :asmt_id
-
-    create: >-
-      INSERT INTO asmt (natural_id, grade_id, type_id, subject_id, school_year, name, label, version, import_id, update_import_id) VALUES
-                       (:naturalId, :gradeId, :typeId, :subjectId, :schoolYear, :name, :label, :version, :import_id, :update_import_id)
-    assessmentScore:
       create: >-
-        INSERT INTO asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score) SELECT (SELECT id FROM asmt WHERE natural_id=:asmtId), :cutPoint1, :cutPoint2, :cutPoint3, :minScore, :maxScore
+        INSERT INTO item (asmt_id, claim_id, target_id, natural_id, math_practice, allow_calc, dok_id, position, difficulty, max_points, field_test, active, type, options_count, answer_key)
+          select (select id as asmt_id from asmt where natural_id=:asmtId), :claimId, :targetId, :itemId, :mathPractice, :allowCalc, :dokId, :position, :difficulty, :maxPoints, :fieldTest, :active, :type, :optionsCount, :answerKey
+
+      update: >-
+        UPDATE item i
+          SET
+             i.claim_id = :claimId,
+             i.target_id = :targetId,
+             i.math_practice = :mathPractice,
+             i.allow_calc = :allowCalc,
+             i.dok_id = :dokId,
+             i.position = :position,
+             i.difficulty = :difficulty,
+             i.max_points = :maxPoints,
+             i.field_test = :fieldTest,
+             i.active = :active,
+             i.type = :type,
+             i.options_count= :optionsCount,
+             i.answer_key = :answerKey
+
+      updateDifficultyCode:
+        update item i
+          join asmt a on i.asmt_id = a.id
+          join item_difficulty_cuts c on c.asmt_type_id = a.type_id and a.subject_id = c.subject_id and a.grade_id = c.grade_id
+        set
+          i.difficulty_code = if(i.difficulty < c.moderate_low_end, 'E', if(i.difficulty < c.difficult_low_end, 'M', 'D' ))
+        where a.natural_id in (:asmt_natural_ids)
+
+      commonCoreStandard:
+        findAll: >-
+              SELECT iccs.item_id, iccs.common_core_standard_id FROM item_common_core_standard iccs JOIN item i on i.id = iccs.item_id  WHERE i.asmt_id= :asmt_id
+
+        create: >-
+          INSERT INTO item_common_core_standard(item_id, common_core_standard_id)
+              SELECT (SELECT i.id from item i join asmt a on i.asmt_id = a.id where i.natural_id = :item_natural_id and a.natural_id=:asmtId) , :common_core_standard_id
+
+        delete: >-
+          DELETE FROM item_common_core_standard where item_id in (:item_ids)
+
+      otherTarget:
+        create: >-
+          INSERT INTO item_other_target(item_id, target_id)
+            SELECT (SELECT i.id from item i join asmt a on i.asmt_id = a.id  where i.natural_id = :item_natural_id and a.natural_id=:asmtId), :target_id
+
+        findAll: >-
+          SELECT iot.item_id, iot.target_id FROM item_other_target iot JOIN item i on i.id = iot.item_id WHERE i.asmt_id= :asmt_id
+
+        delete: >-
+          DELETE FROM item_other_target where item_id in (:item_ids)
 
   #ClaimRepository
   claim:
@@ -62,28 +124,6 @@ sql:
   commonCoreStandard:
     findIdsBySubjectIdAndNaturalIds: >-
        SELECT id FROM common_core_standard WHERE natural_id in (:naturalIds) AND subject_id = :subjectId
-
-  # ItemRepository
-  item:
-    create: >-
-      INSERT INTO item (asmt_id, claim_id, target_id, natural_id, math_practice, allow_calc, dok_id, position, difficulty, max_points, field_test, active, type, options_count, answer_key)
-        select (select id as asmt_id from asmt where natural_id=:asmtId), :claimId, :targetId, :itemId, :mathPractice, :allowCalc, :dokId, :position, :difficulty, :maxPoints, :field_test, :active, :type, :options_count, :answer_key
-
-    updateDifficultyCode:
-      update item i
-        join asmt a on i.asmt_id = a.id
-        join item_difficulty_cuts c on c.asmt_type_id = a.type_id and a.subject_id = c.subject_id and a.grade_id = c.grade_id
-      set
-        i.difficulty_code = if(i.difficulty < c.moderate_low_end, 'E', if(i.difficulty < c.difficult_low_end, 'M', 'D' ))
-      where a.natural_id in (:asmt_natural_ids)
-
-    commonCoreStandardCreate: >-
-      INSERT INTO item_common_core_standard(item_id, common_core_standard_id)
-          SELECT (SELECT i.id from item i join asmt a on i.asmt_id = a.id where i.natural_id = :item_natural_id and a.natural_id=:asmtId) , :common_core_standard_id
-
-    otherTargetCreate: >-
-      INSERT INTO item_other_target(item_id, target_id)
-          SELECT (SELECT i.id from item i join asmt a on i.asmt_id = a.id  where i.natural_id = :item_natural_id and a.natural_id=:asmtId), :target_id
 
   # AccommodationRepository
   accommodation:
