@@ -17,7 +17,6 @@ RDW Ingest uses other processes:
 Additional documentation:
 1. [Change log](CHANGELOG.md)
 1. [Contributing developer notes](CONTRIBUTING.md)
-1. [API](API.md)
 
 #### MySQL
 MySQL is required for building (integration tests) and running these applications. To better match production, MySQL
