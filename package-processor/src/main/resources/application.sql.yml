@@ -28,6 +28,8 @@ sql:
           a.label = :label,
           a.version = :version,
           a.update_import_id = :update_import_id
+        WHERE a.id = :id
+
     create: >-
         INSERT INTO asmt (natural_id, grade_id, type_id, subject_id, school_year, name, label, version, import_id, update_import_id) VALUES
                          (:naturalId, :gradeId, :typeId, :subjectId, :schoolYear, :name, :label, :version, :import_id, :update_import_id)
@@ -44,6 +46,7 @@ sql:
              s.cut_point_3 = :cutPoint3,
              s.min_score = :minScore,
              s.max_score = :maxScore
+          WHERE s.asmt_id = :asmt_id
 
     item:
       findAll: >-
@@ -70,6 +73,7 @@ sql:
              i.type = :type,
              i.options_count= :optionsCount,
              i.answer_key = :answerKey
+          WHERE i.id = :id
 
       updateDifficultyCode:
         update item i
