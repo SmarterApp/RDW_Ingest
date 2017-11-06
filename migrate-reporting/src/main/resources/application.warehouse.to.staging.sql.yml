@@ -193,8 +193,8 @@ sql:
         accommodation_translation:
           sql:
             warehouseRead: >-
-              SELECT a.code AS label_code, l.code AS language_code, wat.label FROM accommodation_translation AS wat
-                            JOIN (language AS l, accommodation AS a) ON wat.language_id=l.id AND wat.accommodation_id=a.id
+              SELECT a.code AS label_code, wat.language_code AS language_code, wat.label FROM accommodation_translation AS wat
+                            JOIN accommodation a ON wat.accommodation_id=a.id
 
             stagingInsert: >-
               INSERT INTO staging_translation (namespace, label_code, language_code, label) VALUES
