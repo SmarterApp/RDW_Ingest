@@ -1,11 +1,12 @@
 ## Change Log
 
-#### 1.x.y
+#### 1.1.y
 
+* NOTE: extend tabulator output (need to reload assessment packages to update item details)
 * NOTE: change datasource URL configuration.
 * NOTE: fix CSV load SQL (remove config hack for sql.load-csv).
 * Add handling of district and school groups (from ART).
-* Detect and handle exam update
+* Detect and handle exam update/delete
 
 #### 1.0.1 - 2017-09-12
 
