@@ -1,22 +1,28 @@
 ## RDW_Ingest
+
+Additional documentation:
+1. RDW_Ingest is part of the RDW suite of projects and applications. For all things RDW please refer to 
+[RDW repo](https://github.com/SmarterApp/RDW)
+1. [Change log](CHANGELOG.md)
+1. [Contributing developer notes](CONTRIBUTING.md)
+1. [License](LICENSE)
+
 RDW ingest applications:
 1. Import Service - RESTful API for submitting test results (exams), packages, etc.
 1. Exam Processor - Spring Cloud Stream application for processing test results.
 1. Group Processor - Spring Cloud Stream application for processing student groups.
-1. Package Processor - Spring Cloud Stream application for processing Assessment Packages.
+1. Package Processor - Spring Cloud Stream application for processing assessment packages, accommodations, organizations.
 1. Task Service - Spring Boot application for running scheduled tasks.
 1. Migrate Reporting - Spring Boot application for migrating data from the warehouse to the reporting data mart.
+1. Migrate OLAP - Spring Boot application for migrating data from the warehouse to the aggregate reporting OLAP.
 
 RDW Ingest uses other processes:
-1. MySQL - warehouse and reporting databases
+1. MySQL/Aurora - warehouse and reporting databases
+1. Redshift - aggregate reporting OLAP databse
 1. RabbitMQ - message queue
 1. Configuration Server - centralized Spring configuration server
 1. OpenAM - centralized auth server
 1. ART - Administration and Registration Tools
-
-Additional documentation:
-1. [Change log](CHANGELOG.md)
-1. [Contributing developer notes](CONTRIBUTING.md)
 
 #### MySQL
 MySQL is required for building (integration tests) and running these applications. To better match production, MySQL
