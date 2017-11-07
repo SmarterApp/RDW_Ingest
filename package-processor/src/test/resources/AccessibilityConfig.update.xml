@@ -26,7 +26,7 @@
 					<Language>eng</Language>
 					<Label>Do not show ASL videos</Label>
 				</Text>
-			</Selection>
+				</Selection>
 			<Selection>
 				<Code>TDS_ASL1</Code>
 				<Order>2</Order>
@@ -115,21 +115,16 @@
 				<Order>8</Order>
 				<Text>
 					<Language>eng</Language>
-					<Label>Multiplication Table</Label>
+					<Label>Multiplication Table Updated</Label>
 					<Description>For students with a documented and persistent calculation disability (i.e., dyscalculia). (NON-EMBEDDED)</Description>
-				</Text>
-				<Text>
-					<Language>ukr</Language>
-					<Label>Таблиця множення</Label>
 				</Text>
 			</Selection>
 			<Selection>
-				<Code>NEA_NumTbl</Code>
-				<Order>9</Order>
+				<Code>Test</Code>
+				<Order>11</Order>
 				<Text>
 					<Language>eng</Language>
-					<Label>100s Number Table</Label>
-					<Description>A paper-based table listing numbers from 1–100 available from Smarter Balanced for reference.</Description>
+					<Label>Test</Label>
 				</Text>
 			</Selection>
 		</MultiSelectResource>

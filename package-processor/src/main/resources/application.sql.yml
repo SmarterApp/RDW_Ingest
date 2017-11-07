@@ -1,20 +1,20 @@
 sql:
-  # AssessmentTypeRepository
+  #JdbcAssessmentTypeRepository
   asmtType:
     findIdByCode: >-
       SELECT id FROM asmt_type WHERE code= :code
 
-  # SubjectRepositoryImpl
+  #JdbcSubjectRepository
   subject:
     findIdByCode: >-
       SELECT id FROM subject WHERE code= :code
 
-  # GradeRepositoryImpl
+  #JdbcGradeRepository
   grade:
     findIdByCode: >-
       SELECT id FROM grade WHERE code= :code
 
-  # AssessmentRepository
+  #JdbcAssessmentPackageRepository
   assessment:
     findOneByNaturalId: >-
         SELECT a.id, a.natural_id, a.grade_id, a.type_id, a.subject_id, a.school_year, a.name, a.label, a.version, s.cut_point_1, s.cut_point_2, s.cut_point_3, s.min_score, s.max_score
@@ -105,48 +105,40 @@ sql:
         delete: >-
           DELETE FROM item_other_target where item_id in (:item_ids)
 
-  #ClaimRepository
+  #JdbcClaimRepository
   claim:
     findIdByCode: >-
       SELECT id FROM claim WHERE code= :code
 
-  #DepthOfKnowledgeRepository
+  #JdbcDepthOfKnowledgeRepository
   dok:
     findIdByLevelAndSubject: >-
       SELECT id FROM depth_of_knowledge WHERE level= :level and subject_id = :subjectId
 
-  #MathPracticeRepository
+  #JdbcMathPracticeRepository
   mathPractice:
     findByPractice: >-
       SELECT practice FROM math_practice WHERE practice= :practice
 
-  #TargetRepository
+  #JdbcTargetRepository
   target:
     findIdByNaturalIdAndClaimId: >-
       SELECT id FROM target WHERE natural_id= :naturalId AND claim_id = :claimId
 
+  #JdbcCommonCoreStandardRepository
   commonCoreStandard:
     findIdsBySubjectIdAndNaturalIds: >-
        SELECT id FROM common_core_standard WHERE natural_id in (:naturalIds) AND subject_id = :subjectId
 
-  # AccommodationRepository
-  accommodation:
-    findIdByCode: >-
-      SELECT id FROM accommodation WHERE code= :code
-
-    create: >-
-      INSERT IGNORE INTO accommodation (code) VALUES (:code)
-
-  # LanguageRepository
-  language:
-    findIdByCode: >-
-      SELECT id FROM language WHERE code= :code
-
-  # AccommodationTranslationRepository
+  #JdbcAccommodationTranslationRepository
   accommodationTranslation:
-    create: >-
-      INSERT INTO accommodation_translation (accommodation_id, language_id, label)
-         SELECT (SELECT id AS accommodation_id FROM accommodation WHERE code = :accCode), :langId, :label
+    accommodation:
+      create: >-
+        INSERT IGNORE INTO accommodation (code) VALUES (:code)
+
+    upsert: >-
+      INSERT INTO accommodation_translation (accommodation_id, language_code, label)
+         SELECT (SELECT id AS accommodation_id FROM accommodation WHERE code = :accCode), :languageCode, :label
            ON DUPLICATE KEY UPDATE label=:label
 
   status:
