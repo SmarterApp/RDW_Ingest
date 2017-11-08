@@ -23,4 +23,10 @@ INSERT INTO upload_student_group (batch_id, group_name, school_year, school_natu
   -- Add user to group without students
   (36, 'No User Group', 2017, 'natural_id-1', -1, null, null, -4, 'user1@somewhere.com', null),
   -- Remove users from group with users
-  (37, 'Existing User Group', 2017, 'natural_id-1', -1, null, null, -2, null, null);
+  (37, 'Existing User Group', 2017, 'natural_id-1', -1, null, null, -2, null, null),
+
+  -- New group with bad school year
+  (50, 'Bad Year', 1718, 'natural_id-1', -1, '86', -86, null, null, null),
+  (50, 'Bad Year', 1718, 'natural_id-1', -1, '87', -87, null, null, null),
+  (50, 'Bad Year', 1718, 'natural_id-1', -1, '88', -88, null, null, null);
+
