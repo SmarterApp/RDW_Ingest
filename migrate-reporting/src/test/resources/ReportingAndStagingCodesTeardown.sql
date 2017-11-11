@@ -13,8 +13,8 @@ TRUNCATE staging_common_core_standard;
 TRUNCATE staging_claim;
 TRUNCATE staging_grade;
 
-DELETE FROM completeness WHERE id IN (-99,-98);
-DELETE FROM administration_condition WHERE id IN (-99,-98, -97, -96);
+DELETE FROM completeness WHERE id IN (-99,-98, -95);
+DELETE FROM administration_condition WHERE id IN (-99,-98, -97, -96, -95);
 DELETE FROM ethnicity WHERE id IN (-99,-98);
 DELETE FROM gender  WHERE id IN (-99,-98);
 DELETE FROM translation WHERE  namespace IN ('backend', 'frontend');

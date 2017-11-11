@@ -1,6 +1,6 @@
 INSERT INTO staging_grade (id, code, name) VALUES (-99,'99','K-garten'),(-98 ,'98','1st-grade');
-INSERT INTO staging_completeness (id, code) VALUES (-99, 'test1'), (-98, 'test55');
-INSERT INTO staging_administration_condition VALUES (-99,'IN-test'),(-98,'NS-test'),(-97,'SD-test'),(-96,'Valid-test');
+INSERT INTO staging_completeness (id, code) VALUES (-99, 'test99'), (-98, 'test98');
+INSERT INTO staging_administration_condition VALUES (-99,'99-test'),(-98,'98-test'),(-97,'97-test'),(-96,'96-test');
 INSERT INTO staging_ethnicity VALUES (-99,'AmericanIndianOrAlaskaNative-test'),(-98,'Asian-test');
 INSERT INTO staging_gender VALUES (-99,'Female-test'),(-98,'Male-test');
 INSERT INTO staging_accommodation VALUES(-99, 'code1-test'),( -98 ,'code2-test');
