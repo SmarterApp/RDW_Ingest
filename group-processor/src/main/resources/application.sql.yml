@@ -396,7 +396,11 @@ sql:
                           AND upload.batch_id = :batch_id
                           AND upload.school_id = :school_id) updated
                 ON updated.group_id = users.student_group_id
+              LEFT JOIN upload_student_group uploaded_user
+                ON uploaded_user.group_id = users.student_group_id
+                  AND uploaded_user.group_user_login = users.user_login
             WHERE users.student_group_id IS NOT NULL
+              AND uploaded_user.id IS NULL
 
           add-updated-users: >-
             INSERT IGNORE INTO user_student_group (student_group_id, user_login)
@@ -418,7 +422,11 @@ sql:
                           AND upload.batch_id = :batch_id
                           AND upload.school_id = :school_id) updated
                 ON updated.group_id = students.student_group_id
+              LEFT JOIN upload_student_group uploaded_student
+                ON uploaded_student.group_id = students.student_group_id
+                  AND uploaded_student.student_id = students.student_id
             WHERE students.student_group_id IS NOT NULL
+              AND uploaded_student.id IS NULL
 
           add-updated-students: >-
             INSERT IGNORE INTO student_group_membership (student_group_id, student_id)
