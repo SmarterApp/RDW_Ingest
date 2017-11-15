@@ -1,0 +1,114 @@
+<TDSReport>
+  <!--Same student, same ICA next opportunity="3" and new exam oppId="100000000060"-->
+  <!-- Higher date completed -->
+  <!-- New school -->
+  <!--"IDEAIndicator" value="Yes"-->
+  <!--"LastOrSurname" value="Williams"-->
+  <!--"LEPStatus" value="Yes"-->
+  <!-- Change Birthdate -->
+  <Test academicYear="2018" assessmentType="Interim" assessmentVersion="11111" bankKey="777" contract="MOCK" grade="11"
+        mode="online" name="(naturalId)MOCK-ICA-G11-2017-2018" subject="ELA"
+        testId="MOCK-ICA-G11-2017-2018"/>
+  <Examinee key="100000000333">
+    <ExamineeAttribute context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="StudentIdentifier"
+                       value="SSID001"/>
+    <ExamineeAttribute context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="AlternateSSID"
+                       value="ASSID001"/>
+    <ExamineeAttribute context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="Birthdate" value="2001-09-23"/>
+    <ExamineeAttribute context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="FirstName" value="Gladys"/>
+    <ExamineeAttribute context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="MiddleName" value="Ruth"/>
+    <ExamineeAttribute context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="LastOrSurname" value="Williams"/>
+    <ExamineeAttribute context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="Sex" value="Female"/>
+    <ExamineeAttribute context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="GradeLevelWhenAssessed" value="11"/>
+    <ExamineeAttribute context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="HispanicOrLatinoEthnicity" value="Yes"/>
+    <ExamineeAttribute context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="AmericanIndianOrAlaskaNative" value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="Asian" value="Yes"/>
+    <ExamineeAttribute context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="BlackOrAfricanAmerican" value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="White" value="Yes"/>
+    <ExamineeAttribute context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="NativeHawaiianOrOtherPacificIslander"
+                       value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="Filipino" value="Yes"/>
+    <ExamineeAttribute context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="DemographicRaceTwoOrMoreRaces" value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="IDEAIndicator" value="Yes"/>
+    <ExamineeAttribute context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="LEPStatus" value="Yes"/>
+    <ExamineeAttribute context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="Section504Status" value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="EconomicDisadvantageStatus" value="Yes"/>
+    <ExamineeAttribute context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="StudentGroupName" value="G11-17500"/>
+    <ExamineeAttribute context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="StudentGroupName" value="G11-17600"/>
+    <ExamineeRelationship context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="StateAbbreviation" value="CA"/>
+    <ExamineeRelationship context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="StateName" value="California"/>
+    <ExamineeRelationship context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="DistrictId"
+                          value="TD000001"/>
+    <ExamineeRelationship context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="DistrictName"
+                          value="Test District TD000001"/>
+    <ExamineeRelationship context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="SchoolId"
+                          value="TS000002"/>
+    <ExamineeRelationship context="FINAL" contextDate="2018-05-06T08:05:00.000000" name="SchoolName" value="Test School TS000002"/>
+  </Examinee>
+  <Opportunity abnormalStarts="0" administrationCondition="NS" assessmentParticipantSessionPlatformUserAgent="" clientName="SBAC"
+               completeStatus="Complete" completeness="Complete" database="session" dateCompleted="2018-05-06T08:50:00.000000"
+               effectiveDate="2018-05-06" ftCount="0" gracePeriodRestarts="0" itemCount="44"
+               key="1f7ba9ea-522e-4c69-9299-84f1d9cd08c1" oppId="100000000060" opportunity="3" pauseCount="0"
+               server="ip-10-113-148-45" sessionId="MAG-3818" startDate="2018-05-06T08:05:00.000000" status="scored"
+               statusDate="2018-05-06T08:50:00.000000" windowId="WINDOW_ID">
+    <Segment algorithm="Fixed" algorithmVersion="0" id="ecc300d0-997a-4527-81e6-9719356f9d00" position="1"/>
+    <Accommodation code="TDS_ASL0" segment="0" type="type001" value="value001"/>
+    <Accommodation code="NEA_Calc" segment="0" type="type001" value="value001"/>
+    <Accommodation code="TDS_ClosedCap0" segment="0" type="type001" value="value001"/>
+    <Accommodation code="TDS_PM0" segment="0" type="type001" value="value001"/>
+    <Score measureLabel="ScaleScore" measureOf="Overall" standardError="67" value="2621"/>
+    <Score measureLabel="PerformanceLevel" measureOf="Overall" standardError="" value="3"/>
+    <Score measureLabel="ScaleScore" measureOf="SOCK_R" standardError="42" value="2501" />
+    <Score measureLabel="PerformanceLevel" measureOf="SOCK_R" standardError="" value="3" />
+    <Item adminDate="2018-05-06T08:20:00.000000" bankKey="777" dropped="0" format="MC" isSelected="1" key="10001" mimeType="text/plain"
+          numberVisits="1" operational="1" pageNumber="1" pageTime="3706" pageVisits="1" position="11" responseDuration="3.706"
+          score="1" scoreStatus="SCORED" segmentId="ecc300d0-997a-4527-81e6-9719356f9d00">
+      <Response date="2018-05-06T08:25:00.000000" type="value">A</Response>
+    </Item>
+    <Item adminDate="2018-05-06T08:20:00.000000" bankKey="777" dropped="0" format="MC" isSelected="0" key="10002" mimeType="text/plain"
+          numberVisits="1" operational="1" pageNumber="1" pageTime="4028" pageVisits="1" position="23" responseDuration="4.028"
+          score="0" scoreStatus="SCORED" segmentId="ecc300d0-997a-4527-81e6-9719356f9d00">
+      <Response date="2018-05-06T08:25:00.000000" type="value"/>
+    </Item>
+    <!--Item adminDate="2018-05-06T08:20:00.000000" bankKey="777" dropped="0" format="MC" isSelected="1" key="10003" mimeType="text/plain"
+          numberVisits="1" operational="1" pageNumber="1" pageTime="8361" pageVisits="1" position="29" responseDuration="8.361"
+          score="1" scoreStatus="SCORED" segmentId="ecc300d0-997a-4527-81e6-9719356f9d00">
+      <Response date="2018-05-06T08:25:00.000000" type="value">A</Response>
+    </Item-->
+    <Item adminDate="2018-05-06T08:20:00.000000" bankKey="777" dropped="0" format="MC" isSelected="1" key="10004" mimeType="text/plain"
+          numberVisits="1" operational="1" pageNumber="1" pageTime="5374" pageVisits="1" position="36" responseDuration="5.374"
+          score="0" scoreStatus="SCORED" segmentId="ecc300d0-997a-4527-81e6-9719356f9d00">
+      <Response date="2018-05-06T08:25:00.000000" type="value">A</Response>
+    </Item>
+    <Item adminDate="2018-05-06T08:20:00.000000" bankKey="777" dropped="0" format="MC" isSelected="1" key="10005" mimeType="text/plain"
+          numberVisits="1" operational="1" pageNumber="1" pageTime="6452" pageVisits="1" position="3" responseDuration="6.452"
+          score="0" scoreStatus="SCORED" segmentId="ecc300d0-997a-4527-81e6-9719356f9d00">
+      <Response date="2018-05-06T08:25:00.000000" type="value">A</Response>
+    </Item>
+    <Item adminDate="2018-05-06T08:20:00.000000" bankKey="777" dropped="0" format="MC" isSelected="1" key="10006" mimeType="text/plain"
+          numberVisits="1" operational="1" pageNumber="1" pageTime="7468" pageVisits="1" position="16" responseDuration="7.468"
+          score="1" scoreStatus="SCORED" segmentId="ecc300d0-997a-4527-81e6-9719356f9d00">
+      <Response date="2018-05-06T08:25:00.000000" type="value">A</Response>
+    </Item>
+    <Item adminDate="2018-05-06T08:20:00.000000" bankKey="777" dropped="0" format="MC" isSelected="1" key="10007" mimeType="text/plain"
+          numberVisits="1" operational="1" pageNumber="1" pageTime="3435" pageVisits="1" position="35" responseDuration="3.435"
+          score="1" scoreStatus="SCORED" segmentId="ecc300d0-997a-4527-81e6-9719356f9d00">
+      <Response date="2018-05-06T08:25:00.000000" type="value">C</Response>
+    </Item>
+    <Item adminDate="2018-05-06T08:20:00.000000" bankKey="777" dropped="0" format="MC" isSelected="1" key="10008" mimeType="text/plain"
+          numberVisits="1" operational="1" pageNumber="1" pageTime="3792" pageVisits="1" position="2" responseDuration="3.792"
+          score="1" scoreStatus="SCORED" segmentId="ecc300d0-997a-4527-81e6-9719356f9d00">
+      <Response date="2018-05-06T08:25:00.000000" type="value">B</Response>
+    </Item>
+    <Item adminDate="2018-05-06T08:20:00.000000" bankKey="777" dropped="0" format="MC" isSelected="1" key="10009" mimeType="text/plain"
+          numberVisits="1" operational="1" pageNumber="1" pageTime="8708" pageVisits="1" position="26" responseDuration="8.708"
+          score="1" scoreStatus="SCORED" segmentId="ecc300d0-997a-4527-81e6-9719356f9d00">
+      <Response date="2018-05-06T08:25:00.000000" type="value">D</Response>
+    </Item>
+    <Item adminDate="2018-05-06T08:20:00.000000" bankKey="777" dropped="0" format="MC" isSelected="1" key="10010" mimeType="text/plain"
+          numberVisits="1" operational="1" pageNumber="1" pageTime="5418" pageVisits="1" position="25" responseDuration="5.418"
+          score="1" scoreStatus="SCORED" segmentId="ecc300d0-997a-4527-81e6-9719356f9d00">
+      <Response date="2018-05-06T08:25:00.000000" type="value">B</Response>
+    </Item>
+  </Opportunity>
+</TDSReport>
