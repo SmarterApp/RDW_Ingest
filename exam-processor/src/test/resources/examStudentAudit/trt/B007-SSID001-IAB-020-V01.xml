@@ -1,5 +1,7 @@
 <TDSReport>
-  <!-- Change LEPStatus="No" -->
+  <!-- New exam, existing student, same school -->
+  <!-- Change LEPStatus="No" but on exam -->
+  <!-- Change "Birthdate" value="2001-06-23" on student -->
   <Test academicYear="2018" assessmentType="Interim" assessmentVersion="11111" bankKey="777" contract="MOCK" grade="11"
         mode="online" name="(naturalId)MOCK-IAB-G11E-2017-2018" subject="ELA"
         testId="MOCK-IAB-G11E-2017-2018"/>

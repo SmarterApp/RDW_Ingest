@@ -1,5 +1,4 @@
 <TDSReport>
-  <!-- dateCompleted higher than original updates inferred completed -->
   <Test academicYear="2018" assessmentType="Interim" assessmentVersion="11111" bankKey="777" contract="MOCK" grade="11"
         mode="online" name="(naturalId)MOCK-ICA-G11-2017-2018" subject="ELA"
         testId="MOCK-ICA-G11-2017-2018"/>
