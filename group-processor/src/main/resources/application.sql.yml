@@ -383,7 +383,10 @@ sql:
                           AND batch_id = :batch_id
                           AND school_id = :school_id
                     GROUP BY group_id) AS loading
-                ON sg.id = loading.group_id
+                ON (
+                  sg.id = loading.group_id AND
+                  (NOT sg.subject_id  <=> loading.subject_id  OR NOT  sg.update_import_id <=> loading.import_id)
+                  )
             SET sg.subject_id = loading.subject_id,
               sg.update_import_id = loading.import_id
 
@@ -399,6 +402,7 @@ sql:
               LEFT JOIN upload_student_group uploaded_user
                 ON uploaded_user.group_id = users.student_group_id
                   AND uploaded_user.group_user_login = users.user_login
+                  AND uploaded_user.batch_id = :batch_id
             WHERE users.student_group_id IS NOT NULL
               AND uploaded_user.id IS NULL
 
@@ -425,6 +429,7 @@ sql:
               LEFT JOIN upload_student_group uploaded_student
                 ON uploaded_student.group_id = students.student_group_id
                   AND uploaded_student.student_id = students.student_id
+                  AND uploaded_student.batch_id = :batch_id
             WHERE students.student_group_id IS NOT NULL
               AND uploaded_student.id IS NULL
 
