@@ -42,13 +42,13 @@ INSERT INTO school (id, district_id, natural_id, name, import_id, update_import_
 VALUES
   (1, 1, 'TS000001', 'Test School TS000001', 4, 4, 0, '2017-11-15 02:12:39.847327', '2017-11-15 02:12:39.847327', NULL, NULL, NULL),
   (2, 1, 'TS000002', 'Test School TS000002', 4, 4, 0, '2017-11-15 02:12:39.853635', '2017-11-15 02:12:39.853635', NULL, NULL, NULL);
-INSERT INTO accommodation (id, code, updated)
-VALUES (1, 'TDS_ASL0', NULL), (2, 'TDS_ASL1', NULL), (3, 'TDS_ClosedCap0', NULL), (4, 'TDS_ClosedCap1', NULL),
-  (5, 'TDS_BT0', NULL), (6, 'TDS_BT_EXN', NULL), (7, 'TDS_BT_ECN', NULL), (8, 'TDS_BT_EXT', NULL),
-  (9, 'TDS_BT_ECT', NULL), (10, 'TDS_BT_UXN', NULL), (11, 'TDS_BT_UCN', NULL), (12, 'TDS_BT_UXT', NULL),
-  (13, 'TDS_BT_UCT', NULL), (14, 'TDS_PM0', NULL), (15, 'TDS_PM1', NULL), (16, 'TDS_PoD0', NULL),
-  (17, 'TDS_PoD_Stim', NULL), (18, 'TDS_PoD_Item', NULL), (19, 'TDS_PoD_Stim&TDS_PoD_Item', NULL),
-  (20, 'TDS_SLM0', NULL), (21, 'TDS_SLM1', NULL), (22, 'TDS_TTS0', NULL), (23, 'TDS_TTS_Item', NULL),
-  (24, 'TDS_TTS_Stim', NULL), (25, 'TDS_TTS_Stim&TDS_TTS_Item', NULL), (26, 'NEA0', NULL), (27, 'NEA_AR', NULL),
-  (28, 'NEA_RA_Stimuli', NULL), (29, 'NEA_SC_WritItems', NULL), (30, 'NEA_STT', NULL), (31, 'NEA_Abacus', NULL),
-  (32, 'NEA_Calc', NULL), (33, 'NEA_MT', NULL), (34, 'NEA_NumTbl', NULL);
+INSERT INTO accommodation (id, code)
+VALUES (1, 'TDS_ASL0'), (2, 'TDS_ASL1'), (3, 'TDS_ClosedCap0'), (4, 'TDS_ClosedCap1'),
+  (5, 'TDS_BT0'), (6, 'TDS_BT_EXN'), (7, 'TDS_BT_ECN'), (8, 'TDS_BT_EXT'),
+  (9, 'TDS_BT_ECT'), (10, 'TDS_BT_UXN'), (11, 'TDS_BT_UCN'), (12, 'TDS_BT_UXT'),
+  (13, 'TDS_BT_UCT'), (14, 'TDS_PM0'), (15, 'TDS_PM1'), (16, 'TDS_PoD0'),
+  (17, 'TDS_PoD_Stim'), (18, 'TDS_PoD_Item'), (19, 'TDS_PoD_Stim&TDS_PoD_Item'),
+  (20, 'TDS_SLM0'), (21, 'TDS_SLM1'), (22, 'TDS_TTS0'), (23, 'TDS_TTS_Item'),
+  (24, 'TDS_TTS_Stim'), (25, 'TDS_TTS_Stim&TDS_TTS_Item'), (26, 'NEA0'), (27, 'NEA_AR'),
+  (28, 'NEA_RA_Stimuli'), (29, 'NEA_SC_WritItems'), (30, 'NEA_STT'), (31, 'NEA_Abacus'),
+  (32, 'NEA_Calc'), (33, 'NEA_MT'), (34, 'NEA_NumTbl');
