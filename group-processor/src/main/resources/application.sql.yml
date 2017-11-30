@@ -469,7 +469,8 @@ sql:
   #   '\r\n' : default for Windows
   # By using '\r' as the terminator and trimming '\n' from the first field, this will handle any
   # file produced on a Mac or Windows. I don't think there is any setting that will handle all
-  # possible source files because the line termination handled is static. But this is close ...
+  # possible source files because the line termination handling is static. But our users won't
+  # be using Linux and, if they do, they'll have to tweak the newline character ...
   load-csv: >-
     LOAD DATA %s :uri INTO TABLE upload_student_group
     FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
