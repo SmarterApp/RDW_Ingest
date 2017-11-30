@@ -463,14 +463,23 @@ sql:
 
 
   # ------------ Load from S3 or local ---------------------------------------------------------
+  # Line termination. Recall ...
+  #   '\r' == CR == 0x0D : default for Mac
+  #   '\n' == LF == 0x0A : default for Linux
+  #   '\r\n' : default for Windows
+  # By using '\r' as the terminator and trimming '\n' from the first field, this will handle any
+  # file produced on a Mac or Windows. I don't think there is any setting that will handle all
+  # possible source files because the line termination handled is static. But this is close ...
   load-csv: >-
-    LOAD DATA %s :uri INTO TABLE upload_student_group FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+    LOAD DATA %s :uri INTO TABLE upload_student_group
+    FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+    LINES TERMINATED BY '\r'
     IGNORE 1 LINES
     (@vgroup_name, @vschool_natural_id, school_year, @vsubject_code, @vstudent_ssid, @vgroup_user_login)
     SET
       batch_id = :batch_id,
-      group_name = TRIM(REPLACE(@vgroup_name, '\r', '')),
-      school_natural_id = TRIM(REPLACE(@vschool_natural_id, '\r', '')),
-      subject_code = nullif(TRIM(REPLACE(@vsubject_code, '\r', '')), ''),
-      student_ssid = nullif(TRIM(REPLACE(@vstudent_ssid, '\r', '')), ''),
-      group_user_login = nullif(TRIM(REPLACE(@vgroup_user_login, '\r', '')), '')
+      group_name = TRIM(REPLACE(@vgroup_name, '\n', '')),
+      school_natural_id = TRIM(@vschool_natural_id),
+      subject_code = nullif(TRIM(@vsubject_code), ''),
+      student_ssid = nullif(TRIM(@vstudent_ssid), ''),
+      group_user_login = nullif(TRIM(@vgroup_user_login), '')
