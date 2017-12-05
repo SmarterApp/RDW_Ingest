@@ -1,6 +1,9 @@
 <TDSReport>
   <!-- Change LEPStatus to Yes -->
   <!-- Add ethnicity Filipino and remove Asian -->
+  <!-- Delete Accommodation TDS_ASL0 TDS_BT0 TDS_ClosedCap0 -->
+  <!-- Change Item score and response key="51002" -->
+  <!-- Change Item score and response key="51003" -->
   <Test academicYear="2018" assessmentType="Interim" assessmentVersion="11111" bankKey="777" contract="MOCK" grade="11"
         mode="online" name="(naturalId)MOCK-IAB-G11E-2017-2018" subject="ELA"
         testId="MOCK-IAB-G11E-2017-2018"/>
@@ -58,13 +61,13 @@
     </Item>
     <Item adminDate="2018-05-01T08:20:00.000000" bankKey="777" dropped="0" format="MC" isSelected="1" key="51002" mimeType="text/plain"
           numberVisits="1" operational="1" pageNumber="1" pageTime="9062" pageVisits="1" position="1" responseDuration="9.062"
-          score="1" scoreStatus="SCORED" segmentId="b5b32b93-934e-4728-93a1-c282098b5207">
-      <Response date="2018-05-01T08:25:00.000000" type="value">B</Response>
+          score="0" scoreStatus="SCORED" segmentId="b5b32b93-934e-4728-93a1-c282098b5207">
+      <Response date="2018-05-01T08:25:00.000000" type="value">C</Response>
     </Item>
     <Item adminDate="2018-05-01T08:20:00.000000" bankKey="777" dropped="0" format="MS" isSelected="1" key="51003" mimeType="text/plain"
           numberVisits="1" operational="1" pageNumber="1" pageTime="14301" pageVisits="1" position="2" responseDuration="14.301"
-          score="0" scoreStatus="SCORED" segmentId="b5b32b93-934e-4728-93a1-c282098b5207">
-      <Response date="2018-05-01T08:25:00.000000" type="value">D</Response>
+          score="1" scoreStatus="SCORED" segmentId="b5b32b93-934e-4728-93a1-c282098b5207">
+      <Response date="2018-05-01T08:25:00.000000" type="value">A</Response>
     </Item>
     <Item adminDate="2018-05-01T08:20:00.000000" bankKey="777" dropped="0" format="MC" isSelected="1" key="51004" mimeType="text/plain"
           numberVisits="1" operational="1" pageNumber="1" pageTime="5477" pageVisits="1" position="6" responseDuration="5.477"
