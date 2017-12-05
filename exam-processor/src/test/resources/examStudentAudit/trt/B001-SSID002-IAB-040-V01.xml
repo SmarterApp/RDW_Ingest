@@ -44,7 +44,10 @@
                server="ip-10-113-148-45" sessionId="LEE-3bb6" startDate="2018-05-01T08:05:00.000000" status="scored"
                statusDate="2018-05-01T08:50:00.000000" windowId="WINDOW_ID">
     <Segment algorithm="Fixed" algorithmVersion="0" id="b5b32b93-934e-4728-93a1-c282098b5207" position="1"/>
+    <Accommodation code="TDS_ASL0" segment="0" type="type001" value="value001"/>
+    <Accommodation code="TDS_BT0" segment="0" type="type001" value="value001"/>
     <Accommodation code="NEA_Calc" segment="0" type="type001" value="value001"/>
+    <Accommodation code="TDS_ClosedCap0" segment="0" type="type001" value="value001"/>
     <Score measureLabel="ScaleScore" measureOf="Overall" standardError="44.0" value="2601"/>
     <Score measureLabel="PerformanceLevel" measureOf="Overall" standardError="" value="3"/>
     <Score measureLabel="ScaleScore" measureOf="SOCK_R" standardError="44.0" value="2711.764705882353"/>
