@@ -1,0 +1,13 @@
+group_name,school_natural_id,school_year,subject_code,student_ssid,group_user_login
+JT4thGrade,DS9002,2018,All,,
+JT4thGrade,DS9002, 2018,,, jteacher@example.com
+JT4thGrade,DS9002,2018 ,,,btutor@example.com
+JT4thGrade,DS9002 ,2018,, SSID001,
+JT4thGrade,DS9002,2018,,SSID002,
+ JT4thGrade, DS9002,2018,,SSID003,
+ME6thGradeMath,DS9002,2018,Math,,
+ME6thGradeMath,DS9002,2018,,,meducator@example.com
+ME6thGradeMath,DS9002,2018,,,sinstructor@example.com
+ME6thGradeMath,DS9002,2018,,SSID010,
+ME6thGradeMath,DS9002,2018,,SSID011,
+ME6thGradeMath,DS9002,2018,,SSID012,
