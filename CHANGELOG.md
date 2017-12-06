@@ -3,6 +3,7 @@
 #### 1.0.2 - 2017-12-05
 
 * Make student group upload processing more tolerant of various line endings.
+    * NOTE: remove override of `sql.load-csv`
 
 #### 1.0.1 - 2017-09-12
 
