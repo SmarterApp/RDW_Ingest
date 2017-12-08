@@ -764,7 +764,7 @@ sql:
         school:
           sql:
             insert: >-
-              INSERT INTO school (id, natural_id, name, external_id, district_id, district_group_id, school_group_id, update_import_id, updated, migrate_id)
+              INSERT INTO school (id, natural_id, name, external_id, district_id, district_group_id, school_group_id, district_embargo_enabled, update_import_id, updated, migrate_id)
                SELECT
                  ss.id,
                  ss.natural_id,
@@ -773,6 +773,7 @@ sql:
                  ss.district_id,
                  ss.district_group_id,
                  ss.school_group_id,
+                 0,
                  ss.update_import_id,
                  ss.updated,
                  ss.migrate_id
@@ -788,6 +789,7 @@ sql:
                 rs.district_id = ss.district_id,
                 rs.district_group_id = ss.district_group_id,
                 rs.school_group_id = ss.school_group_id,
+                rs.district_embargo_enabled = 0,
                 rs.update_import_id = ss.update_import_id,
                 rs.updated = ss.updated,
                 rs.migrate_id = ss.migrate_id
@@ -802,8 +804,8 @@ sql:
         district:
           sql:
             insert: >-
-              INSERT INTO district(id, natural_id, name, external_id)
-                SELECT sd.id, sd.natural_id, sd.name, sd.external_id
+              INSERT INTO district(id, natural_id, name, external_id, embargo_enabled)
+                SELECT sd.id, sd.natural_id, sd.name, sd.external_id, 0
                   FROM staging_district sd
                     LEFT JOIN district rd ON rd.id = sd.id
                   WHERE rd.id IS NULL;
@@ -811,7 +813,9 @@ sql:
             update: >-
               UPDATE district rd
                 JOIN staging_district sd ON sd.id = rd.id
-                SET rd.name = sd.name, rd.external_id = sd.external_id;
+                SET rd.name = sd.name,
+                    rd.external_id = sd.external_id,
+                    rd.embargo_enabled = 0;
 
             delete: >-
               DELETE rd FROM district rd
