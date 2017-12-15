@@ -175,21 +175,22 @@ sql:
         asmt:
           sql:
             insert: >-
-              INSERT INTO ica_asmt (id, grade_id, school_year, subject_id, name, update_import_id, migrate_id)
+              INSERT INTO asmt (id, grade_id, school_year, subject_id, name, type_id, update_import_id, migrate_id)
                 SELECT DISTINCT
                   sa.id,
                   sa.grade_id,
                   sa.school_year,
                   sa.subject_id,
                   sa.name,
+                  sa.type_id,
                   sa.update_import_id,
                   sa.migrate_id
                 FROM staging_asmt sa
-                  LEFT JOIN ica_asmt ra ON ra.id = sa.id
+                  LEFT JOIN asmt ra ON ra.id = sa.id
                 WHERE ra.id IS NULL and sa.deleted = 0 AND sa.type_id = 1;
 
             update: >-
-              UPDATE ica_asmt
+              UPDATE asmt
               SET
                 grade_id  = sa.grade_id,
                 school_year = sa.school_year,
@@ -197,12 +198,12 @@ sql:
                 name = sa.name,
                 update_import_id = sa.update_import_id,
                 migrate_id = sa.migrate_id
-              FROM staging_asmt sa WHERE sa.id = ica_asmt.id AND sa.type_id = 1;
+              FROM staging_asmt sa WHERE sa.id = asmt.id AND sa.type_id = 1;
 
             delete: >-
-              DELETE FROM ica_asmt
+              DELETE FROM asmt
                 USING staging_asmt sa
-              WHERE sa.id = ica_asmt.id AND sa.deleted = 1 AND sa.type_id = 1;
+              WHERE sa.id = asmt.id AND sa.deleted = 1 AND sa.type_id = 1;
 
       # ------------ school -----------------------------------------------------------------------
         school:
@@ -258,11 +259,11 @@ sql:
                WHERE district.id IN (SELECT district_id from staging_school WHERE deleted = 1)
                    AND NOT EXISTS(SELECT rs.id from school rs WHERE rs.district_id = district.id);
 
-      # ------------ fact_student_ica_exam -----------------------------------------------------------------------
-        fact_student_ica_exam:
+      # ------------ fact_student_exam -----------------------------------------------------------------------
+        fact_student_exam:
           sql:
             insert: >-
-              INSERT INTO fact_student_ica_exam (
+              INSERT INTO fact_student_exam (
                 id,
                 school_id,
                 student_id,
@@ -330,8 +331,8 @@ sql:
                   se.update_import_id,
                   se.migrate_id
                 FROM staging_exam se
-                  JOIN ica_asmt ra ON ra.id = se.asmt_id
-                  LEFT JOIN fact_student_ica_exam fe on fe.id = se.id
+                  JOIN asmt ra ON ra.id = se.asmt_id
+                  LEFT JOIN fact_student_exam fe on fe.id = se.id
                   LEFT JOIN (
                               SELECT DISTINCT s.exam_id
                                 ,s.scale_score
@@ -371,7 +372,7 @@ sql:
                 WHERE se.type_id = 1 AND se.deleted = 0 AND fe.id IS NULL;
 
             update: >-
-                UPDATE fact_student_ica_exam
+                UPDATE fact_student_exam
                 SET
                   school_id                   = se.school_id,
                   student_id                  = se.student_id,
@@ -404,8 +405,8 @@ sql:
                   update_import_id            = se.update_import_id,
                   migrate_id                  = se.migrate_id
                  FROM staging_exam se
-                  JOIN ica_asmt ra ON ra.id = se.asmt_id
-                  LEFT JOIN fact_student_ica_exam fe ON fe.id = se.id
+                  JOIN asmt ra ON ra.id = se.asmt_id
+                  LEFT JOIN fact_student_exam fe ON fe.id = se.id
                   LEFT JOIN (
                               SELECT
                                 s.exam_id,
@@ -446,9 +447,9 @@ sql:
                                 INNER JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
                                                                          AND m.num = 4
                             ) AS claim4 ON claim4.exam_id = se.id
-                WHERE se.id = fact_student_ica_exam.id  AND se.type_id = 1 AND se.deleted = 0;
+                WHERE se.id = fact_student_exam.id  AND se.type_id = 1 AND se.deleted = 0;
 
             delete: >-
-              DELETE FROM fact_student_ica_exam
+              DELETE FROM fact_student_exam
                 USING staging_exam se
-              WHERE se.id = fact_student_ica_exam.id and se.deleted = 1;
+              WHERE se.id = fact_student_exam.id and se.deleted = 1;

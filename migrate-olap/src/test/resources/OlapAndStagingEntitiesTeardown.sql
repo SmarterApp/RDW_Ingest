@@ -15,7 +15,7 @@ DELETE FROM staging_student_ethnicity where student_id in ( -11, -33, -89, -88, 
 DELETE FROM staging_student where id in ( -11, -33, -89, -88, -87, -86);
 
 -- CLEAN UP reporting
-DELETE FROM fact_student_ica_exam where id in (-88, -87, -86, -85, -84, -100);
+DELETE FROM fact_student_exam where id in (-88, -87, -86, -85, -84, -100);
 
 -- ------------------------------------------ Student   ------------------------------------------------------------------------------------------------
 DELETE FROM student_ethnicity where student_id in ( -11, -33, -89, -88, -87, -86);
@@ -26,4 +26,4 @@ DELETE FROM school where id in (-99, -98, -1);
 DELETE FROM district where id in (-99, -98, -1);
 
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
-DELETE FROM ica_asmt where id in ( -11, -99, -98);
+DELETE FROM asmt where id in ( -11, -99, -98);

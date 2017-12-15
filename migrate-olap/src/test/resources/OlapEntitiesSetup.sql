@@ -8,9 +8,9 @@ INSERT INTO school (id, district_id, name, update_import_id, migrate_id) VALUES
   (-99, -99,'Before Test -99', -1, -1);
 
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
-INSERT INTO ica_asmt (id, grade_id, subject_id, school_year, name, update_import_id, migrate_id) VALUES
-   (-11, -98, 1, 1999, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', -1, -1),
-   (-99, -99, 1, 1999, 'test', -1, -1);
+INSERT INTO asmt (id, grade_id,  type_id, subject_id, school_year, name, update_import_id, migrate_id) VALUES
+   (-11, -98, 1, 1, 1999, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', -1, -1),
+   (-99, -99, 1, 1, 1999, 'test', -1, -1);
 
 -- ------------------------------------------ Student and Groups  ------------------------------------------------------------------------------------------------
 INSERT INTO student (id, gender_id, update_import_id, migrate_id) VALUES
@@ -21,7 +21,7 @@ INSERT INTO student_ethnicity(student_id, ethnicity_id) values
     (-89,  -99);
 
 -- ------------------------------------------ Exams ---------------------------------------------------------------------------------------------
-INSERT INTO  fact_student_ica_exam (id, school_year, asmt_id, asmt_grade_id, completeness_id,
+INSERT INTO  fact_student_exam (id, school_year, asmt_id, asmt_grade_id, completeness_id,
                                     administration_condition_id, performance_level,
                                     scale_score, scale_score_std_err, grade_id, student_id, school_id,
                                     iep, lep, section504, economic_disadvantage, migrant_status,
