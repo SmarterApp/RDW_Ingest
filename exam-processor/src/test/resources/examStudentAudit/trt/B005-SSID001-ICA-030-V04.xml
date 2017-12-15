@@ -56,6 +56,12 @@
     <Score measureLabel="PerformanceLevel" measureOf="Overall" standardError="" value="3"/>
     <Score measureLabel="ScaleScore" measureOf="SOCK_R" standardError="42" value="2501" />
     <Score measureLabel="PerformanceLevel" measureOf="SOCK_R" standardError="" value="3" />
+    <Score measureLabel="ScaleScore" measureOf="SOCK_LS" standardError="42" value="2501" />
+    <Score measureLabel="PerformanceLevel" measureOf="SOCK_LS" standardError="" value="3" />
+    <Score measureLabel="ScaleScore" measureOf="4-CR" standardError="42" value="2501" />
+    <Score measureLabel="PerformanceLevel" measureOf="4-CR" standardError="" value="3" />
+    <Score measureLabel="ScaleScore" measureOf="2-W" standardError="42" value="2501" />
+    <Score measureLabel="PerformanceLevel" measureOf="2-W" standardError="" value="3" />
     <Item adminDate="2018-05-01T08:20:00.000000" bankKey="777" dropped="0" format="MC" isSelected="1" key="10001" mimeType="text/plain"
           numberVisits="1" operational="1" pageNumber="1" pageTime="3706" pageVisits="1" position="11" responseDuration="3.706"
           score="1" scoreStatus="SCORED" segmentId="ecc300d0-997a-4527-81e6-9719356f9d00">

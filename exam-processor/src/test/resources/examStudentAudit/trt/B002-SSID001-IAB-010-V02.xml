@@ -1,6 +1,9 @@
 <TDSReport>
-  <!-- add Accommodation code="NEA_MT" -->
+  <!-- add Accommodation code="NEA_MT" and delete code="NEA_Calc" -->
   <!-- change administrationCondition to "NS" -->
+  <!-- change response and score Item key="50002" -->
+  <!-- change response and score Item key="50003" -->
+  <!-- delete item Item adminDate="2018-05-01T08:20:00.000000" bankKey="777" dropped="0" format="MC" isSelected="1" key="50005" -->
   <Test academicYear="2018" assessmentType="Interim" assessmentVersion="11111" bankKey="777" contract="MOCK" grade="11"
         mode="online" name="(naturalId)MOCK-IAB-G11M-2017-2018" subject="Math"
         testId="MOCK-IAB-G11M-2017-2018"/>
@@ -46,7 +49,7 @@
                server="ip-10-113-148-45" sessionId="WEL-bd74" startDate="2018-05-01T08:05:00.000000" status="scored"
                statusDate="2018-05-01T08:50:00.000000" windowId="WINDOW_ID">
     <Segment algorithm="Fixed" algorithmVersion="0" id="5a703740-3a00-46bf-a065-91dfc9ee93e0" position="1"/>
-    <Accommodation code="NEA_Calc" segment="0" type="type001" value="value001"/>
+    <!-- Accommodation code="NEA_Calc" segment="0" type="type001" value="value001"/ -->
     <Accommodation code="NEA_MT" segment="0" type="type001" value="value001"/>
     <Score measureLabel="ScaleScore" measureOf="Overall" standardError="42.0" value="2821.3333333333335"/>
     <Score measureLabel="PerformanceLevel" measureOf="Overall" standardError="" value="3"/>
@@ -59,23 +62,23 @@
     </Item>
     <Item adminDate="2018-05-01T08:20:00.000000" bankKey="777" dropped="0" format="MC" isSelected="1" key="50002" mimeType="text/plain"
           numberVisits="1" operational="1" pageNumber="1" pageTime="1894" pageVisits="1" position="11" responseDuration="1.894"
-          score="1" scoreStatus="SCORED" segmentId="5a703740-3a00-46bf-a065-91dfc9ee93e0">
-      <Response date="2018-05-01T08:25:00.000000" type="value">C</Response>
+          score="0" scoreStatus="SCORED" segmentId="5a703740-3a00-46bf-a065-91dfc9ee93e0">
+      <Response date="2018-05-01T08:25:00.000000" type="value">A</Response>
     </Item>
     <Item adminDate="2018-05-01T08:20:00.000000" bankKey="777" dropped="0" format="MI" isSelected="1" key="50003" mimeType="text/plain"
           numberVisits="1" operational="1" pageNumber="1" pageTime="26450" pageVisits="1" position="15" responseDuration="26.45"
-          score="1" scoreStatus="SCORED" segmentId="5a703740-3a00-46bf-a065-91dfc9ee93e0">
-      <Response date="2018-05-01T08:25:00.000000" type="value">MI response</Response>
+          score="0" scoreStatus="SCORED" segmentId="5a703740-3a00-46bf-a065-91dfc9ee93e0">
+      <Response date="2018-05-01T08:25:00.000000" type="value">MI response change</Response>
     </Item>
     <Item adminDate="2018-05-01T08:20:00.000000" bankKey="777" dropped="0" format="MI" isSelected="1" key="50004" mimeType="text/plain"
           numberVisits="1" operational="1" pageNumber="1" pageTime="16629" pageVisits="1" position="9" responseDuration="16.629"
           score="1" scoreStatus="SCORED" segmentId="5a703740-3a00-46bf-a065-91dfc9ee93e0">
       <Response date="2018-05-01T08:25:00.000000" type="value">MI response</Response>
     </Item>
-    <Item adminDate="2018-05-01T08:20:00.000000" bankKey="777" dropped="0" format="MC" isSelected="1" key="50005" mimeType="text/plain"
+    <!--Item adminDate="2018-05-01T08:20:00.000000" bankKey="777" dropped="0" format="MC" isSelected="1" key="50005" mimeType="text/plain"
           numberVisits="1" operational="1" pageNumber="1" pageTime="13563" pageVisits="1" position="12" responseDuration="13.563"
           score="1" scoreStatus="SCORED" segmentId="5a703740-3a00-46bf-a065-91dfc9ee93e0">
       <Response date="2018-05-01T08:25:00.000000" type="value">D</Response>
-    </Item>
+    </Item-->
   </Opportunity>
 </TDSReport>
