@@ -5,8 +5,8 @@ sql:
         SELECT MAX(m.last_at) FROM migrate m WHERE m.status = 20
 
       create: >-
-        INSERT INTO migrate (job_id, status, first_at, last_at, size, migrate_codes)
-          VALUES (:job_id, :status, :first_at, :last_at, :size, :migrate_codes)
+        INSERT INTO migrate (job_id, status, first_at, last_at, size, migrate_codes, migrate_embargo)
+          VALUES (:job_id, :status, :first_at, :last_at, :size, :migrate_codes, :migrate_embargo)
 
       delete: >-
         DELETE FROM migrate WHERE id = :id
@@ -41,10 +41,10 @@ sql:
                     LIMIT :size) AS batch) s2
           )
 
-      existsCodeImportContentInTimeRange:
+      existsImportContentInTimeRange:
           SELECT 1 AS existsCodeImportContent
             FROM import wi
-          WHERE wi.content = 3
+          WHERE wi.content = :content
              AND ((wi.status != 0 AND wi.updated >= :first_at AND wi.updated <= :last_at) OR
                (wi.status = 0 AND wi.created <= :last_at))
           LIMIT 1
