@@ -39,6 +39,7 @@ sql:
       - TRUNCATE TABLE staging_translation
       - TRUNCATE TABLE staging_school
       - TRUNCATE TABLE staging_district
+      - TRUNCATE TABLE staging_district_embargo
       - TRUNCATE TABLE staging_district_group
       - TRUNCATE TABLE staging_school_group
       - TRUNCATE TABLE staging_student
@@ -57,6 +58,8 @@ sql:
       - TRUNCATE TABLE staging_exam_claim_score
 
     entities:
+        ##### CODES entities ####################################################################
+
         # ------------ grade  -------------------------------------------------------------------
         grade:
           sql:
@@ -67,7 +70,7 @@ sql:
               INSERT INTO staging_grade (id, code, name) VALUES
                 (:id, :code, :name)
 
-        # ------------ completeness  -------------------------------------------------------------
+        # ------------ completeness  ------------------------------------------------------------
         completeness:
           sql:
             warehouseRead: >-
@@ -77,7 +80,7 @@ sql:
               INSERT INTO staging_completeness (id, code) VALUES
                 (:id, :code)
 
-        # ------------ administration_condition  -------------------------------------------------------------
+        # ------------ administration_condition  ------------------------------------------------
         administration_condition:
           sql:
             warehouseRead: >-
@@ -87,7 +90,7 @@ sql:
               INSERT INTO staging_administration_condition (id, code) VALUES
                 (:id, :code)
 
-        # ------------ ethnicity  -------------------------------------------------------------
+        # ------------ ethnicity  ---------------------------------------------------------------
         ethnicity:
           sql:
             warehouseRead: >-
@@ -97,7 +100,7 @@ sql:
               INSERT INTO staging_ethnicity (id, code) VALUES
                 (:id, :code)
 
-        # ------------ gender  -------------------------------------------------------------
+        # ------------ gender  ------------------------------------------------------------------
         gender:
           sql:
             warehouseRead: >-
@@ -107,7 +110,7 @@ sql:
               INSERT INTO staging_gender (id, code) VALUES
                 (:id, :code)
 
-        # ------------ accommodation  -------------------------------------------------------------
+        # ------------ accommodation  -----------------------------------------------------------
         accommodation:
           sql:
             warehouseRead: >-
@@ -127,7 +130,7 @@ sql:
               INSERT INTO staging_school_year (year) VALUES
                 (:year)
 
-        # ------------ claim  -------------------------------------------------------------
+        # ------------ claim  -------------------------------------------------------------------
         claim:
           sql:
             warehouseRead: >-
@@ -137,7 +140,7 @@ sql:
               INSERT INTO staging_claim (id, subject_id, code, name, description) VALUES
                 (:id, :subject_id, :code, :name, :description)
 
-        # ------------ target  -------------------------------------------------------------
+        # ------------ target  ------------------------------------------------------------------
         target:
           sql:
             warehouseRead: >-
@@ -148,7 +151,7 @@ sql:
                 (:id, :claim_id, :code, :description)
 
 
-        # ------------ common_core_standard  -------------------------------------------------------------
+        # ------------ common_core_standard  ----------------------------------------------------
         common_core_standard:
           sql:
             warehouseRead: >-
@@ -159,7 +162,7 @@ sql:
                 (:id, :natural_id, :subject_id, :description)
 
 
-        # ------------ depth_of_knowledge  -------------------------------------------------------------
+        # ------------ depth_of_knowledge  ------------------------------------------------------
         depth_of_knowledge:
           sql:
             warehouseRead: >-
@@ -169,7 +172,7 @@ sql:
               INSERT INTO staging_depth_of_knowledge (id, level, subject_id, description, reference) VALUES
                 (:id, :level, :subject_id, :description, :reference)
 
-        # ------------ math_practice  -------------------------------------------------------------
+        # ------------ math_practice  -----------------------------------------------------------
         math_practice:
           sql:
             warehouseRead: >-
@@ -179,7 +182,7 @@ sql:
               INSERT INTO staging_math_practice (practice, description, code) VALUES
                 (:practice, :description, :code)
 
-        # ------------ item_trait_score  -------------------------------------------------------------
+        # ------------ item_trait_score  --------------------------------------------------------
         item_trait_score:
           sql:
             warehouseRead: >-
@@ -189,7 +192,7 @@ sql:
               INSERT INTO staging_item_trait_score (id, dimension) VALUES
                 (:id, :dimension)
 
-        # ------------ accommodation_translation  -------------------------------------------------------------
+        # ------------ accommodation_translation  -----------------------------------------------
         accommodation_translation:
           sql:
             warehouseRead: >-
@@ -200,9 +203,38 @@ sql:
               INSERT INTO staging_translation (namespace, label_code, language_code, label) VALUES
                 ("backend", :label_code, :language_code, :label)
 
-        ##### Entities migrated by import id range ####################################################################
+
+        ##### EMBARGO ###########################################################################
+
+        # ------------ embargo ------------------------------------------------------------------
+        # Create records with effective embargo for ALL districts regardless of timestamps. The
+        # truth table for how state and district setting resolve to the effective setting is a bit
+        # non-obvious. Recall that state=FALSE trumps district setting, "default" for individual
+        # embargo is FALSE and "default" for aggregate embargo is TRUE:
+        #    district  T   F  null   T   F  null
+        #             -----------   -----------
+        # state T    | T | F | T |  | T | F | T |
+        #       F    | F | F | F |  | F | F | F |
+        #       null | T | F | F |  | T | F | T |
+        #             -----------    -----------
+        # TODO - it would be slightly more efficient to get just districts that have schools associated with them
+        district_embargo:
+          sql:
+            warehouseRead:
+              SELECT d.id as district_id,
+                     IF(se.individual = 0 OR de.individual = 0 OR (se.individual IS NULL and de.individual IS NULL), 0, 1) AS individual,
+                     IF(se.individual = 0 OR de.individual = 0, 0, 1) AS aggregate
+              FROM district d
+                LEFT JOIN district_embargo de ON de.district_id = d.id AND de.school_year = :school_year
+                LEFT JOIN state_embargo se ON se.school_year = :school_year
+            stagingInsert:
+              INSERT INTO staging_district_embargo (district_id, individual, aggregate, migrate_id) VALUES
+                (:district_id, :individual, :aggregate, :migrate_id)
+
+
+        ##### Entities migrated by timestamp range ##############################################
+        # filter results by timestamp, treating create/update separately
         # migrate_id is added by JdbcSqlCopyWarehouseToStagingRepository
-        ###############################################################################################################
 
         ##### ORGANIZATION ImportContent Type ####
         #

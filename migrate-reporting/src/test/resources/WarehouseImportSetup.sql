@@ -16,5 +16,6 @@ INSERT INTO import (id, status, content, contentType, digest, batch, creator, cr
   (-88,  -1, 5, 'application/xml', 'hash-student',    'batch', 'dwtest@example.com', '2017-07-18 19:06:06.966000', '2017-07-18 19:08:34.966000'),
   (-89,  -1, 5, 'application/xml', 'hash-student',    'batch', 'dwtest@example.com', '2017-07-18 19:05:05.966000', '2017-07-18 19:06:00.966000'),
   (-90,   1, 1, 'application/xml', 'hash-iab_exam',   'batch', 'dwtest@example.com', '2017-07-18 19:05:04.966000', '2017-07-18 19:06:35.966000'),
+  (-93,   1, 6, 'text/plain',      'embargo',         'batch', 'dwtest@example.com', '2017-07-18 19:05:04.966000', '2017-07-18 19:06:35.966000'),
   (-99,   1, 3, 'application/xml', 'hash-code',       'batch', 'dwtest@example.com', '2017-07-18 19:05:03.966000', '2017-07-18 19:06:34.966000'),
   (-5000, 1, 2, 'application/xml', 'hash-preload',    'batch', 'dwtest@example.com', '2017-05-18 19:05:33.966000', '2017-05-18 19:06:34.966000');
