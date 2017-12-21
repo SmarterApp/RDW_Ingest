@@ -12,7 +12,7 @@ INSERT INTO asmt (id, grade_id,  type_id, subject_id, school_year, name, label, 
    (-11, -98, 1, 1, 1999, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', 'SBAC-IAB-FIXED-G4M-OA-MATH-4', -1, -1),
    (-99, -99, 1, 3, 1999, 'test', 'test', -1, -1);
 
-INSERT INTO active_asmt_per_year(asmt_id, school_year) values
+INSERT INTO asmt_active_year(asmt_id, school_year) values
     (-11, 1995);
 
 -- ------------------------------------------ Student and Groups  ------------------------------------------------------------------------------------------------

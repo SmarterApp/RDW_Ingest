@@ -27,4 +27,4 @@ DELETE FROM district where id in (-99, -98, -1);
 
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
 DELETE FROM asmt where id in ( -11, -99, -98, -19);
-DELETE FROM active_asmt_per_year where asmt_id in ( -11, -99, -98, -19);
+DELETE FROM asmt_active_year where asmt_id in ( -11, -99, -98, -19);

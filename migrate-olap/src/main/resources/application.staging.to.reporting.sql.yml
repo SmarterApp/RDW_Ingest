@@ -474,17 +474,17 @@ sql:
                 USING staging_exam se
               WHERE se.id = fact_student_exam.id and se.deleted = 1;
 
-      # ------------ active_asmt_per_year -----------------------------------------------------------------------
-        active_asmt_per_year:
+      # ------------ asmt_active_year -----------------------------------------------------------------------
+        asmt_active_year:
           sql:
             insert: >-
-             INSERT INTO active_asmt_per_year (asmt_id, school_year)
-               SELECT asmt_id, school_year
-                 FROM
-                 ( SELECT DISTINCT f.asmt_id as asmt_id,  f.asmt_grade_id AS grade_id, f.school_year,  asmt.subject_id, asmt.type_id FROM fact_student_exam f JOIN asmt asmt ON asmt.id = f.asmt_id
-                   UNION
-                   SELECT id AS asmt_id, grade_id, school_year, subject_id, type_id FROM asmt
-                 ) a ;
+              INSERT INTO asmt_active_year (asmt_id, school_year)
+                SELECT asmt_id, school_year
+                FROM
+                  ( SELECT DISTINCT f.asmt_id as asmt_id,  f.asmt_grade_id AS grade_id, f.school_year,  a.subject_id, a.type_id FROM fact_student_exam f JOIN asmt a ON a.id = f.asmt_id
+                    UNION
+                    SELECT a.id AS asmt_id, a.grade_id, a.school_year, a.subject_id, a.type_id FROM asmt a
+                  ) t ;
 
             delete: >-
-              DELETE FROM active_asmt_per_year;
+              DELETE FROM asmt_active_year;

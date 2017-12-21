@@ -11,4 +11,4 @@ DELETE FROM administration_condition WHERE id IN (-99,-98, -97, -96);
 DELETE FROM ethnicity WHERE id IN (-99,-98);
 DELETE FROM gender  WHERE id IN (-99,-98);
 DELETE FROM grade WHERE id IN (-99,-98);
-DELETE FROM active_asmt_per_year WHERE school_year IN (1999, 2000);
+DELETE FROM asmt_active_year WHERE school_year IN (1999, 2000);
