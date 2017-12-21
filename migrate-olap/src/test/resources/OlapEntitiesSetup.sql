@@ -8,9 +8,12 @@ INSERT INTO school (id, district_id, name, update_import_id, migrate_id) VALUES
   (-99, -99,'Before Test -99', -1, -1);
 
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
-INSERT INTO asmt (id, grade_id,  type_id, subject_id, school_year, name, update_import_id, migrate_id) VALUES
-   (-11, -98, 1, 1, 1999, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', -1, -1),
-   (-99, -99, 1, 1, 1999, 'test', -1, -1);
+INSERT INTO asmt (id, grade_id,  type_id, subject_id, school_year, name, label, update_import_id, migrate_id) VALUES
+   (-11, -98, 1, 1, 1999, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', 'SBAC-IAB-FIXED-G4M-OA-MATH-4', -1, -1),
+   (-99, -99, 1, 3, 1999, 'test', 'test', -1, -1);
+
+INSERT INTO active_asmt_per_year(asmt_id, school_year) values
+    (-11, 1995);
 
 -- ------------------------------------------ Student and Groups  ------------------------------------------------------------------------------------------------
 INSERT INTO student (id, gender_id, update_import_id, migrate_id) VALUES
@@ -30,4 +33,4 @@ INSERT INTO  fact_student_exam (id, school_year, asmt_id, asmt_grade_id, complet
                                     claim3_scale_score, claim3_scale_score_std_err,claim3_category,
                                     claim4_scale_score, claim4_scale_score_std_err,claim4_category,
                                     completed_at, update_import_id, migrate_id) VALUES
-  (-88, 1999, -99, -98, -99, -99, 1, 2145, 0.17, -98, -89, -1, true, true, false, false, true,  -2000, 0.11, 1, -2100, 0.12, 2, -2500, 0.13, 3, -3000, .15, 4, '2016-08-14 19:05:33.000000', -1, -1);
+  (-88, 1999, -99, -99, -99, -99, 1, 2145, 0.17, -98, -89, -1, true, true, false, false, true,  -2000, 0.11, 1, -2100, 0.12, 2, -2500, 0.13, 3, -3000, .15, 4, '2016-08-14 19:05:33.000000', -1, -1);

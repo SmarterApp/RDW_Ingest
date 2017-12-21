@@ -39,7 +39,7 @@ migrate:
   aws:
     location: MigrateOlap
     redshift:
-      role: ${rdw.migrate.aws.redshift.role}
+      role: arn:aws:iam::269146879732:role/rdw-redshift
 
   batch:
     size: 500000

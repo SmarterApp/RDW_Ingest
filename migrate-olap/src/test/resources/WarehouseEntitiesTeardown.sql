@@ -13,4 +13,4 @@ DELETE FROM district_group where id in (-98);
 DELETE FROM school_group where id in (-98, -1);
 
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
-DELETE FROM asmt where id in (-11, -99, -98, -97);
+DELETE FROM asmt where id in (-11, -99, -98, -97, -19);
