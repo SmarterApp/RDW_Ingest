@@ -20,8 +20,8 @@ spring:
     password:
   olap_datasource:
     url-server: rdw-dev.cibkulpjrgtr.us-west-2.redshift.amazonaws.com:5439
-    url-schema: reporting_olap_rst
-    username: awsrst
+    url-schema: reporting_olap_test
+    username: citest
     password:
   warehouse_datasource:
     url-server: rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306
