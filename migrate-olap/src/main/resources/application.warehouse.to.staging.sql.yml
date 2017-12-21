@@ -14,6 +14,7 @@ sql:
       - delete from staging_asmt
       - delete from staging_exam
       - delete from staging_exam_claim_score
+      - delete from staging_school_year
 
     entities:
         # ------------ administration_condition  -------------------------------------------------------------------
@@ -112,6 +113,25 @@ sql:
             stagingInsert: >-
                 COPY staging_grade (id, code, name)
                   FROM '${archive.root}/${migrate.aws.location}/grade.part_00000'
+                CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+                FORMAT AS CSV
+                DELIMITER ','
+                COMPUPDATE OFF
+
+        # ------------ school_year  -------------------------------------------------------------------
+        school_year:
+          sql:
+            warehouseRead: >-
+                SELECT
+                  year
+                FROM school_year
+                INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/year'
+                FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+                COPY staging_school_year (year)
+                  FROM '${archive.root}/${migrate.aws.location}/year.part_00000'
                 CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
                 FORMAT AS CSV
                 DELIMITER ','
@@ -252,11 +272,12 @@ sql:
                school_year,
                subject_id,
                name,
+               label,
                deleted,
                update_import_id,
                ? as migrate_id
              FROM asmt wa
-              WHERE wa.type_id = 1
+              WHERE wa.type_id in (1, 3)
                 AND wa.created > ? AND wa.created <= ?
              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/asmt'
              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
@@ -270,6 +291,7 @@ sql:
                 school_year,
                 subject_id,
                 name,
+                label,
                 deleted,
                 update_import_id,
                 migrate_id)
@@ -289,11 +311,12 @@ sql:
                school_year,
                subject_id,
                name,
+               label,
                deleted,
                update_import_id,
                ? as migrate_id
              FROM asmt wa
-              WHERE wa.type_id = 1 AND wa.updated > ? AND wa.updated <= ? AND wa.updated <> wa.created
+              WHERE wa.type_id in (1, 3) AND wa.updated > ? AND wa.updated <= ? AND wa.updated <> wa.created
              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/asmt_update'
              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'
@@ -306,6 +329,7 @@ sql:
                 school_year,
                 subject_id,
                 name,
+                label,
                 deleted,
                 update_import_id,
                 migrate_id)
@@ -452,7 +476,7 @@ sql:
                   update_import_id,
                  ? as migrate_id
                 FROM exam we
-                  WHERE we.created > ? AND we.created <= ? AND type_id = 1
+                  WHERE we.created > ? AND we.created <= ? AND type_id in (1, 3)
                 INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam'
                 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                 LINES TERMINATED BY '\n'
@@ -512,7 +536,7 @@ sql:
                   update_import_id,
                  ? as migrate_id
                FROM exam we
-                WHERE we.updated > ? AND we.updated <= ? AND we.updated <> we.created AND type_id = 1
+                WHERE we.updated > ? AND we.updated <= ? AND we.updated <> we.created AND type_id in (1, 3)
                INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_update'
                FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                LINES TERMINATED BY '\n'
@@ -560,7 +584,7 @@ sql:
                   ? as migrate_id
                 FROM exam_claim_score
                   JOIN exam we ON we.id = exam_claim_score.exam_id
-                WHERE we.created > ? AND we.created <= ? AND we.deleted = 0 AND we.type_id = 1
+                WHERE we.created > ? AND we.created <= ? AND we.deleted = 0 AND we.type_id in (1, 3)
                 INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_claim_score'
                 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                 LINES TERMINATED BY '\n'
@@ -593,7 +617,7 @@ sql:
                   ? as migrate_id
                FROM exam_claim_score
                   JOIN exam we ON we.id = exam_claim_score.exam_id
-               WHERE we.updated > ? AND we.updated <= ? AND we.updated <> we.created AND we.deleted = 0  AND type_id = 1
+               WHERE we.updated > ? AND we.updated <= ? AND we.updated <> we.created AND we.deleted = 0  AND type_id in (1, 3)
                INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_claim_score_update'
                FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                LINES TERMINATED BY '\n'

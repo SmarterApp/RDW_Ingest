@@ -116,6 +116,24 @@ sql:
                DELETE FROM grade
                WHERE NOT EXISTS(SELECT sg.id FROM staging_grade sg WHERE sg.id = grade.id);
 
+       # ------------ school_year  -------------------------------------------------------------------
+        school_year:
+          sql:
+            update:  >-
+               SELECT 1;
+
+            insert: >-
+               INSERT INTO school_year (year)
+                  SELECT
+                    sy.year
+                  FROM staging_school_year sy
+                    LEFT JOIN school_year ry ON ry.year = sy.year
+                  WHERE ry.year IS NULL;
+
+            delete: >-
+              DELETE FROM school_year
+                  WHERE NOT EXISTS(SELECT sy.year FROM staging_school_year sy WHERE sy.year = school_year.year);
+
       # ------------ student -----------------------------------------------------------------------
         student:
           sql:
@@ -175,19 +193,20 @@ sql:
         asmt:
           sql:
             insert: >-
-              INSERT INTO asmt (id, grade_id, school_year, subject_id, name, type_id, update_import_id, migrate_id)
+              INSERT INTO asmt (id, grade_id, school_year, subject_id, name, label, type_id, update_import_id, migrate_id)
                 SELECT DISTINCT
                   sa.id,
                   sa.grade_id,
                   sa.school_year,
                   sa.subject_id,
                   sa.name,
+                  sa.label,
                   sa.type_id,
                   sa.update_import_id,
                   sa.migrate_id
                 FROM staging_asmt sa
                   LEFT JOIN asmt ra ON ra.id = sa.id
-                WHERE ra.id IS NULL and sa.deleted = 0 AND sa.type_id = 1;
+                WHERE ra.id IS NULL and sa.deleted = 0;
 
             update: >-
               UPDATE asmt
@@ -196,14 +215,15 @@ sql:
                 school_year = sa.school_year,
                 subject_id = sa.subject_id,
                 name = sa.name,
+                label = sa.label,
                 update_import_id = sa.update_import_id,
                 migrate_id = sa.migrate_id
-              FROM staging_asmt sa WHERE sa.id = asmt.id AND sa.type_id = 1;
+              FROM staging_asmt sa WHERE sa.id = asmt.id;
 
             delete: >-
               DELETE FROM asmt
                 USING staging_asmt sa
-              WHERE sa.id = asmt.id AND sa.deleted = 1 AND sa.type_id = 1;
+              WHERE sa.id = asmt.id AND sa.deleted = 1;
 
       # ------------ school -----------------------------------------------------------------------
         school:
@@ -369,7 +389,7 @@ sql:
                                 INNER JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
                                                                          AND m.num = 4
                             ) AS claim4 ON claim4.exam_id = se.id
-                WHERE se.type_id = 1 AND se.deleted = 0 AND fe.id IS NULL;
+                WHERE se.deleted = 0 AND fe.id IS NULL;
 
             update: >-
                 UPDATE fact_student_exam
@@ -447,9 +467,24 @@ sql:
                                 INNER JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
                                                                          AND m.num = 4
                             ) AS claim4 ON claim4.exam_id = se.id
-                WHERE se.id = fact_student_exam.id  AND se.type_id = 1 AND se.deleted = 0;
+                WHERE se.id = fact_student_exam.id AND se.deleted = 0;
 
             delete: >-
               DELETE FROM fact_student_exam
                 USING staging_exam se
               WHERE se.id = fact_student_exam.id and se.deleted = 1;
+
+      # ------------ asmt_active_year -----------------------------------------------------------------------
+        asmt_active_year:
+          sql:
+            insert: >-
+              INSERT INTO asmt_active_year (asmt_id, school_year)
+                SELECT asmt_id, school_year
+                FROM
+                  ( SELECT DISTINCT f.asmt_id as asmt_id,  f.asmt_grade_id AS grade_id, f.school_year,  a.subject_id, a.type_id FROM fact_student_exam f JOIN asmt a ON a.id = f.asmt_id
+                    UNION
+                    SELECT a.id AS asmt_id, a.grade_id, a.school_year, a.subject_id, a.type_id FROM asmt a
+                  ) t ;
+
+            delete: >-
+              DELETE FROM asmt_active_year;
