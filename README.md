@@ -38,9 +38,10 @@ echo 'export PATH="/usr/local/opt/mysql@5.6/bin:$PATH"' >> ~/.bash_profile
 ```
 
 Because brew isn't cool and directly sets the bind address you must modify `/usr/local/Cellar/mysql@5.6/5.6.34/homebrew.mxcl.mysql@5.6.plist` 
-(make sure to use your minor version of the installation) and set `--bind-address=*`. 
-You'll need to restart mysql after that, `brew services restart mysql@5.6`. You may need to fully stop and start
-the service if you get a `mysql.sock` error at this point:
+(make sure to use your minor version of the installation) and set `--bind-address=*`. NOTE: with newer
+versions this setting may be in the my.cnf file (see below). You'll need to restart mysql after that,
+`brew services restart mysql@5.6`. You may need to fully stop and start the service if you get a
+`mysql.sock` error at this point:
 ```bash
 brew services stop mysql@5.6
 brew services start mysql@5.6 
@@ -53,8 +54,8 @@ mysql> GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
 mysql> exit
 ```
 
-You should load your timezone info, because we'll be forcing the timezone to 'UTC' in the next step. You may see 
-some warnings of skipped files but no errors when you do this:
+You should load your timezone info, because we'll be forcing the timezone to 'UTC' in the next step.
+You may see some warnings of skipped files but no errors when you do this:
 ```bash
 mysql_tzinfo_to_sql /usr/share/zoneinfo | sed -e "s/Local time zone must be set--see zic manual page/local/" | mysql -u root mysql
 ```
@@ -66,6 +67,7 @@ and add the following lines:
 [mysqld]
 explicit_defaults_for_timestamp=1
 default-time-zone='UTC'
+bind-address=*
 ```
 
 Restart MySQL:
