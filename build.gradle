@@ -26,6 +26,7 @@ apply plugin: 'io.spring.dependency-management'
 
 String rdwCommonVersion = project.hasProperty("common") ? project.property("common") : "1.1.0-58"
 String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "1.1.0-278"
+
 String dockerPrefix = "smarterbalanced"
 
 allprojects {
