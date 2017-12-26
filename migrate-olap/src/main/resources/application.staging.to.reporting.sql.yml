@@ -282,6 +282,19 @@ sql:
       # ------------ fact_student_exam -----------------------------------------------------------------------
         fact_student_exam:
           sql:
+            updateStagingLatestExam: >-
+              UPDATE staging_exam
+                SET latest = true
+              FROM (
+                     SELECT
+                       id,
+                       rank()
+                       OVER (PARTITION BY student_id, asmt_id, school_year ORDER BY completed_at DESC, id)
+                     FROM staging_exam where deleted = false
+                   ) t
+                JOIN staging_exam e ON e.id = t.id
+              WHERE t.rank = 1;
+
             insert: >-
               INSERT INTO fact_student_exam (
                 id,
@@ -352,54 +365,56 @@ sql:
                   se.migrate_id
                 FROM staging_exam se
                   JOIN asmt ra ON ra.id = se.asmt_id
-                  LEFT JOIN fact_student_exam fe on fe.id = se.id
-                  LEFT JOIN (
-                              SELECT DISTINCT s.exam_id
-                                ,s.scale_score
-                                ,s.scale_score_std_err
-                                ,s.category
-                              FROM staging_exam_claim_score s
-                                INNER JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
-                                                                         AND m.num = 1
-                            ) AS claim1 ON claim1.exam_id = se.id
-                  LEFT JOIN (
-                              SELECT DISTINCT s.exam_id
-                                ,s.scale_score
-                                ,s.scale_score_std_err
-                                ,s.category
-                              FROM staging_exam_claim_score s
-                                INNER JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
-                                                                         AND m.num = 2
-                            ) AS claim2 ON claim2.exam_id = se.id
-                  LEFT JOIN (
-                              SELECT DISTINCT s.exam_id
-                                ,s.scale_score
-                                ,s.scale_score_std_err
-                                ,s.category
-                              FROM staging_exam_claim_score s
-                                INNER JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
-                                                                         AND m.num = 3
-                            ) AS claim3 ON claim3.exam_id = se.id
-                  LEFT JOIN (
-                              SELECT DISTINCT s.exam_id
-                                ,s.scale_score
-                                ,s.scale_score_std_err
-                                ,s.category
-                              FROM staging_exam_claim_score s
-                                INNER JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
-                                                                         AND m.num = 4
-                            ) AS claim4 ON claim4.exam_id = se.id
-                WHERE se.deleted = 0 AND fe.id IS NULL;
+                  LEFT JOIN fact_student_exam fe ON fe.student_id = se.student_id and fe.asmt_id = se.asmt_id and fe.school_year = se.school_year
+                  JOIN (
+                         SELECT e.id as exam_id
+                           ,scs.scale_score
+                           ,scs.scale_score_std_err
+                           ,scs.category
+                         FROM staging_exam e
+                           LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category FROM staging_exam_claim_score s
+                            JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
+                                                                    AND m.num = 1) scs ON scs.exam_id = e.id
+                       ) AS claim1 ON claim1.exam_id = se.id
+                  JOIN (
+                         SELECT e.id as exam_id
+                           ,scs.scale_score
+                           ,scs.scale_score_std_err
+                           ,scs.category
+                         FROM staging_exam e
+                           LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category FROM staging_exam_claim_score s
+                             JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
+                                                                AND m.num = 2) scs ON scs.exam_id = e.id
+                       ) AS claim2 ON claim2.exam_id = se.id
+                  JOIN (
+                         SELECT e.id as exam_id
+                           ,scs.scale_score
+                           ,scs.scale_score_std_err
+                           ,scs.category
+                         FROM staging_exam e
+                           LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category FROM staging_exam_claim_score s
+                             JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
+                                                                AND m.num = 3) scs ON scs.exam_id = e.id
+                       ) AS claim3 ON claim3.exam_id = se.id
+                  JOIN (
+                         SELECT e.id as exam_id
+                           ,scs.scale_score
+                           ,scs.scale_score_std_err
+                           ,scs.category
+                         FROM staging_exam e
+                           LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category FROM staging_exam_claim_score s
+                             JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
+                                                                AND m.num = 4) scs ON scs.exam_id = e.id
+                       ) AS claim4 ON claim4.exam_id = se.id
+                WHERE se.latest = true AND se.deleted = 0 AND fe.id IS NULL;
 
             update: >-
                 UPDATE fact_student_exam
                 SET
+                  id                          = se.id,
                   school_id                   = se.school_id,
-                  student_id                  = se.student_id,
-                  asmt_id                     = se.asmt_id,
                   grade_id                    = se.grade_id,
                   asmt_grade_id               = ra.grade_id,
-                  school_year                 = se.school_year,
                   iep                         = se.iep,
                   lep                         = se.lep,
                   section504                  = se.section504,
@@ -426,48 +441,48 @@ sql:
                   migrate_id                  = se.migrate_id
                  FROM staging_exam se
                   JOIN asmt ra ON ra.id = se.asmt_id
-                  LEFT JOIN fact_student_exam fe ON fe.id = se.id
-                  LEFT JOIN (
-                              SELECT
-                                s.exam_id,
-                                s.scale_score,
-                                s.scale_score_std_err,
-                                s.category
-                              FROM staging_exam_claim_score s
-                                INNER JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
-                                                                         AND m.num = 1
-                            ) AS claim1 ON claim1.exam_id = se.id
-                  LEFT JOIN (
-                              SELECT
-                                s.exam_id,
-                                s.scale_score,
-                                s.scale_score_std_err,
-                                s.category
-                              FROM staging_exam_claim_score s
-                                INNER JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
-                                                                         AND m.num = 2
-                            ) AS claim2 ON claim2.exam_id = se.id
-                  LEFT JOIN (
-                              SELECT
-                                s.exam_id,
-                                s.scale_score,
-                                s.scale_score_std_err,
-                                s.category
-                              FROM staging_exam_claim_score s
-                                INNER JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
-                                                                         AND m.num = 3
-                            ) AS claim3 ON claim3.exam_id = se.id
-                  LEFT JOIN (
-                              SELECT
-                                s.exam_id,
-                                s.scale_score,
-                                s.scale_score_std_err,
-                                s.category
-                              FROM staging_exam_claim_score s
-                                INNER JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
-                                                                         AND m.num = 4
-                            ) AS claim4 ON claim4.exam_id = se.id
-                WHERE se.id = fact_student_exam.id AND se.deleted = 0;
+                  JOIN fact_student_exam fe ON fe.student_id = se.student_id and fe.asmt_id = se.asmt_id and fe.school_year = se.school_year
+                  JOIN (
+                         SELECT e.id as exam_id
+                           ,scs.scale_score
+                           ,scs.scale_score_std_err
+                           ,scs.category
+                         FROM staging_exam e
+                           LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category FROM staging_exam_claim_score s
+                            JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
+                                                                    AND m.num = 1) scs ON scs.exam_id = e.id
+                       ) AS claim1 ON claim1.exam_id = se.id
+                  JOIN (
+                         SELECT e.id as exam_id
+                           ,scs.scale_score
+                           ,scs.scale_score_std_err
+                           ,scs.category
+                         FROM staging_exam e
+                           LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category FROM staging_exam_claim_score s
+                             JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
+                                                                AND m.num = 2) scs ON scs.exam_id = e.id
+                       ) AS claim2 ON claim2.exam_id = se.id
+                  JOIN (
+                         SELECT e.id as exam_id
+                           ,scs.scale_score
+                           ,scs.scale_score_std_err
+                           ,scs.category
+                         FROM staging_exam e
+                           LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category FROM staging_exam_claim_score s
+                             JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
+                                                                AND m.num = 3) scs ON scs.exam_id = e.id
+                       ) AS claim3 ON claim3.exam_id = se.id
+                  JOIN (
+                         SELECT e.id as exam_id
+                           ,scs.scale_score
+                           ,scs.scale_score_std_err
+                           ,scs.category
+                         FROM staging_exam e
+                           LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category FROM staging_exam_claim_score s
+                             JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
+                                                                AND m.num = 4) scs ON scs.exam_id = e.id
+                       ) AS claim4 ON claim4.exam_id = se.id
+                WHERE se.deleted = 0 AND se.latest = true AND (se.completed_at > fe.completed_at OR se.id = fe.id)
 
             delete: >-
               DELETE FROM fact_student_exam
@@ -481,7 +496,7 @@ sql:
               INSERT INTO asmt_active_year (asmt_id, school_year)
                 SELECT asmt_id, school_year
                 FROM
-                  ( SELECT DISTINCT f.asmt_id as asmt_id,  f.asmt_grade_id AS grade_id, f.school_year,  a.subject_id, a.type_id FROM fact_student_exam f JOIN asmt a ON a.id = f.asmt_id
+                  ( SELECT DISTINCT f.asmt_id as asmt_id, f.asmt_grade_id AS grade_id, f.school_year, a.subject_id, a.type_id FROM fact_student_exam f JOIN asmt a ON a.id = f.asmt_id
                     UNION
                     SELECT a.id AS asmt_id, a.grade_id, a.school_year, a.subject_id, a.type_id FROM asmt a
                   ) t ;
