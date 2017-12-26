@@ -101,14 +101,14 @@ subprojects {
         }
     }
 
+    // this is for creating metadata
+    compileJava.dependsOn(processResources)
+
     /***********************************************************
      * Docker setup for all sub-projects that need it
      ***********************************************************/
     if (!it.hasProperty('skipDocker')) {
         apply plugin: 'com.bmuschko.docker-remote-api'
-
-        // this is for creating metadata
-        compileJava.dependsOn(processResources)
 
         classes.dependsOn(createBuildInfoFile)
 
