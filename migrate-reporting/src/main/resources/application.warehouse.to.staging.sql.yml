@@ -208,7 +208,7 @@ sql:
         district_embargo:
           sql:
             warehouseRead:
-              SELECT district_id, individual, aggregate from embargo where school_year = :school_year
+              SELECT district_id, individual, aggregate from embargo where school_year = ${app.school-year}
 
             stagingInsert:
               INSERT INTO staging_district_embargo (district_id, individual, aggregate, migrate_id) VALUES
