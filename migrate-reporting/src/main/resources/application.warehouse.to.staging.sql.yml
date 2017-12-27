@@ -203,30 +203,13 @@ sql:
               INSERT INTO staging_translation (namespace, label_code, language_code, label) VALUES
                 ("backend", :label_code, :language_code, :label)
 
-
         ##### EMBARGO ###########################################################################
 
-        # ------------ embargo ------------------------------------------------------------------
-        # Create records with effective embargo for ALL districts regardless of timestamps. The
-        # truth table for how state and district setting resolve to the effective setting is a bit
-        # non-obvious. Recall that state=FALSE trumps district setting, "default" for individual
-        # embargo is FALSE and "default" for aggregate embargo is TRUE:
-        #    district  T   F  null   T   F  null
-        #             -----------   -----------
-        # state T    | T | F | T |  | T | F | T |
-        #       F    | F | F | F |  | F | F | F |
-        #       null | T | F | F |  | T | F | T |
-        #             -----------    -----------
-        # TODO - it would be slightly more efficient to get just districts that have schools associated with them
         district_embargo:
           sql:
             warehouseRead:
-              SELECT d.id as district_id,
-                     IF(se.individual = 0 OR de.individual = 0 OR (se.individual IS NULL and de.individual IS NULL), 0, 1) AS individual,
-                     IF(se.aggregate = 0 OR de.aggregate = 0, 0, 1) AS aggregate
-              FROM district d
-                LEFT JOIN district_embargo de ON de.district_id = d.id AND de.school_year = :school_year
-                LEFT JOIN state_embargo se ON se.school_year = :school_year
+              SELECT district_id, individual, aggregate from embargo where school_year = :school_year
+
             stagingInsert:
               INSERT INTO staging_district_embargo (district_id, individual, aggregate, migrate_id) VALUES
                 (:district_id, :individual, :aggregate, :migrate_id)
