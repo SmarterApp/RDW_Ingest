@@ -11,6 +11,8 @@ sql:
       - delete from staging_student_ethnicity
       - delete from staging_school
       - delete from staging_district
+      - delete from staging_district_group
+      - delete from staging_school_group
       - delete from staging_asmt
       - delete from staging_exam
       - delete from staging_exam_claim_score
@@ -347,6 +349,10 @@ sql:
                id,
                district_id,
                name,
+               natural_id,
+               external_id,
+               school_group_id,
+               district_group_id,
                deleted,
                update_import_id,
                ? as migrate_id
@@ -361,6 +367,10 @@ sql:
                 id,
                 district_id,
                 name,
+                natural_id,
+                external_id,
+                school_group_id,
+                district_group_id,
                 deleted,
                 update_import_id,
                 migrate_id)
@@ -377,6 +387,10 @@ sql:
                id,
                district_id,
                name,
+               natural_id,
+               external_id,
+               school_group_id,
+               district_group_id,
                deleted,
                update_import_id,
                ? as migrate_id
@@ -391,6 +405,10 @@ sql:
                 id,
                 district_id,
                 name,
+                natural_id,
+                external_id,
+                school_group_id,
+                district_group_id,
                 deleted,
                 update_import_id,
                 migrate_id)
@@ -407,6 +425,8 @@ sql:
              SELECT
                id,
                name,
+               natural_id,
+               external_id,
                ? as migrate_id
              FROM district wd
               WHERE EXISTS( SELECT id FROM school  WHERE created > ? AND created <= ? AND deleted = 0 AND district_id = wd.id)
@@ -418,6 +438,8 @@ sql:
               COPY staging_district(
                 id,
                 name,
+                natural_id,
+                external_id,
                 migrate_id)
               FROM '${archive.root}/${migrate.aws.location}/district.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
@@ -431,6 +453,8 @@ sql:
              SELECT
                id,
                name,
+               natural_id,
+               external_id,
                ? as migrate_id
              FROM district wd
               WHERE EXISTS( SELECT id FROM school WHERE updated > ? AND updated <= ? AND updated <> created AND deleted = 0 AND district_id = wd.id)
@@ -442,12 +466,128 @@ sql:
               COPY staging_district(
                 id,
                 name,
+                natural_id,
+                external_id,
                 migrate_id)
               FROM '${archive.root}/${migrate.aws.location}/district_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
               COMPUPDATE OFF
+
+ # ------------ district_group  -------------------------------------------------------------------
+        district_group:
+           sql:
+             warehouseRead: >-
+              SELECT
+                id,
+                name,
+                natural_id,
+                external_id,
+                ? as migrate_id
+              FROM district_group wdg
+               WHERE EXISTS( SELECT id FROM school  WHERE created > ? AND created <= ? AND deleted = 0 AND district_group_id = wdg.id)
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/dstrgroup'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                              LINES TERMINATED BY '\n'
+
+             stagingInsert: >-
+               COPY staging_district_group(
+                 id,
+                 name,
+                 natural_id,
+                 external_id,
+                 migrate_id)
+               FROM '${archive.root}/${migrate.aws.location}/dstrgroup.part_00000'
+               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+               FORMAT AS CSV
+               DELIMITER ','
+               COMPUPDATE OFF
+
+        district_group_update:
+           sql:
+             warehouseRead: >-
+              SELECT
+                id,
+                name,
+                natural_id,
+                external_id,
+                ? as migrate_id
+              FROM district_group wdg
+               WHERE EXISTS( SELECT id FROM school WHERE updated > ? AND updated <= ? AND updated <> created AND deleted = 0 AND district_group_id = wdg.id)
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/dstrgroup_update'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                              LINES TERMINATED BY '\n'
+
+             stagingInsert: >-
+               COPY staging_district_group(
+                 id,
+                 name,
+                 natural_id,
+                 external_id,
+                 migrate_id)
+               FROM '${archive.root}/${migrate.aws.location}/dstrgroup_update.part_00000'
+               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+               FORMAT AS CSV
+               DELIMITER ','
+               COMPUPDATE OFF
+
+ # ------------ school_group  -------------------------------------------------------------------
+        school_group:
+           sql:
+             warehouseRead: >-
+              SELECT
+                id,
+                name,
+                natural_id,
+                external_id,
+                ? as migrate_id
+              FROM school_group wsg
+               WHERE EXISTS( SELECT id FROM school  WHERE created > ? AND created <= ? AND deleted = 0 AND school_group_id = wsg.id)
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/schgroup'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                              LINES TERMINATED BY '\n'
+
+             stagingInsert: >-
+               COPY staging_school_group(
+                 id,
+                 name,
+                 natural_id,
+                 external_id,
+                 migrate_id)
+               FROM '${archive.root}/${migrate.aws.location}/schgroup.part_00000'
+               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+               FORMAT AS CSV
+               DELIMITER ','
+               COMPUPDATE OFF
+
+        school_group_update:
+           sql:
+             warehouseRead: >-
+              SELECT
+                id,
+                name,
+                natural_id,
+                external_id,
+                ? as migrate_id
+              FROM school_group wdg
+               WHERE EXISTS( SELECT id FROM school WHERE updated > ? AND updated <= ? AND updated <> created AND deleted = 0 AND school_group_id = wdg.id)
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/schgroup_update'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                              LINES TERMINATED BY '\n'
+
+             stagingInsert: >-
+               COPY staging_school_group(
+                 id,
+                 name,
+                 natural_id,
+                 external_id,
+                 migrate_id)
+               FROM '${archive.root}/${migrate.aws.location}/schgroup_update.part_00000'
+               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+               FORMAT AS CSV
+               DELIMITER ','
+               COMPUPDATE OFF
 
  # ------------ exam  -------------------------------------------------------------------
         exam:

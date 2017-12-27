@@ -229,11 +229,15 @@ sql:
         school:
           sql:
             insert: >-
-              INSERT INTO school (id, district_id, name, update_import_id, migrate_id)
+              INSERT INTO school (id, district_id, name, natural_id, external_id, school_group_id, district_group_id, update_import_id, migrate_id)
                 SELECT DISTINCT
                   ss.id,
                   ss.district_id,
                   ss.name,
+                  ss.natural_id,
+                  ss.external_id,
+                  ss.school_group_id,
+                  ss.district_group_id,
                   ss.update_import_id,
                   ss.migrate_id
                 FROM staging_school ss
@@ -245,6 +249,10 @@ sql:
               SET
                 district_id  = ss.district_id,
                 name  = ss.name,
+                natural_id  = ss.natural_id,
+                external_id  = ss.external_id,
+                school_group_id  = ss.school_group_id,
+                district_group_id  = ss.district_group_id,
                 update_import_id = ss.update_import_id,
                 migrate_id = ss.migrate_id
               FROM staging_school ss
@@ -259,10 +267,13 @@ sql:
         district:
           sql:
             insert: >-
-              INSERT INTO district (id, name)
+              INSERT INTO district (id, name, natural_id, external_id, migrate_id)
                 SELECT DISTINCT
                   sd.id,
-                  sd.name
+                  sd.name,
+                  sd.natural_id,
+                  sd.external_id,
+                  sd.migrate_id
                 FROM staging_district sd
                   LEFT JOIN district rd ON rd.id = sd.id
                 WHERE rd.id IS NULL;
@@ -270,7 +281,10 @@ sql:
             update: >-
               UPDATE district
               SET
-                name  = sd.name
+                name  = sd.name,
+                natural_id  = sd.natural_id,
+                external_id  = sd.external_id,
+                migrate_id  = sd.migrate_id
               FROM staging_district sd
               WHERE sd.id = district.id;
 
@@ -278,6 +292,66 @@ sql:
               DELETE FROM district
                WHERE district.id IN (SELECT district_id from staging_school WHERE deleted = 1)
                    AND NOT EXISTS(SELECT rs.id from school rs WHERE rs.district_id = district.id);
+
+        # ------------ district_group ------------------------------------------------------------------------------
+        district_group:
+          sql:
+            insert: >-
+              INSERT INTO district_group(id, natural_id, name, external_id, migrate_id)
+                SELECT DISTINCT
+                  sdg.id,
+                  sdg.natural_id,
+                  sdg.name,
+                  sdg.external_id,
+                  sdg.migrate_id
+                FROM staging_district_group sdg
+                  LEFT JOIN district_group rdg ON rdg.id = sdg.id
+              WHERE rdg.id IS NULL;
+
+            update: >-
+              UPDATE district_group
+               SET
+                name = sdg.name,
+                external_id = sdg.external_id,
+                migrate_id = sdg.migrate_id
+              FROM staging_district_group sdg
+              WHERE  sdg.id = district_group.id;
+
+            delete: >-
+              DELETE FROM district_group
+                WHERE
+                    district_group.id in (SELECT ss.district_group_id from staging_school ss WHERE ss.deleted = 1)
+                    AND NOT EXISTS(SELECT rs.id from school rs WHERE rs.district_group_id = district_group.id);
+
+        # ------------ school_group ------------------------------------------------------------------------------
+        school_group:
+          sql:
+            insert: >-
+              INSERT INTO school_group(id, natural_id, name, external_id, migrate_id)
+                SELECT DISTINCT
+                  ssg.id,
+                  ssg.natural_id,
+                  ssg.name,
+                  ssg.external_id,
+                  ssg.migrate_id
+                  FROM staging_school_group ssg
+                    LEFT JOIN school_group rsg ON rsg.id = ssg.id
+                  WHERE rsg.id IS NULL;
+
+            update: >-
+              UPDATE school_group
+                SET
+                  name = ssg.name,
+                  external_id = ssg.external_id,
+                  migrate_id = ssg.migrate_id
+                FROM staging_school_group ssg
+                WHERE ssg.id = school_group.id;
+
+            delete: >-
+              DELETE FROM school_group
+                WHERE
+                    school_group.id in (SELECT ss.school_group_id from staging_school ss WHERE ss.deleted = 1)
+                    AND NOT EXISTS(SELECT rs.id from school rs WHERE rs.school_group_id = school_group.id);
 
       # ------------ fact_student_exam -----------------------------------------------------------------------
         fact_student_exam:
