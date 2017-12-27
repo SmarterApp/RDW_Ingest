@@ -406,7 +406,7 @@ sql:
                              JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
                                                                 AND m.num = 4) scs ON scs.exam_id = e.id
                        ) AS claim4 ON claim4.exam_id = se.id
-                WHERE se.latest = true AND se.deleted = 0 AND fe.id IS NULL;
+                WHERE se.latest = true AND fe.id IS NULL;
 
             update: >-
                 UPDATE fact_student_exam
@@ -482,7 +482,7 @@ sql:
                              JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
                                                                 AND m.num = 4) scs ON scs.exam_id = e.id
                        ) AS claim4 ON claim4.exam_id = se.id
-                WHERE se.deleted = 0 AND se.latest = true AND (se.completed_at > fe.completed_at OR se.id = fe.id)
+                WHERE se.latest = true AND (se.completed_at > fe.completed_at OR se.id = fe.id)
 
             delete: >-
               DELETE FROM fact_student_exam
