@@ -245,6 +245,7 @@ sql:
                   LEFT JOIN school rs ON rs.id = ss.id
                 WHERE rs.id IS NULL and ss.deleted = 0;
 
+            # it is expected that schools and embargo settings are always migrated together, therefore the embargo_enabled flag is not updated here.
             update: >-
               UPDATE school
               SET
@@ -254,7 +255,6 @@ sql:
                 external_id  = ss.external_id,
                 school_group_id  = ss.school_group_id,
                 district_group_id  = ss.district_group_id,
-                embargo_enabled = 1,
                 update_import_id = ss.update_import_id,
                 migrate_id = ss.migrate_id
               FROM staging_school ss
@@ -279,6 +279,17 @@ sql:
                 FROM school rs
                   JOIN staging_district_embargo sde ON sde.district_id = rs.district_id AND rs.embargo_enabled <> sde.aggregate;
 
+        state_embargo:
+          sql:
+            insert: >-
+                INSERT INTO state_embargo (aggregate, migrate_id)
+                   SELECT
+                     sse.aggregate,
+                     sse.migrate_id
+                   FROM staging_state_embargo sse;
+
+            delete: >-
+               DELETE FROM state_embargo;
       # ------------ district -----------------------------------------------------------------------
         district:
           sql:
