@@ -229,7 +229,7 @@ sql:
         school:
           sql:
             insert: >-
-              INSERT INTO school (id, district_id, name, natural_id, external_id, school_group_id, district_group_id, update_import_id, migrate_id)
+              INSERT INTO school (id, district_id, name, natural_id, external_id, school_group_id, district_group_id, embargo_enabled, update_import_id, migrate_id)
                 SELECT DISTINCT
                   ss.id,
                   ss.district_id,
@@ -238,6 +238,7 @@ sql:
                   ss.external_id,
                   ss.school_group_id,
                   ss.district_group_id,
+                  1,
                   ss.update_import_id,
                   ss.migrate_id
                 FROM staging_school ss
@@ -253,6 +254,7 @@ sql:
                 external_id  = ss.external_id,
                 school_group_id  = ss.school_group_id,
                 district_group_id  = ss.district_group_id,
+                embargo_enabled = 1,
                 update_import_id = ss.update_import_id,
                 migrate_id = ss.migrate_id
               FROM staging_school ss
@@ -262,6 +264,20 @@ sql:
               DELETE FROM school
                 USING staging_school ss
               WHERE ss.id = school.id AND ss.deleted = 1;
+
+        # ############## Embargo  ###################################################################
+        # Update schools/districts to set embargo_enabled based on the aggregate embargo flag.
+        # The warehouse-to-staging step has already copied the effective settings for all districts.
+        # So here we can just set the value for all schools if it has changed from current setting.
+        school_embargo:
+          sql:
+            update: >-
+              UPDATE school
+                 SET
+                   embargo_enabled = sde.aggregate,
+                   migrate_id = sde.migrate_id
+                FROM school rs
+                  JOIN staging_district_embargo sde ON sde.district_id = rs.district_id AND rs.embargo_enabled <> sde.aggregate;
 
       # ------------ district -----------------------------------------------------------------------
         district:
