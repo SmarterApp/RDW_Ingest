@@ -17,6 +17,7 @@ sql:
       - delete from staging_exam
       - delete from staging_exam_claim_score
       - delete from staging_school_year
+      - delete from staging_district_embargo
 
     entities:
         # ------------ administration_condition  -------------------------------------------------------------------
@@ -776,3 +777,28 @@ sql:
                 FORMAT AS CSV
                 DELIMITER ','
                 COMPUPDATE OFF
+
+# ------------ district_embargo  -------------------------------------------------------------------
+        district_embargo:
+          sql:
+            warehouseRead:
+              SELECT
+                district_id,
+                aggregate,
+                ? as migrate_id
+              FROM embargo
+               WHERE school_year = ${app.school-year}
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/embargo'
+                              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                              LINES TERMINATED BY '\n'
+
+            stagingInsert:
+              COPY staging_district_embargo (
+                district_id,
+                aggregate,
+                migrate_id)
+              FROM '${archive.root}/${migrate.aws.location}/embargo.part_00000'
+              CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+              FORMAT AS CSV
+              DELIMITER ','
+              COMPUPDATE OFF

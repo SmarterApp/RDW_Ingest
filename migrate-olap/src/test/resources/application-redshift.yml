@@ -1,5 +1,8 @@
 # Testing redshift makes use of the CI environment so this overrides some default properties.
-#
+app:
+  school-year: 1999
+
+
 # TODO - use placeholders for secrets, even though they aren't really configurable
 # TODO   (the values *must* be set to the proper CI credentials)
 
