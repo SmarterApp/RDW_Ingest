@@ -98,17 +98,15 @@ sql:
             update:  >-
                UPDATE grade
                SET
-                 code = sg.code,
-                 name = sg.name
+                 code = sg.code
                FROM
                   staging_grade sg where sg.id = grade.id;
 
             insert: >-
-                INSERT INTO grade (id, code, name)
+                INSERT INTO grade (id, code)
                   SELECT
                     sg.id,
-                    sg.code,
-                    sg.name
+                    sg.code
                   FROM staging_grade sg
                     LEFT JOIN grade rg ON rg.id = sg.id
                   WHERE rg.id IS NULL;
@@ -138,10 +136,11 @@ sql:
         student:
           sql:
             insert: >-
-              INSERT INTO student (id,  gender_id, update_import_id, migrate_id)
+              INSERT INTO student (id,  gender_id, updated, update_import_id, migrate_id)
                 SELECT DISTINCT
                   ss.id,
                   rg.id,
+                  ss.updated,
                   ss.update_import_id,
                   ss.migrate_id
                 FROM staging_student ss
@@ -153,6 +152,7 @@ sql:
               UPDATE student
               SET
                 gender_id  = ss.gender_id,
+                updated = ss.updated,
                 update_import_id = ss.update_import_id,
                 migrate_id = ss.migrate_id
               FROM staging_student ss
@@ -193,7 +193,7 @@ sql:
         asmt:
           sql:
             insert: >-
-              INSERT INTO asmt (id, grade_id, school_year, subject_id, name, label, type_id, update_import_id, migrate_id)
+              INSERT INTO asmt (id, grade_id, school_year, subject_id, name, label, type_id, updated, update_import_id, migrate_id)
                 SELECT DISTINCT
                   sa.id,
                   sa.grade_id,
@@ -202,6 +202,7 @@ sql:
                   sa.name,
                   sa.label,
                   sa.type_id,
+                  sa.updated,
                   sa.update_import_id,
                   sa.migrate_id
                 FROM staging_asmt sa
@@ -216,6 +217,7 @@ sql:
                 subject_id = sa.subject_id,
                 name = sa.name,
                 label = sa.label,
+                updated = sa.updated,
                 update_import_id = sa.update_import_id,
                 migrate_id = sa.migrate_id
               FROM staging_asmt sa WHERE sa.id = asmt.id;
@@ -229,7 +231,7 @@ sql:
         school:
           sql:
             insert: >-
-              INSERT INTO school (id, district_id, name, natural_id, external_id, school_group_id, district_group_id, embargo_enabled, update_import_id, migrate_id)
+              INSERT INTO school (id, district_id, name, natural_id, external_id, school_group_id, district_group_id, embargo_enabled, updated, update_import_id, migrate_id)
                 SELECT DISTINCT
                   ss.id,
                   ss.district_id,
@@ -239,6 +241,7 @@ sql:
                   ss.school_group_id,
                   ss.district_group_id,
                   1,
+                  ss.updated,
                   ss.update_import_id,
                   ss.migrate_id
                 FROM staging_school ss
@@ -255,6 +258,7 @@ sql:
                 external_id  = ss.external_id,
                 school_group_id  = ss.school_group_id,
                 district_group_id  = ss.district_group_id,
+                updated = ss.updated,
                 update_import_id = ss.update_import_id,
                 migrate_id = ss.migrate_id
               FROM staging_school ss
@@ -428,6 +432,7 @@ sql:
                 claim4_scale_score_std_err,
                 claim4_category,
                 completed_at,
+                updated,
                 update_import_id,
                 migrate_id
               )
@@ -462,6 +467,7 @@ sql:
                   claim4.scale_score_std_err as claim4_scale_score_std_err,
                   claim4.category as claim4_category,
                   se.completed_at,
+                  se.updated,
                   se.update_import_id,
                   se.migrate_id
                 FROM staging_exam se
@@ -538,6 +544,7 @@ sql:
                   claim4_scale_score_std_err  = claim4.scale_score_std_err,
                   claim4_category             = claim4.category,
                   completed_at                = se.completed_at,
+                  updated                     = se.updated,
                   update_import_id            = se.update_import_id,
                   migrate_id                  = se.migrate_id
                  FROM staging_exam se
