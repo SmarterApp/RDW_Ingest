@@ -802,3 +802,27 @@ sql:
               FORMAT AS CSV
               DELIMITER ','
               COMPUPDATE OFF
+
+
+# ------------ district_embargo  -------------------------------------------------------------------
+        state_embargo:
+          sql:
+            warehouseRead:
+              SELECT
+                IF(aggregate = 0, 0, 1) AS aggregate,
+                ? as migrate_id
+              FROM state_embargo
+               WHERE school_year = ${app.school-year}
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/state_embargo'
+                              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                              LINES TERMINATED BY '\n'
+
+            stagingInsert:
+              COPY staging_state_embargo (
+                aggregate,
+                migrate_id)
+              FROM '${archive.root}/${migrate.aws.location}/state_embargo.part_00000'
+              CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+              FORMAT AS CSV
+              DELIMITER ','
+              COMPUPDATE OFF
