@@ -106,15 +106,14 @@ sql:
             warehouseRead: >-
                 SELECT
                   id,
-                  code,
-                  name
+                  code
                 FROM grade
                 INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/grade'
                 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                 LINES TERMINATED BY '\n'
 
             stagingInsert: >-
-                COPY staging_grade (id, code, name)
+                COPY staging_grade (id, code)
                   FROM '${archive.root}/${migrate.aws.location}/grade.part_00000'
                 CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
                 FORMAT AS CSV
@@ -146,12 +145,9 @@ sql:
             warehouseRead: >-
              SELECT
                id,
-               ssid,
-               last_or_surname,
-               first_name,
-               middle_name,
                gender_id,
                deleted,
+               updated,
                update_import_id,
                ? as migrate_id
              FROM student ws
@@ -163,12 +159,9 @@ sql:
             stagingInsert: >-
               COPY staging_student(
                 id,
-                ssid,
-                last_or_surname,
-                first_name,
-                middle_name,
                 gender_id,
                 deleted,
+                updated,
                 update_import_id,
                 migrate_id)
               FROM '${archive.root}/${migrate.aws.location}/student.part_00000'
@@ -182,12 +175,9 @@ sql:
             warehouseRead: >-
              SELECT
                id,
-               ssid,
-               last_or_surname,
-               first_name,
-               middle_name,
                gender_id,
                deleted,
+               updated,
                update_import_id,
                ? as migrate_id
              FROM student ws
@@ -199,12 +189,9 @@ sql:
             stagingInsert: >-
               COPY staging_student(
                 id,
-                ssid,
-                last_or_surname,
-                first_name,
-                middle_name,
                 gender_id,
                 deleted,
+                updated,
                 update_import_id,
                 migrate_id)
               FROM '${archive.root}/${migrate.aws.location}/student_update.part_00000'
@@ -277,6 +264,7 @@ sql:
                name,
                label,
                deleted,
+               updated,
                update_import_id,
                ? as migrate_id
              FROM asmt wa
@@ -296,6 +284,7 @@ sql:
                 name,
                 label,
                 deleted,
+                updated,
                 update_import_id,
                 migrate_id)
               FROM '${archive.root}/${migrate.aws.location}/asmt.part_00000'
@@ -316,6 +305,7 @@ sql:
                name,
                label,
                deleted,
+               updated,
                update_import_id,
                ? as migrate_id
              FROM asmt wa
@@ -334,6 +324,7 @@ sql:
                 name,
                 label,
                 deleted,
+                updated,
                 update_import_id,
                 migrate_id)
               FROM '${archive.root}/${migrate.aws.location}/asmt_update.part_00000'
@@ -355,6 +346,7 @@ sql:
                school_group_id,
                district_group_id,
                deleted,
+               updated,
                update_import_id,
                ? as migrate_id
              FROM school ws
@@ -373,6 +365,7 @@ sql:
                 school_group_id,
                 district_group_id,
                 deleted,
+                updated,
                 update_import_id,
                 migrate_id)
               FROM '${archive.root}/${migrate.aws.location}/school.part_00000'
@@ -393,6 +386,7 @@ sql:
                school_group_id,
                district_group_id,
                deleted,
+               updated,
                update_import_id,
                ? as migrate_id
              FROM school ws
@@ -411,6 +405,7 @@ sql:
                 school_group_id,
                 district_group_id,
                 deleted,
+                updated,
                 update_import_id,
                 migrate_id)
               FROM '${archive.root}/${migrate.aws.location}/school_update.part_00000'
@@ -614,6 +609,7 @@ sql:
                   performance_level,
                   completed_at,
                   deleted,
+                  updated,
                   update_import_id,
                  ? as migrate_id
                 FROM exam we
@@ -643,6 +639,7 @@ sql:
                   performance_level,
                   completed_at,
                   deleted,
+                  updated,
                   update_import_id,
                   migrate_id)
                 FROM '${archive.root}/${migrate.aws.location}/exam.part_00000'
@@ -674,6 +671,7 @@ sql:
                   performance_level,
                   completed_at,
                   deleted,
+                  updated,
                   update_import_id,
                  ? as migrate_id
                FROM exam we
@@ -703,6 +701,7 @@ sql:
                   performance_level,
                   completed_at,
                   deleted,
+                  updated,
                   update_import_id,
                   migrate_id)
                 FROM '${archive.root}/${migrate.aws.location}/exam_update.part_00000'
