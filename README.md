@@ -131,6 +131,17 @@ generating them using:
 ./gradlew coverage
 ``` 
 
+The integration tests dealing with Redshift have been separated out because they require remote AWS resources
+and they take a while to run (> 15 minutes). To run these tests you must set credentials -- please see the 
+comment in migrate-olap/build.gradle. For example:
+```bash
+(export ARCHIVE_CLOUD_AWS_CREDENTIALS_SECRETKEY=secretkey; \
+ export SPRING_MIGRATE_DATASOURCE_PASSWORD=password; \
+ export SPRING_OLAP_DATASOURCE_PASSWORD=password; \
+ export SPRING_WAREHOUSE_DATASOURCE_PASSWORD=password; \
+ gradle rst)
+```
+
 You must explicitly build the docker images:
 ```bash
 $ gradle buildImage
@@ -149,6 +160,18 @@ To completely clean out any existing data you might have and start fresh:
 ./gradlew cleanallprod migrateallprod
 or, if you want to use a different version of the schema, say version 1.1.0-68 of RDW_Schema
 ./gradlew -Pschema=1.1.0-68 cleanallprod migrateallprod
+```
+
+The OLAP applications require remote AWS data stores being configured properly. Care should be taken because these
+remote resources are often shared; also misconfiguration could result in actions being taken on the wrong database.
+To completely clean out any existing data you will have to provide additional configuration, e.g.:
+```bash
+gradle \
+    -Predshift_url=jdbc:redshift://rdw-qa.cibkulpjrgtr.us-west-2.redshift.amazonaws.com:5439/dev \
+    -Predshift_schema=reporting_ci_test -Predshift_user=ci -Predshift_password=your_password \
+    -Pdatabase_url=jdbc:mysql://rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306 \
+    -Pmigrate_olap_schema=migrate_olap_test -Pdatabase_user=sbac -Pdatabase_password=your_password \
+    cleanAllTest migrateAllTest
 ```
 
 The apps are wrapped in docker containers and should be built and run that way. There is a docker-compose spec

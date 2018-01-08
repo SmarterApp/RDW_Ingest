@@ -1,10 +1,8 @@
 # Testing redshift makes use of the CI environment so this overrides some default properties.
+# All the properties should be set to default to the CI environment settings; developers may
+# override them locally but the CI system assumes the defaults are for CI resources.
 app:
   school-year: 1999
-
-
-# TODO - use placeholders for secrets, even though they aren't really configurable
-# TODO   (the values *must* be set to the proper CI credentials)
 
 archive:
   root: s3://rdw-ci-archive
@@ -15,6 +13,12 @@ archive:
         accessKey: AKIAILLXGXH7ANGJDVEQ
         secretKey:
 
+migrate:
+  aws:
+    location: MigrateOlap
+    redshift:
+      role: arn:aws:iam::269146879732:role/rdw-redshift
+
 spring:
   migrate_datasource:
     url-server: rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306
@@ -22,9 +26,9 @@ spring:
     username: sbac
     password:
   olap_datasource:
-    url-server: rdw-dev.cibkulpjrgtr.us-west-2.redshift.amazonaws.com:5439
-    url-schema: reporting_olap_test
-    username: citest
+    url-server: rdw-qa.cibkulpjrgtr.us-west-2.redshift.amazonaws.com:5439
+    url-schema: reporting_ci_test
+    username: ci
     password:
   warehouse_datasource:
     url-server: rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306
