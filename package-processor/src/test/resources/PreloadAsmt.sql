@@ -1,10 +1,16 @@
 INSERT INTO asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name, label, version, deleted, import_id, update_import_id, created, updated) VALUES
   (-99, '(SBAC)SBAC-IAB-ASMT TEST-5', 5, 2, 1, 2016, 'SBAC-IAB-FIXED-G4M-OA-MATH-5', 'MTH IAB G5 OperationsAlgebraicThinking', '9835', 1, 1, 1, '2017-07-18 19:05:34.966000', '2017-07-18 19:05:34.966000'),
-  (-98, '(SBAC)SBAC-ICA-ASMT TEST-8', 8, 1, 2, 2015, 'SBAC-ICA-FIXED-G5E-COMBINED-2017', 'Grade 5 ELA', '9831', 0, 1, 1, '2017-07-18 19:05:34.966000', '2017-07-18 19:05:34.966000');
+  (-98, '(SBAC)SBAC-ICA-ASMT TEST-8', 8, 1, 2, 2015, 'SBAC-ICA-FIXED-G5E-COMBINED-2017', 'Grade 5 ELA', '9831', 0, 1, 1, '2017-07-18 19:05:34.966000', '2017-07-18 19:05:34.966000'),
+  (-97, '(naturalId)MOCK-ICA-G11-2017-2018', 8, 1, 2, 2018, 'MOCK-ICA-G11-2017-2018', 'Grade 5 ELA', '9831', 0, 1, 1, '2017-07-18 19:05:34.966000', '2017-07-18 19:05:34.966000'),
+  (-96, '(naturalId)MOCK-IAB-G11M-2017-2018', 8, 1, 2, 2018, 'MOCK-IAB-G11M-2017-2018', 'Grade 5 ELA', '9831', 0, 1, 1, '2017-07-18 19:05:34.966000', '2017-07-18 19:05:34.966000'),
+  (-95, '(naturalId)MOCK-IAB-G11E-2017-2018', 8, 1, 2, 2018, 'MOCK-IAB-G11E-2017-2018', 'Grade 5 ELA', '9831', 0, 1, 1, '2017-07-18 19:05:34.966000', '2017-07-18 19:05:34.966000');
 
 INSERT INTO asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score) VALUES
   (-99, 2442, 2502, 2582, 2201, 2701),
-  (-98, null, 2502, null, 2201, 2701);
+  (-98, null, 2502, null, 2201, 2701),
+  (-97, 2442, 2502, 2582, 2201, 2701),
+  (-96, 2442, 2502, 2582, 2201, 2701),
+  (-95, 2442, 2502, 2582, 2201, 2701);
 
 INSERT INTO item (id, claim_id, target_id, natural_id, asmt_id, dok_id, difficulty, difficulty_code, max_points, math_practice, allow_calc, position,
                 field_test, active, type, options_count, answer_key) VALUES
