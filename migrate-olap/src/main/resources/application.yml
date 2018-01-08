@@ -78,7 +78,7 @@ spring:
   # Note: the currentSchema parameter doesn't work
   olap_datasource:
     url: "\
-      jdbc:redshift://${spring.olap_datasource.url-server:localhost:5439}/dev\
+      jdbc:redshift://${spring.olap_datasource.url-server:localhost:5432}/dev\
       ?ApplicationName=rdw-ingest-migrate-olap\
       "
     username: root
