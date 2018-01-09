@@ -32,10 +32,10 @@ dependencies {
 // If you need to run the schema scripts you'll need to set gradle properties for the data sources, e.g.:
 /*
 gradle \
--Predshift_url=jdbc:redshift://rdw-qa.cibkulpjrgtr.us-west-2.redshift.amazonaws.com:5439/dev \
--Predshift_schema=reporting_ci_test -Predshift_user=ci -Predshift_password=password \
+-Predshift_url=jdbc:redshift://rdw-qa.cibkulpjrgtr.us-west-2.redshift.amazonaws.com:5439/ci \
+-Predshift_user=ci -Predshift_password=password \
 -Pdatabase_url=jdbc:mysql://rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306 \
--Pmigrate_olap_schema=migrate_olap_test -Pdatabase_user=sbac -Pdatabase_password=password \
+-Pdatabase_user=sbac -Pdatabase_password=password \
 cleanAllTest migrateAllTest
  */
 //
@@ -69,4 +69,3 @@ if (System.getenv('ARCHIVE_CLOUD_AWS_CREDENTIALS_SECRETKEY')
         }
     }
 }
-

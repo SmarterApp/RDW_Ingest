@@ -133,18 +133,18 @@ generating them using:
 
 The integration tests dealing with Redshift have been separated out because they require remote AWS resources
 and they take a while to run (> 15 minutes). To run these tests you must set credentials -- please see the 
-comment in migrate-olap/build.gradle. For example:
+comment in migrate-olap/build.gradle. By default it uses the CI database instances:
 ```bash
 (export ARCHIVE_CLOUD_AWS_CREDENTIALS_SECRETKEY=secretkey; \
  export SPRING_MIGRATE_DATASOURCE_PASSWORD=password; \
  export SPRING_OLAP_DATASOURCE_PASSWORD=password; \
  export SPRING_WAREHOUSE_DATASOURCE_PASSWORD=password; \
- gradle rst)
+ ./gradlew rst)
 ```
 
 You must explicitly build the docker images:
 ```bash
-$ gradle buildImage
+$ ./gradlew buildImage
 $ docker images
 REPOSITORY                              TAG                 IMAGE ID            CREATED             SIZE
 smarterbalanced/rdw-ingest-import-service        latest              fc700c6e8518        14 minutes ago      131 MB
@@ -166,7 +166,7 @@ The OLAP applications require remote AWS data stores being configured properly. 
 remote resources are often shared; also misconfiguration could result in actions being taken on the wrong database.
 To completely clean out any existing data you will have to provide additional configuration, e.g.:
 ```bash
-gradle \
+./gradlew \
     -Predshift_url=jdbc:redshift://rdw-qa.cibkulpjrgtr.us-west-2.redshift.amazonaws.com:5439/dev \
     -Predshift_schema=reporting_ci_test -Predshift_user=ci -Predshift_password=your_password \
     -Pdatabase_url=jdbc:mysql://rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306 \

@@ -27,7 +27,7 @@ spring:
     password:
   olap_datasource:
     url-server: rdw-qa.cibkulpjrgtr.us-west-2.redshift.amazonaws.com:5439
-    url-schema: reporting_ci_test
+    url-db: ci
     username: ci
     password:
   warehouse_datasource:

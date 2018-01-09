@@ -75,10 +75,10 @@ spring:
 
   # http://docs.aws.amazon.com/redshift/latest/mgmt/configure-jdbc-options.html
   # https://jdbc.postgresql.org/documentation/head/connect.html
-  # Note: the currentSchema parameter doesn't work
+  # NOTE: nothing in these settings controls the schema; it is controlled by the user's search_path
   olap_datasource:
     url: "\
-      jdbc:redshift://${spring.olap_datasource.url-server:localhost:5432}/dev\
+      jdbc:redshift://${spring.olap_datasource.url-server:localhost:5432}/${spring.olap_datasource.url-db:dev}\
       ?ApplicationName=rdw-ingest-migrate-olap\
       "
     username: root
