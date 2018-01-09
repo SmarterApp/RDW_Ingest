@@ -25,7 +25,7 @@ apply plugin: 'io.spring.dependency-management'
 // Set version dependencies. This allows the cli to force version, e.g. `-Pcommon=1.1.0-SNAPSHOT`
 
 String rdwCommonVersion = project.hasProperty("common") ? project.property("common") : "1.1.0-58"
-String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "1.1.0-289"
+String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "1.1.0-296"
 
 String dockerPrefix = "smarterbalanced"
 
@@ -180,6 +180,8 @@ subprojects {
     // Specific integration test task that will automatically clean and migrate the test database schemas
     task IT(type: Test, dependsOn:[":cleanAllTest", ":migrateAllTest"]) {
         include '**/*IT.*'
+        group = 'Verification'
+        description = 'Runs the integration tests.'
         outputs.upToDateWhen { false }
         doFirst {
             println "Running Integration Tests..."
@@ -265,6 +267,8 @@ taskMap.keySet().each { key ->
         description = taskMap[key]
         doFirst {
             dir { schemaDir() }
+            // need to copy any command-line properties for sub-build
+            startParameter.projectProperties = gradle.startParameter.projectProperties
         }
         tasks = [key]
     }
