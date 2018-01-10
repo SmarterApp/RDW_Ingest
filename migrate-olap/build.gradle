@@ -55,17 +55,12 @@ cleanAllTest migrateAllTest
  export SPRING_WAREHOUSE_DATASOURCE_PASSWORD=password; \
  gradle rst)
 */
-if (System.getenv('ARCHIVE_CLOUD_AWS_CREDENTIALS_SECRETKEY')
- && System.getenv('SPRING_MIGRATE_DATASOURCE_PASSWORD')
- && System.getenv('SPRING_OLAP_DATASOURCE_PASSWORD')
- && System.getenv('SPRING_WAREHOUSE_DATASOURCE_PASSWORD')) {
-    task RST(type: Test) {
-        include '**/*RST.*'
-        group = 'Verification'
-        description = 'Runs the redshift integration tests (slow!).'
-        outputs.upToDateWhen { false }
-        doFirst {
-            println "Running Redshift System Tests..."
-        }
+task RST(type: Test) {
+    include '**/*RST.*'
+    group = 'Verification'
+    description = 'Runs the redshift integration tests (slow!).'
+    outputs.upToDateWhen { false }
+    doFirst {
+        println "Running Redshift System Tests..."
     }
 }

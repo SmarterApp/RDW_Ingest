@@ -132,8 +132,8 @@ generating them using:
 ``` 
 
 The integration tests dealing with Redshift have been separated out because they require remote AWS resources
-and they take a while to run (> 15 minutes). To run these tests you must set credentials -- please see the 
-comment in migrate-olap/build.gradle. By default it uses the CI database instances:
+and they take a while to run. To run these tests you must set credentials -- please see the comment in 
+migrate-olap/build.gradle. By default it uses the CI database instances:
 ```bash
 (export ARCHIVE_CLOUD_AWS_CREDENTIALS_SECRETKEY=secretkey; \
  export SPRING_MIGRATE_DATASOURCE_PASSWORD=password; \
