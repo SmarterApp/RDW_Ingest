@@ -782,11 +782,10 @@ sql:
           sql:
             warehouseRead:
               SELECT
-                district_id,
-                aggregate,
+                e.district_id,
+                e.aggregate,
                 ? as migrate_id
-              FROM embargo
-               WHERE school_year = ${app.school-year}
+              FROM (${sql.embargo}) e
               INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/embargo'
                               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                               LINES TERMINATED BY '\n'
