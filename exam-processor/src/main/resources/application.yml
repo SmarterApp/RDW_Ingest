@@ -53,3 +53,4 @@ jdbc:
     default:
       max-attempts: 4
       delay: 30
+      multiplier: 2
