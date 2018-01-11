@@ -50,12 +50,12 @@ sql:
 
     item:
       findAll: >-
-        SELECT i.id, i.claim_id, i.target_id, i.natural_id, i.math_practice, i.allow_calc, i.dok_id, i.position, i.difficulty, i.max_points, i.field_test, i.active, i.type, i.options_count, i.answer_key
+        SELECT i.id, i.claim_id, i.target_id, i.natural_id, i.math_practice, i.allow_calc, i.dok_id, i.position, i.difficulty, i.max_points, i.field_test, i.active, i.type, i.options_count, i.answer_key, i.performance_task_writing_type
           FROM item i WHERE i.asmt_id= :asmt_id
 
       create: >-
-        INSERT INTO item (asmt_id, claim_id, target_id, natural_id, math_practice, allow_calc, dok_id, position, difficulty, max_points, field_test, active, type, options_count, answer_key)
-          select (select id as asmt_id from asmt where natural_id=:asmtId), :claimId, :targetId, :itemId, :mathPractice, :allowCalc, :dokId, :position, :difficulty, :maxPoints, :fieldTest, :active, :type, :optionsCount, :answerKey
+        INSERT INTO item (asmt_id, claim_id, target_id, natural_id, math_practice, allow_calc, dok_id, position, difficulty, max_points, field_test, active, type, options_count, answer_key, performance_task_writing_type)
+          select (select id as asmt_id from asmt where natural_id=:asmtId), :claimId, :targetId, :itemId, :mathPractice, :allowCalc, :dokId, :position, :difficulty, :maxPoints, :fieldTest, :active, :type, :optionsCount, :answerKey, :performance_task_writing_type
 
       update: >-
         UPDATE item i
@@ -72,7 +72,8 @@ sql:
              i.active = :active,
              i.type = :type,
              i.options_count= :optionsCount,
-             i.answer_key = :answerKey
+             i.answer_key = :answerKey,
+             i.performance_task_writing_type = :performance_task_writing_type
           WHERE i.id = :id
 
       updateDifficultyCode:
