@@ -28,12 +28,17 @@ dependencies {
 }
 
 // Task to run RST (redshift integration tests).
-// Note that this does *not* run the schema scripts, it assumes test databases are in good shape.
+//
+// RSTs require AWS databases. The convention is for developers to use the CI instances and either
+// use the CI schemas or create personal schemas with a prefix. Using the CI schemas can lead to
+// conflicts so let's use developer Bob as our example for running RSTs ...
+//
+// Note this task does *not* run the schema scripts, it assumes test databases are in good shape.
 // If you need to run the schema scripts you'll need to set gradle properties for the data sources, e.g.:
 /*
-gradle \
+gradle -Pschema_prefix=bob_ \
 -Predshift_url=jdbc:redshift://rdw-qa.cibkulpjrgtr.us-west-2.redshift.amazonaws.com:5439/ci \
--Predshift_user=ci -Predshift_password=password \
+-Predshift_user=bob -Predshift_password=password \
 -Pdatabase_url=jdbc:mysql://rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306 \
 -Pdatabase_user=sbac -Pdatabase_password=password \
 cleanAllTest migrateAllTest
@@ -41,20 +46,27 @@ cleanAllTest migrateAllTest
 //
 // To run these tests locally, you must either manually adjust the application-redshift.yml file
 // (but don't check in your changes!) or set environment variables. If you are using the default
-// CI data resources you should set:
+// CI instances with personal schemas you should set:
 //   ARCHIVE_CLOUD_AWS_CREDENTIALS_SECRETKEY
+//   SPRING_MIGRATE_DATASOURCE_URL_SCHEMA
 //   SPRING_MIGRATE_DATASOURCE_PASSWORD
+//   SPRING_OLAP_DATASOURCE_USERNAME
 //   SPRING_OLAP_DATASOURCE_PASSWORD
+//   SPRING_WAREHOUSE_DATASOURCE_URL_SCHEMA
 //   SPRING_WAREHOUSE_DATASOURCE_PASSWORD
-// If you are using different instances the full set of variables can be found in application-redshift.yml.
 // If you are running from the command-line you can use local bash export to do it in one command, e.g.:
 /*
 (export ARCHIVE_CLOUD_AWS_CREDENTIALS_SECRETKEY=secretkey; \
+ export SPRING_MIGRATE_DATASOURCE_URL_SCHEMA=bob_migrate_olap_test; \
  export SPRING_MIGRATE_DATASOURCE_PASSWORD=password; \
+ export SPRING_OLAP_DATASOURCE_USERNAME=bob; \
  export SPRING_OLAP_DATASOURCE_PASSWORD=password; \
+ export SPRING_WAREHOUSE_DATASOURCE_URL_SCHEMA=bob_warehouse_test; \
  export SPRING_WAREHOUSE_DATASOURCE_PASSWORD=password; \
  gradle rst)
 */
+// If you are using different instances the full set of variables can be found in application-redshift.yml.
+
 task RST(type: Test) {
     include '**/*RST.*'
     group = 'Verification'
