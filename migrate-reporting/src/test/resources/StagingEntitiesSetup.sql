@@ -23,17 +23,17 @@ INSERT INTO staging_asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, 
   (-99, 2442, 2502, 2582, 2201, 2701, -99),
   (-98, 2442, 2502, 2582, 2201, 2701, -99);
 
-INSERT INTO staging_item (id, claim_id, target_id, natural_id, asmt_id, dok_id, difficulty_code, max_points, math_practice, allow_calc, position, migrate_id) VALUES
-  (-990, -99, -99, '200-2010',  -99, -99, 'M', 2, -99, 0, 1, -99),
-  (-991, -99, -99, '200-18943', -99, -99, 'E', 2, -98, 0, 2, -99),
-  (-992, -99, -99, '200-8906',  -99, -99, 'E', 2, -99, 1, 3, -99),
-  (-993, -99, -99, '200-2014',  -99, -98, 'D', 2, -98, 1, 4, -99),
+INSERT INTO staging_item (id, claim_id, target_id, natural_id, asmt_id, dok_id, difficulty_code, max_points, math_practice, allow_calc, position, performance_task_writing_type, migrate_id) VALUES
+  (-990, -99, -99, '200-2010',  -99, -99, 'M', 2, -99, 0, 1, 'pttype1', -99),
+  (-991, -99, -99, '200-18943', -99, -99, 'E', 2, -98, 0, 2, 'Narrative', -99),
+  (-992, -99, -99, '200-8906',  -99, -99, 'E', 2, -99, 1, 3, 'Informational', -99),
+  (-993, -99, -99, '200-2014',  -99, -98, 'D', 2, -98, 1, 4, 'Explanatory', -99),
 
-  (-980, -98, -98, '200-60347', -98, -98, 'M', 1, null, null, 3, -99),
-  (-981, -98, -98, '200-51719', -98, -98, 'E', 1, null, null, 6, -99),
-  (-982, -98, -98, '200-59217', -98, -98, 'E', 1, null, null, 7, -99),
-  (-983, -98, -98, '200-59208', -98, -98, 'D', 1, null, null, 8, -99),
-  (-984, -98, -98, '200-30901', -98, -98, 'D', 1, null, null, 9, -99);
+  (-980, -98, -98, '200-60347', -98, -98, 'M', 1, null, null, 3, 'Opinion', -99),
+  (-981, -98, -98, '200-51719', -98, -98, 'E', 1, null, null, 6, 'Argumentative', -99),
+  (-982, -98, -98, '200-59217', -98, -98, 'E', 1, null, null, 7, null, -99),
+  (-983, -98, -98, '200-59208', -98, -98, 'D', 1, null, null, 8, null, -99),
+  (-984, -98, -98, '200-30901', -98, -98, 'D', 1, null, null, 9, null ,-99);
 
 INSERT INTO staging_item_other_target(item_id, target_id) values
  (-990, -98),
