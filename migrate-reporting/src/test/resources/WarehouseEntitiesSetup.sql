@@ -29,14 +29,14 @@ INSERT INTO item (id, claim_id, target_id, natural_id, asmt_id, dok_id, difficul
   (-7,   -99, -98, '200-2017',  -11, -99, -0.23, 'E', 2, -99, 0, 3, null, null, null, null, null, null),
   (-6,   -99, -98, '200-2016',  -11, -99, -0.23, 'E', 2, -99, 0, 4, null, null, null, null, null, null),
   (-990, -99, -99, '200-2010',  -99, -99, -0.23, 'E',  2, -99, 0, 4, null, null, null, null, null, null),
-  (-991, -99, -99, '200-18943', -99, -99, -0.13, 'E', 2, -98, 0, 3, false, true, 1, 0, 'key', 'ptType'),
-  (-992, -99, -99, '200-8906',  -99, -99, -0.03, 'E', 2, -99, 1, 2, false, true, 1, 0, 'key', 'ptType'),
-  (-993, -99, -99, '200-2014',  -99, -98,  1.23, 'D', 2, -98, 1, 1, false, true, 1, 0, 'key', 'ptType'),
-  (-980, -98, -98, '200-60347', -98, -98, -0.32, 'E', 1, null, null, 5, false, true, 1, 0, 'key', 'ptType'),
-  (-981, -98, -98, '200-51719', -98, -98, -1.32, 'D', 1, null, null, 4, false, true, 1, 0, 'key', 'ptType'),
-  (-982, -98, -98, '200-59217', -98, -98, -2.32, 'D', 1, null, null, 3, false, true, 1, 0, 'key', 'ptType'),
-  (-983, -98, -98, '200-59208', -98, -98, -0.32, 'D', 1, null, null, 2, false, true, 1, 0, 'key', 'ptType'),
-  (-984, -98, -98, '200-30901', -98, -98, -0.32, 'D', 1, null, null, 1, true, false, 2, 8, 'key', 'ptType');
+  (-991, -99, -99, '200-18943', -99, -99, -0.13, 'E', 2, -98, 0, 3, false, true, 1, 0, 'key', 'Narrative'),
+  (-992, -99, -99, '200-8906',  -99, -99, -0.03, 'E', 2, -99, 1, 2, false, true, 1, 0, 'key', 'Informational'),
+  (-993, -99, -99, '200-2014',  -99, -98,  1.23, 'D', 2, -98, 1, 1, false, true, 1, 0, 'key', 'Explanatory'),
+  (-980, -98, -98, '200-60347', -98, -98, -0.32, 'E', 1, null, null, 5, false, true, 1, 0, 'key', 'Opinion'),
+  (-981, -98, -98, '200-51719', -98, -98, -1.32, 'D', 1, null, null, 4, false, true, 1, 0, 'key', 'Opinion'),
+  (-982, -98, -98, '200-59217', -98, -98, -2.32, 'D', 1, null, null, 3, false, true, 1, 0, 'key', 'Argumentative'),
+  (-983, -98, -98, '200-59208', -98, -98, -0.32, 'D', 1, null, null, 2, false, true, 1, 0, 'key', 'Argumentative'),
+  (-984, -98, -98, '200-30901', -98, -98, -0.32, 'D', 1, null, null, 1, true, false, 2, 8, 'key', 'Argumentative');
 
   INSERT INTO item_common_core_standard(item_id, common_core_standard_id) values
   (-9, -98),
