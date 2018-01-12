@@ -18,6 +18,7 @@ sql:
       - delete from staging_exam_claim_score
       - delete from staging_school_year
       - delete from staging_district_embargo
+      - delete from staging_state_embargo
 
     entities:
         # ------------ administration_condition  -------------------------------------------------------------------
