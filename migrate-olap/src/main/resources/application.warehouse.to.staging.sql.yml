@@ -168,6 +168,7 @@ sql:
               FROM '${archive.root}/${migrate.aws.location}/student.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
+              TIMEFORMAT 'auto'
               DELIMITER ','
               COMPUPDATE OFF
 
@@ -198,6 +199,7 @@ sql:
               FROM '${archive.root}/${migrate.aws.location}/student_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
+              TIMEFORMAT 'auto'
               DELIMITER ','
               COMPUPDATE OFF
 
@@ -291,6 +293,7 @@ sql:
               FROM '${archive.root}/${migrate.aws.location}/asmt.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
+              TIMEFORMAT 'auto'
               DELIMITER ','
               COMPUPDATE OFF
 
@@ -331,6 +334,7 @@ sql:
               FROM '${archive.root}/${migrate.aws.location}/asmt_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
+              TIMEFORMAT 'auto'
               DELIMITER ','
               COMPUPDATE OFF
 
@@ -372,6 +376,7 @@ sql:
               FROM '${archive.root}/${migrate.aws.location}/school.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
+              TIMEFORMAT 'auto'
               DELIMITER ','
               COMPUPDATE OFF
 
@@ -412,6 +417,7 @@ sql:
               FROM '${archive.root}/${migrate.aws.location}/school_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
+              TIMEFORMAT 'auto'
               DELIMITER ','
               COMPUPDATE OFF
 
@@ -646,6 +652,7 @@ sql:
                 FROM '${archive.root}/${migrate.aws.location}/exam.part_00000'
                 CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
                 FORMAT AS CSV
+                TIMEFORMAT 'auto'
                 DELIMITER ','
                 COMPUPDATE OFF
 
@@ -708,6 +715,7 @@ sql:
                 FROM '${archive.root}/${migrate.aws.location}/exam_update.part_00000'
                 CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
                 FORMAT AS CSV
+                TIMEFORMAT 'auto'
                 DELIMITER ','
                 COMPUPDATE OFF
 
