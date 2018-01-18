@@ -1,8 +1,11 @@
-# this app is expected to run inside the security perimeter so disable security for actuator end-points and,
-# since those are the only end-points, switch to a less standard port using the main server.port config
+app:
+  school-year: 2018
+
 management:
   security:
     enabled: false
+# this app is expected to run inside the security perimeter so disable security for actuator end-points and,
+# since those are the only end-points, switch to a less standard port using the main server.port config
 server:
   port: 8008
   tomcat:
@@ -27,7 +30,6 @@ archive:
   root: ${rdw.resource.root:}
   cloud:
     aws:
-      # rdw-ingest
       credentials:
         accessKey: ${rdw.aws.access.key:}
         secretKey: ${rdw.aws.secret.key:}
@@ -73,12 +75,11 @@ spring:
 
   # http://docs.aws.amazon.com/redshift/latest/mgmt/configure-jdbc-options.html
   # https://jdbc.postgresql.org/documentation/head/connect.html
-  # Note: the currentSchema parameter doesn't appear to work
+  # NOTE: nothing in these settings controls the schema; it is controlled by the user's search_path
   olap_datasource:
     url: "\
-      jdbc:redshift://${spring.olap_datasource.url-server:localhost:5432}/dev\
-      ?ApplicationName=rdw-migrate-olap\
-      &currentSchema=${spring.olap_datasource.url-schema:reporting_olap}
+      jdbc:redshift://${spring.olap_datasource.url-server:localhost:5432}/${spring.olap_datasource.url-db:dev}\
+      ?ApplicationName=rdw-ingest-migrate-olap\
       "
     username: root
     password:

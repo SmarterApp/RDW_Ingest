@@ -781,6 +781,7 @@ sql:
                LEFT JOIN school rs ON rs.id = ss.id
              WHERE rs.id IS NULL AND ss.deleted = 0;
 
+          # it is expected that schools and embargo settings are always migrated together, therefore the embargo_enabled flag is not updated here.
           update: >-
             UPDATE school rs
               JOIN staging_school ss ON ss.id = rs.id
@@ -789,7 +790,6 @@ sql:
               rs.district_id = ss.district_id,
               rs.district_group_id = ss.district_group_id,
               rs.school_group_id = ss.school_group_id,
-              rs.embargo_enabled = 0,
               rs.update_import_id = ss.update_import_id,
               rs.updated = ss.updated,
               rs.migrate_id = ss.migrate_id
@@ -1005,7 +1005,8 @@ sql:
         sql:
           insert: >-
             INSERT INTO item ( id, claim_id, claim_code,  target_id, target_code, common_core_standard_ids, natural_id, asmt_id,
-                math_practice, math_practice_code, allow_calc, position, dok_id, dok_level_subject_id, difficulty_code, max_points, field_test, active, type, options_count, answer_key)
+                math_practice, math_practice_code, allow_calc, position, dok_id, dok_level_subject_id, difficulty_code, max_points, field_test, active, type,
+                options_count, answer_key, performance_task_writing_type)
               SELECT
                 si.id,
                 si.claim_id,
@@ -1027,7 +1028,8 @@ sql:
                 si.active,
                 si.type,
                 si.options_count,
-                si.answer_key
+                si.answer_key,
+                si.performance_task_writing_type
               FROM staging_item si
                 LEFT JOIN item ri ON ri.id = si.id
                  JOIN claim rc on rc.id = si.claim_id
@@ -1062,7 +1064,8 @@ sql:
               ri.active        = si.active,
               ri.type          = si.type,
               ri.options_count = si.options_count,
-              ri.answer_key    = si.answer_key
+              ri.answer_key    = si.answer_key,
+              ri.performance_task_writing_type    = si.performance_task_writing_type
 
           deleteAsPartOfParentUpdate: >-
             DELETE ri FROM item ri

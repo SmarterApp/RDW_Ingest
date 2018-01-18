@@ -25,7 +25,8 @@ apply plugin: 'io.spring.dependency-management'
 // Set version dependencies. This allows the cli to force version, e.g. `-Pcommon=1.1.0-SNAPSHOT`
 
 String rdwCommonVersion = project.hasProperty("common") ? project.property("common") : "1.1.0-58"
-String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "1.1.0-275"
+String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "1.1.0-304"
+
 String dockerPrefix = "smarterbalanced"
 
 allprojects {
@@ -101,14 +102,14 @@ subprojects {
         }
     }
 
+    // this is for creating metadata
+    compileJava.dependsOn(processResources)
+
     /***********************************************************
      * Docker setup for all sub-projects that need it
      ***********************************************************/
     if (!it.hasProperty('skipDocker')) {
         apply plugin: 'com.bmuschko.docker-remote-api'
-
-        // this is for creating metadata
-        compileJava.dependsOn(processResources)
 
         classes.dependsOn(createBuildInfoFile)
 
@@ -179,6 +180,8 @@ subprojects {
     // Specific integration test task that will automatically clean and migrate the test database schemas
     task IT(type: Test, dependsOn:[":cleanAllTest", ":migrateAllTest"]) {
         include '**/*IT.*'
+        group = 'Verification'
+        description = 'Runs the integration tests.'
         outputs.upToDateWhen { false }
         doFirst {
             println "Running Integration Tests..."
@@ -264,6 +267,8 @@ taskMap.keySet().each { key ->
         description = taskMap[key]
         doFirst {
             dir { schemaDir() }
+            // need to copy any command-line properties for sub-build
+            startParameter.projectProperties = gradle.startParameter.projectProperties
         }
         tasks = [key]
     }

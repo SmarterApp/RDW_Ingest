@@ -203,30 +203,13 @@ sql:
               INSERT INTO staging_translation (namespace, label_code, language_code, label) VALUES
                 ("backend", :label_code, :language_code, :label)
 
-
         ##### EMBARGO ###########################################################################
 
-        # ------------ embargo ------------------------------------------------------------------
-        # Create records with effective embargo for ALL districts regardless of timestamps. The
-        # truth table for how state and district setting resolve to the effective setting is a bit
-        # non-obvious. Recall that state=FALSE trumps district setting, "default" for individual
-        # embargo is FALSE and "default" for aggregate embargo is TRUE:
-        #    district  T   F  null   T   F  null
-        #             -----------   -----------
-        # state T    | T | F | T |  | T | F | T |
-        #       F    | F | F | F |  | F | F | F |
-        #       null | T | F | F |  | T | F | T |
-        #             -----------    -----------
-        # TODO - it would be slightly more efficient to get just districts that have schools associated with them
         district_embargo:
           sql:
             warehouseRead:
-              SELECT d.id as district_id,
-                     IF(se.individual = 0 OR de.individual = 0 OR (se.individual IS NULL and de.individual IS NULL), 0, 1) AS individual,
-                     IF(se.individual = 0 OR de.individual = 0, 0, 1) AS aggregate
-              FROM district d
-                LEFT JOIN district_embargo de ON de.district_id = d.id AND de.school_year = :school_year
-                LEFT JOIN state_embargo se ON se.school_year = :school_year
+              ${sql.embargo}
+
             stagingInsert:
               INSERT INTO staging_district_embargo (district_id, individual, aggregate, migrate_id) VALUES
                 (:district_id, :individual, :aggregate, :migrate_id)
@@ -652,7 +635,8 @@ sql:
                 wi.active,
                 wi.type,
                 wi.options_count,
-                wi.answer_key
+                wi.answer_key,
+                wi.performance_task_writing_type
               FROM item  wi
                 JOIN asmt wa ON wa.id = wi.asmt_id
                 LEFT JOIN
@@ -665,8 +649,8 @@ sql:
                   AND wa.deleted = 0
 
             stagingInsert: >-
-              INSERT INTO staging_item (id, claim_id, target_id, natural_id, asmt_id, math_practice, allow_calc, position, dok_id, difficulty_code, max_points, common_core_standard_ids, field_test, active, type, options_count, answer_key, migrate_id) VALUES
-                (:id, :claim_id, :target_id, :natural_id, :asmt_id, :math_practice, :allow_calc, :position, :dok_id, :difficulty_code, :max_points, :common_core_standard_ids, :field_test, :active, :type, :options_count, :answer_key, :migrate_id)
+              INSERT INTO staging_item (id, claim_id, target_id, natural_id, asmt_id, math_practice, allow_calc, position, dok_id, difficulty_code, max_points, common_core_standard_ids, field_test, active, type, options_count, answer_key, performance_task_writing_type, migrate_id) VALUES
+                (:id, :claim_id, :target_id, :natural_id, :asmt_id, :math_practice, :allow_calc, :position, :dok_id, :difficulty_code, :max_points, :common_core_standard_ids, :field_test, :active, :type, :options_count, :answer_key, :performance_task_writing_type, :migrate_id)
 
         item_by_update_import_id:
           sql:
@@ -688,7 +672,8 @@ sql:
                 wi.active,
                 wi.type,
                 wi.options_count,
-                wi.answer_key
+                wi.answer_key,
+                wi.performance_task_writing_type
               FROM item  wi
                 JOIN asmt wa ON wa.id = wi.asmt_id
                 LEFT JOIN
@@ -701,8 +686,8 @@ sql:
                   AND wa.deleted = 0
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging_item (id, claim_id, target_id, natural_id, asmt_id, math_practice, allow_calc, position, dok_id, difficulty_code, max_points, common_core_standard_ids, field_test, active, type, options_count, answer_key, migrate_id) VALUES
-                (:id, :claim_id, :target_id, :natural_id, :asmt_id, :math_practice, :allow_calc, :position, :dok_id, :difficulty_code, :max_points, :common_core_standard_ids, :field_test, :active, :type, :options_count, :answer_key, :migrate_id)
+              INSERT IGNORE INTO staging_item (id, claim_id, target_id, natural_id, asmt_id, math_practice, allow_calc, position, dok_id, difficulty_code, max_points, common_core_standard_ids, field_test, active, type, options_count, answer_key, performance_task_writing_type, migrate_id) VALUES
+                (:id, :claim_id, :target_id, :natural_id, :asmt_id, :math_practice, :allow_calc, :position, :dok_id, :difficulty_code, :max_points, :common_core_standard_ids, :field_test, :active, :type, :options_count, :answer_key, :performance_task_writing_type, :migrate_id)
 
         # ------------ item_common_core_standard  -------------------------------------------------------------------
         item_common_core_standard:
