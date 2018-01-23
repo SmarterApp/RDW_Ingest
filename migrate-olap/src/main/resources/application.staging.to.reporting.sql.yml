@@ -1,5 +1,8 @@
 sql:
   migrate:
+    finalizeList:
+      - ANALYZE
+
     entities:
         # ------------ administration_condition  -------------------------------------------------------------------
         administration_condition:
@@ -407,7 +410,6 @@ sql:
                 student_id,
                 asmt_id,
                 grade_id,
-                asmt_grade_id,
                 school_year,
                 iep,
                 lep,
@@ -442,7 +444,6 @@ sql:
                   se.student_id,
                   se.asmt_id,
                   se.grade_id,
-                  ra.grade_id,
                   se.school_year,
                   CASE WHEN se.iep = true THEN 1 WHEN se.iep = false THEN 0 ELSE 2 END,
                   CASE WHEN se.lep = true THEN 1 WHEN se.lep = false THEN 0 ELSE 2 END,
@@ -471,7 +472,6 @@ sql:
                   se.update_import_id,
                   se.migrate_id
                 FROM staging_exam se
-                  JOIN asmt ra ON ra.id = se.asmt_id
                   LEFT JOIN fact_student_exam fe ON fe.student_id = se.student_id and fe.asmt_id = se.asmt_id and fe.school_year = se.school_year
                   JOIN (
                          SELECT e.id as exam_id
@@ -521,7 +521,6 @@ sql:
                   id                          = se.id,
                   school_id                   = se.school_id,
                   grade_id                    = se.grade_id,
-                  asmt_grade_id               = ra.grade_id,
                   iep                         = CASE WHEN se.iep = true THEN 1 WHEN se.iep = false THEN 0 ELSE 2 END,
                   lep                         = CASE WHEN se.lep = true THEN 1 WHEN se.lep = false THEN 0 ELSE 2 END,
                   section504                  = CASE WHEN se.section504 = true THEN 1 ELSE 0 END,
@@ -548,7 +547,6 @@ sql:
                   update_import_id            = se.update_import_id,
                   migrate_id                  = se.migrate_id
                  FROM staging_exam se
-                  JOIN asmt ra ON ra.id = se.asmt_id
                   JOIN fact_student_exam fe ON fe.student_id = se.student_id and fe.asmt_id = se.asmt_id and fe.school_year = se.school_year
                   JOIN (
                          SELECT e.id as exam_id
@@ -604,7 +602,7 @@ sql:
               INSERT INTO asmt_active_year (asmt_id, school_year)
                 SELECT asmt_id, school_year
                 FROM
-                  ( SELECT DISTINCT f.asmt_id as asmt_id, f.asmt_grade_id AS grade_id, f.school_year, a.subject_id, a.type_id FROM fact_student_exam f JOIN asmt a ON a.id = f.asmt_id
+                  ( SELECT DISTINCT f.asmt_id as asmt_id, a.grade_id, f.school_year, a.subject_id, a.type_id FROM fact_student_exam f JOIN asmt a ON a.id = f.asmt_id
                     UNION
                     SELECT a.id AS asmt_id, a.grade_id, a.school_year, a.subject_id, a.type_id FROM asmt a
                   ) t ;
