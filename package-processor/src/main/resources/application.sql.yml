@@ -197,8 +197,14 @@ sql:
   #JdbcPercentileRepository
   percentile:
     create: >-
-        INSERT INTO percentile (asmt_id, start_date, end_date, count, mean, standard_deviation, min_score, max_score, import_id, update_import_id) VALUES
-          (:asmt_id, :start_date, :end_date, :count, :mean, :standard_deviation, :min_score, :max_score, :import_id, :update_import_id)
+      INSERT INTO percentile (asmt_id, start_date, end_date, count, mean, standard_deviation, min_score, max_score, import_id, update_import_id) VALUES
+        (:asmt_id, :start_date, :end_date, :count, :mean, :standard_deviation, :min_score, :max_score, :import_id, :update_import_id)
+
+    findIdByKey: >-
+      SELECT id FROM percentile WHERE asmt_id=:asmt_id AND start_date=:start_date AND end_date=:end_date
+
+    findIdsByDateOverlap: >-
+      SELECT id FROM percentile WHERE asmt_id=:asmt_id AND (:end_date > start_date AND end_date > :start_date)
 
     percentileScore:
       create: >-
