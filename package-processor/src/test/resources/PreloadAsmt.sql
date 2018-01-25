@@ -1,3 +1,9 @@
+INSERT INTO import (id, status, content, contentType, digest, batch, creator) VALUES
+  (-99, 1, 2, 'text/plain', '99',  'batch', 'dwtest@example.com'),
+  (-98, 1, 2, 'text/plain', '98',  'batch', 'dwtest@example.com'),
+  (-97, 1, 2, 'text/plain', '97',  'batch', 'dwtest@example.com'),
+  (-96, 1, 2, 'text/plain', '97',  'batch', 'dwtest@example.com');
+
 INSERT INTO asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name, label, version, deleted, import_id, update_import_id, created, updated) VALUES
   (-99, '(SBAC)SBAC-IAB-ASMT TEST-5', 5, 2, 1, 2016, 'SBAC-IAB-FIXED-G4M-OA-MATH-5', 'MTH IAB G5 OperationsAlgebraicThinking', '9835', 1, 1, 1, '2017-07-18 19:05:34.966000', '2017-07-18 19:05:34.966000'),
   (-98, '(SBAC)SBAC-ICA-ASMT TEST-8', 8, 1, 2, 2015, 'SBAC-ICA-FIXED-G5E-COMBINED-2017', 'Grade 5 ELA', '9831', 0, 1, 1, '2017-07-18 19:05:34.966000', '2017-07-18 19:05:34.966000'),
