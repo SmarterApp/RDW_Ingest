@@ -225,7 +225,7 @@ sql:
 
       insert: >-
         INSERT INTO percentile_score (percentile_id, percentile_rank, score, min_inclusive, max_exclusive) VALUES
-          :percentile_id, :percentile_rank, :score, :min_inclusive, :max_exclusive
+          (:percentile_id, :percentile_rank, :score, :min_inclusive, :max_exclusive)
 
       delete: >-
         DELETE FROM percentile_score WHERE percentile_id=:percentile_id
