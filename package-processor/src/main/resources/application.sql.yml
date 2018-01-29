@@ -193,3 +193,39 @@ sql:
       INSERT INTO school_group (natural_id, name, external_id) VALUES (:natural_id, :name, :external_id)
     update: >-
       UPDATE school_group SET name = :name, external_id = :external_id WHERE id = :id
+
+  #JdbcPercentileRepository
+  percentile:
+    create: >-
+      INSERT INTO percentile (asmt_id, start_date, end_date, count, mean, standard_deviation, min_score, max_score, import_id, update_import_id) VALUES
+        (:asmt_id, :start_date, :end_date, :count, :mean, :standard_deviation, :min_score, :max_score, :import_id, :update_import_id)
+
+    update: >-
+      UPDATE percentile p
+       SET
+         p.count = :count,
+         p.mean = :mean,
+         p.standard_deviation = :standard_deviation,
+         p.min_score = :min_score,
+         p.max_score = :max_score,
+         p.update_import_id = :update_import_id
+       WHERE p.id = :id
+
+    findIdByKey: >-
+      SELECT id FROM percentile WHERE asmt_id=:asmt_id AND start_date=:start_date AND end_date=:end_date
+
+    findIdsByDateOverlap: >-
+      SELECT id FROM percentile WHERE asmt_id=:asmt_id AND (:end_date > start_date AND end_date > :start_date)
+
+    percentileScore:
+      create: >-
+        INSERT INTO percentile_score (percentile_id, percentile_rank, score, min_inclusive, max_exclusive)
+        SELECT (SELECT id FROM percentile WHERE asmt_id=:asmt_id AND start_date=:start_date AND end_date=:end_date),
+                :percentile_rank, :score, :min_inclusive, :max_exclusive
+
+      insert: >-
+        INSERT INTO percentile_score (percentile_id, percentile_rank, score, min_inclusive, max_exclusive) VALUES
+          (:percentile_id, :percentile_rank, :score, :min_inclusive, :max_exclusive)
+
+      delete: >-
+        DELETE FROM percentile_score WHERE percentile_id=:percentile_id
