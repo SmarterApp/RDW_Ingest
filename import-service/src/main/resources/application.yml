@@ -58,6 +58,9 @@ spring:
         PACKAGE:
           producer:
             requiredGroups: default
+        NORMS:
+          producer:
+            requiredGroups: default
 
   datasource:
     url: "\
