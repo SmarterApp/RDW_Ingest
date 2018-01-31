@@ -22,6 +22,9 @@ spring:
         packageInput:
           destination: PACKAGE
           group: default
+        normsInput:
+          destination: NORMS
+          group: default
 
   profiles:
     include: ingest-common
