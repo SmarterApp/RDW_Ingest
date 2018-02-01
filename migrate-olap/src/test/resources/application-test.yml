@@ -1,0 +1,4 @@
+# Non-RST tests need some configuration
+
+archive:
+  root: file:///fubar/
