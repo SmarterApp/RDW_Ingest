@@ -14,9 +14,9 @@ INSERT INTO school (id, district_id, district_group_id, school_group_id, name, n
   (-99, -99, NULL, NULL, 'Before Test -99', 'natural_id-99', false, '2017-07-18 20:14:34.000000', -1, -1);
 
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
-INSERT INTO asmt (id, grade_id,  type_id, subject_id, school_year, name, label, updated, update_import_id, migrate_id) VALUES
-   (-11, -98, 3, 1, 1999, 'test-summative-1999-98', 'summative-grade-98', '2017-07-18 20:14:34.000000', -1, -1),
-   (-99, -99, 1, 2, 1999, 'test', 'test', '2017-07-18 20:14:34.000000', -1, -1);
+INSERT INTO asmt (id, grade_id, grade_code, type_id, subject_id, school_year, name, label, updated, update_import_id, migrate_id) VALUES
+   (-11, -98, '98', 3, 1, 1999, 'test-summative-1999-98', 'summative-grade-98', '2017-07-18 20:14:34.000000', -1, -1),
+   (-99, -99, '99', 1, 2, 1999, 'test', 'test', '2017-07-18 20:14:34.000000', -1, -1);
 
 INSERT INTO asmt_active_year(asmt_id, school_year) values
     (-11, 1995);
