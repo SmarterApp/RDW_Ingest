@@ -755,6 +755,90 @@ sql:
               INSERT IGNORE INTO staging_item_other_target (item_id, target_id) VALUES
                 (:item_id, :target_id)
 
+        ##### NORMS ImportContent Type ####
+        #
+        # ------------ percentile  -------------------------------------------------------------------
+        percentile:
+          sql:
+            warehouseRead: >-
+              SELECT
+                wp.id,
+                wp.asmt_id,
+                wp.start_date,
+                wp.end_date,
+                wp.count,
+                wp.mean,
+                wp.standard_deviation,
+                wp.min_score,
+                wp.max_score,
+                wp.deleted,
+                wp.update_import_id,
+                wp.updated
+              FROM percentile wp
+              WHERE  wp.created > :first_at AND wp.created <= :last_at
+            stagingInsert: >-
+              INSERT INTO staging_percentile (id, asmt_id, start_date, end_date, count, mean, standard_deviation, min_score, max_score, deleted, update_import_id, updated, migrate_id) VALUES
+                (:id, :asmt_id, :start_date, :end_date, :count, :mean, :standard_deviation, :min_score, :max_score, :deleted, :update_import_id, :updated, :migrate_id)
+
+        percentile_by_update_import_id:
+          sql:
+            warehouseRead: >-
+              SELECT
+                wp.id,
+                wp.asmt_id,
+                wp.start_date,
+                wp.end_date,
+                wp.count,
+                wp.mean,
+                wp.standard_deviation,
+                wp.min_score,
+                wp.max_score,
+                wp.deleted,
+                wp.update_import_id,
+                wp.updated
+              FROM percentile wp
+              WHERE  wp.updated > :first_at AND wp.updated <= :last_at AND wp.updated <> wp.created
+            stagingInsert: >-
+              INSERT INTO staging_percentile (id, asmt_id, start_date, end_date, count, mean, standard_deviation, min_score, max_score, deleted, update_import_id, updated, migrate_id) VALUES
+                (:id, :asmt_id, :start_date, :end_date, :count, :mean, :standard_deviation, :min_score, :max_score, :deleted, :update_import_id, :updated, :migrate_id)
+
+        # ------------ percentile_score  -------------------------------------------------------------------
+        percentile_score:
+          sql:
+            warehouseRead: >-
+              SELECT
+                wps.percentile_id,
+                wps.percentile_rank,
+                wps.score,
+                wps.min_inclusive,
+                wps.max_exclusive
+              FROM percentile_score  wps
+                JOIN percentile wp ON wp.id = wps.percentile_id
+              WHERE wp.created > :first_at AND wp.created <= :last_at
+                AND wp.deleted = 0
+
+            stagingInsert: >-
+              INSERT INTO staging_percentile_score (percentile_id, percentile_rank, score, min_inclusive, max_exclusive) VALUES
+                (:percentile_id, :percentile_rank, :score, :min_inclusive, :max_exclusive)
+
+        percentile_score_by_update_import_id:
+          sql:
+            warehouseRead: >-
+              SELECT
+                wps.percentile_id,
+                wps.percentile_rank,
+                wps.score,
+                wps.min_inclusive,
+                wps.max_exclusive
+              FROM percentile_score  wps
+                JOIN percentile wp ON wp.id = wps.percentile_id
+              WHERE wp.updated > :first_at AND wp.updated <= :last_at AND wp.updated <> wp.created
+                AND wp.deleted = 0
+
+            stagingInsert: >-
+              INSERT INTO staging_percentile_score (percentile_id, percentile_rank, score, min_inclusive, max_exclusive) VALUES
+                (:percentile_id, :percentile_rank, :score, :min_inclusive, :max_exclusive)
+
         ##### EXAM ImportContent Type ####
         # ------------ exam  ---------------------------------------------------------------------------------------
         exam:
