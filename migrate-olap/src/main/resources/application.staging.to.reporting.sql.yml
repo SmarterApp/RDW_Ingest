@@ -197,12 +197,14 @@ sql:
         asmt:
           sql:
             insert: >-
-              INSERT INTO asmt (id, grade_id, school_year, subject_id, name, label, type_id, updated, update_import_id, migrate_id)
+              INSERT INTO asmt (id, grade_id, grade_code, school_year, subject_id, subject_code, name, label, type_id, updated, update_import_id, migrate_id)
                 SELECT DISTINCT
                   sa.id,
                   sa.grade_id,
+                  g.code,
                   sa.school_year,
                   sa.subject_id,
+                  s.code,
                   sa.name,
                   sa.label,
                   sa.type_id,
@@ -211,20 +213,27 @@ sql:
                   sa.migrate_id
                 FROM staging_asmt sa
                   LEFT JOIN asmt ra ON ra.id = sa.id
+                  JOIN grade g ON g.id = sa.grade_id
+                  JOIN subject s ON s.id = sa.subject_id
                 WHERE ra.id IS NULL and sa.deleted = 0;
 
             update: >-
               UPDATE asmt
               SET
                 grade_id  = sa.grade_id,
+                grade_code = g.code,
                 school_year = sa.school_year,
                 subject_id = sa.subject_id,
+                subject_code = s.code,
                 name = sa.name,
                 label = sa.label,
                 updated = sa.updated,
                 update_import_id = sa.update_import_id,
                 migrate_id = sa.migrate_id
-              FROM staging_asmt sa WHERE sa.id = asmt.id;
+              FROM staging_asmt sa
+                JOIN grade g ON g.id = sa.grade_id
+                JOIN subject s ON s.id = sa.subject_id
+              WHERE sa.id = asmt.id;
 
             delete: >-
               DELETE FROM asmt
