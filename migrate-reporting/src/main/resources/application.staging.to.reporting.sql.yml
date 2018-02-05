@@ -1237,3 +1237,68 @@ sql:
 
           delete: >-
               DELETE ra FROM asmt ra JOIN staging_asmt sa on sa.id = ra.id WHERE sa.deleted = 1;
+
+      # ############## Norms  #########################################################################
+      # ------------ percentile_score -----------------------------------------------------------------------
+      percentile_score:
+        sql:
+          # delete all children where the parent is updated as all children are inserted on update
+          deleteAsPartOfParentUpdate: >-
+            DELETE rps FROM percentile_score rps
+              JOIN staging_percentile sp ON sp.id = rps.percentile_id
+            WHERE sp.deleted = 0
+
+          # insert all children on create and update as all children updated are deleted first
+          insert: >-
+            INSERT INTO percentile_score (percentile_id, percentile_rank, score, min_inclusive, max_exclusive)
+              SELECT
+                sps.percentile_id,
+                sps.percentile_rank,
+                sps.score,
+                sps.min_inclusive,
+                sps.max_exclusive
+              FROM staging_percentile_score sps;
+
+          delete: >-
+            DELETE rps FROM percentile_score rps
+              JOIN staging_percentile sp ON sp.id = rps.percentile_id
+            WHERE sp.deleted = 1;
+
+      # ------------ percentile ------------------------------------------------------------------------------
+      percentile:
+        sql:
+          insert: >-
+            INSERT INTO percentile (id, asmt_id, start_date, end_date, count, mean, standard_deviation, min_score, max_score, update_import_id, updated, migrate_id)
+              SELECT
+                sp.id,
+                sp.asmt_id,
+                sp.start_date,
+                sp.end_date,
+                sp.count,
+                sp.mean,
+                sp.standard_deviation,
+                sp.min_score,
+                sp.max_score,
+                sp.update_import_id,
+                sp.updated,
+                sp.migrate_id
+              FROM staging_percentile sp
+                LEFT JOIN percentile rp ON rp.id = sp.id
+              WHERE rp.id IS NULL and sp.deleted = 0;
+
+          update: >-
+            UPDATE percentile rp
+              JOIN staging_percentile sp ON sp.id = rp.id
+            SET
+              rp.count = sp.count,
+              rp.mean = sp.mean,
+              rp.standard_deviation = sp.standard_deviation,
+              rp.min_score = sp.min_score,
+              rp.max_score = sp.max_score,
+              rp.update_import_id = sp.update_import_id,
+              rp.updated = sp.updated,
+              rp.migrate_id = sp.migrate_id
+            WHERE sp.deleted = 0;
+
+          delete: >-
+              DELETE rp FROM percentile rp JOIN staging_percentile sp on sp.id = rp.id WHERE sp.deleted = 1;
