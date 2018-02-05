@@ -17,15 +17,11 @@ DELETE FROM district where id in (-99, -98, -1);
 DELETE FROM district_group where id in (-98);
 DELETE FROM school_group where id in (-98, -1);
 
--- ------------------------------------------ Percentile ---------------------------------------------------------------------------------------------------------
-DELETE FROM percentile_score where percentile_id in (-89, -88, -87);
-DELETE FROM percentile where id in (-89, -88, -87);
-
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
 DELETE FROM item_other_target where item_id in (-991, -990, -980);
 DELETE FROM item_common_core_standard where item_id in (-991, -990, -980, -9, -8);
 DELETE FROM item where asmt_id in ( -11, -99, -98);
 DELETE FROM asmt_score where asmt_id in ( -99, -98);
-DELETE FROM asmt where id in (-11, -99, -98, -97);
+DELETE FROM asmt where id in (-11, -99, -98);
 
 
