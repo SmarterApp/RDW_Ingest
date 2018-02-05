@@ -1,4 +1,4 @@
--------------------------- Preload  entities into warehouse  -------------------------------------------------------------------------------------------------------
+-- ------------------------ Preload  entities into warehouse  -------------------------------------------------------------------------------------------------------
 INSERT INTO district_group (id, name, natural_id) VALUES
   (-98, 'Sample District Group -98', 'natural_id-98');
 
@@ -56,6 +56,13 @@ INSERT INTO item_other_target(item_id, target_id) values
   (-990, -99),
   (-980, -98);
 
+INSERT INTO percentile (id, asmt_id, start_date, end_date, count, mean, standard_deviation, min_score, max_score, deleted, import_id, update_import_id, created, updated) VALUES
+  (-89, -11, '2018-01-01', '2018-03-31', 835430, 2420.1, 88.9, 0,    9999, 1, -20, -20, '2017-07-18 19:05:34.966000', '2017-07-18 19:05:34.966000'),
+  (-88, -98, '2018-01-01', '2018-03-31', 843395, 2461,   93.8, 1111, 4444, 0, -20, -20, '2017-07-18 19:05:34.966000', '2017-07-18 19:05:34.966000');
+
+INSERT INTO percentile_score (percentile_id, percentile_rank, score, min_inclusive, max_exclusive) VALUES
+  (-89, 25, 2278, 0, 2420),(-89, 50, 2420, 2420, 2566),(-89, 75, 2566, 2566, 9999),
+  (-88, 10, 2307, 1111, 2408),(-88, 30, 2408, 2408, 2464),(-88, 50, 2464, 2464, 2516),(-88, 70, 2516, 2516, 2612),(-88, 90, 2612, 2612, 4444);
 
 INSERT INTO student (id, ssid, last_or_surname, first_name, middle_name, gender_id, first_entry_into_us_school_at, lep_entry_at,
                                     lep_exit_at, birthday, inferred_school_id, import_id, update_import_id, deleted, created, updated) VALUES

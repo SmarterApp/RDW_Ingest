@@ -11,6 +11,10 @@ DELETE FROM staging_district where id in (-99, -98, -1);
 DELETE FROM staging_district_group where id in (-98);
 DELETE FROM staging_school_group where id in (-98, -1);
 
+-- ------------------------------------------ Percentile ---------------------------------------------------------------------------------------------------------
+DELETE FROM staging_percentile_score WHERE percentile_id IN (-89,-88);
+DELETE FROM staging_percentile WHERE id IN (-89, -88);
+
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
 DELETE FROM staging_item_other_target where item_id < 0;
 DELETE FROM staging_item_common_core_standard where item_id < 0;
@@ -44,6 +48,10 @@ DELETE FROM school where id in (-99, -98, -1);
 DELETE FROM district where id in (-99, -98, -1);
 DELETE FROM district_group where id in (-98);
 DELETE FROM school_group where id in (-98, -1);
+
+-- ------------------------------------------ Percentile ---------------------------------------------------------------------------------------------------------
+DELETE FROM percentile_score WHERE percentile_id IN (-89,-88);
+DELETE FROM percentile WHERE id IN (-89, -88);
 
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
 DELETE FROM item_other_target where item_id in (-991, -990, -980, -98, -99);

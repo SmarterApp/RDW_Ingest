@@ -47,6 +47,15 @@ INSERT INTO staging_item_common_core_standard(item_id, common_core_standard_id) 
 
  (-980, -98);
 
+-- ------------------------------------------ Percentile ---------------------------------------------------------------------------------------------------------
+INSERT INTO staging_percentile (id, asmt_id, start_date, end_date, count, mean, standard_deviation, min_score, max_score, update_import_id, updated, migrate_id, deleted) VALUES
+  (-89, -99, '2018-01-01', '2018-03-31', 835430, 2420.1, 88.9, 1111, 3333, -99, '2017-07-18 19:05:34.966000', -99, 0),
+  (-88, -11, '2018-01-01', '2018-03-31', 843395, 2461, 93.8, 1111, 4444, -99, '2017-07-18 19:05:34.966000', -99, 0);
+
+INSERT INTO staging_percentile_score (percentile_id, percentile_rank, score, min_inclusive, max_exclusive) VALUES
+  (-89, 25, 2278, 1111, 2420),(-89, 50, 2420, 2420, 2566),(-89, 75, 2566, 2566, 3333),
+  (-88, 10, 2307, 1111, 2408),(-88, 30, 2408, 2408, 2464),(-88, 50, 2464, 2464, 2516),(-88, 70, 2516, 2516, 2612),(-88, 90, 2612, 2612, 4444);
+
 -- ------------------------------------------ Student and Groups  ------------------------------------------------------------------------------------------------
 
  INSERT INTO staging_student (id, ssid, last_or_surname, first_name, middle_name, gender_id, first_entry_into_us_school_at, lep_entry_at,
