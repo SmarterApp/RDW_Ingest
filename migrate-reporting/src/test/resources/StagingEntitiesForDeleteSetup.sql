@@ -10,6 +10,10 @@ DELETE FROM staging_item WHERE asmt_id = -99;
 DELETE FROM staging_item_other_target WHERE item_id = -990;
 DELETE FROM staging_item_common_core_standard WHERE item_id = -990;
 
+-- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
+UPDATE staging_percentile SET deleted = 1 WHERE id = -89;
+DELETE FROM staging_percentile_score WHERE percentile_id = -89;
+
 -- ------------------------------------------ Student and Groups  ------------------------------------------------------------------------------------------------
 UPDATE staging_student SET deleted = 1 WHERE id = -89;
 UPDATE staging_student_group SET deleted = 1 WHERE id = -91;

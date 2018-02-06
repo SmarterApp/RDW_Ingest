@@ -40,6 +40,13 @@ INSERT INTO item_common_core_standard(item_id, common_core_standard_id) values
  (-990, -98),
  (-991, -98);
 
+-- ------------------------------------------ Percentiles --------------------------------------------------------------------------------------------------
+INSERT INTO percentile (id, asmt_id, start_date, end_date, count, mean, standard_deviation, min_score, max_score, update_import_id, updated, migrate_id) VALUES
+  (-89, -99, '2018-01-01', '2018-03-31', 835430, 2420.1, 88.9, 1000, 3000, -99, '2017-07-18 19:05:34.966000', -99);
+
+INSERT INTO percentile_score (percentile_id, percentile_rank, score, min_inclusive, max_exclusive) VALUES
+  (-89, 25, 2278, 1000, 2420),(-89, 50, 2420, 2420, 2566),(-89, 75, 2566, 2566, 3000);
+
 -- ------------------------------------------ Student and Groups  ------------------------------------------------------------------------------------------------
 INSERT INTO student (id, ssid, last_or_surname, first_name, middle_name, gender_id, gender_code, first_entry_into_us_school_at, lep_entry_at,
         lep_exit_at, birthday, update_import_id, updated, migrate_id) VALUES
