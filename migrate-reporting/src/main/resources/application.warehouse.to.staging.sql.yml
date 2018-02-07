@@ -47,6 +47,8 @@ sql:
       - TRUNCATE TABLE staging_student_group
       - TRUNCATE TABLE staging_student_group_membership
       - TRUNCATE TABLE staging_user_student_group
+      - TRUNCATE TABLE staging_percentile_score
+      - TRUNCATE TABLE staging_percentile
       - TRUNCATE TABLE staging_asmt
       - TRUNCATE TABLE staging_asmt_score
       - TRUNCATE TABLE staging_item
