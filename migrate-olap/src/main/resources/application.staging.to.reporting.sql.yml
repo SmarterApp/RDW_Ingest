@@ -2,6 +2,7 @@ sql:
   migrate:
     finalizeList:
       - VACUUM REINDEX fact_student_exam
+      - VACUUM
       - ANALYZE
 
     entities:
