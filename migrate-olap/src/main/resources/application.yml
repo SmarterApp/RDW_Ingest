@@ -43,9 +43,10 @@ migrate:
     redshift:
       role: ${rdw.migrate.aws.redshift.role}
 
-  batch:
+  olap-batch:
     size: 500000
-    delay: 60000
+    # every day at 1:00 am
+    run-cron: "0 0 1 * * *"
 
 spring:
   batch:
