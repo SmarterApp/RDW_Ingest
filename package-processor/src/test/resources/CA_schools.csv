@@ -1,4 +1,5 @@
 County-District Code^School Code^Auth CDS Code^County Name^District Name^School Name^Charter School^Charter Status^NPS School
+# supports comments
 0100016^0100016^20652430100016^Madera^Sherman Thomas Charter^Sherman Thomas Charter^Y^DF^N
 0100065^0100065^01612590100065^Alameda^Oakland Unity High^Oakland Unity High^Y^DF^N
 0100099^0100099^55723630100099^Tuolumne^California Virtual Academy @ Jamestown^California Virtual Academy @ Jamestown^Y^DF^N
@@ -7,11 +8,16 @@ County-District Code^School Code^Auth CDS Code^County Name^District Name^School 
 0610066^0610066^06100660610066^Colusa^Colusa County Office of Education School District^Colusa County Office of Education District Level Program^N^^N
 1075275^6112544^10752756112544^Fresno^Sierra Unified^Lodge Pole Elementary (Alternative)^N^^N
 1075408^1030253^10754081030253^Fresno^Riverdale Joint Unified^Horizon High^N^^N
+
+# and empty lines
 1262679^6007678^12626796007678^Humboldt^Arcata Elementary^Arcata Elementary^N^^N
 1262687^0107110^12626870107110^Humboldt^Northern Humboldt Union High^Six Rivers Charter High^Y^LF^N
 1964733^6061568^19647336061568^Los Angeles^Los Angeles Unified^Woodland Hills Academy^N^^N
 1964733^6061576^19647336061576^Los Angeles^Los Angeles Unified^Robert E. Peary Middle^N^^N
 1964733^6061584^19647336061584^Los Angeles^Los Angeles Unified^Gaspar De Portola Middle^N^^N
+
+# and all blank values
+^^^^^^^^
 3768056^6120596^37680566120596^San Diego^Del Mar Union Elementary^Torrey Hills^N^^N
 3768056^6987960^37680566987960^San Diego^Del Mar Union Elementary^T.I.E.E. Site 1 - Children's Workshop (The Institute for Effective Education)^N^^Y
 3768080^3768080^37680803768080^San Diego^Encinitas Union Elementary School District^Encinitas Union Elementary District Level Program^N^^N
