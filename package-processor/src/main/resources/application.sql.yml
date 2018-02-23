@@ -215,7 +215,7 @@ sql:
       SELECT id FROM percentile WHERE asmt_id=:asmt_id AND start_date=:start_date AND end_date=:end_date
 
     findIdsByDateOverlap: >-
-      SELECT id FROM percentile WHERE asmt_id=:asmt_id AND (:end_date > start_date AND end_date > :start_date)
+      SELECT id FROM percentile WHERE asmt_id=:asmt_id AND (:end_date >= start_date AND end_date >= :start_date)
 
     percentileScore:
       create: >-
