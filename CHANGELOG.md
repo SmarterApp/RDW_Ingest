@@ -1,14 +1,25 @@
 ## Change Log
 
-#### 1.1.y
+#### 1.1.0 - 2018-02-27
 
-* NOTE: extend tabulator output (need to reload assessment packages to update item details)
-* NOTE: change datasource URL configuration.
-* NOTE: fix CSV load SQL (remove config hack for sql.load-csv).
-* NOTE: server (tomcat) settings now have better defaults.
-* Add handling of district and school groups (from ART).
-* Detect and handle exam update/delete
-
+* Custom Aggregate Reporting.
+    * Add aggregate (aka olap) reporting data store.
+    * New migrate service for olap.
+* Process norms (aka percentiles).
+* Add state and district embargo flags for aggregate and individual test results.
+    * Includes auditing of any changes to the embargo flags.
+* Process enhanced tabulator output.
+    * NOTE: this requires reloading assessment packages to update item details.
+* Add auditing of student PII data.
+* Add inferred school for students.
+* Change datasource URL configuration.
+    * NOTE: this requires updating configuration files for all services.
+* Fix CSV loading to tolerate various line delimiters, empty rows, comments, etc.
+    * NOTE: remove config hack for sql.load-csv.
+* Change default server (embedded tomcat) settings for performance.
+* Handle groups of districts and schools (from ART).
+* Detect and handle exam update/delete.      
+    
 #### 1.0.2 - 2017-12-05
 
 * Make student group upload processing more tolerant of various line endings.
