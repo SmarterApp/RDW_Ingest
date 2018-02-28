@@ -1,0 +1,14 @@
+INSERT INTO grade (id, code, name) VALUES (-99,'99','K-garten'),(-98 ,'98','1st-grade');
+INSERT INTO completeness (id, code) VALUES (-99, 'test99'), (-98, 'test98'),(-95, 'test95');
+INSERT INTO administration_condition VALUES (-99,'test99'),(-98,'test98'),(-97,'test97'),(-96,'test96'),(-95, 'test95');
+INSERT INTO ethnicity VALUES (-99,'AmericanIndianOrAlaskaNative-test'),(-98,'Asian-test');
+INSERT INTO gender VALUES (-99,'Female-test'),(-98,'Male-test');
+INSERT INTO accommodation VALUES(-99, 'code1-test'),( -98 ,'code2-test');
+INSERT INTO school_year VALUES(1999),(1998);
+INSERT INTO claim VALUES (-99 ,2,'claim-99','Read Analytically: Informational Text','Read Analytically: Informational Text ...'),( -98,2,'claim-98','Write Effectively','Write Effectively - ..');
+INSERT INTO depth_of_knowledge  VALUES (-99,1,1,'Recall and Reproduction','something'),(-98,2,1,'Basic Skills and Concepts','anything');
+INSERT INTO math_practice  VALUES (-99,'Make sense of problems and persevere in solving them', '-9'),(-98,'Reason abstractly and quantitatively', '-8');
+INSERT INTO item_trait_score VALUES (-99,'Conventions-test'),(-98,'Evidence/Elaboration-test');
+INSERT INTO target  VALUES (-99,-99,'target-99','WORD MEANINGS: Determine intended meanings of words..'),(-98,-98,'target-98','WORD MEANINGS:..)');
+INSERT INTO common_core_standard  VALUES (-99,'naturalid-99', 1, 'common core 99'),(-98, 'naturalid-98', 2,'common core 98');
+INSERT INTO translation (namespace, label_code, language_code, label) VALUES ('backend', 'code1-test', 'lan', 'before test'), ('backend', 'code2-test', 'gua', 'before test 2');

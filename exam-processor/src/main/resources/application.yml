@@ -22,7 +22,14 @@ spring:
           group: default
 
   datasource:
-    url: jdbc:mysql://localhost:3306/warehouse?useSSL=false&useLegacyDatetimeCode=false&characterEncoding=utf8&rewriteBatchedStatements=true
+    url: "\
+      jdbc:mysql://${spring.datasource.url-server:localhost:3306}/${spring.datasource.url-schema:warehouse}\
+      ?useSSL=${spring.datasource.use-ssl:false}\
+      &useLegacyDatetimeCode=${spring.datasource.use-legacy-datetime-code:false}\
+      &characterEncoding=${spring.datasource.character-encoding:utf8}\
+      &rewriteBatchedStatements=${spring.datasource.rewrite-batched-statements:true}\
+      &noAccessToProcedureBodies=${spring.datasource.no-access-to-procedure-bodies:true}\
+      "
     username: root
     password:
     testWhileIdle: true
@@ -38,16 +45,12 @@ spring:
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
 
+  profiles:
+    include: ingest-common
+
 jdbc:
   retry:
     default:
       max-attempts: 4
       delay: 30
-
-sbac:
-  scaleScore:
-    min: 1500
-    max: 3500
-  itemScore:
-    min: -1
-    max: 20
+      multiplier: 2

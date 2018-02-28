@@ -2,13 +2,7 @@ sql:
   #ImportRepository
   import:
     updateStatusById:
-      UPDATE import
-        SET
+      UPDATE import SET
           status = :status,
           message  = :message
         WHERE id = :id
-
-  #JdbcSchoolRepository
-  school:
-    findIdByNaturalId: >-
-      SELECT id FROM school WHERE natural_id = ?

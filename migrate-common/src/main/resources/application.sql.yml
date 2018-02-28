@@ -1,0 +1,70 @@
+sql:
+  reporting:
+    migrate:
+      findLastMigratedAt: >-
+        SELECT MAX(m.last_at) FROM migrate m WHERE m.status = 20
+
+      create: >-
+        INSERT INTO migrate (job_id, status, first_at, last_at, size, migrate_codes, migrate_embargo)
+          VALUES (:job_id, :status, :first_at, :last_at, :size, :migrate_codes, :migrate_embargo)
+
+      delete: >-
+        DELETE FROM migrate WHERE id = :id
+
+      updateStatusById: >-
+        UPDATE migrate SET status = :status
+          WHERE id = :id
+
+      lastStatus: >-
+        SELECT status FROM migrate ORDER BY id DESC LIMIT 1
+
+  warehouse:
+    import:
+      findAllImportStatus: >-
+         SELECT name FROM import_status
+
+      findImportState: >-
+         SELECT start, stop, cnt FROM (
+
+            (SELECT CASE WHEN :prev IS NULL
+               THEN MIN(created)
+                    ELSE :prev END AS start
+             FROM import) s1,
+
+            (SELECT
+                MAX(updated) AS stop,
+                count(*)     AS cnt
+              FROM (SELECT updated
+                    FROM import
+                    WHERE status != 0 AND (:prev IS NULL OR updated > :prev) AND updated < CURRENT_TIMESTAMP(6)
+                    ORDER BY updated
+                    LIMIT :size) AS batch) s2
+          )
+
+      existsImportContentInTimeRange:
+          SELECT 1 AS existsCodeImportContent
+            FROM import wi
+          WHERE wi.content = :content
+             AND ((wi.status != 0 AND wi.updated >= :first_at AND wi.updated <= :last_at) OR
+               (wi.status = 0 AND wi.created <= :last_at))
+          LIMIT 1
+
+  # Create records with effective embargo for ALL districts regardless of timestamps. The
+  # truth table for how state and district setting resolve to the effective setting is a bit
+  # non-obvious. Recall that state=FALSE trumps district setting, "default" for individual
+  # embargo is FALSE and "default" for aggregate embargo is TRUE:
+  #
+  #             (individual)  (aggregate)
+  #    district  T   F  null   T   F  null
+  #             -----------   -----------
+  #   state T    | T | F | T |  | T | F | T |
+  #         F    | F | F | F |  | F | F | F |
+  #         null | T | F | F |  | T | F | T |
+  #               -----------    -----------
+  embargo:
+    SELECT d.id as district_id,
+           IF(se.individual = 0 OR de.individual = 0 OR (se.individual IS NULL and de.individual IS NULL), 0, 1) AS individual,
+           IF(se.aggregate = 0 OR de.aggregate = 0, 0, 1) AS aggregate
+    FROM district d
+      LEFT JOIN district_embargo de ON de.district_id = d.id AND de.school_year = ${app.school-year}
+      LEFT JOIN state_embargo se ON se.school_year = ${app.school-year}

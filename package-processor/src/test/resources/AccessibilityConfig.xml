@@ -118,6 +118,10 @@
 					<Label>Multiplication Table</Label>
 					<Description>For students with a documented and persistent calculation disability (i.e., dyscalculia). (NON-EMBEDDED)</Description>
 				</Text>
+				<Text>
+					<Language>ukr</Language>
+					<Label>Таблиця множення</Label>
+				</Text>
 			</Selection>
 			<Selection>
 				<Code>NEA_NumTbl</Code>

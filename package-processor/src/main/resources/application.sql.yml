@@ -1,102 +1,146 @@
 sql:
-  # AssessmentTypeRepository
+  #JdbcAssessmentTypeRepository
   asmtType:
     findIdByCode: >-
       SELECT id FROM asmt_type WHERE code= :code
 
-  # SubjectRepositoryImpl
+  #JdbcSubjectRepository
   subject:
     findIdByCode: >-
       SELECT id FROM subject WHERE code= :code
 
-  # GradeRepositoryImpl
+  #JdbcGradeRepository
   grade:
     findIdByCode: >-
       SELECT id FROM grade WHERE code= :code
 
-  # AssessmentRepository
+  #JdbcAssessmentPackageRepository
   assessment:
-    findIdByNaturalId: >-
-      SELECT id FROM asmt WHERE natural_id= :natural_id
+    findOneByNaturalId: >-
+        SELECT a.id, a.natural_id, a.grade_id, a.type_id, a.subject_id, a.school_year, a.name, a.label, a.version, s.cut_point_1, s.cut_point_2, s.cut_point_3, s.min_score, s.max_score
+           FROM asmt a JOIN asmt_score s ON s.asmt_id = a.id WHERE a.natural_id= :natural_id
+
+    update: >-
+       UPDATE asmt a
+        SET
+          a.school_year = :schoolYear,
+          a.name = :name,
+          a.label = :label,
+          a.version = :version,
+          a.update_import_id = :update_import_id
+        WHERE a.id = :id
 
     create: >-
-      INSERT INTO asmt (natural_id, grade_id,type_id, subject_id, school_year, name, label, version, import_id, update_import_id) VALUES
-                       (:naturalId, :gradeId, :typeId, :subjectId, :schoolYear, :name, :label, :version, :import_id, :update_import_id)
-    assessmentScore:
-      create: >-
-        INSERT INTO asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score) SELECT (SELECT id FROM asmt WHERE natural_id=:asmtId), :cutPoint1, :cutPoint2, :cutPoint3, :minScore, :maxScore
+        INSERT INTO asmt (natural_id, grade_id, type_id, subject_id, school_year, name, label, version, import_id, update_import_id) VALUES
+                         (:naturalId, :gradeId, :typeId, :subjectId, :schoolYear, :name, :label, :version, :import_id, :update_import_id)
 
-  #ClaimRepository
+    assessmentScore:
+       create: >-
+         INSERT INTO asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score) SELECT (SELECT id FROM asmt WHERE natural_id=:asmtId), :cutPoint1, :cutPoint2, :cutPoint3, :minScore, :maxScore
+
+       update: >-
+         UPDATE asmt_score s
+           SET
+             s.cut_point_1 = :cutPoint1,
+             s.cut_point_2 = :cutPoint2,
+             s.cut_point_3 = :cutPoint3,
+             s.min_score = :minScore,
+             s.max_score = :maxScore
+          WHERE s.asmt_id = :asmt_id
+
+    item:
+      findAll: >-
+        SELECT i.id, i.claim_id, i.target_id, i.natural_id, i.math_practice, i.allow_calc, i.dok_id, i.position, i.difficulty, i.max_points, i.field_test, i.active, i.type, i.options_count, i.answer_key, i.performance_task_writing_type
+          FROM item i WHERE i.asmt_id= :asmt_id
+
+      create: >-
+        INSERT INTO item (asmt_id, claim_id, target_id, natural_id, math_practice, allow_calc, dok_id, position, difficulty, max_points, field_test, active, type, options_count, answer_key, performance_task_writing_type)
+          select (select id as asmt_id from asmt where natural_id=:asmtId), :claimId, :targetId, :itemId, :mathPractice, :allowCalc, :dokId, :position, :difficulty, :maxPoints, :fieldTest, :active, :type, :optionsCount, :answerKey, :performance_task_writing_type
+
+      update: >-
+        UPDATE item i
+          SET
+             i.claim_id = :claimId,
+             i.target_id = :targetId,
+             i.math_practice = :mathPractice,
+             i.allow_calc = :allowCalc,
+             i.dok_id = :dokId,
+             i.position = :position,
+             i.difficulty = :difficulty,
+             i.max_points = :maxPoints,
+             i.field_test = :fieldTest,
+             i.active = :active,
+             i.type = :type,
+             i.options_count= :optionsCount,
+             i.answer_key = :answerKey,
+             i.performance_task_writing_type = :performance_task_writing_type
+          WHERE i.id = :id
+
+      updateDifficultyCode:
+        update item i
+          join asmt a on i.asmt_id = a.id
+          join item_difficulty_cuts c on c.asmt_type_id = a.type_id and a.subject_id = c.subject_id and a.grade_id = c.grade_id
+        set
+          i.difficulty_code = if(i.difficulty < c.moderate_low_end, 'E', if(i.difficulty < c.difficult_low_end, 'M', 'D' ))
+        where a.natural_id in (:asmt_natural_ids)
+
+      commonCoreStandard:
+        findAll: >-
+              SELECT iccs.item_id, iccs.common_core_standard_id FROM item_common_core_standard iccs JOIN item i on i.id = iccs.item_id  WHERE i.asmt_id= :asmt_id
+
+        create: >-
+          INSERT INTO item_common_core_standard(item_id, common_core_standard_id)
+              SELECT (SELECT i.id from item i join asmt a on i.asmt_id = a.id where i.natural_id = :item_natural_id and a.natural_id=:asmtId) , :common_core_standard_id
+
+        delete: >-
+          DELETE FROM item_common_core_standard where item_id in (:item_ids)
+
+      otherTarget:
+        create: >-
+          INSERT INTO item_other_target(item_id, target_id)
+            SELECT (SELECT i.id from item i join asmt a on i.asmt_id = a.id  where i.natural_id = :item_natural_id and a.natural_id=:asmtId), :target_id
+
+        findAll: >-
+          SELECT iot.item_id, iot.target_id FROM item_other_target iot JOIN item i on i.id = iot.item_id WHERE i.asmt_id= :asmt_id
+
+        delete: >-
+          DELETE FROM item_other_target where item_id in (:item_ids)
+
+  #JdbcClaimRepository
   claim:
     findIdByCode: >-
       SELECT id FROM claim WHERE code= :code
 
-  #DepthOfKnowledgeRepository
+  #JdbcDepthOfKnowledgeRepository
   dok:
     findIdByLevelAndSubject: >-
       SELECT id FROM depth_of_knowledge WHERE level= :level and subject_id = :subjectId
 
-  #MathPracticeRepository
+  #JdbcMathPracticeRepository
   mathPractice:
     findByPractice: >-
       SELECT practice FROM math_practice WHERE practice= :practice
 
-  #TargetRepository
+  #JdbcTargetRepository
   target:
     findIdByNaturalIdAndClaimId: >-
       SELECT id FROM target WHERE natural_id= :naturalId AND claim_id = :claimId
 
+  #JdbcCommonCoreStandardRepository
   commonCoreStandard:
     findIdsBySubjectIdAndNaturalIds: >-
        SELECT id FROM common_core_standard WHERE natural_id in (:naturalIds) AND subject_id = :subjectId
 
-  # ItemRepository
-  item:
-    create: >-
-      INSERT INTO item (asmt_id, claim_id, target_id, natural_id, math_practice, allow_calc, dok_id, position, difficulty, max_points)
-                        select (select id as asmt_id from asmt where natural_id=:asmtId), :claimId, :targetId, :itemId, :mathPractice, :allowCalc, :dokId, :position, :difficulty, :maxPoints
-
-    updateDifficultyCode:
-      update item i
-        join asmt a on i.asmt_id = a.id
-        join item_difficulty_cuts c on c.asmt_type_id = a.type_id and a.subject_id = c.subject_id and a.grade_id = c.grade_id
-      set
-        i.difficulty_code = if(i.difficulty < c.moderate_low_end, 'E', if(i.difficulty < c.difficult_low_end, 'M', 'D' ))
-      where a.natural_id in (:asmt_natural_ids)
-
-    commonCoreStandardCreate: >-
-      INSERT INTO item_common_core_standard(item_id, common_core_standard_id)
-          SELECT (SELECT i.id from item i join asmt a on i.asmt_id = a.id where i.natural_id = :item_natural_id and a.natural_id=:asmtId) , :common_core_standard_id
-
-    otherTargetCreate: >-
-      INSERT INTO item_other_target(item_id, target_id)
-          SELECT (SELECT i.id from item i join asmt a on i.asmt_id = a.id  where i.natural_id = :item_natural_id and a.natural_id=:asmtId), :target_id
-
-  # AccommodationRepository
-  accommodation:
-    findIdByCode: >-
-      SELECT id FROM accommodation WHERE code= :code
-
-    create: >-
-      INSERT IGNORE INTO accommodation (code) VALUES (:code)
-
-  # LanguageRepository
-  language:
-    findIdByCode: >-
-      SELECT id FROM language WHERE code= :code
-
-  # AccommodationTranslationRepository
+  #JdbcAccommodationTranslationRepository
   accommodationTranslation:
-    create: >-
-      INSERT INTO accommodation_translation (accommodation_id, language_id, label)
-         SELECT (SELECT id AS accommodation_id FROM accommodation WHERE code = :accCode), :langId, :label
+    accommodation:
+      create: >-
+        INSERT IGNORE INTO accommodation (code) VALUES (:code)
+
+    upsert: >-
+      INSERT INTO accommodation_translation (accommodation_id, language_code, label)
+         SELECT (SELECT id AS accommodation_id FROM accommodation WHERE code = :accCode), :languageCode, :label
            ON DUPLICATE KEY UPDATE label=:label
-
-    findByAccCodeAndLangCode: >-
-      SELECT id FROM accommodation_translation WHERE accommodation_id=:accId AND language_id=:langId
-
-    updateTranslation: >-
-      UPDATE accommodation_translation SET label=:label WHERE accommodation_id=:accId AND language_id=:langId
 
   status:
     readTest: >-
@@ -107,3 +151,81 @@ sql:
 
     writeRevert: >-
       DELETE FROM asmt_type WHERE id = 47
+
+  #JdbcSchoolRepository
+  district:
+    findAll: >-
+      SELECT id, natural_id, name, external_id FROM district
+    insert: >-
+      INSERT INTO district (natural_id, name, external_id) VALUES (:natural_id, :name, :external_id)
+    update: >-
+      UPDATE district SET name = :name, external_id = :external_id WHERE id = :id
+
+  districtGroup:
+    findAll: >-
+      SELECT id, natural_id, name, external_id FROM district_group
+    insert: >-
+      INSERT INTO district_group (natural_id, name, external_id) VALUES (:natural_id, :name, :external_id)
+    update: >-
+      UPDATE district_group SET name = :name, external_id = :external_id WHERE id = :id
+
+  school:
+    findAll: >-
+      SELECT id, natural_id, name, external_id, district_id, district_group_id, school_group_id
+        FROM school
+    insert: >-
+      INSERT INTO school (natural_id, name, external_id, district_id, district_group_id, school_group_id, import_id, update_import_id)
+        VALUES (:natural_id, :name, :external_id, :district_id, :district_group_id, :school_group_id, :import_id, :import_id)
+    update: >-
+      UPDATE school SET
+          name = :name,
+          external_id = :external_id,
+          district_id = :district_id,
+          district_group_id = :district_group_id,
+          school_group_id = :school_group_id,
+          update_import_id = :update_import_id
+        WHERE id = :id
+
+  schoolGroup:
+    findAll: >-
+      SELECT id, natural_id, name, external_id FROM school_group
+    insert: >-
+      INSERT INTO school_group (natural_id, name, external_id) VALUES (:natural_id, :name, :external_id)
+    update: >-
+      UPDATE school_group SET name = :name, external_id = :external_id WHERE id = :id
+
+  #JdbcPercentileRepository
+  percentile:
+    create: >-
+      INSERT INTO percentile (asmt_id, start_date, end_date, count, mean, standard_deviation, min_score, max_score, import_id, update_import_id) VALUES
+        (:asmt_id, :start_date, :end_date, :count, :mean, :standard_deviation, :min_score, :max_score, :import_id, :update_import_id)
+
+    update: >-
+      UPDATE percentile p
+       SET
+         p.count = :count,
+         p.mean = :mean,
+         p.standard_deviation = :standard_deviation,
+         p.min_score = :min_score,
+         p.max_score = :max_score,
+         p.update_import_id = :update_import_id
+       WHERE p.id = :id
+
+    findIdByKey: >-
+      SELECT id FROM percentile WHERE asmt_id=:asmt_id AND start_date=:start_date AND end_date=:end_date
+
+    findIdsByDateOverlap: >-
+      SELECT id FROM percentile WHERE asmt_id=:asmt_id AND (:end_date >= start_date AND end_date >= :start_date)
+
+    percentileScore:
+      create: >-
+        INSERT INTO percentile_score (percentile_id, percentile_rank, score, min_inclusive, max_exclusive)
+        SELECT (SELECT id FROM percentile WHERE asmt_id=:asmt_id AND start_date=:start_date AND end_date=:end_date),
+                :percentile_rank, :score, :min_inclusive, :max_exclusive
+
+      insert: >-
+        INSERT INTO percentile_score (percentile_id, percentile_rank, score, min_inclusive, max_exclusive) VALUES
+          (:percentile_id, :percentile_rank, :score, :min_inclusive, :max_exclusive)
+
+      delete: >-
+        DELETE FROM percentile_score WHERE percentile_id=:percentile_id

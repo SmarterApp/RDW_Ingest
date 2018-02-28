@@ -16,8 +16,8 @@ sql:
     findOne: >-
       SELECT * FROM import WHERE id=:id
 
-    findOneByDigest: >-
-      SELECT * FROM import WHERE digest=:digest
+    findOneByContentAndDigest: >-
+      SELECT * FROM import WHERE content=:content AND digest=:digest
 
     findBy: >-
       SELECT *

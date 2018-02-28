@@ -22,15 +22,15 @@ plugins {
 
 apply plugin: 'io.spring.dependency-management'
 
-// Set version dependencies. This allows the cli to force version, e.g. `-Pcommon=1.0.0-SNAPSHOT`
+// Set version dependencies. This allows the cli to force version, e.g. `-Pcommon=1.1.0-SNAPSHOT`
+String rdwCommonVersion = project.hasProperty("common") ? project.property("common") : "1.1.0-68"
+String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "1.1.0-321"
 
-String rdwCommonVersion = project.hasProperty("common") ? project.property("common") : "1.0.0-41"
-String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "1.0.0-191"
 String dockerPrefix = "smarterbalanced"
 
 allprojects {
     group = 'org.opentestsystem.rdw.ingest'
-    version = '1.0.2-SNAPSHOT'
+    version = '1.1.0-SNAPSHOT'
 
     apply plugin: 'idea'
     apply plugin: 'propdeps'
@@ -55,6 +55,7 @@ subprojects {
     repositories {
         mavenLocal()
         mavenCentral()
+        maven { url 'http://redshift-maven-repository.s3-website-us-east-1.amazonaws.com/release' }
     }
 
     dependencyManagement {
@@ -88,9 +89,6 @@ subprojects {
         testCompile 'junit:junit'
     }
 
-    // generate coverage report automatically (./build/reports/jacoco/test/html/index.html)
-    test.finalizedBy(jacocoTestReport)
-
     // task to generate build-info.properties with build.version, build.timestamp
     // using this approach instead of resource filtering to avoid modifying source
     task createBuildInfoFile(dependsOn: processResources) {
@@ -103,16 +101,14 @@ subprojects {
         }
     }
 
+    // this is for creating metadata
+    compileJava.dependsOn(processResources)
+
     /***********************************************************
-     * Docker setup for all subprojects except rdw-ingest-common,
-     *  which doesn't have a docker image
+     * Docker setup for all sub-projects that need it
      ***********************************************************/
-
-    if (it.name != "rdw-ingest-common") {
+    if (!it.hasProperty('skipDocker')) {
         apply plugin: 'com.bmuschko.docker-remote-api'
-
-        // this is for creating metadata
-        compileJava.dependsOn(processResources)
 
         classes.dependsOn(createBuildInfoFile)
 
@@ -167,36 +163,52 @@ subprojects {
         }
     }
 
-    //Skip running integration tests automatically, because integration tests can be long
-    test.exclude '**/*IT.*'
+    // Skip running integration and system tests automatically, because they take a long time
+    test.exclude '**/*IT.*', '**/*RST.*'
 
-    //This task for for manually running the integration tests without automatically cleaning and creating
+    // This task for for manually running the integration tests without automatically cleaning and creating
     // the test database schemas
     task manualIT(type: Test) {
+        include '**/*IT.*'
         outputs.upToDateWhen { false }
         doFirst {
             println "Running Manual Integration Tests..."
         }
     }
 
-    //Specific integration test task that will automatically clean and migrate the test database schemas
+    // Specific integration test task that will automatically clean and migrate the test database schemas
     task IT(type: Test, dependsOn:[":cleanAllTest", ":migrateAllTest"]) {
+        include '**/*IT.*'
+        group = 'Verification'
+        description = 'Runs the integration tests.'
         outputs.upToDateWhen { false }
         doFirst {
             println "Running Integration Tests..."
         }
     }
 
-    //Specific integration test task that will automatically migrate the test database schemas
+    // Specific integration test task that will automatically migrate the test database schemas
     task moIT(type: Test, dependsOn:[":migrateAllTest"]) {
+        include '**/*IT.*'
         outputs.upToDateWhen { false }
         doFirst {
             println "Running Integration Tests without cleaning database (flyway migrate only)..."
         }
     }
 
-    tasks.withType(Test) {
-        reports.html.destination = file("${reporting.baseDir}/${name}")
+    task coverage(type: Task, dependsOn: [test, IT]) {
+        doFirst {
+            jacocoTestReport.executionData(test, IT)
+            jacocoTestReport.reports.html.destination = file("${reporting.baseDir}/${name}")
+
+            // Only include execution data that exists (handle projects without integration tests)
+            jacocoTestReport {
+                executionData = files(executionData.findAll {
+                    it.exists()
+                })
+            }
+        }
+        finalizedBy(jacocoTestReport)
     }
 }
 
@@ -254,6 +266,8 @@ taskMap.keySet().each { key ->
         description = taskMap[key]
         doFirst {
             dir { schemaDir() }
+            // need to copy any command-line properties for sub-build
+            startParameter.projectProperties = gradle.startParameter.projectProperties
         }
         tasks = [key]
     }

@@ -1,0 +1,613 @@
+sql:
+  migrate:
+    finalizeList:
+      - VACUUM REINDEX fact_student_exam
+      - VACUUM
+      - ANALYZE
+
+    entities:
+        # ------------ administration_condition  -------------------------------------------------------------------
+        administration_condition:
+          sql:
+            update:  >-
+               UPDATE administration_condition
+               SET
+                 code = sac.code
+               FROM
+                  staging_administration_condition sac where sac.id = administration_condition.id;
+
+            insert: >-
+                INSERT INTO administration_condition (id, code)
+                  SELECT
+                    sac.id,
+                    sac.code
+                  FROM staging_administration_condition sac
+                    LEFT JOIN administration_condition rac ON rac.id = sac.id
+                  WHERE rac.id IS NULL;
+
+            delete: >-
+               DELETE FROM administration_condition
+               WHERE NOT EXISTS(SELECT sac.id FROM staging_administration_condition sac WHERE sac.id = administration_condition.id);
+
+        # ------------ completeness  -------------------------------------------------------------------
+        completeness:
+          sql:
+            update:  >-
+               UPDATE completeness
+               SET
+                 code = sc.code
+               FROM
+                  staging_completeness sc where sc.id = completeness.id;
+
+            insert: >-
+                INSERT INTO completeness (id, code)
+                  SELECT
+                    sc.id,
+                    sc.code
+                  FROM staging_completeness sc
+                    LEFT JOIN completeness rc ON rc.id = sc.id
+                  WHERE rc.id IS NULL;
+
+            delete: >-
+               DELETE FROM completeness
+               WHERE NOT EXISTS(SELECT sc.id FROM staging_completeness sc WHERE sc.id = completeness.id);
+
+       # ------------ Ethnicity ------------------------------------------------------------------------
+        ethnicity:
+          sql:
+            update:  >-
+               UPDATE ethnicity
+               SET
+                 code = se.code
+               FROM
+                  staging_ethnicity se where ethnicity.id = se.id;
+
+            insert: >-
+                INSERT INTO ethnicity (id, code)
+                  SELECT
+                    se.id,
+                    se.code
+                  FROM staging_ethnicity se
+                    LEFT JOIN ethnicity re ON se.id = re.id
+                  WHERE re.id IS NULL;
+
+            delete: >-
+               DELETE FROM ethnicity
+               WHERE NOT EXISTS(SELECT se.id FROM staging_ethnicity se WHERE ethnicity.id = se.id);
+
+        # ------------ gender  -------------------------------------------------------------------
+        gender:
+          sql:
+            update:  >-
+               UPDATE gender
+               SET
+                 code = sg.code
+               FROM
+                  staging_gender sg where sg.id = gender.id;
+
+            insert: >-
+                INSERT INTO gender (id, code)
+                  SELECT
+                    sg.id,
+                    sg.code
+                  FROM staging_gender sg
+                    LEFT JOIN gender rg ON rg.id = sg.id
+                  WHERE rg.id IS NULL;
+            delete: >-
+               DELETE FROM gender
+               WHERE NOT EXISTS(SELECT sg.id FROM staging_gender sg WHERE sg.id = gender.id);
+
+        # ------------ grade  -------------------------------------------------------------------
+        grade:
+          sql:
+            update:  >-
+               UPDATE grade
+               SET
+                 code = sg.code
+               FROM
+                  staging_grade sg where sg.id = grade.id;
+
+            insert: >-
+                INSERT INTO grade (id, code)
+                  SELECT
+                    sg.id,
+                    sg.code
+                  FROM staging_grade sg
+                    LEFT JOIN grade rg ON rg.id = sg.id
+                  WHERE rg.id IS NULL;
+            delete: >-
+               DELETE FROM grade
+               WHERE NOT EXISTS(SELECT sg.id FROM staging_grade sg WHERE sg.id = grade.id);
+
+       # ------------ school_year  -------------------------------------------------------------------
+        school_year:
+          sql:
+            update:  >-
+               SELECT 1;
+
+            insert: >-
+               INSERT INTO school_year (year)
+                  SELECT
+                    sy.year
+                  FROM staging_school_year sy
+                    LEFT JOIN school_year ry ON ry.year = sy.year
+                  WHERE ry.year IS NULL;
+
+            delete: >-
+              DELETE FROM school_year
+                  WHERE NOT EXISTS(SELECT sy.year FROM staging_school_year sy WHERE sy.year = school_year.year);
+
+      # ------------ student -----------------------------------------------------------------------
+        student:
+          sql:
+            insert: >-
+              INSERT INTO student (id,  gender_id, updated, update_import_id, migrate_id)
+                SELECT DISTINCT
+                  ss.id,
+                  rg.id,
+                  ss.updated,
+                  ss.update_import_id,
+                  ss.migrate_id
+                FROM staging_student ss
+                  LEFT JOIN student rs ON rs.id = ss.id
+                  LEFT JOIN gender rg ON ss.gender_id = rg.id
+                WHERE rs.id IS NULL and ss.deleted = 0;
+
+            update: >-
+              UPDATE student
+              SET
+                gender_id  = ss.gender_id,
+                updated = ss.updated,
+                update_import_id = ss.update_import_id,
+                migrate_id = ss.migrate_id
+              FROM staging_student ss
+                JOIN gender rg ON ss.gender_id = rg.id
+              WHERE ss.id = student.id;
+
+            delete: >-
+              DELETE FROM student
+                USING staging_student ss
+              WHERE ss.id = student.id AND ss.deleted = 1;
+
+      # ------------ student_ethnicity -----------------------------------------------------------------------
+        student_ethnicity:
+          sql:
+            insert: >-
+               INSERT INTO student_ethnicity (student_id, ethnicity_id)
+                 SELECT DISTINCT
+                   sue.student_id,
+                   sue.ethnicity_id
+                 FROM staging_student_ethnicity sue
+                   LEFT JOIN student_ethnicity rse
+                     ON (rse.student_id = sue.student_id AND rse.ethnicity_id = sue.ethnicity_id)
+                   JOIN ethnicity re on re.id = sue.ethnicity_id
+                 WHERE rse.student_id IS NULL;
+
+            deleteAsPartOfParentUpdate: >-
+               DELETE FROM student_ethnicity
+                 USING staging_student ss
+               WHERE ss.id = student_ethnicity.student_id AND ss.deleted = 0
+                     AND NOT EXISTS(SELECT sse.student_id FROM staging_student_ethnicity sse WHERE sse.student_id = student_ethnicity.student_id AND sse.ethnicity_id = student_ethnicity.ethnicity_id)
+
+            delete: >-
+              DELETE FROM student_ethnicity
+                USING staging_student ss
+              WHERE ss.id = student_ethnicity.student_id AND ss.deleted = 1;
+
+      # ------------ asmt -----------------------------------------------------------------------
+        asmt:
+          sql:
+            insert: >-
+              INSERT INTO asmt (id, grade_id, school_year, subject_id, name, label, type_id, updated, update_import_id, migrate_id)
+                SELECT DISTINCT
+                  sa.id,
+                  sa.grade_id,
+                  sa.school_year,
+                  sa.subject_id,
+                  sa.name,
+                  sa.label,
+                  sa.type_id,
+                  sa.updated,
+                  sa.update_import_id,
+                  sa.migrate_id
+                FROM staging_asmt sa
+                  LEFT JOIN asmt ra ON ra.id = sa.id
+                WHERE ra.id IS NULL and sa.deleted = 0;
+
+            update: >-
+              UPDATE asmt
+              SET
+                grade_id  = sa.grade_id,
+                school_year = sa.school_year,
+                subject_id = sa.subject_id,
+                name = sa.name,
+                label = sa.label,
+                updated = sa.updated,
+                update_import_id = sa.update_import_id,
+                migrate_id = sa.migrate_id
+              FROM staging_asmt sa WHERE sa.id = asmt.id;
+
+            delete: >-
+              DELETE FROM asmt
+                USING staging_asmt sa
+              WHERE sa.id = asmt.id AND sa.deleted = 1;
+
+      # ------------ school -----------------------------------------------------------------------
+        school:
+          sql:
+            insert: >-
+              INSERT INTO school (id, district_id, name, natural_id, external_id, school_group_id, district_group_id, embargo_enabled, updated, update_import_id, migrate_id)
+                SELECT DISTINCT
+                  ss.id,
+                  ss.district_id,
+                  ss.name,
+                  ss.natural_id,
+                  ss.external_id,
+                  ss.school_group_id,
+                  ss.district_group_id,
+                  1,
+                  ss.updated,
+                  ss.update_import_id,
+                  ss.migrate_id
+                FROM staging_school ss
+                  LEFT JOIN school rs ON rs.id = ss.id
+                WHERE rs.id IS NULL and ss.deleted = 0;
+
+            # it is expected that schools and embargo settings are always migrated together, therefore the embargo_enabled flag is not updated here.
+            update: >-
+              UPDATE school
+              SET
+                district_id  = ss.district_id,
+                name  = ss.name,
+                natural_id  = ss.natural_id,
+                external_id  = ss.external_id,
+                school_group_id  = ss.school_group_id,
+                district_group_id  = ss.district_group_id,
+                updated = ss.updated,
+                update_import_id = ss.update_import_id,
+                migrate_id = ss.migrate_id
+              FROM staging_school ss
+              WHERE ss.id = school.id;
+
+            delete: >-
+              DELETE FROM school
+                USING staging_school ss
+              WHERE ss.id = school.id AND ss.deleted = 1;
+
+        # ############## Embargo  ###################################################################
+        # Update schools/districts to set embargo_enabled based on the aggregate embargo flag.
+        # The warehouse-to-staging step has already copied the effective settings for all districts.
+        # So here we can just set the value for all schools if it has changed from current setting.
+        school_embargo:
+          sql:
+            update: >-
+              UPDATE school
+                 SET
+                   embargo_enabled = sde.aggregate,
+                   migrate_id = sde.migrate_id
+                FROM school rs
+                  JOIN staging_district_embargo sde ON sde.district_id = rs.district_id AND rs.embargo_enabled <> sde.aggregate;
+
+        state_embargo:
+          sql:
+            insert: >-
+                INSERT INTO state_embargo (aggregate, migrate_id)
+                   SELECT
+                     sse.aggregate,
+                     sse.migrate_id
+                   FROM staging_state_embargo sse;
+
+            delete: >-
+               DELETE FROM state_embargo;
+      # ------------ district -----------------------------------------------------------------------
+        district:
+          sql:
+            insert: >-
+              INSERT INTO district (id, name, natural_id, external_id, migrate_id)
+                SELECT DISTINCT
+                  sd.id,
+                  sd.name,
+                  sd.natural_id,
+                  sd.external_id,
+                  sd.migrate_id
+                FROM staging_district sd
+                  LEFT JOIN district rd ON rd.id = sd.id
+                WHERE rd.id IS NULL;
+
+            update: >-
+              UPDATE district
+              SET
+                name  = sd.name,
+                natural_id  = sd.natural_id,
+                external_id  = sd.external_id,
+                migrate_id  = sd.migrate_id
+              FROM staging_district sd
+              WHERE sd.id = district.id;
+
+            delete: >-
+              DELETE FROM district
+               WHERE district.id IN (SELECT district_id from staging_school WHERE deleted = 1)
+                   AND NOT EXISTS(SELECT rs.id from school rs WHERE rs.district_id = district.id);
+
+        # ------------ district_group ------------------------------------------------------------------------------
+        district_group:
+          sql:
+            insert: >-
+              INSERT INTO district_group(id, natural_id, name, external_id, migrate_id)
+                SELECT DISTINCT
+                  sdg.id,
+                  sdg.natural_id,
+                  sdg.name,
+                  sdg.external_id,
+                  sdg.migrate_id
+                FROM staging_district_group sdg
+                  LEFT JOIN district_group rdg ON rdg.id = sdg.id
+              WHERE rdg.id IS NULL;
+
+            update: >-
+              UPDATE district_group
+               SET
+                name = sdg.name,
+                external_id = sdg.external_id,
+                migrate_id = sdg.migrate_id
+              FROM staging_district_group sdg
+              WHERE  sdg.id = district_group.id;
+
+            delete: >-
+              DELETE FROM district_group
+                WHERE
+                    district_group.id in (SELECT ss.district_group_id from staging_school ss WHERE ss.deleted = 1)
+                    AND NOT EXISTS(SELECT rs.id from school rs WHERE rs.district_group_id = district_group.id);
+
+        # ------------ school_group ------------------------------------------------------------------------------
+        school_group:
+          sql:
+            insert: >-
+              INSERT INTO school_group(id, natural_id, name, external_id, migrate_id)
+                SELECT DISTINCT
+                  ssg.id,
+                  ssg.natural_id,
+                  ssg.name,
+                  ssg.external_id,
+                  ssg.migrate_id
+                  FROM staging_school_group ssg
+                    LEFT JOIN school_group rsg ON rsg.id = ssg.id
+                  WHERE rsg.id IS NULL;
+
+            update: >-
+              UPDATE school_group
+                SET
+                  name = ssg.name,
+                  external_id = ssg.external_id,
+                  migrate_id = ssg.migrate_id
+                FROM staging_school_group ssg
+                WHERE ssg.id = school_group.id;
+
+            delete: >-
+              DELETE FROM school_group
+                WHERE
+                    school_group.id in (SELECT ss.school_group_id from staging_school ss WHERE ss.deleted = 1)
+                    AND NOT EXISTS(SELECT rs.id from school rs WHERE rs.school_group_id = school_group.id);
+
+      # ------------ fact_student_exam -----------------------------------------------------------------------
+        fact_student_exam:
+          sql:
+            updateStagingLatestExam: >-
+              UPDATE staging_exam
+                SET latest = true
+              FROM (
+                     SELECT
+                       id,
+                       rank()
+                       OVER (PARTITION BY student_id, asmt_id, school_year ORDER BY completed_at DESC, id)
+                     FROM staging_exam where deleted = false
+                   ) t
+                JOIN staging_exam e ON e.id = t.id
+              WHERE t.rank = 1;
+
+            insert: >-
+              INSERT INTO fact_student_exam (
+                id,
+                school_id,
+                student_id,
+                asmt_id,
+                grade_id,
+                school_year,
+                iep,
+                lep,
+                section504,
+                economic_disadvantage,
+                migrant_status,
+                completeness_id,
+                administration_condition_id,
+                scale_score,
+                scale_score_std_err,
+                performance_level,
+                claim1_scale_score,
+                claim1_scale_score_std_err,
+                claim1_category,
+                claim2_scale_score,
+                claim2_scale_score_std_err,
+                claim2_category,
+                claim3_scale_score,
+                claim3_scale_score_std_err,
+                claim3_category,
+                claim4_scale_score,
+                claim4_scale_score_std_err,
+                claim4_category,
+                completed_at,
+                updated,
+                update_import_id,
+                migrate_id
+              )
+                SELECT DISTINCT
+                  se.id,
+                  se.school_id,
+                  se.student_id,
+                  se.asmt_id,
+                  se.grade_id,
+                  se.school_year,
+                  CASE WHEN se.iep = true THEN 1 WHEN se.iep = false THEN 0 ELSE 2 END,
+                  CASE WHEN se.lep = true THEN 1 WHEN se.lep = false THEN 0 ELSE 2 END,
+                  CASE WHEN se.section504 = true THEN 1 ELSE 0 END,
+                  CASE WHEN se.economic_disadvantage = true THEN 1 WHEN se.economic_disadvantage = false THEN 0 ELSE 2 END,
+                  CASE WHEN se.migrant_status = true THEN 1 ELSE 0 END,
+                  se.completeness_id,
+                  se.administration_condition_id,
+                  se.scale_score,
+                  se.scale_score_std_err,
+                  se.performance_level,
+                  claim1.scale_score as claim1_scale_score,
+                  claim1.scale_score_std_err as claim1_scale_score_std_err,
+                  claim1.category as claim1_category,
+                  claim2.scale_score as claim2_scale_score,
+                  claim2.scale_score_std_err as claim2_scale_score_std_err,
+                  claim2.category as claim2_category,
+                  claim3.scale_score as claim3_scale_score,
+                  claim3.scale_score_std_err as claim3_scale_score_std_err,
+                  claim3.category as claim3_category,
+                  claim4.scale_score as claim4_scale_score,
+                  claim4.scale_score_std_err as claim4_scale_score_std_err,
+                  claim4.category as claim4_category,
+                  se.completed_at,
+                  se.updated,
+                  se.update_import_id,
+                  se.migrate_id
+                FROM staging_exam se
+                  LEFT JOIN fact_student_exam fe ON fe.student_id = se.student_id and fe.asmt_id = se.asmt_id and fe.school_year = se.school_year
+                  JOIN (
+                         SELECT e.id as exam_id
+                           ,scs.scale_score
+                           ,scs.scale_score_std_err
+                           ,scs.category
+                         FROM staging_exam e
+                           LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category FROM staging_exam_claim_score s
+                            JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
+                                                                    AND m.num = 1) scs ON scs.exam_id = e.id
+                       ) AS claim1 ON claim1.exam_id = se.id
+                  JOIN (
+                         SELECT e.id as exam_id
+                           ,scs.scale_score
+                           ,scs.scale_score_std_err
+                           ,scs.category
+                         FROM staging_exam e
+                           LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category FROM staging_exam_claim_score s
+                             JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
+                                                                AND m.num = 2) scs ON scs.exam_id = e.id
+                       ) AS claim2 ON claim2.exam_id = se.id
+                  JOIN (
+                         SELECT e.id as exam_id
+                           ,scs.scale_score
+                           ,scs.scale_score_std_err
+                           ,scs.category
+                         FROM staging_exam e
+                           LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category FROM staging_exam_claim_score s
+                             JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
+                                                                AND m.num = 3) scs ON scs.exam_id = e.id
+                       ) AS claim3 ON claim3.exam_id = se.id
+                  JOIN (
+                         SELECT e.id as exam_id
+                           ,scs.scale_score
+                           ,scs.scale_score_std_err
+                           ,scs.category
+                         FROM staging_exam e
+                           LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category FROM staging_exam_claim_score s
+                             JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
+                                                                AND m.num = 4) scs ON scs.exam_id = e.id
+                       ) AS claim4 ON claim4.exam_id = se.id
+                WHERE se.latest = true AND fe.id IS NULL;
+
+            update: >-
+                UPDATE fact_student_exam
+                SET
+                  id                          = se.id,
+                  school_id                   = se.school_id,
+                  grade_id                    = se.grade_id,
+                  iep                         = CASE WHEN se.iep = true THEN 1 WHEN se.iep = false THEN 0 ELSE 2 END,
+                  lep                         = CASE WHEN se.lep = true THEN 1 WHEN se.lep = false THEN 0 ELSE 2 END,
+                  section504                  = CASE WHEN se.section504 = true THEN 1 ELSE 0 END,
+                  economic_disadvantage       = CASE WHEN se.economic_disadvantage = true THEN 1 WHEN se.economic_disadvantage = false THEN 0 ELSE 2 END,
+                  migrant_status              = CASE WHEN se.migrant_status = true THEN 1 ELSE 0 END,
+                  completeness_id             = se.completeness_id,
+                  administration_condition_id = se.administration_condition_id,
+                  scale_score                 = se.scale_score,
+                  scale_score_std_err         = se.scale_score_std_err,
+                  performance_level           = se.performance_level,
+                  claim1_scale_score          = claim1.scale_score,
+                  claim1_scale_score_std_err  = claim1.scale_score_std_err,
+                  claim1_category             = claim1.category,
+                  claim2_scale_score          = claim2.scale_score,
+                  claim2_category             = claim2.category,
+                  claim3_scale_score          = claim3.scale_score,
+                  claim3_scale_score_std_err  = claim3.scale_score_std_err,
+                  claim3_category             = claim3.category,
+                  claim4_scale_score          = claim4.scale_score,
+                  claim4_scale_score_std_err  = claim4.scale_score_std_err,
+                  claim4_category             = claim4.category,
+                  completed_at                = se.completed_at,
+                  updated                     = se.updated,
+                  update_import_id            = se.update_import_id,
+                  migrate_id                  = se.migrate_id
+                 FROM staging_exam se
+                  JOIN fact_student_exam fe ON fe.student_id = se.student_id and fe.asmt_id = se.asmt_id and fe.school_year = se.school_year
+                  JOIN (
+                         SELECT e.id as exam_id
+                           ,scs.scale_score
+                           ,scs.scale_score_std_err
+                           ,scs.category
+                         FROM staging_exam e
+                           LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category FROM staging_exam_claim_score s
+                            JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
+                                                                    AND m.num = 1) scs ON scs.exam_id = e.id
+                       ) AS claim1 ON claim1.exam_id = se.id
+                  JOIN (
+                         SELECT e.id as exam_id
+                           ,scs.scale_score
+                           ,scs.scale_score_std_err
+                           ,scs.category
+                         FROM staging_exam e
+                           LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category FROM staging_exam_claim_score s
+                             JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
+                                                                AND m.num = 2) scs ON scs.exam_id = e.id
+                       ) AS claim2 ON claim2.exam_id = se.id
+                  JOIN (
+                         SELECT e.id as exam_id
+                           ,scs.scale_score
+                           ,scs.scale_score_std_err
+                           ,scs.category
+                         FROM staging_exam e
+                           LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category FROM staging_exam_claim_score s
+                             JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
+                                                                AND m.num = 3) scs ON scs.exam_id = e.id
+                       ) AS claim3 ON claim3.exam_id = se.id
+                  JOIN (
+                         SELECT e.id as exam_id
+                           ,scs.scale_score
+                           ,scs.scale_score_std_err
+                           ,scs.category
+                         FROM staging_exam e
+                           LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category FROM staging_exam_claim_score s
+                             JOIN exam_claim_score_mapping m ON m.subject_claim_score_id = s.subject_claim_score_id
+                                                                AND m.num = 4) scs ON scs.exam_id = e.id
+                       ) AS claim4 ON claim4.exam_id = se.id
+                WHERE se.latest = true AND (se.completed_at > fe.completed_at OR se.id = fe.id)
+
+            delete: >-
+              DELETE FROM fact_student_exam
+                USING staging_exam se
+              WHERE se.id = fact_student_exam.id and se.deleted = 1;
+
+      # ------------ asmt_active_year -----------------------------------------------------------------------
+        asmt_active_year:
+          sql:
+            insert: >-
+              INSERT INTO asmt_active_year (asmt_id, school_year)
+                SELECT asmt_id, school_year
+                FROM
+                  ( SELECT DISTINCT f.asmt_id as asmt_id, a.grade_id, f.school_year, a.subject_id, a.type_id FROM fact_student_exam f JOIN asmt a ON a.id = f.asmt_id
+                    UNION
+                    SELECT a.id AS asmt_id, a.grade_id, a.school_year, a.subject_id, a.type_id FROM asmt a
+                  ) t ;
+
+            delete: >-
+              DELETE FROM asmt_active_year;

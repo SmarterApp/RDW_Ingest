@@ -1,0 +1,24 @@
+{
+  "districts": [
+    {
+      "parentEntityId": "CA",
+      "entityType": "DISTRICT",
+      "entityName": "Test District TD000001",
+      "entityId": "TD000001"
+    }
+  ],
+  "institutions": [
+    {
+      "parentEntityId": "TD000001",
+      "entityType": "INSTITUTION",
+      "entityName": "Test School TS000001",
+      "entityId": "TS000001"
+    },
+    {
+      "parentEntityId": "TD000001",
+      "entityType": "INSTITUTION",
+      "entityName": "Test School TS000002",
+      "entityId": "TS000002"
+    }
+  ]
+}

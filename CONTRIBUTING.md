@@ -15,6 +15,15 @@ the config-repo file. These are properties that vary depending on the environmen
 names for external services.
 * Secrets should be specified only in the config-repo file, and they should be encrypted using the config server.
 
+#### Logging Level
+When selecting the level to log a message consider the following:
+* TRACE.
+* DEBUG. 
+* INFO. Assume this is the log level in production, so don't be too chatty with it. It should be used to confirm 
+proper configuration and code paths that are not business-as-usual but also aren't problematic.
+* WARN. This is the level to use for a problem the application has handled but still needs attention.
+* ERROR. Assume that messages logged at this level will cause a person to be called in the middle of the night.
+
 ### Version Control Conventions
 Repo: https://github.com/SmarterApp/RDW_Ingest
 Config Repo: https://gitlab.com/fairwaytech/sbac-config-repo
@@ -39,7 +48,7 @@ SNAPSHOT version of the RDW_Schema:
 and then run the integration tests as usual, but using the local SNAPSHOT version of RDW_Schema:
 ```bash
 //under the RDW_Ingest directory...
- ./gradlew build it -Pschema=1.0.0-SNAPSHOT
+ ./gradlew build it -Pschema=1.1.0-SNAPSHOT
 ```
 
 ### Running
@@ -57,13 +66,13 @@ The artifacts are Spring Boot executable jars so you can just run them. Just as 
 is to run without a configuration server so all secrets must be specified as program arguments and ports must be
 specified to avoid conflict.
 ```bash
-java -jar import-service/build/libs/rdw-ingest-import-service-1.0.0-SNAPSHOT.jar
-java -jar exam-processor/build/libs/rdw-ingest-exam-processor-1.0.0-SNAPSHOT.jar --server.port=8082
+java -jar import-service/build/libs/rdw-ingest-import-service-1.1.0-SNAPSHOT.jar
+java -jar exam-processor/build/libs/rdw-ingest-exam-processor-1.1.0-SNAPSHOT.jar --server.port=8082
 ```
 
 #### FTP Server
-The task service likes to use FTP to send reconciliation reports. If you don't have an FTP server but want to test
-that functionality, you can use docker to run ProFTPD. Either directly run it and modify the task service 
+The task service can be configured to use FTP to send reconciliation reports. If you don't have an FTP server but want 
+to test that functionality, you can use docker to run ProFTPD. Either directly run it and modify the task service 
 application.yml to hit localhost:
 ```bash
 docker run -d --name ftpd -e FTP_USERNAME=alice -e FTP_PASSWORD=pswd -v /tmp/ftpd:/home/alice -p 20:20 -p 21:21 hauptmedia/proftpd

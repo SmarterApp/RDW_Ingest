@@ -9,6 +9,9 @@ server:
     max-connections: 2
     max-threads: 2
 
+app:
+  school-year: 2018
+
 # A batch size of 2000 offers good performance with reasonable resource utilization (-Xmx512m). A larger batch
 # size (e.g. 4000) may improve overall performance but the resource limits need to be raised (e.g. -Xmx768m).
 migrate:
@@ -18,7 +21,13 @@ migrate:
 
 spring:
   reporting_datasource:
-    url: jdbc:mysql://localhost:3306/reporting?useSSL=false&useLegacyDatetimeCode=false&characterEncoding=utf8&rewriteBatchedStatements=true
+    url: "\
+      jdbc:mysql://${spring.reporting_datasource.url-server:localhost:3306}/${spring.reporting_datasource.url-schema:reporting}\
+      ?useSSL=${spring.reporting_datasource.use-ssl:false}\
+      &useLegacyDatetimeCode=${spring.reporting_datasource.use-legacy-datetime-code:false}\
+      &characterEncoding=${spring.reporting_datasource.character-encoding:utf8}\
+      &rewriteBatchedStatements=${spring.reporting_datasource.rewrite-batched-statements:true}\
+      "
     username: root
     password:
     testWhileIdle: true
@@ -29,7 +38,12 @@ spring:
     initialSize: 4
 
   warehouse_datasource:
-    url: jdbc:mysql://localhost:3306/warehouse?useSSL=false&useLegacyDatetimeCode=false&characterEncoding=utf8
+    url: "\
+      jdbc:mysql://${spring.warehouse_datasource.url-server:localhost:3306}/${spring.warehouse_datasource.url-schema:warehouse}\
+      ?useSSL=${spring.warehouse_datasource.use-ssl:false}\
+      &useLegacyDatetimeCode=${spring.warehouse_datasource.use-legacy-datetime-code:false}\
+      &characterEncoding=${spring.warehouse_datasource.character-encoding:utf8}\
+      "
     username: root
     password:
     testWhileIdle: true

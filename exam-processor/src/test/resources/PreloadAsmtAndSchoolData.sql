@@ -72,7 +72,9 @@ INSERT INTO item (id, claim_id, target_id, natural_id, asmt_id, math_practice, a
   (580, 8, 1, '200-4870', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL), (581, 8, 1, '200-25679', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL), (582, 8, 1, '200-5108', 26, NULL, NULL, 1, 'D', 0.5, 5, NULL);
 
 INSERT INTO district (id, natural_id, name) VALUES
-  (5,'UCLALS','UCLA');
+  (-5,'UCLALS','UCLA');
 
 INSERT INTO school (id, district_id, natural_id, name, import_id, update_import_id, deleted) VALUES
-  (6,5,'APTEST1','APTESTSCHOOL',-1,-1,0);
+  (-6,-5,'APTEST1','APTESTSCHOOL6',-1,-1,0),
+  (-5,-5,'APTEST15','APTESTSCHOOL5',-1,-1,0),
+  (-4,-5,'APTEST14','APTESTSCHOOL4',-1,-1,0);

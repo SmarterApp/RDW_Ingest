@@ -1,8 +1,6 @@
-// This pulls in the dependency management which is great
-// (and i can't figure out how else to get it in here)
+// This pulls in the dependency management which is great.
 // But it also defines silly boot tasks which we don't want here.
 apply plugin: 'org.springframework.boot'
-
 bootRepackage.enabled = false
 bootRun.enabled = false
 

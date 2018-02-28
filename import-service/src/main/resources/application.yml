@@ -23,15 +23,19 @@ cloud:
 archive:
   root: file:///tmp/
 
-# cause StubTokenServices to be used
 security:
+  client: SBAC
+  state: CA
+  # cause StubTokenServices to be used
   oauth2:
     token-info-url: local
 
+# default values to give reasonable performance; adjust for tiny/huge configurations
 server:
   tomcat:
-    max-connections: 96
-    max-threads: 32
+    max-connections: 0
+    max-threads: 10
+    accept-count: 20
 
 spring:
   # Force the (rabbit) queues to be created when posting messages so, even if
@@ -54,9 +58,17 @@ spring:
         PACKAGE:
           producer:
             requiredGroups: default
+        NORMS:
+          producer:
+            requiredGroups: default
 
   datasource:
-    url: jdbc:mysql://localhost:3306/warehouse?useSSL=false&useLegacyDatetimeCode=false&characterEncoding=utf8
+    url: "\
+      jdbc:mysql://${spring.datasource.url-server:localhost:3306}/${spring.datasource.url-schema:warehouse}\
+      ?useSSL=${spring.datasource.use-ssl:false}\
+      &useLegacyDatetimeCode=${spring.datasource.use-legacy-datetime-code:false}\
+      &characterEncoding=${spring.datasource.character-encoding:utf8}\
+      "
     username: root
     password:
     testWhileIdle: true

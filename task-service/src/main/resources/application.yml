@@ -24,7 +24,12 @@ cloud:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/warehouse?useSSL=false&characterEncoding=utf8&useLegacyDatetimeCode=false
+    url: "\
+      jdbc:mysql://${spring.datasource.url-server:localhost:3306}/${spring.datasource.url-schema:warehouse}\
+      ?useSSL=${spring.datasource.use-ssl:false}\
+      &characterEncoding=${spring.datasource.character-encoding:utf8}\
+      &useLegacyDatetimeCode=${spring.datasource.use-legacy-datetime-code:false}\
+      "
     username: root
     password:
     testWhileIdle: true
@@ -40,8 +45,9 @@ spring:
       WRITE_DATES_AS_TIMESTAMPS: false
 
 task:
-  # by default, this task is disabled for local dev environment; uncomment and set properties to test
+# by default, all tasks are disabled for local dev environment; uncomment and set secrets/hosts to test
 #  send-reconciliation-report:
+#### This runs at 2pm GMT, regardless of the server's timezone setting
 #    cron: 0 0 14 * * *
 #    query: status=PROCESSED&after=-PT24H
 #    senders:
@@ -61,11 +67,12 @@ task:
 #              secret-key: SecretKey
 #            region:
 #              static: us-west-2
-  # by default, this task is disabled for local dev environment; uncomment and set secrets/hosts to test
 #  update-organizations:
+#### This runs at 4am GMT, regardless of the server's timezone setting
 #    cron: 0 0 4 * * *
 #    state: CA
 #    art-client:
+#      groups-of-districts-url: https://art-deployment.sbtds.org/rest/groupofdistrict?stateAbbreviation={state}&pageSize=1000
 #      districts-url: https://art-deployment.sbtds.org/rest/district?stateAbbreviation={state}&pageSize=5000
 #      groups-of-schools-url: https://art-deployment.sbtds.org/rest/groupofinstitution?stateAbbreviation={state}&pageSize=1000
 #      schools-url: https://art-deployment.sbtds.org/rest/institution?stateAbbreviation={state}&pageSize=20000
@@ -80,3 +87,16 @@ task:
 #      organizations-imports-url: http://localhost:8080/organizations/imports
 #      status-url: http://localhost:8081/status
 #      stub-auth: sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||
+#  resubmit-unprocessed-imports:
+#### This runs at 1pm GMT, regardless of the server's timezone setting
+#    cron: 0 0 13 * * *
+#    import-service-client:
+#      exams-imports-url: http://localhost:8080/exams/imports/resubmit
+#      status-url: http://localhost:8081/status
+#      stub-auth: sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||
+#      oauth2:
+#        access-token-uri: https://sso-deployment.sbtds.org:443/auth/oauth2/access_token?realm=/sbac
+#        client-id: sbacdw
+#        client-secret:
+#        username: dwtest@example.com
+#        password:

@@ -1,13 +1,24 @@
 ## RDW_Ingest
+
+Additional documentation:
+1. RDW_Ingest is part of the RDW suite of projects and applications. For all things RDW please refer to 
+[RDW repo](https://github.com/SmarterApp/RDW)
+1. [Change log](CHANGELOG.md)
+1. [Contributing developer notes](CONTRIBUTING.md)
+1. [License](LICENSE)
+
 RDW ingest applications:
 1. Import Service - RESTful API for submitting test results (exams), packages, etc.
 1. Exam Processor - Spring Cloud Stream application for processing test results.
-1. Package Processor - Spring Cloud Stream application for processing Assessment Packages.
+1. Group Processor - Spring Cloud Stream application for processing student groups.
+1. Package Processor - Spring Cloud Stream application for processing assessment packages, accommodations, organizations.
 1. Task Service - Spring Boot application for running scheduled tasks.
 1. Migrate Reporting - Spring Boot application for migrating data from the warehouse to the reporting data mart.
+1. Migrate OLAP - Spring Boot application for migrating data from the warehouse to the aggregate reporting OLAP.
 
 RDW Ingest uses other processes:
-1. MySQL - warehouse and reporting databases
+1. MySQL/Aurora - warehouse and reporting databases
+1. Redshift - aggregate reporting OLAP databse
 1. RabbitMQ - message queue
 1. Configuration Server - centralized Spring configuration server
 1. OpenAM - centralized auth server
@@ -27,9 +38,10 @@ echo 'export PATH="/usr/local/opt/mysql@5.6/bin:$PATH"' >> ~/.bash_profile
 ```
 
 Because brew isn't cool and directly sets the bind address you must modify `/usr/local/Cellar/mysql@5.6/5.6.34/homebrew.mxcl.mysql@5.6.plist` 
-(make sure to use your minor version of the installation) and set `--bind-address=*`. 
-You'll need to restart mysql after that, `brew services restart mysql@5.6`. You may need to fully stop and start
-the service if you get a `mysql.sock` error at this point:
+(make sure to use your minor version of the installation) and set `--bind-address=*`. NOTE: with newer
+versions this setting may be in the my.cnf file (see below). You'll need to restart mysql after that,
+`brew services restart mysql@5.6`. You may need to fully stop and start the service if you get a
+`mysql.sock` error at this point:
 ```bash
 brew services stop mysql@5.6
 brew services start mysql@5.6 
@@ -42,8 +54,8 @@ mysql> GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
 mysql> exit
 ```
 
-You should load your timezone info, because we'll be forcing the timezone to 'UTC' in the next step. You may see 
-some warnings of skipped files but no errors when you do this:
+You should load your timezone info, because we'll be forcing the timezone to 'UTC' in the next step.
+You may see some warnings of skipped files but no errors when you do this:
 ```bash
 mysql_tzinfo_to_sql /usr/share/zoneinfo | sed -e "s/Local time zone must be set--see zic manual page/local/" | mysql -u root mysql
 ```
@@ -55,6 +67,7 @@ and add the following lines:
 [mysqld]
 explicit_defaults_for_timestamp=1
 default-time-zone='UTC'
+bind-address=*
 ```
 
 Restart MySQL:
@@ -100,7 +113,7 @@ git checkout develop
 Then to use those new changes, you can specify the SNAPSHOT version of RDW_Common
 ```bash
 //In RDW_Ingest
-./gradlew build it -Pcommon=1.0.0-SNAPSHOT
+./gradlew build it -Pcommon=1.1.0-SNAPSHOT
 ```
 
 Now you should be able to build and test the ingest apps from where you cloned this project:
@@ -111,11 +124,27 @@ git checkout develop
 or to also run Integration Tests
 ./gradlew build it 
 ```
-Code coverage reports can be found in each project under `./build/reports/jacoco/test/html/index.html` 
+
+Code coverage reports can be found in each project under `./build/reports/coverage/index.html` after explicitly
+generating them using:
+```bash
+./gradlew coverage
+``` 
+
+The integration tests dealing with Redshift have been separated out because they require remote AWS resources
+and they take a while to run. To run these tests you must set credentials -- please see the comment in 
+migrate-olap/build.gradle. By default it uses the CI database instances:
+```bash
+(export ARCHIVE_CLOUD_AWS_CREDENTIALS_SECRETKEY=secretkey; \
+ export SPRING_MIGRATE_DATASOURCE_PASSWORD=password; \
+ export SPRING_OLAP_DATASOURCE_PASSWORD=password; \
+ export SPRING_WAREHOUSE_DATASOURCE_PASSWORD=password; \
+ ./gradlew rst)
+```
 
 You must explicitly build the docker images:
 ```bash
-$ gradle buildImage
+$ ./gradlew buildImage
 $ docker images
 REPOSITORY                              TAG                 IMAGE ID            CREATED             SIZE
 smarterbalanced/rdw-ingest-import-service        latest              fc700c6e8518        14 minutes ago      131 MB
@@ -129,8 +158,20 @@ Running the applications locally depends on the local database being configured 
 ```bash
 To completely clean out any existing data you might have and start fresh:
 ./gradlew cleanallprod migrateallprod
-or, if you want to use a different version of the schema, say version 1.0.0-68 of RDW_Schema
-./gradlew -Pschema=1.0.0-68 cleanallprod migrateallprod
+or, if you want to use a different version of the schema, say version 1.1.0-68 of RDW_Schema
+./gradlew -Pschema=1.1.0-68 cleanallprod migrateallprod
+```
+
+The OLAP applications require remote AWS data stores being configured properly. Care should be taken because these
+remote resources are often shared; also misconfiguration could result in actions being taken on the wrong database.
+To completely clean out any existing data you will have to provide additional configuration, e.g.:
+```bash
+./gradlew \
+    -Predshift_url=jdbc:redshift://rdw-qa.cibkulpjrgtr.us-west-2.redshift.amazonaws.com:5439/dev \
+    -Predshift_schema=reporting_ci_test -Predshift_user=ci -Predshift_password=your_password \
+    -Pdatabase_url=jdbc:mysql://rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306 \
+    -Pmigrate_olap_schema=migrate_olap_test -Pdatabase_user=sbac -Pdatabase_password=your_password \
+    cleanAllTest migrateAllTest
 ```
 
 The apps are wrapped in docker containers and should be built and run that way. There is a docker-compose spec

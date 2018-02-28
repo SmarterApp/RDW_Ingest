@@ -1,0 +1,78 @@
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+    // handy for creating metadata with @ConfigurationProperties
+    optional "org.springframework.boot:spring-boot-configuration-processor"
+
+    compile 'org.springframework.boot:spring-boot-starter-batch'
+    compile 'org.springframework.boot:spring-boot-starter-jdbc'
+    compile 'org.springframework.cloud:spring-cloud-starter-config'
+
+    // this is for retrying connection to config server
+    compile 'org.springframework.boot:spring-boot-starter-aop'
+    compile 'org.springframework.retry:spring-retry'
+
+    compile project(':rdw-ingest-common')
+    compile project(':rdw-ingest-migrate-common')
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.springframework.batch:spring-batch-test'
+
+    compile 'org.opentestsystem.rdw.common:rdw-common-archive'
+    compile 'org.opentestsystem.rdw.common:rdw-common-status'
+    compile 'org.opentestsystem.rdw.common:rdw-common-utils'
+    compile 'mysql:mysql-connector-java'
+    compile 'com.amazon.redshift:redshift-jdbc42-no-awssdk:1.2.8.1005'
+
+    testCompile project(path: ':rdw-ingest-migrate-common', configuration: 'tests')
+}
+
+// Task to run RST (redshift integration tests).
+//
+// RSTs require AWS databases. The convention is for developers to use the CI instances and either
+// use the CI schemas or create personal schemas with a prefix. Using the CI schemas can lead to
+// conflicts so let's use developer Bob as our example for running RSTs ...
+//
+// Note this task does *not* run the schema scripts, it assumes test databases are in good shape.
+// If you need to run the schema scripts you'll need to set gradle properties for the data sources, e.g.:
+/*
+gradle -Pschema_prefix=bob_ \
+-Predshift_url=jdbc:redshift://rdw-qa.cibkulpjrgtr.us-west-2.redshift.amazonaws.com:5439/ci \
+-Predshift_user=bob -Predshift_password=password \
+-Pdatabase_url=jdbc:mysql://rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306 \
+-Pdatabase_user=sbac -Pdatabase_password=password \
+cleanAllTest migrateAllTest
+ */
+//
+// To run these tests locally, you must either manually adjust the application-redshift.yml file
+// (but don't check in your changes!) or set environment variables. If you are using the default
+// CI instances with personal schemas you should set:
+//   ARCHIVE_CLOUD_AWS_CREDENTIALS_SECRETKEY
+//   SPRING_MIGRATE_DATASOURCE_URL_SCHEMA
+//   SPRING_MIGRATE_DATASOURCE_PASSWORD
+//   SPRING_OLAP_DATASOURCE_USERNAME
+//   SPRING_OLAP_DATASOURCE_PASSWORD
+//   SPRING_WAREHOUSE_DATASOURCE_URL_SCHEMA
+//   SPRING_WAREHOUSE_DATASOURCE_PASSWORD
+// If you are running from the command-line you can use local bash export to do it in one command, e.g.:
+/*
+(export ARCHIVE_CLOUD_AWS_CREDENTIALS_SECRETKEY=secretkey; \
+ export SPRING_MIGRATE_DATASOURCE_URL_SCHEMA=bob_migrate_olap_test; \
+ export SPRING_MIGRATE_DATASOURCE_PASSWORD=password; \
+ export SPRING_OLAP_DATASOURCE_USERNAME=bob; \
+ export SPRING_OLAP_DATASOURCE_PASSWORD=password; \
+ export SPRING_WAREHOUSE_DATASOURCE_URL_SCHEMA=bob_warehouse_test; \
+ export SPRING_WAREHOUSE_DATASOURCE_PASSWORD=password; \
+ gradle rst)
+*/
+// If you are using different instances the full set of variables can be found in application-redshift.yml.
+
+task RST(type: Test) {
+    include '**/*RST.*'
+    group = 'Verification'
+    description = 'Runs the redshift integration tests (slow!).'
+    outputs.upToDateWhen { false }
+    doFirst {
+        println "Running Redshift System Tests..."
+    }
+}
