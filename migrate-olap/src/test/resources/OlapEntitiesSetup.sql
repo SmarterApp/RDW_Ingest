@@ -33,13 +33,9 @@ INSERT INTO student_ethnicity(student_id, ethnicity_id) values
 -- ------------------------------------------ Exams ---------------------------------------------------------------------------------------------
 INSERT INTO  fact_student_exam (id, school_year, asmt_id, student_id, completed_at,
                                     completeness_id, administration_condition_id, performance_level,
-                                    scale_score, scale_score_std_err, grade_id, school_id,
+                                    scale_score, grade_id, school_id,
                                     iep, lep, section504, economic_disadvantage, migrant_status,
-                                    claim1_scale_score, claim1_scale_score_std_err,claim1_category,
-                                    claim2_scale_score, claim2_scale_score_std_err,claim2_category,
-                                    claim3_scale_score, claim3_scale_score_std_err,claim3_category,
-                                    claim4_scale_score, claim4_scale_score_std_err,claim4_category,
                                     updated, update_import_id, migrate_id) VALUES
-  (-88,  1999, -99, -89, '2016-08-14 19:05:33.000000', -99, -99, 1, 2145, 0.17, -98, -1, 1, 1, 0, 0, 1,  -2000, 0.11, 1, -2100, 0.12, 2, -2500, 0.13, 3, -3000, .15, 4, '2017-07-18 20:14:34.000000', -1, -1),
-  (-100, 1998, -11, -18, '2016-05-14 19:05:33.000000', -99, -99, 1, 2145, 0.17, -98, -1, 1, 1, 0, 0, 1,  -2000, 0.11, 1, -2100, 0.12, 2, -2500, 0.13, 3, -3000, .15, 4, '2017-07-18 20:14:34.000000', -1, -1),
-  (-82 , 1998, -11, -89, '2016-09-14 19:05:33.000000', -99, -99, 1, 2005, 0.17, -98, -1, 1, 1, 0, 0, 1,  -2000, 0.11, 1, -2100, 0.12, 2, -2500, 0.13, 3, -3000, .15, 4, '2017-07-18 20:14:34.000000', -1, -1);
+  (-88,  1999, -99, -89, '2016-08-14 19:05:33.000000', -99, -99, 1, 2145, -98, -1, 1, 1, 0, 0, 1, '2017-07-18 20:14:34.000000', -1, -1),
+  (-100, 1998, -11, -18, '2016-05-14 19:05:33.000000', -99, -99, 1, 2145, -98, -1, 1, 1, 0, 0, 1, '2017-07-18 20:14:34.000000', -1, -1),
+  (-82 , 1998, -11, -89, '2016-09-14 19:05:33.000000', -99, -99, 1, 2005, -98, -1, 1, 1, 0, 0, 1, '2017-07-18 20:14:34.000000', -1, -1);
