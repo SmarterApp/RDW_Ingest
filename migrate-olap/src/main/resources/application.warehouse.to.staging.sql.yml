@@ -612,7 +612,6 @@ sql:
                   completeness_id,
                   administration_condition_id,
                   scale_score,
-                  scale_score_std_err,
                   performance_level,
                   completed_at,
                   deleted,
@@ -642,7 +641,6 @@ sql:
                   completeness_id,
                   administration_condition_id,
                   scale_score,
-                  scale_score_std_err,
                   performance_level,
                   completed_at,
                   deleted,
@@ -675,7 +673,6 @@ sql:
                   completeness_id,
                   administration_condition_id,
                   scale_score,
-                  scale_score_std_err,
                   performance_level,
                   completed_at,
                   deleted,
@@ -705,7 +702,6 @@ sql:
                   completeness_id,
                   administration_condition_id,
                   scale_score,
-                  scale_score_std_err,
                   performance_level,
                   completed_at,
                   deleted,
@@ -719,6 +715,7 @@ sql:
                 DELIMITER ','
                 COMPUPDATE OFF
 
+ # TODO: remove it if we do not need claim level data
  # ------------ exam_claim_score  -------------------------------------------------------------------
         exam_claim_score:
           sql:
