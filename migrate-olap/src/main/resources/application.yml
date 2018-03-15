@@ -44,7 +44,7 @@ migrate:
       role: ${rdw.migrate.aws.redshift.role}
 
   olap-batch:
-    size: 500000
+    size: 10000000
     # every day at 1:00 am
     run-cron: "0 0 1 * * *"
 
