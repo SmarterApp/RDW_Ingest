@@ -48,7 +48,7 @@ services:
       - config-server
       - rabbitmq
     environment:
-      - spring.profiles.active=local-docker
+      - SPRING_PROFILES_ACTIVE=local-docker
       - CONFIG_SERVICE_ENABLED=true
       - CONFIG_SERVICE_URL=http://config-server:8888
     extra_hosts:
@@ -62,7 +62,7 @@ services:
       - config-server
       - rabbitmq
     environment:
-      - spring.profiles.active=local-docker
+      - SPRING_PROFILES_ACTIVE=local-docker
       - CONFIG_SERVICE_ENABLED=true
       - CONFIG_SERVICE_URL=http://config-server:8888
     extra_hosts:
@@ -76,7 +76,7 @@ services:
       - config-server
       - rabbitmq
     environment:
-      - spring.profiles.active=local-docker
+      - SPRING_PROFILES_ACTIVE=local-docker
       - CONFIG_SERVICE_ENABLED=true
       - CONFIG_SERVICE_URL=http://config-server:8888
     extra_hosts:
@@ -92,7 +92,7 @@ services:
       - config-server
       - import-service
     environment:
-      - spring.profiles.active=local-docker
+      - SPRING_PROFILES_ACTIVE=local-docker
       - CONFIG_SERVICE_ENABLED=true
       - CONFIG_SERVICE_URL=http://config-server:8888
     extra_hosts:
@@ -105,7 +105,7 @@ services:
     links:
       - config-server
     environment:
-      - spring.profiles.active=local-docker
+      - SPRING_PROFILES_ACTIVE=local-docker
       - CONFIG_SERVICE_ENABLED=true
       - CONFIG_SERVICE_URL=http://config-server:8888
     extra_hosts:
