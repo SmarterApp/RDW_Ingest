@@ -1,0 +1,5 @@
+assessment_id,start_date,end_date,count,mean,standard_deviation,min_score,max_score,percentile_rank,score
+(naturalId)MOCK-ICA-G11-2017-2018,2018-01-01,2018-03-31,835430,2420.1,88.9,2000,2500,,
+(naturalId)MOCK-ICA-G11-2017-2018,2018-01-01,2018-03-31,,,,,,25,2354
+(naturalId)MOCK-ICA-G11-2017-2018,2018-01-01,2018-03-31,,,,,,50,2520
+(naturalId)MOCK-ICA-G11-2017-2018,2018-01-01,2018-03-31,,,,,,75,2585
