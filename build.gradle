@@ -121,13 +121,12 @@ subprojects {
         }
 
         // Task to create Dockerfile based on (http://bmuschko.github.io/gradle-docker-plugin/docs/groovydoc/com/bmuschko/gradle/docker/tasks/image/Dockerfile.html)
-        // We prefer to use a non-shell entry point so that signals get passed through properly. But that precludes
-        // the use of environment variables for setting JAVA_OPTS. So, we include the critical ones here, allowing
-        // subprojects to override them like this:
+        // Add tini to help with things (https://github.com/krallin/tini).
+        // Use environment variables so the orchestration environment can adjust max heap and other java opts.
+        // Sub-projects can adjust their default max heap size by setting the environment variable, e.g.
         // createDockerfile {
-        //   ext.java_opts = ["-Xmx512m"]
+        //   environmentVariable("MAX_HEAP_SIZE", "-Xmx512m")
         // }
-        // The orchestration environment can completely override the entry point if necessary.
         task createDockerfile(type: Dockerfile) {
             destFile = project.file('build/docker/Dockerfile')
             from('openjdk:8-jre-alpine')
@@ -135,14 +134,10 @@ subprojects {
             label([maintainer: 'Fairway Technologies'])
             copyFile("${jar.archivePath.name}", "${jar.archivePath.name}")
             exposePort(8008, 8080)
-            ext.java_opts = ["-Xmx256m"]
-            entryPoint {
-                List<String> entryPointArgs = ["java"]
-                entryPointArgs.addAll(ext.java_opts)
-                entryPointArgs.add("-jar")
-                entryPointArgs.add("${jar.archivePath.name}")
-                entryPointArgs.toArray()
-            }
+            runCommand("apk add --no-cache tini")
+            entryPoint("/sbin/tini", "--")
+            environmentVariable("MAX_HEAP_SIZE", "-Xmx384m")
+            instruction('CMD exec java $MAX_HEAP_SIZE $JAVA_OPTS -jar ' + "${jar.archivePath.name}")
         }
 
         task buildImage(type:DockerBuildImage, dependsOn:[build, createDockerfile]) {
