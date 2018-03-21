@@ -69,6 +69,8 @@ subprojects {
             // commonly used libraries
             dependency 'com.google.code.gson:gson:2.8.0'
             dependency 'com.google.guava:guava:21.0'
+            dependency 'commons-io:commons-io:2.4'
+            dependency 'org.apache.commons:commons-csv:1.5'
             dependency 'org.slf4j:slf4j-api:1.7+'
 
             // commonly used test libraries
