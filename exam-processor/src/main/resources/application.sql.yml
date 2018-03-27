@@ -76,10 +76,10 @@ sql:
   exam:
     create: >-
       INSERT INTO exam (type_id, school_year, import_id, update_import_id, asmt_id, asmt_version, opportunity, oppId, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, performance_level, completed_at, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type, status_date, deleted,
-                        examinee_id, deliver_mode, hand_score_project, contract, test_reason, assessment_admin_started_at, started_at, force_submitted_at, status, item_count, field_test_count, pause_count, grace_period_restarts, abnormal_starts, test_window_id, test_administrator_id, responsible_organization_name, test_administrator_name, session_platform_user_agent, test_delivery_server, test_delivery_db,
-                          window_opportunity_count, theta_score, theta_score_std_err) VALUES
+                        examinee_id, elas_id, elas_start_at, deliver_mode, hand_score_project, contract, test_reason, assessment_admin_started_at, started_at, force_submitted_at, status, item_count, field_test_count, pause_count, grace_period_restarts, abnormal_starts, test_window_id, test_administrator_id, responsible_organization_name, test_administrator_name, session_platform_user_agent, test_delivery_server, test_delivery_db,
+                        window_opportunity_count, theta_score, theta_score_std_err) VALUES
                        (:type_id, :school_year, :import_id, :update_import_id, :asmt_id, :asmt_version, :opportunity, :oppId, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :performance_level, :completed_at, :grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status, :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type, :status_date, :deleted,
-                        :examinee_id, :deliver_mode, :hand_score_project, :contract, :test_reason, :assessment_admin_started_at, :started_at, :force_submitted_at, :status, :item_count, :field_test_count, :pause_count, :grace_period_restarts, :abnormal_starts, :test_window_id, :test_administrator_id, :responsible_organization_name, :test_administrator_name, :session_platform_user_agent, :test_delivery_server, :test_delivery_db,
+                        :examinee_id, :elas_id, :elas_start_at, :deliver_mode, :hand_score_project, :contract, :test_reason, :assessment_admin_started_at, :started_at, :force_submitted_at, :status, :item_count, :field_test_count, :pause_count, :grace_period_restarts, :abnormal_starts, :test_window_id, :test_administrator_id, :responsible_organization_name, :test_administrator_name, :session_platform_user_agent, :test_delivery_server, :test_delivery_db,
                         :window_opportunity_count, :theta_score, :theta_score_std_err)
 
     update: >-
@@ -114,6 +114,8 @@ sql:
         status_date = :status_date,
         deleted = :deleted,
         examinee_id = :examinee_id,
+        elas_id = :elas_id,
+        elas_start_at = :elas_start_at,
         deliver_mode = :deliver_mode,
         hand_score_project = :hand_score_project,
         contract = :contract,
@@ -178,6 +180,8 @@ sql:
         status_date,
         deleted,
         examinee_id,
+        elas_id,
+        elas_start_at,
         deliver_mode,
         hand_score_project,
         contract,
