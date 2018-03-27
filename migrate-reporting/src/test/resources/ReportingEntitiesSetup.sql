@@ -67,8 +67,7 @@ INSERT INTO user_student_group (student_group_id, user_login) VALUES
 
 -- ------------------------------------------ Exams ---------------------------------------------------------------------------------------------
 
-INSERT INTO  exam (id, type_id, school_year, asmt_id, asmt_version, opportunity, completeness_id,
-                                administration_condition_id, administration_condition_code, session_id, performance_level,
+INSERT INTO  exam (id, type_id, school_year, asmt_id, asmt_version, opportunity, administration_condition_code, session_id, performance_level,
                                 scale_score, scale_score_std_err, completed_at, update_import_id, grade_id, student_id, school_id,
                                 iep, lep, section504, economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type,
                                 language_code, prim_disability_type, completeness_code, grade_code,
@@ -77,7 +76,7 @@ INSERT INTO  exam (id, type_id, school_year, asmt_id, asmt_version, opportunity,
                                 claim3_scale_score, claim3_scale_score_std_err,claim3_category,
                                 claim4_scale_score, claim4_scale_score_std_err,claim4_category,
                                 updated, migrate_id) VALUES
-(-88, 1,  1999, -99,  null, 1, -99, -99, 'before test', 'test', 1, 2145, 0.17, '2016-08-14', -88, -98, -89, -1, 1, 1, 0, 0, 1,
+(-88, 1,  1999, -99,  null, 1, 'before test', 'test', 1, 2145, 0.17, '2016-08-14', -88, -98, -89, -1, 1, 1, 0, 0, 1,
   'test', 'test', 'eng', null, 'before', '98', 2000, 0.11, 1, 2100, 0.12, 2, 2500, 0.13, 3, 3000, .15, 4, '2017-07-18 19:06:07.966000', -1);
 
 INSERT INTO exam_available_accommodation (exam_id, accommodation_id) VALUES

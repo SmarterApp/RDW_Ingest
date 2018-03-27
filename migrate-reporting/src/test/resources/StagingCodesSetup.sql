@@ -1,4 +1,5 @@
 INSERT INTO staging_grade (id, code, name) VALUES (-99,'99','K-garten'),(-98 ,'98','1st-grade');
+INSERT INTO staging_elas (id, code) VALUES (-99, 'E99'),(-98, 'E98');
 INSERT INTO staging_completeness (id, code) VALUES (-99, 'test99'), (-98, 'test98');
 INSERT INTO staging_administration_condition VALUES (-99,'99-test'),(-98,'98-test'),(-97,'97-test'),(-96,'96-test');
 INSERT INTO staging_ethnicity VALUES (-99,'AmericanIndianOrAlaskaNative-test'),(-98,'Asian-test');

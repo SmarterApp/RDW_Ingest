@@ -51,6 +51,29 @@ sql:
                DELETE FROM completeness
                WHERE NOT EXISTS(SELECT sc.id FROM staging_completeness sc WHERE sc.id = completeness.id);
 
+        # ------------ elas  -------------------------------------------------------------------
+        elas:
+          sql:
+            update:  >-
+               UPDATE elas
+               SET
+                 code = se.code
+               FROM
+                  staging_elas se where se.id = elas.id;
+
+            insert: >-
+                INSERT INTO elas (id, code)
+                  SELECT
+                    se.id,
+                    se.code
+                  FROM staging_elas se
+                    LEFT JOIN elas re ON re.id = se.id
+                  WHERE re.id IS NULL;
+
+            delete: >-
+               DELETE FROM elas
+               WHERE NOT EXISTS(SELECT se.id FROM staging_elas se WHERE se.id = elas.id);
+
        # ------------ Ethnicity ------------------------------------------------------------------------
         ethnicity:
           sql:
@@ -419,6 +442,7 @@ sql:
                 section504,
                 economic_disadvantage,
                 migrant_status,
+                elas_id,
                 completeness_id,
                 administration_condition_id,
                 scale_score,
@@ -440,6 +464,7 @@ sql:
                   CASE WHEN se.section504 = true THEN 1 ELSE 0 END,
                   CASE WHEN se.economic_disadvantage = true THEN 1 WHEN se.economic_disadvantage = false THEN 0 ELSE 2 END,
                   CASE WHEN se.migrant_status = true THEN 1 ELSE 0 END,
+                  COALESCE(se.elas_id, 1),
                   se.completeness_id,
                   se.administration_condition_id,
                   se.scale_score,
@@ -463,6 +488,7 @@ sql:
                   section504                  = CASE WHEN se.section504 = true THEN 1 ELSE 0 END,
                   economic_disadvantage       = CASE WHEN se.economic_disadvantage = true THEN 1 WHEN se.economic_disadvantage = false THEN 0 ELSE 2 END,
                   migrant_status              = CASE WHEN se.migrant_status = true THEN 1 ELSE 0 END,
+                  elas_id                     = COALESCE(se.elas_id, 1),
                   completeness_id             = se.completeness_id,
                   administration_condition_id = se.administration_condition_id,
                   scale_score                 = se.scale_score,
@@ -496,6 +522,7 @@ sql:
                 section504,
                 economic_disadvantage,
                 migrant_status,
+                elas_id,
                 completeness_id,
                 administration_condition_id,
                 scale_score,
@@ -517,6 +544,7 @@ sql:
                   CASE WHEN se.section504 = true THEN 1 ELSE 0 END,
                   CASE WHEN se.economic_disadvantage = true THEN 1 WHEN se.economic_disadvantage = false THEN 0 ELSE 2 END,
                   CASE WHEN se.migrant_status = true THEN 1 ELSE 0 END,
+                  COALESCE(se.elas_id, 1),
                   se.completeness_id,
                   se.administration_condition_id,
                   se.scale_score,
@@ -540,6 +568,7 @@ sql:
                   section504                  = CASE WHEN se.section504 = true THEN 1 ELSE 0 END,
                   economic_disadvantage       = CASE WHEN se.economic_disadvantage = true THEN 1 WHEN se.economic_disadvantage = false THEN 0 ELSE 2 END,
                   migrant_status              = CASE WHEN se.migrant_status = true THEN 1 ELSE 0 END,
+                  elas_id                     = COALESCE(se.elas_id, 1),
                   completeness_id             = se.completeness_id,
                   administration_condition_id = se.administration_condition_id,
                   scale_score                 = se.scale_score,

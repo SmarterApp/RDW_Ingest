@@ -23,6 +23,28 @@ sql:
               DELETE rg FROM grade rg
                 WHERE NOT EXISTS(SELECT sg.id FROM staging_grade sg WHERE sg.id = rg.id);
 
+      # ------------ ELAS  -------------------------------------------------------------------
+      elas:
+        sql:
+          update:  >-
+              UPDATE elas re
+                 JOIN staging_elas se ON se.id = re.id
+              SET
+               re.code = se.code;
+
+          insert:  >-
+              INSERT INTO elas (id, code)
+                SELECT
+                  se.id,
+                  se.code
+                FROM staging_elas se
+                LEFT JOIN elas re ON re.id = se.id
+                WHERE re.id IS NULL;
+
+          delete: >-
+             DELETE re FROM elas re
+              WHERE NOT EXISTS(SELECT se.id FROM staging_elas se WHERE se.id = re.id);
+
       # ------------ completeness  -------------------------------------------------------------------
       completeness:
         sql:
@@ -33,7 +55,7 @@ sql:
                rc.code = sc.code;
 
           insert:  >-
-              INSERT INTO completeness ( id, code)
+              INSERT INTO completeness (id, code)
                 SELECT
                   sc.id,
                   sc.code
@@ -55,7 +77,7 @@ sql:
               rac.code = sac.code;
 
           insert:  >-
-            INSERT INTO administration_condition ( id, code)
+            INSERT INTO administration_condition (id, code)
               SELECT
                 sac.id,
                 sac.code
@@ -77,7 +99,7 @@ sql:
               re.code = se.code;
 
           insert:  >-
-            INSERT INTO ethnicity ( id, code)
+            INSERT INTO ethnicity (id, code)
               SELECT
                 se.id,
                 se.code
@@ -98,7 +120,7 @@ sql:
               rg.code = sg.code;
 
           insert:  >-
-            INSERT INTO gender ( id, code)
+            INSERT INTO gender (id, code)
               SELECT
                 sg.id,
                 sg.code
@@ -120,7 +142,7 @@ sql:
               ra.code = sa.code;
 
           insert:  >-
-            INSERT INTO accommodation ( id, code)
+            INSERT INTO accommodation (id, code)
               SELECT
                 sa.id,
                 sa.code
@@ -163,7 +185,7 @@ sql:
             rc.description = sc.description;
 
           insert:  >-
-            INSERT INTO claim ( id, subject_id, code, name, description)
+            INSERT INTO claim (id, subject_id, code, name, description)
               SELECT
                 sc.id,
                 sc.subject_id,
@@ -191,7 +213,7 @@ sql:
               rc.name = sc.name;
 
           insert:  >-
-            INSERT INTO subject_claim_score ( id, subject_id, asmt_type_id, code, name)
+            INSERT INTO subject_claim_score (id, subject_id, asmt_type_id, code, name)
               SELECT
                 sc.id,
                 sc.subject_id,
@@ -218,7 +240,7 @@ sql:
               rt.description = st.description;
 
           insert:  >-
-            INSERT INTO target ( id, claim_id, code, description)
+            INSERT INTO target (id, claim_id, code, description)
               SELECT
                 st.id,
                 st.claim_id,
@@ -244,7 +266,7 @@ sql:
                rccs.description = sccs.description;
 
           insert:  >-
-            INSERT INTO common_core_standard ( id, subject_id, natural_id, description)
+            INSERT INTO common_core_standard (id, subject_id, natural_id, description)
                SELECT
                  sccs.id,
                  sccs.subject_id,
@@ -271,7 +293,7 @@ sql:
               rdok.description = sdok.description;
 
           insert:  >-
-            INSERT INTO depth_of_knowledge ( id, level, subject_id, description, reference)
+            INSERT INTO depth_of_knowledge (id, level, subject_id, description, reference)
               SELECT
                 sdok.id,
                 sdok.level,
@@ -297,7 +319,7 @@ sql:
               rmp.code = smp.code;
 
           insert:  >-
-            INSERT INTO math_practice ( practice, description, code)
+            INSERT INTO math_practice (practice, description, code)
               SELECT
                 smp.practice,
                 smp.description,
@@ -320,7 +342,7 @@ sql:
               rit.dimension = sit.dimension;
 
           insert:  >-
-            INSERT INTO item_trait_score ( id, dimension)
+            INSERT INTO item_trait_score (id, dimension)
               SELECT
                 sit.id,
                 sit.dimension
@@ -374,7 +396,7 @@ sql:
       exam_available_accommodation:
         sql:
           insert: >-
-            INSERT INTO exam_available_accommodation ( exam_id, accommodation_id)
+            INSERT INTO exam_available_accommodation (exam_id, accommodation_id)
               SELECT
                 s.exam_id,
                 s.accommodation_id
@@ -460,9 +482,9 @@ sql:
             INSERT INTO exam (id, grade_id, grade_code, student_id, school_id, iep, lep, section504,
                                         economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type,
                                         language_code, prim_disability_type, type_id, school_year, asmt_id, asmt_version,
-                                        opportunity, completeness_id, completeness_code, administration_condition_id,
-                                        administration_condition_code, session_id, performance_level, scale_score,
-                                        scale_score_std_err, update_import_id, completed_at,
+                                        opportunity, elas_code, completeness_code, administration_condition_code,
+                                        session_id, performance_level, scale_score, scale_score_std_err,
+                                        update_import_id, completed_at,
                                         claim1_scale_score, claim1_scale_score_std_err, claim1_category,
                                         claim2_scale_score, claim2_scale_score_std_err, claim2_category,
                                         claim3_scale_score, claim3_scale_score_std_err, claim3_category,
@@ -488,9 +510,8 @@ sql:
                 se.asmt_id,
                 se.asmt_version,
                 se.opportunity,
-                se.completeness_id,
+                rel.code,
                 rc.code,
-                se.administration_condition_id,
                 rac.code,
                 se.session_id,
                 se.performance_level,
@@ -551,6 +572,7 @@ sql:
                                                                                  AND m.num = 4
                           ) AS claim4 ON claim4.exam_id = se.id
                 LEFT JOIN exam re ON re.id = se.id
+                LEFT JOIN elas rel ON rel.id = se.elas_id
                 JOIN administration_condition rac ON rac.id = se.administration_condition_id
                 JOIN completeness rc ON rc.id = se.completeness_id
                 JOIN grade rg ON rg.id = se.grade_id
@@ -565,6 +587,7 @@ sql:
           update: >-
             UPDATE exam re
               JOIN staging_exam se ON se.id = re.id
+              LEFT JOIN elas rel ON rel.id = se.elas_id
               JOIN completeness rc ON rc.id = se.completeness_id
               JOIN administration_condition rac ON rac.id = se.administration_condition_id
               JOIN grade rg ON rg.id = se.grade_id
@@ -629,8 +652,6 @@ sql:
               re.asmt_id = se.asmt_id,
               re.asmt_version = se.asmt_version,
               re.opportunity = se.opportunity,
-              re.completeness_id = se.completeness_id,
-              re.administration_condition_id = se.administration_condition_id,
               re.session_id = se.session_id,
               re.performance_level = se.performance_level,
               re.scale_score = se.scale_score,
@@ -649,8 +670,9 @@ sql:
               re.claim4_scale_score = claim4.scale_score,
               re.claim4_scale_score_std_err = claim4.scale_score_std_err,
               re.claim4_category = claim4.category,
-              re.administration_condition_code = rac.code,
+              re.elas_code = rel.code,
               re.completeness_code = rc.code,
+              re.administration_condition_code = rac.code,
               re.available_accommodation_codes = code.codes,
               re.updated = se.updated,
               re.migrate_id = se.migrate_id
@@ -666,7 +688,7 @@ sql:
       student_group_membership:
         sql:
           insert: >-
-            INSERT INTO student_group_membership ( student_group_id, student_id)
+            INSERT INTO student_group_membership (student_group_id, student_id)
               SELECT
                 ssgm.student_group_id,
                 ssgm.student_id
@@ -693,7 +715,7 @@ sql:
       user_student_group:
         sql:
           insert: >-
-            INSERT INTO user_student_group ( student_group_id, user_login)
+            INSERT INTO user_student_group (student_group_id, user_login)
               SELECT
                 susg.student_group_id,
                 susg.user_login
@@ -967,7 +989,7 @@ sql:
       asmt_score:
         sql:
           insert: >-
-            INSERT INTO asmt_score ( asmt_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score)
+            INSERT INTO asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score)
               SELECT
                 sas.asmt_id,
                 sas.cut_point_1,
@@ -1004,7 +1026,7 @@ sql:
       item:
         sql:
           insert: >-
-            INSERT INTO item ( id, claim_id, claim_code,  target_id, target_code, common_core_standard_ids, natural_id, asmt_id,
+            INSERT INTO item (id, claim_id, claim_code,  target_id, target_code, common_core_standard_ids, natural_id, asmt_id,
                 math_practice, math_practice_code, allow_calc, position, dok_id, dok_level_subject_id, difficulty_code, max_points, field_test, active, type,
                 options_count, answer_key, performance_task_writing_type)
               SELECT

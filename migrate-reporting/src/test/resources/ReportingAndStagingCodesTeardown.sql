@@ -1,3 +1,4 @@
+TRUNCATE staging_elas;
 TRUNCATE staging_completeness;
 TRUNCATE staging_administration_condition;
 TRUNCATE staging_ethnicity;
@@ -13,6 +14,7 @@ TRUNCATE staging_common_core_standard;
 TRUNCATE staging_claim;
 TRUNCATE staging_grade;
 
+DELETE FROM elas WHERE id in (-99, -98);
 DELETE FROM completeness WHERE id IN (-99,-98, -95);
 DELETE FROM administration_condition WHERE id IN (-99,-98, -97, -96, -95);
 DELETE FROM ethnicity WHERE id IN (-99,-98);

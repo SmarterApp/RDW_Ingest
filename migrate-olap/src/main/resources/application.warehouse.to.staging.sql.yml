@@ -4,6 +4,7 @@ sql:
     truncateStageList:
       - delete from staging_administration_condition
       - delete from staging_completeness
+      - delete from staging_elas
       - delete from staging_ethnicity
       - delete from staging_gender
       - delete from staging_grade
@@ -56,6 +57,26 @@ sql:
             stagingInsert: >-
                 COPY staging_completeness (id, code)
                   FROM '${archive.root}/${migrate.aws.location}/completeness.part_00000'
+                CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+                FORMAT AS CSV
+                DELIMITER ','
+                COMPUPDATE OFF
+
+        # ------------ elas  -------------------------------------------------------------------
+        elas:
+          sql:
+            warehouseRead: >-
+                SELECT
+                  id,
+                  code
+                FROM elas
+                INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/elas'
+                FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+                COPY staging_elas (id, code)
+                  FROM '${archive.root}/${migrate.aws.location}/elas.part_00000'
                 CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
                 FORMAT AS CSV
                 DELIMITER ','
@@ -608,6 +629,7 @@ sql:
                   type_id,
                   school_year,
                   asmt_id,
+                  elas_id,
                   completeness_id,
                   administration_condition_id,
                   scale_score,
@@ -637,6 +659,7 @@ sql:
                   type_id,
                   school_year,
                   asmt_id,
+                  elas_id,
                   completeness_id,
                   administration_condition_id,
                   scale_score,
@@ -669,6 +692,7 @@ sql:
                   type_id,
                   school_year,
                   asmt_id,
+                  elas_id,
                   completeness_id,
                   administration_condition_id,
                   scale_score,
@@ -698,6 +722,7 @@ sql:
                   type_id,
                   school_year,
                   asmt_id,
+                  elas_id,
                   completeness_id,
                   administration_condition_id,
                   scale_score,
