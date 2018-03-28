@@ -24,6 +24,7 @@ sql:
   # ------------ Truncate ------------------------------------------------------------------
     truncateStageList:
       - TRUNCATE TABLE staging_grade
+      - TRUNCATE TABLE staging_elas
       - TRUNCATE TABLE staging_completeness
       - TRUNCATE TABLE staging_administration_condition
       - TRUNCATE TABLE staging_ethnicity
