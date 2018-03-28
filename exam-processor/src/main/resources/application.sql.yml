@@ -37,6 +37,11 @@ sql:
     findIdByCode: >-
         SELECT id FROM completeness WHERE code= :code
 
+  # JdbcElasRepository
+  elas:
+    findIdByCode: >-
+        SELECT id FROM elas WHERE code= :code
+
   # ItemTraitRepository
   itemTraitScore:
     findAll: >-
