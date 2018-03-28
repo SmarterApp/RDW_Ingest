@@ -12,7 +12,7 @@ server:
 spring:
   cache:
     type: SIMPLE
-    cache-names: completeness, adminCondition, assessmentType, ethnicity, ethnicityCodes, gender, grade, subject, accCode
+    cache-names: completeness, adminCondition, assessmentType, ethnicity, ethnicityCodes, gender, grade, subject, accCode, elas
 
   cloud:
     stream:
