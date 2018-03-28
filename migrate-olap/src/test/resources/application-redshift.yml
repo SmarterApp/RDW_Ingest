@@ -11,7 +11,7 @@ archive:
       # rdw-ci
       credentials:
         accessKey: AKIAILLXGXH7ANGJDVEQ
-        secretKey:
+        secretKey: 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
 
 migrate:
   aws:
@@ -22,16 +22,16 @@ migrate:
 spring:
   migrate_datasource:
     url-server: rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306
-    url-schema: migrate_olap_test
+    url-schema: mark_migrate_olap_test
     username: sbac
-    password:
+    password: sbac4rdw
   olap_datasource:
     url-server: rdw-qa.cibkulpjrgtr.us-west-2.redshift.amazonaws.com:5439
     url-db: ci
-    username: ci
-    password:
+    username: mark
+    password: mark
   warehouse_datasource:
     url-server: rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306
-    url-schema: warehouse_test
+    url-schema: mark_warehouse_test
     username: sbac
-    password:
+    password: sbac4rdw
