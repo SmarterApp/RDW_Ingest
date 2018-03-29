@@ -71,11 +71,12 @@ subprojects {
             dependency 'com.google.guava:guava:21.0'
             dependency 'commons-io:commons-io:2.4'
             dependency 'org.apache.commons:commons-csv:1.5'
-            dependency 'org.slf4j:slf4j-api:1.7+'
+            dependency 'org.slf4j:slf4j-api:1.7.25'
 
             // commonly used test libraries
-            dependency 'junit:junit:4.12+'
-            dependency 'org.assertj:assertj-core:3.6+'
+            dependency 'junit:junit:4.12'
+            dependency 'org.assertj:assertj-core:3.6.2'
+            dependency 'org.mockito:mockito-core:2.16.0'
         }
         imports {
             // spring cloud Camden.SR5 includes spring cloud stream Brooklyn.SR2
