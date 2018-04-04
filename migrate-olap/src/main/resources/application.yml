@@ -1,6 +1,10 @@
 app:
   school-year: 2018
 
+reporting:
+  high-school-start-grade-id: 9
+  high-school-accountability-grade-id: 11
+
 management:
   security:
     enabled: false

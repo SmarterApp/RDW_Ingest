@@ -419,11 +419,8 @@ sql:
               UPDATE staging_exam
                 SET latest = true
               FROM (
-                     SELECT
-                       id,
-                       rank()
-                       OVER (PARTITION BY student_id, asmt_id, school_year ORDER BY completed_at DESC, id)
-                     FROM staging_exam where deleted = false
+                     SELECT id, rank() OVER (PARTITION BY student_id, asmt_id, school_year ORDER BY completed_at DESC, id)
+                      FROM staging_exam where deleted = false
                    ) t
                 JOIN staging_exam e ON e.id = t.id
               WHERE t.rank = 1;
@@ -586,6 +583,112 @@ sql:
                 USING staging_exam se
               WHERE se.id = fact_student_iab_exam.id and se.deleted = 1;
 
+     # ------------ fact_student_exam_longitudinal -----------------------------------------------------------------------
+        # Business rules:
+        # 1. It is assumed that students are given summative tests that match their enrolled grade
+        # 2. It is assumed that summative tests are not given multiple times
+        # 3. For the high school, the only test that counts is the one that was taken when a student grade equals the 'accountability' grade
+        #
+        # The above rules are not enforced anywhere in the RDW.
+        # To enforce the above rule (in order to make the reporting accurate):
+        # 1. only migrate when enrolled grade is equal to asmt grade (for non high school) or 'accountability' grade (for high school)
+        # 2. migrate the latest Summative per subject and asmt grade (regardless of the school year)
+
+        fact_student_exam_longitudinal:
+          sql:
+            resetStagingLatestExam: >-
+              UPDATE staging_exam SET latest = false
+
+            updateStagingLatestExam: >-
+              UPDATE staging_exam
+                SET latest = true
+              FROM (
+                    SELECT se.id, rank() OVER (PARTITION BY student_id, a.subject_id, a.grade_id ORDER BY completed_at DESC, se.id)
+                     FROM staging_exam se JOIN asmt a on a.id = se.asmt_id
+                     WHERE se.deleted = false AND se.type_id = 3
+                       AND ( (a.grade_id < ${reporting.high-school-start-grade-id} AND a.grade_id = se.grade_id) OR (a.grade_id >= ${reporting.high-school-start-grade-id} AND se.grade_id = ${reporting.high-school-accountability-grade-id}))
+                   ) t
+                JOIN staging_exam e ON e.id = t.id
+              WHERE t.rank = 1;
+
+            # iabs are loaded into its own fact table, that is why they are excluded here
+            insert: >-
+              INSERT INTO fact_student_exam_longitudinal (
+                id,
+                school_id,
+                student_id,
+                asmt_id,
+                grade_id,
+                school_year,
+                iep,
+                lep,
+                section504,
+                economic_disadvantage,
+                migrant_status,
+                elas_id,
+                completeness_id,
+                administration_condition_id,
+                scale_score,
+                performance_level,
+                completed_at,
+                updated,
+                update_import_id,
+                migrate_id
+              )
+                SELECT DISTINCT
+                  se.id,
+                  se.school_id,
+                  se.student_id,
+                  se.asmt_id,
+                  se.grade_id,
+                  se.school_year,
+                  CASE WHEN se.iep = true THEN 1 WHEN se.iep = false THEN 0 ELSE 2 END,
+                  CASE WHEN se.lep = true THEN 1 WHEN se.lep = false THEN 0 ELSE 2 END,
+                  CASE WHEN se.section504 = true THEN 1 ELSE 0 END,
+                  CASE WHEN se.economic_disadvantage = true THEN 1 WHEN se.economic_disadvantage = false THEN 0 ELSE 2 END,
+                  CASE WHEN se.migrant_status = true THEN 1 ELSE 0 END,
+                  COALESCE(se.elas_id, 1),
+                  se.completeness_id,
+                  se.administration_condition_id,
+                  se.scale_score,
+                  se.performance_level,
+                  se.completed_at,
+                  se.updated,
+                  se.update_import_id,
+                  se.migrate_id
+                FROM staging_exam se
+                  LEFT JOIN fact_student_exam_longitudinal fe ON fe.student_id = se.student_id and fe.asmt_id = se.asmt_id and fe.school_year = se.school_year
+                WHERE se.type_id = 3 AND se.latest = true AND fe.id IS NULL;
+
+            update: >-
+                UPDATE fact_student_exam_longitudinal
+                SET
+                  id                          = se.id,
+                  school_id                   = se.school_id,
+                  grade_id                    = se.grade_id,
+                  iep                         = CASE WHEN se.iep = true THEN 1 WHEN se.iep = false THEN 0 ELSE 2 END,
+                  lep                         = CASE WHEN se.lep = true THEN 1 WHEN se.lep = false THEN 0 ELSE 2 END,
+                  section504                  = CASE WHEN se.section504 = true THEN 1 ELSE 0 END,
+                  economic_disadvantage       = CASE WHEN se.economic_disadvantage = true THEN 1 WHEN se.economic_disadvantage = false THEN 0 ELSE 2 END,
+                  migrant_status              = CASE WHEN se.migrant_status = true THEN 1 ELSE 0 END,
+                  elas_id                     = COALESCE(se.elas_id, 1),
+                  completeness_id             = se.completeness_id,
+                  administration_condition_id = se.administration_condition_id,
+                  scale_score                 = se.scale_score,
+                  performance_level           = se.performance_level,
+                  completed_at                = se.completed_at,
+                  updated                     = se.updated,
+                  update_import_id            = se.update_import_id,
+                  migrate_id                  = se.migrate_id
+                 FROM staging_exam se
+                  JOIN fact_student_exam_longitudinal fe ON fe.student_id = se.student_id and fe.asmt_id = se.asmt_id and fe.school_year = se.school_year
+                WHERE se.type_id = 3 AND se.latest = true AND (se.completed_at > fe.completed_at OR se.id = fe.id)
+
+            delete: >-
+              DELETE FROM fact_student_exam_longitudinal
+                USING staging_exam se
+              WHERE se.id = fact_student_exam_longitudinal.id and se.deleted = 1;
+
       # ------------ asmt_active_year -----------------------------------------------------------------------
         asmt_active_year:
           sql:
@@ -598,7 +701,7 @@ sql:
                     SELECT DISTINCT f.asmt_id as asmt_id, f.school_year FROM fact_student_iab_exam f
                     UNION
                     SELECT a.id AS asmt_id, a.school_year FROM asmt a
-                  ) t ;
+                  ) t;
 
             delete: >-
               DELETE FROM asmt_active_year;
