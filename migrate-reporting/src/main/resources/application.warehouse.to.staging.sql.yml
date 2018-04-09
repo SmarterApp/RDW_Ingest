@@ -844,6 +844,7 @@ sql:
                 we.iep,
                 we.lep,
                 we.elas_id,
+                we.elas_start_at,
                 we.section504,
                 we.economic_disadvantage,
                 we.migrant_status,
@@ -857,11 +858,11 @@ sql:
             stagingInsert: >-
               INSERT INTO staging_exam (id, type_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id,
                                                  session_id, performance_level, scale_score, scale_score_std_err, completed_at, deleted, update_import_id, updated,
-                                                 grade_id, student_id, school_id, iep, lep, elas_id, section504, economic_disadvantage, migrant_status,
+                                                 grade_id, student_id, school_id, iep, lep, elas_id, elas_start_at, section504, economic_disadvantage, migrant_status,
                                                  eng_prof_lvl, t3_program_type, language_code, prim_disability_type, migrate_id) VALUES
                                        (:id, :type_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id,
                                                 :session_id, :performance_level, :scale_score, :scale_score_std_err, :completed_at, :deleted, :update_import_id, :updated,
-                                                :grade_id, :student_id, :school_id, :iep, :lep, :elas_id, :section504, :economic_disadvantage, :migrant_status,
+                                                :grade_id, :student_id, :school_id, :iep, :lep, :elas_id, :elas_start_at, :section504, :economic_disadvantage, :migrant_status,
                                                 :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type, :migrate_id)
         exam_by_update_import_id:
           sql:
@@ -889,6 +890,7 @@ sql:
                 we.iep,
                 we.lep,
                 we.elas_id,
+                we.elas_start_at,
                 we.section504,
                 we.economic_disadvantage,
                 we.migrant_status,
@@ -902,11 +904,11 @@ sql:
             stagingInsert: >-
               INSERT IGNORE INTO staging_exam (id, type_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id,
                                                  session_id, performance_level, scale_score, scale_score_std_err, completed_at, deleted, update_import_id, updated,
-                                                 grade_id, student_id, school_id, iep, lep, elas_id, section504, economic_disadvantage, migrant_status,
+                                                 grade_id, student_id, school_id, iep, lep, elas_id, elas_start_at, section504, economic_disadvantage, migrant_status,
                                                  eng_prof_lvl, t3_program_type, language_code, prim_disability_type, migrate_id) VALUES
                                               (:id, :type_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id,
                                                  :session_id, :performance_level, :scale_score, :scale_score_std_err, :completed_at, :deleted, :update_import_id, :updated,
-                                                 :grade_id, :student_id, :school_id, :iep, :lep, :elas_id, :section504, :economic_disadvantage, :migrant_status,
+                                                 :grade_id, :student_id, :school_id, :iep, :lep, :elas_id, :elas_start_at, :section504, :economic_disadvantage, :migrant_status,
                                                  :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type, :migrate_id)
 
         # ------------ exam_item  ---------------------------------------------------------------------------------------
