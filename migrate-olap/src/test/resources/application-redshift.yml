@@ -15,7 +15,7 @@ archive:
     aws:
       # rdw-ci
       credentials:
-        accessKey: AKIAILLXGXH7ANGJDVEQ
+        accessKey: AKIAIXXQNZAWSVCGK3WQ
         secretKey:
 
 migrate:
