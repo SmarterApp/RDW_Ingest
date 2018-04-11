@@ -1,5 +1,5 @@
 INSERT INTO school_year(year) VALUES (1999),(1998);
-INSERT INTO grade (id, code, name) VALUES (-99,'99','K-garten'),(-98 ,'98','1st-grade');
+INSERT INTO grade (id, code, name) VALUES (111 ,'31','11th-grade-test'),(109,'29','9th-grade-test'),(108 ,'28','8th-grade-test'),(107 ,'27','7th-grade-test');
 INSERT INTO elas (id, code) VALUES (-99, 'E99'),(-98, 'E98');
 INSERT INTO completeness (id, code) VALUES (-99, 'test1'), (-98, 'test55');
 INSERT INTO administration_condition VALUES (-99,'IN-test'),(-98,'NS-test'),(-97,'SD-test'),(-96,'Valid-test');
@@ -12,5 +12,5 @@ INSERT INTO math_practice  VALUES (-99,'Make sense of problems and persevere in 
 INSERT INTO item_trait_score VALUES (-99,'Conventions-test'),(-98,'Evidence/Elaboration-test');
 INSERT INTO target VALUES (-99, 'natural-99', -99,'10-1','WORD MEANINGS: Determine intended meanings of words..'),(-98, 'naturalId-99', -98,'10-12','WORD MEANINGS:..)');
 INSERT INTO common_core_standard VALUES (-99, 'naturalId-99', 1,'ccommon core -99'),(-98, 'naturalId-98', 2, 'common core -98');
-INSERT INTO item_difficulty_cuts  VALUES (-99, 1, 2, -99,-1.93882,-0.43906),(-98 ,1, 2, -98,-1.51022,0.14288);
+INSERT INTO item_difficulty_cuts(id, asmt_type_id, subject_id, grade_id, moderate_low_end, difficult_low_end)  VALUES (-99, 1, 2, 109,-1.93882,-0.43906),(-98 ,1, 2, 108, -1.51022,0.14288);
 INSERT INTO accommodation_translation(accommodation_id, language_code, label) VALUES (-99, 'lan', 'Hola'),(-98, 'gua','Hello');

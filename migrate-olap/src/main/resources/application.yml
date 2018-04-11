@@ -1,9 +1,10 @@
 app:
   school-year: 2018
-
-reporting:
-  high-school-start-grade-id: 9
-  high-school-accountability-grade-id: 11
+  # this uses grade ids assuming that they match grade codes
+  high-school:
+    start-grade-id: 9
+    end-grade-id: 12
+    accountability-grade-id: 11
 
 management:
   security:
