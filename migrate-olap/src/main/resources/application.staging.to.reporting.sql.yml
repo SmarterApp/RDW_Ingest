@@ -599,29 +599,27 @@ sql:
             resetStagingLatestExam: >-
               UPDATE staging_exam SET latest = false
 
-            updateStagingLatestExam: >-
-              UPDATE staging_exam
-                SET latest = true
-              FROM (
-                    SELECT se.id, rank() OVER (PARTITION BY student_id, a.subject_id, a.grade_id ORDER BY completed_at DESC, se.id)
-                     FROM staging_exam se JOIN asmt a on a.id = se.asmt_id
-                     WHERE se.deleted = false AND se.type_id = 3
-                       AND (  (a.grade_id < ${app.high-school.start-grade-id} AND a.grade_id = se.grade_id)
-                           OR (a.grade_id >= ${app.high-school.start-grade-id} AND a.grade_id <= ${app.high-school.end-grade-id}
-                               AND se.grade_id = ${app.high-school.accountability-grade-id}
-                           )
-                      )
-                   ) t
-                JOIN staging_exam e ON e.id = t.id
-              WHERE t.rank = 1;
-
             updateStagingExamWithAsmtData: >-
               UPDATE staging_exam
                 SET
                   asmt_grade_id = a.grade_id,
                   subject_id = a.subject_id
                 FROM asmt a JOIN staging_exam se on se.asmt_id = a.id
-                WHERE se.type_id = 3 AND se.latest = true;
+                WHERE se.type_id = 3;
+
+            updateStagingLatestExam: >-
+              UPDATE staging_exam
+                SET latest = true
+              FROM (
+                    SELECT se.id, rank() OVER (PARTITION BY se.student_id, se.subject_id, se.asmt_grade_id ORDER BY se.completed_at DESC, se.id)
+                     FROM staging_exam se JOIN grade ag on ag.id = se.asmt_grade_id JOIN grade eg ON eg.id = se.grade_id
+                     WHERE se.deleted = false AND se.type_id = 3
+                       AND (  ( ag.code NOT IN (${app.high-school.grades}) AND se.asmt_grade_id = se.grade_id )
+                           OR ( ag.code IN (${app.high-school.grades})  AND eg.code = '${app.high-school.accountability-grade}' )
+                      )
+                   ) t
+                JOIN staging_exam e ON e.id = t.id
+              WHERE t.rank = 1;
 
             # iabs are loaded into its own fact table, that is why they are excluded here
             insert: >-
