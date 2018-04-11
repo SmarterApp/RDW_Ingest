@@ -12,5 +12,5 @@ DELETE FROM completeness WHERE id < 0 ;
 DELETE FROM administration_condition WHERE id < 0;
 DELETE FROM ethnicity WHERE id < 0;
 DELETE FROM gender WHERE id < 0;
-DELETE FROM grade WHERE id < 0;
+DELETE FROM grade WHERE id >= 100;
 DELETE FROM asmt_active_year WHERE school_year IN (1999, 2000);

@@ -4,7 +4,7 @@ DELETE FROM exam where id < 0;
 
 -- ------------------------------------------ Student and Groups  ------------------------------------------------------------------------------------------------
 DELETE FROM student_ethnicity where student_id in ( -89, -88, -87, -86);
-DELETE FROM student where id in (-11,  -89, -88, -87, -86, -33);
+DELETE FROM student where id in (-11,  -89, -88, -87, -86, -33, -18);
 
 -- ------------------------------------------ School/Districts --------------------------------------------------------------------------------------------------
 DELETE FROM school where id in (-99, -98, -1);

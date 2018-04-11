@@ -19,6 +19,7 @@ DELETE FROM staging_student where id < 0;
 -- CLEAN UP reporting
 DELETE FROM fact_student_exam where id < 0;
 DELETE FROM fact_student_iab_exam where id < 0;
+DELETE FROM fact_student_exam_longitudinal where id < 0;
 
 -- ------------------------------------------ Student   ------------------------------------------------------------------------------------------------
 DELETE FROM student_ethnicity where student_id < 0;
