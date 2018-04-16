@@ -21,9 +21,9 @@ INSERT INTO staging_asmt (id,  grade_id, type_id, subject_id, school_year, name,
    (-308, 108, 3, 1, 2000, 'test-summative-2000-grade-8',  'summative-grade-8',  0, '2017-07-18 20:14:34.000000', -1, -99),
    (-107, 107, 3, 1, 2001, 'test-summative-2001-grade-7',  'summative-grade-8',  0, '2017-07-18 20:14:34.000000', -1, -99),
    (-108 ,108, 3, 1, 2001, 'test-summative-2001-grade-8',  'summative-grade-8',  0, '2017-07-18 20:14:34.000000', -1, -99),
-   (-109, 109, 3, 1, 2001, 'test-summative-2001-grade-9',  'summative-grade-9',  0, '2017-07-18 20:14:34.000000', -1, -99),
+   (-109, 111, 3, 1, 2001, 'test-summative-2001-grade-9',  'summative-grade-9',  0, '2017-07-18 20:14:34.000000', -1, -99),
    (-111, 111, 3, 1, 2001, 'test-summative-2001-grade-11', 'summative-grade-11',  0, '2017-07-18 20:14:34.000000', -1, -99),
-   (-112, 112, 3, 1, 2001, 'test-summative-2001-grade-12', 'summative-grade-12',  0, '2017-07-18 20:14:34.000000', -1, -99);
+   (-112, 111, 3, 1, 2001, 'test-summative-2001-grade-12', 'summative-grade-12',  0, '2017-07-18 20:14:34.000000', -1, -99);
 
 -- ------------------------------------------ Student  ------------------------------------------------------------------------------------------------
 INSERT INTO staging_student (id, gender_id, updated, update_import_id, migrate_id, deleted) VALUES

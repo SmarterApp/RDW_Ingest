@@ -610,11 +610,8 @@ sql:
                 SET latest = true
               FROM (
                     SELECT se.id, rank() OVER (PARTITION BY se.student_id, se.subject_id, se.asmt_grade_id ORDER BY se.completed_at DESC, se.id)
-                     FROM staging_exam se JOIN grade ag on ag.id = se.asmt_grade_id JOIN grade eg ON eg.id = se.grade_id
-                     WHERE se.deleted = false AND se.type_id = 3
-                       AND (  ( ag.code NOT IN (${app.high-school.grades}) AND se.asmt_grade_id = se.grade_id )
-                           OR ( ag.code IN (${app.high-school.grades})  AND eg.code = '${app.high-school.accountability-grade}' )
-                      )
+                     FROM staging_exam se
+                     WHERE se.deleted = false AND se.type_id = 3 AND se.asmt_grade_id = se.grade_id
                    ) t
                 JOIN staging_exam e ON e.id = t.id
               WHERE t.rank = 1;
