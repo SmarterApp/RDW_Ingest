@@ -4,7 +4,6 @@
 app:
   school-year: 1999
 
-# not sure if this is right
 archive:
   root: s3://rdw-ci-archive
   cloud:

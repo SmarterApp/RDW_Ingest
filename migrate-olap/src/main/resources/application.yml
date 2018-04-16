@@ -1,6 +1,5 @@
 app:
   school-year: 2018
-  # this uses grade ids assuming that they match grade codes
 
 management:
   security:
