@@ -1,10 +1,6 @@
 app:
   school-year: 2018
   # this uses grade ids assuming that they match grade codes
-  high-school:
-    grades: >-
-      '09','10','11','12'
-    accountability-grade: '11'
 
 management:
   security:

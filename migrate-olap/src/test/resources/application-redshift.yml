@@ -3,12 +3,8 @@
 # override them locally but the CI system assumes the defaults are for CI resources.
 app:
   school-year: 1999
-  # this uses grade ids assuming that they match grade codes
-  high-school:
-    grades: >-
-      '29','30','31','32'
-    accountability-grade: '31'
 
+# not sure if this is right
 archive:
   root: s3://rdw-ci-archive
   cloud:
