@@ -137,7 +137,7 @@ subprojects {
             label([maintainer: 'Fairway Technologies'])
             copyFile("${jar.archivePath.name}", "${jar.archivePath.name}")
             exposePort(8008, 8080)
-            runCommand("apk add --no-cache tini")
+            runCommand("apk -U add --no-cache tini curl jq")
             entryPoint("/sbin/tini", "--")
             environmentVariable("MAX_HEAP_SIZE", "-Xmx384m")
             instruction('CMD exec java $MAX_HEAP_SIZE $JAVA_OPTS -jar ' + "${jar.archivePath.name}")
