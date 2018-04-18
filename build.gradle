@@ -23,7 +23,7 @@ plugins {
 apply plugin: 'io.spring.dependency-management'
 
 // Set version dependencies. This allows the cli to force version, e.g. `-Pcommon=1.1.0-SNAPSHOT`
-String rdwCommonVersion = project.hasProperty("common") ? project.property("common") : "1.2.0-69"
+String rdwCommonVersion = project.hasProperty("common") ? project.property("common") : "1.2.0-70"
 String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "1.2.0-337"
 
 String dockerPrefix = "smarterbalanced"
@@ -71,6 +71,7 @@ subprojects {
             dependency 'com.google.guava:guava:21.0'
             dependency 'commons-io:commons-io:2.4'
             dependency 'org.apache.commons:commons-csv:1.5'
+            dependency 'org.apache.commons:commons-lang3:3.7'
             dependency 'org.slf4j:slf4j-api:1.7.25'
 
             // commonly used test libraries
@@ -137,7 +138,7 @@ subprojects {
             label([maintainer: 'Fairway Technologies'])
             copyFile("${jar.archivePath.name}", "${jar.archivePath.name}")
             exposePort(8008, 8080)
-            runCommand("apk -U add --no-cache tini curl jq")
+            runCommand("apk add --no-cache tini curl jq")
             entryPoint("/sbin/tini", "--")
             environmentVariable("MAX_HEAP_SIZE", "-Xmx384m")
             instruction('CMD exec java $MAX_HEAP_SIZE $JAVA_OPTS -jar ' + "${jar.archivePath.name}")
