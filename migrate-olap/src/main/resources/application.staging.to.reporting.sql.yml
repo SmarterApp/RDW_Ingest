@@ -601,8 +601,9 @@ sql:
               UPDATE staging_exam
                 SET
                   asmt_grade_id = a.grade_id,
-                  subject_id = a.subject_id
-                FROM asmt a JOIN staging_exam se on se.asmt_id = a.id
+                  subject_id = a.subject_id,
+                  asmt_grade_code = g.code
+                FROM asmt a JOIN staging_exam se ON se.asmt_id = a.id JOIN grade g ON g.id = a.grade_id
                 WHERE se.type_id = 3;
 
             updateStagingLatestExam: >-
@@ -625,6 +626,7 @@ sql:
                 asmt_id,
                 subject_id,
                 asmt_grade_id,
+                school_year_asmt_grade_code,
                 grade_id,
                 school_year,
                 iep,
@@ -649,6 +651,7 @@ sql:
                   se.asmt_id,
                   se.subject_id,
                   se.asmt_grade_id,
+                  CONCAT(se.school_year::VARCHAR(4), CONCAT(',', se.asmt_grade_code::VARCHAR(2))),
                   se.grade_id,
                   se.school_year,
                   CASE WHEN se.iep = true THEN 1 WHEN se.iep = false THEN 0 ELSE 2 END,
@@ -675,6 +678,7 @@ sql:
                   id                          = se.id,
                   school_id                   = se.school_id,
                   asmt_id                     = se.asmt_id,
+                  school_year_asmt_grade_code = CONCAT(se.school_year::VARCHAR(4), CONCAT(',', se.asmt_grade_code::VARCHAR(2))),
                   grade_id                    = se.grade_id,
                   iep                         = CASE WHEN se.iep = true THEN 1 WHEN se.iep = false THEN 0 ELSE 2 END,
                   lep                         = CASE WHEN se.lep = true THEN 1 WHEN se.lep = false THEN 0 ELSE 2 END,
