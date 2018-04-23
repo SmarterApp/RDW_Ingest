@@ -6,6 +6,11 @@ management:
   security:
     enabled: false
 
+app:
+  client: SBAC
+  state:
+    code: CA
+
 # spring auto-configured aws defense
 cloud:
   aws:
@@ -24,11 +29,12 @@ archive:
   root: file:///tmp/
 
 security:
-  client: SBAC
-  state: CA
-  # cause StubTokenServices to be used
+  # "local" causes stub services to be used
   oauth2:
     token-info-url: local
+  permission-service:
+    component: Reporting
+    endpoint: local
 
 # default values to give reasonable performance; adjust for tiny/huge configurations
 server:
@@ -38,6 +44,10 @@ server:
     accept-count: 20
 
 spring:
+  cache:
+    type: SIMPLE
+    cache-names: permissionsByRole
+
   # Force the (rabbit) queues to be created when posting messages so, even if
   # there are no consumers running, the messages will not get lost. Routing is
   # dynamic based on content but there is no way to do that here so we must
