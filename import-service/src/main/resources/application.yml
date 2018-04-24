@@ -62,13 +62,16 @@ spring:
         EXAM:
           producer:
             requiredGroups: default
+        GROUPS:
+          producer:
+            requiredGroups: default
+        NORMS:
+          producer:
+            requiredGroups: default
         ORGANIZATION:
           producer:
             requiredGroups: default
         PACKAGE:
-          producer:
-            requiredGroups: default
-        NORMS:
           producer:
             requiredGroups: default
 
