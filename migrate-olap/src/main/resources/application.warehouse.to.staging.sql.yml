@@ -128,14 +128,15 @@ sql:
             warehouseRead: >-
                 SELECT
                   id,
-                  code
+                  code,
+                  sequence
                 FROM grade
                 INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/grade'
                 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                 LINES TERMINATED BY '\n'
 
             stagingInsert: >-
-                COPY staging_grade (id, code)
+                COPY staging_grade (id, code, sequence)
                   FROM '${archive.root}/${migrate.aws.location}/grade.part_00000'
                 CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
                 FORMAT AS CSV
@@ -280,21 +281,24 @@ sql:
           sql:
             warehouseRead: >-
              SELECT
-               id,
-               grade_id,
-               type_id,
-               school_year,
-               subject_id,
-               name,
-               label,
-               deleted,
-               updated,
-               update_import_id,
+               wa.id,
+               wa.grade_id,
+               wa.type_id,
+               wa.school_year,
+               wa.subject_id,
+               wa.name,
+               wa.label,
+               round(was.cut_point_1) AS cut_point_1,
+               round(was.cut_point_2) AS cut_point_2,
+               round(was.cut_point_3) AS cut_point_3,
+               wa.deleted,
+               wa.updated,
+               wa.update_import_id,
                ? as migrate_id
-             FROM asmt wa
+              FROM asmt wa JOIN asmt_score was ON wa.id = was.asmt_id
               WHERE wa.created > ? AND wa.created <= ?
-             INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/asmt'
-             FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/asmt'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'
 
             stagingInsert: >-
@@ -306,6 +310,9 @@ sql:
                 subject_id,
                 name,
                 label,
+                cut_point_1,
+                cut_point_2,
+                cut_point_3,
                 deleted,
                 updated,
                 update_import_id,
@@ -320,22 +327,25 @@ sql:
         asmt_update:
           sql:
             warehouseRead: >-
-             SELECT
-               id,
-               grade_id,
-               type_id,
-               school_year,
-               subject_id,
-               name,
-               label,
-               deleted,
-               updated,
-               update_import_id,
+              SELECT
+               wa.id,
+               wa.grade_id,
+               wa.type_id,
+               wa.school_year,
+               wa.subject_id,
+               wa.name,
+               wa.label,
+               round(was.cut_point_1) AS cut_point_1,
+               round(was.cut_point_2) AS cut_point_2,
+               round(was.cut_point_3) AS cut_point_3,
+               wa.deleted,
+               wa.updated,
+               wa.update_import_id,
                ? as migrate_id
-             FROM asmt wa
+              FROM asmt wa JOIN asmt_score was ON wa.id = was.asmt_id
               WHERE wa.updated > ? AND wa.updated <= ? AND wa.updated <> wa.created
-             INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/asmt_update'
-             FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/asmt_update'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'
 
             stagingInsert: >-
@@ -347,6 +357,9 @@ sql:
                 subject_id,
                 name,
                 label,
+                cut_point_1,
+                cut_point_2,
+                cut_point_3,
                 deleted,
                 updated,
                 update_import_id,

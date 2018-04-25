@@ -67,11 +67,11 @@ sql:
         grade:
           sql:
             warehouseRead: >-
-              SELECT wg.id, wg.code, wg.name from grade wg
+              SELECT wg.id, wg.code, wg.name, wg.sequence from grade wg
 
             stagingInsert: >-
-              INSERT INTO staging_grade (id, code, name) VALUES
-                (:id, :code, :name)
+              INSERT INTO staging_grade (id, code, name, sequence) VALUES
+                (:id, :code, :name, :sequence)
 
         # ------------ elas  ------------------------------------------------------------
         elas:
