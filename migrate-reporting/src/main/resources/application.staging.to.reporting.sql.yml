@@ -9,13 +9,15 @@ sql:
                 JOIN staging_grade sg ON sg.id = rg.id
               SET
                 rg.name = sg.name,
+                rg.sequence = sg.sequence,
                 rg.code = sg.code;
           insert: >-
-              INSERT INTO grade ( id, code, name)
+              INSERT INTO grade ( id, code, name, sequence)
                 SELECT
                   sg.id,
                   sg.code,
-                  sg.name
+                  sg.name,
+                  sg.sequence
                 FROM staging_grade sg
                   LEFT JOIN grade rg ON rg.id = sg.id
                 WHERE rg.id IS NULL;

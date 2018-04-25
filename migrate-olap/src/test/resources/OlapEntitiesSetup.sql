@@ -14,19 +14,19 @@ INSERT INTO school (id, district_id, district_group_id, school_group_id, name, n
   (-99, -99, NULL, NULL, 'Before Test -99', 'natural_id-99', false, '2017-07-18 20:14:34.000000', -1, -1);
 
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
-INSERT INTO asmt (id, grade_id,  type_id, subject_id, school_year, name, label, updated, update_import_id, migrate_id) VALUES
-   (-11, 108, 1, 1, 1999, 'test-ica-1999-8', 'ica-grade-8', '2017-07-18 20:14:34.000000', -1, -1),
-   (-99, 109, 1, 2, 1999, 'test', 'test', '2017-07-18 20:14:34.000000', -1, -1),
-   (-55, 108, 2, 1, 1998, 'test-iab-1999-8', 'iab-grade-8', '2017-07-18 20:14:34.000000', -1, -1),
-   (-66, 109, 2, 2, 1998, 'test-iab', 'test-iab', '2017-07-18 20:14:34.000000', -1, -1),
-   (-81, 111, 3, 1, 2001, 'test-summative-2001-grade-11', 'summative-grade-11', '2017-07-18 20:14:34.000000', -1, -99),
-   (-308, 108, 3, 1, 2000, 'test-summative-2000-grade-8',  'summative-grade-8',  '2017-07-18 20:14:34.000000', -1, -99),
-   (-107, 107, 3, 1, 2001, 'test-summative-2001-grade-7',  'summative-grade-8',  '2017-07-18 20:14:34.000000', -1, -99),
-   (-307, 107, 3, 1, 1999, 'test-summative-1999-grade-7',  'summative-grade-8',  '2017-07-18 20:14:34.000000', -1, -99),
-   (-108 ,108, 3, 1, 2001, 'test-summative-2001-grade-8',  'summative-grade-8',  '2017-07-18 20:14:34.000000', -1, -99),
-   (-109, 111, 3, 1, 2001, 'test-summative-2001-grade-9',  'summative-grade-9',  '2017-07-18 20:14:34.000000', -1, -99),
-   (-111, 111, 3, 1, 2001, 'test-summative-2001-grade-11', 'summative-grade-11', '2017-07-18 20:14:34.000000', -1, -99),
-   (-112, 111, 3, 1, 2001, 'test-summative-2001-grade-12', 'summative-grade-12', '2017-07-18 20:14:34.000000', -1, -99);
+INSERT INTO asmt (id, grade_id,  type_id, subject_id, school_year, name, label, cut_point_1, cut_point_2, cut_point_3, updated, update_import_id, migrate_id) VALUES
+   (-11, 108, 1, 1, 1999, 'test-ica-1999-8', 'ica-grade-8', 2442, 2502, 2582, '2017-07-18 20:14:34.000000', -1, -1),
+   (-99, 109, 1, 2, 1999, 'test', 'test', 2442, 2502, 2582, '2017-07-18 20:14:34.000000', -1, -1),
+   (-55, 108, 2, 1, 1998, 'test-iab-1999-8', 'iab-grade-8',2442, 2502, 2582, '2017-07-18 20:14:34.000000', -1, -1),
+   (-66, 109, 2, 2, 1998, 'test-iab', 'test-iab', 2442, 2502, 2582,'2017-07-18 20:14:34.000000', -1, -1),
+   (-81, 111, 3, 1, 2001, 'test-summative-2001-grade-11', 'summative-grade-11', 2442, 2502, 2582, '2017-07-18 20:14:34.000000', -1, -99),
+   (-308, 108, 3, 1, 2000, 'test-summative-2000-grade-8',  'summative-grade-8', 2442, 2502, 2582, '2017-07-18 20:14:34.000000', -1, -99),
+   (-107, 107, 3, 1, 2001, 'test-summative-2001-grade-7',  'summative-grade-8', 2442, 2502, 2582, '2017-07-18 20:14:34.000000', -1, -99),
+   (-307, 107, 3, 1, 1999, 'test-summative-1999-grade-7',  'summative-grade-8', 2442, 2502, 2582, '2017-07-18 20:14:34.000000', -1, -99),
+   (-108 ,108, 3, 1, 2001, 'test-summative-2001-grade-8',  'summative-grade-8', 2442, 2502, 2582,  '2017-07-18 20:14:34.000000', -1, -99),
+   (-109, 111, 3, 1, 2001, 'test-summative-2001-grade-9',  'summative-grade-9', 2442, 2502, 2582,  '2017-07-18 20:14:34.000000', -1, -99),
+   (-111, 111, 3, 1, 2001, 'test-summative-2001-grade-11', 'summative-grade-11', 2442, 2502, 2582,  '2017-07-18 20:14:34.000000', -1, -99),
+   (-112, 111, 3, 1, 2001, 'test-summative-2001-grade-12', 'summative-grade-12', 2442, 2502, 2582, '2017-07-18 20:14:34.000000', -1, -99);
 
 INSERT INTO asmt_active_year(asmt_id, school_year) values
     (-11, 1995);

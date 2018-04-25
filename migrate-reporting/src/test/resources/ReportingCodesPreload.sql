@@ -1,4 +1,4 @@
-INSERT INTO grade (id, code, name) VALUES (-99,'AA','before test');
+INSERT INTO grade (id, code, name, sequence) VALUES (-99,'AA','before test', 9);
 INSERT INTO elas (id, code) VALUES (-99, 'before test');
 INSERT INTO completeness (id, code) VALUES (-99, 'before');
 INSERT INTO administration_condition VALUES (-99,'before test');

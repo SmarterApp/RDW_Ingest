@@ -123,15 +123,17 @@ sql:
             update:  >-
                UPDATE grade
                SET
-                 code = sg.code
+                 code = sg.code,
+                 sequence = sg.sequence
                FROM
                   staging_grade sg where sg.id = grade.id;
 
             insert: >-
-                INSERT INTO grade (id, code)
+                INSERT INTO grade (id, code, sequence)
                   SELECT
                     sg.id,
-                    sg.code
+                    sg.code,
+                    sg.sequence
                   FROM staging_grade sg
                     LEFT JOIN grade rg ON rg.id = sg.id
                   WHERE rg.id IS NULL;
@@ -218,7 +220,7 @@ sql:
         asmt:
           sql:
             insert: >-
-              INSERT INTO asmt (id, grade_id, school_year, subject_id, name, label, type_id, updated, update_import_id, migrate_id)
+              INSERT INTO asmt (id, grade_id, school_year, subject_id, name, label, cut_point_1, cut_point_2, cut_point_3, type_id, updated, update_import_id, migrate_id)
                 SELECT DISTINCT
                   sa.id,
                   sa.grade_id,
@@ -226,6 +228,9 @@ sql:
                   sa.subject_id,
                   sa.name,
                   sa.label,
+                  sa.cut_point_1,
+                  sa.cut_point_2,
+                  sa.cut_point_3,
                   sa.type_id,
                   sa.updated,
                   sa.update_import_id,
@@ -242,6 +247,9 @@ sql:
                 subject_id = sa.subject_id,
                 name = sa.name,
                 label = sa.label,
+                cut_point_1 = sa.cut_point_1,
+                cut_point_2 = sa.cut_point_2,
+                cut_point_3 = sa.cut_point_3,
                 updated = sa.updated,
                 update_import_id = sa.update_import_id,
                 migrate_id = sa.migrate_id

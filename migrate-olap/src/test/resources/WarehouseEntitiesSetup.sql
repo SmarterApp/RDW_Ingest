@@ -27,6 +27,14 @@ INSERT INTO asmt
   (-107,3,     'test-summative-2001-grade-7',       107,   1,        1999,        'summative-grade-8',                  'summative',  '9831', 0,     -20,   -20, '2017-07-18 20:14:34.000000', '2017-07-18 19:05:34.966000'),
   (-111,3,     'test-summative-2001-grade-11',      111,   1,        1999,        'summative-grade-11',                 'summative',  '9831', 0,     -20,   -20,'2017-07-18 20:14:34.000000', '2017-07-18 19:05:34.966000');
 
+INSERT INTO asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score) VALUES
+  (-11, 2442, 2502, 2582, 2201, 2701),
+  (-99, 2442, 2502, 2582, 2201, 2701),
+  (-98, 2442, 2502, 2582, 2201, 2701),
+  (-66, 2442, 2502, 2582, 2201, 2701),
+  (-97, 2442, 2502, 2582, 2201, 2701),
+  (-107, 2442, 2502, 2582, 2201, 2701),
+  (-111, 2442, 2502, 2582, 2201, 2701);
 
 INSERT INTO student (id, ssid, last_or_surname, first_name, middle_name, gender_id, first_entry_into_us_school_at, lep_entry_at,
                                     lep_exit_at, birthday, import_id, update_import_id, deleted, created, updated) VALUES

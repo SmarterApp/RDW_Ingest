@@ -1,5 +1,5 @@
 INSERT INTO school_year(year) VALUES (1999),(1998);
-INSERT INTO grade (id, code, name) VALUES (111 ,'31','11th-grade-test'),(109,'29','9th-grade-test'),(108 ,'28','8th-grade-test'),(107 ,'27','7th-grade-test');
+INSERT INTO grade (id, code, name, sequence) VALUES (111 ,'31','11th-grade-test', 11),(109,'29','9th-grade-test', 9),(108 ,'28','8th-grade-test', 8),(107 ,'27','7th-grade-test', 7);
 INSERT INTO elas (id, code) VALUES (-99, 'E99'),(-98, 'E98');
 INSERT INTO completeness (id, code) VALUES (-99, 'test1'), (-98, 'test55');
 INSERT INTO administration_condition VALUES (-99,'IN-test'),(-98,'NS-test'),(-97,'SD-test'),(-96,'Valid-test');

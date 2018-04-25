@@ -1,4 +1,4 @@
-INSERT INTO grade (id, code, name) VALUES (-99,'99','K-garten'),(-98 ,'98','1st-grade');
+INSERT INTO grade (id, code, name, sequence) VALUES (-99,'99','K-garten', 9),(-98 ,'98','1st-grade', 8);
 INSERT INTO elas (id, code) VALUES (-99, 'E99'),(-98, 'E98');
 INSERT INTO completeness (id, code) VALUES (-99, 'test99'), (-98, 'test98'),(-95, 'test95');
 INSERT INTO administration_condition VALUES (-99,'test99'),(-98,'test98'),(-97,'test97'),(-96,'test96'),(-95, 'test95');
