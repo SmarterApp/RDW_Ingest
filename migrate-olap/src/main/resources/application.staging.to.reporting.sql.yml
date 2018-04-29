@@ -220,7 +220,7 @@ sql:
         asmt:
           sql:
             insert: >-
-              INSERT INTO asmt (id, grade_id, school_year, subject_id, name, label, cut_point_1, cut_point_2, cut_point_3, type_id, updated, update_import_id, migrate_id)
+              INSERT INTO asmt (id, grade_id, school_year, subject_id, name, label, cut_point_1, cut_point_2, cut_point_3, min_score, max_score, type_id, updated, update_import_id, migrate_id)
                 SELECT DISTINCT
                   sa.id,
                   sa.grade_id,
@@ -231,6 +231,8 @@ sql:
                   sa.cut_point_1,
                   sa.cut_point_2,
                   sa.cut_point_3,
+                  sa.min_score,
+                  sa.max_score,
                   sa.type_id,
                   sa.updated,
                   sa.update_import_id,
@@ -250,6 +252,8 @@ sql:
                 cut_point_1 = sa.cut_point_1,
                 cut_point_2 = sa.cut_point_2,
                 cut_point_3 = sa.cut_point_3,
+                min_score = sa.min_score,
+                max_score = sa.max_score,
                 updated = sa.updated,
                 update_import_id = sa.update_import_id,
                 migrate_id = sa.migrate_id
