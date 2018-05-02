@@ -7,6 +7,11 @@ sql:
       INSERT INTO import (status, content, contentType, digest, batch, creator, message)
         VALUES (:status, :content, :contentType, :digest, :batch, :creator, :message)
 
+    update: >-
+      UPDATE import
+      SET status=:status, content=:content, contentType=:contentType, digest=:digest, batch=:batch, creator=:creator, message=:message
+      WHERE id=:id
+
     delete: >-
       DELETE FROM import WHERE id=:id
 
