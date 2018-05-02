@@ -37,7 +37,7 @@ sql:
       - TRUNCATE TABLE staging_depth_of_knowledge
       - TRUNCATE TABLE staging_math_practice
       - TRUNCATE TABLE staging_item_trait_score
-      - TRUNCATE TABLE staging_translation
+      - TRUNCATE TABLE staging_accommodation_translation
       - TRUNCATE TABLE staging_school
       - TRUNCATE TABLE staging_district
       - TRUNCATE TABLE staging_district_embargo
@@ -213,8 +213,8 @@ sql:
                             JOIN accommodation a ON wat.accommodation_id=a.id
 
             stagingInsert: >-
-              INSERT INTO staging_translation (namespace, label_code, language_code, label) VALUES
-                ("backend", :label_code, :language_code, :label)
+              INSERT INTO staging_accommodation_translation (label_code, language_code, label) VALUES
+                (:label_code, :language_code, :label)
 
         ##### EMBARGO ###########################################################################
 
