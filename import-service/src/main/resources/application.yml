@@ -7,7 +7,6 @@ management:
     enabled: false
 
 app:
-  client: SBAC
   state:
     code: CA
 
