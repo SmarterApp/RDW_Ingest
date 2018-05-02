@@ -12,4 +12,4 @@ INSERT INTO math_practice  VALUES (-99,'Make sense of problems and persevere in 
 INSERT INTO item_trait_score VALUES (-99,'Conventions-test'),(-98,'Evidence/Elaboration-test');
 INSERT INTO target  VALUES (-99,-99,'target-99','WORD MEANINGS: Determine intended meanings of words..'),(-98,-98,'target-98','WORD MEANINGS:..)');
 INSERT INTO common_core_standard  VALUES (-99,'naturalid-99', 1, 'common core 99'),(-98, 'naturalid-98', 2,'common core 98');
-INSERT INTO translation (namespace, label_code, language_code, label) VALUES ('backend', 'code1-test', 'lan', 'before test'), ('backend', 'code2-test', 'gua', 'before test 2');
+INSERT INTO accommodation_translation (label_code, language_code, label) VALUES ('code1-test', 'lan', 'before test'), ('code2-test', 'gua', 'before test 2');

@@ -356,42 +356,37 @@ sql:
              DELETE rit FROM item_trait_score rit
                 WHERE NOT EXISTS(SELECT sits.id FROM staging_item_trait_score sits WHERE sits.id = rit.id);
 
-      # ------------ translation ------------------------------------------------------------------------
-      translation:
+      # ------------ accommodation_translation ------------------------------------------------------------------------
+      accommodation_translation:
         sql:
           update:  >-
-            UPDATE translation rt
-              JOIN staging_translation st
-                ON st.label_code = rt.label_code AND st.namespace = rt.namespace AND
+            UPDATE accommodation_translation rt
+              JOIN staging_accommodation_translation st
+                ON st.label_code = rt.label_code AND
                   st.language_code = rt.language_code
             SET
               rt.label = st.label;
 
           insert:  >-
-            INSERT INTO translation (namespace, label_code, language_code, label)
+            INSERT INTO accommodation_translation (label_code, language_code, label)
               SELECT
-                st.namespace,
                 st.label_code,
                 st.language_code,
                 st.label
-              FROM staging_translation st
-                LEFT JOIN translation rt
-                  ON rt.label_code = st.label_code AND rt.language_code = st.language_code AND
-                     rt.namespace = st.namespace
+              FROM staging_accommodation_translation st
+                LEFT JOIN accommodation_translation rt
+                  ON rt.label_code = st.label_code AND
+                     rt.language_code = st.language_code
               WHERE rt.label_code IS NULL;
 
-          # --- With this delete, we don't want to delete anything that isn't part of the "backend" namespace
-          # --- The "backend" namespace is hardcoded in the staging table for anything that is in the warehouse for translation
-          # --- Insert and update don't need the extra check because they are already checking against the staging table
-          # --- value, which is already set to "backend" and they will only update rows with that namespace.
           delete: >-
-             DELETE rt FROM translation rt
+             DELETE rt FROM accommodation_translation rt
                 WHERE NOT EXISTS(
-                  SELECT st.label_code, st.language_code, st.namespace
-                    FROM staging_translation st
+                  SELECT st.label_code, st.language_code
+                    FROM staging_accommodation_translation st
                   WHERE
-                    st.label_code = rt.label_code AND st.language_code = rt.language_code
-                    AND st.namespace = rt.namespace) AND rt.namespace = "backend";
+                    st.label_code = rt.label_code
+                    AND st.language_code = rt.language_code);
 
       # ############################## Exams ####################################################################
       # ------------ exam_available_accommodation -------------------------------------------------------------------
