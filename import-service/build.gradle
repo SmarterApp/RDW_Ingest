@@ -39,5 +39,3 @@ dependencies {
     // for CachingTest amongst other things
     testCompile project(path: ':rdw-ingest-common', configuration: 'tests')
 }
-
-test.exclude '**/ScopedControllerTestSuite.*'
