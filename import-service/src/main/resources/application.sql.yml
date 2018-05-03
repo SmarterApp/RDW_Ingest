@@ -31,8 +31,8 @@ sql:
         AND (:status IS NULL OR i.status = :status)
         AND (:batch IS NULL OR i.batch = :batch)
         AND (:creator IS NULL OR i.creator = :creator)
-        AND (:before IS NULL OR i.created < :before)
-        AND (:after IS NULL OR i.created > :after)
+        AND (:before IS NULL OR i.updated < :before)
+        AND (:after IS NULL OR i.updated > :after)
       ORDER BY i.id
       LIMIT :limit
 
