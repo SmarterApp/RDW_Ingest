@@ -25,7 +25,10 @@ dependencies {
 
     compile project(':rdw-ingest-common')
 
+    compile 'commons-io:commons-io'
+
     compile 'org.opentestsystem.rdw.common:rdw-common-archive'
+    compile 'org.opentestsystem.rdw.common:rdw-common-group'
     compile 'org.opentestsystem.rdw.common:rdw-common-messaging'
     compile 'org.opentestsystem.rdw.common:rdw-common-model'
     compile 'org.opentestsystem.rdw.common:rdw-common-security'
