@@ -513,6 +513,74 @@ sql:
                 USING staging_exam se
               WHERE se.id = fact_student_exam.id and se.deleted = 1;
 
+      # ------------ fact_exam_claim_score -----------------------------------------------------------------------
+        fact_exam_claim_score:
+          sql:
+            insert: >-
+              INSERT INTO fact_exam_claim_score (
+                id,
+                exam_id,
+                subject_claim_score_id,
+                asmt_id,
+                school_id,
+                student_id,
+                grade_id,
+                school_year,
+                iep,
+                lep,
+                section504,
+                economic_disadvantage,
+                migrant_status,
+                elas_id,
+                completeness_id,
+                administration_condition_id,
+                category,
+                completed_at,
+                updated,
+                update_import_id,
+                migrate_id
+                )
+                SELECT DISTINCT
+                  scs.id,
+                  scs.exam_id,
+                  scs.subject_claim_score_id,
+                  se.asmt_id,
+                  se.school_id,
+                  se.student_id,
+                  se.grade_id,
+                  se.school_year,
+                  CASE WHEN se.iep = true THEN 1 WHEN se.iep = false THEN 0 ELSE 2 END,
+                  CASE WHEN se.lep = true THEN 1 WHEN se.lep = false THEN 0 ELSE 2 END,
+                  CASE WHEN se.section504 = true THEN 1 ELSE 0 END,
+                  CASE WHEN se.economic_disadvantage = true THEN 1 WHEN se.economic_disadvantage = false THEN 0 ELSE 2 END,
+                  CASE WHEN se.migrant_status = true THEN 1 ELSE 0 END,
+                  COALESCE(se.elas_id, 1),
+                  se.completeness_id,
+                  se.administration_condition_id,
+                  scs.category,
+                  se.completed_at,
+                  se.updated,
+                  se.update_import_id,
+                  se.migrate_id
+                FROM staging_exam_claim_score scs
+                  JOIN staging_exam se ON se.id = scs.exam_id
+                  LEFT JOIN fact_exam_claim_score fe ON fe.student_id = se.student_id and fe.asmt_id = se.asmt_id and fe.school_year = se.school_year
+                WHERE se.type_id IN (1, 3) AND se.latest = true AND fe.exam_id IS NULL;
+
+            update: >-
+              SELECT 1;
+
+            deleteAsPartOfParentUpdate: >-
+              DELETE FROM fact_exam_claim_score
+                USING staging_exam se
+              WHERE se.type_id IN (1, 3) AND fact_exam_claim_score.student_id = se.student_id and fact_exam_claim_score.asmt_id = se.asmt_id and fact_exam_claim_score.school_year = se.school_year
+                    AND se.latest = true AND (se.completed_at > fact_exam_claim_score.completed_at OR se.id = fact_exam_claim_score.exam_id);
+
+            delete: >-
+              DELETE FROM fact_exam_claim_score
+                USING staging_exam se
+              WHERE se.id = exam_id and se.deleted = true;
+
   # ------------ fact_student_iab_exam -----------------------------------------------------------------------
         fact_student_iab_exam:
           sql:

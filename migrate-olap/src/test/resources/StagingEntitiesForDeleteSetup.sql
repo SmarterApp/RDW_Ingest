@@ -10,6 +10,6 @@ UPDATE staging_asmt SET deleted = 1 WHERE id = -99;
 UPDATE staging_student SET deleted = 1 WHERE id = -89;
 DELETE from staging_student_ethnicity where student_id = -89;
 
--- ------------------------------------------ IAB Exams ---------------------------------------------------------------------------------------------
+-- ------------------------------------------  Exams ---------------------------------------------------------------------------------------------
 UPDATE staging_exam SET deleted = 1 WHERE id in (-88, -68, -268);
 DELETE from staging_exam_claim_score WHERE exam_id = -88;

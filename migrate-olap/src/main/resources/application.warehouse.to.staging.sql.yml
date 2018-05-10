@@ -760,22 +760,20 @@ sql:
                 DELIMITER ','
                 COMPUPDATE OFF
 
- # TODO: remove it if we do not need claim level data
  # ------------ exam_claim_score  -------------------------------------------------------------------
         exam_claim_score:
           sql:
             warehouseRead: >-
                 SELECT
-                  exam_claim_score.id,
-                  exam_id,
-                  subject_claim_score_id,
-                  exam_claim_score.scale_score,
-                  exam_claim_score.scale_score_std_err,
-                  exam_claim_score.category,
+                  ecs.id,
+                  ecs.exam_id,
+                  ecs.subject_claim_score_id,
+                  ecs.category,
                   ? as migrate_id
-                FROM exam_claim_score
-                  JOIN exam we ON we.id = exam_claim_score.exam_id
-                WHERE we.created > ? AND we.created <= ? AND we.deleted = 0
+                FROM exam_claim_score ecs
+                  JOIN exam we ON we.id = ecs.exam_id
+                 WHERE we.created > ? AND we.deleted = 0 AND we.created <= ? AND we.scale_score IS NOT NULL AND we.scale_score_std_err IS NOT NULL AND we.performance_level IS NOT NULL
+                  AND ecs.category IS NOT NULL
                 INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_claim_score'
                 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                 LINES TERMINATED BY '\n'
@@ -785,8 +783,6 @@ sql:
                   id,
                   exam_id,
                   subject_claim_score_id,
-                  scale_score,
-                  scale_score_std_err,
                   category,
                   migrate_id)
                 FROM '${archive.root}/${migrate.aws.location}/exam_claim_score.part_00000'
@@ -799,16 +795,15 @@ sql:
           sql:
             warehouseRead: >-
                SELECT
-                  exam_claim_score.id,
-                  exam_id,
-                  subject_claim_score_id,
-                  exam_claim_score.scale_score,
-                  exam_claim_score.scale_score_std_err,
-                  exam_claim_score.category,
+                  ecs.id,
+                  ecs.exam_id,
+                  ecs.subject_claim_score_id,
+                  ecs.category,
                   ? as migrate_id
-               FROM exam_claim_score
-                  JOIN exam we ON we.id = exam_claim_score.exam_id
-               WHERE we.updated > ? AND we.updated <= ? AND we.updated <> we.created AND we.deleted = 0
+               FROM exam_claim_score ecs
+                  JOIN exam we ON we.id = ecs.exam_id
+                WHERE we.updated > ? AND we.deleted = 0 AND we.updated <= ? AND we.updated <> we.created AND we.scale_score IS NOT NULL AND we.scale_score_std_err IS NOT NULL AND we.performance_level IS NOT NULL
+                  AND ecs.category IS NOT NULL
                INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_claim_score_update'
                FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                LINES TERMINATED BY '\n'
@@ -818,8 +813,6 @@ sql:
                   id,
                   exam_id,
                   subject_claim_score_id,
-                  scale_score,
-                  scale_score_std_err,
                   category,
                   migrate_id)
                 FROM '${archive.root}/${migrate.aws.location}/exam_claim_score_update.part_00000'
