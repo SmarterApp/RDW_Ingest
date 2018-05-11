@@ -1,3 +1,5 @@
+import org.gradle.internal.jvm.Jvm
+
 apply plugin: 'org.springframework.boot'
 
 dependencies {
@@ -21,6 +23,7 @@ dependencies {
     compile 'commons-io:commons-io'
     compile 'mysql:mysql-connector-java'
     compile 'org.apache.commons:commons-csv'
+    compile 'org.opentestsystem.rdw.common:rdw-common-archive'
     compile 'org.opentestsystem.rdw.common:rdw-common-messaging'
     compile 'org.opentestsystem.rdw.common:rdw-common-model'
     compile 'org.opentestsystem.rdw.common:rdw-common-status'
