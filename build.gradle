@@ -4,8 +4,8 @@ import com.bmuschko.gradle.docker.tasks.image.Dockerfile
 
 buildscript {
     repositories {
-        mavenLocal()
         jcenter()
+        mavenLocal()
         maven { url 'http://repo.spring.io/plugins-release' }
     }
     dependencies {
@@ -23,8 +23,9 @@ plugins {
 apply plugin: 'io.spring.dependency-management'
 
 // Set version dependencies. This allows the cli to force version, e.g. `-Pcommon=1.1.0-SNAPSHOT`
-String rdwCommonVersion = project.hasProperty("common") ? project.property("common") : "1.2.0-70"
+String rdwCommonVersion = project.hasProperty("common") ? project.property("common") : "1.2.0-72"
 String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "1.2.0-347"
+
 
 String dockerPrefix = "smarterbalanced"
 
@@ -43,6 +44,13 @@ allprojects {
     }
 }
 
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
 subprojects {
     apply plugin: 'java'
     apply plugin: 'maven'
@@ -53,14 +61,15 @@ subprojects {
     targetCompatibility = 1.8
 
     repositories {
-        mavenLocal()
         mavenCentral()
+        mavenLocal()
         maven { url 'http://redshift-maven-repository.s3-website-us-east-1.amazonaws.com/release' }
     }
 
     dependencyManagement {
         dependencies {
             dependency "org.opentestsystem.rdw.common:rdw-common-archive:${rdwCommonVersion}"
+            dependency "org.opentestsystem.rdw.common:rdw-common-group:${rdwCommonVersion}"
             dependency "org.opentestsystem.rdw.common:rdw-common-messaging:${rdwCommonVersion}"
             dependency "org.opentestsystem.rdw.common:rdw-common-model:${rdwCommonVersion}"
             dependency "org.opentestsystem.rdw.common:rdw-common-security:${rdwCommonVersion}"
@@ -90,8 +99,9 @@ subprojects {
         compile 'com.google.guava:guava'
         compile 'org.slf4j:slf4j-api'
 
-        testCompile 'org.assertj:assertj-core'
         testCompile 'junit:junit'
+        testCompile 'org.assertj:assertj-core'
+        testCompile 'org.mockito:mockito-core'
     }
 
     // task to generate build-info.properties with build.version, build.timestamp
