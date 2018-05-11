@@ -1,8 +1,8 @@
 sql:
   #ImportRepository
   import:
-    updateStatusById:
-      UPDATE import SET
-          status = :status,
-          message  = :message
-        WHERE id = :id
+    updateStatusById: >-
+      UPDATE import SET status = :status WHERE id = :id
+
+    updateStatusAndMessageById: >-
+      UPDATE import SET status = :status, message = :message WHERE id = :id

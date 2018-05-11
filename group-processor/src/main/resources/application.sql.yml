@@ -1,334 +1,74 @@
 sql:
-
-  update-batch: >-
-    UPDATE upload_student_group_batch
-    SET status = :status,
-      message = coalesce(:message, message)
-    WHERE id = :batch_id
-
-  find-schools-by-batch: >-
-    SELECT DISTINCT school_id
-    FROM upload_student_group upload
-    WHERE upload.batch_id = :batch_id
-
   process-batch:
     entities:
-      # ------------ Standardize NULLS
-      # Replace empty values with NULLs
-      standardize:
-        sql:
-          student: >-
-            UPDATE upload_student_group
-            SET group_user_login = NULL
-            WHERE group_user_login = ''
-                  AND batch_id = :batch_id
-
-          group: >-
-            UPDATE upload_student_group
-            SET student_ssid = NULL
-            WHERE student_ssid = ''
-                  AND batch_id = :batch_id;
-
-          subject: >-
-            UPDATE upload_student_group
-            SET subject_code = NULL
-            WHERE subject_code = ''
-                  AND batch_id = :batch_id;
-
-      # ------------ Setup DB Ids
-      # Set DB ids for known schools, students, groups
-      bind-references:
-        sql:
-          school: >-
-            UPDATE upload_student_group sgl
-              JOIN school s ON sgl.school_natural_id = s.natural_id
-              LEFT JOIN subject sub ON sub.code = sgl.subject_code
-            SET school_id = s.id,
-              subject_id  =
-              CASE WHEN sub.code IS NULL OR sub.code = 'All'
-                THEN NULL
-              ELSE sub.id
-              END
-            WHERE batch_id = :batch_id
-
-          student: >-
-            UPDATE upload_student_group sgl
-              JOIN student s ON sgl.student_ssid = s.ssid
-            SET student_id = s.id
-            WHERE s.deleted = 0
-                  AND batch_id = :batch_id
-
-          group: >-
-            UPDATE upload_student_group sgl
-              JOIN student_group sg
-                ON sgl.group_name = sg.name
-                  AND sgl.school_year = sg.school_year
-                  AND sgl.school_id = sg.school_id
-            SET group_id = sg.id
-            WHERE sg.deleted = 0
-                  AND batch_id = :batch_id
-
       # ------------ Import Student SSIDs
-      # Import deleted/non-existent student SSIDs
+      # Assign existing students with matching SSIDs and import deleted/non-existent student SSIDs
+      # NOTE: the updated timestamps are randomized a bit to spread out the migrate work
       import-students:
         sql:
-          stage-new: >-
-            INSERT IGNORE INTO upload_student_group_import (batch_id, school_id, ref, ref_type)
-              SELECT
-                batch_id,
-                school_id,
-                student_ssid,
-                1
-              FROM upload_student_group sgl
-              WHERE sgl.student_id IS NULL
-                    AND sgl.student_ssid IS NOT NULL
-                    AND sgl.batch_id = :batch_id
-                    AND sgl.school_id = :school_id
-
-          #TODO review this, should we modify import table to have batch_ref_id and ref_id fields to avoid casting?
-          create-imports: >-
-            INSERT INTO import (status, content, contentType, digest, batch)
-              SELECT DISTINCT
-                0                           AS status,
-                5                           AS content,
-                'group batch student'       AS contentType,
-                cast(school_id as CHAR(32)) AS digest,
-                cast(:batch_id AS CHAR(50)) AS batch
-              FROM upload_student_group_import sgl
-              WHERE ref_type = 1
-                    AND batch_id = :batch_id
-                    AND school_id = :school_id
-
-          assign-imports: >-
-            UPDATE upload_student_group_import sgl
-              JOIN (SELECT
-                      id,
-                      cast(digest AS SIGNED INTEGER) AS school_id
-                    FROM import
-                    WHERE status = 0
-                          AND contentType = 'group batch student'
-                          AND cast(batch AS UNSIGNED) = :batch_id) AS si
-                ON si.school_id = sgl.school_id
-            SET sgl.import_id = si.id
-            WHERE sgl.ref_type = 1
-                  AND sgl.batch_id = :batch_id
-                  AND sgl.school_id = :school_id
-
-          propagate-imports: >-
-            UPDATE upload_student_group sgl
-              JOIN ( select distinct school_id, import_id from upload_student_group_import where batch_id = :batch_id) i
-                ON i.school_id = sgl.school_id
-            SET sgl.import_id = i.import_id
-            WHERE student_id IS NULL
-                  AND sgl.batch_id = :batch_id
-                  AND sgl.school_id = :school_id
-
-          insert-missing: >-
-            INSERT IGNORE INTO student (ssid, import_id, update_import_id)
-              SELECT
-                DISTINCT
-                student_ssid,
-                sgl.import_id,
-                sgl.import_id
-              FROM upload_student_group sgl
-                LEFT JOIN student s ON sgl.student_ssid = s.ssid
-              WHERE s.id IS NULL
-                    AND sgl.student_ssid IS NOT NULL
-                    AND sgl.import_id IS NOT NULL
-                    AND sgl.batch_id = :batch_id
-                    AND sgl.school_id = :school_id
-
-          update-deleted: >-
-            UPDATE student s
-              JOIN upload_student_group sgl ON sgl.student_id = s.id
-            SET
-              s.deleted          = 0,
-              s.update_import_id = sgl.import_id
-            WHERE s.deleted = 1
-                  AND sgl.student_ssid IS NOT NULL
-                  AND sgl.import_id IS NOT NULL
-                  AND sgl.batch_id = :batch_id
-                  AND sgl.school_id = :school_id
-
-          update-migration: >-
-            UPDATE import i
-              JOIN upload_student_group_import sgli ON sgli.import_id = i.id
-            SET i.status = :import_status
-            WHERE i.status = 0
-                  AND sgli.ref_type = 1
-                  AND sgli.batch_id = :batch_id
-                  AND sgli.school_id = :school_id
-
-          assign-imported-students: >-
+          assign-existing: >-
             UPDATE upload_student_group sgl
               JOIN student s ON sgl.student_ssid = s.ssid
             SET sgl.student_id = s.id
-            WHERE student_id IS NULL
-                  AND batch_id = :batch_id
-                  AND school_id = :school_id
+            WHERE s.deleted = 0
+              AND sgl.import_id = :import_id
 
-          clean-import-refs: >-
+          insert-new: >-
+            INSERT IGNORE INTO student (ssid, import_id, update_import_id, updated)
+              SELECT
+                DISTINCT student_ssid,
+                sgl.import_id,
+                sgl.import_id,
+                TIMESTAMPADD(MICROSECOND, FLOOR(rand()*1000), CURRENT_TIMESTAMP(6))
+              FROM upload_student_group sgl
+                LEFT JOIN student s ON sgl.student_ssid = s.ssid
+              WHERE s.id IS NULL
+                AND sgl.student_id IS NULL
+                AND sgl.student_ssid IS NOT NULL
+                AND sgl.import_id = :import_id
+
+          update-deleted: >-
+            UPDATE student s
+              JOIN upload_student_group sgl ON sgl.student_ssid = s.ssid
+            SET s.deleted = 0,
+              s.update_import_id = sgl.import_id,
+              s.updated = TIMESTAMPADD(MICROSECOND, FLOOR(rand()*1000), CURRENT_TIMESTAMP(6))
+            WHERE s.deleted = 1
+              AND sgl.student_ssid IS NOT NULL
+              AND sgl.import_id = :import_id
+
+          assign-new: >-
             UPDATE upload_student_group sgl
-            SET import_id = NULL
-            WHERE batch_id = :batch_id
+              JOIN student s ON sgl.student_ssid = s.ssid
+            SET sgl.student_id = s.id
+            WHERE sgl.student_id IS NULL
+              AND sgl.import_id = :import_id
 
-          clean-import-stage: >-
-            DELETE FROM upload_student_group_import
-            WHERE batch_id = :batch_id
-
+      # ------------ Student Groups
+      # Assign schools and subjects.
+      # Assign existing groups, import deleted/non-existent groups.
+      # Import modified groups including metadata, student and user membership.
+      # NOTE: the updated timestamps are randomized a bit to spread out the migrate work
+      # TODO - talk to Alla about updated timestamp chicanery
       import-groups:
         sql:
-          stage-new: >-
-            INSERT IGNORE INTO upload_student_group_import (batch_id, school_id, ref, ref_type)
-              SELECT
-                sgl.batch_id,
-                sgl.school_id,
-                concat(sgl.group_name, sgl.school_id, sgl.school_year),
-                2
-              FROM upload_student_group sgl
-              WHERE sgl.group_id IS NULL
-                    AND batch_id = :batch_id
-                    AND school_id = :school_id
-
-          stage-membership-change: >-
-            INSERT IGNORE INTO upload_student_group_import (batch_id, school_id, ref, ref_type)
-              SELECT
-                batch_id,
-                school_id,
-                concat(name, school_id, school_year),
-                3
-              FROM (
-                  SELECT
-                    grp.id,
-                    grp.school_id,
-                    grp.name,
-                    grp.school_year,
-                    upload.batch_id,
-                    GROUP_CONCAT(membership.student_id ORDER BY membership.student_id) AS students
-                  FROM student_group grp
-                    JOIN upload_student_group upload
-                      ON grp.id = upload.group_id
-                    LEFT JOIN student_group_membership membership
-                      ON membership.student_group_id = grp.id
-                  WHERE upload.batch_id = :batch_id
-                    AND upload.school_id = :school_id
-                  GROUP BY grp.id
-                ) AS existing
-              LEFT JOIN (
-                  SELECT
-                    group_id,
-                    GROUP_CONCAT(student_id ORDER BY student_id) AS students
-                  FROM upload_student_group
-                  WHERE student_id IS NOT NULL
-                        AND batch_id = :batch_id
-                        AND school_id = :school_id
-                  GROUP BY group_id
-                ) AS loading
-                ON existing.id = loading.group_id
-              WHERE NOT existing.students <=> loading.students
-
-          stage-user-change: >-
-            INSERT IGNORE INTO upload_student_group_import (batch_id, school_id, ref, ref_type)
-              SELECT
-                batch_id,
-                school_id,
-                concat(name, school_id, school_year),
-                4
-              FROM (
-                  SELECT
-                    grp.id,
-                    grp.school_id,
-                    grp.name,
-                    grp.school_year,
-                    upload.batch_id,
-                    GROUP_CONCAT(user_login ORDER BY user_login) AS users
-                  FROM student_group grp
-                    JOIN upload_student_group upload
-                      ON grp.id = upload.group_id
-                    LEFT JOIN user_student_group user
-                      on user.student_group_id = grp.id
-                  WHERE upload.batch_id = :batch_id
-                    AND upload.school_id = :school_id
-                  GROUP BY grp.id
-                  ) AS existing
-              LEFT JOIN (
-                  SELECT
-                    group_id,
-                    GROUP_CONCAT(group_user_login ORDER BY group_user_login) AS users
-                  FROM
-                    (select DISTINCT batch_id, school_id, group_id, group_user_login from upload_student_group) u
-                  WHERE group_user_login IS NOT NULL
-                        AND batch_id = :batch_id
-                        AND school_id = :school_id
-                  GROUP BY group_id
-                ) AS loading
-                ON existing.id = loading.group_id
-              WHERE NOT existing.users <=> loading.users;
-
-          stage-subject-change: >-
-            INSERT IGNORE INTO upload_student_group_import (batch_id, school_id, ref, ref_type)
-              SELECT
-              	loading.batch_id,
-              	loading.school_id,
-              	concat(loading.group_name, loading.school_id, loading.school_year),
-              	5
-              FROM (
-              	 SELECT
-              	   batch_id,
-              	   school_id,
-              	   group_id,
-              	   group_name,
-              	   MAX(subject_id) as subject_id,
-              	   school_year
-              	 FROM
-              	   (SELECT DISTINCT batch_id, school_id, group_id, group_name, school_year, subject_id from upload_student_group) u
-              	 WHERE batch_id = :batch_id
-              	       AND school_id = :school_id
-              	 GROUP BY group_id) AS loading
-              JOIN student_group sg
-                ON sg.id = loading.group_id
-              WHERE NOT sg.subject_id <=> loading.subject_id;
-
-          create-imports: >-
-            INSERT INTO import (status, content, contentType, digest, batch)
-              SELECT DISTINCT
-                0                           AS status,
-                5                           AS content,
-                'group batch'               AS contentType,
-                cast(school_id as CHAR(32)) AS digest,
-                cast(:batch_id AS CHAR(50)) AS batch
-              FROM upload_student_group_import sgl
-              WHERE ref_type IN (2, 3, 4, 5)
-                    AND batch_id = :batch_id
-                    AND school_id = :school_id
-
-          assign-imports: >-
-            UPDATE upload_student_group_import sgl
-              JOIN (SELECT
-                      id,
-                      cast(digest AS SIGNED INTEGER) AS school_id
-                    FROM import
-                    WHERE status = 0
-                          AND contentType = 'group batch'
-                          AND cast(batch AS UNSIGNED) = :batch_id) AS si
-            SET sgl.import_id = si.id
-            WHERE si.school_id = sgl.school_id
-                  AND sgl.ref_type IN (2, 3, 4, 5)
-                  AND sgl.batch_id = :batch_id
-                  AND sgl.school_id = :school_id
-
-          propagate-imports: >-
+          assign-school-and-subject: >-
             UPDATE upload_student_group sgl
-              JOIN (SELECT DISTINCT school_id, import_id
-                    FROM upload_student_group_import
-                    WHERE ref_type IN (2, 3, 4, 5) AND batch_id = :batch_id) i
-                ON sgl.school_id = i.school_id
-            SET sgl.import_id = i.import_id
-            WHERE sgl.batch_id = :batch_id
-                  AND sgl.school_id = :school_id
+              JOIN school s ON sgl.school_natural_id = s.natural_id
+              LEFT JOIN subject sub ON sub.code = sgl.subject_code
+            SET sgl.school_id = s.id,
+              subject_id = sub.id
+            WHERE sgl.import_id = :import_id
 
-          insert-missing: >-
-            INSERT IGNORE INTO student_group (name, school_id, active, school_year, subject_id, creator, import_id, update_import_id)
+          assign-existing: >-
+            UPDATE upload_student_group sgl
+              JOIN student_group sg ON sgl.group_name = sg.name AND sgl.school_year = sg.school_year AND sgl.school_id = sg.school_id
+            SET sgl.group_id = sg.id
+            WHERE sg.deleted = 0
+              AND sgl.import_id = :import_id
+
+          insert-new: >-
+            INSERT IGNORE INTO student_group (name, school_id, active, school_year, subject_id, creator, import_id, update_import_id, updated)
               SELECT
                 sgl.group_name,
                 sgl.school_id,
@@ -337,140 +77,114 @@ sql:
                 sgl.subject_id,
                 sgl.creator,
                 sgl.import_id,
-                sgl.import_id
+                sgl.import_id,
+                TIMESTAMPADD(MICROSECOND, 1000 + FLOOR(rand()*100), CURRENT_TIMESTAMP(6))
               FROM upload_student_group sgl
-                LEFT JOIN student_group sg
-                  ON sgl.group_name = sg.name
-                  AND sgl.school_id = sg.school_id
-                  AND sgl.school_year = sg.school_year
+                LEFT JOIN student_group sg ON sgl.group_name = sg.name AND sgl.school_id = sg.school_id AND sgl.school_year = sg.school_year
               WHERE sg.id IS NULL
-                    AND sgl.group_id IS NULL
-                    AND sgl.batch_id = :batch_id
-                    AND sgl.school_id = :school_id
+                AND sgl.group_id IS NULL
+                AND sgl.import_id = :import_id
 
+          # this also sets the subject_id to avoid updating a deleted group twice (both for undelete and modify)
           update-deleted: >-
             UPDATE student_group sg
-              JOIN upload_student_group sgl
-                ON sgl.school_id = sg.school_id
-                AND sgl.group_name = sg.name
-                AND sgl.school_year = sg.school_year
+              JOIN upload_student_group sgl ON sgl.school_id = sg.school_id AND sgl.group_name = sg.name AND sgl.school_year = sg.school_year
             SET sg.deleted = 0,
-                sg.update_import_id = sgl.import_id
+              sg.subject_id = sgl.subject_id,
+              sg.update_import_id = sgl.import_id,
+              sg.updated = TIMESTAMPADD(MICROSECOND, 1000 + FLOOR(rand()*100), CURRENT_TIMESTAMP(6))
             WHERE sg.deleted = 1
-                  AND sgl.batch_id = :batch_id
-                  AND sgl.school_id = :school_id
+              AND sgl.import_id = :import_id
 
-          assign-imported-groups: >-
-            UPDATE upload_student_group sgl
-              JOIN student_group sg
-                ON sgl.group_name = sg.name
-                  AND sgl.school_year = sg.school_year
-                  AND sgl.school_id = sg.school_id
-            SET sgl.group_id = sg.id
-            WHERE sgl.group_id IS NULL
-                  AND batch_id = :batch_id
-                  AND sgl.school_id = :school_id
-
+          # because we match on name/school/year, the only field that the user can modify is: subject
+          # and, of course, user/student membership can change
           update-modified: >-
             UPDATE student_group sg
-              JOIN (SELECT
-                      import_id,
-                      group_id,
-                      MAX(subject_id) as subject_id
-                    FROM
-                      (SELECT DISTINCT batch_id, school_id, group_id, subject_id, import_id from upload_student_group) u
-                    WHERE import_id IS NOT NULL
-                          AND batch_id = :batch_id
-                          AND school_id = :school_id
-                    GROUP BY group_id) AS loading
-                ON (
-                  sg.id = loading.group_id AND
-                  (NOT sg.subject_id  <=> loading.subject_id  OR NOT  sg.update_import_id <=> loading.import_id)
-                  )
-            SET sg.subject_id = loading.subject_id,
-              sg.update_import_id = loading.import_id
+              JOIN (SELECT loading.group_id, loading.subject_id FROM
+                (SELECT esg.id AS group_id,
+                        MAX(esg.subject_id) AS subject_id,
+                        GROUP_CONCAT(usg.user_login ORDER BY usg.user_login) AS users,
+                        GROUP_CONCAT(sgm.student_id ORDER BY sgm.student_id) AS students
+                 FROM student_group esg
+                   JOIN upload_student_group upload ON upload.group_id = esg.id
+                   LEFT JOIN user_student_group usg ON usg.student_group_id = esg.id
+                   LEFT JOIN student_group_membership sgm ON sgm.student_group_id = esg.id
+                 WHERE upload.import_id = :import_id
+                 GROUP BY esg.id) existing
+                JOIN
+                (SELECT group_id,
+                   MAX(subject_id) AS subject_id,
+                   GROUP_CONCAT(group_user_login ORDER BY group_user_login) AS users,
+                   GROUP_CONCAT(student_id ORDER BY student_id) AS students
+                 FROM upload_student_group
+                 WHERE import_id = :import_id
+                 GROUP BY group_id) loading
+                  ON loading.group_id = existing.group_id
+                     AND (NOT loading.subject_id <=> existing.subject_id OR NOT loading.users <=> existing.users OR NOT loading.students <=> existing.students)
+                ) sub ON sub.group_id = sg.id
+            SET sg.subject_id = sub.subject_id,
+            sg.update_import_id = :import_id,
+            sg.updated = TIMESTAMPADD(MICROSECOND, 1000 + FLOOR(rand()*100), CURRENT_TIMESTAMP(6))
 
-          clear-updated-users: >-
+          assign-new: >-
+            UPDATE upload_student_group sgl
+              JOIN student_group sg ON sgl.group_name = sg.name AND sgl.school_year = sg.school_year AND sgl.school_id = sg.school_id
+            SET sgl.group_id = sg.id
+            WHERE sgl.group_id IS NULL
+              AND sgl.import_id = :import_id
+
+          remove-users: >-
             DELETE users FROM user_student_group users
-              JOIN (SELECT DISTINCT
-                      group_id
+              JOIN (SELECT DISTINCT group_id
                     FROM upload_student_group upload
-                    WHERE upload.import_id IS NOT NULL
-                          AND upload.batch_id = :batch_id
-                          AND upload.school_id = :school_id) updated
+                    WHERE upload.import_id = :import_id) updated
                 ON updated.group_id = users.student_group_id
               LEFT JOIN upload_student_group uploaded_user
                 ON uploaded_user.group_id = users.student_group_id
                   AND uploaded_user.group_user_login = users.user_login
-                  AND uploaded_user.batch_id = :batch_id
+                  AND uploaded_user.import_id = :import_id
             WHERE users.student_group_id IS NOT NULL
               AND uploaded_user.id IS NULL
 
-          add-updated-users: >-
+          add-users: >-
             INSERT IGNORE INTO user_student_group (student_group_id, user_login)
-              SELECT DISTINCT
-                upload.group_id,
-                upload.group_user_login
+              SELECT DISTINCT upload.group_id, upload.group_user_login
               FROM upload_student_group upload
-              WHERE upload.import_id IS NOT NULL
+              WHERE upload.import_id = :import_id
                 AND upload.group_user_login IS NOT NULL
-                AND upload.batch_id = :batch_id
-                AND upload.school_id = :school_id
 
-          clear-updated-students: >-
+          remove-students: >-
             DELETE students FROM student_group_membership students
-              JOIN (SELECT DISTINCT
-                      group_id
+              JOIN (SELECT DISTINCT group_id
                     FROM upload_student_group upload
-                    WHERE upload.import_id IS NOT NULL
-                          AND upload.batch_id = :batch_id
-                          AND upload.school_id = :school_id) updated
+                    WHERE upload.import_id = :import_id) updated
                 ON updated.group_id = students.student_group_id
               LEFT JOIN upload_student_group uploaded_student
                 ON uploaded_student.group_id = students.student_group_id
                   AND uploaded_student.student_id = students.student_id
-                  AND uploaded_student.batch_id = :batch_id
+                  AND uploaded_student.import_id = :import_id
             WHERE students.student_group_id IS NOT NULL
               AND uploaded_student.id IS NULL
 
-          add-updated-students: >-
+          add-students: >-
             INSERT IGNORE INTO student_group_membership (student_group_id, student_id)
-              SELECT DISTINCT
-                upload.group_id,
-                upload.student_id
+              SELECT DISTINCT upload.group_id, upload.student_id
               FROM upload_student_group upload
-              WHERE upload.import_id IS NOT NULL
-                    AND upload.student_id IS NOT NULL
-                    AND upload.batch_id = :batch_id
-                    AND upload.school_id = :school_id
-
-          update-migration: >-
-            UPDATE import i
-              JOIN upload_student_group_import sgli ON sgli.import_id = i.id
-            SET i.status = :import_status
-            WHERE i.status = 0
-                  AND sgli.ref_type IN (2, 3, 4, 5)
-                  AND sgli.batch_id = :batch_id
-                  AND sgli.school_id = :school_id
-
-          clean-import-stage: >-
-            DELETE FROM upload_student_group_import
-            WHERE batch_id = :batch_id
-
-          clean-import-upload: >-
-            DELETE FROM upload_student_group
-            WHERE batch_id = :batch_id
-
+              WHERE upload.import_id = :import_id
+                AND upload.student_id IS NOT NULL
 
   # ------------ Load from S3 or local ---------------------------------------------------------
-  # Line termination. Recall ...
+  # The system scans the input file when it is submitted and determines the line terminator.
+  # Those settings are injected into this statement in DefaultProcessingLoadService. Note that
+  # there is no capacity to deal with different line terminators in the same file. The values
+  # used to be hard-coded into the string, so here is a recap of line termination. Recall ...
   #   '\r' == CR == 0x0D : default for Mac
   #   '\n' == LF == 0x0A : default for Linux
   #   '\r\n' : default for Windows
   # By using '\r' as the terminator and trimming '\n' from the first field, this will handle any
   # file produced on a Mac or Windows. I don't think there is any setting that will handle all
   # possible source files because the line termination handling is static. But our users won't
-  # be using Linux and, if they do, they'll have to tweak the newline character ...
+  # be using Linux and, if they do, they'll have to tweak the newline character.
   load-csv: >-
     LOAD DATA %s :uri INTO TABLE upload_student_group
     FIELDS TERMINATED BY '%s' OPTIONALLY ENCLOSED BY '"'
@@ -478,9 +192,14 @@ sql:
     IGNORE 1 LINES
     (@vgroup_name, @vschool_natural_id, school_year, @vsubject_code, @vstudent_ssid, @vgroup_user_login)
     SET
-      batch_id = :batch_id,
+      import_id = :import_id,
       group_name = TRIM(@vgroup_name),
       school_natural_id = TRIM(@vschool_natural_id),
-      subject_code = nullif(TRIM(@vsubject_code), ''),
-      student_ssid = nullif(TRIM(@vstudent_ssid), ''),
-      group_user_login = nullif(TRIM(REPLACE(@vgroup_user_login, '\r', '')), '')
+      subject_code = NULLIF(TRIM(@vsubject_code), ''),
+      student_ssid = NULLIF(TRIM(@vstudent_ssid), ''),
+      group_user_login = NULLIF(TRIM(REPLACE(@vgroup_user_login, '\r', '')), '')
+
+  cleanup: >-
+    DELETE FROM upload_student_group
+    WHERE import_id = :import_id
+
