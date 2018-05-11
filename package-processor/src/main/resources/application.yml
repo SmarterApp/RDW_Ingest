@@ -9,6 +9,23 @@ server:
     max-connections: 2
     max-threads: 2
 
+# spring auto-configured aws defense
+cloud:
+  aws:
+    # there must be a default region when running locally
+    region:
+      auto: false
+      static: us-west-2
+    # disable CloudFormation stuff
+    stack:
+      auto: false
+    credentials:
+      instance-profile: false
+
+# use LocalArchiveService by default
+archive:
+  root: file:///tmp/
+
 spring:
   cloud:
     stream:
@@ -24,6 +41,9 @@ spring:
           group: default
         normsInput:
           destination: NORMS
+          group: default
+        subjectInput:
+          destination: SUBJECT
           group: default
 
   profiles:
