@@ -49,7 +49,6 @@ sql:
       # Assign existing groups, import deleted/non-existent groups.
       # Import modified groups including metadata, student and user membership.
       # NOTE: the updated timestamps are randomized a bit to spread out the migrate work
-      # TODO - talk to Alla about updated timestamp chicanery
       import-groups:
         sql:
           assign-school-and-subject: >-
@@ -203,3 +202,8 @@ sql:
     DELETE FROM upload_student_group
     WHERE import_id = :import_id
 
+  # As noted above, the updated values are randomly shifted to avoid overloading migrate.
+  # So we need to pause a bit before moving on and updating the import record. Since the
+  # maximum random shift is 1100us, sleeping for 10ms will be more than enough.
+  wait: >-
+    SELECT SLEEP(0.010);
