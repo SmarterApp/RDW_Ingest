@@ -4,11 +4,6 @@ sql:
     findIdByCode: >-
       SELECT id FROM asmt_type WHERE code= :code
 
-  #JdbcSubjectRepository
-  subject:
-    findIdByCode: >-
-      SELECT id FROM subject WHERE code= :code
-
   #JdbcGradeRepository
   grade:
     findIdByCode: >-
@@ -108,8 +103,43 @@ sql:
 
   #JdbcClaimRepository
   claim:
-    findIdByCode: >-
-      SELECT id FROM claim WHERE code= :code
+    findIdBySubjectAndCode: >-
+      SELECT c.id
+      FROM claim c
+        JOIN subject s ON s.id = c.subject_id
+      WHERE c.code = :code
+        AND s.id = :subject_id
+
+    findCodesBySubject: >-
+      SELECT c.code
+      FROM claim c
+        JOIN subject s ON s.id = c.subject_id
+      WHERE s.code = :subject_code
+
+    insert: >-
+      INSERT INTO claim (subject_id, code)
+        SELECT
+          s.id,
+          :claim_code
+        FROM subject s
+        WHERE s.code = :subject_code
+
+    delete: >-
+      DELETE c FROM claim c
+        JOIN subject s ON s.id = c.subject_id
+      WHERE s.code = :subject_code
+        AND c.code = :claim_code
+
+    hasItems: >-
+      SELECT EXISTS(
+        SELECT 1
+        FROM item i
+          JOIN asmt a ON a.id = i.asmt_id
+          JOIN subject s ON s.id = a.subject_id
+          JOIN claim c ON c.id = i.claim_id
+        WHERE s.code = :subject_code
+          AND c.code = :claim_code
+        LIMIT 1)
 
   #JdbcDepthOfKnowledgeRepository
   dok:
@@ -229,3 +259,70 @@ sql:
 
       delete: >-
         DELETE FROM percentile_score WHERE percentile_id=:percentile_id
+
+  subject:
+    findIdByCode: >-
+      SELECT id FROM subject WHERE code = :code
+
+    insert: >-
+      INSERT INTO subject (code, import_id, update_import_id) VALUES (:code, :import_id, :import_id);
+
+    update: >-
+      UPDATE subject SET update_import_id = :update_import_id WHERE code = :code
+
+    assessmentType:
+      findBySubject: >-
+        SELECT
+          at.code as asmt_type_code,
+          s.code as subject_code,
+          sat.performance_level_count,
+          sat.performance_level_standard_cutoff,
+          sat.sub_score_performance_level_count,
+          sat.sub_score_performance_level_standard_cutoff
+        FROM subject_asmt_type sat
+          JOIN asmt_type at ON at.id = sat.asmt_type_id
+          JOIN subject s ON s.id = sat.subject_id
+        WHERE s.code = :subject_code
+
+      insert: >-
+        INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, sub_score_performance_level_count, sub_score_performance_level_standard_cutoff)
+          SELECT
+            asmt_type.id,
+            subject.id,
+            :performance_level_count,
+            :performance_level_standard_cutoff,
+            :sub_score_performance_level_count,
+            :sub_score_performance_level_standard_cutoff
+          FROM subject
+            JOIN asmt_type ON asmt_type.code = :asmt_type_code
+          WHERE subject.code = :subject_code
+
+      update: >-
+        UPDATE subject_asmt_type
+          JOIN subject ON subject.id = subject_asmt_type.subject_id
+          JOIN asmt_type ON asmt_type.id = subject_asmt_type.asmt_type_id
+        SET
+          subject_asmt_type.performance_level_count = :performance_level_count,
+          subject_asmt_type.performance_level_standard_cutoff = :performance_level_standard_cutoff,
+          subject_asmt_type.sub_score_performance_level_count = :sub_score_performance_level_count,
+          subject_asmt_type.sub_score_performance_level_standard_cutoff = :sub_score_performance_level_standard_cutoff
+        WHERE subject.code = :subject_code
+          AND asmt_type.code = :asmt_type_code
+
+      delete: >-
+        DELETE subject_asmt_type FROM subject_asmt_type
+          JOIN subject ON subject.id = subject_asmt_type.subject_id
+          JOIN asmt_type ON asmt_type.id = subject_asmt_type.asmt_type_id
+        WHERE subject.code = :subject_code
+          AND asmt_type.code = :asmt_type_code
+
+      hasExams: >-
+        SELECT EXISTS(
+          SELECT 1
+          FROM exam e
+            JOIN asmt a ON a.id = e.asmt_id
+            JOIN subject s ON s.id = a.subject_id
+            JOIN asmt_type at ON at.id = a.type_id
+          WHERE s.code = :subject_code
+            AND at.code = :asmt_type_code
+          LIMIT 1)
