@@ -3,7 +3,6 @@ sql:
     entities:
       # ------------ Import Student SSIDs
       # Assign existing students with matching SSIDs and import deleted/non-existent student SSIDs
-      # NOTE: the updated timestamps are randomized a bit to spread out the migrate work
       import-students:
         sql:
           assign-existing: >-
@@ -14,12 +13,11 @@ sql:
               AND sgl.import_id = :import_id
 
           insert-new: >-
-            INSERT IGNORE INTO student (ssid, import_id, update_import_id, updated)
+            INSERT IGNORE INTO student (ssid, import_id, update_import_id)
               SELECT
                 DISTINCT student_ssid,
                 sgl.import_id,
-                sgl.import_id,
-                TIMESTAMPADD(MICROSECOND, FLOOR(rand()*1000), CURRENT_TIMESTAMP(6))
+                sgl.import_id
               FROM upload_student_group sgl
                 LEFT JOIN student s ON sgl.student_ssid = s.ssid
               WHERE s.id IS NULL
@@ -31,8 +29,7 @@ sql:
             UPDATE student s
               JOIN upload_student_group sgl ON sgl.student_ssid = s.ssid
             SET s.deleted = 0,
-              s.update_import_id = sgl.import_id,
-              s.updated = TIMESTAMPADD(MICROSECOND, FLOOR(rand()*1000), CURRENT_TIMESTAMP(6))
+              s.update_import_id = sgl.import_id
             WHERE s.deleted = 1
               AND sgl.student_ssid IS NOT NULL
               AND sgl.import_id = :import_id
@@ -48,7 +45,6 @@ sql:
       # Assign schools and subjects.
       # Assign existing groups, import deleted/non-existent groups.
       # Import modified groups including metadata, student and user membership.
-      # NOTE: the updated timestamps are randomized a bit to spread out the migrate work
       import-groups:
         sql:
           assign-school-and-subject: >-
@@ -67,7 +63,7 @@ sql:
               AND sgl.import_id = :import_id
 
           insert-new: >-
-            INSERT IGNORE INTO student_group (name, school_id, active, school_year, subject_id, creator, import_id, update_import_id, updated)
+            INSERT IGNORE INTO student_group (name, school_id, active, school_year, subject_id, creator, import_id, update_import_id)
               SELECT
                 sgl.group_name,
                 sgl.school_id,
@@ -76,8 +72,7 @@ sql:
                 sgl.subject_id,
                 sgl.creator,
                 sgl.import_id,
-                sgl.import_id,
-                TIMESTAMPADD(MICROSECOND, 1000 + FLOOR(rand()*100), CURRENT_TIMESTAMP(6))
+                sgl.import_id
               FROM upload_student_group sgl
                 LEFT JOIN student_group sg ON sgl.group_name = sg.name AND sgl.school_id = sg.school_id AND sgl.school_year = sg.school_year
               WHERE sg.id IS NULL
@@ -90,8 +85,7 @@ sql:
               JOIN upload_student_group sgl ON sgl.school_id = sg.school_id AND sgl.group_name = sg.name AND sgl.school_year = sg.school_year
             SET sg.deleted = 0,
               sg.subject_id = sgl.subject_id,
-              sg.update_import_id = sgl.import_id,
-              sg.updated = TIMESTAMPADD(MICROSECOND, 1000 + FLOOR(rand()*100), CURRENT_TIMESTAMP(6))
+              sg.update_import_id = sgl.import_id
             WHERE sg.deleted = 1
               AND sgl.import_id = :import_id
 
@@ -102,8 +96,8 @@ sql:
               JOIN (SELECT loading.group_id, loading.subject_id FROM
                 (SELECT esg.id AS group_id,
                         MAX(esg.subject_id) AS subject_id,
-                        GROUP_CONCAT(usg.user_login ORDER BY usg.user_login) AS users,
-                        GROUP_CONCAT(sgm.student_id ORDER BY sgm.student_id) AS students
+                        GROUP_CONCAT(DISTINCT usg.user_login ORDER BY usg.user_login) AS users,
+                        GROUP_CONCAT(DISTINCT sgm.student_id ORDER BY sgm.student_id) AS students
                  FROM student_group esg
                    JOIN upload_student_group upload ON upload.group_id = esg.id
                    LEFT JOIN user_student_group usg ON usg.student_group_id = esg.id
@@ -113,17 +107,16 @@ sql:
                 JOIN
                 (SELECT group_id,
                    MAX(subject_id) AS subject_id,
-                   GROUP_CONCAT(group_user_login ORDER BY group_user_login) AS users,
-                   GROUP_CONCAT(student_id ORDER BY student_id) AS students
+                   GROUP_CONCAT(DISTINCT group_user_login ORDER BY group_user_login) AS users,
+                   GROUP_CONCAT(DISTINCT student_id ORDER BY student_id) AS students
                  FROM upload_student_group
-                 WHERE import_id = :import_id
+                 WHERE group_id IS NOT NULL AND import_id = :import_id
                  GROUP BY group_id) loading
                   ON loading.group_id = existing.group_id
                      AND (NOT loading.subject_id <=> existing.subject_id OR NOT loading.users <=> existing.users OR NOT loading.students <=> existing.students)
                 ) sub ON sub.group_id = sg.id
             SET sg.subject_id = sub.subject_id,
-            sg.update_import_id = :import_id,
-            sg.updated = TIMESTAMPADD(MICROSECOND, 1000 + FLOOR(rand()*100), CURRENT_TIMESTAMP(6))
+            sg.update_import_id = :import_id
 
           assign-new: >-
             UPDATE upload_student_group sgl
@@ -201,9 +194,3 @@ sql:
   cleanup: >-
     DELETE FROM upload_student_group
     WHERE import_id = :import_id
-
-  # As noted above, the updated values are randomly shifted to avoid overloading migrate.
-  # So we need to pause a bit before moving on and updating the import record. Since the
-  # maximum random shift is 1100us, sleeping for 10ms will be more than enough.
-  wait: >-
-    SELECT SLEEP(0.010);
