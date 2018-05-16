@@ -180,6 +180,49 @@ sql:
       SET reference = :reference
       WHERE id = :depth_id
 
+  itemDifficulty:
+    findBySubject: >-
+      SELECT
+        idc.id,
+        idc.moderate_low_end,
+        idc.difficult_low_end,
+        g.code
+      FROM item_difficulty_cuts idc
+        JOIN subject s on s.id = idc.subject_id
+        JOIN grade g on g.id = idc.grade_id
+      WHERE s.code = :subject_code
+
+    insert: >-
+      INSERT INTO item_difficulty_cuts (subject_id, grade_id, moderate_low_end, difficult_low_end)
+        SELECT
+          s.id,
+          g.id,
+          :moderate_low_end,
+          :difficult_low_end
+        FROM subject s
+          JOIN grade g ON g.code = :grade_code
+        WHERE s.code = :subject_code
+
+    delete: >-
+      DELETE FROM item_difficulty_cuts
+      WHERE id IN (:difficulty_ids)
+
+    hasItems: >-
+      SELECT
+        idc.id
+      FROM item_difficulty_cuts idc
+        JOIN subject s ON s.id = idc.subject_id
+        JOIN asmt a ON a.subject_id = s.id AND a.grade_id = idc.grade_id
+      WHERE idc.id IN (:difficulty_ids)
+      LIMIT 1
+
+    update: >-
+      UPDATE item_difficulty_cuts
+      SET
+        moderate_low_end = :moderate_low_end,
+        difficult_low_end = :difficult_low_end
+      WHERE id = :id
+
   #JdbcMathPracticeRepository
   mathPractice:
     findByPractice: >-
