@@ -68,6 +68,22 @@ services:
     extra_hosts:
       - "dwhost:$DATAWAREHOUSE_HOST"
 
+  group-processor:
+    image: smarterbalanced/rdw-ingest-group-processor
+    ports:
+      - 8086:8008
+    volumes:
+      - /tmp:/tmp
+    links:
+      - config-server
+      - rabbitmq
+    environment:
+      - SPRING_PROFILES_ACTIVE=local-docker
+      - CONFIG_SERVICE_ENABLED=true
+      - CONFIG_SERVICE_URL=http://config-server:8888
+    extra_hosts:
+      - "dwhost:$DATAWAREHOUSE_HOST"
+
   package-processor:
     image: smarterbalanced/rdw-ingest-package-processor
     ports:
