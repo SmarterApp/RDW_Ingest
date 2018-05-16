@@ -170,26 +170,27 @@ sql:
       INSERT INTO target (claim_id, natural_id)
         SELECT
           c.id,
-          :natural_id
+          ?
         FROM claim c
           JOIN subject s ON s.id = c.subject_id
-        WHERE s.code = :subject_code
-          AND c.code = :claim_code
+        WHERE c.code = ?
+          AND s.code = ?
 
     delete: >-
       DELETE FROM target
-      WHERE id = :target_id
+      WHERE id IN (:target_ids)
 
     hasItems: >-
-      SELECT EXISTS(
-        SELECT 1
-          FROM item i
-          WHERE i.target_id = :target_id
-        UNION
-        SELECT 1
-          FROM item_other_target iot
-          WHERE iot.target_id = :target_id
-        LIMIT 1)
+      SELECT
+        i.target_id
+      FROM item i
+      WHERE i.target_id IN (:target_ids)
+      UNION
+      SELECT
+        iot.target_id
+      FROM item_other_target iot
+      WHERE iot.target_id IN (:target_ids)
+      LIMIT 1
 
   #JdbcCommonCoreStandardRepository
   commonCoreStandard:
