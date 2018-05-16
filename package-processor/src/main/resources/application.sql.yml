@@ -156,6 +156,41 @@ sql:
     findIdByNaturalIdAndClaimId: >-
       SELECT id FROM target WHERE natural_id= :naturalId AND claim_id = :claimId
 
+    findBySubject: >-
+      SELECT
+        t.id,
+        t.natural_id,
+        c.code as claim_code
+      FROM target t
+        JOIN claim c ON c.id = t.claim_id
+        JOIN subject s ON s.id = c.subject_id
+      WHERE s.code = :subject_code
+
+    insert: >-
+      INSERT INTO target (claim_id, natural_id)
+        SELECT
+          c.id,
+          :natural_id
+        FROM claim c
+          JOIN subject s ON s.id = c.subject_id
+        WHERE s.code = :subject_code
+          AND c.code = :claim_code
+
+    delete: >-
+      DELETE FROM target
+      WHERE id = :target_id
+
+    hasItems: >-
+      SELECT EXISTS(
+        SELECT 1
+          FROM item i
+          WHERE i.target_id = :target_id
+        UNION
+        SELECT 1
+          FROM item_other_target iot
+          WHERE iot.target_id = :target_id
+        LIMIT 1)
+
   #JdbcCommonCoreStandardRepository
   commonCoreStandard:
     findIdsBySubjectIdAndNaturalIds: >-
@@ -265,7 +300,7 @@ sql:
       SELECT id FROM subject WHERE code = :code
 
     insert: >-
-      INSERT INTO subject (code, import_id, update_import_id) VALUES (:code, :import_id, :import_id);
+      INSERT INTO subject (code, import_id, update_import_id) VALUES (:code, :import_id, :import_id)
 
     update: >-
       UPDATE subject SET update_import_id = :update_import_id WHERE code = :code
@@ -316,11 +351,10 @@ sql:
         WHERE subject.code = :subject_code
           AND asmt_type.code = :asmt_type_code
 
-      hasExams: >-
+      hasAssessments: >-
         SELECT EXISTS(
           SELECT 1
-          FROM exam e
-            JOIN asmt a ON a.id = e.asmt_id
+          FROM asmt a
             JOIN subject s ON s.id = a.subject_id
             JOIN asmt_type at ON at.id = a.type_id
           WHERE s.code = :subject_code
