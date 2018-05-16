@@ -146,6 +146,40 @@ sql:
     findIdByLevelAndSubject: >-
       SELECT id FROM depth_of_knowledge WHERE level= :level and subject_id = :subjectId
 
+    findBySubject: >-
+      SELECT
+        dok.id,
+        dok.level,
+        dok.reference
+      FROM depth_of_knowledge dok
+        JOIN subject s ON s.id = dok.subject_id
+      WHERE s.code = :subject_code
+
+    insert: >-
+      INSERT INTO depth_of_knowledge (level, reference, subject_id)
+        SELECT
+          :level,
+          :reference,
+          s.id
+        FROM subject s
+        WHERE s.code = :subject_code
+
+    hasItems: >-
+      SELECT
+        i.dok_id
+      FROM item i
+      WHERE i.dok_id IN (:depth_ids)
+      LIMIT 1
+
+    delete: >-
+      DELETE FROM depth_of_knowledge
+      WHERE id IN (:depth_ids)
+
+    update: >-
+      UPDATE depth_of_knowledge
+      SET reference = :reference
+      WHERE id = :depth_id
+
   #JdbcMathPracticeRepository
   mathPractice:
     findByPractice: >-
