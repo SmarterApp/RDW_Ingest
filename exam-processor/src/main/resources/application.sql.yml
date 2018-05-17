@@ -71,7 +71,12 @@ sql:
 
     subjectClaimScore:
       findBySubjectAndAsmtType: >-
-        SELECT id, code FROM subject_claim_score WHERE subject_id = :subject_id and asmt_type_id =:asmt_type_id
+        SELECT scs.id, scs.code
+        FROM subject_claim_score scs
+          JOIN subject_asmt_type sat ON sat.subject_id = scs.subject_id
+        WHERE scs.subject_id = :subject_id
+          AND sat.asmt_type_id = :asmt_type_id
+          AND sat.sub_score_performance_level_count > 0
 
     item:
       findAllForAssessment: >-

@@ -14,11 +14,11 @@ sql:
       SELECT rat.id, rat.code, rat.name FROM asmt_type rat ORDER by rat.id ASC
 
     findWarehouseSubjectClaimScores: >-
-      SELECT wscs.id, wscs.subject_id, wscs.asmt_type_id, wscs.code, wscs.name
+      SELECT wscs.id, wscs.subject_id, wscs.code, wscs.name
         FROM subject_claim_score wscs ORDER BY wscs.id ASC
 
     findReportingSubjectClaimScores: >-
-      SELECT rscs.id, rscs.subject_id, rscs.asmt_type_id, rscs.code, rscs.name
+      SELECT rscs.id, rscs.subject_id, rscs.code, rscs.name
         FROM subject_claim_score rscs ORDER BY rscs.id ASC
 
   # ------------ Truncate ------------------------------------------------------------------

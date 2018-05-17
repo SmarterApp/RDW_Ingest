@@ -1194,20 +1194,24 @@ sql:
                 sa.migrate_id
               FROM staging_asmt sa
                 LEFT JOIN asmt ra ON ra.id = sa.id
-                LEFT JOIN (SELECT rs.code as claim1, rs.subject_id, rs.asmt_type_id FROM subject_claim_score rs
-                          JOIN exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 1)
+                LEFT JOIN (SELECT rs.code as claim1, rs.subject_id, sat.asmt_type_id FROM subject_claim_score rs
+                          JOIN exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 1
+                          JOIN subject_asmt_type sat ON sat.subject_id = rs.subject_id AND sat.sub_score_performance_level_count > 0)
                     AS s1 ON sa.subject_id = s1.subject_id AND sa.type_id = s1.asmt_type_id
 
-                LEFT JOIN (SELECT rs.code as claim2, rs.subject_id, rs.asmt_type_id FROM subject_claim_score rs
-                          JOIN exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 2)
+                LEFT JOIN (SELECT rs.code as claim2, rs.subject_id, sat.asmt_type_id FROM subject_claim_score rs
+                          JOIN exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 2
+                          JOIN subject_asmt_type sat ON sat.subject_id = rs.subject_id AND sat.sub_score_performance_level_count > 0)
                     AS s2 ON sa.subject_id = s2.subject_id AND sa.type_id = s2.asmt_type_id
 
-                LEFT JOIN (SELECT rs.code as claim3, rs.subject_id, rs.asmt_type_id FROM subject_claim_score rs
-                          JOIN exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 3)
+                LEFT JOIN (SELECT rs.code as claim3, rs.subject_id, sat.asmt_type_id FROM subject_claim_score rs
+                          JOIN exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 3
+                          JOIN subject_asmt_type sat ON sat.subject_id = rs.subject_id AND sat.sub_score_performance_level_count > 0)
                     AS s3 ON sa.subject_id = s3.subject_id AND sa.type_id = s3.asmt_type_id
 
-                LEFT JOIN (SELECT rs.code as claim4, rs.subject_id, rs.asmt_type_id FROM subject_claim_score rs
-                               JOIN exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 4)
+                LEFT JOIN (SELECT rs.code as claim4, rs.subject_id, sat.asmt_type_id FROM subject_claim_score rs
+                               JOIN exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 4
+                               JOIN subject_asmt_type sat ON sat.subject_id = rs.subject_id AND sat.sub_score_performance_level_count > 0)
                     AS s4 ON sa.subject_id = s4.subject_id AND sa.type_id = s4.asmt_type_id
                 JOIN staging_asmt_score sas ON sa.id = sas.asmt_id
                 JOIN grade rg ON rg.id = sa.grade_id
@@ -1216,20 +1220,24 @@ sql:
           update: >-
             UPDATE asmt ra
               JOIN staging_asmt sa ON sa.id = ra.id
-                LEFT JOIN (SELECT rs.code as claim1, rs.subject_id, rs.asmt_type_id FROM subject_claim_score rs
-                          JOIN exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 1)
+                LEFT JOIN (SELECT rs.code as claim1, rs.subject_id, sat.asmt_type_id FROM subject_claim_score rs
+                          JOIN exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 1
+                          JOIN subject_asmt_type sat ON sat.subject_id = rs.subject_id AND sat.sub_score_performance_level_count > 0)
                     AS s1 ON sa.subject_id = s1.subject_id AND sa.type_id = s1.asmt_type_id
 
-                LEFT JOIN (SELECT rs.code as claim2, rs.subject_id, rs.asmt_type_id FROM subject_claim_score rs
-                          JOIN exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 2)
+                LEFT JOIN (SELECT rs.code as claim2, rs.subject_id, sat.asmt_type_id FROM subject_claim_score rs
+                          JOIN exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 2
+                          JOIN subject_asmt_type sat ON sat.subject_id = rs.subject_id AND sat.sub_score_performance_level_count > 0)
                     AS s2 ON sa.subject_id = s2.subject_id AND sa.type_id = s2.asmt_type_id
 
-                LEFT JOIN (SELECT rs.code as claim3, rs.subject_id, rs.asmt_type_id FROM subject_claim_score rs
-                          JOIN exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 3)
+                LEFT JOIN (SELECT rs.code as claim3, rs.subject_id, sat.asmt_type_id FROM subject_claim_score rs
+                          JOIN exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 3
+                          JOIN subject_asmt_type sat ON sat.subject_id = rs.subject_id AND sat.sub_score_performance_level_count > 0)
                     AS s3 ON sa.subject_id = s3.subject_id AND sa.type_id = s3.asmt_type_id
 
-                LEFT JOIN (SELECT rs.code as claim4, rs.subject_id, rs.asmt_type_id FROM subject_claim_score rs
-                               JOIN exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 4)
+                LEFT JOIN (SELECT rs.code as claim4, rs.subject_id, sat.asmt_type_id FROM subject_claim_score rs
+                               JOIN exam_claim_score_mapping rm ON rm.subject_claim_score_id = rs.id AND rm.num = 4
+                               JOIN subject_asmt_type sat ON sat.subject_id = rs.subject_id AND sat.sub_score_performance_level_count > 0)
                     AS s4 ON sa.subject_id = s4.subject_id AND sa.type_id = s4.asmt_type_id
               JOIN staging_asmt_score sas ON ra.id = sas.asmt_id
               JOIN grade rg ON rg.id = sa.grade_id
