@@ -409,6 +409,34 @@ sql:
       delete: >-
         DELETE FROM percentile_score WHERE percentile_id=:percentile_id
 
+  standard:
+    findBySubject: >-
+      SELECT
+        ccs.id,
+        ccs.natural_id
+      FROM common_core_standard ccs
+        JOIN subject s ON s.id = ccs.subject_id
+      WHERE s.code = :subject_code
+
+    insert: >-
+      INSERT INTO common_core_standard (subject_id, natural_id)
+        SELECT
+          s.id,
+          :standard_code
+        FROM subject s
+        WHERE s.code = :subject_code
+
+    delete: >-
+      DELETE FROM common_core_standard
+      WHERE id IN (:ids)
+
+    hasItem: >-
+      SELECT
+        iccs.common_core_standard_id
+      FROM item_common_core_standard iccs
+      WHERE iccs.common_core_standard_id IN (:ids)
+      LIMIT 1
+
   subject:
     findIdByCode: >-
       SELECT id FROM subject WHERE code = :code
