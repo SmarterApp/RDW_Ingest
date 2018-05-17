@@ -337,6 +337,42 @@ sql:
     update: >-
       UPDATE school_group SET name = :name, external_id = :external_id WHERE id = :id
 
+  scorableClaim:
+    findBySubject: >-
+      SELECT
+        scs.id,
+        scs.code,
+        scs.display_order
+      FROM subject_claim_score scs
+        JOIN subject s ON s.id = scs.subject_id
+      WHERE s.code = :subject_code
+
+    insert: >-
+      INSERT INTO subject_claim_score (subject_id, code, display_order)
+        SELECT
+          s.id,
+          :claim_code,
+          :display_order
+        FROM subject s
+        WHERE s.code = :subject_code
+
+    update: >-
+      UPDATE subject_claim_score
+      SET display_order = :display_order
+      WHERE id = :id
+
+    delete: >-
+      DELETE FROM subject_claim_score
+      WHERE id IN (:ids)
+
+    hasAssessment: >-
+      SELECT
+        scs.id
+      FROM subject_claim_score scs
+        JOIN asmt a ON a.subject_id = scs.subject_id
+      WHERE scs.id IN (:ids)
+      LIMIT 1
+
   #JdbcPercentileRepository
   percentile:
     create: >-
