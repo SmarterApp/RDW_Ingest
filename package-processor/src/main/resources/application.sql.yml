@@ -502,3 +502,34 @@ sql:
           WHERE s.code = :subject_code
             AND at.code = :asmt_type_code
           LIMIT 1)
+
+  subjectTranslation:
+    findBySubject: >-
+      SELECT
+        st.label_code,
+        st.label
+      FROM subject_translation st
+        JOIN subject s ON s.id = st.subject_id
+      WHERE s.code = :subject_code
+
+    insert: >-
+      INSERT INTO subject_translation (subject_id, label_code, label)
+        SELECT
+          s.id,
+          :label_code,
+          :label
+        FROM subject s
+        WHERE s.code = :subject_code
+
+    update: >-
+      UPDATE subject_translation st
+        JOIN subject s ON s.id = st.subject_id
+      SET st.label = :label
+      WHERE st.label_code = :label_code
+        AND s.code = :subject_code
+
+    delete: >-
+      DELETE st FROM subject_translation st
+        JOIN subject s ON s.id = st.subject_id
+      WHERE s.code = :subject_code
+        AND st.label_code IN (:label_codes)
