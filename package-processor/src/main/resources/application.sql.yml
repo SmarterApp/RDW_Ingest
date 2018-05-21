@@ -247,11 +247,11 @@ sql:
       INSERT INTO target (claim_id, natural_id)
         SELECT
           c.id,
-          ?
+          :natural_id
         FROM claim c
           JOIN subject s ON s.id = c.subject_id
-        WHERE c.code = ?
-          AND s.code = ?
+        WHERE c.code = :claim_code
+          AND s.code = :subject_code
 
     delete: >-
       DELETE FROM target
@@ -410,6 +410,9 @@ sql:
         DELETE FROM percentile_score WHERE percentile_id=:percentile_id
 
   standard:
+    findIdsBySubjectIdAndNaturalIds: >-
+      SELECT id FROM common_core_standard WHERE natural_id in (:naturalIds) AND subject_id = :subjectId
+
     findBySubject: >-
       SELECT
         ccs.id,
