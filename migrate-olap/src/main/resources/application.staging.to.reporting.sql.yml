@@ -421,8 +421,8 @@ sql:
                     school_group.id in (SELECT ss.school_group_id from staging_school ss WHERE ss.deleted = 1)
                     AND NOT EXISTS(SELECT rs.id from school rs WHERE rs.school_group_id = school_group.id);
 
-      # ------------ fact_student_exam -----------------------------------------------------------------------
-        fact_student_exam:
+      # ------------ exam -----------------------------------------------------------------------
+        exam:
           sql:
             # this updates all types of the exams so we do not need to repeat it for iab
             updateStagingLatestExam: >-
@@ -437,7 +437,7 @@ sql:
 
             # iabs are loaded into its own fact table, that is why they are excluded here
             insert: >-
-              INSERT INTO fact_student_exam (
+              INSERT INTO exam (
                 id,
                 school_id,
                 student_id,
@@ -481,11 +481,11 @@ sql:
                   se.update_import_id,
                   se.migrate_id
                 FROM staging_exam se
-                  LEFT JOIN fact_student_exam fe ON fe.student_id = se.student_id and fe.asmt_id = se.asmt_id and fe.school_year = se.school_year
-                WHERE se.type_id IN (1, 3) AND se.latest = true AND fe.id IS NULL;
+                  LEFT JOIN exam e ON e.student_id = se.student_id and e.asmt_id = se.asmt_id and e.school_year = se.school_year
+                WHERE se.type_id IN (1, 3) AND se.latest = true AND e.id IS NULL;
 
             update: >-
-                UPDATE fact_student_exam
+                UPDATE exam
                 SET
                   id                          = se.id,
                   school_id                   = se.school_id,
@@ -505,35 +505,25 @@ sql:
                   update_import_id            = se.update_import_id,
                   migrate_id                  = se.migrate_id
                  FROM staging_exam se
-                  JOIN fact_student_exam fe ON fe.student_id = se.student_id and fe.asmt_id = se.asmt_id and fe.school_year = se.school_year
-                WHERE se.type_id IN (1, 3) AND se.latest = true AND (se.completed_at > fe.completed_at OR se.id = fe.id)
+                  JOIN exam e ON e.student_id = se.student_id and e.asmt_id = se.asmt_id and e.school_year = se.school_year
+                WHERE se.type_id IN (1, 3) AND se.latest = true AND (se.completed_at > e.completed_at OR se.id = e.id)
 
             delete: >-
-              DELETE FROM fact_student_exam
+              DELETE FROM exam
                 USING staging_exam se
-              WHERE se.id = fact_student_exam.id and se.deleted = 1;
+              WHERE se.id = exam.id and se.deleted = 1;
 
-      # ------------ fact_exam_claim_score -----------------------------------------------------------------------
-        fact_exam_claim_score:
+      # ------------ exam_claim_score -----------------------------------------------------------------------
+        exam_claim_score:
           sql:
             insert: >-
-              INSERT INTO fact_exam_claim_score (
+              INSERT INTO exam_claim_score (
                 id,
                 exam_id,
                 subject_claim_score_id,
                 asmt_id,
-                school_id,
                 student_id,
-                grade_id,
                 school_year,
-                iep,
-                lep,
-                section504,
-                economic_disadvantage,
-                migrant_status,
-                elas_id,
-                completeness_id,
-                administration_condition_id,
                 category,
                 completed_at,
                 updated,
@@ -545,18 +535,8 @@ sql:
                   scs.exam_id,
                   scs.subject_claim_score_id,
                   se.asmt_id,
-                  se.school_id,
                   se.student_id,
-                  se.grade_id,
                   se.school_year,
-                  CASE WHEN se.iep = true THEN 1 WHEN se.iep = false THEN 0 ELSE 2 END,
-                  CASE WHEN se.lep = true THEN 1 WHEN se.lep = false THEN 0 ELSE 2 END,
-                  CASE WHEN se.section504 = true THEN 1 ELSE 0 END,
-                  CASE WHEN se.economic_disadvantage = true THEN 1 WHEN se.economic_disadvantage = false THEN 0 ELSE 2 END,
-                  CASE WHEN se.migrant_status = true THEN 1 ELSE 0 END,
-                  COALESCE(se.elas_id, 1),
-                  se.completeness_id,
-                  se.administration_condition_id,
                   scs.category,
                   se.completed_at,
                   se.updated,
@@ -564,28 +544,28 @@ sql:
                   se.migrate_id
                 FROM staging_exam_claim_score scs
                   JOIN staging_exam se ON se.id = scs.exam_id
-                  LEFT JOIN fact_exam_claim_score fe ON fe.student_id = se.student_id and fe.asmt_id = se.asmt_id and fe.school_year = se.school_year
-                WHERE se.type_id IN (1, 3) AND se.latest = true AND fe.exam_id IS NULL;
+                  LEFT JOIN exam_claim_score e ON e.student_id = se.student_id and e.asmt_id = se.asmt_id and e.school_year = se.school_year
+                WHERE se.type_id IN (1, 3) AND se.latest = true AND e.exam_id IS NULL;
 
             update: >-
               SELECT 1;
 
             deleteAsPartOfParentUpdate: >-
-              DELETE FROM fact_exam_claim_score
+              DELETE FROM exam_claim_score
                 USING staging_exam se
-              WHERE se.type_id IN (1, 3) AND fact_exam_claim_score.student_id = se.student_id and fact_exam_claim_score.asmt_id = se.asmt_id and fact_exam_claim_score.school_year = se.school_year
-                    AND se.latest = true AND (se.completed_at > fact_exam_claim_score.completed_at OR se.id = fact_exam_claim_score.exam_id);
+              WHERE se.type_id IN (1, 3) AND exam_claim_score.student_id = se.student_id and exam_claim_score.asmt_id = se.asmt_id and exam_claim_score.school_year = se.school_year
+                    AND se.latest = true AND (se.completed_at > exam_claim_score.completed_at OR se.id = exam_claim_score.exam_id);
 
             delete: >-
-              DELETE FROM fact_exam_claim_score
+              DELETE FROM exam_claim_score
                 USING staging_exam se
               WHERE se.id = exam_id and se.deleted = true;
 
-  # ------------ fact_student_iab_exam -----------------------------------------------------------------------
-        fact_student_iab_exam:
+  # ------------ iab_exam -----------------------------------------------------------------------
+        iab_exam:
           sql:
             insert: >-
-              INSERT INTO fact_student_iab_exam (
+              INSERT INTO iab_exam (
                 id,
                 school_id,
                 student_id,
@@ -629,11 +609,11 @@ sql:
                   se.update_import_id,
                   se.migrate_id
                 FROM staging_exam se
-                  LEFT JOIN fact_student_iab_exam fe ON fe.student_id = se.student_id and fe.asmt_id = se.asmt_id and fe.school_year = se.school_year
-                WHERE se.type_id = 2 AND se.latest = true AND fe.id IS NULL;
+                  LEFT JOIN iab_exam e ON e.student_id = se.student_id and e.asmt_id = se.asmt_id and e.school_year = se.school_year
+                WHERE se.type_id = 2 AND se.latest = true AND e.id IS NULL;
 
             update: >-
-                UPDATE fact_student_iab_exam
+                UPDATE iab_exam
                 SET
                   id                          = se.id,
                   school_id                   = se.school_id,
@@ -653,15 +633,15 @@ sql:
                   update_import_id            = se.update_import_id,
                   migrate_id                  = se.migrate_id
                  FROM staging_exam se
-                  JOIN fact_student_iab_exam fe ON fe.student_id = se.student_id and fe.asmt_id = se.asmt_id and fe.school_year = se.school_year
-                WHERE se.type_id = 2 AND se.latest = true AND (se.completed_at > fe.completed_at OR se.id = fe.id)
+                  JOIN iab_exam e ON e.student_id = se.student_id and e.asmt_id = se.asmt_id and e.school_year = se.school_year
+                WHERE se.type_id = 2 AND se.latest = true AND (se.completed_at > e.completed_at OR se.id = e.id)
 
             delete: >-
-              DELETE FROM fact_student_iab_exam
+              DELETE FROM iab_exam
                 USING staging_exam se
-              WHERE se.id = fact_student_iab_exam.id and se.deleted = 1;
+              WHERE se.id = iab_exam.id and se.deleted = 1;
 
-     # ------------ fact_student_exam_longitudinal -----------------------------------------------------------------------
+     # ------------ exam_longitudinal -----------------------------------------------------------------------
         # Business rules:
         # 1. It is assumed that students are given summative tests that match their enrolled grade
         # 2. It is assumed that summative tests are not given multiple times
@@ -672,7 +652,7 @@ sql:
         # 1. only migrate when enrolled grade is equal to asmt grade (for non high school) or 'accountability' grade (for high school)
         # 2. migrate the latest Summative per subject and asmt grade (regardless of the school year)
 
-        fact_student_exam_longitudinal:
+        exam_longitudinal:
           sql:
             resetStagingLatestExam: >-
               UPDATE staging_exam SET latest = false
@@ -699,7 +679,7 @@ sql:
 
             # iabs are loaded into its own fact table, that is why they are excluded here
             insert: >-
-              INSERT INTO fact_student_exam_longitudinal (
+              INSERT INTO exam_longitudinal (
                 id,
                 school_id,
                 student_id,
@@ -749,11 +729,11 @@ sql:
                   se.update_import_id,
                   se.migrate_id
                 FROM staging_exam se
-                  LEFT JOIN fact_student_exam_longitudinal fe ON fe.student_id = se.student_id AND fe.asmt_grade_id = se.asmt_grade_id AND fe.subject_id = se.subject_id
-                WHERE se.type_id = 3 AND se.latest = true AND fe.id IS NULL;
+                  LEFT JOIN exam_longitudinal e ON e.student_id = se.student_id AND e.asmt_grade_id = se.asmt_grade_id AND e.subject_id = se.subject_id
+                WHERE se.type_id = 3 AND se.latest = true AND e.id IS NULL;
 
             update: >-
-                UPDATE fact_student_exam_longitudinal
+                UPDATE exam_longitudinal
                 SET
                   id                          = se.id,
                   school_id                   = se.school_id,
@@ -775,13 +755,13 @@ sql:
                   update_import_id            = se.update_import_id,
                   migrate_id                  = se.migrate_id
                  FROM staging_exam se
-                   JOIN fact_student_exam_longitudinal fe ON fe.student_id = se.student_id AND fe.asmt_grade_id = se.asmt_grade_id AND fe.subject_id = se.subject_id
-                WHERE se.type_id = 3 AND se.latest = true AND (se.completed_at > fe.completed_at OR se.id = fe.id)
+                   JOIN exam_longitudinal e ON e.student_id = se.student_id AND e.asmt_grade_id = se.asmt_grade_id AND e.subject_id = se.subject_id
+                WHERE se.type_id = 3 AND se.latest = true AND (se.completed_at > e.completed_at OR se.id = e.id)
 
             delete: >-
-              DELETE FROM fact_student_exam_longitudinal
+              DELETE FROM exam_longitudinal
                 USING staging_exam se
-              WHERE se.id = fact_student_exam_longitudinal.id and se.deleted = 1;
+              WHERE se.id = exam_longitudinal.id and se.deleted = 1;
 
       # ------------ asmt_active_year -----------------------------------------------------------------------
         asmt_active_year:
@@ -790,9 +770,9 @@ sql:
               INSERT INTO asmt_active_year (asmt_id, school_year)
                 SELECT asmt_id, school_year
                 FROM
-                  ( SELECT DISTINCT f.asmt_id as asmt_id, f.school_year FROM fact_student_exam f
+                  ( SELECT DISTINCT f.asmt_id as asmt_id, f.school_year FROM exam f
                     UNION
-                    SELECT DISTINCT f.asmt_id as asmt_id, f.school_year FROM fact_student_iab_exam f
+                    SELECT DISTINCT f.asmt_id as asmt_id, f.school_year FROM iab_exam f
                     UNION
                     SELECT a.id AS asmt_id, a.school_year FROM asmt a
                   ) t;
