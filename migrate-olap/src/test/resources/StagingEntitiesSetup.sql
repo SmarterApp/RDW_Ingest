@@ -43,7 +43,7 @@ INSERT INTO staging_student_ethnicity(student_id, ethnicity_id, migrate_id) valu
 INSERT INTO  staging_exam ( id, type_id, school_year, asmt_id, asmt_grade_id, subject_id, student_id, completed_at,
                             elas_id, completeness_id, administration_condition_id, performance_level, scale_score,
                             deleted, migrate_id, grade_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status, updated, update_import_id) VALUES
- -- fact_student_exam ------------------------------------------------------------------------------------------------------------------------------
+ -- exam ------------------------------------------------------------------------------------------------------------------------------
    -- same exams as in olap but with updated (older) completed_at, scale_score and claim score
   (-88, 1, 1999, -99, null, null, -89, '2016-08-12 19:05:00.000000', -99, -99, -99, 1, 2135, 0, -88, 108, -1, 1, 1, 0, 0,  1, '2017-07-18 20:14:34.000000', -1),
 
@@ -63,7 +63,7 @@ INSERT INTO  staging_exam ( id, type_id, school_year, asmt_id, asmt_grade_id, su
   (-83, 1, 1998, -11, null, null, -89, '2016-05-14 19:06:07.966000', -99, -99, -99, 1, 2145, 0, -88, 108, -1, 1, 1, 0, 0,  1, '2017-07-18 20:14:34.000000', -1),
   (-13, 1, 1998, -11, null, null, -89, '2016-04-14 19:06:07.966000', -99, -99, -99, 1, 2145, 0, -88, 108, -1, 1, 1, 0, 0,  1, '2017-07-18 20:14:34.000000', -1),
 
- -- fact_student_iab_exam -------------------------------------------------------------------------------------------------------------------------
+ -- iab_exam -------------------------------------------------------------------------------------------------------------------------
    -- same exams as in olap but with updated (older) completed_at, scale_score and claim score
   (-68, 2, 1999, -66, null, null, -89, '2016-08-12 19:05:00.000000', -99, -99, -99, 1, 2135, 0, -88, 108, -1, 1, 1, 0, 0,  1, '2017-07-18 20:14:34.000000', -1),
 
@@ -90,7 +90,7 @@ INSERT INTO  staging_exam ( id, type_id, school_year, asmt_id, asmt_grade_id, su
   (-87, 1, 1998, -11, null, null, -11, '2016-08-14 19:06:07.966000', -99, -99, -99, 1, 2145, 0, -88, 108, -1, 1, 1, 0, 0,  1, '2017-07-18 20:14:34.000000', -1),
   (-17, 1, 1998, -11, null, null, -11, '2016-08-14 19:06:07.966000', -99, -99, -99, 1, 2145, 0, -88, 108, -1, 1, 1, 0, 0,  1, '2017-07-18 20:14:34.000000', -1),
 
--- fact_student_exam_longitudinal -------------------------------------------------------------------------------------------------------------------------
+-- exam_longitudinal -------------------------------------------------------------------------------------------------------------------------
    -- update exam test:  in olap but with older completed_at, scale_score and claim score
   (-268, 3, 1998, -107, null, null, -89, '2016-08-12 19:05:00.000000', -99, -99, -99, 1, 2135, 0, -88, 107, -1, 1, 1, 0, 0,  1, '2017-07-18 20:14:34.000000', -1),
 
