@@ -178,7 +178,6 @@ The apps are wrapped in docker containers and should be built and run that way. 
 to make it easy: it runs RabbitMQ, the configuration server and all the RDW_Ingest applications. Please read the
 comments in the docker-compose script for setting required environment variables. Then invoke docker-compose, e.g.:
 ```bash
-cd docker
 docker-compose up -d
 docker logs -f docker_import-service_1
 ```
