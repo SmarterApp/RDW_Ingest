@@ -1,3 +1,5 @@
+import org.gradle.internal.jvm.Jvm
+
 apply plugin: 'org.springframework.boot'
 
 dependencies {
@@ -30,4 +32,8 @@ dependencies {
 
     compile project(':rdw-ingest-common')
     testCompile project(path: ':rdw-ingest-common', configuration: 'tests')
+
+    // Add a runtime binding to the java tool.jar required by Sun's MSV (multi-schema-validator)
+    // implementation which is used during streaming XSD-based XML validation
+    runtime files(Jvm.current().toolsJar)
 }
