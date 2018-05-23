@@ -130,7 +130,7 @@ sql:
       WHERE s.code = :subject_code
         AND c.code = :claim_code
 
-    hasItems: >-
+    isReferenced: >-
       SELECT EXISTS(
         SELECT 1
         FROM item i
@@ -164,7 +164,7 @@ sql:
         FROM subject s
         WHERE s.code = :subject_code
 
-    hasItems: >-
+    isReferenced: >-
       SELECT
         i.dok_id
       FROM item i
@@ -207,7 +207,7 @@ sql:
       DELETE FROM item_difficulty_cuts
       WHERE id IN (:difficulty_ids)
 
-    hasItems: >-
+    isReferenced: >-
       SELECT
         idc.id
       FROM item_difficulty_cuts idc
@@ -257,7 +257,7 @@ sql:
       DELETE FROM target
       WHERE id IN (:target_ids)
 
-    hasItems: >-
+    isReferenced: >-
       SELECT
         i.target_id
       FROM item i
@@ -369,7 +369,7 @@ sql:
       DELETE FROM subject_claim_score
       WHERE id IN (:ids)
 
-    hasAssessment: >-
+    isReferenced: >-
       SELECT
         scs.id
       FROM subject_claim_score scs
@@ -437,7 +437,7 @@ sql:
       DELETE FROM common_core_standard
       WHERE id IN (:ids)
 
-    hasItem: >-
+    isReferenced: >-
       SELECT
         iccs.common_core_standard_id
       FROM item_common_core_standard iccs
@@ -497,7 +497,7 @@ sql:
         WHERE subject.code = :subject_code
           AND asmt_type.code = :asmt_type_code
 
-      hasAssessments: >-
+      isReferenced: >-
         SELECT EXISTS(
           SELECT 1
           FROM asmt a
