@@ -129,7 +129,19 @@ Code coverage reports can be found in each project under `./build/reports/covera
 generating them using:
 ```bash
 ./gradlew coverage
-``` 
+```
+
+If you want to run the integration tests against Aurora (instead of the local MySQL) you should set environment
+variables with the required credentials for the CI database instances:
+```bash
+(export SPRING_DATASOURCE_URL_SERVER=rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306; \
+ export SPRING_DATASOURCE_USERNAME=sbac; export SPRING_DATASOURCE_PASSWORD=password; \
+ export SPRING_REPORTING_DATASOURCE_URL_SERVER=rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306; \
+ export SPRING_REPORTING_DATASOURCE_USERNAME=sbac; export SPRING_REPORTING_DATASOURCE_PASSWORD=password; \
+ export SPRING_WAREHOUSE_DATASOURCE_URL_SERVER=rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306; \
+ export SPRING_WAREHOUSE_DATASOURCE_USERNAME=sbac; export SPRING_WAREHOUSE_DATASOURCE_PASSWORD=password; \
+ ./gradlew it)
+```
 
 The integration tests dealing with Redshift have been separated out because they require remote AWS resources
 and they take a while to run. To run these tests you must set credentials -- please see the comment in 
