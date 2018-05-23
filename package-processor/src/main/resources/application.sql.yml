@@ -342,18 +342,22 @@ sql:
       SELECT
         scs.id,
         scs.code,
+        at.code as asmt_type_code,
         scs.display_order
       FROM subject_claim_score scs
         JOIN subject s ON s.id = scs.subject_id
+        JOIN asmt_type at ON at.id = scs.asmt_type_id
       WHERE s.code = :subject_code
 
     insert: >-
-      INSERT INTO subject_claim_score (subject_id, code, display_order)
+      INSERT INTO subject_claim_score (subject_id, asmt_type_id, code, display_order)
         SELECT
           s.id,
+          at.id,
           :claim_code,
           :display_order
         FROM subject s
+          JOIN asmt_type at ON at.code = :asmt_type_code
         WHERE s.code = :subject_code
 
     update: >-
@@ -369,7 +373,7 @@ sql:
       SELECT
         scs.id
       FROM subject_claim_score scs
-        JOIN asmt a ON a.subject_id = scs.subject_id
+        JOIN asmt a ON a.subject_id = scs.subject_id AND a.type_id = scs.asmt_type_id
       WHERE scs.id IN (:ids)
       LIMIT 1
 
@@ -457,22 +461,20 @@ sql:
           s.code as subject_code,
           sat.performance_level_count,
           sat.performance_level_standard_cutoff,
-          sat.sub_score_performance_level_count,
-          sat.sub_score_performance_level_standard_cutoff
+          sat.claim_score_performance_level_count
         FROM subject_asmt_type sat
           JOIN asmt_type at ON at.id = sat.asmt_type_id
           JOIN subject s ON s.id = sat.subject_id
         WHERE s.code = :subject_code
 
       insert: >-
-        INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, sub_score_performance_level_count, sub_score_performance_level_standard_cutoff)
+        INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count)
           SELECT
             asmt_type.id,
             subject.id,
             :performance_level_count,
             :performance_level_standard_cutoff,
-            :sub_score_performance_level_count,
-            :sub_score_performance_level_standard_cutoff
+            :claim_score_performance_level_count
           FROM subject
             JOIN asmt_type ON asmt_type.code = :asmt_type_code
           WHERE subject.code = :subject_code
@@ -484,8 +486,7 @@ sql:
         SET
           subject_asmt_type.performance_level_count = :performance_level_count,
           subject_asmt_type.performance_level_standard_cutoff = :performance_level_standard_cutoff,
-          subject_asmt_type.sub_score_performance_level_count = :sub_score_performance_level_count,
-          subject_asmt_type.sub_score_performance_level_standard_cutoff = :sub_score_performance_level_standard_cutoff
+          subject_asmt_type.claim_score_performance_level_count = :claim_score_performance_level_count
         WHERE subject.code = :subject_code
           AND asmt_type.code = :asmt_type_code
 
