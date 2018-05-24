@@ -132,14 +132,21 @@ generating them using:
 ```
 
 If you want to run the integration tests against Aurora (instead of the local MySQL) you should set environment
-variables with the required credentials for the CI database instances:
+variables with the required credentials for the CI (or other appropriate) database instance. Note that the way things
+work for this, all the schemas must live in the same database server (so reporting and warehouse can't be separate
+servers). The users may be different (but for CI they are the same). The `ORG_GRADLE_PROJECT_*` variables are passed
+into the gradle environment so the RDW_Schema commands are applied to the correct database. The `SPRING_*_*` are used
+by the Spring Boot ITs. And the temporary variables are just to avoid some duplication.
 ```bash
-(export SPRING_DATASOURCE_URL_SERVER=rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306; \
- export SPRING_DATASOURCE_USERNAME=sbac; export SPRING_DATASOURCE_PASSWORD=password; \
- export SPRING_REPORTING_DATASOURCE_URL_SERVER=rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306; \
- export SPRING_REPORTING_DATASOURCE_USERNAME=sbac; export SPRING_REPORTING_DATASOURCE_PASSWORD=password; \
- export SPRING_WAREHOUSE_DATASOURCE_URL_SERVER=rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306; \
- export SPRING_WAREHOUSE_DATASOURCE_USERNAME=sbac; export SPRING_WAREHOUSE_DATASOURCE_PASSWORD=password; \
+(SERVER=rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306; USER=sbac; PSWD=password; \
+ export ORG_GRADLE_PROJECT_database_url=jdbc:mysql://$SERVER/; \
+ export ORG_GRADLE_PROJECT_database_user=$USER; export ORG_GRADLE_PROJECT_database_password=$PSWD; \
+ export SPRING_DATASOURCE_URL_SERVER=$SERVER; \
+ export SPRING_DATASOURCE_USERNAME=$USER; export SPRING_DATASOURCE_PASSWORD=$PSWD; \
+ export SPRING_REPORTING_DATASOURCE_URL_SERVER=$SERVER; \
+ export SPRING_REPORTING_DATASOURCE_USERNAME=$USER; export SPRING_REPORTING_DATASOURCE_PASSWORD=$PSWD; \
+ export SPRING_WAREHOUSE_DATASOURCE_URL_SERVER=$SERVER; \
+ export SPRING_WAREHOUSE_DATASOURCE_USERNAME=$USER; export SPRING_WAREHOUSE_DATASOURCE_PASSWORD=$PSWD; \
  ./gradlew it)
 ```
 
