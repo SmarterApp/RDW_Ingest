@@ -4,11 +4,6 @@ sql:
     findIdByCode: >-
       SELECT id FROM asmt_type WHERE code= :code
 
-  #JdbcSubjectRepository
-  subject:
-    findIdByCode: >-
-      SELECT id FROM subject WHERE code= :code
-
   #JdbcGradeRepository
   grade:
     findIdByCode: >-
@@ -79,7 +74,7 @@ sql:
       updateDifficultyCode:
         update item i
           join asmt a on i.asmt_id = a.id
-          join item_difficulty_cuts c on c.asmt_type_id = a.type_id and a.subject_id = c.subject_id and a.grade_id = c.grade_id
+          join item_difficulty_cuts c on a.subject_id = c.subject_id and a.grade_id = c.grade_id
         set
           i.difficulty_code = if(i.difficulty < c.moderate_low_end, 'E', if(i.difficulty < c.difficult_low_end, 'M', 'D' ))
         where a.natural_id in (:asmt_natural_ids)
@@ -108,13 +103,125 @@ sql:
 
   #JdbcClaimRepository
   claim:
-    findIdByCode: >-
-      SELECT id FROM claim WHERE code= :code
+    findIdBySubjectAndCode: >-
+      SELECT c.id
+      FROM claim c
+        JOIN subject s ON s.id = c.subject_id
+      WHERE c.code = :code
+        AND s.id = :subject_id
+
+    findCodesBySubject: >-
+      SELECT c.code
+      FROM claim c
+        JOIN subject s ON s.id = c.subject_id
+      WHERE s.code = :subject_code
+
+    insert: >-
+      INSERT INTO claim (subject_id, code)
+        SELECT
+          s.id,
+          :claim_code
+        FROM subject s
+        WHERE s.code = :subject_code
+
+    delete: >-
+      DELETE c FROM claim c
+        JOIN subject s ON s.id = c.subject_id
+      WHERE s.code = :subject_code
+        AND c.code = :claim_code
+
+    isReferenced: >-
+      SELECT EXISTS(
+        SELECT 1
+        FROM item i
+          JOIN asmt a ON a.id = i.asmt_id
+          JOIN subject s ON s.id = a.subject_id
+          JOIN claim c ON c.id = i.claim_id
+        WHERE s.code = :subject_code
+          AND c.code = :claim_code
+        LIMIT 1)
 
   #JdbcDepthOfKnowledgeRepository
   dok:
     findIdByLevelAndSubject: >-
       SELECT id FROM depth_of_knowledge WHERE level= :level and subject_id = :subjectId
+
+    findBySubject: >-
+      SELECT
+        dok.id,
+        dok.level,
+        dok.reference
+      FROM depth_of_knowledge dok
+        JOIN subject s ON s.id = dok.subject_id
+      WHERE s.code = :subject_code
+
+    insert: >-
+      INSERT INTO depth_of_knowledge (level, reference, subject_id)
+        SELECT
+          :level,
+          :reference,
+          s.id
+        FROM subject s
+        WHERE s.code = :subject_code
+
+    isReferenced: >-
+      SELECT
+        i.dok_id
+      FROM item i
+      WHERE i.dok_id IN (:depth_ids)
+      LIMIT 1
+
+    delete: >-
+      DELETE FROM depth_of_knowledge
+      WHERE id IN (:depth_ids)
+
+    update: >-
+      UPDATE depth_of_knowledge
+      SET reference = :reference
+      WHERE id = :depth_id
+
+  itemDifficulty:
+    findBySubject: >-
+      SELECT
+        idc.id,
+        idc.moderate_low_end,
+        idc.difficult_low_end,
+        g.code
+      FROM item_difficulty_cuts idc
+        JOIN subject s on s.id = idc.subject_id
+        JOIN grade g on g.id = idc.grade_id
+      WHERE s.code = :subject_code
+
+    insert: >-
+      INSERT INTO item_difficulty_cuts (subject_id, grade_id, moderate_low_end, difficult_low_end)
+        SELECT
+          s.id,
+          g.id,
+          :moderate_low_end,
+          :difficult_low_end
+        FROM subject s
+          JOIN grade g ON g.code = :grade_code
+        WHERE s.code = :subject_code
+
+    delete: >-
+      DELETE FROM item_difficulty_cuts
+      WHERE id IN (:difficulty_ids)
+
+    isReferenced: >-
+      SELECT
+        idc.id
+      FROM item_difficulty_cuts idc
+        JOIN subject s ON s.id = idc.subject_id
+        JOIN asmt a ON a.subject_id = s.id AND a.grade_id = idc.grade_id
+      WHERE idc.id IN (:difficulty_ids)
+      LIMIT 1
+
+    update: >-
+      UPDATE item_difficulty_cuts
+      SET
+        moderate_low_end = :moderate_low_end,
+        difficult_low_end = :difficult_low_end
+      WHERE id = :id
 
   #JdbcMathPracticeRepository
   mathPractice:
@@ -125,6 +232,42 @@ sql:
   target:
     findIdByNaturalIdAndClaimId: >-
       SELECT id FROM target WHERE natural_id= :naturalId AND claim_id = :claimId
+
+    findBySubject: >-
+      SELECT
+        t.id,
+        t.natural_id,
+        c.code as claim_code
+      FROM target t
+        JOIN claim c ON c.id = t.claim_id
+        JOIN subject s ON s.id = c.subject_id
+      WHERE s.code = :subject_code
+
+    insert: >-
+      INSERT INTO target (claim_id, natural_id)
+        SELECT
+          c.id,
+          :natural_id
+        FROM claim c
+          JOIN subject s ON s.id = c.subject_id
+        WHERE c.code = :claim_code
+          AND s.code = :subject_code
+
+    delete: >-
+      DELETE FROM target
+      WHERE id IN (:target_ids)
+
+    isReferenced: >-
+      SELECT
+        i.target_id
+      FROM item i
+      WHERE i.target_id IN (:target_ids)
+      UNION
+      SELECT
+        iot.target_id
+      FROM item_other_target iot
+      WHERE iot.target_id IN (:target_ids)
+      LIMIT 1
 
   #JdbcCommonCoreStandardRepository
   commonCoreStandard:
@@ -194,6 +337,46 @@ sql:
     update: >-
       UPDATE school_group SET name = :name, external_id = :external_id WHERE id = :id
 
+  scorableClaim:
+    findBySubject: >-
+      SELECT
+        scs.id,
+        scs.code,
+        at.code as asmt_type_code,
+        scs.display_order
+      FROM subject_claim_score scs
+        JOIN subject s ON s.id = scs.subject_id
+        JOIN asmt_type at ON at.id = scs.asmt_type_id
+      WHERE s.code = :subject_code
+
+    insert: >-
+      INSERT INTO subject_claim_score (subject_id, asmt_type_id, code, display_order)
+        SELECT
+          s.id,
+          at.id,
+          :claim_code,
+          :display_order
+        FROM subject s
+          JOIN asmt_type at ON at.code = :asmt_type_code
+        WHERE s.code = :subject_code
+
+    update: >-
+      UPDATE subject_claim_score
+      SET display_order = :display_order
+      WHERE id = :id
+
+    delete: >-
+      DELETE FROM subject_claim_score
+      WHERE id IN (:ids)
+
+    isReferenced: >-
+      SELECT
+        scs.id
+      FROM subject_claim_score scs
+        JOIN asmt a ON a.subject_id = scs.subject_id AND a.type_id = scs.asmt_type_id
+      WHERE scs.id IN (:ids)
+      LIMIT 1
+
   #JdbcPercentileRepository
   percentile:
     create: >-
@@ -229,3 +412,128 @@ sql:
 
       delete: >-
         DELETE FROM percentile_score WHERE percentile_id=:percentile_id
+
+  standard:
+    findIdsBySubjectIdAndNaturalIds: >-
+      SELECT id FROM common_core_standard WHERE natural_id in (:naturalIds) AND subject_id = :subjectId
+
+    findBySubject: >-
+      SELECT
+        ccs.id,
+        ccs.natural_id
+      FROM common_core_standard ccs
+        JOIN subject s ON s.id = ccs.subject_id
+      WHERE s.code = :subject_code
+
+    insert: >-
+      INSERT INTO common_core_standard (subject_id, natural_id)
+        SELECT
+          s.id,
+          :standard_code
+        FROM subject s
+        WHERE s.code = :subject_code
+
+    delete: >-
+      DELETE FROM common_core_standard
+      WHERE id IN (:ids)
+
+    isReferenced: >-
+      SELECT
+        iccs.common_core_standard_id
+      FROM item_common_core_standard iccs
+      WHERE iccs.common_core_standard_id IN (:ids)
+      LIMIT 1
+
+  subject:
+    findIdByCode: >-
+      SELECT id FROM subject WHERE code = :code
+
+    insert: >-
+      INSERT INTO subject (code, import_id, update_import_id) VALUES (:code, :import_id, :import_id)
+
+    update: >-
+      UPDATE subject SET update_import_id = :update_import_id WHERE code = :code
+
+    assessmentType:
+      findBySubject: >-
+        SELECT
+          at.code as asmt_type_code,
+          s.code as subject_code,
+          sat.performance_level_count,
+          sat.performance_level_standard_cutoff,
+          sat.claim_score_performance_level_count
+        FROM subject_asmt_type sat
+          JOIN asmt_type at ON at.id = sat.asmt_type_id
+          JOIN subject s ON s.id = sat.subject_id
+        WHERE s.code = :subject_code
+
+      insert: >-
+        INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count)
+          SELECT
+            asmt_type.id,
+            subject.id,
+            :performance_level_count,
+            :performance_level_standard_cutoff,
+            :claim_score_performance_level_count
+          FROM subject
+            JOIN asmt_type ON asmt_type.code = :asmt_type_code
+          WHERE subject.code = :subject_code
+
+      update: >-
+        UPDATE subject_asmt_type
+          JOIN subject ON subject.id = subject_asmt_type.subject_id
+          JOIN asmt_type ON asmt_type.id = subject_asmt_type.asmt_type_id
+        SET
+          subject_asmt_type.performance_level_count = :performance_level_count,
+          subject_asmt_type.performance_level_standard_cutoff = :performance_level_standard_cutoff,
+          subject_asmt_type.claim_score_performance_level_count = :claim_score_performance_level_count
+        WHERE subject.code = :subject_code
+          AND asmt_type.code = :asmt_type_code
+
+      delete: >-
+        DELETE subject_asmt_type FROM subject_asmt_type
+          JOIN subject ON subject.id = subject_asmt_type.subject_id
+          JOIN asmt_type ON asmt_type.id = subject_asmt_type.asmt_type_id
+        WHERE subject.code = :subject_code
+          AND asmt_type.code = :asmt_type_code
+
+      isReferenced: >-
+        SELECT EXISTS(
+          SELECT 1
+          FROM asmt a
+            JOIN subject s ON s.id = a.subject_id
+            JOIN asmt_type at ON at.id = a.type_id
+          WHERE s.code = :subject_code
+            AND at.code = :asmt_type_code
+          LIMIT 1)
+
+  subjectTranslation:
+    findBySubject: >-
+      SELECT
+        st.label_code,
+        st.label
+      FROM subject_translation st
+        JOIN subject s ON s.id = st.subject_id
+      WHERE s.code = :subject_code
+
+    insert: >-
+      INSERT INTO subject_translation (subject_id, label_code, label)
+        SELECT
+          s.id,
+          :label_code,
+          :label
+        FROM subject s
+        WHERE s.code = :subject_code
+
+    update: >-
+      UPDATE subject_translation st
+        JOIN subject s ON s.id = st.subject_id
+      SET st.label = :label
+      WHERE st.label_code = :label_code
+        AND s.code = :subject_code
+
+    delete: >-
+      DELETE st FROM subject_translation st
+        JOIN subject s ON s.id = st.subject_id
+      WHERE s.code = :subject_code
+        AND st.label_code IN (:label_codes)

@@ -12,5 +12,5 @@ INSERT INTO math_practice  VALUES (-99,'Make sense of problems and persevere in 
 INSERT INTO item_trait_score VALUES (-99,'Conventions-test'),(-98,'Evidence/Elaboration-test');
 INSERT INTO target VALUES (-99, 'natural-99', -99,'10-1','WORD MEANINGS: Determine intended meanings of words..'),(-98, 'naturalId-99', -98,'10-12','WORD MEANINGS:..)');
 INSERT INTO common_core_standard VALUES (-99, 'naturalId-99', 1,'ccommon core -99'),(-98, 'naturalId-98', 2, 'common core -98');
-INSERT INTO item_difficulty_cuts  VALUES (-99, 1, 2, -99,-1.93882,-0.43906),(-98 ,1, 2, -98,-1.51022,0.14288);
+INSERT INTO item_difficulty_cuts  VALUES (-99, 2, -99,-1.93882,-0.43906),(-98, 2, -98,-1.51022,0.14288);
 INSERT INTO accommodation_translation(accommodation_id, language_code, label) VALUES (-99, 'lan', 'Hola'),(-98, 'gua','Hello');
