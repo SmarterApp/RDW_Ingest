@@ -96,8 +96,8 @@ spring:
 
   http:
     multipart:
-      max-file-size: 32MB
-      max-request-size: 32MB
+      max-file-size: 500MB
+      max-request-size: 500MB
 
   jackson:
     default-property-inclusion: non_null
