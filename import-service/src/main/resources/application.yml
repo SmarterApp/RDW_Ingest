@@ -6,10 +6,6 @@ management:
   security:
     enabled: false
 
-app:
-  state:
-    code: CA
-
 # spring auto-configured aws defense
 cloud:
   aws:
@@ -26,6 +22,10 @@ cloud:
 # use LocalArchiveService by default
 archive:
   root: file:///tmp/
+
+reporting:
+  state:
+    code: CA
 
 security:
   # "local" causes stub services to be used

@@ -802,7 +802,7 @@ sql:
                   ? as migrate_id
                FROM exam_claim_score ecs
                   JOIN exam we ON we.id = ecs.exam_id
-                WHERE we.updated > ? AND we.deleted = 0 AND we.updated <= ? AND we.updated <> we.created AND we.scale_score IS NOT NULL AND we.scale_score_std_err IS NOT NULL AND we.performance_level IS NOT NULL
+               WHERE we.updated > ? AND we.deleted = 0 AND we.updated <= ? AND we.updated <> we.created AND we.scale_score IS NOT NULL AND we.scale_score_std_err IS NOT NULL AND we.performance_level IS NOT NULL
                   AND ecs.category IS NOT NULL
                INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_claim_score_update'
                FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
@@ -854,7 +854,7 @@ sql:
                 IF(aggregate = 0, 0, 1) AS aggregate,
                 ? as migrate_id
               FROM state_embargo
-               WHERE school_year = ${app.school-year}
+              WHERE school_year = ${reporting.school-year}
               INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/state_embargo'
                               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                               LINES TERMINATED BY '\n'
