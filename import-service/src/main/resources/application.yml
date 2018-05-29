@@ -6,10 +6,6 @@ management:
   security:
     enabled: false
 
-app:
-  state:
-    code: CA
-
 # spring auto-configured aws defense
 cloud:
   aws:
@@ -26,6 +22,10 @@ cloud:
 # use LocalArchiveService by default
 archive:
   root: file:///tmp/
+
+reporting:
+  state:
+    code: CA
 
 security:
   # "local" causes stub services to be used
@@ -96,8 +96,8 @@ spring:
 
   http:
     multipart:
-      max-file-size: 32MB
-      max-request-size: 32MB
+      max-file-size: 500MB
+      max-request-size: 500MB
 
   jackson:
     default-property-inclusion: non_null

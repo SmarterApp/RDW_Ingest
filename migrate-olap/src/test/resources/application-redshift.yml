@@ -1,9 +1,6 @@
 # Testing redshift makes use of the CI environment so this overrides some default properties.
 # All the properties should be set to default to the CI environment settings; developers may
 # override them locally but the CI system assumes the defaults are for CI resources.
-app:
-  school-year: 1999
-
 archive:
   root: s3://rdw-ci-archive
   cloud:
@@ -18,6 +15,9 @@ migrate:
     location: MigrateOlap
     redshift:
       role: arn:aws:iam::269146879732:role/rdw-redshift
+
+reporting:
+  school-year: 1999
 
 spring:
   migrate_datasource:
