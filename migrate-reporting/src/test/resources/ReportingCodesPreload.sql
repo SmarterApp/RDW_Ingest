@@ -10,6 +10,6 @@ INSERT INTO claim VALUES (-99 ,2, 'claim-99', 'before test','before test');
 INSERT INTO depth_of_knowledge  VALUES (-99, 1, 1,'before test', 'before');
 INSERT INTO math_practice  VALUES (-99,'before test', '-9');
 INSERT INTO item_trait_score VALUES (-99,'before test');
-INSERT INTO target  VALUES (-99,-99,'10-1','before test');
+INSERT INTO target(id, claim_id, code, description)  VALUES (-99,-99,'10-1','before test');
 INSERT INTO common_core_standard  VALUES (-99, 'naturalId-99', 1, 'before test');
 INSERT INTO accommodation_translation (label_code, language_code, label) VALUES ('code1-test', 'lan', 'before test');
