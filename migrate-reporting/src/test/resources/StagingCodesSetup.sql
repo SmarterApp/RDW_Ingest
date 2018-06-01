@@ -10,6 +10,6 @@ INSERT INTO staging_claim(id, subject_id, code, name, description) VALUES (-99 ,
 INSERT INTO staging_depth_of_knowledge(id, level, subject_id, description, reference) VALUES (-99,1,1,'Recall and Reproduction','something'),(-98,2,1,'Basic Skills and Concepts','anything');
 INSERT INTO staging_math_practice(practice, description, code) VALUES (-99,'Make sense of problems and persevere in solving them', '-9'),(-98,'Reason abstractly and quantitatively', '-8');
 INSERT INTO staging_item_trait_score(id, dimension) VALUES (-99,'Conventions-test'),(-98,'Evidence/Elaboration-test');
-INSERT INTO staging_target(id, claim_id, code, description) VALUES (-99, -99,'target-99','WORD MEANINGS: Determine intended meanings of words..'),(-98, -98,'target-98','WORD MEANINGS:..)');
+INSERT INTO staging_target(id, natural_id, claim_id, code, description) VALUES (-99, 'target-99', -99,'target-99','WORD MEANINGS: Determine intended meanings of words..'),(-98, 'target-98', -98, 'target-98', 'WORD MEANINGS:..)');
 INSERT INTO staging_common_core_standard(id, natural_id, subject_id, description) VALUES (-99,'naturalid-99', 1, 'standard 99.'),(-98, 'naturalid-98',  2, 'standard 98:..)');
 INSERT INTO staging_accommodation_translation (label_code, language_code, label) VALUES ('code1-test', 'lan','Hola'),('code2-test', 'gua','Hello');

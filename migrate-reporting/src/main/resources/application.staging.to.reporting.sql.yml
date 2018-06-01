@@ -238,13 +238,15 @@ sql:
               JOIN staging_target st ON st.id = rt.id
             SET
               rt.claim_id = st.claim_id,
+              rt.natural_id = st.natural_id,
               rt.code = st.code,
               rt.description = st.description;
 
           insert:  >-
-            INSERT INTO target (id, claim_id, code, description)
+            INSERT INTO target (id, natural_id, claim_id, code, description)
               SELECT
                 st.id,
+                st.natural_id,
                 st.claim_id,
                 st.code,
                 st.description

@@ -10,6 +10,6 @@ INSERT INTO staging_claim(id, subject_id, code, name, description) VALUES (-98, 
 INSERT INTO staging_depth_of_knowledge(id, level, subject_id, description, reference) VALUES (-98, 2, 1, 'Basic Skills and Concepts', 'anything');
 INSERT INTO staging_math_practice(practice, description, code) VALUES (-98, 'Reason abstractly and quantitatively', '-8');
 INSERT INTO staging_item_trait_score(id, dimension) VALUES (-98, 'Evidence/Elaboration-test');
-INSERT INTO staging_target(id, claim_id, code, description) VALUES (-98, -98, 'target-98', 'WORD MEANINGS:..)');
+INSERT INTO staging_target(id, natural_id, claim_id, code, description) VALUES (-98, 'target-98', -98, 'target-98', 'WORD MEANINGS:..)');
 INSERT INTO staging_common_core_standard(id, natural_id, subject_id, description) VALUES (-98, 'naturalid-98', 2, 'standard 98');
 INSERT INTO staging_accommodation_translation(label_code, language_code, label) VALUES ('code2-test', 'gua', 'Adios');

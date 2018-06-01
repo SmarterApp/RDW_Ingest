@@ -19,7 +19,7 @@ DELETE FROM completeness WHERE id IN (-99,-98, -95);
 DELETE FROM administration_condition WHERE id IN (-99,-98, -97, -96, -95);
 DELETE FROM ethnicity WHERE id IN (-99,-98);
 DELETE FROM gender  WHERE id IN (-99,-98);
-TRUNCATE accommodation_translation;
+DELETE FROM accommodation_translation where language_code in ('lan', 'gua');
 DELETE FROM accommodation WHERE id IN (-99,-98);
 DELETE FROM school_year WHERE year IN (1999,1998);
 DELETE FROM depth_of_knowledge  WHERE id IN (-99,-98);
