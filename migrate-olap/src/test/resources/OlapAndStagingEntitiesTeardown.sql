@@ -1,6 +1,7 @@
 -- CLEAN UP staging
 -- ------------------------------------------  Exams ---------------------------------------------------------------------------------------------
 DELETE FROM staging_exam_claim_score where exam_id < 0;
+DELETE FROM staging_exam_target_score where exam_id < 0;
 DELETE FROM staging_exam where id < 0;
 
 -- ------------------------------------------ School/Districts --------------------------------------------------------------------------------------------------
@@ -11,6 +12,8 @@ DELETE FROM staging_school_group where id < 0;
 
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
 DELETE FROM staging_asmt where id < 0;
+DELETE FROM staging_asmt_target where asmt_id < 0;
+DELETE FROM staging_asmt_target_exclusion where asmt_id < 0;
 
 -- ------------------------------------------ Student and Groups  ------------------------------------------------------------------------------------------------
 DELETE FROM staging_student_ethnicity where student_id < 0;
@@ -21,6 +24,7 @@ DELETE FROM exam where id < 0;
 DELETE FROM iab_exam where id < 0;
 DELETE FROM exam_longitudinal where id < 0;
 DELETE FROM exam_claim_score where id < 0;
+DELETE FROM exam_target_score where id < 0;
 
 -- ------------------------------------------ Student   ------------------------------------------------------------------------------------------------
 DELETE FROM student_ethnicity where student_id < 0;
@@ -34,4 +38,5 @@ DELETE FROM school_group where id < 0;
 
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
 DELETE FROM asmt where id < 0;
+DELETE FROM asmt_target where asmt_id < 0;
 DELETE FROM asmt_active_year where asmt_id < 0;
