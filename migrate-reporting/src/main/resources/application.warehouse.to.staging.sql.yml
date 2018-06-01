@@ -157,11 +157,11 @@ sql:
         target:
           sql:
             warehouseRead: >-
-             SELECT wt.id, wt.claim_id, wt.code, wt.description from target wt
+             SELECT wt.id, wt.natural_id, wt.claim_id, wt.code, wt.description from target wt
 
             stagingInsert: >-
-              INSERT INTO staging_target (id, claim_id, code, description) VALUES
-                (:id, :claim_id, :code, :description)
+              INSERT INTO staging_target (id, natural_id, claim_id, code, description) VALUES
+                (:id, :natural_id, :claim_id, :code, :description)
 
 
         # ------------ common_core_standard  ----------------------------------------------------
