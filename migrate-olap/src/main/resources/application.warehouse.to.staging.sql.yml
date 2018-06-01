@@ -4,6 +4,7 @@ sql:
     truncateStageList:
       - delete from staging_administration_condition
       - delete from staging_completeness
+      - delete from staging_district_embargo
       - delete from staging_elas
       - delete from staging_ethnicity
       - delete from staging_gender
@@ -15,11 +16,14 @@ sql:
       - delete from staging_district_group
       - delete from staging_school_group
       - delete from staging_asmt
+      - delete from staging_asmt_target
+      - delete from staging_asmt_target_exclusion
       - delete from staging_exam
       - delete from staging_exam_claim_score
+      - delete from staging_exam_target_score
       - delete from staging_school_year
-      - delete from staging_district_embargo
       - delete from staging_state_embargo
+      - delete from staging_target
 
     entities:
         # ------------ administration_condition  -------------------------------------------------------------------
@@ -157,6 +161,31 @@ sql:
             stagingInsert: >-
                 COPY staging_school_year (year)
                   FROM '${archive.root}/${migrate.aws.location}/year.part_00000'
+                CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+                FORMAT AS CSV
+                DELIMITER ','
+                COMPUPDATE OFF
+
+        # ------------ target  -------------------------------------------------------------------
+        # For Smarter Balanced Math, only the Concepts and Procedures targets are included
+        target:
+          sql:
+            warehouseRead: >-
+                SELECT
+                  wt.id,
+                  wt.natural_id,
+                  wc.code
+                FROM target wt
+                  JOIN claim wc ON wc.id = wt.claim_id
+                  JOIN subject ws ON ws.id = wc.subject_id
+                WHERE ( (ws.code = 'Math' AND wc.code ='1') OR ws.code <> 'Math' )
+                INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/target'
+                FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+                COPY staging_target (id, natural_id, claim_code)
+                  FROM '${archive.root}/${migrate.aws.location}/target.part_00000'
                 CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
                 FORMAT AS CSV
                 DELIMITER ','
@@ -373,6 +402,130 @@ sql:
                 update_import_id,
                 migrate_id)
               FROM '${archive.root}/${migrate.aws.location}/asmt_update.part_00000'
+              CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+              FORMAT AS CSV
+              TIMEFORMAT 'auto'
+              DELIMITER ','
+              COMPUPDATE OFF
+
+    # ------------ asmt_target_exclusion  -------------------------------------------------------------------
+    # Only Summative target scores are included
+    # For Smarter Balanced Math, only the Concepts and Procedures targets are included
+        asmt_target_exclusion:
+          sql:
+            warehouseRead: >-
+              SELECT
+                wats.asmt_id,
+                wats.target_id,
+                ? as migrate_id
+              FROM asmt_target_exclusion wats
+                JOIN asmt wa ON wa.id = wats.asmt_id
+                JOIN target wt ON wt.id = wats.target_id
+                JOIN claim wc ON wc.id = wt.claim_id
+                JOIN subject ws ON ws.id = wc.subject_id
+              WHERE wa.type_id = 3 AND ( (ws.code = 'Math' and wc.code ='1') OR ws.code <> 'Math' ) AND
+                 wa.created > ? AND wa.created <= ? AND wa.deleted = 0
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exclusion_asmt_target'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                             LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+              COPY staging_asmt_target_exclusion(
+                asmt_id,
+                target_id,
+                migrate_id)
+              FROM '${archive.root}/${migrate.aws.location}/exclusion_asmt_target.part_00000'
+              CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+              FORMAT AS CSV
+              TIMEFORMAT 'auto'
+              DELIMITER ','
+              COMPUPDATE OFF
+
+        asmt_target_exclusion_update:
+          sql:
+            warehouseRead: >-
+              SELECT
+                wats.asmt_id,
+                wats.target_id,
+                ? as migrate_id
+              FROM asmt_target_exclusion wats
+                 JOIN asmt wa ON wa.id = wats.asmt_id
+                  JOIN target wt ON wt.id = wats.target_id
+                  JOIN claim wc ON wc.id = wt.claim_id
+                  JOIN subject ws ON ws.id = wc.subject_id
+                WHERE wa.type_id = 3 AND ( (ws.code = 'Math' and wc.code ='1') OR ws.code <> 'Math' ) AND
+                      wa.updated > ? AND wa.updated <= ? AND wa.updated <> wa.created
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exclusion_asmt_target_update'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                             LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+              COPY staging_asmt_target_exclusion(
+                asmt_id,
+                target_id,
+                migrate_id)
+              FROM '${archive.root}/${migrate.aws.location}/exclusion_asmt_target_update.part_00000'
+              CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+              FORMAT AS CSV
+              TIMEFORMAT 'auto'
+              DELIMITER ','
+              COMPUPDATE OFF
+
+    # ------------ asmt_target  -------------------------------------------------------------------
+    # Only Summative target scores are included
+    # For Smarter Balanced Math, only the Concepts and Procedures targets are included
+        asmt_target:
+          sql:
+            warehouseRead: >-
+              SELECT DISTINCT
+                wi.asmt_id,
+                wi.target_id,
+                ? as migrate_id
+              FROM item wi JOIN asmt wa ON wa.id = wi.asmt_id
+                  JOIN target wt ON wt.id = wi.target_id
+                  JOIN claim wc ON wc.id = wt.claim_id
+                  JOIN subject ws ON ws.id = wc.subject_id
+                WHERE wa.type_id = 3 AND ( (ws.code = 'Math' and wc.code ='1') OR ws.code <> 'Math' ) AND
+                      wa.created > ? AND wa.created <= ? AND wa.deleted = 0
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/asmt_target'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                             LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+              COPY staging_asmt_target(
+                asmt_id,
+                target_id,
+                migrate_id)
+              FROM '${archive.root}/${migrate.aws.location}/asmt_target.part_00000'
+              CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+              FORMAT AS CSV
+              TIMEFORMAT 'auto'
+              DELIMITER ','
+              COMPUPDATE OFF
+
+        asmt_target_update:
+          sql:
+            warehouseRead: >-
+              SELECT DISTINCT
+                wi.asmt_id,
+                wi.target_id,
+                ? as migrate_id
+              FROM item wi JOIN asmt wa ON wa.id = wi.asmt_id
+                  JOIN target wt ON wt.id = wi.target_id
+                  JOIN claim wc ON wc.id = wt.claim_id
+                  JOIN subject ws ON ws.id = wc.subject_id
+                  WHERE wa.type_id = 3 AND ( (ws.code = 'Math' and wc.code ='1') OR ws.code <> 'Math' ) AND
+                     wa.updated > ? AND wa.updated <= ? AND wa.updated <> wa.created
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/asmt_target_update'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                             LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+              COPY staging_asmt_target(
+                asmt_id,
+                target_id,
+                migrate_id)
+              FROM '${archive.root}/${migrate.aws.location}/asmt_target_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               TIMEFORMAT 'auto'
@@ -772,7 +925,8 @@ sql:
                   ? as migrate_id
                 FROM exam_claim_score ecs
                   JOIN exam we ON we.id = ecs.exam_id
-                 WHERE we.created > ? AND we.deleted = 0 AND we.created <= ? AND we.scale_score IS NOT NULL AND we.scale_score_std_err IS NOT NULL AND we.performance_level IS NOT NULL
+                 WHERE we.created > ? AND we.deleted = 0 AND we.created <= ?
+                  AND we.scale_score IS NOT NULL AND we.scale_score_std_err IS NOT NULL AND we.performance_level IS NOT NULL
                   AND ecs.category IS NOT NULL
                 INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_claim_score'
                 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
@@ -802,7 +956,8 @@ sql:
                   ? as migrate_id
                FROM exam_claim_score ecs
                   JOIN exam we ON we.id = ecs.exam_id
-               WHERE we.updated > ? AND we.deleted = 0 AND we.updated <= ? AND we.updated <> we.created AND we.scale_score IS NOT NULL AND we.scale_score_std_err IS NOT NULL AND we.performance_level IS NOT NULL
+               WHERE we.updated > ? AND we.deleted = 0 AND we.updated <= ? AND we.updated <> we.created
+                  AND we.scale_score IS NOT NULL AND we.scale_score_std_err IS NOT NULL AND we.performance_level IS NOT NULL
                   AND ecs.category IS NOT NULL
                INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_claim_score_update'
                FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
@@ -816,6 +971,83 @@ sql:
                   category,
                   migrate_id)
                 FROM '${archive.root}/${migrate.aws.location}/exam_claim_score_update.part_00000'
+                CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+                FORMAT AS CSV
+                DELIMITER ','
+                COMPUPDATE OFF
+
+ # ------------ exam_target_score  -------------------------------------------------------------------
+       # Only Summative target scores are included
+       # For Smarter Balanced Math, only the Concepts and Procedures targets are included
+        exam_target_score:
+          sql:
+            warehouseRead: >-
+              SELECT
+                wets.id,
+                wets.exam_id,
+                wets.target_id,
+                wets.student_relative_residual_score,
+                wets.standard_met_relative_residual_score,
+                ? as migrate_id
+              FROM exam_target_score wets
+                JOIN exam we ON wets.exam_id = we.id
+                JOIN target wt ON wt.id = wets.target_id
+                JOIN claim wc ON wc.id = wt.claim_id
+                JOIN subject ws ON ws.id = wc.subject_id
+              WHERE we.type_id = 3 AND ( (ws.code = 'Math' and wc.code ='1') OR ws.code <> 'Math' ) AND
+                  we.created > ? AND we.deleted = 0 AND we.created <= ? AND
+                  we.scale_score IS NOT NULL AND we.scale_score_std_err IS NOT NULL AND we.performance_level IS NOT NULL AND
+                  wets.standard_met_relative_residual_score IS NOT NULL AND wets.student_relative_residual_score IS NOT NULL
+                INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_target_score'
+                FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+                COPY staging_exam_target_score(
+                  id,
+                  exam_id,
+                  target_id,
+                  student_relative_residual_score,
+                  standard_met_relative_residual_score,
+                  migrate_id)
+                FROM '${archive.root}/${migrate.aws.location}/exam_target_score.part_00000'
+                CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+                FORMAT AS CSV
+                DELIMITER ','
+                COMPUPDATE OFF
+
+        exam_target_score_update:
+          sql:
+            warehouseRead: >-
+             SELECT
+                wets.id,
+                wets.exam_id,
+                wets.target_id,
+                wets.student_relative_residual_score,
+                wets.standard_met_relative_residual_score,
+                ? as migrate_id
+              FROM exam_target_score wets
+                JOIN exam we ON wets.exam_id = we.id
+                JOIN target wt ON wt.id = wets.target_id
+                JOIN claim wc ON wc.id = wt.claim_id
+                JOIN subject ws ON ws.id = wc.subject_id
+              WHERE we.type_id = 3 AND ( (ws.code = 'Math' and wc.code ='1') OR ws.code <> 'Math' ) AND
+                  we.updated > ? AND we.deleted = 0 AND we.updated <= ? AND we.updated <> we.created AND
+                  we.scale_score IS NOT NULL AND we.scale_score_std_err IS NOT NULL AND we.performance_level IS NOT NULL AND
+                  wets.standard_met_relative_residual_score IS NOT NULL AND wets.student_relative_residual_score IS NOT NULL
+               INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_target_score_update'
+               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+               LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+                COPY staging_exam_target_score(
+                  id,
+                  exam_id,
+                  target_id,
+                  student_relative_residual_score,
+                  standard_met_relative_residual_score,
+                  migrate_id)
+                FROM '${archive.root}/${migrate.aws.location}/exam_target_score_update.part_00000'
                 CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
                 FORMAT AS CSV
                 DELIMITER ','
@@ -844,7 +1076,6 @@ sql:
               FORMAT AS CSV
               DELIMITER ','
               COMPUPDATE OFF
-
 
 # ------------ district_embargo  -------------------------------------------------------------------
         state_embargo:

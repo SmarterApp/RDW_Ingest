@@ -15,3 +15,5 @@ DELETE FROM common_core_standard WHERE id IN (-99,-98);
 DELETE FROM item_difficulty_cuts  WHERE id IN (-99,-98);
 DELETE FROM claim WHERE id IN (-99,-98);
 DELETE FROM grade WHERE id >= 100;
+DELETE FROM target WHERE id < 0;
+DELETE FROM claim WHERE id < 0;

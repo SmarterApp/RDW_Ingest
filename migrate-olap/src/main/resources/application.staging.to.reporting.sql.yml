@@ -159,6 +159,31 @@ sql:
               DELETE FROM school_year
                   WHERE NOT EXISTS(SELECT sy.year FROM staging_school_year sy WHERE sy.year = school_year.year);
 
+        # ------------ target  -------------------------------------------------------------------
+        target:
+          sql:
+            update:  >-
+               UPDATE target
+               SET
+                 natural_id = st.natural_id,
+                 claim_code = st.claim_code
+               FROM
+                  staging_target st where st.id = target.id;
+
+            insert: >-
+                INSERT INTO target (id, natural_id, claim_code)
+                  SELECT
+                    st.id,
+                    st.natural_id,
+                    st.claim_code
+                  FROM staging_target st
+                    LEFT JOIN target rt ON rt.id = st.id
+                  WHERE rt.id IS NULL;
+
+            delete: >-
+               DELETE FROM target
+                WHERE NOT EXISTS(SELECT st.id FROM staging_target st WHERE st.id = target.id);
+
       # ------------ student -----------------------------------------------------------------------
         student:
           sql:
@@ -264,7 +289,41 @@ sql:
                 USING staging_asmt sa
               WHERE sa.id = asmt.id AND sa.deleted = 1;
 
-      # ------------ school -----------------------------------------------------------------------
+      # ------------ asmt_target -----------------------------------------------------------------------
+        asmt_target:
+          sql:
+            insert: >-
+              INSERT INTO asmt_target (asmt_id, target_id, include_in_report)
+                SELECT DISTINCT
+                  sate.asmt_id,
+                  sate.target_id,
+                  0
+                FROM staging_asmt_target_exclusion sate
+                  LEFT JOIN asmt_target rat ON rat.asmt_id = sate.asmt_id AND rat.target_id = sate.target_id
+                WHERE rat.asmt_id IS NULL;
+
+            insertIncluded: >-
+              INSERT INTO asmt_target (asmt_id, target_id, include_in_report)
+                SELECT DISTINCT
+                  sat.asmt_id,
+                  sat.target_id,
+                  1
+                FROM staging_asmt_target sat
+                  LEFT JOIN asmt_target rat ON rat.asmt_id = sat.asmt_id AND rat.target_id = sat.target_id
+                WHERE rat.asmt_id IS NULL
+                  AND NOT EXISTS(SELECT 1 from staging_asmt_target_exclusion sate WHERE sate.asmt_id = sat.asmt_id AND sate.target_id = sat.target_id);
+
+            deleteAsPartOfParentUpdate: >-
+              DELETE FROM asmt_target
+                  USING staging_asmt sa
+                WHERE sa.id = asmt_target.asmt_id AND sa.deleted = 0;
+
+            delete: >-
+              DELETE FROM asmt_target
+                USING staging_asmt sa
+              WHERE sa.id = asmt_target.asmt_id AND sa.deleted = 1;
+
+     # ------------ school -----------------------------------------------------------------------
         school:
           sql:
             insert: >-
@@ -547,9 +606,6 @@ sql:
                   LEFT JOIN exam_claim_score e ON e.student_id = se.student_id and e.asmt_id = se.asmt_id and e.school_year = se.school_year
                 WHERE se.type_id IN (1, 3) AND se.latest = true AND e.exam_id IS NULL;
 
-            update: >-
-              SELECT 1;
-
             deleteAsPartOfParentUpdate: >-
               DELETE FROM exam_claim_score
                 USING staging_exam se
@@ -558,6 +614,53 @@ sql:
 
             delete: >-
               DELETE FROM exam_claim_score
+                USING staging_exam se
+              WHERE se.id = exam_id and se.deleted = true;
+
+      # ------------ exam_target_score -----------------------------------------------------------------------
+        exam_target_score:
+          sql:
+            insert: >-
+              INSERT INTO exam_target_score (
+                id,
+                exam_id,
+                target_id,
+                asmt_id,
+                student_id,
+                school_year,
+                student_relative_residual_score,
+                standard_met_relative_residual_score,
+                completed_at,
+                updated,
+                update_import_id,
+                migrate_id
+                )
+                SELECT DISTINCT
+                  sts.id,
+                  sts.exam_id,
+                  sts.target_id,
+                  se.asmt_id,
+                  se.student_id,
+                  se.school_year,
+                  sts.student_relative_residual_score,
+                  sts.standard_met_relative_residual_score,
+                  se.completed_at,
+                  se.updated,
+                  se.update_import_id,
+                  se.migrate_id
+                FROM staging_exam_target_score sts
+                  JOIN staging_exam se ON se.id = sts.exam_id
+                  LEFT JOIN exam_target_score e ON e.student_id = se.student_id and e.asmt_id = se.asmt_id and e.school_year = se.school_year
+                WHERE se.type_id = 3 AND se.latest = true AND e.exam_id IS NULL;
+
+            deleteAsPartOfParentUpdate: >-
+              DELETE FROM exam_target_score
+                USING staging_exam se
+              WHERE se.type_id = 3 AND exam_target_score.student_id = se.student_id and exam_target_score.asmt_id = se.asmt_id and exam_target_score.school_year = se.school_year
+                    AND se.latest = true AND (se.completed_at > exam_target_score.completed_at OR se.id = exam_target_score.exam_id);
+
+            delete: >-
+              DELETE FROM exam_target_score
                 USING staging_exam se
               WHERE se.id = exam_id and se.deleted = true;
 
