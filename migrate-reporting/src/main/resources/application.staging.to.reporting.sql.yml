@@ -474,6 +474,41 @@ sql:
              FROM exam_item ri JOIN staging_exam se ON se.id = ri.exam_id
             WHERE se.deleted = 1;
 
+      # ------------ exam_target_score -------------------------------------------------------------------
+      exam_target_score:
+        sql:
+          insert: >-
+            INSERT INTO exam_target_score (id, exam_id, target_id, student_relative_residual_score, standard_met_relative_residual_score)
+              SELECT
+                sets.id,
+                sets.exam_id,
+                sets.target_id,
+                sets.student_relative_residual_score,
+                sets.standard_met_relative_residual_score
+              FROM staging_exam_target_score sets
+                LEFT JOIN exam_target_score rets ON rets.id = sets.id
+              WHERE rets.id IS NULL;
+
+          update: >-
+            UPDATE exam_target_score rets
+              JOIN staging_exam_target_score sets ON rets.id = sets.id
+            SET
+              rets.exam_id                                 = sets.exam_id,
+              rets.target_id                               = sets.target_id,
+              rets.student_relative_residual_score         = sets.student_relative_residual_score,
+              rets.standard_met_relative_residual_score    = sets.standard_met_relative_residual_score;
+
+          deleteAsPartOfParentUpdate: >-
+            DELETE rets FROM exam_target_score rets
+              JOIN staging_exam se ON se.id = rets.exam_id
+            WHERE
+              se.deleted = 0 AND NOT EXISTS(SELECT sei.id FROM staging_exam_target_score sei WHERE sei.id = rets.id);
+
+          delete: >-
+            DELETE rets
+             FROM exam_target_score rets JOIN staging_exam se ON se.id = rets.exam_id
+            WHERE se.deleted = 1;
+            
       # ------------ exam -------------------------------------------------------------------
       exam:
         sql:
@@ -917,15 +952,15 @@ sql:
               WHERE rse.student_id IS NULL;
 
           deleteAsPartOfParentUpdate: >-
-           DELETE rse FROM student_ethnicity rse
+            DELETE rse FROM student_ethnicity rse
               JOIN staging_student ss on ss.id = rse.student_id
             WHERE ss.deleted = 0
-                AND NOT EXISTS(
-                  SELECT sse.student_id
-                    FROM staging_student_ethnicity sse
-                  WHERE sse.student_id = rse.student_id
-                  AND sse.ethnicity_id = rse.ethnicity_id
-                );
+              AND NOT EXISTS(
+                SELECT sse.student_id
+                  FROM staging_student_ethnicity sse
+                WHERE sse.student_id = rse.student_id
+                AND sse.ethnicity_id = rse.ethnicity_id
+              );
 
           delete: >-
             DELETE rse FROM student_ethnicity rse
@@ -1163,6 +1198,40 @@ sql:
             DELETE riccs FROM item_common_core_standard riccs
               JOIN item ri ON ri.id = riccs.item_id
               JOIN staging_asmt sa ON sa.id = ri.asmt_id WHERE sa.deleted = 1;
+
+      # ------------ asmt_target -----------------------------------------------------------------------
+      asmt_target:
+        sql:
+          insert: >-
+            INSERT INTO asmt_target (asmt_id, target_id, include_in_report)
+              SELECT
+                sate.asmt_id,
+                sate.target_id,
+                0
+              FROM staging_asmt_target_exclusion sate
+                LEFT JOIN asmt_target rat ON rat.asmt_id = sate.asmt_id AND rat.target_id = sate.target_id
+              WHERE rat.asmt_id IS NULL;
+
+          insertIncluded: >-
+            INSERT INTO asmt_target (asmt_id, target_id, include_in_report)
+              SELECT
+                sat.asmt_id,
+                sat.target_id,
+                1
+              FROM staging_asmt_target sat
+                LEFT JOIN asmt_target rat ON rat.asmt_id = sat.asmt_id AND rat.target_id = sat.target_id
+              WHERE rat.asmt_id IS NULL
+                AND NOT EXISTS(SELECT 1 from staging_asmt_target_exclusion sate WHERE sate.asmt_id = sat.asmt_id AND sate.target_id = sat.target_id);
+
+          deleteAsPartOfParentUpdate: >-
+            DELETE rat FROM asmt_target rat
+              JOIN staging_asmt sa ON sa.id = rat.asmt_id
+            WHERE sa.deleted = 0;
+
+          delete: >-
+            DELETE rat FROM asmt_target rat
+              JOIN staging_asmt sa ON sa.id = rat.asmt_id
+            WHERE sa.deleted = 1;
 
       # ------------ asmt -----------------------------------------------------------------------
       asmt:
