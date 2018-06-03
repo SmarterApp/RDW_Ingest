@@ -2,6 +2,7 @@
   <!-- Change "IDEAIndicator" value="No" -->
   <!-- Add Accommodation code="TDS_PM0" -->
   <!-- Add ethnicity HispanicOrLatinoEthnicity -->
+  <!-- Change target score measureOf which is interpreted as Add+Delete -->
   <Test academicYear="2018" assessmentType="Interim" assessmentVersion="11111" bankKey="777" contract="MOCK" grade="11"
         mode="online" name="(naturalId)MOCK-ICA-G11-2017-2018" subject="ELA"
         testId="MOCK-ICA-G11-2017-2018"/>
@@ -62,6 +63,10 @@
     <Score measureLabel="PerformanceLevel" measureOf="4-CR" standardError="" value="3" />
     <Score measureLabel="ScaleScore" measureOf="2-W" standardError="42" value="2501" />
     <Score measureLabel="PerformanceLevel" measureOf="2-W" standardError="" value="3" />
+    <Score measureLabel="StudentRelativeResidualScore" measureOf="1-IT|10-11" standardError="" value="0.2" />
+    <Score measureLabel="StandardMetRelativeResidualScore" measureOf="1-IT|10-11" standardError="" value="0.5" />
+    <Score measureLabel="StudentRelativeResidualScore" measureOf="2-W|9-11" standardError="" value="-0.1" />
+    <Score measureLabel="StandardMetRelativeResidualScore" measureOf="2-W|9-11" standardError="" value="-0.4" />
     <Item adminDate="2018-05-01T08:20:00.000000" bankKey="777" dropped="0" format="MC" isSelected="1" key="10001" mimeType="text/plain"
           numberVisits="1" operational="1" pageNumber="1" pageTime="3706" pageVisits="1" position="11" responseDuration="3.706"
           score="1" scoreStatus="SCORED" segmentId="ecc300d0-997a-4527-81e6-9719356f9d00">
