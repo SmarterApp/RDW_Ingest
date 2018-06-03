@@ -454,7 +454,7 @@ sql:
                   JOIN claim wc ON wc.id = wt.claim_id
                   JOIN subject ws ON ws.id = wc.subject_id
                 WHERE wa.type_id = 3 AND ( ws.code <> 'Math' OR wc.code='1' ) AND
-                      wa.updated > ? AND wa.updated <= ? AND wa.updated <> wa.created
+                      wa.updated > ? AND wa.updated <= ? AND wa.updated <> wa.created AND wa.deleted = 0
               INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exclusion_asmt_target_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'
@@ -515,7 +515,7 @@ sql:
                 JOIN claim wc ON wc.id = wt.claim_id
                 JOIN subject ws ON ws.id = wc.subject_id
                 WHERE wa.type_id = 3 AND ( ws.code <> 'Math' OR wc.code='1' ) AND
-                  wa.updated > ? AND wa.updated <= ? AND wa.updated <> wa.created
+                  wa.updated > ? AND wa.updated <= ? AND wa.updated <> wa.created AND wa.deleted = 0
               INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/asmt_target_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'

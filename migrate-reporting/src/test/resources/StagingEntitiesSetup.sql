@@ -14,26 +14,46 @@ INSERT INTO staging_school (id, district_id, district_group_id, school_group_id,
   (-98, -98, -98, -98, 'Sample School -98', 'natural_id-98', 0, -99, -1, '2017-07-18 20:14:34.000000');
 
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
-
 INSERT INTO staging_asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name, label, version, deleted, migrate_id, update_import_id, updated) VALUES
-   (-99, '(SBAC)SBAC-IAB-ASMT TEST', -99, 2, 1, 1999, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', 'MTH IAB G4 OperationsAlgebraicThinking', '9835', 0, -99, -1, '2017-07-18 20:14:34.000000'),
-   (-98, 'SBAC)SBAC-ICA-ASMT TEST', -98, 1, 2, 1999, 'SBAC-ICA-FIXED-G5E-COMBINED-2017', 'Grade 5 ELA', '9831', 0, -99, -1, '2017-07-18 20:14:34.000000');
+  (-99, '(SBAC)SBAC-IAB-ASMT TEST-99',   -99, 2, 1, 1999, 'IAB-ASMT TEST-99', 'IAB-ASMT TEST-99',     '9835', 0, -99, -1, '2017-07-18 20:14:34.000000'),
+  (-98, '(SBAC)SBAC-ICA-ASMT TEST-98',   -98, 1, 2, 1999, 'ICA-ASMT TEST-98', 'ICA-ASMT TEST-98',     '9831', 0, -99, -1, '2017-07-18 20:14:34.000000'),
+
+  (-59,  '(SBAC)SBAC-SUMMATIVE-TEST-59', -99, 3, 1, 1999, 'SUMMATIVE TEST-59', 'SUMMATIVE TEST-59 Math', '1', 0, -99, -1, '2017-07-18 20:14:34.000000'),
+  (-311, '(SBAC)SBAC-SUMMATIVE-TEST-58', -98, 3, 2, 1999, 'SUMMATIVE TEST-58', 'SUMMATIVE TEST-58 Ela',  '1', 0, -99, -1, '2017-07-18 20:14:34.000000'),
+  (-111, '(SBAC)SBAC-SUMMATIVE-TEST-48', -98, 3, 1, 1999, 'SUMMATIVE TEST-48', 'SUMMATIVE TEST-48 Math', '1', 0, -99, -1, '2017-07-18 20:14:34.000000');
+
+INSERT INTO staging_asmt_target(asmt_id, target_id, migrate_id) VALUES
+   (-59,  -71, -99),
+   (-59,  -72, -99),
+   (-311, -11, -99),
+   (-311, -12, -99),
+   (-311, -21, -99),
+   (-111, -71, -99),
+   (-111, -72, -99);
+
+INSERT INTO staging_asmt_target_exclusion(asmt_id, target_id, migrate_id) VALUES
+   (-59,  -72, -99),
+   (-311, -12, -99),
+   (-111, -71, -99);
 
 INSERT INTO staging_asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score, migrate_id) VALUES
   (-99, 2442, 2502, 2582, 2201, 2701, -99),
-  (-98, 2442, 2502, 2582, 2201, 2701, -99);
+  (-98, 2442, 2502, 2582, 2201, 2701, -99),
+  (-59, 2442, 2502, 2582, 2201, 2701, -99),
+  (-311, 2442, 2502, 2582, 2201, 2701, -99),
+  (-111, 2442, 2502, 2582, 2201, 2701, -99);
 
 INSERT INTO staging_item (id, claim_id, target_id, natural_id, asmt_id, dok_id, difficulty_code, max_points, math_practice, allow_calc, position, performance_task_writing_type, migrate_id) VALUES
-  (-990, -99, -99, '200-2010',  -99, -99, 'M', 2, -99, 0, 1, 'pttype1', -99),
-  (-991, -99, -99, '200-18943', -99, -99, 'E', 2, -98, 0, 2, 'Narrative', -99),
-  (-992, -99, -99, '200-8906',  -99, -99, 'E', 2, -99, 1, 3, 'Informational', -99),
-  (-993, -99, -99, '200-2014',  -99, -98, 'D', 2, -98, 1, 4, 'Explanatory', -99),
+  (-990, -1, -71, '200-2010',  -99, -99, 'M', 2, -99, 0, 1, 'pttype1', -99),
+  (-991, -1, -71, '200-18943', -99, -99, 'E', 2, -98, 0, 2, 'Narrative', -99),
+  (-992, -2, -72, '200-8906',  -99, -99, 'E', 2, -99, 1, 3, 'Informational', -99),
+  (-993, -2, -72, '200-2014',  -99, -98, 'D', 2, -98, 1, 4, 'Explanatory', -99),
 
-  (-980, -98, -98, '200-60347', -98, -98, 'M', 1, null, null, 3, 'Opinion', -99),
-  (-981, -98, -98, '200-51719', -98, -98, 'E', 1, null, null, 6, 'Argumentative', -99),
-  (-982, -98, -98, '200-59217', -98, -98, 'E', 1, null, null, 7, null, -99),
-  (-983, -98, -98, '200-59208', -98, -98, 'D', 1, null, null, 8, null, -99),
-  (-984, -98, -98, '200-30901', -98, -98, 'D', 1, null, null, 9, null ,-99);
+  (-980, -11, -11, '200-60347', -98, -98, 'M', 1, null, null, 3, 'Opinion', -99),
+  (-981, -12, -21, '200-51719', -98, -98, 'E', 1, null, null, 6, 'Argumentative', -99),
+  (-982, -13, -31, '200-59217', -98, -98, 'E', 1, null, null, 7, null, -99),
+  (-983, -14, -41, '200-59208', -98, -98, 'D', 1, null, null, 8, null, -99),
+  (-984, -14, -42, '200-30901', -98, -98, 'D', 1, null, null, 9, null ,-99);
 
 INSERT INTO staging_item_other_target(item_id, target_id) values
  (-990, -98),
@@ -99,7 +119,11 @@ INSERT INTO  staging_exam ( id, type_id, school_year, asmt_id, asmt_version, opp
              migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type) VALUES
 (-88, 1, 1999, -99,  null, 1, -98, -98, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -89, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 'updated t3 type', 'eng', null),
 (-87, 1, 1999, -11,  null, 1, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
-(-86, 1, 1999, -11,  null, 1, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null);
+(-86, 1, 1999, -11,  null, 1, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
+
+(-59, 3, 1999, -59,  null, 1, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
+(-111,3, 1999, -111, null, 1, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
+(-311,3, 1999, -311, null, 1, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null);
 
 INSERT INTO staging_exam_available_accommodation (exam_id, accommodation_id) VALUES
     (-88, -98),
@@ -115,3 +139,13 @@ INSERT INTO staging_exam_item (id, exam_id, item_id, score, score_status, respon
 
 INSERT INTO staging_exam_claim_score (id, exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
    (-1, -88, 1, 2014, 0.19, 1);
+
+INSERT INTO staging_exam_target_score (id, target_id, exam_id, student_relative_residual_score, standard_met_relative_residual_score) VALUES
+  (-1,   -71, -59,  -1,    -1     ),
+
+  (-11,  -11, -311,  null,    null ),
+  (-19,  -34, -311,  0.1,    0.1   ),
+  (-191, -41, -311,  0.1,    null  ),
+  (-192, -43, -311,  null,   0.1   ),
+
+  (-230,  -73, -111, null,    null );
