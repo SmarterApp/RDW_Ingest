@@ -1,7 +1,7 @@
 <TDSReport>
   <!-- Change name="IDEAIndicator" value="No" -->
   <!-- Change opportunity="2" -->
-  <!-- Change claim score  measureOf="SOCK_R", measureOf="SOCK_LS", measureOf="4-CR", measureOf="2-W"   -->
+  <!-- Change claim scores for measureOf="SOCK_R", measureOf="SOCK_LS", measureOf="4-CR", measureOf="2-W"   -->
   <!-- Add 2 ethnicity HispanicOrLatinoEthnicity, Filipino -->
   <!-- Remove ethnicity Asian -->
   <!-- Delete accommodation TDS_ASL0 TDS_BT0 -->

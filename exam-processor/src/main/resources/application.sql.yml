@@ -1,8 +1,40 @@
 sql:
+  # JdbcAccommodationRepository
+  accommodation:
+    findIdByCode: >-
+        SELECT id FROM accommodation WHERE code= :code
+
+    findIdsByCodes: >-
+        SELECT id FROM accommodation WHERE code in (:codes)
+
+  # JdbcAdminConditionRepository
+  administrationCondition:
+    findIdByCode: >-
+        SELECT id FROM administration_condition WHERE code= :code
+
   # JdbcAssessmentTypeRepository
   asmtType:
     findCodeById: >-
         SELECT code FROM asmt_type WHERE id= :id
+
+  # JdbcClaimTargetRepository
+  claimTarget:
+    findAll: >-
+        SELECT t.id, CONCAT(c.code, '|', t.natural_id) AS code FROM target t JOIN claim c ON t.claim_id = c.id
+
+    findBySubjectId: >-
+        SELECT t.id, CONCAT(c.code, '|', t.natural_id) AS code FROM target t JOIN claim c ON t.claim_id = c.id
+          WHERE c.subject_id = :subject_id
+
+  # JdbcCompletenessRepository
+  completeness:
+    findIdByCode: >-
+        SELECT id FROM completeness WHERE code= :code
+
+  # JdbcElasRepository
+  elas:
+    findIdByCode: >-
+        SELECT id FROM elas WHERE code= :code
 
   # JdbcEthnicityRepository
   ethnicity:
@@ -17,48 +49,25 @@ sql:
     findIdByCode: >-
         SELECT id FROM gender WHERE code= :code
 
-  # JdbcGenderRepository
-  subject:
-    findIdByCode: >-
-        SELECT id FROM subject WHERE code= :code
-
   # JdbcGradeRepository
   grade:
     findIdByCode: >-
         SELECT id FROM grade WHERE code= :code
-
-  # JdbcAdminConditionRepository
-  administrationCondition:
-    findIdByCode: >-
-        SELECT id FROM administration_condition WHERE code= :code
-
-  # JdbcCompletenessRepository
-  completeness:
-    findIdByCode: >-
-        SELECT id FROM completeness WHERE code= :code
-
-  # JdbcElasRepository
-  elas:
-    findIdByCode: >-
-        SELECT id FROM elas WHERE code= :code
 
   # ItemTraitRepository
   itemTraitScore:
     findAll: >-
         SELECT * from item_trait_score
 
-  # JdbcAccommodationRepository
-  accommodation:
-    findIdByCode: >-
-        SELECT id FROM accommodation WHERE code= :code
-
-    findIdsByCodes: >-
-        SELECT id FROM accommodation WHERE code in (:codes)
-
   # JdbcResponseTypeRepository
   responseType:
     findIdByCode: >-
         SELECT id FROM response_type WHERE code= :code
+
+  # JdbcGenderRepository
+  subject:
+    findIdByCode: >-
+        SELECT id FROM subject WHERE code= :code
 
   # JdbcAssessmentRepository
   assessment:
@@ -244,6 +253,27 @@ sql:
           theta_score,
           theta_score_std_err
         FROM exam_claim_score
+        WHERE exam_id = :exam_id
+
+    examTargetScore:
+      create: >-
+        INSERT INTO exam_target_score (exam_id, target_id, student_relative_residual_score, standard_met_relative_residual_score) VALUES
+                                      (:exam_id, :target_id, :student_relative_residual_score, :standard_met_relative_residual_score)
+
+      update: >-
+        UPDATE exam_target_score
+        SET
+          target_id = :target_id,
+          student_relative_residual_score = :student_relative_residual_score,
+          standard_met_relative_residual_score = :standard_met_relative_residual_score
+        WHERE id = :id
+
+      delete: >-
+        DELETE FROM exam_target_score WHERE id IN (:ids)
+
+      findByExamId: >-
+        SELECT id, target_id, student_relative_residual_score, standard_met_relative_residual_score
+        FROM exam_target_score
         WHERE exam_id = :exam_id
 
     examItem:
