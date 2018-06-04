@@ -76,9 +76,9 @@ subprojects {
             dependency "org.opentestsystem.rdw.common:rdw-common-utils:${rdwCommonVersion}"
 
             // commonly used libraries
-            dependency 'com.google.code.gson:gson:2.8.0'
-            dependency 'com.google.guava:guava:21.0'
-            dependency 'commons-io:commons-io:2.4'
+            dependency 'com.google.code.gson:gson:2.8.5'
+            dependency 'com.google.guava:guava:23.0'
+            dependency 'commons-io:commons-io:2.6'
             dependency 'org.apache.commons:commons-csv:1.5'
             dependency 'org.apache.commons:commons-lang3:3.7'
             dependency 'org.slf4j:slf4j-api:1.7.25'
