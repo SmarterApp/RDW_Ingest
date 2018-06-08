@@ -24,6 +24,14 @@ proper configuration and code paths that are not business-as-usual but also aren
 * WARN. This is the level to use for a problem the application has handled but still needs attention.
 * ERROR. Assume that messages logged at this level will cause a person to be called in the middle of the night.
 
+#### PII Data
+This system is designed to ingest student test results which includes sensitive Personally Identifiable Information.
+Although the system will be run in a secure environment, separation of duties dictates that system admins, devops, etc.
+should never see PII. For developers this means that no PII or secrets (e.g. credentials) should ever be logged or
+made available through unsecured interfaces. Put simply: do not log student information or client/user credentials, nor
+include that information in any system status/monitoring end-points.
+
+
 ### Version Control Conventions
 Repo: https://github.com/SmarterApp/RDW_Ingest
 Config Repo: https://gitlab.com/fairwaytech/sbac-config-repo
