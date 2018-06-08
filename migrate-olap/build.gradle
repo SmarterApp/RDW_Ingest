@@ -66,6 +66,28 @@ cleanAllTest migrateAllTest
  gradle rst)
 */
 // If you are using different instances the full set of variables can be found in application-redshift.yml.
+//
+// If you want to run the application from within your IDE, to debug or whatever, you'll need to set all those
+// environment variables (and a couple more) OR you can pass them in as program arguments. I guess you could also
+// just modify the embedded application.yml. But here are the program arguments, without the more sensitive secrets:
+/*
+--archive.root=s3://rdw-ci-archive
+--archive.cloud.aws.credentials.accessKey=access-key
+--archive.cloud.aws.credentials.secretKey=secret-key
+--migrate.aws.redshift.role=arn:aws:iam::269146879732:role/rdw-redshift
+--spring.migrate_datasource.url-server=rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306
+--spring.migrate_datasource.url-schema=bob_migrate_olap_test
+--spring.migrate_datasource.username=sbac
+--spring.migrate_datasource.password=password
+--spring.olap_datasource.url-server=rdw-qa.cibkulpjrgtr.us-west-2.redshift.amazonaws.com:5439
+--spring.olap_datasource.url-db=ci
+--spring.olap_datasource.username=bob
+--spring.olap_datasource.password=password
+--spring.warehouse_datasource.url-server=rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306
+--spring.warehouse_datasource.url-schema=bob_warehouse_test
+--spring.warehouse_datasource.username=sbac
+--spring.warehouse_datasource.password=password
+ */
 
 task RST(type: Test) {
     include '**/*RST.*'
