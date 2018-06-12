@@ -84,8 +84,8 @@ spring:
     url: "\
       jdbc:redshift://${spring.olap_datasource.url-server:localhost:5432}/${spring.olap_datasource.url-db:dev}\
       ?ApplicationName=rdw-ingest-migrate-olap\
-      &loginTimeout=${spring.migrate_datasource.connect-timeout:10}\
-      &socketTimeout=${spring.migrate_datasource.socket-timeout:0}\
+      &loginTimeout=${spring.olap_datasource.connect-timeout:10}\
+      &socketTimeout=${spring.olap_datasource.socket-timeout:0}\
       "
     username: root
     password:
