@@ -58,7 +58,7 @@ spring:
       &rewriteBatchedStatements=${spring.datasource.rewrite-batched-statements:true}\
       &noAccessToProcedureBodies=${spring.datasource.no-access-to-procedure-bodies:true}\
       &connectTimeout=${spring.datasource.connect-timeout:10000}\
-      &socketTimeout=${spring.datasource.socket-timeout:40000}\
+      &socketTimeout=${spring.datasource.socket-timeout:130000}\
       "
     username: root
     password:
@@ -69,7 +69,7 @@ spring:
     initialize: false
     maxActive: 10
     initialSize: 4
-    jdbcInterceptors: "QueryTimeoutInterceptor(queryTimeout=30)"
+    jdbcInterceptors: "QueryTimeoutInterceptor(queryTimeout=120)"
 
   jackson:
     default-property-inclusion: non_null
