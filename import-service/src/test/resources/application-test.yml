@@ -2,3 +2,5 @@ spring:
   datasource:
     url-schema: warehouse_test
     maxActive: 10
+    jdbcInterceptors: "QueryTimeoutInterceptor(queryTimeout=2)"
+

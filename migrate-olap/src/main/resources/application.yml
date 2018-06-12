@@ -64,15 +64,19 @@ spring:
       ?useSSL=${spring.migrate_datasource.use-ssl:false}\
       &useLegacyDatetimeCode=${spring.migrate_datasource.use-legacy-datetime-code:false}\
       &characterEncoding=${spring.migrate_datasource.character-encoding:utf8}\
+      &connectTimeout=${spring.migrate_datasource.connect-timeout:10000}\
+      &socketTimeout=${spring.migrate_datasource.socket-timeout:130000}\
       "
     username: root
     password:
     testWhileIdle: true
     validationQuery: SELECT 1
+    validationQueryTimeout: 10000
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
     maxActive: 10
     initialSize: 4
+    jdbcInterceptors: "QueryTimeoutInterceptor(queryTimeout=120)"
 
   # http://docs.aws.amazon.com/redshift/latest/mgmt/configure-jdbc-options.html
   # https://jdbc.postgresql.org/documentation/head/connect.html
@@ -81,12 +85,16 @@ spring:
     url: "\
       jdbc:redshift://${spring.olap_datasource.url-server:localhost:5432}/${spring.olap_datasource.url-db:dev}\
       ?ApplicationName=rdw-ingest-migrate-olap\
+      &loginTimeout=${spring.migrate_datasource.connect-timeout:10}\
+      &socketTimeout=${spring.migrate_datasource.socket-timeout:130}\
       "
     username: root
     password:
     testWhileIdle: true
     validationQuery: SELECT 1
+    validationQueryTimeout: 10000
     driverClassName: com.amazon.redshift.jdbc42.Driver
+    jdbcInterceptors: "QueryTimeoutInterceptor(queryTimeout=120)"
 
   warehouse_datasource:
     url: "\
@@ -94,15 +102,19 @@ spring:
       ?useSSL=${spring.warehouse_datasource.use-ssl:false}\
       &useLegacyDatetimeCode=${spring.warehouse_datasource.use-legacy-datetime-code:false}\
       &characterEncoding=${spring.warehouse_datasource.character-encoding:utf8}\
+      &connectTimeout=${spring.warehouse_datasource.connect-timeout:10000}\
+      &socketTimeout=${spring.warehouse_datasource.socket-timeout:130000}\
       "
     username: root
     password:
     testWhileIdle: true
     validationQuery: SELECT 1
+    validationQueryTimeout: 10000
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
     maxActive: 10
     initialSize: 4
+    jdbcInterceptors: "QueryTimeoutInterceptor(queryTimeout=120)"
 
 logging:
   level:
