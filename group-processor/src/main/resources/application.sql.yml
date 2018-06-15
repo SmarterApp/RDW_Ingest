@@ -91,32 +91,42 @@ sql:
 
           # because we match on name/school/year, the only field that the user can modify is: subject
           # and, of course, user/student membership can change
-          update-modified: >-
+          update-modified-group-by-user-or-subject: >-
             UPDATE student_group sg
-              JOIN (SELECT loading.group_id, loading.subject_id FROM
-                (SELECT esg.id AS group_id,
-                        MAX(esg.subject_id) AS subject_id,
-                        GROUP_CONCAT(DISTINCT usg.user_login ORDER BY usg.user_login) AS users,
-                        GROUP_CONCAT(DISTINCT sgm.student_id ORDER BY sgm.student_id) AS students
-                 FROM student_group esg
+              JOIN
+              (SELECT loading.group_id, loading.subject_id FROM
+                (SELECT esg.id AS group_id, MAX(esg.subject_id) AS subject_id, GROUP_CONCAT(DISTINCT usg.user_login ORDER BY usg.user_login) AS users
+                  FROM student_group esg
                    JOIN upload_student_group upload ON upload.group_id = esg.id
                    LEFT JOIN user_student_group usg ON usg.student_group_id = esg.id
-                   LEFT JOIN student_group_membership sgm ON sgm.student_group_id = esg.id
-                 WHERE upload.import_id = :import_id
-                 GROUP BY esg.id) existing
-                JOIN
-                (SELECT group_id,
-                   MAX(subject_id) AS subject_id,
-                   GROUP_CONCAT(DISTINCT group_user_login ORDER BY group_user_login) AS users,
-                   GROUP_CONCAT(DISTINCT student_id ORDER BY student_id) AS students
-                 FROM upload_student_group
-                 WHERE group_id IS NOT NULL AND import_id = :import_id
-                 GROUP BY group_id) loading
-                  ON loading.group_id = existing.group_id
-                     AND (NOT loading.subject_id <=> existing.subject_id OR NOT loading.users <=> existing.users OR NOT loading.students <=> existing.students)
-                ) sub ON sub.group_id = sg.id
+                  WHERE upload.import_id = :import_id
+                  GROUP BY esg.id
+                ) existing JOIN
+                (SELECT group_id, MAX(subject_id) AS subject_id, GROUP_CONCAT(DISTINCT group_user_login ORDER BY group_user_login) AS users
+                  FROM upload_student_group
+                  WHERE group_id IS NOT NULL AND import_id = :import_id
+                  GROUP BY group_id) loading ON loading.group_id = existing.group_id
+                   AND (NOT loading.subject_id <=> existing.subject_id OR NOT loading.users <=> existing.users)
+              ) sub ON sub.group_id = sg.id
             SET sg.subject_id = sub.subject_id,
-            sg.update_import_id = :import_id
+              sg.update_import_id = :import_id
+
+          update-modified-group-by-student: >-
+            UPDATE student_group sg
+              JOIN
+              (SELECT loading.group_id FROM
+                (SELECT upload.group_id AS group_id, GROUP_CONCAT(DISTINCT sgm.student_id ORDER BY sgm.student_id) AS students
+                  FROM upload_student_group upload
+                    LEFT JOIN student_group_membership sgm ON sgm.student_group_id = upload.group_id
+                  WHERE upload.import_id = :import_id
+                  GROUP BY upload.group_id) existing JOIN
+                (SELECT group_id, GROUP_CONCAT(DISTINCT student_id ORDER BY student_id) AS students
+                  FROM upload_student_group
+                  WHERE group_id IS NOT NULL AND import_id = :import_id
+                  GROUP BY group_id) loading ON loading.group_id = existing.group_id AND (NOT loading.students <=> existing.students)
+              ) sub ON sub.group_id = sg.id
+            SET sg.update_import_id = :import_id
+            WHERE sg.update_import_id <> :import_id
 
           assign-new: >-
             UPDATE upload_student_group sgl
