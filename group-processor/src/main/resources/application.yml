@@ -43,9 +43,9 @@ spring:
       &rewriteBatchedStatements=${spring.datasource.rewrite-batched-statements:true}\
       &sessionVariables=${spring.datasource.session-variables:group_concat_max_len=10000}\
       &connectTimeout=${spring.datasource.connect-timeout:10000}\
-      &socketTimeout=${spring.datasource.socket-timeout:130000}\
+      &socketTimeout=${spring.datasource.socket-timeout:310000}\
       "
-    jdbcInterceptors: "QueryTimeoutInterceptor(queryTimeout=${spring.datasource.query-timeout:120})"
+    jdbcInterceptors: "QueryTimeoutInterceptor(queryTimeout=${spring.datasource.query-timeout:300})"
     username: root
     password:
     testWhileIdle: true
