@@ -58,3 +58,12 @@ jdbc:
       max-attempts: 4
       delay: 30
       multiplier: 2
+
+validation:
+  requiredDataElements:
+    - FirstName
+    - LastOrSurname
+    - Birthdate
+    - Sex
+    - EconomicDisadvantageStatus
+    - IDEAIndicator

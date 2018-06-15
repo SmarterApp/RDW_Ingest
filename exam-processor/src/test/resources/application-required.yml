@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url-schema: warehouse_test
+
+validation:
+  requiredDataElements:
+    - FirstName
+    - LastOrSurname
+    - MiddleName
+    - Birthdate
+    - Sex
+    - FirstEntryDateIntoUSSchool
+    - LimitedEnglishProficiencyEntryDate
+    - LEPExitDate
+    - LEPStatus
+    - EnglishLanguageProficiencyLevel
+    - TitleIIILanguageInstructionProgramType
+    - EnglishLanguageAcquisitionStatus
+    - EnglishLanguageAcquisitionStatusStartDate
+    - IDEAIndicator
+    - Section504Status
+    - EconomicDisadvantageStatus
+    - MigrantStatus
+    - LanguageCode
+    - PrimaryDisabilityType
+    - StudentGroupName
+    - Ethnicity
