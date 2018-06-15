@@ -3,34 +3,25 @@ spring:
     url-schema: warehouse_test
 
 validation:
-  examProcessor:
-    requiredDataElements:
-      - FirstName
-      - LastOrSurname
-      - MiddleName
-      - Birthdate
-      - Sex
-      - FirstEntryDateIntoUSSchool
-      - LimitedEnglishProficiencyEntryDate
-      - LEPExitDate
-      - LEPStatus
-      - EnglishLanguageProficiencyLevel
-      - TitleIIILanguageInstructionProgramType
-      - EnglishLanguageAcquisitionStatus
-      - EnglishLanguageAcquisitionStatusStartDate
-      - IDEAIndicator
-      - Section504Status
-      - EconomicDisadvantageStatus
-      - MigrantStatus
-      - LanguageCode
-      - PrimaryDisabilityType
-      - StudentGroupName
-      - Ethnicity
-      - HispanicOrLatinoEthnicity
-      - AmericanIndianOrAlaskaNative
-      - Asian
-      - BlackOrAfricanAmerican
-      - White
-      - NativeHawaiianOrOtherPacificIslander
-      - DemographicRaceTwoOrMoreRaces
-      - Filipino
+  requiredDataElements:
+    - FirstName
+    - LastOrSurname
+    - MiddleName
+    - Birthdate
+    - Sex
+    - FirstEntryDateIntoUSSchool
+    - LimitedEnglishProficiencyEntryDate
+    - LEPExitDate
+    - LEPStatus
+    - EnglishLanguageProficiencyLevel
+    - TitleIIILanguageInstructionProgramType
+    - EnglishLanguageAcquisitionStatus
+    - EnglishLanguageAcquisitionStatusStartDate
+    - IDEAIndicator
+    - Section504Status
+    - EconomicDisadvantageStatus
+    - MigrantStatus
+    - LanguageCode
+    - PrimaryDisabilityType
+    - StudentGroupName
+    - Ethnicity

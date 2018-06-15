@@ -60,11 +60,10 @@ jdbc:
       multiplier: 2
 
 validation:
-  examProcessor:
-    requiredDataElements:
-      - FirstName
-      - LastOrSurname
-      - Birthdate
-      - Sex
-      - EconomicDisadvantageStatus
-      - IDEAIndicator
+  requiredDataElements:
+    - FirstName
+    - LastOrSurname
+    - Birthdate
+    - Sex
+    - EconomicDisadvantageStatus
+    - IDEAIndicator

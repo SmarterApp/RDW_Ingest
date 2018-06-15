@@ -3,6 +3,5 @@ spring:
     url-schema: warehouse_test
 
 validation:
-  examProcessor:
-    requiredDataElements:
-      - SchoolId
+  requiredDataElements:
+    - SchoolId

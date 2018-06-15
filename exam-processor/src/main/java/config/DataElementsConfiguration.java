@@ -14,7 +14,7 @@ import static com.google.common.collect.Lists.newArrayList;
  * Configuration for the required {@link DataElement}s.
  */
 @Component
-@ConfigurationProperties(prefix = "validation.examProcessor")
+@ConfigurationProperties(prefix = "validation")
 public class DataElementsConfiguration {
 
     private List<DataElement> requiredDataElements = newArrayList();
