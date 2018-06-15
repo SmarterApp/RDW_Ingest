@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url-schema: warehouse_test
+
+validation:
+  examProcessor:
+    requiredDataElements:
+      - SchoolId

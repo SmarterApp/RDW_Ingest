@@ -58,3 +58,13 @@ jdbc:
       max-attempts: 4
       delay: 30
       multiplier: 2
+
+validation:
+  examProcessor:
+    requiredDataElements:
+      - FirstName
+      - LastOrSurname
+      - Birthdate
+      - Sex
+      - EconomicDisadvantageStatus
+      - IDEAIndicator
