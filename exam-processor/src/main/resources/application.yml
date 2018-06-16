@@ -67,3 +67,6 @@ validation:
     - Sex
     - EconomicDisadvantageStatus
     - IDEAIndicator
+    - SessionId
+    - Completeness
+    - AdministrationCondition
