@@ -833,6 +833,7 @@ sql:
                 asmt_id                     = se.asmt_id,
                 school_year_asmt_grade_code = CONCAT(se.school_year::VARCHAR(4), CONCAT(',', se.asmt_grade_code::VARCHAR(2))),
                 grade_id                    = se.grade_id,
+                school_year                 = se.school_year,
                 iep                         = CASE WHEN se.iep = true THEN 1 WHEN se.iep = false THEN 0 ELSE 2 END,
                 lep                         = CASE WHEN se.lep = true THEN 1 WHEN se.lep = false THEN 0 ELSE 2 END,
                 section504                  = CASE WHEN se.section504 = true THEN 1 ELSE 0 END,
