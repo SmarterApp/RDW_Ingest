@@ -23,5 +23,4 @@ validation:
     - MigrantStatus
     - LanguageCode
     - PrimaryDisabilityType
-    - StudentGroupName
     - Ethnicity

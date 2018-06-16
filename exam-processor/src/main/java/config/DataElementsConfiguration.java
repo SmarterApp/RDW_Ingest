@@ -1,7 +1,7 @@
 package config;
 
 
-import org.opentestsystem.rdw.ingest.processor.model.DataElement;
+import org.opentestsystem.rdw.ingest.processor.model.ConfigurableDataElement;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -11,20 +11,20 @@ import java.util.Set;
 import static com.google.common.collect.Lists.newArrayList;
 
 /**
- * Configuration for the required {@link DataElement}s.
+ * Configuration for the required {@link ConfigurableDataElement}s.
  */
 @Component
 @ConfigurationProperties(prefix = "validation")
 public class DataElementsConfiguration {
 
-    private List<DataElement> requiredDataElements = newArrayList();
+    private List<ConfigurableDataElement> requiredDataElements = newArrayList();
 
-    public List<DataElement> getRequiredDataElements() {
+    public List<ConfigurableDataElement> getRequiredDataElements() {
         return requiredDataElements;
     }
 
-    public Set<DataElement> getOptionalDataElements() {
-        final Set<DataElement> optionalDataElements = DataElement.getAllConfigurable();
+    public Set<ConfigurableDataElement> getOptionalDataElements() {
+        final Set<ConfigurableDataElement> optionalDataElements = ConfigurableDataElement.getAll();
         optionalDataElements.removeAll(requiredDataElements);
         return optionalDataElements;
     }
