@@ -1,5 +1,14 @@
 ## Change Log
 
+#### 1.2.0 - 2018-06-23
+
+* Extend Custom Aggregate Reports to include IABs
+* Longitudinal Reports
+* Target Reports.
+* Student Groups API end-point.
+* Configurable Subjects (ingest only, 1.2.x will expand).
+* Configurable required/optional fields.
+
 #### 1.1.0 - 2018-02-27
 
 * Custom Aggregate Reporting.
