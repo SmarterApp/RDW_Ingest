@@ -4,4 +4,4 @@ spring:
 
 validation:
   requiredDataElements:
-    - SchoolId
+    -
