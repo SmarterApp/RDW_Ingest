@@ -651,7 +651,7 @@ sql:
                 wi.active,
                 wi.type,
                 wi.options_count,
-                wi.answer_key,
+                CASE WHEN wa.type_id = 3 THEN NULL ELSE wi.answer_key END AS answer_key,
                 wi.performance_task_writing_type
               FROM item  wi
                 JOIN asmt wa ON wa.id = wi.asmt_id
@@ -688,7 +688,7 @@ sql:
                 wi.active,
                 wi.type,
                 wi.options_count,
-                wi.answer_key,
+                CASE WHEN wa.type_id = 3 THEN NULL ELSE wi.answer_key END AS answer_key,
                 wi.performance_task_writing_type
               FROM item  wi
                 JOIN asmt wa ON wa.id = wi.asmt_id
@@ -1003,7 +1003,7 @@ sql:
                 round(wei.score) AS score,
                 wei.score_status,
                 wei.position,
-                wei.response,
+                CASE WHEN we.type_id = 3 THEN NULL ELSE wei.response END AS response,
                 round(wei.trait_evidence_elaboration_score) AS trait_evidence_elaboration_score,
                 wei.trait_evidence_elaboration_score_status,
                 round(wei.trait_organization_purpose_score) AS trait_organization_purpose_score,
@@ -1035,7 +1035,7 @@ sql:
                 round(wei.score) AS score,
                 wei.score_status,
                 wei.position,
-                wei.response,
+                CASE WHEN we.type_id = 3 THEN NULL ELSE wei.response END AS response,
                 round(wei.trait_evidence_elaboration_score) AS trait_evidence_elaboration_score,
                 wei.trait_evidence_elaboration_score_status,
                 round(wei.trait_organization_purpose_score) AS trait_organization_purpose_score,

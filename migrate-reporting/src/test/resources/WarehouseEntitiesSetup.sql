@@ -158,13 +158,14 @@ INSERT INTO exam_available_accommodation (exam_id, accommodation_id) VALUES
   (-85, -98);
 
 INSERT INTO exam_item (id, exam_id, item_id, score, score_status, response, position) VALUES
-  (-1, -88,  -9, 1, 'SCORED', '<response><math xmlns="http://www.w3.org/1998/Math/MathML" title="10"><mstyle><mn>10</mn></mstyle></math></response>', 1),
-  (-2, -88,  -8, 1, 'SCORED', 'D', 2),
-  (-3, -88,  -7, 0, 'SCORED', 'C', 3),
-  (-4, -88,  -6, -1, 'SCORED', null, 16),
-  (-5, -87,  -6, -1, 'SCORED', null, 16),
-  (-6, -85,  -6, -1, 'SCORED', null, 16),
-  (-7, -86,  -6, -1, 'SCORED', null, 16);
+  (-1, -88,  -9,   1, 'SCORED', '<response><math xmlns="http://www.w3.org/1998/Math/MathML" title="10"><mstyle><mn>10</mn></mstyle></math></response>', 1),
+  (-2, -88,  -8,   1, 'SCORED', 'D', 2),
+  (-3, -88,  -7,   0, 'SCORED', 'C', 3),
+  (-4, -88,  -6,  -1, 'SCORED', null, 16),
+  (-5, -87,  -6,  -1, 'SCORED', null, 16),
+  (-6, -85,  -6,  -1, 'SCORED', null, 16),
+  (-7, -86,  -6,  -1, 'SCORED', null, 16),
+  (-8, -311,-180, -1, 'SCORED', null, 16);
 
 INSERT INTO exam_claim_score (id, exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
    (-11, -88, 1, 2014, 0.19, 1),
