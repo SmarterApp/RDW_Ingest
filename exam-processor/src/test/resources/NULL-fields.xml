@@ -1,0 +1,21 @@
+<TDSReport>
+    <Test grade="6" mode="online" contract="SBAC" bankKey="200" testId="SBAC-IAB-FIXED-G6E-ReadLit-ELA-6" subject="ELA" name="(SBAC)SBAC-IAB-FIXED-G6E-ReadLit-ELA-6-Winter-2016-2017" handScoreProject="0" assessmentType="interim"
+          academicYear="2016" assessmentVersion="9785" />
+    <Examinee key="100000000166">
+        <ExamineeAttribute context="FINAL" contextDate="2017-10-01T08:03:27.878000" name="StudentIdentifier" value="NoName1" />
+        <ExamineeAttribute context="FINAL" contextDate="2017-10-01T08:03:27.878000" name="AlternateSSID" value="NoName1" />
+        <ExamineeAttribute context="FINAL" contextDate="2017-10-01T08:03:27.878000" name="Birthdate" value="2009-09-02" />
+        <ExamineeAttribute context="FINAL" contextDate="2017-10-01T08:03:27.878000" name="GradeLevelWhenAssessed" value="03" />
+        <ExamineeRelationship context="FINAL" contextDate="2017-10-01T08:03:27.878000" name="StateAbbreviation" value="AP" />
+        <ExamineeRelationship context="FINAL" contextDate="2017-10-01T08:03:27.878000" name="StateName" value="California" />
+        <ExamineeRelationship context="FINAL" contextDate="2017-10-01T08:03:27.878000" name="DistrictId" value="UCLALS" />
+        <ExamineeRelationship context="FINAL" contextDate="2017-10-01T08:03:27.878000" name="DistrictName" value="UCLALS" />
+        <ExamineeRelationship context="FINAL" contextDate="2017-10-01T08:03:27.878000" name="SchoolId" value="APTEST1" />
+        <ExamineeRelationship context="FINAL" contextDate="2017-10-01T08:03:27.878000" name="SchoolName" value="APTEST1" />
+    </Examinee>
+    <Opportunity abnormalStarts="0" administrationCondition="NS" assessmentParticipantSessionPlatformUserAgent="" clientName="SBAC" completeStatus="Complete" completeness="Complete" database="session" dateCompleted="2017-10-01T08:03:27.878000" effectiveDate="2017-10-01" ftCount="0" gracePeriodRestarts="0" itemCount="15" key="13839084-a790-48eb-a4ea-ca6024ccb533" oppId="1100000150181" opportunity="5" pauseCount="0" server="ip-10-113-148-45" sessionId="" startDate="2017-10-01T08:00:10" status="scored" statusDate="2017-10-01T08:03:27.878000" windowId="WINDOW_ID">
+        <Segment algorithm="Fixed" algorithmVersion="0" id="8b9e2825-0c0d-4c99-b5e2-e4eea2cc3828" position="1" />
+        <Score measureLabel="ScaleScore" measureOf="Overall" standardError="53.0" value="2484.0" />
+        <Score measureLabel="PerformanceLevel" measureOf="Overall" standardError="" value="2" />
+    </Opportunity>
+</TDSReport>
