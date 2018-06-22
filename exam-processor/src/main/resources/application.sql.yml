@@ -1,8 +1,40 @@
 sql:
+  # JdbcAccommodationRepository
+  accommodation:
+    findIdByCode: >-
+        SELECT id FROM accommodation WHERE code= :code
+
+    findIdsByCodes: >-
+        SELECT id FROM accommodation WHERE code in (:codes)
+
+  # JdbcAdminConditionRepository
+  administrationCondition:
+    findIdByCode: >-
+        SELECT id FROM administration_condition WHERE code= :code
+
   # JdbcAssessmentTypeRepository
   asmtType:
     findCodeById: >-
         SELECT code FROM asmt_type WHERE id= :id
+
+  # JdbcClaimTargetRepository
+  claimTarget:
+    findAll: >-
+        SELECT t.id, CONCAT(c.code, '|', t.natural_id) AS code FROM target t JOIN claim c ON t.claim_id = c.id
+
+    findBySubjectId: >-
+        SELECT t.id, CONCAT(c.code, '|', t.natural_id) AS code FROM target t JOIN claim c ON t.claim_id = c.id
+          WHERE c.subject_id = :subject_id
+
+  # JdbcCompletenessRepository
+  completeness:
+    findIdByCode: >-
+        SELECT id FROM completeness WHERE code= :code
+
+  # JdbcElasRepository
+  elas:
+    findIdByCode: >-
+        SELECT id FROM elas WHERE code= :code
 
   # JdbcEthnicityRepository
   ethnicity:
@@ -17,43 +49,25 @@ sql:
     findIdByCode: >-
         SELECT id FROM gender WHERE code= :code
 
-  # JdbcGenderRepository
-  subject:
-    findIdByCode: >-
-        SELECT id FROM subject WHERE code= :code
-
   # JdbcGradeRepository
   grade:
     findIdByCode: >-
         SELECT id FROM grade WHERE code= :code
-
-  # JdbcAdminConditionRepository
-  administrationCondition:
-    findIdByCode: >-
-        SELECT id FROM administration_condition WHERE code= :code
-
-  # JdbcCompletenessRepository
-  completeness:
-    findIdByCode: >-
-        SELECT id FROM completeness WHERE code= :code
 
   # ItemTraitRepository
   itemTraitScore:
     findAll: >-
         SELECT * from item_trait_score
 
-  # JdbcAccommodationRepository
-  accommodation:
-    findIdByCode: >-
-        SELECT id FROM accommodation WHERE code= :code
-
-    findIdsByCodes: >-
-        SELECT id FROM accommodation WHERE code in (:codes)
-
   # JdbcResponseTypeRepository
   responseType:
     findIdByCode: >-
         SELECT id FROM response_type WHERE code= :code
+
+  # JdbcGenderRepository
+  subject:
+    findIdByCode: >-
+        SELECT id FROM subject WHERE code= :code
 
   # JdbcAssessmentRepository
   assessment:
@@ -76,10 +90,10 @@ sql:
   exam:
     create: >-
       INSERT INTO exam (type_id, school_year, import_id, update_import_id, asmt_id, asmt_version, opportunity, oppId, completeness_id, administration_condition_id, session_id, scale_score, scale_score_std_err, performance_level, completed_at, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type, status_date, deleted,
-                        examinee_id, deliver_mode, hand_score_project, contract, test_reason, assessment_admin_started_at, started_at, force_submitted_at, status, item_count, field_test_count, pause_count, grace_period_restarts, abnormal_starts, test_window_id, test_administrator_id, responsible_organization_name, test_administrator_name, session_platform_user_agent, test_delivery_server, test_delivery_db,
-                          window_opportunity_count, theta_score, theta_score_std_err) VALUES
+                        examinee_id, elas_id, elas_start_at, deliver_mode, hand_score_project, contract, test_reason, assessment_admin_started_at, started_at, force_submitted_at, status, item_count, field_test_count, pause_count, grace_period_restarts, abnormal_starts, test_window_id, test_administrator_id, responsible_organization_name, test_administrator_name, session_platform_user_agent, test_delivery_server, test_delivery_db,
+                        window_opportunity_count, theta_score, theta_score_std_err) VALUES
                        (:type_id, :school_year, :import_id, :update_import_id, :asmt_id, :asmt_version, :opportunity, :oppId, :completeness_id, :administration_condition_id, :session_id, :scale_score, :scale_score_std_err, :performance_level, :completed_at, :grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status, :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type, :status_date, :deleted,
-                        :examinee_id, :deliver_mode, :hand_score_project, :contract, :test_reason, :assessment_admin_started_at, :started_at, :force_submitted_at, :status, :item_count, :field_test_count, :pause_count, :grace_period_restarts, :abnormal_starts, :test_window_id, :test_administrator_id, :responsible_organization_name, :test_administrator_name, :session_platform_user_agent, :test_delivery_server, :test_delivery_db,
+                        :examinee_id, :elas_id, :elas_start_at, :deliver_mode, :hand_score_project, :contract, :test_reason, :assessment_admin_started_at, :started_at, :force_submitted_at, :status, :item_count, :field_test_count, :pause_count, :grace_period_restarts, :abnormal_starts, :test_window_id, :test_administrator_id, :responsible_organization_name, :test_administrator_name, :session_platform_user_agent, :test_delivery_server, :test_delivery_db,
                         :window_opportunity_count, :theta_score, :theta_score_std_err)
 
     update: >-
@@ -114,6 +128,8 @@ sql:
         status_date = :status_date,
         deleted = :deleted,
         examinee_id = :examinee_id,
+        elas_id = :elas_id,
+        elas_start_at = :elas_start_at,
         deliver_mode = :deliver_mode,
         hand_score_project = :hand_score_project,
         contract = :contract,
@@ -178,6 +194,8 @@ sql:
         status_date,
         deleted,
         examinee_id,
+        elas_id,
+        elas_start_at,
         deliver_mode,
         hand_score_project,
         contract,
@@ -235,6 +253,27 @@ sql:
           theta_score,
           theta_score_std_err
         FROM exam_claim_score
+        WHERE exam_id = :exam_id
+
+    examTargetScore:
+      create: >-
+        INSERT INTO exam_target_score (exam_id, target_id, student_relative_residual_score, standard_met_relative_residual_score) VALUES
+                                      (:exam_id, :target_id, :student_relative_residual_score, :standard_met_relative_residual_score)
+
+      update: >-
+        UPDATE exam_target_score
+        SET
+          target_id = :target_id,
+          student_relative_residual_score = :student_relative_residual_score,
+          standard_met_relative_residual_score = :standard_met_relative_residual_score
+        WHERE id = :id
+
+      delete: >-
+        DELETE FROM exam_target_score WHERE id IN (:ids)
+
+      findByExamId: >-
+        SELECT id, target_id, student_relative_residual_score, standard_met_relative_residual_score
+        FROM exam_target_score
         WHERE exam_id = :exam_id
 
     examItem:

@@ -18,27 +18,59 @@ INSERT INTO school (id, district_id, district_group_id, school_group_id, name, n
   (-98, -98, -98, -98, 'Sample School -98', 'natural_id-98', 0, -2, -2, '2017-07-18 20:13:34.000000', '2017-07-18 20:13:34.000000');
 
 INSERT INTO asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name, label, version, deleted, import_id, update_import_id, created, updated) VALUES
-  (-11, '(SBAC)SBAC-IAB-ASMT TEST-11', -98, 2, 1, 1999, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', 'test', '9835', 0, -5000, -5000, '2017-05-18 19:05:33.967000', '2017-05-18 20:06:34.966000'),
-  (-99, '(SBAC)SBAC-IAB-ASMT TEST', -99, 2, 1, 1999, 'SBAC-IAB-FIXED-G4M-OA-MATH-4', 'MTH IAB G4 OperationsAlgebraicThinking', '9835', 1, -5000, -20, '2017-07-18 19:05:34.966000', '2017-07-18 19:05:34.966000'),
-  (-98, 'SBAC)SBAC-ICA-ASMT TEST', -98, 1, 2, 1999, 'SBAC-ICA-FIXED-G5E-COMBINED-2017', 'Grade 5 ELA', '9831', 0, -20, -20, '2017-07-18 19:05:34.966000', '2017-07-18 19:05:34.966000');
+  (-11, '(SBAC)SBAC-IAB-ASMT TEST-11',  -98, 2, 1, 1999, 'IAB-MATH-11',       'IAB-MATH-11',         '9835', 0, -5000, -5000,'2017-05-18 19:05:33.967000', '2017-05-18 20:06:34.966000'),
+  (-99, '(SBAC)SBAC-ICA-ASMT TEST-99',  -99, 1, 1, 1999, 'ICA-MATH-4-99',     'ICA-MATH-4-99',       '9835', 1, -5000, -20,  '2017-07-18 19:05:34.966000', '2017-07-18 19:05:34.966000'),
+  (-98, '(SBAC)SBAC-ICA-ASMT TEST-98',  -98, 1, 2, 1999, 'ICA-ELA-98',        'ICA-ELA-98',          '9831', 0, -20,   -20,  '2017-07-18 19:05:34.966000', '2017-07-18 19:05:34.966000'),
+
+  (-59,  '(SBAC)SBAC-SUMMATIVE-TEST-59', -99, 3, 1, 1999, 'SUMMATIVE TEST-59', 'SUMMATIVE TEST-59 Math', '1', 1, -5000, -20, '2017-05-18 19:05:33.969660', '2017-07-18 19:05:34.966000'),
+  (-311, '(SBAC)SBAC-SUMMATIVE-TEST-58', -98, 3, 2, 1999, 'SUMMATIVE TEST-58', 'SUMMATIVE TEST-58 Ela',  '1', 0, -20,   -20, '2017-07-18 19:05:34.966000', '2017-07-18 19:05:34.966000'),
+  (-111, '(SBAC)SBAC-SUMMATIVE-TEST-48', -98, 3, 1, 1999, 'SUMMATIVE TEST-48', 'SUMMATIVE TEST-48 Math', '1', 0, -20,   -20, '2017-07-18 19:05:34.966000', '2017-07-18 19:05:34.966000');
 
 INSERT INTO item (id, claim_id, target_id, natural_id, asmt_id, dok_id, difficulty, difficulty_code, max_points, math_practice, allow_calc, position,
                 field_test, active, type, options_count, answer_key, performance_task_writing_type ) VALUES
-  (-9,   -99, -98, '200-2019',  -11, -99, -0.23, 'E', 2, -99, 0, 1, null, null, null, null, null, null),
-  (-8,   -99, -98, '200-2018',  -11, -99, -0.23, 'E', 2, -99, 0, 2, null, null, null, null, null, null),
-  (-7,   -99, -98, '200-2017',  -11, -99, -0.23, 'E', 2, -99, 0, 3, null, null, null, null, null, null),
-  (-6,   -99, -98, '200-2016',  -11, -99, -0.23, 'E', 2, -99, 0, 4, null, null, null, null, null, null),
-  (-990, -99, -99, '200-2010',  -99, -99, -0.23, 'E',  2, -99, 0, 4, null, null, null, null, null, null),
-  (-991, -99, -99, '200-18943', -99, -99, -0.13, 'E', 2, -98, 0, 3, false, true, 1, 0, 'key', 'Narrative'),
-  (-992, -99, -99, '200-8906',  -99, -99, -0.03, 'E', 2, -99, 1, 2, false, true, 1, 0, 'key', 'Informational'),
-  (-993, -99, -99, '200-2014',  -99, -98,  1.23, 'D', 2, -98, 1, 1, false, true, 1, 0, 'key', 'Explanatory'),
-  (-980, -98, -98, '200-60347', -98, -98, -0.32, 'E', 1, null, null, 5, false, true, 1, 0, 'key', 'Opinion'),
-  (-981, -98, -98, '200-51719', -98, -98, -1.32, 'D', 1, null, null, 4, false, true, 1, 0, 'key', 'Opinion'),
-  (-982, -98, -98, '200-59217', -98, -98, -2.32, 'D', 1, null, null, 3, false, true, 1, 0, 'key', 'Argumentative'),
-  (-983, -98, -98, '200-59208', -98, -98, -0.32, 'D', 1, null, null, 2, false, true, 1, 0, 'key', 'Argumentative'),
-  (-984, -98, -98, '200-30901', -98, -98, -0.32, 'D', 1, null, null, 1, true, false, 2, 8, 'key', 'Argumentative');
+  (-9,   -11, -11, '200-2019',  -11, -99, -0.23, 'E', 2, -99, 0, 1, null, null, null, null, null, null),
+  (-8,   -11, -11, '200-2018',  -11, -99, -0.23, 'E', 2, -99, 0, 2, null, null, null, null, null, null),
+  (-7,   -11, -11, '200-2017',  -11, -99, -0.23, 'E', 2, -99, 0, 3, null, null, null, null, null, null),
+  (-6,   -11, -11, '200-2016',  -11, -99, -0.23, 'E', 2, -99, 0, 4, null, null, null, null, null, null),
 
-  INSERT INTO item_common_core_standard(item_id, common_core_standard_id) values
+  (-990, -12, -21, '200-2010',  -99, -99, -0.23, 'E',  2, -99, 0, 4, null, null, null, null, null, null),
+  (-991, -13, -31, '200-18943', -99, -99, -0.13, 'E', 2, -98, 0, 3, false, true, 1, 0, 'key', 'Narrative'),
+  (-992, -14, -41, '200-8906',  -99, -99, -0.03, 'E', 2, -99, 1, 2, false, true, 1, 0, 'key', 'Informational'),
+  (-993, -11, -12, '200-2014',  -99, -98,  1.23, 'D', 2, -98, 1, 1, false, true, 1, 0, 'key', 'Explanatory'),
+
+  (-980, -1,  -71, '200-60347', -98, -98, -0.32, 'E', 1, null, null, 5, false, true, 1, 0, 'key', 'Opinion'),
+  (-981, -1,  -71, '200-51719', -98, -98, -1.32, 'D', 1, null, null, 4, false, true, 1, 0, 'key', 'Opinion'),
+  (-982, -2,  -72, '200-59217', -98, -98, -2.32, 'D', 1, null, null, 3, false, true, 1, 0, 'key', 'Argumentative'),
+  (-983, -2,  -73, '200-59208', -98, -98, -0.32, 'D', 1, null, null, 2, false, true, 1, 0, 'key', 'Argumentative'),
+  (-984, -2,  -73, '200-30901', -98, -98, -0.32, 'D', 1, null, null, 1, true, false, 2, 8, 'key', 'Argumentative'),
+
+  (-89, -1, -71, '200-2016',  -59, -99, -0.23, 'E', 2, -99, 0, 4, null, null, null, null, null, null),
+  (-90, -2, -72, '200-2010',  -59, -99, -0.23, 'E', 2, -99, 0, 4, null, null, null, null, null, null),
+  (-91, -2, -72, '200-18943', -59, -99, -0.13, 'E', 2, -98, 0, 3, false, true, 1, 0, 'key', 'Narrative'),
+  (-92, -2, -73, '200-8906',  -59, -99, -0.03, 'E', 2, -99, 1, 2, false, true, 1, 0, 'key', 'Informational'),
+  (-93, -2, -73, '200-2014',  -59, -98,  1.23, 'D', 2, -98, 1, 1, false, true, 1, 0, 'key', 'Explanatory'),
+
+  (-80, -1, -71, '200-60347', -111, -98, -0.32, 'E', 1, null, null, 5, false, true, 1, 0, 'key', 'Opinion'),
+  (-81, -1, -71, '200-51719', -111, -98, -1.32, 'D', 1, null, null, 4, false, true, 1, 0, 'key', 'Opinion'),
+  (-82, -1, -71, '200-59217', -111, -98, -2.32, 'D', 1, null, null, 3, false, true, 1, 0, 'key', 'Argumentative'),
+  (-83, -1, -71, '200-59208', -111, -98, -0.32, 'D', 1, null, null, 2, false, true, 1, 0, 'key', 'Argumentative'),
+  (-84, -2, -72, '200-30901', -111, -98, -0.32, 'D', 1, null, null, 1, true, false, 2, 8, 'key', 'Argumentative'),
+
+  (-180, -11, -11, '200-60347', -311, -98, -0.32, 'E', 1, null, null, 5, false, true, 1, 0, 'key', 'Opinion'),
+  (-181, -12, -21, '200-51719', -311, -98, -1.32, 'D', 1, null, null, 4, false, true, 1, 0, 'key', 'Opinion'),
+  (-182, -13, -31, '200-59217', -311, -98, -2.32, 'D', 1, null, null, 3, false, true, 1, 0, 'key', 'Argumentative'),
+  (-183, -14, -41, '200-59208', -311, -98, -0.32, 'D', 1, null, null, 2, false, true, 1, 0, 'key', 'Argumentative'),
+  (-184, -14, -42, '200-30901', -311, -98, -0.32, 'D', 1, null, null, 1, true, false, 2, 8, 'key', 'Argumentative');
+
+INSERT INTO asmt_target_exclusion(asmt_id, target_id) VALUES
+  (-59,  -71),
+  (-59,  -72),
+  (-111, -71),
+  (-111, -72),
+  (-311, -11),
+  (-311, -41);
+
+ INSERT INTO item_common_core_standard(item_id, common_core_standard_id) values
   (-9, -98),
   (-9, -99),
   (-8, -98),
@@ -48,8 +80,10 @@ INSERT INTO item (id, claim_id, target_id, natural_id, asmt_id, dok_id, difficul
 
 INSERT INTO asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score) VALUES
   (-99, 2442, 2502, 2582, 2201, 2701),
-  (-98, 2442, 2502, 2582, 2201, 2701);
-
+  (-98, 2442, 2502, 2582, 2201, 2701),
+  (-59, 2442, 2502, 2582, 2201, 2701),
+  (-111, 2442, 2502, 2582, 2201, 2701),
+  (-311, 2442, 2502, 2582, 2201, 2701);
 
 INSERT INTO item_other_target(item_id, target_id) values
   (-990, -98),
@@ -102,15 +136,19 @@ INSERT INTO user_student_group (student_group_id, user_login) VALUES
   (-7, 'dwtest@example.com-7'),
   (-91, 'dwtest@example.com-91-2');
 
-INSERT INTO  exam ( id, type_id, school_year, asmt_id, asmt_version, opportunity, completeness_id,
+INSERT INTO exam ( id, type_id, school_year, asmt_id, asmt_version, opportunity, completeness_id, elas_id, elas_start_at,
                     administration_condition_id, session_id, performance_level, scale_score, scale_score_std_err, completed_at,
                     import_id, update_import_id, deleted, created, updated,
                     grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage,
                     migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type) VALUES
-  (-88, 1, 1999, -99,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -5000, -88, 1, '2017-05-18 19:05:33.967000', '2017-07-18 19:06:07.966000', -98, -89, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
-  (-87, 1, 1999, -11,  null, 1, 1, 1, 'session', 1, null, null, '2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
-  (-86, 2, 1999, -11,  null, 1, 1, 1, 'session', 1, null, null, '2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
-  (-85, 1, 1999, -11,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null);
+  (-88, 1, 1999,  -99,  null, 1, 1,  null, null,        1, 'session', 1, 2145, 0.17,   '2016-08-14', -5000, -88, 1,'2017-05-18 19:05:33.967000', '2017-07-18 19:06:07.966000', -98, -89, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
+  (-87, 1, 1999,  -98,  null, 1, 1,  -99, '2014-08-01', 1, 'session', 1, null, null,   '2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
+  (-86, 2, 1999,  -11,  null, 1, 1,  -98, '2015-08-01', 1, 'session', 1, null, null,   '2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
+  (-85, 2, 1999,  -11,  null, 1, 1,  null, null,        1, 'session', 1, 2145, 0.17,   '2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
+
+  (-59,  3, 1999, -59,  null, 1, 1, -98,   null,        1, 'session', 1, null, null,   '2016-08-14', -88, -88, 1, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
+  (-111, 3, 1999, -111, null, 1, 1, -98,   null,        1, 'session', 1, null, null,   '2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
+  (-311, 3, 1999, -311, null, 1, 1, -98,   null,        1, 'session', null, null, null,'2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null);
 
 INSERT INTO exam_available_accommodation (exam_id, accommodation_id) VALUES
   (-88, -98),
@@ -120,16 +158,40 @@ INSERT INTO exam_available_accommodation (exam_id, accommodation_id) VALUES
   (-85, -98);
 
 INSERT INTO exam_item (id, exam_id, item_id, score, score_status, response, position) VALUES
-  (-1, -88,  -9, 1, 'SCORED', '<response><math xmlns="http://www.w3.org/1998/Math/MathML" title="10"><mstyle><mn>10</mn></mstyle></math></response>', 1),
-  (-2, -88,  -8, 1, 'SCORED', 'D', 2),
-  (-3, -88,  -7, 0, 'SCORED', 'C', 3),
-  (-4, -88,  -6, -1, 'SCORED', null, 16),
-  (-5, -87,  -6, -1, 'SCORED', null, 16),
-  (-6, -85,  -6, -1, 'SCORED', null, 16),
-  (-7, -86,  -6, -1, 'SCORED', null, 16);
+  (-1, -88,  -9,   1, 'SCORED', '<response><math xmlns="http://www.w3.org/1998/Math/MathML" title="10"><mstyle><mn>10</mn></mstyle></math></response>', 1),
+  (-2, -88,  -8,   1, 'SCORED', 'D', 2),
+  (-3, -88,  -7,   0, 'SCORED', 'C', 3),
+  (-4, -88,  -6,  -1, 'SCORED', null, 16),
+  (-5, -87,  -6,  -1, 'SCORED', null, 16),
+  (-6, -85,  -6,  -1, 'SCORED', null, 16),
+  (-7, -86,  -6,  -1, 'SCORED', null, 16),
+  (-8, -311,-180, -1, 'SCORED', null, 16);
 
 INSERT INTO exam_claim_score (id, exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
-   (-1, -88, 1, 2014, 0.19, 1),
-   (-2, -87, 1, 2014, 0.19, 1),
-   (-3, -86, 1, 2014, 0.19, 1),
-   (-4, -85, 1, 2014, 0.19, 1);
+   (-11, -88, 1, 2014, 0.19, 1),
+   (-12, -88, 2, 2014, 0.19, 1),
+   (-13, -88, 3, 2014, null, 1),
+   (-14, -88, 4, 2014, 0.19, null),
+   (-21, -87, 5, 2014, 0.19, 1),
+   (-22, -87, 6, 2014, null, 1),
+   (-23, -87, 7, 2014, 0.19, null);
+
+INSERT INTO exam_target_score (id, target_id, exam_id, student_relative_residual_score, standard_met_relative_residual_score) VALUES
+  (-1,   -71, -59,  -1,    -1     ),
+  (-2,   -72, -59,  0.123,  0.1456),
+  (-3,   -73, -59,  0.1,    0.1   ),
+
+  (-11,  -11, -311,  -1,    -1     ),
+  (-12,  -12, -311,  0.9876, 0.8976),
+  (-13,  -21, -311,  0.123,  0.1456),
+  (-15,  -22, -311,  0.1,    0.1   ),
+  (-16,  -31, -311,  0.1,    0.1   ),
+  (-17,  -32, -311,  0.1,    0.1   ),
+  (-18,  -33, -311,  0.1,    0.1   ),
+  (-19,  -34, -311,  0.1,    0.1   ),
+  (-191, -41, -311,  0.1,    null  ),
+  (-192, -43, -311,  null,   0.1   ),
+
+  (-210,  -71, -111, -0.88, -0.88  ),
+  (-220,  -72, -111, 1,      1     ),
+  (-230,  -73, -111, 0.1,    0.1   );

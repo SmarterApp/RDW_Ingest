@@ -1,4 +1,5 @@
 DELETE FROM school_year WHERE year IN (1999,1998);
+DELETE FROM elas WHERE id IN (-99,-98);
 DELETE FROM completeness WHERE id IN (-99,-98);
 DELETE FROM administration_condition WHERE id IN (-99,-98, -97, -96);
 DELETE FROM ethnicity WHERE id IN (-99,-98);
@@ -13,4 +14,6 @@ DELETE FROM target WHERE id IN (-99,-98);
 DELETE FROM common_core_standard WHERE id IN (-99,-98);
 DELETE FROM item_difficulty_cuts  WHERE id IN (-99,-98);
 DELETE FROM claim WHERE id IN (-99,-98);
-DELETE FROM grade WHERE id IN (-99,-98);
+DELETE FROM grade WHERE id >= 100;
+DELETE FROM target WHERE id < 0;
+DELETE FROM claim WHERE id < 0;

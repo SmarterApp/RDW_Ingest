@@ -23,12 +23,17 @@ cloud:
 archive:
   root: file:///tmp/
 
+reporting:
+  state:
+    code: CA
+
 security:
-  client: SBAC
-  state: CA
-  # cause StubTokenServices to be used
+  # "local" causes stub services to be used
   oauth2:
     token-info-url: local
+  permission-service:
+    component: Reporting
+    endpoint: local
 
 # default values to give reasonable performance; adjust for tiny/huge configurations
 server:
@@ -38,6 +43,10 @@ server:
     accept-count: 20
 
 spring:
+  cache:
+    type: SIMPLE
+    cache-names: permissionsByRole
+
   # Force the (rabbit) queues to be created when posting messages so, even if
   # there are no consumers running, the messages will not get lost. Routing is
   # dynamic based on content but there is no way to do that here so we must
@@ -52,13 +61,19 @@ spring:
         EXAM:
           producer:
             requiredGroups: default
+        GROUPS:
+          producer:
+            requiredGroups: default
+        NORMS:
+          producer:
+            requiredGroups: default
         ORGANIZATION:
           producer:
             requiredGroups: default
         PACKAGE:
           producer:
             requiredGroups: default
-        NORMS:
+        SUBJECT:
           producer:
             requiredGroups: default
 
@@ -68,11 +83,15 @@ spring:
       ?useSSL=${spring.datasource.use-ssl:false}\
       &useLegacyDatetimeCode=${spring.datasource.use-legacy-datetime-code:false}\
       &characterEncoding=${spring.datasource.character-encoding:utf8}\
+      &connectTimeout=${spring.datasource.connect-timeout:10000}\
+      &socketTimeout=${spring.datasource.socket-timeout:40000}\
       "
+    jdbcInterceptors: "QueryTimeoutInterceptor(queryTimeout=${spring.datasource.query-timeout:30})"
     username: root
     password:
     testWhileIdle: true
     validationQuery: SELECT 1
+    validationQueryTimeout: 10000
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
     maxActive: 20
@@ -81,8 +100,8 @@ spring:
 
   http:
     multipart:
-      max-file-size: 32MB
-      max-request-size: 32MB
+      max-file-size: 500MB
+      max-request-size: 500MB
 
   jackson:
     default-property-inclusion: non_null

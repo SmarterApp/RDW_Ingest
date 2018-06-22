@@ -4,15 +4,12 @@ dependencies {
     // handy for creating metadata with @ConfigurationProperties
     optional "org.springframework.boot:spring-boot-configuration-processor"
 
+    compile 'org.springframework.boot:spring-boot-starter-aop'
     compile 'org.springframework.boot:spring-boot-starter-cache'
     compile 'org.springframework.boot:spring-boot-starter-jdbc'
     compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
     compile 'org.springframework.cloud:spring-cloud-starter-config'
     compile 'org.springframework.cloud:spring-cloud-stream'
-    compile 'org.springframework.retry:spring-retry'
-
-    // this is for retrying connection to config server
-    compile 'org.springframework.boot:spring-boot-starter-aop'
     compile 'org.springframework.retry:spring-retry'
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
@@ -31,10 +28,10 @@ dependencies {
 
 //This will allow for running of the multithreaded test application
 task runMTTest(type: JavaExec) {
+    group = 'Verification'
+    description = 'Runs MultiThreadedApplicationTest'
+    outputs.upToDateWhen { false }
+    doFirst { println "Running multithreaded tests..." }
     classpath = sourceSets.test.runtimeClasspath
-
     main = 'org.opentestsystem.rdw.ingest.processor.multithreaded.MultiThreadedApplicationTest'
-
-    description = 'task to run the MultiThreadedApplication test as a separate test app'
-
 }

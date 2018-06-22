@@ -4,8 +4,8 @@ import com.bmuschko.gradle.docker.tasks.image.Dockerfile
 
 buildscript {
     repositories {
-        mavenLocal()
         jcenter()
+        mavenLocal()
         maven { url 'http://repo.spring.io/plugins-release' }
     }
     dependencies {
@@ -22,15 +22,15 @@ plugins {
 
 apply plugin: 'io.spring.dependency-management'
 
-// Set version dependencies. This allows the cli to force version, e.g. `-Pcommon=1.1.0-SNAPSHOT`
-String rdwCommonVersion = project.hasProperty("common") ? project.property("common") : "1.1.0-68"
-String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "1.1.0-321"
+// Set version dependencies. This allows the cli to force version, e.g. `-Pcommon=1.2.0-SNAPSHOT`
+String rdwCommonVersion = project.hasProperty("common") ? project.property("common") : "1.2.0-91"
+String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "1.2.0-372"
 
 String dockerPrefix = "smarterbalanced"
 
 allprojects {
     group = 'org.opentestsystem.rdw.ingest'
-    version = '1.1.0-SNAPSHOT'
+    version = '1.2.0-SNAPSHOT'
 
     apply plugin: 'idea'
     apply plugin: 'propdeps'
@@ -40,6 +40,13 @@ allprojects {
 
     if (project.hasProperty("buildNumber")) {
         project.setVersion(project.version.toString().replaceAll("SNAPSHOT", "${buildNumber}"))
+    }
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
     }
 }
 
@@ -53,31 +60,37 @@ subprojects {
     targetCompatibility = 1.8
 
     repositories {
-        mavenLocal()
         mavenCentral()
+        mavenLocal()
         maven { url 'http://redshift-maven-repository.s3-website-us-east-1.amazonaws.com/release' }
     }
 
     dependencyManagement {
         dependencies {
             dependency "org.opentestsystem.rdw.common:rdw-common-archive:${rdwCommonVersion}"
+            dependency "org.opentestsystem.rdw.common:rdw-common-group:${rdwCommonVersion}"
             dependency "org.opentestsystem.rdw.common:rdw-common-messaging:${rdwCommonVersion}"
             dependency "org.opentestsystem.rdw.common:rdw-common-model:${rdwCommonVersion}"
+            dependency "org.opentestsystem.rdw.common:rdw-common-security:${rdwCommonVersion}"
             dependency "org.opentestsystem.rdw.common:rdw-common-status:${rdwCommonVersion}"
             dependency "org.opentestsystem.rdw.common:rdw-common-utils:${rdwCommonVersion}"
 
             // commonly used libraries
-            dependency 'com.google.code.gson:gson:2.8.0'
-            dependency 'com.google.guava:guava:21.0'
-            dependency 'org.slf4j:slf4j-api:1.7+'
+            dependency 'com.google.code.gson:gson:2.8.5'
+            dependency 'com.google.guava:guava:23.0'
+            dependency 'commons-io:commons-io:2.6'
+            dependency 'org.apache.commons:commons-csv:1.5'
+            dependency 'org.apache.commons:commons-lang3:3.7'
+            dependency 'org.slf4j:slf4j-api:1.7.25'
 
             // commonly used test libraries
-            dependency 'junit:junit:4.12+'
-            dependency 'org.assertj:assertj-core:3.6+'
+            dependency 'junit:junit:4.12'
+            dependency 'org.assertj:assertj-core:3.6.2'
+            dependency 'org.mockito:mockito-core:2.16.0'
         }
         imports {
-            // spring cloud Camden.SR5 includes spring cloud stream Brooklyn.SR2
-            mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Camden.SR5'
+            // https://github.com/spring-projects/spring-cloud/wiki/Spring-Cloud-Camden-Release-Notes
+            mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Camden.SR7'
         }
     }
 
@@ -85,8 +98,9 @@ subprojects {
         compile 'com.google.guava:guava'
         compile 'org.slf4j:slf4j-api'
 
-        testCompile 'org.assertj:assertj-core'
         testCompile 'junit:junit'
+        testCompile 'org.assertj:assertj-core'
+        testCompile 'org.mockito:mockito-core'
     }
 
     // task to generate build-info.properties with build.version, build.timestamp
@@ -121,13 +135,12 @@ subprojects {
         }
 
         // Task to create Dockerfile based on (http://bmuschko.github.io/gradle-docker-plugin/docs/groovydoc/com/bmuschko/gradle/docker/tasks/image/Dockerfile.html)
-        // We prefer to use a non-shell entry point so that signals get passed through properly. But that precludes
-        // the use of environment variables for setting JAVA_OPTS. So, we include the critical ones here, allowing
-        // subprojects to override them like this:
+        // Add tini to help with things (https://github.com/krallin/tini).
+        // Use environment variables so the orchestration environment can adjust max heap and other java opts.
+        // Sub-projects can adjust their default max heap size by setting the environment variable, e.g.
         // createDockerfile {
-        //   ext.java_opts = ["-Xmx512m"]
+        //   environmentVariable("MAX_HEAP_SIZE", "-Xmx512m")
         // }
-        // The orchestration environment can completely override the entry point if necessary.
         task createDockerfile(type: Dockerfile) {
             destFile = project.file('build/docker/Dockerfile')
             from('openjdk:8-jre-alpine')
@@ -135,14 +148,10 @@ subprojects {
             label([maintainer: 'Fairway Technologies'])
             copyFile("${jar.archivePath.name}", "${jar.archivePath.name}")
             exposePort(8008, 8080)
-            ext.java_opts = ["-Xmx256m"]
-            entryPoint {
-                List<String> entryPointArgs = ["java"]
-                entryPointArgs.addAll(ext.java_opts)
-                entryPointArgs.add("-jar")
-                entryPointArgs.add("${jar.archivePath.name}")
-                entryPointArgs.toArray()
-            }
+            runCommand("apk add --no-cache tini curl jq")
+            entryPoint("/sbin/tini", "--")
+            environmentVariable("MAX_HEAP_SIZE", "-Xmx384m")
+            instruction('CMD exec java $MAX_HEAP_SIZE $JAVA_OPTS -jar ' + "${jar.archivePath.name}")
         }
 
         task buildImage(type:DockerBuildImage, dependsOn:[build, createDockerfile]) {

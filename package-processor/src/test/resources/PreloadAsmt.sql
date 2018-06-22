@@ -32,4 +32,5 @@ INSERT INTO item (id, claim_id, target_id, natural_id, asmt_id, dok_id, difficul
 INSERT INTO item_other_target(item_id, target_id) values
   (-990, 2),
   (-990, 3),
-  (-980, 3);
+  (-980, 3),
+  (-991, 6);

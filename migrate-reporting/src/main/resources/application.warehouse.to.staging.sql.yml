@@ -24,6 +24,7 @@ sql:
   # ------------ Truncate ------------------------------------------------------------------
     truncateStageList:
       - TRUNCATE TABLE staging_grade
+      - TRUNCATE TABLE staging_elas
       - TRUNCATE TABLE staging_completeness
       - TRUNCATE TABLE staging_administration_condition
       - TRUNCATE TABLE staging_ethnicity
@@ -36,7 +37,7 @@ sql:
       - TRUNCATE TABLE staging_depth_of_knowledge
       - TRUNCATE TABLE staging_math_practice
       - TRUNCATE TABLE staging_item_trait_score
-      - TRUNCATE TABLE staging_translation
+      - TRUNCATE TABLE staging_accommodation_translation
       - TRUNCATE TABLE staging_school
       - TRUNCATE TABLE staging_district
       - TRUNCATE TABLE staging_district_embargo
@@ -51,6 +52,8 @@ sql:
       - TRUNCATE TABLE staging_percentile
       - TRUNCATE TABLE staging_asmt
       - TRUNCATE TABLE staging_asmt_score
+      - TRUNCATE TABLE staging_asmt_target
+      - TRUNCATE TABLE staging_asmt_target_exclusion
       - TRUNCATE TABLE staging_item
       - TRUNCATE TABLE staging_item_common_core_standard
       - TRUNCATE TABLE staging_item_other_target
@@ -58,6 +61,7 @@ sql:
       - TRUNCATE TABLE staging_exam_item
       - TRUNCATE TABLE staging_exam_available_accommodation
       - TRUNCATE TABLE staging_exam_claim_score
+      - TRUNCATE TABLE staging_exam_target_score
 
     entities:
         ##### CODES entities ####################################################################
@@ -66,11 +70,21 @@ sql:
         grade:
           sql:
             warehouseRead: >-
-              SELECT wg.id, wg.code, wg.name from grade wg
+              SELECT wg.id, wg.code, wg.name, wg.sequence from grade wg
 
             stagingInsert: >-
-              INSERT INTO staging_grade (id, code, name) VALUES
-                (:id, :code, :name)
+              INSERT INTO staging_grade (id, code, name, sequence) VALUES
+                (:id, :code, :name, :sequence)
+
+        # ------------ elas  ------------------------------------------------------------
+        elas:
+          sql:
+            warehouseRead: >-
+              SELECT we.id, we.code from elas we
+
+            stagingInsert: >-
+              INSERT INTO staging_elas (id, code) VALUES
+                (:id, :code)
 
         # ------------ completeness  ------------------------------------------------------------
         completeness:
@@ -146,11 +160,11 @@ sql:
         target:
           sql:
             warehouseRead: >-
-             SELECT wt.id, wt.claim_id, wt.code, wt.description from target wt
+             SELECT wt.id, wt.natural_id, wt.claim_id, wt.code, wt.description from target wt
 
             stagingInsert: >-
-              INSERT INTO staging_target (id, claim_id, code, description) VALUES
-                (:id, :claim_id, :code, :description)
+              INSERT INTO staging_target (id, natural_id, claim_id, code, description) VALUES
+                (:id, :natural_id, :claim_id, :code, :description)
 
 
         # ------------ common_core_standard  ----------------------------------------------------
@@ -202,8 +216,8 @@ sql:
                             JOIN accommodation a ON wat.accommodation_id=a.id
 
             stagingInsert: >-
-              INSERT INTO staging_translation (namespace, label_code, language_code, label) VALUES
-                ("backend", :label_code, :language_code, :label)
+              INSERT INTO staging_accommodation_translation (label_code, language_code, label) VALUES
+                (:label_code, :language_code, :label)
 
         ##### EMBARGO ###########################################################################
 
@@ -637,7 +651,7 @@ sql:
                 wi.active,
                 wi.type,
                 wi.options_count,
-                wi.answer_key,
+                CASE WHEN wa.type_id = 3 THEN NULL ELSE wi.answer_key END AS answer_key,
                 wi.performance_task_writing_type
               FROM item  wi
                 JOIN asmt wa ON wa.id = wi.asmt_id
@@ -674,7 +688,7 @@ sql:
                 wi.active,
                 wi.type,
                 wi.options_count,
-                wi.answer_key,
+                CASE WHEN wa.type_id = 3 THEN NULL ELSE wi.answer_key END AS answer_key,
                 wi.performance_task_writing_type
               FROM item  wi
                 JOIN asmt wa ON wa.id = wi.asmt_id
@@ -757,27 +771,93 @@ sql:
               INSERT IGNORE INTO staging_item_other_target (item_id, target_id) VALUES
                 (:item_id, :target_id)
 
+        # ------------ asmt_target_exclusion  -------------------------------------------------------------------
+        # Only Summative target scores are included
+        # For Smarter Balanced Math, only the Concepts and Procedures targets are included
+        asmt_target_exclusion:
+          sql:
+            warehouseRead: >-
+              SELECT
+                wats.asmt_id,
+                wats.target_id
+              FROM asmt_target_exclusion wats
+                JOIN asmt wa ON wa.id = wats.asmt_id
+                JOIN target wt ON wt.id = wats.target_id
+                JOIN claim wc ON wc.id = wt.claim_id
+                JOIN subject ws ON ws.id = wc.subject_id
+              WHERE wa.type_id = 3 AND (ws.code <> 'Math' OR wc.code='1') AND
+                wa.created > :first_at AND wa.created <= :last_at AND wa.deleted = 0
+
+            stagingInsert: >-
+              INSERT INTO staging_asmt_target_exclusion (asmt_id, target_id, migrate_id) VALUES
+                (:asmt_id, :target_id, :migrate_id)
+
+        asmt_target_exclusion_by_update_import_id:
+          sql:
+            warehouseRead: >-
+              SELECT
+                wats.asmt_id,
+                wats.target_id
+              FROM asmt_target_exclusion wats
+                JOIN asmt wa ON wa.id = wats.asmt_id
+                JOIN target wt ON wt.id = wats.target_id
+                JOIN claim wc ON wc.id = wt.claim_id
+                JOIN subject ws ON ws.id = wc.subject_id
+              WHERE wa.type_id = 3 AND (ws.code <> 'Math' OR wc.code='1') AND
+                wa.updated > :first_at AND wa.updated <= :last_at AND wa.updated <> wa.created AND wa.deleted = 0
+
+            stagingInsert: >-
+              INSERT IGNORE INTO staging_asmt_target_exclusion (asmt_id, target_id, migrate_id) VALUES
+                (:asmt_id, :target_id, :migrate_id)
+
+        # ------------ asmt_target  -------------------------------------------------------------------
+        # Only Summative target scores are included
+        # For Smarter Balanced Math, only the Concepts and Procedures targets are included
+        asmt_target:
+          sql:
+            warehouseRead: >-
+              SELECT DISTINCT
+                wa.id as asmt_id,
+                wi.target_id
+              FROM item wi
+                JOIN asmt wa ON wa.id = wi.asmt_id
+                JOIN target wt ON wt.id = wi.target_id
+                JOIN claim wc ON wc.id = wt.claim_id
+                JOIN subject ws ON ws.id = wc.subject_id
+              WHERE wa.type_id = 3 AND (ws.code <> 'Math' OR wc.code='1')AND
+                wa.created > :first_at AND wa.created <= :last_at AND wa.deleted = 0
+
+            stagingInsert: >-
+              INSERT INTO staging_asmt_target (asmt_id, target_id, migrate_id) VALUES
+                (:asmt_id, :target_id, :migrate_id)
+
+        asmt_target_by_update_import_id:
+          sql:
+            warehouseRead: >-
+              SELECT DISTINCT
+                wa.id as asmt_id,
+                wi.target_id
+              FROM item wi
+                JOIN asmt wa ON wa.id = wi.asmt_id
+                JOIN target wt ON wt.id = wi.target_id
+                JOIN claim wc ON wc.id = wt.claim_id
+                JOIN subject ws ON ws.id = wc.subject_id
+              WHERE wa.type_id = 3 AND (ws.code <> 'Math' OR wc.code='1') AND
+                wa.updated > :first_at AND wa.updated <= :last_at AND wa.updated <> wa.created AND wa.deleted = 0
+
+            stagingInsert: >-
+              INSERT IGNORE INTO staging_asmt_target (asmt_id, target_id, migrate_id) VALUES
+                (:asmt_id, :target_id, :migrate_id)
+
         ##### NORMS ImportContent Type ####
         #
         # ------------ percentile  -------------------------------------------------------------------
         percentile:
           sql:
             warehouseRead: >-
-              SELECT
-                wp.id,
-                wp.asmt_id,
-                wp.start_date,
-                wp.end_date,
-                wp.count,
-                wp.mean,
-                wp.standard_deviation,
-                wp.min_score,
-                wp.max_score,
-                wp.deleted,
-                wp.update_import_id,
-                wp.updated
-              FROM percentile wp
-              WHERE  wp.created > :first_at AND wp.created <= :last_at
+              SELECT wp.id, wp.asmt_id, wp.start_date, wp.end_date, wp.count, wp.mean, wp.standard_deviation, wp.min_score, wp.max_score, wp.deleted, wp.update_import_id, wp.updated
+                FROM percentile wp
+                WHERE wp.created > :first_at AND wp.created <= :last_at
             stagingInsert: >-
               INSERT INTO staging_percentile (id, asmt_id, start_date, end_date, count, mean, standard_deviation, min_score, max_score, deleted, update_import_id, updated, migrate_id) VALUES
                 (:id, :asmt_id, :start_date, :end_date, :count, :mean, :standard_deviation, :min_score, :max_score, :deleted, :update_import_id, :updated, :migrate_id)
@@ -785,39 +865,21 @@ sql:
         percentile_by_update_import_id:
           sql:
             warehouseRead: >-
-              SELECT
-                wp.id,
-                wp.asmt_id,
-                wp.start_date,
-                wp.end_date,
-                wp.count,
-                wp.mean,
-                wp.standard_deviation,
-                wp.min_score,
-                wp.max_score,
-                wp.deleted,
-                wp.update_import_id,
-                wp.updated
-              FROM percentile wp
-              WHERE  wp.updated > :first_at AND wp.updated <= :last_at AND wp.updated <> wp.created
+              SELECT wp.id, wp.asmt_id, wp.start_date, wp.end_date, wp.count, wp.mean, wp.standard_deviation, wp.min_score, wp.max_score, wp.deleted, wp.update_import_id, wp.updated
+                FROM percentile wp
+                WHERE wp.updated > :first_at AND wp.updated <= :last_at AND wp.updated <> wp.created
             stagingInsert: >-
-              INSERT INTO staging_percentile (id, asmt_id, start_date, end_date, count, mean, standard_deviation, min_score, max_score, deleted, update_import_id, updated, migrate_id) VALUES
+              INSERT IGNORE INTO staging_percentile (id, asmt_id, start_date, end_date, count, mean, standard_deviation, min_score, max_score, deleted, update_import_id, updated, migrate_id) VALUES
                 (:id, :asmt_id, :start_date, :end_date, :count, :mean, :standard_deviation, :min_score, :max_score, :deleted, :update_import_id, :updated, :migrate_id)
 
         # ------------ percentile_score  -------------------------------------------------------------------
         percentile_score:
           sql:
             warehouseRead: >-
-              SELECT
-                wps.percentile_id,
-                wps.percentile_rank,
-                wps.score,
-                wps.min_inclusive,
-                wps.max_exclusive
-              FROM percentile_score  wps
-                JOIN percentile wp ON wp.id = wps.percentile_id
-              WHERE wp.created > :first_at AND wp.created <= :last_at
-                AND wp.deleted = 0
+              SELECT wps.percentile_id, wps.percentile_rank, wps.score, wps.min_inclusive, wps.max_exclusive
+                FROM percentile_score wps
+                  JOIN percentile wp ON wp.id = wps.percentile_id
+                WHERE wp.created > :first_at AND wp.created <= :last_at AND wp.deleted = 0
 
             stagingInsert: >-
               INSERT INTO staging_percentile_score (percentile_id, percentile_rank, score, min_inclusive, max_exclusive) VALUES
@@ -826,19 +888,13 @@ sql:
         percentile_score_by_update_import_id:
           sql:
             warehouseRead: >-
-              SELECT
-                wps.percentile_id,
-                wps.percentile_rank,
-                wps.score,
-                wps.min_inclusive,
-                wps.max_exclusive
-              FROM percentile_score  wps
-                JOIN percentile wp ON wp.id = wps.percentile_id
-              WHERE wp.updated > :first_at AND wp.updated <= :last_at AND wp.updated <> wp.created
-                AND wp.deleted = 0
+              SELECT wps.percentile_id, wps.percentile_rank, wps.score, wps.min_inclusive, wps.max_exclusive
+                FROM percentile_score wps
+                  JOIN percentile wp ON wp.id = wps.percentile_id
+                WHERE wp.updated > :first_at AND wp.updated <= :last_at AND wp.updated <> wp.created AND wp.deleted = 0
 
             stagingInsert: >-
-              INSERT INTO staging_percentile_score (percentile_id, percentile_rank, score, min_inclusive, max_exclusive) VALUES
+              INSERT IGNORE INTO staging_percentile_score (percentile_id, percentile_rank, score, min_inclusive, max_exclusive) VALUES
                 (:percentile_id, :percentile_rank, :score, :min_inclusive, :max_exclusive)
 
         ##### EXAM ImportContent Type ####
@@ -868,6 +924,8 @@ sql:
                 we.school_id,
                 we.iep,
                 we.lep,
+                we.elas_id,
+                we.elas_start_at,
                 we.section504,
                 we.economic_disadvantage,
                 we.migrant_status,
@@ -881,11 +939,11 @@ sql:
             stagingInsert: >-
               INSERT INTO staging_exam (id, type_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id,
                                                  session_id, performance_level, scale_score, scale_score_std_err, completed_at, deleted, update_import_id, updated,
-                                                 grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status,
+                                                 grade_id, student_id, school_id, iep, lep, elas_id, elas_start_at, section504, economic_disadvantage, migrant_status,
                                                  eng_prof_lvl, t3_program_type, language_code, prim_disability_type, migrate_id) VALUES
                                        (:id, :type_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id,
                                                 :session_id, :performance_level, :scale_score, :scale_score_std_err, :completed_at, :deleted, :update_import_id, :updated,
-                                                :grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status,
+                                                :grade_id, :student_id, :school_id, :iep, :lep, :elas_id, :elas_start_at, :section504, :economic_disadvantage, :migrant_status,
                                                 :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type, :migrate_id)
         exam_by_update_import_id:
           sql:
@@ -912,6 +970,8 @@ sql:
                 we.school_id,
                 we.iep,
                 we.lep,
+                we.elas_id,
+                we.elas_start_at,
                 we.section504,
                 we.economic_disadvantage,
                 we.migrant_status,
@@ -925,11 +985,11 @@ sql:
             stagingInsert: >-
               INSERT IGNORE INTO staging_exam (id, type_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id,
                                                  session_id, performance_level, scale_score, scale_score_std_err, completed_at, deleted, update_import_id, updated,
-                                                 grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage, migrant_status,
+                                                 grade_id, student_id, school_id, iep, lep, elas_id, elas_start_at, section504, economic_disadvantage, migrant_status,
                                                  eng_prof_lvl, t3_program_type, language_code, prim_disability_type, migrate_id) VALUES
                                               (:id, :type_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id,
                                                  :session_id, :performance_level, :scale_score, :scale_score_std_err, :completed_at, :deleted, :update_import_id, :updated,
-                                                 :grade_id, :student_id, :school_id, :iep, :lep, :section504, :economic_disadvantage, :migrant_status,
+                                                 :grade_id, :student_id, :school_id, :iep, :lep, :elas_id, :elas_start_at, :section504, :economic_disadvantage, :migrant_status,
                                                  :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type, :migrate_id)
 
         # ------------ exam_item  ---------------------------------------------------------------------------------------
@@ -943,7 +1003,7 @@ sql:
                 round(wei.score) AS score,
                 wei.score_status,
                 wei.position,
-                wei.response,
+                CASE WHEN we.type_id = 3 THEN NULL ELSE wei.response END AS response,
                 round(wei.trait_evidence_elaboration_score) AS trait_evidence_elaboration_score,
                 wei.trait_evidence_elaboration_score_status,
                 round(wei.trait_organization_purpose_score) AS trait_organization_purpose_score,
@@ -975,7 +1035,7 @@ sql:
                 round(wei.score) AS score,
                 wei.score_status,
                 wei.position,
-                wei.response,
+                CASE WHEN we.type_id = 3 THEN NULL ELSE wei.response END AS response,
                 round(wei.trait_evidence_elaboration_score) AS trait_evidence_elaboration_score,
                 wei.trait_evidence_elaboration_score_status,
                 round(wei.trait_organization_purpose_score) AS trait_organization_purpose_score,
@@ -1066,3 +1126,48 @@ sql:
             stagingInsert: >-
               INSERT IGNORE INTO staging_exam_claim_score (id, exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
                 (:id, :exam_id, :subject_claim_score_id, :scale_score, :scale_score_std_err, :category)
+
+        # ------------ exam_target_score  ---------------------------------------------------------------------------------------
+        # Only Summative target scores are included
+        # For Smarter Balanced Math, only the Concepts and Procedures targets are included
+        exam_target_score:
+          sql:
+            warehouseRead: >-
+              SELECT
+                wets.id,
+                wets.exam_id,
+                wets.target_id,
+                wets.student_relative_residual_score,
+                wets.standard_met_relative_residual_score
+              FROM exam_target_score wets
+                JOIN exam we ON wets.exam_id = we.id
+                JOIN target wt ON wt.id = wets.target_id
+                JOIN claim wc ON wc.id = wt.claim_id
+                JOIN subject ws ON ws.id = wc.subject_id
+              WHERE we.type_id = 3 AND (ws.code <> 'Math' OR wc.code='1') AND
+                we.created > :first_at AND we.created <= :last_at AND we.deleted = 0
+
+            stagingInsert: >-
+              INSERT INTO staging_exam_target_score (id, exam_id, target_id, student_relative_residual_score, standard_met_relative_residual_score) VALUES
+                (:id, :exam_id, :target_id, :student_relative_residual_score, :standard_met_relative_residual_score)
+
+        exam_target_score_by_update_import_id:
+          sql:
+            warehouseRead: >-
+              SELECT
+                wets.id,
+                wets.exam_id,
+                wets.target_id,
+                wets.student_relative_residual_score,
+                wets.standard_met_relative_residual_score
+              FROM exam_target_score wets
+                JOIN exam we ON wets.exam_id = we.id
+                JOIN target wt ON wt.id = wets.target_id
+                JOIN claim wc ON wc.id = wt.claim_id
+                JOIN subject ws ON ws.id = wc.subject_id
+              WHERE we.type_id = 3 AND (ws.code <> 'Math' OR wc.code='1') AND
+                we.updated > :first_at AND we.updated <= :last_at AND we.updated <> we.created AND we.deleted = 0
+
+            stagingInsert: >-
+              INSERT IGNORE INTO staging_exam_target_score (id, exam_id, target_id, student_relative_residual_score, standard_met_relative_residual_score) VALUES
+                (:id, :exam_id, :target_id, :student_relative_residual_score, :standard_met_relative_residual_score)

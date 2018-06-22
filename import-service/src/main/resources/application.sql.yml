@@ -7,6 +7,11 @@ sql:
       INSERT INTO import (status, content, contentType, digest, batch, creator, message)
         VALUES (:status, :content, :contentType, :digest, :batch, :creator, :message)
 
+    update: >-
+      UPDATE import
+      SET status=:status, content=:content, contentType=:contentType, digest=:digest, batch=:batch, creator=:creator, message=:message
+      WHERE id=:id
+
     delete: >-
       DELETE FROM import WHERE id=:id
 
@@ -26,8 +31,8 @@ sql:
         AND (:status IS NULL OR i.status = :status)
         AND (:batch IS NULL OR i.batch = :batch)
         AND (:creator IS NULL OR i.creator = :creator)
-        AND (:before IS NULL OR i.created < :before)
-        AND (:after IS NULL OR i.created > :after)
+        AND (:before IS NULL OR i.updated < :before)
+        AND (:after IS NULL OR i.updated > :after)
       ORDER BY i.id
       LIMIT :limit
 

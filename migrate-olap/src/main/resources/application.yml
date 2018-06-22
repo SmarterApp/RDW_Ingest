@@ -1,6 +1,3 @@
-app:
-  school-year: 2018
-
 management:
   security:
     enabled: false
@@ -44,9 +41,12 @@ migrate:
       role: ${rdw.migrate.aws.redshift.role}
 
   olap-batch:
-    size: 500000
+    size: 10000000
     # every day at 1:00 am
     run-cron: "0 0 1 * * *"
+
+reporting:
+  school-year: 2018
 
 spring:
   batch:
@@ -64,11 +64,14 @@ spring:
       ?useSSL=${spring.migrate_datasource.use-ssl:false}\
       &useLegacyDatetimeCode=${spring.migrate_datasource.use-legacy-datetime-code:false}\
       &characterEncoding=${spring.migrate_datasource.character-encoding:utf8}\
+      &connectTimeout=${spring.migrate_datasource.connect-timeout:10000}\
+      &socketTimeout=${spring.migrate_datasource.socket-timeout:0}\
       "
     username: root
     password:
     testWhileIdle: true
     validationQuery: SELECT 1
+    validationQueryTimeout: 10000
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
     maxActive: 10
@@ -81,11 +84,14 @@ spring:
     url: "\
       jdbc:redshift://${spring.olap_datasource.url-server:localhost:5432}/${spring.olap_datasource.url-db:dev}\
       ?ApplicationName=rdw-ingest-migrate-olap\
+      &loginTimeout=${spring.olap_datasource.connect-timeout:10}\
+      &socketTimeout=${spring.olap_datasource.socket-timeout:0}\
       "
     username: root
     password:
     testWhileIdle: true
     validationQuery: SELECT 1
+    validationQueryTimeout: 30000
     driverClassName: com.amazon.redshift.jdbc42.Driver
 
   warehouse_datasource:
@@ -94,11 +100,14 @@ spring:
       ?useSSL=${spring.warehouse_datasource.use-ssl:false}\
       &useLegacyDatetimeCode=${spring.warehouse_datasource.use-legacy-datetime-code:false}\
       &characterEncoding=${spring.warehouse_datasource.character-encoding:utf8}\
+      &connectTimeout=${spring.warehouse_datasource.connect-timeout:10000}\
+      &socketTimeout=${spring.warehouse_datasource.socket-timeout:0}\
       "
     username: root
     password:
     testWhileIdle: true
     validationQuery: SELECT 1
+    validationQueryTimeout: 10000
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
     maxActive: 10

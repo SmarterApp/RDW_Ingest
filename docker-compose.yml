@@ -1,0 +1,128 @@
+# docker-compose specs for rdw ingest processes with the configuration server and RabbitMQ
+# running in containers # and the data warehouse running natively (outside the containers).
+#
+# The following environment variables MUST be set before running this spec.
+#
+# DATAWAREHOUSE_HOST - host running mysql with rdw warehouse schema initialized
+# For mac developers running mysql natively, something like:
+#   $ export DATAWAREHOUSE_HOST=$(ipconfig getifaddr en0)
+# This value may have to be reset when you change networks.
+#
+# CONFIG_SERVICE_REPO - git repo url, e.g. https://gitlab.com/fairwaytech/sbac-config-repo.git
+# GIT_USER - user with rights to access CONFIG_SERVICE_REPO
+# GIT_PASSWORD - password for GIT_USER
+
+version: '2'
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  config-server:
+    image: smarterbalanced/configuration-service:3.1.0.RELEASE
+    container_name: config-server
+    ports:
+      - 8888:8888
+    depends_on:
+      - rabbitmq
+    environment:
+      - CONFIG_SERVICE_REPO
+      - ENCRYPT_KEY
+      - GIT_USER
+      - GIT_PASSWORD
+      - SPRING_RABBITMQ_ADDRESSES=rabbitmq:5672
+      - SPRING_RABBITMQ_USERNAME=guest
+      - SPRING_RABBITMQ_PASSWORD=guest
+
+  import-service:
+    image: smarterbalanced/rdw-ingest-import-service
+    ports:
+      - 8080:8080
+      - 8081:8008
+    volumes:
+      - /tmp:/tmp
+    links:
+      - config-server
+      - rabbitmq
+    environment:
+      - SPRING_PROFILES_ACTIVE=local-docker
+      - CONFIG_SERVICE_ENABLED=true
+      - CONFIG_SERVICE_URL=http://config-server:8888
+    extra_hosts:
+      - "dwhost:$DATAWAREHOUSE_HOST"
+
+  exam-processor:
+    image: smarterbalanced/rdw-ingest-exam-processor
+    ports:
+      - 8082:8008
+    links:
+      - config-server
+      - rabbitmq
+    environment:
+      - SPRING_PROFILES_ACTIVE=local-docker
+      - CONFIG_SERVICE_ENABLED=true
+      - CONFIG_SERVICE_URL=http://config-server:8888
+    extra_hosts:
+      - "dwhost:$DATAWAREHOUSE_HOST"
+
+  group-processor:
+    image: smarterbalanced/rdw-ingest-group-processor
+    ports:
+      - 8086:8008
+    volumes:
+      - /tmp:/tmp
+    links:
+      - config-server
+      - rabbitmq
+    environment:
+      - SPRING_PROFILES_ACTIVE=local-docker
+      - CONFIG_SERVICE_ENABLED=true
+      - CONFIG_SERVICE_URL=http://config-server:8888
+    extra_hosts:
+      - "dwhost:$DATAWAREHOUSE_HOST"
+
+  package-processor:
+    image: smarterbalanced/rdw-ingest-package-processor
+    ports:
+      - 8083:8008
+    links:
+      - config-server
+      - rabbitmq
+    environment:
+      - SPRING_PROFILES_ACTIVE=local-docker
+      - CONFIG_SERVICE_ENABLED=true
+      - CONFIG_SERVICE_URL=http://config-server:8888
+    extra_hosts:
+      - "dwhost:$DATAWAREHOUSE_HOST"
+
+  task-service:
+    image: smarterbalanced/rdw-ingest-task-service
+    ports:
+      - 8084:8008
+    volumes:
+      - /tmp:/tmp
+    links:
+      - config-server
+      - import-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=local-docker
+      - CONFIG_SERVICE_ENABLED=true
+      - CONFIG_SERVICE_URL=http://config-server:8888
+    extra_hosts:
+      - "dwhost:$DATAWAREHOUSE_HOST"
+
+  migrate-reporting:
+    image: smarterbalanced/rdw-ingest-migrate-reporting
+    ports:
+      - 8085:8008
+    links:
+      - config-server
+    environment:
+      - SPRING_PROFILES_ACTIVE=local-docker
+      - CONFIG_SERVICE_ENABLED=true
+      - CONFIG_SERVICE_URL=http://config-server:8888
+    extra_hosts:
+      - "dwhost:$DATAWAREHOUSE_HOST"
