@@ -1,1 +1,1 @@
-INSERT INTO subject (code) VALUES ("test");
+INSERT INTO subject (code, import_id, update_import_id) VALUES ("test", 1, 1);
