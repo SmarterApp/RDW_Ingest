@@ -175,7 +175,7 @@ sql:
               WHERE NOT EXISTS(SELECT sy.year FROM staging_school_year sy WHERE sy.year = ry.year);
 
       # ------------ Subject ------------------------------------------------------------------------
-      # we do not support subject delete, and updates are only supported for the slave tables
+      # we do not support subject delete
       subject:
         sql:
           insert: >-
@@ -192,7 +192,7 @@ sql:
 
           update: >-
             UPDATE subject rs
-              JOIN staging_student ss ON ss.id = rs.id
+              JOIN staging_subject ss ON ss.id = rs.id
             SET
               rs.updated = ss.updated,
               rs.update_import_id = ss.update_import_id,
