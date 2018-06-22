@@ -343,26 +343,30 @@ sql:
         scs.id,
         scs.code,
         at.code as asmt_type_code,
-        scs.display_order
+        scs.display_order,
+        scs.data_order
       FROM subject_claim_score scs
         JOIN subject s ON s.id = scs.subject_id
         JOIN asmt_type at ON at.id = scs.asmt_type_id
       WHERE s.code = :subject_code
 
     insert: >-
-      INSERT INTO subject_claim_score (subject_id, asmt_type_id, code, display_order)
+      INSERT INTO subject_claim_score (subject_id, asmt_type_id, code, display_order, data_order)
         SELECT
           s.id,
           at.id,
           :claim_code,
-          :display_order
+          :display_order,
+          :data_order
         FROM subject s
           JOIN asmt_type at ON at.code = :asmt_type_code
         WHERE s.code = :subject_code
 
     update: >-
       UPDATE subject_claim_score
-      SET display_order = :display_order
+      SET
+        display_order = :display_order,
+        data_order = :data_order
       WHERE id = :id
 
     delete: >-
