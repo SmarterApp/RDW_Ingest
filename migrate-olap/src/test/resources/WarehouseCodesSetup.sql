@@ -6,11 +6,10 @@ INSERT INTO administration_condition(id, code) VALUES (-99,'IN-test'),(-98,'NS-t
 INSERT INTO ethnicity(id, code) VALUES (-99,'AmericanIndianOrAlaskaNative-test'),(-98,'Asian-test');
 INSERT INTO gender(id, code) VALUES (-99,'Female-test'),(-98,'Male-test');
 INSERT INTO accommodation(id, code) VALUES(-99, 'code1-test'),( -98 ,'code2-test');
-INSERT INTO depth_of_knowledge(id, level, subject_id, description, reference) VALUES (-99,1,1,'Recall and Reproduction','something'),(-98,2,1,'Basic Skills and Concepts','anything');
+INSERT INTO depth_of_knowledge(id, level, subject_id, description, reference) VALUES (-99,-1,1,'Recall and Reproduction','something'),(-98,-2,1,'Basic Skills and Concepts','anything');
 INSERT INTO math_practice(practice, description, code)  VALUES (-99,'Make sense of problems and persevere in solving them', '-9'),(-98,'Reason abstractly and quantitatively', '-8');
 INSERT INTO item_trait_score(id, dimension) VALUES (-99,'Conventions-test'),(-98,'Evidence/Elaboration-test');
 INSERT INTO common_core_standard(id, natural_id, subject_id, description) VALUES (-99, 'naturalId-99', 1,'ccommon core -99'),(-98, 'naturalId-98', 2, 'common core -98');
-INSERT INTO item_difficulty_cuts(id, subject_id, grade_id, moderate_low_end, difficult_low_end)  VALUES (-99, 2, 109,-1.93882,-0.43906),(-98 , 2, 108, -1.51022,0.14288);
 INSERT INTO accommodation_translation(accommodation_id, language_code, label) VALUES (-99, 'lan', 'Hola'),(-98, 'gua','Hello');
 
 insert into claim (id, subject_id, code, name, description) values
