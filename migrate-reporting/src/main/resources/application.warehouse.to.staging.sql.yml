@@ -759,6 +759,8 @@ sql:
                 round(was.cut_point_1) AS cut_point_1,
                 round(was.cut_point_2) AS cut_point_2,
                 round(was.cut_point_3) AS cut_point_3,
+                round(was.cut_point_4) AS cut_point_4,
+                round(was.cut_point_5) AS cut_point_5,
                 round(was.min_score) AS min_score,
                 round(was.max_score) AS max_score
               FROM asmt_score  was
@@ -767,8 +769,8 @@ sql:
                 AND wa.deleted = 0
 
             stagingInsert: >-
-              INSERT INTO staging_asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score, migrate_id) VALUES
-                (:asmt_id, :cut_point_1, :cut_point_2, :cut_point_3, :min_score, :max_score, :migrate_id)
+              INSERT INTO staging_asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, cut_point_4, cut_point_5, min_score, max_score, migrate_id) VALUES
+                (:asmt_id, :cut_point_1, :cut_point_2, :cut_point_3, :cut_point_4, :cut_point_5, :min_score, :max_score, :migrate_id)
 
         asmt_score_by_update_import_id:
           sql:
@@ -778,6 +780,8 @@ sql:
                 round(was.cut_point_1) AS cut_point_1,
                 round(was.cut_point_2) AS cut_point_2,
                 round(was.cut_point_3) AS cut_point_3,
+                round(was.cut_point_4) AS cut_point_4,
+                round(was.cut_point_5) AS cut_point_5,
                 round(was.min_score) AS min_score,
                 round(was.max_score) AS max_score
               FROM asmt_score  was
@@ -786,8 +790,8 @@ sql:
                 AND wa.deleted = 0
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging_asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score, migrate_id) VALUES
-                (:asmt_id, :cut_point_1, :cut_point_2, :cut_point_3, :min_score, :max_score, :migrate_id)
+              INSERT IGNORE INTO staging_asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, cut_point_4, cut_point_5, min_score, max_score, migrate_id) VALUES
+                (:asmt_id, :cut_point_1, :cut_point_2, :cut_point_3, :cut_point_4, :cut_point_5, :min_score, :max_score, :migrate_id)
 
         # ------------ item  -------------------------------------------------------------------
         item:
