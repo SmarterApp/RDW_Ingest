@@ -666,8 +666,8 @@ sql:
                           ) AS claim6 ON claim6.exam_id = se.id
                 LEFT JOIN exam re ON re.id = se.id
                 LEFT JOIN elas rel ON rel.id = se.elas_id
-                JOIN administration_condition rac ON rac.id = se.administration_condition_id
-                JOIN completeness rc ON rc.id = se.completeness_id
+                LEFT JOIN administration_condition rac ON rac.id = se.administration_condition_id
+                LEFT JOIN completeness rc ON rc.id = se.completeness_id
                 JOIN grade rg ON rg.id = se.grade_id
                 LEFT JOIN
                   (SELECT seaa.exam_id as exam_id, GROUP_CONCAT(ra.code ORDER BY ra.id SEPARATOR '|') AS codes
@@ -681,8 +681,8 @@ sql:
             UPDATE exam re
               JOIN staging_exam se ON se.id = re.id
               LEFT JOIN elas rel ON rel.id = se.elas_id
-              JOIN completeness rc ON rc.id = se.completeness_id
-              JOIN administration_condition rac ON rac.id = se.administration_condition_id
+              LEFT JOIN completeness rc ON rc.id = se.completeness_id
+              LEFT JOIN administration_condition rac ON rac.id = se.administration_condition_id
               JOIN grade rg ON rg.id = se.grade_id
               LEFT JOIN (
                            SELECT s.exam_id
