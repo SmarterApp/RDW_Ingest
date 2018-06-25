@@ -24,13 +24,13 @@ apply plugin: 'io.spring.dependency-management'
 
 // Set version dependencies. This allows the cli to force version, e.g. `-Pcommon=1.2.0-SNAPSHOT`
 String rdwCommonVersion = project.hasProperty("common") ? project.property("common") : "1.2.0-92"
-String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "1.2.0-375"
+String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "1.2.0-378"
 
 String dockerPrefix = "smarterbalanced"
 
 allprojects {
     group = 'org.opentestsystem.rdw.ingest'
-    version = '1.2.0-SNAPSHOT'
+    version = '1.2.1-SNAPSHOT'
 
     apply plugin: 'idea'
     apply plugin: 'propdeps'

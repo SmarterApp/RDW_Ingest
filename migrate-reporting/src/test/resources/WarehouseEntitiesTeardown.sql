@@ -30,4 +30,12 @@ DELETE FROM asmt_score where asmt_id < 0;
 DELETE FROM asmt_target_exclusion where asmt_id < 0;
 DELETE FROM asmt where id < 0;
 
+DELETE FROM depth_of_knowledge  WHERE id < 0;
+DELETE FROM target WHERE id < 0;
+DELETE FROM common_core_standard WHERE id < 0;
+DELETE FROM claim WHERE id < 0;
+DELETE FROM subject_translation WHERE subject_id < 0;
+DELETE FROM subject_asmt_type WHERE subject_id < 0;
+DELETE FROM subject_claim_score WHERE subject_id < 0;
+DELETE FROM subject WHERE id < 0;
 

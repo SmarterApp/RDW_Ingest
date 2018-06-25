@@ -6,12 +6,7 @@ TRUNCATE staging_gender;
 TRUNCATE staging_accommodation_translation;
 TRUNCATE staging_accommodation;
 TRUNCATE staging_school_year;
-TRUNCATE staging_depth_of_knowledge;
 TRUNCATE staging_math_practice;
-TRUNCATE staging_item_trait_score;
-TRUNCATE staging_target;
-TRUNCATE staging_common_core_standard;
-TRUNCATE staging_claim;
 TRUNCATE staging_grade;
 
 DELETE FROM elas WHERE id in (-99, -98);
@@ -22,12 +17,7 @@ DELETE FROM gender WHERE id IN (-99,-98);
 DELETE FROM accommodation_translation where language_code in ('lan', 'gua');
 DELETE FROM accommodation WHERE id IN (-99,-98);
 DELETE FROM school_year WHERE year IN (1999,1998);
-DELETE FROM depth_of_knowledge WHERE id IN (-99,-98);
 DELETE FROM math_practice WHERE practice IN (-99,-98);
-DELETE FROM item_trait_score WHERE id IN (-99,-98);
-DELETE FROM target WHERE id < 0;
-DELETE FROM common_core_standard  WHERE id IN (-99,-98);
 DELETE FROM grade WHERE id IN (-99,-98);
-DELETE FROM claim WHERE id < 0;
 
 DELETE FROM migrate;
