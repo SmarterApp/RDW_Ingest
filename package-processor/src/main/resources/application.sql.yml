@@ -12,7 +12,7 @@ sql:
   #JdbcAssessmentPackageRepository
   assessment:
     findOneByNaturalId: >-
-        SELECT a.id, a.natural_id, a.grade_id, a.type_id, a.subject_id, a.school_year, a.name, a.label, a.version, s.cut_point_1, s.cut_point_2, s.cut_point_3, s.min_score, s.max_score
+        SELECT a.id, a.natural_id, a.grade_id, a.type_id, a.subject_id, a.school_year, a.name, a.label, a.version, s.cut_point_1, s.cut_point_2, s.cut_point_3, s.cut_point_4, s.cut_point_5, s.min_score, s.max_score
            FROM asmt a JOIN asmt_score s ON s.asmt_id = a.id WHERE a.natural_id= :natural_id
 
     update: >-
@@ -31,7 +31,8 @@ sql:
 
     assessmentScore:
        create: >-
-         INSERT INTO asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score) SELECT (SELECT id FROM asmt WHERE natural_id=:asmtId), :cutPoint1, :cutPoint2, :cutPoint3, :minScore, :maxScore
+         INSERT INTO asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, cut_point_4, cut_point_5, min_score, max_score)
+          SELECT (SELECT id FROM asmt WHERE natural_id=:asmtId), :cutPoint1, :cutPoint2, :cutPoint3, :cutPoint4, :cutPoint5, :minScore, :maxScore
 
        update: >-
          UPDATE asmt_score s
@@ -39,6 +40,8 @@ sql:
              s.cut_point_1 = :cutPoint1,
              s.cut_point_2 = :cutPoint2,
              s.cut_point_3 = :cutPoint3,
+             s.cut_point_4 = :cutPoint4,
+             s.cut_point_5 = :cutPoint5,
              s.min_score = :minScore,
              s.max_score = :maxScore
           WHERE s.asmt_id = :asmt_id
@@ -470,6 +473,18 @@ sql:
           JOIN asmt_type at ON at.id = sat.asmt_type_id
           JOIN subject s ON s.id = sat.subject_id
         WHERE s.code = :subject_code
+
+      findBySubjectIdAndAsmtTypeId: >-
+        SELECT
+          at.code as asmt_type_code,
+          s.code as subject_code,
+          sat.performance_level_count,
+          sat.performance_level_standard_cutoff,
+          sat.claim_score_performance_level_count
+        FROM subject_asmt_type sat
+          JOIN asmt_type at ON at.id = sat.asmt_type_id
+          JOIN subject s ON s.id = sat.subject_id
+        WHERE sat.subject_id = :subject_id AND sat.asmt_type_id = :asmt_type_id
 
       insert: >-
         INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count)
