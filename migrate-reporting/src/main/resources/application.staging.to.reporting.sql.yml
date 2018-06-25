@@ -1108,12 +1108,14 @@ sql:
       asmt_score:
         sql:
           insert: >-
-            INSERT INTO asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score)
+            INSERT INTO asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, cut_point_4, cut_point_5, min_score, max_score)
               SELECT
                 sas.asmt_id,
                 sas.cut_point_1,
                 sas.cut_point_2,
                 sas.cut_point_3,
+                sas.cut_point_4,
+                sas.cut_point_5,
                 sas.min_score,
                 sas.max_score
               FROM staging_asmt_score sas
@@ -1127,6 +1129,8 @@ sql:
               ras.cut_point_1 = sas.cut_point_1,
               ras.cut_point_2 = sas.cut_point_2,
               ras.cut_point_3 = sas.cut_point_3,
+              ras.cut_point_4 = sas.cut_point_4,
+              ras.cut_point_5 = sas.cut_point_5,
               ras.min_score   = sas.min_score,
               ras.max_score   = sas.max_score;
 
@@ -1323,7 +1327,7 @@ sql:
             INSERT INTO asmt (id, natural_id, grade_id, grade_code, type_id, subject_id, school_year, name,
                              label, version, update_import_id,
                              claim1_score_code, claim2_score_code, claim3_score_code, claim4_score_code, claim5_score_code, claim6_score_code,
-                             cut_point_1, cut_point_2, cut_point_3, min_score, max_score, updated, migrate_id)
+                             cut_point_1, cut_point_2, cut_point_3, cut_point_4, cut_point_5, min_score, max_score, updated, migrate_id)
               SELECT
                 sa.id,
                 sa.natural_id,
@@ -1345,6 +1349,8 @@ sql:
                 sas.cut_point_1,
                 sas.cut_point_2,
                 sas.cut_point_3,
+                sas.cut_point_4,
+                sas.cut_point_5,
                 sas.min_score,
                 sas.max_score,
                 sa.updated,
@@ -1426,6 +1432,8 @@ sql:
               ra.cut_point_1 = sas.cut_point_1,
               ra.cut_point_2 = sas.cut_point_2,
               ra.cut_point_3 = sas.cut_point_3,
+              ra.cut_point_4 = sas.cut_point_4,
+              ra.cut_point_5 = sas.cut_point_5,
               ra.min_score = sas.min_score,
               ra.max_score = sas.max_score,
               ra.updated = sa.updated,

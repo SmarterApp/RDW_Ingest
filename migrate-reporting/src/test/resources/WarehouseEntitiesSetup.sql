@@ -205,12 +205,12 @@ INSERT INTO asmt_target_exclusion(asmt_id, target_id) VALUES
   (-990, -99),
   (-980, -98);
 
-INSERT INTO asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score) VALUES
-  (-99, 2442, 2502, 2582, 2201, 2701),
-  (-98, 2442, 2502, 2582, 2201, 2701),
-  (-59, 2442, 2502, 2582, 2201, 2701),
-  (-111, 2442, 2502, 2582, 2201, 2701),
-  (-311, 2442, 2502, 2582, 2201, 2701);
+INSERT INTO asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, cut_point_4, cut_point_5, min_score, max_score) VALUES
+  (-99,  2442, 2502, 2582, null, null, 2201, 2701),
+  (-98,  2442, 2502, 2582, 2590, 2595, 2201, 2701),
+  (-59,  2442, 2502, 2582, null, null, 2201, 2701),
+  (-111, 2442, 2502, 2582, null, null, 2201, 2701),
+  (-311, 2442, 2502, 2582, null, null, 2201, 2701);
 
 INSERT INTO item_other_target(item_id, target_id) values
   (-990, -98),
