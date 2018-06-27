@@ -153,29 +153,101 @@ sql:
               DELETE FROM school_year
                 WHERE NOT EXISTS(SELECT sy.year FROM staging_school_year sy WHERE sy.year = school_year.year);
 
-        # ------------ target  -------------------------------------------------------------------
+      # ------------ subject -----------------------------------------------------------------------
+      # We do not support a subject's deletion
+        subject:
+          sql:
+            insert: >-
+              INSERT INTO subject (id,  code, updated, update_import_id, migrate_id)
+                SELECT DISTINCT
+                  ss.id,
+                  ss.code,
+                  ss.updated,
+                  ss.update_import_id,
+                  ss.migrate_id
+                FROM staging_subject ss
+                  LEFT JOIN subject rs ON rs.id = ss.id
+                WHERE rs.id IS NULL;
+
+            update: >-
+              UPDATE subject
+              SET
+                updated = ss.updated,
+                update_import_id = ss.update_import_id,
+                migrate_id = ss.migrate_id
+              FROM staging_subject ss
+              WHERE ss.id = subject.id;
+
+      # ------------ target -----------------------------------------------------------------------
+      # Since we are loading only the immutable target's elements, there is no update
         target:
           sql:
-            update:  >-
-              UPDATE target
-                SET
-                natural_id = st.natural_id,
-                claim_code = st.claim_code
-              FROM staging_target st where st.id = target.id;
-
             insert: >-
-              INSERT INTO target (id, natural_id, claim_code)
-                SELECT
+              INSERT INTO target (id, subject_id, natural_id, claim_code)
+                SELECT DISTINCT
                   st.id,
+                  st.subject_id,
                   st.natural_id,
                   st.claim_code
                 FROM staging_target st
-                  LEFT JOIN target rt ON rt.id = st.id
+                  LEFT JOIN target rt ON rt.id= st.id
                 WHERE rt.id IS NULL;
 
-            delete: >-
+            deleteAsPartOfParentUpdate: >-
               DELETE FROM target
-                WHERE NOT EXISTS(SELECT st.id FROM staging_target st WHERE st.id = target.id);
+                USING staging_subject ss
+              WHERE ss.id = target.subject_id AND
+                NOT EXISTS(SELECT 1 FROM staging_target st WHERE st.id = target.id AND st.subject_id = ss.id)
+
+      # ------------ subject_claim_score -----------------------------------------------------------------------
+        subject_claim_score:
+          sql:
+            insert: >-
+              INSERT INTO subject_claim_score (id, subject_id, asmt_type_id, code)
+                SELECT DISTINCT
+                  sscs.id,
+                  sscs.subject_id,
+                  sscs.asmt_type_id,
+                  sscs.code
+                FROM staging_subject_claim_score sscs
+                  LEFT JOIN subject_claim_score rscs ON rscs.id = sscs.id
+                WHERE rscs.id IS NULL;
+
+            deleteAsPartOfParentUpdate: >-
+              DELETE FROM subject_claim_score
+                USING staging_subject ss
+              WHERE ss.id = subject_claim_score.subject_id AND
+                NOT EXISTS(SELECT 1 FROM staging_subject_claim_score sscs WHERE sscs.id = subject_claim_score.id AND sscs.subject_id = ss.id)
+
+      # ------------ subject_asmt_type -----------------------------------------------------------------------
+        subject_asmt_type:
+          sql:
+            insert: >-
+              INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count)
+                SELECT DISTINCT
+                  ssat.asmt_type_id,
+                  ssat.subject_id,
+                  ssat.performance_level_count,
+                  ssat.performance_level_standard_cutoff,
+                  ssat.claim_score_performance_level_count
+                FROM staging_subject_asmt_type ssat
+                  LEFT JOIN subject_asmt_type rsat ON (rsat.subject_id = ssat.subject_id AND rsat.asmt_type_id = ssat.asmt_type_id)
+                WHERE rsat.asmt_type_id IS NULL;
+
+            update: >-
+              UPDATE subject_asmt_type
+              SET
+                performance_level_count  = ssat.performance_level_count,
+                performance_level_standard_cutoff = ssat.performance_level_standard_cutoff,
+                claim_score_performance_level_count = ssat.claim_score_performance_level_count
+              FROM staging_subject_asmt_type ssat
+                JOIN subject_asmt_type rsat ON (rsat.subject_id = ssat.subject_id AND rsat.asmt_type_id = ssat.asmt_type_id);
+
+            deleteAsPartOfParentUpdate: >-
+              DELETE FROM subject_asmt_type
+                USING staging_subject ss
+              WHERE ss.id = subject_asmt_type.subject_id AND
+                NOT EXISTS(SELECT 1 FROM staging_subject_asmt_type ssat WHERE ssat.asmt_type_id = subject_asmt_type.asmt_type_id and ssat.subject_id = subject_asmt_type.subject_id)
 
       # ------------ student -----------------------------------------------------------------------
         student:
@@ -219,7 +291,6 @@ sql:
                   sue.ethnicity_id
                 FROM staging_student_ethnicity sue
                   LEFT JOIN student_ethnicity rse ON (rse.student_id = sue.student_id AND rse.ethnicity_id = sue.ethnicity_id)
-                  JOIN ethnicity re on re.id = sue.ethnicity_id
                 WHERE rse.student_id IS NULL;
 
             deleteAsPartOfParentUpdate: >-
@@ -237,7 +308,7 @@ sql:
         asmt:
           sql:
             insert: >-
-              INSERT INTO asmt (id, grade_id, school_year, subject_id, name, label, cut_point_1, cut_point_2, cut_point_3, min_score, max_score, type_id, updated, update_import_id, migrate_id)
+              INSERT INTO asmt (id, grade_id, school_year, subject_id, name, label, cut_point_1, cut_point_2, cut_point_3, cut_point_4, cut_point_5, min_score, max_score, type_id, updated, update_import_id, migrate_id)
                 SELECT DISTINCT
                   sa.id,
                   sa.grade_id,
@@ -248,6 +319,8 @@ sql:
                   sa.cut_point_1,
                   sa.cut_point_2,
                   sa.cut_point_3,
+                  sa.cut_point_4,
+                  sa.cut_point_5,
                   sa.min_score,
                   sa.max_score,
                   sa.type_id,
@@ -269,6 +342,8 @@ sql:
                 cut_point_1 = sa.cut_point_1,
                 cut_point_2 = sa.cut_point_2,
                 cut_point_3 = sa.cut_point_3,
+                cut_point_4 = sa.cut_point_4,
+                cut_point_5 = sa.cut_point_5,
                 min_score = sa.min_score,
                 max_score = sa.max_score,
                 updated = sa.updated,
