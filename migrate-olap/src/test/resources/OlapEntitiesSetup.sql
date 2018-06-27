@@ -1,3 +1,75 @@
+-- ------------------------ Subjects and related data ---------------------------------------------------------------------------------------------------------------------
+INSERT INTO subject(id, code, updated, update_import_id, migrate_id) VALUES
+-- NOTE: Because of the life BEFORE configurable subject, some subjects are pre-loaded into the report
+--  ( 1, 'Math',   now(), -99, -99),
+--  ( 2, 'ELA',    now(), -99, -99),
+  (-2, 'Old',    now(), -99, -99),
+  (-3, 'Update', now(), -99, -99);
+
+INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count) VALUES
+-- NOTE: Because of the life BEFORE configurable subject, some subjects are pre-loaded into the report
+--  (1,  1,  4, 3,    3),
+--  (1,  2,  4, 3,    3),
+--  (2,  1,  3, null, null),
+--  (2,  2,  3, null, null),
+--  (3,  1,  4, 3,    3),
+--  (3,  2,  4, 3,    3),
+
+  (1, -2, 5, 2, 6),
+   --  to delete
+  (3, -3, 7, 2, 7),
+   -- updated entry
+  (2, -3, 3, 3, 3);
+
+INSERT INTO subject_claim_score (id, subject_id, asmt_type_id, code) VALUES
+-- NOTE: Because of the life BEFORE configurable subject, some subjects are pre-loaded into the report
+--  (1,  1, 1, '1'),
+--  (2,  1, 1, 'SOCK_2'),
+--  (3,  1, 1, '3'),
+--  (4,  2, 1, 'SOCK_R'),
+--  (5,  2, 1, 'SOCK_LS'),
+--  (6,  2, 1, '2-W'),
+--  (7,  2, 1, '4-CR'),
+--  (8,  1, 3, '1'),
+--  (9,  1, 3, 'SOCK_2'),
+--  (10, 1, 3, '3'),
+--  (11, 2, 3, 'SOCK_R'),
+--  (12, 2, 3, 'SOCK_LS'),
+--  (13, 2, 3, '2-W'),
+--  (14, 2, 3, '4-CR'),
+
+  (-4,  -2, 3, 'Score4'),
+  (-5,  -2, 3, 'Score5'),
+  (-6,  -2, 3, 'Score6'),
+  (-15, -3, 3, 'Update'),
+  (-60, -3, 3, 'Delete');
+
+
+INSERT INTO target(id, subject_id, natural_id, claim_code) VALUES
+  (-5, -2, 'F',   'ClaimCode5'),
+  (-6, -2, 'X',   'ClaimCode6'),
+  (-7, -2, 'XX',  'ClaimCode7'),
+  (-8, -2, 'XXX', 'ClaimCode8'),
+
+  (-60, -3, 'I',  'deleted'),
+  (-68, -3, 'J',  'Old68'),
+  (-69, -3, 'X',  'Old69'),
+
+  (-99, 2, 'NBT|99',  '1'),
+
+  (-71, 1, 'NBT|71',  '1'),
+  (-11, 2, 'before',  '1'),
+  (-12, 2, 'MD|J-3',  '1'),
+  (-21, 2, 'OA|D',    '2'),
+  (-22, 2, 'OA|A',    '2'),
+  (-31, 2, 'NF|C',    '3'),
+  (-32, 2, 'MD|D',    '3'),
+  (-33, 2, 'MD|E',    '3'),
+  (-34, 2, 'OA|E',    '3'),
+  (-41, 2, 'OA|E',    '4'),
+  (-42, 2, 'MD|D',    '4'),
+  (-43, 2, 'OA|A',    '4');
+
 -- ------------------------------------------ School/Districts --------------------------------------------------------------------------------------------------
 INSERT INTO district_group (id, name, natural_id, migrate_id) VALUES
   (-98, 'Before Test -98', 'natural_id-98',  -1);

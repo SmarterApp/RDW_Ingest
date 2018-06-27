@@ -4,26 +4,29 @@ sql:
     truncateStageList:
       - delete from staging_administration_condition
       - delete from staging_completeness
-      - delete from staging_district_embargo
       - delete from staging_elas
       - delete from staging_ethnicity
       - delete from staging_gender
       - delete from staging_grade
-      - delete from staging_student
-      - delete from staging_student_ethnicity
+      - delete from staging_school_year
+      - delete from staging_subject
+      - delete from staging_subject_claim_score
+      - delete from staging_subject_asmt_type
+      - delete from staging_target
       - delete from staging_school
       - delete from staging_district
       - delete from staging_district_group
       - delete from staging_school_group
+      - delete from staging_district_embargo
+      - delete from staging_state_embargo
+      - delete from staging_student
+      - delete from staging_student_ethnicity
       - delete from staging_asmt
       - delete from staging_asmt_target
       - delete from staging_asmt_target_exclusion
       - delete from staging_exam
       - delete from staging_exam_claim_score
       - delete from staging_exam_target_score
-      - delete from staging_school_year
-      - delete from staging_state_embargo
-      - delete from staging_target
 
     entities:
         # ------------ administration_condition  -------------------------------------------------------------------
@@ -166,6 +169,66 @@ sql:
               DELIMITER ','
               COMPUPDATE OFF
 
+        # ------------ subject  -------------------------------------------------------------------
+        #  a subject entity once created cannot be updated or deleted, only its slaved entities could be modified
+        subject:
+          sql:
+            warehouseRead: >-
+              SELECT
+                id,
+                code,
+                updated,
+                update_import_id,
+                ? as migrate_id
+              FROM subject ws
+                WHERE ws.created > ? AND ws.created <= ?
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/subject'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                             LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+              COPY staging_subject(
+                id,
+                code,
+                updated,
+                update_import_id,
+                migrate_id)
+              FROM '${archive.root}/${migrate.aws.location}/subject.part_00000'
+              CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+              FORMAT AS CSV
+              TIMEFORMAT 'auto'
+              DELIMITER ','
+              COMPUPDATE OFF
+
+        subject_update:
+          sql:
+            warehouseRead: >-
+              SELECT
+                id,
+                code,
+                updated,
+                update_import_id,
+                ? as migrate_id
+              FROM subject ws
+              WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/subject_update'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+                             LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+              COPY staging_subject(
+                id,
+                code,
+                updated,
+                update_import_id,
+                migrate_id)
+              FROM '${archive.root}/${migrate.aws.location}/subject_update.part_00000'
+              CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+              FORMAT AS CSV
+              TIMEFORMAT 'auto'
+              DELIMITER ','
+              COMPUPDATE OFF
+
         # ------------ target  -------------------------------------------------------------------
         # For Smarter Balanced Math, only the Concepts and Procedures targets are included
         target:
@@ -173,19 +236,146 @@ sql:
             warehouseRead: >-
               SELECT
                 wt.id,
+                ws.id,
                 wt.natural_id,
-                wc.code
+                wc.code,
+                ? as migrate_id
               FROM target wt
                 JOIN claim wc ON wc.id = wt.claim_id
                 JOIN subject ws ON ws.id = wc.subject_id
-              WHERE ( ws.code <> 'Math' OR wc.code='1' )
+              WHERE ( ws.code <> 'Math' OR wc.code='1' ) AND  ws.created > ? AND ws.created <= ?
               INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/target'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
 
             stagingInsert: >-
-              COPY staging_target (id, natural_id, claim_code)
+              COPY staging_target (id, subject_id, natural_id, claim_code, migrate_id)
                 FROM '${archive.root}/${migrate.aws.location}/target.part_00000'
+              CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+              FORMAT AS CSV
+              DELIMITER ','
+              COMPUPDATE OFF
+
+        target_update:
+          sql:
+            warehouseRead: >-
+              SELECT
+                wt.id,
+                ws.id,
+                wt.natural_id,
+                wc.code,
+                ? as migrate_id
+              FROM target wt
+                JOIN claim wc ON wc.id = wt.claim_id
+                JOIN subject ws ON ws.id = wc.subject_id
+              WHERE ( ws.code <> 'Math' OR wc.code='1' ) AND ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/target_update'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+              LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+              COPY staging_target (id, subject_id, natural_id, claim_code, migrate_id)
+                FROM '${archive.root}/${migrate.aws.location}/target_update.part_00000'
+              CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+              FORMAT AS CSV
+              DELIMITER ','
+              COMPUPDATE OFF
+
+        # ------------ subject asmt type  ---------------------------------------------------------------------------------------
+        subject_asmt_type:
+          sql:
+            warehouseRead: >-
+              SELECT
+                wsat.asmt_type_id,
+                wsat.subject_id,
+                wsat.performance_level_count,
+                wsat.performance_level_standard_cutoff,
+                wsat.claim_score_performance_level_count,
+                ? as migrate_id
+              FROM subject_asmt_type wsat
+                JOIN subject ws ON ws.id = wsat.subject_id
+              WHERE ws.created > ? AND ws.created <= ?
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/subject_asmt_type'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+              LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+              COPY staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, migrate_id)
+                FROM '${archive.root}/${migrate.aws.location}/subject_asmt_type.part_00000'
+              CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+              FORMAT AS CSV
+              DELIMITER ','
+              COMPUPDATE OFF
+
+        subject_asmt_type_update:
+          sql:
+            warehouseRead: >-
+              SELECT
+                wsat.asmt_type_id,
+                wsat.subject_id,
+                wsat.performance_level_count,
+                wsat.performance_level_standard_cutoff,
+                wsat.claim_score_performance_level_count,
+                ? as migrate_id
+              FROM subject_asmt_type wsat
+                JOIN subject ws ON ws.id = wsat.subject_id
+              WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/subject_asmt_type_update'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+              LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+              COPY staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, migrate_id)
+                FROM '${archive.root}/${migrate.aws.location}/subject_asmt_type_update.part_00000'
+              CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+              FORMAT AS CSV
+              DELIMITER ','
+              COMPUPDATE OFF
+
+        # ------------ subject claim score  ---------------------------------------------------------------------------------------
+        subject_claim_score:
+          sql:
+            warehouseRead: >-
+              SELECT
+                wscs.id,
+                wscs.subject_id,
+                wscs.asmt_type_id,
+                wscs.code,
+                ? as migrate_id
+              FROM subject_claim_score wscs
+                JOIN subject ws ON ws.id = wscs.subject_id
+              WHERE ws.created > ? AND ws.created <= ?
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/subject_claim_score'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+              LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+              COPY staging_subject_claim_score (id, subject_id, asmt_type_id, code, migrate_id)
+                FROM '${archive.root}/${migrate.aws.location}/subject_claim_score.part_00000'
+              CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+              FORMAT AS CSV
+              DELIMITER ','
+              COMPUPDATE OFF
+
+        subject_claim_score_update:
+          sql:
+            warehouseRead: >-
+              SELECT
+                wscs.id,
+                wscs.subject_id,
+                wscs.asmt_type_id,
+                wscs.code,
+                ? as migrate_id
+              FROM subject_claim_score wscs
+                JOIN subject ws ON ws.id = wscs.subject_id
+              WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/subject_claim_score_update'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+              LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+              COPY staging_subject_claim_score (id, subject_id, asmt_type_id, code, migrate_id)
+                FROM '${archive.root}/${migrate.aws.location}/subject_claim_score_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
@@ -320,6 +510,8 @@ sql:
                 round(was.cut_point_1) AS cut_point_1,
                 round(was.cut_point_2) AS cut_point_2,
                 round(was.cut_point_3) AS cut_point_3,
+                round(was.cut_point_4) AS cut_point_4,
+                round(was.cut_point_5) AS cut_point_5,
                 round(was.min_score) AS min_score,
                 round(was.max_score) AS max_score,
                 wa.deleted,
@@ -344,6 +536,8 @@ sql:
                 cut_point_1,
                 cut_point_2,
                 cut_point_3,
+                cut_point_4,
+                cut_point_5,
                 min_score,
                 max_score,
                 deleted,
@@ -371,6 +565,8 @@ sql:
                 round(was.cut_point_1) AS cut_point_1,
                 round(was.cut_point_2) AS cut_point_2,
                 round(was.cut_point_3) AS cut_point_3,
+                round(was.cut_point_4) AS cut_point_4,
+                round(was.cut_point_5) AS cut_point_5,
                 round(was.min_score) AS min_score,
                 round(was.max_score) AS max_score,
                 wa.deleted,
@@ -395,6 +591,8 @@ sql:
                 cut_point_1,
                 cut_point_2,
                 cut_point_3,
+                cut_point_4,
+                cut_point_5,
                 min_score,
                 max_score,
                 deleted,
@@ -471,9 +669,12 @@ sql:
               DELIMITER ','
               COMPUPDATE OFF
 
-    # ------------ asmt_target  -------------------------------------------------------------------
-    # Only Summative target scores are included
-    # For Smarter Balanced Math, only the Concepts and Procedures targets are included
+        # ------------ asmt_target  -------------------------------------------------------------------
+        # Only Summative target scores are included
+        # For Smarter Balanced Math, only the Concepts and Procedures targets are included
+        #
+        # Note: while target data are 'slaves' of the subject master entity, in this case we are concerned only about targets in the context
+        # of the assessment package and therefore making it dependant on it.
         asmt_target:
           sql:
             warehouseRead: >-

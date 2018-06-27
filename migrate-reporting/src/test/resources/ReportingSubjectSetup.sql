@@ -6,7 +6,6 @@ INSERT INTO subject(id, code, update_import_id, migrate_id) VALUES
     (-3, 'Update', -99, -99);
 
 -- add subjects' related data for the new subjects
--- add subjects' related data for the new subjects
 INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count) VALUES
   (1, -2, 5, 2, 6),
    --  to delete

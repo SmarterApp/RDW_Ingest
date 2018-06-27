@@ -1,3 +1,55 @@
+-- ------------------------------------------ Subject  --------------------------------------------------------------------------------------------------
+INSERT INTO staging_subject (id, code, update_import_id, migrate_id, updated) VALUES
+  (-1, 'New',    -99, -99, now()),
+  (-3, 'Update', -99, -99, now());
+
+-- add subjects' related data for the new subjects
+INSERT INTO staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, migrate_id) VALUES
+  (1, -1, 10, 3, 6, -99),
+   -- new entry
+  (1, -3, 8, 2, 7, -99),
+   -- updated entry
+  (2, -3, 8, 2, 7, -99);
+
+INSERT INTO staging_subject_claim_score (id, subject_id, asmt_type_id, code, migrate_id) VALUES
+  (-1,  -1, 1, 'Score1', -99),
+  (-2,  -1, 1, 'Score2', -99),
+  (-3,  -1, 1, 'Score3', -99),
+  (-14, -3, 3, 'Score7', -99),
+  (-15, -3, 3, 'Update', -99),
+  (-16, -3, 3, 'New',    -99);
+
+INSERT INTO staging_target(id, subject_id, natural_id, claim_code, migrate_id) VALUES
+  (-1, -1, 'F',  't1',   -99),
+  (-2, -1, 'X',  't1',   -99),
+  (-3, -1, 'XX', 't1',   -99),
+  (-4, -1, 'XXX', 't1',   -99),
+
+  (-67, -3, 'I',  'New',   -99),
+  (-68, -3, 'J',  'Old68', -99),
+  (-69, -3, 'X',  'Old69', -99),
+
+  (-98, 2, 'NBT|98',  '1', -99),
+  (-99, 2, 'NBT|99',  '1', -99),
+
+  -- we need to test a use case with 'Math' subject and claim '1' since it has special migrate rules
+  -- since it is being pre-loaded we need to get the db id
+  (-71, 1, 'E-3', 'tNBT|E-3', -99),
+  (-72, 1, 'J-3',  'MD|J-3',  -99),
+  (-73, 1, 'D',    'OA|D',    -99),
+
+  (-11, 2, 'NBT|E-3', '1',   -99),
+  (-12, 2, 'MD|J-3',  '1',   -99),
+  (-21, 2, 'OA|D',    '2',   -99),
+  (-22, 2, 'OA|A',    '2',   -99),
+  (-31, 2, 'NF|C',    '3',   -99),
+  (-32, 2, 'MD|D',    '3',   -99),
+  (-33, 2, 'MD|E',    '3',   -99),
+  (-34, 2, 'OA|E',    '3',   -99),
+  (-41, 2, 'OA|E',    '4',   -99),
+  (-42, 2, 'MD|D',    '4',   -99),
+  (-43, 2, 'OA|A',    '4',   -99);
+
 -- ------------------------------------------ School/Districts --------------------------------------------------------------------------------------------------
 INSERT INTO staging_district_group (id, name, natural_id, migrate_id) VALUES
   (-98, 'Sample District Group -98', 'natural_id-98', -99);
