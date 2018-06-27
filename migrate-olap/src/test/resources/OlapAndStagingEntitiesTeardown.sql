@@ -55,7 +55,7 @@ DELETE FROM asmt_active_year where asmt_id < 0;
 -- This is because we have some data pre-loaded in warehouse and when testing the batch they moved into reporting
 -- Ideally, with the configurable subjects introduction, there should not be any data pre-loaded into warehouse
 -- But this is not the case...
-DELETE FROM subject_asmt_type;
-DELETE FROM subject_claim_score;
-DELETE FROM target;
-DELETE FROM subject;
+DELETE FROM subject_asmt_type WHERE subject_id < 0;
+DELETE FROM subject_claim_score WHERE subject_id < 0;
+DELETE FROM target WHERE subject_id < 0;
+DELETE FROM subject WHERE id < 0;
