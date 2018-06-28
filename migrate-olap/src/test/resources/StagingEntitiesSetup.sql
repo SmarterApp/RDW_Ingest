@@ -115,7 +115,7 @@ INSERT INTO  staging_exam ( id, type_id, school_year, asmt_id, asmt_grade_id, su
   (-88, 3, 1999, -99, null, null, -89, '2016-08-12 19:05:00.000000', -99, -99, -99, 1, 2135, 0, -88, 108, -1, 1, 1, 0, 0,  1, '2017-07-18 20:14:34.000000', -1),
 
   -- exams with the same completed at, should not happen in real life but happens with the `data generator`
-  (-87, 3, 1998, -11, null, null, -11, '2016-08-14 19:06:07.966000', -99, -99, -99, 1, 2145, 0, -88, 108, -1, 1, 1, 0, 0,  1, '2017-07-18 20:14:34.000000', -1),
+  (-87, 3, 1998, -11, null, null, -11, '2016-08-14 19:06:07.966000', null, null, null, 1, 2145, 0, -88, 108, -1, null, null, null, null,  null, '2017-07-18 20:14:34.000000', -1),
   (-17, 3, 1998, -11, null, null, -11, '2016-08-14 19:06:07.966000', -99, -99, -99, 1, 2145, 0, -88, 108, -1, 1, 1, 0, 0,  1, '2017-07-18 20:14:34.000000', -1),
 
    --  exams for the same school_year, asmt_id and student_id with diff completed_at, no matching entry in the olap
