@@ -1,4 +1,4 @@
-INSERT INTO staging_grade(id, code, name, sequence) VALUES (-99,'99','K-garten', 9),(-98 ,'98','1st-grade', 8);
+INSERT INTO staging_grade(id, code, sequence) VALUES (-99,'99', 9),(-98 ,'98',8);
 INSERT INTO staging_elas(id, code) VALUES (-99, 'E99'),(-98, 'E98');
 INSERT INTO staging_completeness(id, code) VALUES (-99, 'test99'), (-98, 'test98');
 INSERT INTO staging_administration_condition(id, code) VALUES (-99,'99-test'),(-98,'98-test'),(-97,'97-test'),(-96,'96-test');

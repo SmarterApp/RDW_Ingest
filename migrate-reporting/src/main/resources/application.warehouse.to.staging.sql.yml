@@ -52,11 +52,11 @@ sql:
         grade:
           sql:
             warehouseRead: >-
-              SELECT wg.id, wg.code, wg.name, wg.sequence from grade wg
+              SELECT wg.id, wg.code, wg.sequence from grade wg
 
             stagingInsert: >-
-              INSERT INTO staging_grade (id, code, name, sequence) VALUES
-                (:id, :code, :name, :sequence)
+              INSERT INTO staging_grade (id, code, sequence) VALUES
+                (:id, :code, :sequence)
 
         # ------------ elas  ------------------------------------------------------------
         elas:
@@ -231,15 +231,14 @@ sql:
                 wscs.asmt_type_id,
                 wscs.code,
                 wscs.display_order,
-                wscs.data_order,
-                wscs.name
+                wscs.data_order
               FROM subject_claim_score wscs
                 JOIN subject ws ON ws.id = wscs.subject_id
               WHERE ws.created > :first_at AND ws.created <= :last_at
 
             stagingInsert: >-
-               INSERT INTO staging_subject_claim_score (id, subject_id, asmt_type_id, code, display_order, data_order, name) VALUES
-                 ( :id, :subject_id, :asmt_type_id, :code, :display_order, :data_order, :name)
+               INSERT INTO staging_subject_claim_score (id, subject_id, asmt_type_id, code, display_order, data_order) VALUES
+                 ( :id, :subject_id, :asmt_type_id, :code, :display_order, :data_order)
 
         subject_claim_score_by_update_import_id:
           sql:
@@ -250,15 +249,14 @@ sql:
                 wscs.asmt_type_id,
                 wscs.code,
                 wscs.display_order,
-                wscs.data_order,
-                wscs.name
+                wscs.data_order
               FROM subject_claim_score wscs
                 JOIN subject ws ON ws.id = wscs.subject_id
               WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
 
             stagingInsert: >-
-             INSERT IGNORE INTO staging_subject_claim_score (id, subject_id, asmt_type_id, code, display_order, data_order, name) VALUES
-               ( :id, :subject_id, :asmt_type_id, :code, :display_order, :data_order, :name)
+             INSERT IGNORE INTO staging_subject_claim_score (id, subject_id, asmt_type_id, code, display_order, data_order) VALUES
+               ( :id, :subject_id, :asmt_type_id, :code, :display_order, :data_order)
 
         # ---------------- subject_translation  -----------------------------------------------
         subject_translation:
@@ -295,104 +293,104 @@ sql:
         claim:
           sql:
             warehouseRead: >-
-              SELECT wc.id, wc.subject_id, wc.code, wc.name, wc.description
+              SELECT wc.id, wc.subject_id, wc.code
                 FROM claim wc
                 JOIN subject ws ON ws.id = wc.subject_id
               WHERE ws.created > :first_at AND ws.created <= :last_at
 
             stagingInsert: >-
-              INSERT INTO staging_claim (id, subject_id, code, name, description) VALUES
-                (:id, :subject_id, :code, :name, :description)
+              INSERT INTO staging_claim (id, subject_id, code) VALUES
+                (:id, :subject_id, :code)
 
         # ------------ claim  -------------------------------------------------------------------
         claim_by_update_import_id:
           sql:
             warehouseRead: >-
-              SELECT wc.id, wc.subject_id, wc.code, wc.name, wc.description
+              SELECT wc.id, wc.subject_id, wc.code
                 FROM claim wc
                 JOIN subject ws ON ws.id = wc.subject_id
               WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging_claim (id, subject_id, code, name, description) VALUES
-                (:id, :subject_id, :code, :name, :description)
+              INSERT IGNORE INTO staging_claim (id, subject_id, code) VALUES
+                (:id, :subject_id, :code)
 
         # ------------ target  ------------------------------------------------------------------
         target:
           sql:
             warehouseRead: >-
-              SELECT wt.id, wt.natural_id, wt.claim_id, wt.code, wt.description
+              SELECT wt.id, wt.natural_id, wt.claim_id
                 FROM target wt
                 JOIN claim wc ON wc.id = wt.claim_id
                 JOIN subject ws ON ws.id = wc.subject_id
               WHERE ws.created > :first_at AND ws.created <= :last_at
 
             stagingInsert: >-
-              INSERT INTO staging_target (id, natural_id, claim_id, code, description) VALUES
-                (:id, :natural_id, :claim_id, :code, :description)
+              INSERT INTO staging_target (id, natural_id, claim_id) VALUES
+                (:id, :natural_id, :claim_id)
 
         target_by_update_import_id:
           sql:
             warehouseRead: >-
-              SELECT wt.id, wt.natural_id, wt.claim_id, wt.code, wt.description
+              SELECT wt.id, wt.natural_id, wt.claim_id
                 FROM target wt
                 JOIN claim wc ON wc.id = wt.claim_id
                 JOIN subject ws ON ws.id = wc.subject_id
                WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging_target (id, natural_id, claim_id, code, description) VALUES
-                (:id, :natural_id, :claim_id, :code, :description)
+              INSERT IGNORE INTO staging_target (id, natural_id, claim_id) VALUES
+                (:id, :natural_id, :claim_id)
 
         # ------------ common_core_standard  ----------------------------------------------------
         common_core_standard:
           sql:
             warehouseRead: >-
-              SELECT wccs.id, wccs.natural_id, wccs.subject_id, wccs.description
+              SELECT wccs.id, wccs.natural_id, wccs.subject_id
                 FROM common_core_standard wccs
                 JOIN subject ws ON ws.id = wccs.subject_id
               WHERE ws.created > :first_at AND ws.created <= :last_at
 
             stagingInsert: >-
-              INSERT INTO staging_common_core_standard (id, natural_id, subject_id, description) VALUES
-                (:id, :natural_id, :subject_id, :description)
+              INSERT INTO staging_common_core_standard (id, natural_id, subject_id) VALUES
+                (:id, :natural_id, :subject_id)
 
         common_core_standard_by_update_import_id:
           sql:
             warehouseRead: >-
-              SELECT wccs.id, wccs.natural_id, wccs.subject_id, wccs.description
+              SELECT wccs.id, wccs.natural_id, wccs.subject_id
                 FROM common_core_standard wccs
                 JOIN subject ws ON ws.id = wccs.subject_id
               WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging_common_core_standard (id, natural_id, subject_id, description) VALUES
-                (:id, :natural_id, :subject_id, :description)
+              INSERT IGNORE INTO staging_common_core_standard (id, natural_id, subject_id) VALUES
+                (:id, :natural_id, :subject_id)
 
         # ------------ depth_of_knowledge  ------------------------------------------------------
         depth_of_knowledge:
           sql:
             warehouseRead: >-
-              SELECT wdok.id, wdok.level, wdok.subject_id, wdok.description, wdok.reference
+              SELECT wdok.id, wdok.level, wdok.subject_id, wdok.reference
                 FROM depth_of_knowledge wdok
                 JOIN subject ws ON ws.id = wdok.subject_id
               WHERE ws.created > :first_at AND ws.created <= :last_at
 
             stagingInsert: >-
-              INSERT INTO staging_depth_of_knowledge (id, level, subject_id, description, reference) VALUES
-                (:id, :level, :subject_id, :description, :reference)
+              INSERT INTO staging_depth_of_knowledge (id, level, subject_id, reference) VALUES
+                (:id, :level, :subject_id, :reference)
 
         depth_of_knowledge_by_update_import_id:
           sql:
             warehouseRead: >-
-              SELECT wdok.id, wdok.level, wdok.subject_id, wdok.description, wdok.reference
+              SELECT wdok.id, wdok.level, wdok.subject_id, wdok.reference
                 FROM depth_of_knowledge wdok
                 JOIN subject ws ON ws.id = wdok.subject_id
               WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging_depth_of_knowledge (id, level, subject_id, description, reference) VALUES
-                (:id, :level, :subject_id, :description, :reference)
+              INSERT IGNORE INTO staging_depth_of_knowledge (id, level, subject_id, reference) VALUES
+                (:id, :level, :subject_id, :reference)
 
         ##### ORGANIZATION ImportContent Type ####
         #

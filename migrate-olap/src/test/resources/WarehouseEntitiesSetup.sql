@@ -32,87 +32,87 @@ INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count
    -- updated entry
   (2, -3, 8, 2, 7);
 
-INSERT INTO subject_claim_score (id, subject_id, asmt_type_id, code, name, display_order, data_order) VALUES
-  (-1,  -1, 1, 'Score1', 'Score1 Name',  0, 1),
-  (-2,  -1, 1, 'Score2', 'Score2 Name',  0, 2),
-  (-3,  -1, 1, 'Score3', 'Score3 Name', -3, 3),
-  (-4,  -2, 3, 'Score4', 'Score4 Name', -4, 4),
-  (-5,  -2, 3, 'Score5', 'Score5 Name',  0, 5),
-  (-6,  -2, 3, 'Score6', 'Score6 Name', -5, 6),
-  (-14,  -3, 3, 'Score7','Score7 Name', -6, 4),
-  (-15,  -3, 3, 'Update','Update Score 8', -7, 5),
-  (-16,  -3, 3, 'New',   'New Score9 Name', -8, 6);
+INSERT INTO subject_claim_score (id, subject_id, asmt_type_id, code, display_order, data_order) VALUES
+  (-1,  -1, 1, 'Score1',   0, 1),
+  (-2,  -1, 1, 'Score2',   0, 2),
+  (-3,  -1, 1, 'Score3',  -3, 3),
+  (-4,  -2, 3, 'Score4',  -4, 4),
+  (-5,  -2, 3, 'Score5',   0, 5),
+  (-6,  -2, 3, 'Score6',  -5, 6),
+  (-14,  -3, 3, 'Score7', -6, 4),
+  (-15,  -3, 3, 'Update', -7, 5),
+  (-16,  -3, 3, 'New',    -8, 6);
 
-INSERT INTO claim (id, subject_id, code, name, description) VALUES
-  (-21,-1, 'ClaimCode2', 'ClaimCode1 Name', 'ClaimCode1 Description'),
-  (-3, -1, 'ClaimCode3', 'ClaimCode1 Name', 'ClaimCode1 Description'),
-  (-4, -1, 'ClaimCode4', 'ClaimCode1 Name', 'ClaimCode1 Description'),
-  (-5, -2, 'ClaimCode5', 'ClaimCode1 Name', 'ClaimCode1 Description'),
-  (-6, -2, 'ClaimCode6', 'ClaimCode1 Name', 'ClaimCode1 Description'),
-  (-7, -2, 'ClaimCode7', 'ClaimCode1 Name', 'ClaimCode1 Description'),
-  (-8, -2, 'ClaimCode8', 'ClaimCode1 Name', 'ClaimCode1 Description'),
-  (-9, -2, 'ClaimCode9', 'ClaimCode1 Name', 'ClaimCode1 Description'),
+INSERT INTO claim (id, subject_id, code) VALUES
+  (-21,-1, 'ClaimCode2'),
+  (-3, -1, 'ClaimCode3'),
+  (-4, -1, 'ClaimCode4'),
+  (-5, -2, 'ClaimCode5'),
+  (-6, -2, 'ClaimCode6'),
+  (-7, -2, 'ClaimCode7'),
+  (-8, -2, 'ClaimCode8'),
+  (-9, -2, 'ClaimCode9'),
 
-  (-66, -3, 'Update66', 'Update', 'Update Description'),
-  (-67, -3, 'new', 'new name', 'New Description'),
-  (-68, -3, 'Old68', 'Old1', 'Old Description1'),
-  (-69, -3, 'Old69', 'Old2', 'Old Description2'),
+  (-66, -3, 'Update66'),
+  (-67, -3, 'new'),
+  (-68, -3, 'Old68'),
+  (-69, -3, 'Old69'),
   -- add more data for the default subjects to better control validation while testing
-  (-1,   1, 't1', 'Math-claim1', 'Math-c1'),
-  (-2,   1, 't3', ' Math-claim2', 'Math-c1'),
-  (-99,  2, 'c9',  '3', ''),
-  (-98,  2, 'c8',  '2', ''),
-  (-11,  2, 't1',  'ELA-claim1', 'ELA-c1'),
-  (-12,  2, 't2',  'ELA-claim2', 'ELA-c2'),
-  (-13,  2, 't3',  'ELA-claim3', 'ELA-c3'),
-  (-14,  2, 't4',  'ELA-claim4', 'ELA-c4');
+  (-1,   1, 't1'),
+  (-2,   1, 't3'),
+  (-99,  2, 'c9'),
+  (-98,  2, 'c8'),
+  (-11,  2, 't1'),
+  (-12,  2, 't2'),
+  (-13,  2, 't3'),
+  (-14,  2, 't4');
 
-INSERT INTO target (id, code, natural_id, claim_id, description) VALUES
-  (-1,  'F',  'Target1',-1, 'Algebra: Perform arithmetic operations on polynomials.'),
-  (-2,  'X',  'Target2',-21, 'Algebra: Understand the relationship between zeros and factors of polynomials.'),
-  (-3,  'XX', 'Target3',-3, 'Algebra: Use polynomial identities to solve problems.'),
-  (-4,  'XXX','Target4',-4, 'Algebra: Rewrite rational expressions.'),
-  (-5,  'G',  'Target5',-5, 'Algebra: Create equations that describe numbers or relationships'),
-  (-6,  'H',  'Target6',-6, 'Algebra: Understand solving equations as a process of reasoning and explain the reasoning.'),
-  (-7,  'I',  'Target7',-7, 'Algebra: Solve equations and inequalities in one variable.'),
-  (-8,  'J',  'Target8',-8, 'Algebra: Represent and solve equations and inequalities graphically.'),
-  (-9,  'X',  'Target9',-9, 'Algebra: Solve systems of equations.'),
+INSERT INTO target (id, natural_id, claim_id) VALUES
+  (-1, 'Target1',-1),
+  (-2, 'Target2',-21),
+  (-3, 'Target3',-3 ),
+  (-4, 'Target4',-4 ),
+  (-5, 'Target5',-5 ),
+  (-6, 'Target6',-6 ),
+  (-7, 'Target7',-7 ),
+  (-8, 'Target8',-8 ),
+  (-9, 'Target9',-9 ),
 
-  (-66,  'H',  'NewTarget',    -66, 'NewTarget Description'),
-  (-67,  'I',  'UpdatedTarget',-67, 'UpdatedTarget Description'),
-  (-68,  'J',  'Target8',-68, 'Algebra: Represent and solve equations and inequalities graphically.'),
-  (-69,  'X',  'Target9',-69, 'Algebra: Solve systems of equations.'),
+  (-66, 'NewTarget',    -66),
+  (-67, 'UpdatedTarget',-67),
+  (-68, 'Target8',-68),
+  (-69, 'Target9',-69),
 
   -- add more data for the default subjects to better control validation while testing
-  (-99,  'E-3', 'NBT|99',  -11,  'NBT|E-3-1'),
-  (-98,  'E-3', 'NBT|98',  -11,  'NBT|E-3-1'),
+  (-99, 'NBT|99',  -11),
+  (-98, 'NBT|98',  -11),
 
   -- we need to test a use case with 'Math' subject and claim '1' since it has special migrate rules
   -- since it is being pre-loaded we need to get the db id
-  (-71,  'E-3', 'tNBT|E-3', (SELECT id FROM claim WHERE code = '1' AND subject_id = 1), 'NBT|E-3-1'),
-  (-72,  'J-3',  'MD|J-3', -2,  'MD|J-3-1' ),
-  (-73,  'D',    'OA|D',   -2,  'OA|D-2'   ),
+  (-71, 'tNBT|E-3', (SELECT id FROM claim WHERE code = '1' AND subject_id = 1)),
+  (-72,  'MD|J-3', -2),
+  (-73,  'OA|D',   -2),
 
-  (-11,  'E-3', 'NBT|E-3', -11,  'NBT|E-3-1'),
-  (-12,  'J-3',  'MD|J-3', -11,  'MD|J-3-1' ),
-  (-21,  'D',    'OA|D',   -12,  'OA|D-2'   ),
-  (-22,  'A',    'OA|A',   -12,  'OA|A-2'   ),
-  (-31,  'C',    'NF|C',   -13,  'NF|C-3'   ),
-  (-32,  'D',    'MD|D',   -13,  'MD|D-3'   ),
-  (-33,  'E',    'MD|E',   -13,  'MD|E-3'   ),
-  (-34,  'E',    'OA|E',   -13,  'OA|E-3'   ),
-  (-41,  'E',    'OA|E',   -14,  'OA|E-4'   ),
-  (-42,  'D',    'MD|D',   -14,  'MD|D-4'   ),
-  (-43,  'A',    'OA|A',   -14,  'OA|A-4'   );
+  (-11,'NBT|E-3', -11),
+  (-12, 'MD|J-3', -11),
+  (-21, 'OA|D',   -12),
+  (-22, 'OA|A',   -12),
+  (-31, 'NF|C',   -13),
+  (-32, 'MD|D',   -13),
+  (-33, 'MD|E',   -13),
+  (-34, 'OA|E',   -13),
+  (-41, 'OA|E',   -14),
+  (-42, 'MD|D',   -14),
+  (-43, 'OA|A',   -14);
 
-INSERT INTO depth_of_knowledge(id, level, subject_id, description, reference) VALUES
-  (-99, -1,  1, 'Recall and Reproduction','something'),
-  (-98, -2,  1, 'Basic Skills and Concepts','anything'),
-  (-97, -2, -2, 'Basic Skills and Concepts','anything'),
-  (-96, -2, -1, 'Basic Skills and Concepts','anything'),
-  (-66,  1, -3, 'new description','new'),
-  (-67,  2, -3, 'updated description','updated'),
-  (-68,  3, -3, 'Basic Skills and Concepts','anything');
+INSERT INTO depth_of_knowledge(id, level, subject_id, reference) VALUES
+  (-99, -1,  1, 'something'),
+  (-98, -2,  1, 'anything'),
+  (-97, -2, -2, 'anything'),
+  (-96, -2, -1, 'anything'),
+  (-66,  1, -3, 'new'),
+  (-67,  2, -3, 'updated'),
+  (-68,  3, -3, 'anything');
 
 -------------------------- Preload  entities into warehouse  -------------------------------------------------------------------------------------------------------
 INSERT INTO district_group (id, name, natural_id) VALUES
