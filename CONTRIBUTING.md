@@ -49,12 +49,12 @@ If you are making changes within a standalone clone of RDW_Schema and want to te
 the schema, then all you have to do is install the changes to RDW_Schema that you have made, and tell ingest to use the 
 SNAPSHOT version of the RDW_Schema:
 ```bash
-//under the RDW_Schema directory...
+# under the RDW_Schema directory...
 RDW_Schema$ ./gradlew install
 ```
 and then run the integration tests as usual, but using the local SNAPSHOT version of RDW_Schema:
 ```bash
-//under the RDW_Ingest directory...
+# under the RDW_Ingest directory...
 RDW_Ingest$ ./gradlew build it -Pschema=1.1.0-SNAPSHOT
 ```
 
