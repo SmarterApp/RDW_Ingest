@@ -8,15 +8,14 @@ sql:
               UPDATE grade rg
                 JOIN staging_grade sg ON sg.id = rg.id
               SET
-                rg.name = sg.name,
                 rg.sequence = sg.sequence,
                 rg.code = sg.code;
+
           insert: >-
-              INSERT INTO grade ( id, code, name, sequence)
+              INSERT INTO grade ( id, code, sequence)
                 SELECT
                   sg.id,
                   sg.code,
-                  sg.name,
                   sg.sequence
                 FROM staging_grade sg
                   LEFT JOIN grade rg ON rg.id = sg.id
@@ -230,15 +229,14 @@ sql:
       subject_claim_score:
         sql:
           insert: >-
-            INSERT INTO subject_claim_score (id, subject_id, asmt_type_id, code, display_order, data_order, name)
+            INSERT INTO subject_claim_score (id, subject_id, asmt_type_id, code, display_order, data_order)
               SELECT
                 sscs.id,
                 sscs.subject_id,
                 sscs.asmt_type_id,
                 sscs.code,
                 sscs.display_order,
-                sscs.data_order,
-                sscs.name
+                sscs.data_order
               FROM staging_subject_claim_score sscs
                 LEFT JOIN subject_claim_score rscs ON rscs.id = sscs.id
               WHERE rscs.id IS NULL;
@@ -250,8 +248,7 @@ sql:
               JOIN staging_subject_claim_score sscs ON rscs.id = sscs.id
             SET
               rscs.data_order = sscs.data_order,
-              rscs.display_order = sscs.display_order,
-              rscs.name = sscs.name
+              rscs.display_order = sscs.display_order
 
           deleteAsPartOfParentUpdate: >-
             DELETE rscs FROM subject_claim_score rscs
@@ -286,21 +283,12 @@ sql:
       # ------------ Claim ------------------------------------------------------------------------
       claim:
         sql:
-          update:  >-
-            UPDATE claim rc
-              JOIN staging_claim sc ON sc.id = rc.id
-            SET
-              rc.name = sc.name,
-              rc.description = sc.description;
-
           insert:  >-
-            INSERT INTO claim (id, subject_id, code, name, description)
+            INSERT INTO claim (id, subject_id, code)
               SELECT
                 sc.id,
                 sc.subject_id,
-                sc.code,
-                sc.name,
-                sc.description
+                sc.code
               FROM staging_claim sc
                 LEFT JOIN claim rc ON rc.id = sc.id
               WHERE rc.id IS NULL;
@@ -313,21 +301,12 @@ sql:
       # ------------ Target ---------------------------------------------------------------------------
       target:
         sql:
-          update:  >-
-            UPDATE target rt
-              JOIN staging_target st ON st.id = rt.id
-            SET
-              rt.code = st.code,
-              rt.description = st.description;
-
           insert:  >-
-            INSERT INTO target (id, natural_id, claim_id, code, description)
+            INSERT INTO target (id, natural_id, claim_id)
               SELECT
                 st.id,
                 st.natural_id,
-                st.claim_id,
-                st.code,
-                st.description
+                st.claim_id
               FROM staging_target st
                 LEFT JOIN target rt ON rt.id = st.id
               WHERE rt.id IS NULL;
@@ -341,19 +320,12 @@ sql:
       # ------------ Common Core Standard  ------------------------------------------------------------------------
       common_core_standard:
         sql:
-          update:  >-
-            UPDATE common_core_standard rccs
-               JOIN staging_common_core_standard sccs ON sccs.id = rccs.id
-            SET
-               rccs.description = sccs.description;
-
           insert:  >-
-            INSERT INTO common_core_standard (id, subject_id, natural_id, description)
+            INSERT INTO common_core_standard (id, subject_id, natural_id)
                SELECT
                  sccs.id,
                  sccs.subject_id,
-                 sccs.natural_id,
-                 sccs.description
+                 sccs.natural_id
                FROM staging_common_core_standard sccs
                  LEFT JOIN common_core_standard rccs ON rccs.id = sccs.id
                WHERE rccs.id IS NULL;
@@ -370,16 +342,14 @@ sql:
             UPDATE depth_of_knowledge rdok
               JOIN staging_depth_of_knowledge sdok ON sdok.id = rdok.id
             SET
-              rdok.reference = sdok.reference,
-              rdok.description = sdok.description;
+              rdok.reference = sdok.reference;
 
           insert:  >-
-            INSERT INTO depth_of_knowledge (id, level, subject_id, description, reference)
+            INSERT INTO depth_of_knowledge (id, level, subject_id, reference)
               SELECT
                 sdok.id,
                 sdok.level,
                 sdok.subject_id,
-                sdok.description,
                 sdok.reference
               FROM staging_depth_of_knowledge sdok
                 LEFT JOIN depth_of_knowledge rdok ON rdok.id = sdok.id
@@ -1149,15 +1119,14 @@ sql:
       item:
         sql:
           insert: >-
-            INSERT INTO item (id, claim_id, claim_code,  target_id, target_code, common_core_standard_ids, natural_id, asmt_id,
-                math_practice, math_practice_code, allow_calc, position, dok_id, dok_level_subject_id, difficulty_code, max_points, field_test, active, type,
+            INSERT INTO item (id, claim_id, claim_code,  target_id, common_core_standard_ids, natural_id, asmt_id,
+                math_practice, math_practice_code, allow_calc, position, dok_id, difficulty_code, max_points, field_test, active, type,
                 options_count, answer_key, performance_task_writing_type)
               SELECT
                 si.id,
                 si.claim_id,
                 rc.code,
                 si.target_id,
-                rt.code,
                 si.common_core_standard_ids,
                 si.natural_id,
                 si.asmt_id,
@@ -1166,7 +1135,6 @@ sql:
                 si.allow_calc,
                 si.position,
                 si.dok_id,
-                concat(rdok.level, '_', rdok.subject_id) as dok_level_subject_id,
                 si.difficulty_code,
                 si.max_points,
                 si.field_test,
@@ -1178,8 +1146,6 @@ sql:
               FROM staging_item si
                 LEFT JOIN item ri ON ri.id = si.id
                  JOIN claim rc on rc.id = si.claim_id
-                 JOIN target rt on rt.id = si.target_id
-                 JOIN depth_of_knowledge rdok ON rdok.id = si.dok_id
                  LEFT JOIN math_practice rmp on rmp.practice = si.math_practice
               WHERE ri.id IS NULL;
 
@@ -1187,14 +1153,11 @@ sql:
             UPDATE item ri
               JOIN staging_item si ON ri.id = si.id
               JOIN claim rc on rc.id = si.claim_id
-              JOIN target rt on rt.id = si.target_id
-              JOIN depth_of_knowledge rdok ON rdok.id = si.dok_id
               LEFT JOIN math_practice rmp on rmp.practice = si.math_practice
             SET
               ri.claim_id      = si.claim_id,
               ri.claim_code    = rc.code,
               ri.target_id     = si.target_id,
-              ri.target_code   = rt.code,
               ri.common_core_standard_ids  = si.common_core_standard_ids,
               ri.asmt_id       = si.asmt_id,
               ri.math_practice = si.math_practice,
@@ -1202,7 +1165,6 @@ sql:
               ri.allow_calc    = si.allow_calc,
               ri.position      = si.position,
               ri.dok_id        = si.dok_id,
-              ri.dok_level_subject_id = concat(rdok.level, '_', rdok.subject_id),
               ri.difficulty_code  = si.difficulty_code,
               ri.max_points    = si.max_points,
               ri.field_test    = si.field_test,

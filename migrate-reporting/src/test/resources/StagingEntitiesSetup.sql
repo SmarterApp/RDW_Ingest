@@ -11,83 +11,83 @@ INSERT INTO staging_subject_asmt_type (asmt_type_id, subject_id, performance_lev
    -- updated entry
   (2, -3, 8, 2, 7);
 
-INSERT INTO staging_subject_claim_score (id, subject_id, asmt_type_id, code, name, display_order, data_order) VALUES
-  (-1,  -1, 1, 'Score1', 'Score1 Name',  0, 1),
-  (-2,  -1, 1, 'Score2', 'Score2 Name',  0, 2),
-  (-3,  -1, 1, 'Score3', 'Score3 Name', -3, 3),
-  (-14,  -3, 3, 'Score7','Score7 Name', 0, 4),
-  (-15,  -3, 3, 'Update','Update Score 8', 0, 5),
-  (-16,  -3, 3, 'New',   'New Score9 Name', 1, 6);
+INSERT INTO staging_subject_claim_score (id, subject_id, asmt_type_id, code, display_order, data_order) VALUES
+  (-1,  -1, 1, 'Score1',  0, 1),
+  (-2,  -1, 1, 'Score2',  0, 2),
+  (-3,  -1, 1, 'Score3', -3, 3),
+  (-14,  -3, 3, 'Score7', 0, 4),
+  (-15,  -3, 3, 'Update', 0, 5),
+  (-16,  -3, 3, 'New',    1, 6);
 
 INSERT INTO staging_subject_translation(subject_id, label_code, label) VALUES
   (-1, 'integration test subject 1',       '1 test label'),
   (-1, 'integration test subject 1 again', '1 again test label'),
   (-3, 'integration test - upadated translation for subject 3', 'new');
 
-INSERT INTO staging_claim (id, subject_id, code, name, description) VALUES
-  (-71,  -1, 'ClaimCode1', 'ClaimCode1 Name', 'ClaimCode1 Description'),
-  (-21, -1, 'ClaimCode2', 'ClaimCode1 Name', 'ClaimCode1 Description'),
-  (-3,  -1, 'ClaimCode3', 'ClaimCode1 Name', 'ClaimCode1 Description'),
-  (-4,  -1, 'ClaimCode4', 'ClaimCode1 Name', 'ClaimCode1 Description'),
+INSERT INTO staging_claim (id, subject_id, code) VALUES
+  (-71,  -1, 'ClaimCode1'),
+  (-21, -1, 'ClaimCode2' ),
+  (-3,  -1, 'ClaimCode3' ),
+  (-4,  -1, 'ClaimCode4' ),
 
-  (-67, -3, 'new', 'new', 'Nee Description'),
-  (-68, -3, 'Old68', 'Old1', 'Old Description1'),
-  (-69, -3, 'Old69', 'Old2', 'Old Description2'),
+  (-67, -3, 'new'     ),
+  (-68, -3, 'Old68'   ),
+  (-69, -3, 'Old69'   ),
   -- add more data for the default subjects to better control validation while testing
-  (-2,   1, 't3', ' Math-claim2', 'Math-c1'),
-  (-99,  2, 'c9',  '3', ''),
-  (-98,  2, 'c8',  '2', ''),
-  (-11,  2, 't1',  'ELA-claim1', 'ELA-c1'),
-  (-12,  2, 't2',  'ELA-claim2', 'ELA-c2'),
-  (-13,  2, 't3',  'ELA-claim3', 'ELA-c3'),
-  (-14,  2, 't4',  'ELA-claim4', 'ELA-c4');
+  (-2,   1, 't3'),
+  (-99,  2, 'c9'),
+  (-98,  2, 'c8'),
+  (-11,  2, 't1'),
+  (-12,  2, 't2'),
+  (-13,  2, 't3'),
+  (-14,  2, 't4');
 
-INSERT INTO staging_target (id, code, natural_id, claim_id, description) VALUES
-  (-1,  'F',  'Target1',-1, 'Algebra: Perform arithmetic operations on polynomials.'),
-  (-2,  'X',  'Target2',-21, 'Algebra: Understand the relationship between zeros and factors of polynomials.'),
-  (-3,  'XX', 'Target3',-3, 'Algebra: Use polynomial identities to solve problems.'),
-  (-4,  'XXX','Target4',-4, 'Algebra: Rewrite rational expressions.'),
+INSERT INTO staging_target (id, natural_id, claim_id) VALUES
+  (-1, 'Target1',-1),
+  (-2, 'Target2',-21),
+  (-3, 'Target3',-3),
+  (-4, 'Target4',-4),
 
-  (-67,  'I',  'UpdatedTarget',-67, 'UpdatedTarget Description'),
-  (-68,  'J',  'Target8',-68, 'Algebra: Represent and solve equations and inequalities graphically.'),
-  (-69,  'X',  'Target9',-69, 'Algebra: Solve systems of equations.'),
+  (-67, 'UpdatedTarget',-67),
+  (-68, 'Target8',-68),
+  (-69, 'Target9',-69),
 
   -- add more data for the default subjects to better control validation while testing
-  (-99,  'E-3', 'NBT|99',  -11,  'NBT|E-3-1'),
-  (-98,  'E-3', 'NBT|98',  -11,  'NBT|E-3-1'),
+  (-99, 'NBT|99',  -11),
+  (-98, 'NBT|98',  -11),
 
   -- we need to test a use case with 'Math' subject and claim '1' since it has special migrate rules
   -- since it is being pre-loaded we need to get the db id
-  (-71,  'E-3', 'tNBT|E-3',-1, 'NBT|E-3-1'),
-  (-72,  'J-3',  'MD|J-3', -2,  'MD|J-3-1' ),
-  (-73,  'D',    'OA|D',   -2,  'OA|D-2'   ),
+  (-71, 'tNBT|E-3',-1),
+  (-72,  'MD|J-3', -2),
+  (-73,  'OA|D',   -2),
 
-  (-11,  'E-3', 'NBT|E-3', -11,  'NBT|E-3-1'),
-  (-12,  'J-3',  'MD|J-3', -11,  'MD|J-3-1' ),
-  (-21,  'D',    'OA|D',   -12,  'OA|D-2'   ),
-  (-22,  'A',    'OA|A',   -12,  'OA|A-2'   ),
-  (-31,  'C',    'NF|C',   -13,  'NF|C-3'   ),
-  (-32,  'D',    'MD|D',   -13,  'MD|D-3'   ),
-  (-33,  'E',    'MD|E',   -13,  'MD|E-3'   ),
-  (-34,  'E',    'OA|E',   -13,  'OA|E-3'   ),
-  (-41,  'E',    'OA|E',   -14,  'OA|E-4'   ),
-  (-42,  'D',    'MD|D',   -14,  'MD|D-4'   ),
-  (-43,  'A',    'OA|A',   -14,  'OA|A-4'   );
+  (-11, 'NBT|E-3', -11),
+  (-12,  'MD|J-3', -11),
+  (-21,  'OA|D',   -12),
+  (-22,  'OA|A',   -12),
+  (-31,  'NF|C',   -13),
+  (-32,  'MD|D',   -13),
+  (-33,  'MD|E',   -13),
+  (-34,  'OA|E',   -13),
+  (-41,  'OA|E',   -14),
+  (-42,  'MD|D',   -14),
+  (-43,  'OA|A',   -14);
 
-INSERT INTO staging_depth_of_knowledge(id, level, subject_id, description, reference) VALUES
-  (-99, -1,  1, 'Recall and Reproduction','something'),
-  (-98, -2,  1, 'Basic Skills and Concepts','anything'),
-  (-96, -2, -1, 'Basic Skills and Concepts','anything'),
-  (-66,  1, -3, 'new description','new'),
-  (-67,  2, -3, 'updated description','updated'),
-  (-68,  3, -3, 'Basic Skills and Concepts','anything');
+INSERT INTO staging_depth_of_knowledge(id, level, subject_id, reference) VALUES
+  (-99, -1,  1, 'something'),
+  (-98, -2,  1, 'anything'),
+  (-96, -2, -1, 'anything'),
+  (-66,  1, -3, 'new'),
+  (-67,  2, -3, 'updated'),
+  (-68,  3, -3, 'anything');
 
-INSERT INTO staging_common_core_standard(id, natural_id, subject_id, description) VALUES
-  (-59, 'naturalId-9', -1, 'ccommon core -99'),
-  (-58, 'naturalId-8', -1, 'common core -98'),
-  (-66, 'new',         -3, 'new description'),
-  (-67, 'updated',     -3, 'updated description'),
-  (-68, 'old',         -3, 'old description');
+INSERT INTO staging_common_core_standard(id, natural_id, subject_id) VALUES
+  (-59, 'naturalId-9', -1),
+  (-58, 'naturalId-8', -1),
+  (-66, 'new',         -3),
+  (-67, 'updated',     -3),
+  (-68, 'old',         -3);
 
 -- ------------------------------------------ School/Districts --------------------------------------------------------------------------------------------------
 INSERT INTO staging_district_group (id, name, natural_id, migrate_id) VALUES
