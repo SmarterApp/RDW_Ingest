@@ -183,7 +183,7 @@ sql:
                 WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
 
             stagingInsert: >-
-              INSERT INTO staging_subject (id, code, updated, update_import_id, migrate_id)  VALUES
+              INSERT IGNORE INTO staging_subject (id, code, updated, update_import_id, migrate_id)  VALUES
                 (:id, :code, :updated, :update_import_id, :migrate_id)
 
         # ---------------- subject_asmt_type  -----------------------------------------------
