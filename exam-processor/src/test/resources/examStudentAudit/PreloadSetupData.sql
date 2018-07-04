@@ -11,15 +11,25 @@ INSERT INTO import (id, status, content, contentType, digest, batch, creator, cr
   (-2, 1, 3, 'application/xml', '78C221139BCEDD5B4C84FB6BE985017A', NULL, 'dwtest@example.com', '2017-11-15 02:12:39.720879', '2017-11-15 02:12:39.877145', '34 accommodations processed'),
   (-3, 1, 2, 'application/octet-stream', '0E94EEE6735C3EF3E260697F8D5BB6CC', NULL, 'dwtest@example.com', '2017-11-15 02:12:39.770991', '2017-11-15 02:12:39.887250', 'Assessments processed: 3, created: 3, updated: 0, rejected: 0'),
   (-4, 1, 4, 'application/octet-stream', 'FD5ABA1FA1C7E01EAEE79AEF302937D9', NULL, 'dwtest@example.com', '2017-11-15 02:12:39.826727', '2017-11-15 02:12:39.858586', '2 schools processed');
+
+INSERT INTO claim (id, subject_id, code) VALUES
+ (-99, 1, 'C1');
+
+INSERT INTO target (id, claim_id, natural_id) VALUES
+  (-89, -99, 'T1|1-2'),
+  (-88, -99, 'T2|A'),
+  (-87, -99, 'T2|B');
+
 INSERT INTO asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name, label, version, import_id, update_import_id, deleted, created, updated)
 VALUES
   (-1, '(naturalId)MOCK-ICA-G11-2017-2018', 11, 1, 2, 2018, 'MOCK-ICA-G11-2017-2018', 'Grade 11 ELA', '11111', -3, -3, 0, '2017-11-15 02:12:39.803563', '2017-11-15 02:12:39.803563'),
   (-2, '(naturalId)MOCK-IAB-G11M-2017-2018', 11, 2, 1, 2018, 'MOCK-IAB-G11M-2017-2018', 'High School Math Algebra (IAB)', '11111', -3, -3, 0, '2017-11-15 02:12:39.803563', '2017-11-15 02:12:39.803563'),
   (-3, '(naturalId)MOCK-IAB-G11E-2017-2018', 11, 2, 2, 2018, 'MOCK-IAB-G11E-2017-2018', 'High School ELA - Read Informational Texts (IAB)', '11111', -3, -3, 0, '2017-11-15 02:12:39.803563', '2017-11-15 02:12:39.803563');
 INSERT INTO item (id, claim_id, target_id, natural_id, asmt_id, math_practice, allow_calc, dok_id, difficulty_code, difficulty, max_points, position, field_test, active, type, options_count, answer_key)
-VALUES (1, 6, 1120, '777-10001', -1, NULL, NULL, 5, 'M', 0.1, 1, 11, 0, 1, 'MC', 4, 'D'),
-  (-2, 6, 1107, '777-10002', -1, NULL, NULL, 6, 'M', 0.1, 1, 23, 0, 1, 'MC', 4, 'D'),
-  (-3, 6, 1133, '777-10003', -1, NULL, NULL, 7, 'M', 0.1, 1, 29, 0, 1, 'MC', 4, 'D'),
+VALUES
+  ( 1, -99, -89, '777-10001', -1, NULL, NULL, 5, 'M', 0.1, 1, 11, 0, 1, 'MC', 4, 'D'),
+  (-2, -99, -88, '777-10002', -1, NULL, NULL, 6, 'M', 0.1, 1, 23, 0, 1, 'MC', 4, 'D'),
+  (-3, -99, -87, '777-10003', -1, NULL, NULL, 7, 'M', 0.1, 1, 29, 0, 1, 'MC', 4, 'D'),
   (-4, 6, 1133, '777-10004', -1, NULL, NULL, 5, 'M', 0.1, 1, 36, 0, 1, 'MC', 4, 'D'),
   (-5, 3, 1029, '777-10005', -1, NULL, NULL, 6, 'M', 0.1, 1, 3, 0, 1, 'MC', 4, 'D'),
   (-6, 3, 1029, '777-10006', -1, NULL, NULL, 7, 'M', 0.1, 1, 16, 0, 1, 'MC', 4, 'D'),
