@@ -1411,7 +1411,6 @@
       </Targets>
     </Claim>
     <Claim code="3" name="Communicating Reasoning" displayOrder="3">
-      <Icon>fa-question</Icon>
       <Description>Communicating Reasoning - Students can clearly and precisely construct viable arguments to support their own reasoning and to critique the reasoning of others.</Description>
       <Targets>
         <Target code="A-APR|A" name="A">
