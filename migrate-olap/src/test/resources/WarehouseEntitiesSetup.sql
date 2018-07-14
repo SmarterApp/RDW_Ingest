@@ -1,3 +1,119 @@
+-- ------------------------ Subjects and related data ---------------------------------------------------------------------------------------------------------------------
+INSERT INTO subject(id, code, import_id, update_import_id, created, updated) VALUES
+-- NOTE: Because of the life BEFORE 'configurable subjects' the below two subjects (and the related data) are pre-loaded by default
+-- Ideally it should not be there, but it is.
+--  (1,   'Math',  -99, -99, '2017-07-18 19:06:30.966000', '2017-07-18 19:06:30.966000'),
+--  (2,   'ELA',   -99, -99, '2017-07-18 19:06:30.966000', '2017-07-18 19:06:30.966000');
+
+-- add new subjects to better control test use cases
+    (-1, 'New',    -99, -99, '2017-07-18 19:06:30.966000', '2017-07-18 19:06:30.966000'),
+    (-2, 'Old',    -99, -99, '2014-07-18 19:06:30.966000', '2017-04-18 19:06:30.966000'),
+    (-3, 'Update', -99, -99, '2017-07-18 19:06:30.966000', '2017-07-18 19:06:30.966000');
+
+-- To trigger the default subjects data migration we need to update the timestamps
+UPDATE subject
+    SET created = '2017-07-18 19:06:30.966000', updated = '2017-07-18 19:06:30.966000'
+WHERE id IN (1,2);
+
+-- add subjects' related data for the new subjects
+INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count) VALUES
+-- NOTE: Because of the life BEFORE 'configurable subjects' the below two subjects (and the related data) are pre-loaded by default
+--  (1,  1,  4, 3,    3),
+--  (1,  2,  4, 3,    3),
+--  (2,  1,  3, null, null),
+--  (2,  2,  3, null, null),
+--  (3,  1,  4, 3,    3),
+--  (3,  2,  4, 3,    3),
+
+  (1, -1, 10, 3, 6),
+  (1, -2, 5, 2, 6),
+   -- new entry
+  (1, -3, 8, 2, 7),
+   -- updated entry
+  (2, -3, 8, 2, 7);
+
+INSERT INTO subject_claim_score (id, subject_id, asmt_type_id, code, display_order, data_order) VALUES
+  (-1,  -1, 1, 'Score1',   0, 1),
+  (-2,  -1, 1, 'Score2',   0, 2),
+  (-3,  -1, 1, 'Score3',  -3, 3),
+  (-4,  -2, 3, 'Score4',  -4, 4),
+  (-5,  -2, 3, 'Score5',   0, 5),
+  (-6,  -2, 3, 'Score6',  -5, 6),
+  (-14,  -3, 3, 'Score7', -6, 4),
+  (-15,  -3, 3, 'Update', -7, 5),
+  (-16,  -3, 3, 'New',    -8, 6);
+
+INSERT INTO claim (id, subject_id, code) VALUES
+  (-21,-1, 'ClaimCode2'),
+  (-3, -1, 'ClaimCode3'),
+  (-4, -1, 'ClaimCode4'),
+  (-5, -2, 'ClaimCode5'),
+  (-6, -2, 'ClaimCode6'),
+  (-7, -2, 'ClaimCode7'),
+  (-8, -2, 'ClaimCode8'),
+  (-9, -2, 'ClaimCode9'),
+
+  (-66, -3, 'Update66'),
+  (-67, -3, 'new'),
+  (-68, -3, 'Old68'),
+  (-69, -3, 'Old69'),
+  -- add more data for the default subjects to better control validation while testing
+  (-1,   1, 't1'),
+  (-2,   1, 't3'),
+  (-99,  2, 'c9'),
+  (-98,  2, 'c8'),
+  (-11,  2, 't1'),
+  (-12,  2, 't2'),
+  (-13,  2, 't3'),
+  (-14,  2, 't4');
+
+INSERT INTO target (id, natural_id, claim_id) VALUES
+  (-1, 'Target1',-1),
+  (-2, 'Target2',-21),
+  (-3, 'Target3',-3 ),
+  (-4, 'Target4',-4 ),
+  (-5, 'Target5',-5 ),
+  (-6, 'Target6',-6 ),
+  (-7, 'Target7',-7 ),
+  (-8, 'Target8',-8 ),
+  (-9, 'Target9',-9 ),
+
+  (-66, 'NewTarget',    -66),
+  (-67, 'UpdatedTarget',-67),
+  (-68, 'Target8',-68),
+  (-69, 'Target9',-69),
+
+  -- add more data for the default subjects to better control validation while testing
+  (-99, 'NBT|99',  -11),
+  (-98, 'NBT|98',  -11),
+
+  -- we need to test a use case with 'Math' subject and claim '1' since it has special migrate rules
+  -- since it is being pre-loaded we need to get the db id
+  (-71, 'tNBT|E-3', (SELECT id FROM claim WHERE code = '1' AND subject_id = 1)),
+  (-72,  'MD|J-3', -2),
+  (-73,  'OA|D',   -2),
+
+  (-11,'NBT|E-3', -11),
+  (-12, 'MD|J-3', -11),
+  (-21, 'OA|D',   -12),
+  (-22, 'OA|A',   -12),
+  (-31, 'NF|C',   -13),
+  (-32, 'MD|D',   -13),
+  (-33, 'MD|E',   -13),
+  (-34, 'OA|E',   -13),
+  (-41, 'OA|E',   -14),
+  (-42, 'MD|D',   -14),
+  (-43, 'OA|A',   -14);
+
+INSERT INTO depth_of_knowledge(id, level, subject_id, reference) VALUES
+  (-99, -1,  1, 'something'),
+  (-98, -2,  1, 'anything'),
+  (-97, -2, -2, 'anything'),
+  (-96, -2, -1, 'anything'),
+  (-66,  1, -3, 'new'),
+  (-67,  2, -3, 'updated'),
+  (-68,  3, -3, 'anything');
+
 -------------------------- Preload  entities into warehouse  -------------------------------------------------------------------------------------------------------
 INSERT INTO district_group (id, name, natural_id) VALUES
   (-98, 'Sample District Group -98', 'natural_id-98');

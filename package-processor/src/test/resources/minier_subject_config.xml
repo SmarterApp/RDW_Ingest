@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Subject code="miniersub"
+         name="Minier Subject">
+         
+  <Messages>
+    <Message key="standard-description"><![CDATA[The mini subject standard has this definition.]]></Message>
+    <Message key="ica.performance-info"><![CDATA[Student scores on Interim Comprehensive assessments are assigned to one of two achievement levels (Fail, Pass) based on the scale score.]]></Message>
+  </Messages>
+  <AssessmentTypes>
+    <AssessmentType code="ica" name="ICA">
+      <PerformanceLevels standardCutoff="2">
+        <PerformanceLevel level="1" name="Fail" color="maroon"/>
+        <PerformanceLevel level="2" name="Pass" color="green"/>
+      </PerformanceLevels>
+    </AssessmentType>
+  </AssessmentTypes>
+  <DepthsOfKnowledge>
+    <DepthOfKnowledge level="1" name="First DOK">
+      <Reference><![CDATA[https://portal.smarterbalanced.org/library/en/english-language-artsliteracy-content-specifications.pdf#page=54]]></Reference>
+    </DepthOfKnowledge>
+    <DepthOfKnowledge level="2" name="Second DOK">
+      <Reference><![CDATA[https://portal.smarterbalanced.org/library/en/english-language-artsliteracy-content-specifications.pdf#page=54]]></Reference>
+    </DepthOfKnowledge>
+    <DepthOfKnowledge level="3" name="Third DOK">
+      <Reference><![CDATA[https://portal.smarterbalanced.org/library/en/english-language-artsliteracy-content-specifications.pdf#page=54]]></Reference>
+    </DepthOfKnowledge>
+  </DepthsOfKnowledge>
+  <ItemDifficulties>
+    <ItemDifficulty gradeCode="06" moderateLowEnd="-0.88783" difficultLowEnd="0.88783"/>
+    <ItemDifficulty gradeCode="07" moderateLowEnd="-0.7215" difficultLowEnd="1.06739"/>
+    <ItemDifficulty gradeCode="08" moderateLowEnd="-0.47018" difficultLowEnd="1.34599"/>
+  </ItemDifficulties>
+  <ReportGrades>
+    <ReportGrade code="06">
+      <ReportAssessmentTypes>
+        <ReportAssessmentType code="ica">
+          <OverallAchievementMessage><![CDATA[{0} took a Smarter Balanced assessment based on the grade six academic standards for mini subject and received an overall score that ranges from about 2000 to 3000. This overall score falls into one of the four achievement levels shown here. Sample test items may be included that exemplify the kinds of passages and questions that students at different levels of achievement would likely answer correctly.]]></OverallAchievementMessage>
+          <ReportPerformanceLevels>
+            <ReportPerformanceLevel level="1"><![CDATA[ICA Grade 6 level 1 - {0} Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.]]></ReportPerformanceLevel>
+            <ReportPerformanceLevel level="2"><![CDATA[ICA Grade 6 level 2 - {0} Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.]]></ReportPerformanceLevel>
+          </ReportPerformanceLevels>
+        </ReportAssessmentType>
+      </ReportAssessmentTypes>
+    </ReportGrade>
+    <ReportGrade code="07">
+      <ReportAssessmentTypes>
+        <ReportAssessmentType code="ica">
+          <OverallAchievementMessage><![CDATA[{0} took a Smarter Balanced assessment based on the grade seven California academic standards for English language arts/literacy and received an overall score that ranges from about 2000 to 3000. This overall score falls into one of the four achievement levels shown here. Sample test items may be included that exemplify the kinds of passages and questions that students at different levels of achievement would likely answer correctly.]]></OverallAchievementMessage>
+          <ReportPerformanceLevels>
+            <ReportPerformanceLevel level="1"><![CDATA[ICA Grade 7 level 1 - {0} Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.]]></ReportPerformanceLevel>
+            <ReportPerformanceLevel level="2"><![CDATA[ICA Grade 7 level 2 - {0} Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.]]></ReportPerformanceLevel>
+          </ReportPerformanceLevels>
+        </ReportAssessmentType>
+      </ReportAssessmentTypes>
+    </ReportGrade>
+    <ReportGrade code="08">
+      <ReportAssessmentTypes>
+        <ReportAssessmentType code="ica">
+          <OverallAchievementMessage><![CDATA[{0} took a Smarter Balanced assessment based on the grade eight academic standards for mini subject and received an overall score that ranges from about 2000 to 3000. This overall score falls into one of the four achievement levels shown here. Sample test items may be included that exemplify the kinds of passages and questions that students at different levels of achievement would likely answer correctly.]]></OverallAchievementMessage>
+          <ReportPerformanceLevels>
+            <ReportPerformanceLevel level="1"><![CDATA[ICA Grade 8 level 1 - {0} Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.]]></ReportPerformanceLevel>
+            <ReportPerformanceLevel level="2"><![CDATA[ICA Grade 8 level 2 - {0} Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.]]></ReportPerformanceLevel>
+          </ReportPerformanceLevels>
+        </ReportAssessmentType>
+      </ReportAssessmentTypes>
+    </ReportGrade>
+  </ReportGrades>
+  <Standards>
+    <Standard code="1.2.3">
+      <Description><![CDATA[Demonstrate command of the conventions of standard English grammar and usage when writing or speaking. A) Apply the understanding that usage is a matter of convention, can change over time, and is sometimes contested.]]></Description>
+    </Standard>
+    <Standard code="2.3.4">
+      <Description><![CDATA[Demonstrate command of the conventions of standard English grammar and usage when writing or speaking. B) Resolve issues of complex or contested usage, consulting references (e.g., Merriam-Webster’s Dictionary of English Usage, Garner’s Modern American Usage) as needed.]]></Description>
+    </Standard>
+    <Standard code="3.4.5">
+      <Description><![CDATA[Demonstrate command of the conventions of standard English capitalization, punctuation, and spelling when writing. A) Observe hyphenation conventions.]]></Description>
+    </Standard>
+  </Standards>
+</Subject>

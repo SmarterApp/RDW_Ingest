@@ -18,3 +18,12 @@ DELETE FROM asmt_score where asmt_id < 0;
 DELETE FROM item where id < 0;
 DELETE FROM asmt_target_exclusion where asmt_id < 0 or target_id < 0;
 DELETE FROM asmt where id < 0;
+
+DELETE FROM target WHERE id < 0;
+DELETE FROM common_core_standard WHERE id < 0;
+DELETE FROM claim WHERE id < 0;
+DELETE FROM depth_of_knowledge WHERE id < 0;
+DELETE FROM subject_asmt_type;
+DELETE FROM subject_claim_score where id < 0 or subject_id <0;
+DELETE FROM subject_asmt_type where subject_id < 0;
+DELETE FROM subject where id < 0;

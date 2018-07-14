@@ -33,15 +33,15 @@ INSERT INTO asmt_target(asmt_id, target_id, include_in_report) VALUES
 INSERT INTO asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score) VALUES
   (-99, 2442, 2502, 2582, 2201, 2701);
 
-INSERT INTO item (id, claim_id, claim_code, target_id, target_code, common_core_standard_ids, natural_id, asmt_id, dok_id, dok_level_subject_id, difficulty_code, max_points, math_practice, allow_calc, position) VALUES
-  (-9,   -1, '1', -71, 'target', null, '200-2009',  -11, -99, '1_99', 'E', 2, -99, 0, 1),
-  (-8,   -1, '1', -71, 'target', 'cc', '200-2008',  -11, -99, '1_99', 'M', 2, -99, 0, 2),
-  (-7,   -1, '1', -71, 'target', 'cc', '200-2007',  -11, -99, '1_99', 'D', 2, -99, 0, 3),
-  (-6,   -2, '2', -72, 'target', 'cc', '200-2006',  -11, -99, '1_99', 'D', 2, -99, 0, 4),
-  (-990, -2, '2', -73, 'target', 'cc', '200-2990',  -99, -99, '1_99', 'D', 2, -99, 0, 4),
-  (-991, -2, '2', -73, 'target', 'cc', '200-18943', -99, -99, '1_99', 'D', 2, -98, 0, 3),
-  (-992, -2, '2', -73, 'target', 'cc', '200-2992',  -99, -99, '1_99', 'D', 2, -99, 1, 2),
-  (-993, -2, '2', -73, 'target', 'cc', '200-2993',  -99, -98, '1_99', 'D', 2, -98, 1, 1);
+INSERT INTO item (id, claim_id, claim_code, target_id, common_core_standard_ids, natural_id, asmt_id, dok_id, difficulty_code, max_points, math_practice, allow_calc, position) VALUES
+  (-9,   -1, '1', -71, null, '200-2009',  -11, -99, 'E', 2, -99, 0, 1),
+  (-8,   -1, '1', -71, 'cc', '200-2008',  -11, -99, 'M', 2, -99, 0, 2),
+  (-7,   -1, '1', -71, 'cc', '200-2007',  -11, -99, 'D', 2, -99, 0, 3),
+  (-6,   -2, '2', -72, 'cc', '200-2006',  -11, -99, 'D', 2, -99, 0, 4),
+  (-990, -2, '2', -73, 'cc', '200-2990',  -99, -99, 'D', 2, -99, 0, 4),
+  (-991, -2, '2', -73, 'cc', '200-18943', -99, -99, 'D', 2, -98, 0, 3),
+  (-992, -2, '2', -73, 'cc', '200-2992',  -99, -99, 'D', 2, -99, 1, 2),
+  (-993, -2, '2', -73, 'cc', '200-2993',  -99, -98, 'D', 2, -98, 1, 1);
 
 INSERT INTO item_other_target(item_id, target_id) values
  (-990, -98),

@@ -32,6 +32,15 @@ DELETE FROM staging_student_ethnicity where student_id in ( -89, -88, -87, -86);
 DELETE FROM staging_student where id < 0;
 DELETE FROM staging_student_group where id in ( -91, -8, -7);
 
+-- ------------------------------------------ Subjects and related data ---------------------------------------------------------------------------------
+TRUNCATE staging_depth_of_knowledge;
+TRUNCATE staging_common_core_standard;
+TRUNCATE staging_target;
+TRUNCATE staging_claim;
+TRUNCATE staging_subject;
+TRUNCATE staging_subject_translation;
+TRUNCATE staging_subject_asmt_type;
+TRUNCATE staging_subject_claim_score;
 
 -- CLEAN UP reporting
 -- ------------------------------------------  Exams ---------------------------------------------------------------------------------------------
@@ -64,5 +73,19 @@ DELETE FROM item where asmt_id < 0;
 DELETE FROM asmt_score where asmt_id < 0;
 DELETE FROM asmt_target where asmt_id < 0;
 DELETE FROM asmt where id < 0;
+
+-- ------------------------------------------ Subjects and related data ---------------------------------------------------------------------------------
+DELETE FROM depth_of_knowledge WHERE subject_id < 0 or id < 0;
+DELETE FROM common_core_standard  WHERE subject_id < 0 or id < 0;
+DELETE FROM subject_translation WHERE subject_id < 0 or label_code like '%integration test%';
+DELETE FROM subject_asmt_type WHERE subject_id < 0;
+DELETE FROM subject_claim_score WHERE subject_id < 0;
+-- TODO: this is not ideal since we are deleting more data that created by the test
+-- This is because we have some data pre-loaded in warehouse and when testing the batch they moved into reporting
+-- Ideally, with the configurable subjects introduction, there should not be any data pre-loaded into warehouse
+-- But this is not the case...
+DELETE FROM target;
+DELETE FROM claim;
+DELETE FROM subject WHERE id < 0;
 
 DELETE FROM migrate;

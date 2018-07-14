@@ -12,7 +12,7 @@
 # GIT_USER - user with rights to access CONFIG_SERVICE_REPO
 # GIT_PASSWORD - password for GIT_USER
 
-version: '2'
+version: '2.1'
 services:
   rabbitmq:
     image: rabbitmq:3-management
@@ -36,6 +36,10 @@ services:
       - SPRING_RABBITMQ_ADDRESSES=rabbitmq:5672
       - SPRING_RABBITMQ_USERNAME=guest
       - SPRING_RABBITMQ_PASSWORD=guest
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/health"]
+      interval: 10s
+      timeout: 2s
 
   import-service:
     image: smarterbalanced/rdw-ingest-import-service
@@ -47,6 +51,9 @@ services:
     links:
       - config-server
       - rabbitmq
+    depends_on:
+      config-server:
+        condition: service_healthy
     environment:
       - SPRING_PROFILES_ACTIVE=local-docker
       - CONFIG_SERVICE_ENABLED=true
@@ -61,6 +68,9 @@ services:
     links:
       - config-server
       - rabbitmq
+    depends_on:
+      config-server:
+        condition: service_healthy
     environment:
       - SPRING_PROFILES_ACTIVE=local-docker
       - CONFIG_SERVICE_ENABLED=true
@@ -77,6 +87,9 @@ services:
     links:
       - config-server
       - rabbitmq
+    depends_on:
+      config-server:
+        condition: service_healthy
     environment:
       - SPRING_PROFILES_ACTIVE=local-docker
       - CONFIG_SERVICE_ENABLED=true
@@ -88,9 +101,14 @@ services:
     image: smarterbalanced/rdw-ingest-package-processor
     ports:
       - 8083:8008
+    volumes:
+      - /tmp:/tmp
     links:
       - config-server
       - rabbitmq
+    depends_on:
+      config-server:
+        condition: service_healthy
     environment:
       - SPRING_PROFILES_ACTIVE=local-docker
       - CONFIG_SERVICE_ENABLED=true
@@ -107,6 +125,9 @@ services:
     links:
       - config-server
       - import-service
+    depends_on:
+      config-server:
+        condition: service_healthy
     environment:
       - SPRING_PROFILES_ACTIVE=local-docker
       - CONFIG_SERVICE_ENABLED=true
@@ -120,6 +141,9 @@ services:
       - 8085:8008
     links:
       - config-server
+    depends_on:
+      config-server:
+        condition: service_healthy
     environment:
       - SPRING_PROFILES_ACTIVE=local-docker
       - CONFIG_SERVICE_ENABLED=true

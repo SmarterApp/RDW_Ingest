@@ -17,15 +17,6 @@ sql:
     findCodeById: >-
         SELECT code FROM asmt_type WHERE id= :id
 
-  # JdbcClaimTargetRepository
-  claimTarget:
-    findAll: >-
-        SELECT t.id, CONCAT(c.code, '|', t.natural_id) AS code FROM target t JOIN claim c ON t.claim_id = c.id
-
-    findBySubjectId: >-
-        SELECT t.id, CONCAT(c.code, '|', t.natural_id) AS code FROM target t JOIN claim c ON t.claim_id = c.id
-          WHERE c.subject_id = :subject_id
-
   # JdbcCompletenessRepository
   completeness:
     findIdByCode: >-
@@ -84,7 +75,9 @@ sql:
 
     item:
       findAllForAssessment: >-
-        SELECT id, natural_id from item where asmt_id = :asmt_id order by natural_id asc
+        SELECT i.id, i.natural_id, i.target_id, CONCAT(c.code, '|', t.natural_id) AS target_code
+         FROM item i JOIN target t ON t.id = i.target_id JOIN claim c ON t.claim_id = c.id
+        WHERE asmt_id = :asmt_id order by natural_id asc
 
   # JdbcExamRepository
   exam:

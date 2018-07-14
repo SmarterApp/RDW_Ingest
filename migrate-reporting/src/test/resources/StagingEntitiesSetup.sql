@@ -1,3 +1,94 @@
+-- ------------------------ Subjects and related data ---------------------------------------------------------------------------------------------------------------------
+INSERT INTO staging_subject(id, code, update_import_id, migrate_id, updated) VALUES
+    (-1, 'New',    -99, -99,now()),
+    (-3, 'Update', -99, -99, now());
+
+-- add subjects' related data for the new subjects
+INSERT INTO staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count) VALUES
+  (1, -1, 10, 3, 6),
+   -- new entry
+  (1, -3, 8, 2, 7),
+   -- updated entry
+  (2, -3, 8, 2, 7);
+
+INSERT INTO staging_subject_claim_score (id, subject_id, asmt_type_id, code, display_order, data_order) VALUES
+  (-1,  -1, 1, 'Score1',  0, 1),
+  (-2,  -1, 1, 'Score2',  0, 2),
+  (-3,  -1, 1, 'Score3', -3, 3),
+  (-14,  -3, 3, 'Score7', 0, 4),
+  (-15,  -3, 3, 'Update', 0, 5),
+  (-16,  -3, 3, 'New',    1, 6);
+
+INSERT INTO staging_subject_translation(subject_id, label_code, label) VALUES
+  (-1, 'integration test subject 1',       '1 test label'),
+  (-1, 'integration test subject 1 again', '1 again test label'),
+  (-3, 'integration test - upadated translation for subject 3', 'new');
+
+INSERT INTO staging_claim (id, subject_id, code) VALUES
+  (-71,  -1, 'ClaimCode1'),
+  (-21, -1, 'ClaimCode2' ),
+  (-3,  -1, 'ClaimCode3' ),
+  (-4,  -1, 'ClaimCode4' ),
+
+  (-67, -3, 'new'     ),
+  (-68, -3, 'Old68'   ),
+  (-69, -3, 'Old69'   ),
+  -- add more data for the default subjects to better control validation while testing
+  (-2,   1, 't3'),
+  (-99,  2, 'c9'),
+  (-98,  2, 'c8'),
+  (-11,  2, 't1'),
+  (-12,  2, 't2'),
+  (-13,  2, 't3'),
+  (-14,  2, 't4');
+
+INSERT INTO staging_target (id, natural_id, claim_id) VALUES
+  (-1, 'Target1',-1),
+  (-2, 'Target2',-21),
+  (-3, 'Target3',-3),
+  (-4, 'Target4',-4),
+
+  (-67, 'UpdatedTarget',-67),
+  (-68, 'Target8',-68),
+  (-69, 'Target9',-69),
+
+  -- add more data for the default subjects to better control validation while testing
+  (-99, 'NBT|99',  -11),
+  (-98, 'NBT|98',  -11),
+
+  -- we need to test a use case with 'Math' subject and claim '1' since it has special migrate rules
+  -- since it is being pre-loaded we need to get the db id
+  (-71, 'tNBT|E-3',-1),
+  (-72,  'MD|J-3', -2),
+  (-73,  'OA|D',   -2),
+
+  (-11, 'NBT|E-3', -11),
+  (-12,  'MD|J-3', -11),
+  (-21,  'OA|D',   -12),
+  (-22,  'OA|A',   -12),
+  (-31,  'NF|C',   -13),
+  (-32,  'MD|D',   -13),
+  (-33,  'MD|E',   -13),
+  (-34,  'OA|E',   -13),
+  (-41,  'OA|E',   -14),
+  (-42,  'MD|D',   -14),
+  (-43,  'OA|A',   -14);
+
+INSERT INTO staging_depth_of_knowledge(id, level, subject_id, reference) VALUES
+  (-99, -1,  1, 'something'),
+  (-98, -2,  1, 'anything'),
+  (-96, -2, -1, 'anything'),
+  (-66,  1, -3, 'new'),
+  (-67,  2, -3, 'updated'),
+  (-68,  3, -3, 'anything');
+
+INSERT INTO staging_common_core_standard(id, natural_id, subject_id) VALUES
+  (-59, 'naturalId-9', -1),
+  (-58, 'naturalId-8', -1),
+  (-66, 'new',         -3),
+  (-67, 'updated',     -3),
+  (-68, 'old',         -3);
+
 -- ------------------------------------------ School/Districts --------------------------------------------------------------------------------------------------
 INSERT INTO staging_district_group (id, name, natural_id, migrate_id) VALUES
   (-98, 'Sample District Group -98', 'natural_id-98', -99);
@@ -118,7 +209,7 @@ INSERT INTO  staging_exam ( id, type_id, school_year, asmt_id, asmt_version, opp
              grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage,
              migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type) VALUES
 (-88, 1, 1999, -99,  null, 1, -98, -98, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -89, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 'updated t3 type', 'eng', null),
-(-87, 1, 1999, -11,  null, 1, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
+(-87, 1, 1999, -11,  null, 1, null, null, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
 (-86, 1, 1999, -11,  null, 1, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
 
 (-59, 3, 1999, -59,  null, 1, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),

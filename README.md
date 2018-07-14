@@ -107,13 +107,12 @@ project, you can build RDW_Common locally and install your changes to the local 
 git clone https://github.com/SmarterApp/RDW_Common
 cd RDW_Common
 git checkout develop
-//make code changes
+# make code changes
 ./gradlew install
 ```
 Then to use those new changes, you can specify the SNAPSHOT version of RDW_Common
 ```bash
-//In RDW_Ingest
-./gradlew build it -Pcommon=1.1.0-SNAPSHOT
+RDW_Ingest$ ./gradlew build it -Pcommon=1.1.0-SNAPSHOT
 ```
 
 Now you should be able to build and test the ingest apps from where you cloned this project:
@@ -121,7 +120,7 @@ Now you should be able to build and test the ingest apps from where you cloned t
 cd RDW_Ingest
 git checkout develop
 ./gradlew build
-or to also run Integration Tests
+# or to also run Integration Tests
 ./gradlew build it 
 ```
 
@@ -175,9 +174,9 @@ java                                    8-jre-alpine        d85b17c6762e        
 ### Running
 Running the applications locally depends on the local database being configured properly.
 ```bash
-To completely clean out any existing data you might have and start fresh:
+# To completely clean out any existing data you might have and start fresh:
 ./gradlew cleanallprod migrateallprod
-or, if you want to use a different version of the schema, say version 1.1.0-68 of RDW_Schema
+# or, if you want to use a different version of the schema, say version 1.1.0-68 of RDW_Schema
 ./gradlew -Pschema=1.1.0-68 cleanallprod migrateallprod
 ```
 
@@ -229,10 +228,11 @@ docker image prune
 ### Loading Data
 To properly load data into the system involves a few steps. The supporting data must be loaded before test results
 can be submitted. This includes assessments, accommodations, organization data, and groups. 
-1. Get assessment packages in tabulator output. Usually for a given year.
+1. Get and load configurable subjects in XML format. These may be found in the [RDW repo](https://github.com/SmarterApp/RDW), in the `deploy` folder.
+1. Get and load assessment packages in tabulator output. Usually for a given year.
 1. Get accessibility codes. This is an XML payload provided by SB.
 1. Use the Data Generator to generate sample TRTs and associated organization.json from the assessment package.
-1. Load the assessment packages, accommodations and organization data into the system.
+1. Load the generated organizations into the system.
 1. Load the generated TRTs into the system.
 1. Define student groups and user membership. Since the generated test results have student groups specified this 
 simply requires associating your favorite user login with one-or-more of those groups.
@@ -240,26 +240,33 @@ simply requires associating your favorite user login with one-or-more of those g
 This assumes you are running the ingest pipeline locally with normal configuration. If you are doing this against
 a more production-like environment you'll need to replace the access token and edit submit_xml.sh appropriately.
 
-The data generator project has some sample output for steps 1 and 2 so use that to generate data and load everything
+The data generator project has some sample output that may be used to generate data and load everything
 (yes, this is cloning the data generator project but still using the docker image to do the work; if you really want
 you can run the data generator directly from source but that is left as an exercise for the reader):
 ```bash
 git clone https://github.com/SmarterApp/RDW_DataGenerator
 cd RDW_DataGenerator
 docker run -v `pwd`/out:/src/data_generator/out -v `pwd`/in:/src/data_generator/in fwsbac/rdw-datagen --state_type tiny --gen_iab --gen_ica --gen_item --xml_out --pkg_source /src/data_generator/in
+curl -X POST --header "Authorization:Bearer sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||" -F file=@"./in/sbac_subjects.xml" http://localhost:8080/subjects/imports
 curl -X POST --header "Authorization:Bearer sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||" -F file=@"./in/FULL_2016.items.csv" http://localhost:8080/packages/imports
 curl -X POST --header "Authorization:Bearer sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||" -F file=@"./in/accommodations.xml" http://localhost:8080/accommodations/imports
 curl -X POST --header "Authorization:Bearer sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||" -F file=@"./out/organization.json" http://localhost:8080/organizations/imports
 ./scripts/submit_xml.sh
 ```
-I usually associate my user login with all the groups from a single school. First i look at distributions, then i
-pick a school and add the user to all those groups:
+The data generator does weird stuff with groups and sessions but generating groups using sessions produces reasonable
+groups (at least for the session subject). This SQL query produces output that may be used to populate a groups CSV
+file for import (you might further restrict the result by school, assessment, etc.):
 ```sql
-use reporting;
-select * from student_group sg
-  join ( select student_group_id, count(*) as cnt from reporting.student_group_membership group by student_group_id order by cnt desc ) size
-  on size.student_group_id = sg.id;
-# find school that has a few groups in the top 10 then ...
-insert into reporting.user_student_group (student_group_id, user_login) 
-  SELECT id, 'dwtest@example.com' from reporting.student_group where school_id = 4;
+select e.session_id as group_name,
+  sc.natural_id as school_natural_id,
+  e.school_year,
+  case when a.subject_id = 1 then 'Math' else 'ELA' end as subject_code,
+  st.ssid as student_ssid,
+  concat(left(e.session_id, 3), '@test.com') as group_user_login
+from exam e
+  join asmt a on e.asmt_id = a.id
+  join student st on e.student_id = st.id
+  join school sc on e.school_id = sc.id
+where e.school_year = 2018
+order by e.session_id;
 ```
