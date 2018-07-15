@@ -1,5 +1,8 @@
 ## Change Log
 
+#### 1.3.0
+
+
 #### 1.2.1 - 2018-07-06
 
 * Configurable Subjects migrate and bug fixing
