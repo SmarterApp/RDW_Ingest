@@ -1,5 +1,9 @@
 ## Change Log
 
+#### 1.2.2 - 2018-09-11
+
+* Add configurable TRT transformations.
+
 #### 1.2.1 - 2018-07-06
 
 * Configurable Subjects migrate and bug fixing
