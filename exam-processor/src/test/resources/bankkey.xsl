@@ -15,7 +15,7 @@
     </xsl:attribute>
   </xsl:template>
 
-  <!-- this rule converts IAT multiple-choice, multiple-select, and ESRB responses to the expected format ("A,C,D") -->
+  <!-- this rule converts IAT multiple-choice, multiple-select, and EBSR responses to the expected format ("A,C,D") -->
   <xsl:template match="Response[contains(text(),'choiceInteraction_')]/text()">
     <xsl:variable name="choices" select="replace(., '\s*&lt;(?!/?value)[^&gt;]+&gt;\s*', '', ';j')"/>
     <xsl:variable name="choiceCharacters" select="replace($choices, '&lt;[^&lt;]+-choice-(\w)&lt;[^&gt;]+&gt;', '$1,')"/>

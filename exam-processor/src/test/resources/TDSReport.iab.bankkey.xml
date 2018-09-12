@@ -131,7 +131,7 @@
                 <ScoreRationale/>
             </ScoreInfo>
         </Item>
-        <!-- Sample ESRB -->
+        <!-- Sample EBSR -->
         <Item adminDate="2018-08-27T15:38:51.64-05:00" bankKey="10200" clientId="" dropped="0" format="IAT"
               isSelected="1" key="37115" mimeType="text/xml" numberVisits="1" operational="1" pageNumber="4"
               pageTime="22400" pageVisits="1" position="5" responseDuration="22400" score="0" scoreStatus="SCORED"
