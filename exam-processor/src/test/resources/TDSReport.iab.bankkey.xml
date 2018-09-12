@@ -1,5 +1,5 @@
 <TDSReport>
-    <Test grade="4" mode="online" contract="SBAC" bankKey="200" testId="SBAC-IAB-FIXED-G4M-G-MATH-4" subject="MATH"
+    <Test grade="4" mode="online" contract="SBAC" bankKey="10200" testId="SBAC-IAB-FIXED-G4M-G-MATH-4" subject="MATH"
           name="(SBAC)SBAC-IAB-FIXED-G4M-G-MATH-4-Winter-2016-2017" handScoreProject="0" assessmentType="interim" academicYear="2016" assessmentVersion="9786"/>
     <Examinee isDemo="0" key="4054">
         <ExamineeAttribute name="Birthdate" value="1900-01-01" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
@@ -107,43 +107,41 @@
         <Score measureOf="Overall" measureLabel="ScaleScore" value="2595.97876140521" standardError="50.8535397655728"/>
         <Score measureOf="Overall" measureLabel="PerformanceLevel" value="3" standardError=""/>
         <Score measureOf="Print Size|TDS_PS_L0" measureLabel="Accommodation" value="3" standardError="0"/>
-        <Item responseDuration="26" pageTime="0" pageNumber="1" pageVisits="0" numberVisits="2" format="MI" adminDate="2016-10-12T21:52:47.057" clientId=""
-              key="16283" bankKey="10200" position="1" contentLevel="1|S|TS07|L-4" strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1"
-              mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G4M-G-MATH-4-Winter-2016-2017">
-            <Response date="2016-10-12T22:00:40.016" type="value"> &lt;itemResponse&gt;&lt;response id="RESPONSE"&gt;&lt;value&gt;1 a&lt;/value&gt;&lt;value&gt;2 b&lt;/value&gt;&lt;value&gt;3
-                a&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
-            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
-                <ScoreRationale>
-                    <Message>
-                        successfully scored
-                    </Message>
-                </ScoreRationale>
+        <!-- Sample MC -->
+        <Item adminDate="2018-08-27T15:38:47.967-05:00" bankKey="10200" clientId="" dropped="0" format="IAT"
+              isSelected="1" key="46849" mimeType="text/xml" numberVisits="1" operational="1" pageNumber="1"
+              pageTime="4300" pageVisits="1" position="1" responseDuration="4300" score="1" scoreStatus="SCORED"
+              segmentId="(SBAC)SBAC-GEN-INTR-ICA-ELA-COMBINED-6-SEG1-Winter-2018-2019">
+            <Response date="2018-08-27T15:38:51.637-05:00" key="1a43cab1-baea-4b6d-9d28-34f447e6b53e" type="">&lt;itemResponse&gt;&lt;response
+                id="choiceInteraction_1.RESPONSE"&gt;&lt;value&gt;choiceInteraction_1-choice-A&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt;
+            </Response>
+            <ScoreInfo maxScore="1" scoreDimension="overall" scorePoint="1" scoreStatus="Scored">
+                <ScoreRationale/>
             </ScoreInfo>
         </Item>
-        <Item responseDuration="20" pageTime="0" pageNumber="2" pageVisits="0" numberVisits="2" format="MI" adminDate="2016-10-12T21:52:47.068" clientId=""
-              key="90299" bankKey="10200" position="2" contentLevel="1|S|TS07|L-4" strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1"
-              mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G4M-G-MATH-4-Winter-2016-2017">
-            <Response date="2016-10-12T22:00:34.905" type="value"> &lt;itemResponse&gt;&lt;response id="RESPONSE"&gt;&lt;value&gt;1 b&lt;/value&gt;&lt;value&gt;2 a&lt;/value&gt;&lt;value&gt;3
-                a&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
-            <ScoreInfo scorePoint="1" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
-                <ScoreRationale>
-                    <Message>
-                        successfully scored
-                    </Message>
-                </ScoreRationale>
+        <!-- Sample MS -->
+        <Item adminDate="2018-08-27T15:38:47.973-05:00" bankKey="10200" clientId="" dropped="0" format="IAT"
+              isSelected="1" key="41340" mimeType="text/xml" numberVisits="1" operational="1" pageNumber="2"
+              pageTime="2600" pageVisits="1" position="2" responseDuration="2600" score="0" scoreStatus="SCORED"
+              segmentId="(SBAC)SBAC-GEN-INTR-ICA-ELA-COMBINED-6-SEG1-Winter-2018-2019">
+            <Response date="2018-08-27T15:38:54.433-05:00" key="3e6f56d2-53d5-497e-a34d-a7a332fbfd96" type="">&lt;itemResponse&gt;&lt;response
+                id="choiceInteraction_1.RESPONSE"&gt;&lt;value&gt;choiceInteraction_1-choice-A&lt;/value&gt;&lt;value&gt;choiceInteraction_1-choice-C&lt;/value&gt;&lt;value&gt;choiceInteraction_1-choice-D&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt;
+            </Response>
+            <ScoreInfo maxScore="1" scoreDimension="overall" scorePoint="0" scoreStatus="Scored">
+                <ScoreRationale/>
             </ScoreInfo>
         </Item>
-        <Item responseDuration="160" pageTime="0" pageNumber="3" pageVisits="0" numberVisits="3" format="MI" adminDate="2016-10-12T21:52:47.776" clientId=""
-              key="84662" bankKey="10200" position="3" contentLevel="1|S|TS07|L-4" strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0"
-              mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G4M-G-MATH-4-Winter-2016-2017">
-            <Response date="2016-10-12T22:00:32.569" type="value"> &lt;itemResponse&gt;&lt;response id="RESPONSE"&gt;&lt;value&gt;1 b&lt;/value&gt;&lt;value&gt;2 b&lt;/value&gt;&lt;value&gt;3
-                b&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
-            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
-                <ScoreRationale>
-                    <Message>
-                        successfully scored
-                    </Message>
-                </ScoreRationale>
+        <!-- Sample ESRB -->
+        <Item adminDate="2018-08-27T15:38:51.64-05:00" bankKey="10200" clientId="" dropped="0" format="IAT"
+              isSelected="1" key="37115" mimeType="text/xml" numberVisits="1" operational="1" pageNumber="4"
+              pageTime="22400" pageVisits="1" position="5" responseDuration="22400" score="0" scoreStatus="SCORED"
+              segmentId="(SBAC)SBAC-GEN-INTR-ICA-ELA-COMBINED-6-SEG1-Winter-2018-2019">
+            <Response date="2018-08-27T15:39:05.14-05:00" key="3d3b10b9-df2d-4410-8751-88080d832347" type="">&lt;itemResponse&gt;&lt;response
+                id="choiceInteraction_1.RESPONSE"&gt;&lt;value&gt;choiceInteraction_1-choice-B&lt;/value&gt;&lt;/response&gt;&lt;response
+                id="choiceInteraction_2.RESPONSE"&gt;&lt;value&gt;choiceInteraction_2-choice-A&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt;
+            </Response>
+            <ScoreInfo maxScore="1" scoreDimension="overall" scorePoint="0" scoreStatus="Scored">
+                <ScoreRationale/>
             </ScoreInfo>
         </Item>
         <Item responseDuration="18" pageTime="0" pageNumber="4" pageVisits="0" numberVisits="2" format="MI" adminDate="2016-10-12T21:53:08.002" clientId=""
