@@ -1,5 +1,9 @@
 ## Change Log
 
+#### 1.2.3 - 2018-09-13
+
+* Upgrade XSLT to 2.0
+
 #### 1.2.2 - 2018-09-11
 
 * Add configurable TRT transformations.
