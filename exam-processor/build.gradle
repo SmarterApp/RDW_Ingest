@@ -21,6 +21,7 @@ dependencies {
     compile 'org.opentestsystem.rdw.common:rdw-common-status'
     compile 'org.opentestsystem.rdw.common:rdw-common-utils'
     compile 'mysql:mysql-connector-java'
+    compile 'net.sf.saxon:Saxon-HE'
 
     compile project(':rdw-ingest-common')
     testCompile project(path: ':rdw-ingest-common', configuration: 'tests')
