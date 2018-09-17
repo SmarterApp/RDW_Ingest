@@ -38,5 +38,21 @@
     <xsl:value-of select="replace($convertedResponses, 'choiceInteraction_\d-choice-(\w)', '$1')"/>
   </xsl:template>
 
+  <!--
+    This rule converse Match Interaction (MI) responses to the expected format:
+    <itemResponse>
+      <response id=""RESPONSE"">
+        <value>1 a</value>
+        <value>2 b</value>
+        <value>3 a</value>
+        <value>4 b</value>
+      </response>
+    </itemResponse>
+  -->
+  <xsl:template match="Response[contains(text(),'matchInteraction_')]/text()">
+    <xsl:variable name="convertedResponses" select="replace(., 'matchInteraction_\d.RESPONSE', 'RESPONSE')"/>
+    <xsl:value-of select="replace($convertedResponses, 'matchInteraction_\d-(\d)\W*matchInteraction_\d-(\w)', '$1 $2')"/>
+  </xsl:template>
+
 </xsl:stylesheet>
 

@@ -107,7 +107,7 @@
         <Score measureOf="Overall" measureLabel="ScaleScore" value="2595.97876140521" standardError="50.8535397655728"/>
         <Score measureOf="Overall" measureLabel="PerformanceLevel" value="3" standardError=""/>
         <Score measureOf="Print Size|TDS_PS_L0" measureLabel="Accommodation" value="3" standardError="0"/>
-        <!-- Sample MC -->
+        <!-- Sample Multiple Choice (MC) -->
         <Item adminDate="2018-08-27T15:38:47.967-05:00" bankKey="10200" clientId="" dropped="0" format="IAT"
               isSelected="1" key="46849" mimeType="text/xml" numberVisits="1" operational="1" pageNumber="1"
               pageTime="4300" pageVisits="1" position="1" responseDuration="4300" score="1" scoreStatus="SCORED"
@@ -119,7 +119,7 @@
                 <ScoreRationale/>
             </ScoreInfo>
         </Item>
-        <!-- Sample MS -->
+        <!-- Sample Multiple Select (MS) -->
         <Item adminDate="2018-08-27T15:38:47.973-05:00" bankKey="10200" clientId="" dropped="0" format="IAT"
               isSelected="1" key="41340" mimeType="text/xml" numberVisits="1" operational="1" pageNumber="2"
               pageTime="2600" pageVisits="1" position="2" responseDuration="2600" score="0" scoreStatus="SCORED"
@@ -144,17 +144,18 @@
                 <ScoreRationale/>
             </ScoreInfo>
         </Item>
-        <Item responseDuration="18" pageTime="0" pageNumber="4" pageVisits="0" numberVisits="2" format="MI" adminDate="2016-10-12T21:53:08.002" clientId=""
-              key="90289" bankKey="10200" position="4" contentLevel="1|S|TS07|L-4" strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0"
-              mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G4M-G-MATH-4-Winter-2016-2017">
-            <Response date="2016-10-12T22:00:29.788" type="value"> &lt;itemResponse&gt;&lt;response id="RESPONSE"&gt;&lt;value&gt;1 a&lt;/value&gt;&lt;value&gt;2 a&lt;/value&gt;&lt;value&gt;3
-                a&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
-            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
-                <ScoreRationale>
-                    <Message>
-                        successfully scored
-                    </Message>
-                </ScoreRationale>
+        <!-- Sample Match Interaction (MI) -->
+        <Item adminDate="2018-09-05T16:42:07.67-05:00" bankKey="10200" clientId="" dropped="0" format="IAT" isSelected="1"
+              key="92135" mimeType="text/xml" numberVisits="1" operational="1" pageNumber="2" pageTime="21100"
+              pageVisits="1" position="2" responseDuration="21100" score="1" scoreStatus="SCORED"
+              segmentId="(SBAC)SBAC-GEN-INTR-IAB-MA-NS-8-Winter-2018-2019">
+            <Response date="2018-09-05T16:42:48.843-05:00" key="dde221bd-1840-4da2-8e58-335ed79a22c7" type="">&lt;itemResponse&gt;&lt;response
+                id="matchInteraction_1.RESPONSE"&gt;&lt;value&gt;matchInteraction_1-1 matchInteraction_1-a&lt;/value&gt;&lt;value&gt;matchInteraction_1-2
+                matchInteraction_1-b&lt;/value&gt;&lt;value&gt;matchInteraction_1-3 matchInteraction_1-b&lt;/value&gt;&lt;value&gt;matchInteraction_1-4
+                matchInteraction_1-a&lt;/value&gt;&lt;value&gt;matchInteraction_1-5 matchInteraction_1-a&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt;
+            </Response>
+            <ScoreInfo maxScore="1" scoreDimension="overall" scorePoint="1" scoreStatus="Scored">
+                <ScoreRationale/>
             </ScoreInfo>
         </Item>
         <Item responseDuration="17" pageTime="0" pageNumber="5" pageVisits="0" numberVisits="2" format="MI" adminDate="2016-10-12T21:53:25.873" clientId=""
