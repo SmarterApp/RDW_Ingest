@@ -1,5 +1,16 @@
-<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet
+    version="2.0"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:trt="http://www.smarterbalanced.org/trt/transformation">
   <xsl:output method="xml" omit-xml-declaration="yes" indent="yes"/>
+
+  <!-- Helper function for "unescaping" wrapped XML content -->
+  <xsl:function name="trt:unescape">
+    <xsl:param name="escapedContent"/>
+    <xsl:variable name="ltUnescaped" select="replace($escapedContent, '&amp;lt;', '&lt;')"/>
+    <xsl:variable name="gtUnescaped" select="replace($ltUnescaped, '&amp;gt;', '&gt;')"/>
+    <xsl:value-of select="replace($gtUnescaped, '&amp;amp;', '&amp;')"/>
+  </xsl:function>
 
   <!-- identity rule copies everything by default -->
   <xsl:template match="@*|node()">
@@ -53,6 +64,21 @@
     <xsl:variable name="convertedResponses" select="replace(., 'matchInteraction_\d.RESPONSE', 'RESPONSE')"/>
     <xsl:value-of select="replace($convertedResponses, 'matchInteraction_\d-(\d)\W*matchInteraction_\d-(\w)', '$1 $2')"/>
   </xsl:template>
+
+  <!--
+    This rule converse Table Interaction (TI) responses to the expected format:
+    <responseSpec>
+      <responseTable>
+        <tr><th id=""col0"" /><th id=""col1"" /><th id=""col2"" /><th id=""col3"" /><th id=""col4"" /><th id=""col5"" /><th id=""col6"" /><th id=""col7"" /><th id=""col8"" /><th id=""col9"" /><th id=""col10"" /></tr>
+        <tr><td /><td>B</td><td /><td /><td>A</td><td /><td /><td>C</td><td /><td /><td>D</td></tr>
+      </responseTable>
+    </responseSpec>
+  -->
+  <xsl:template match="Response[contains(text(),'tableInteraction_')]/text()">
+    <xsl:variable name="escapedResponse" select="replace(., '.+&lt;value&gt;(.+)&lt;/value&gt;.+', '$1', 's')"/>
+    <xsl:value-of select="trt:unescape($escapedResponse)"/>
+  </xsl:template>
+
 
 </xsl:stylesheet>
 

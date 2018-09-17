@@ -158,17 +158,18 @@
                 <ScoreRationale/>
             </ScoreInfo>
         </Item>
-        <Item responseDuration="17" pageTime="0" pageNumber="5" pageVisits="0" numberVisits="2" format="MI" adminDate="2016-10-12T21:53:25.873" clientId=""
-              key="82290" bankKey="10200" position="5" contentLevel="1|S|TS07|L-4" strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="0"
-              mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G4M-G-MATH-4-Winter-2016-2017">
-            <Response date="2016-10-12T22:00:24.765" type="value"> &lt;itemResponse&gt;&lt;response id="RESPONSE"&gt;&lt;value&gt;1 a&lt;/value&gt;&lt;value&gt;2 b&lt;/value&gt;&lt;value&gt;3
-                b&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt; </Response>
-            <ScoreInfo scorePoint="0" maxScore="1" scoreDimension="overall" scoreStatus="Scored">
-                <ScoreRationale>
-                    <Message>
-                        successfully scored
-                    </Message>
-                </ScoreRationale>
+        <!-- Sample Table Interaction (TI) (from xls, no sample in TRTs) -->
+        <Item adminDate="2018-09-05T16:42:07.67-05:00" bankKey="10200" clientId="" dropped="0" format="IAT" isSelected="1"
+              key="92135" mimeType="text/xml" numberVisits="1" operational="1" pageNumber="2" pageTime="21100"
+              pageVisits="1" position="2" responseDuration="21100" score="1" scoreStatus="SCORED"
+              segmentId="(SBAC)SBAC-GEN-INTR-IAB-MA-NS-8-Winter-2018-2019">
+            <Response date="2018-09-05T16:42:48.843-05:00" key="dde221bd-1840-4da2-8e58-335ed79a22c7" type="">&lt;itemResponse&gt;
+                &lt;response id="tableInteraction_1.CUSTOM"&gt;&lt;value&gt;&amp;lt;responseSpec&amp;gt;&amp;lt;responseTable&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;th id="col0" /&amp;gt;&amp;lt;th id="col1" /&amp;gt;&amp;lt;th id="col2" /&amp;gt;&amp;lt;th id="col3" /&amp;gt;&amp;lt;th id="col4" /&amp;gt;&amp;lt;th id="col5" /&amp;gt;&amp;lt;th id="col6" /&amp;gt;&amp;lt;th id="col7" /&amp;gt;&amp;lt;th id="col8" /&amp;gt;&amp;lt;th id="col9" /&amp;gt;&amp;lt;th id="col10" /&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td /&amp;gt;&amp;lt;td&amp;gt;B&amp;lt;/td&amp;gt;&amp;lt;td /&amp;gt;&amp;lt;td /&amp;gt;&amp;lt;td&amp;gt;A&amp;lt;/td&amp;gt;&amp;lt;td /&amp;gt;&amp;lt;td /&amp;gt;&amp;lt;td&amp;gt;C&amp;lt;/td&amp;gt;&amp;lt;td /&amp;gt;&amp;lt;td /&amp;gt;&amp;lt;td&amp;gt;D&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/responseTable&amp;gt;&amp;lt;/responseSpec&amp;gt;&lt;/value&gt;
+                &lt;/response&gt;
+            &lt;/itemResponse&gt;
+            </Response>
+            <ScoreInfo maxScore="1" scoreDimension="overall" scorePoint="1" scoreStatus="Scored">
+                <ScoreRationale/>
             </ScoreInfo>
         </Item>
         <Item responseDuration="27" pageTime="0" pageNumber="6" pageVisits="0" numberVisits="2" format="MI" adminDate="2016-10-12T21:56:03.136" clientId=""
