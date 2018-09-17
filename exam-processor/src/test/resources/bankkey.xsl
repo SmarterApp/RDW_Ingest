@@ -15,11 +15,27 @@
     </xsl:attribute>
   </xsl:template>
 
-  <!-- this rule converts IAT multiple-choice, multiple-select, and EBSR responses to the expected format ("A,C,D") -->
-  <xsl:template match="Response[contains(text(),'choiceInteraction_')]/text()">
+  <!-- this rule converts IAT multiple-choice and multiple-select responses to the expected format ("A,C,D") -->
+  <xsl:template match="Response[contains(text(),'choiceInteraction_1') and not(contains(text(), 'choiceInteraction_2'))]/text()">
     <xsl:variable name="choices" select="replace(., '\s*&lt;(?!/?value)[^&gt;]+&gt;\s*', '', ';j')"/>
     <xsl:variable name="choiceCharacters" select="replace($choices, '&lt;[^&lt;]+-choice-(\w)&lt;[^&gt;]+&gt;', '$1,')"/>
     <xsl:value-of select="substring($choiceCharacters, 1, string-length($choiceCharacters)-1)"/>
+  </xsl:template>
+
+  <!--
+    This rule converts EBSR multiple-choice and multiple-select responses to the expected format:
+    <itemResponse>
+      <response id="EBSR1">
+        <value>A</value>
+      </response>
+      <response id="EBSR2">
+        <value>C</value>
+      </response>
+    </itemResponse>
+  -->
+  <xsl:template match="Response[contains(text(),'choiceInteraction_1') and contains(text(), 'choiceInteraction_2')]/text()">
+    <xsl:variable name="convertedResponses" select="replace(., 'choiceInteraction_(\d).RESPONSE', 'EBSR$1')"/>
+    <xsl:value-of select="replace($convertedResponses, 'choiceInteraction_\d-choice-(\w)', '$1')"/>
   </xsl:template>
 
 </xsl:stylesheet>

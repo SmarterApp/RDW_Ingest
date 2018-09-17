@@ -87,6 +87,8 @@ subprojects {
             dependency 'junit:junit:4.12'
             dependency 'org.assertj:assertj-core:3.6.2'
             dependency 'org.mockito:mockito-core:2.16.0'
+            dependency 'org.xmlunit:xmlunit-core:2.6.2'
+            dependency 'org.xmlunit:xmlunit-matchers:2.6.2'
         }
         imports {
             // https://github.com/spring-projects/spring-cloud/wiki/Spring-Cloud-Camden-Release-Notes
