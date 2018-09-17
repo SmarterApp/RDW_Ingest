@@ -69,7 +69,7 @@
     This rule converse Table Interaction (TI) responses to the expected format:
     <responseSpec>
       <responseTable>
-        <tr><th id=""col0"" /><th id=""col1"" /><th id=""col2"" /><th id=""col3"" /><th id=""col4"" /><th id=""col5"" /><th id=""col6"" /><th id=""col7"" /><th id=""col8"" /><th id=""col9"" /><th id=""col10"" /></tr>
+        <tr><th id="col0" /><th id="col1" /><th id="col2" /><th id="col3" /><th id="col4" /><th id="col5" /><th id="col6" /><th id="col7" /><th id="col8" /><th id="col9" /><th id="col10" /></tr>
         <tr><td /><td>B</td><td /><td /><td>A</td><td /><td /><td>C</td><td /><td /><td>D</td></tr>
       </responseTable>
     </responseSpec>
