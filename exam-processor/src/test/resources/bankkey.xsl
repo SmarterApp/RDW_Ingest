@@ -17,7 +17,15 @@
     <xsl:param name="escapedContent"/>
     <xsl:analyze-string regex="(&amp;[^;]+;)" select="$escapedContent">
       <xsl:matching-substring>
-        <xsl:value-of select="$escapedChars/entry[@key=regex-group(1)]/text()"/>
+        <xsl:variable name="unescapedCharacter" select="$escapedChars/entry[@key=regex-group(1)]/text()"/>
+        <xsl:choose>
+          <xsl:when test="string-length($unescapedCharacter) > 0">
+            <xsl:value-of select="$unescapedCharacter"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="regex-group(1)"/>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:matching-substring>
       <xsl:non-matching-substring>
         <xsl:value-of select="."/>
