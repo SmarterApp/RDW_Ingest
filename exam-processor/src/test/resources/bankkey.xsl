@@ -1,15 +1,28 @@
+<!DOCTYPE xsl:stylesheet >
 <xsl:stylesheet
     version="2.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:trt="http://www.smarterbalanced.org/trt/transformation">
+    xmlns:trt="urn:trt">
   <xsl:output method="xml" omit-xml-declaration="yes" indent="yes"/>
+
+  <xsl:variable name="escapedChars">
+    <entry key="&amp;lt;">&lt;</entry>
+    <entry key="&amp;gt;">&gt;</entry>
+    <entry key="&amp;amp;">&amp;</entry>
+    <entry key="&amp;quot;">&quot;</entry>
+  </xsl:variable>
 
   <!-- Helper function for "unescaping" wrapped XML content -->
   <xsl:function name="trt:unescape">
     <xsl:param name="escapedContent"/>
-    <xsl:variable name="ltUnescaped" select="replace($escapedContent, '&amp;lt;', '&lt;')"/>
-    <xsl:variable name="gtUnescaped" select="replace($ltUnescaped, '&amp;gt;', '&gt;')"/>
-    <xsl:value-of select="replace($gtUnescaped, '&amp;amp;', '&amp;')"/>
+    <xsl:analyze-string regex="(&amp;[^;]+;)" select="$escapedContent">
+      <xsl:matching-substring>
+        <xsl:value-of select="$escapedChars/entry[@key=regex-group(1)]/text()"/>
+      </xsl:matching-substring>
+      <xsl:non-matching-substring>
+        <xsl:value-of select="."/>
+      </xsl:non-matching-substring>
+    </xsl:analyze-string>
   </xsl:function>
 
   <!-- identity rule copies everything by default -->
@@ -50,9 +63,9 @@
   </xsl:template>
 
   <!--
-    This rule converse Match Interaction (MI) responses to the expected format:
+    This rule converts Match Interaction (MI) responses to the expected format:
     <itemResponse>
-      <response id=""RESPONSE"">
+      <response id="RESPONSE">
         <value>1 a</value>
         <value>2 b</value>
         <value>3 a</value>
@@ -66,7 +79,7 @@
   </xsl:template>
 
   <!--
-    This rule converse Table Interaction (TI) responses to the expected format:
+    This rule converts Table Interaction (TI) responses to the expected format:
     <responseSpec>
       <responseTable>
         <tr><th id="col0" /><th id="col1" /><th id="col2" /><th id="col3" /><th id="col4" /><th id="col5" /><th id="col6" /><th id="col7" /><th id="col8" /><th id="col9" /><th id="col10" /></tr>
@@ -77,6 +90,20 @@
   <xsl:template match="Response[contains(text(),'tableInteraction_')]/text()">
     <xsl:variable name="escapedResponse" select="replace(., '.+&lt;value&gt;(.+)&lt;/value&gt;.+', '$1', 's')"/>
     <xsl:value-of select="trt:unescape($escapedResponse)"/>
+  </xsl:template>
+
+  <!--
+    This rule converts Hot Text Interaction (HTQ) responses to the expected format:
+    <itemResponse>
+      <response id="1">
+        <value>2</value>
+        <value>4</value>
+      </response>
+    </itemResponse>
+  -->
+  <xsl:template match="Response[contains(text(),'hotTextInteraction_')]/text()">
+    <xsl:variable name="convertedIds" select="replace(., 'hotTextInteraction_(\d).RESPONSE', '$1')"/>
+    <xsl:value-of select="replace($convertedIds, 'hotTextInteraction_\d-hottext-(\d)', '$1')"/>
   </xsl:template>
 
 
