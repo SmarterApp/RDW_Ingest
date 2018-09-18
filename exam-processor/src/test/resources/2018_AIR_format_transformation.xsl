@@ -5,6 +5,11 @@
     xmlns:trt="urn:trt">
   <xsl:output method="xml" omit-xml-declaration="yes" indent="yes"/>
 
+  <!--
+    These are characters that must be converted when "unescaping" embedded
+    XML response data. (e.g. "&amp;lt;" will result in "<")
+    Characters not present in the map below are left un-touched (e.g. "&amp;#39;" will result in "&#39;" rather than "'")
+  -->
   <xsl:variable name="escapedChars">
     <entry key="&amp;lt;">&lt;</entry>
     <entry key="&amp;gt;">&gt;</entry>
@@ -156,9 +161,9 @@
 
   <!--
     This rule converts Short Answer / Writing Extended Response Interaction (SA|ER|WER) responses to the expected WYSIWYG format:
-    <p>This is <strong>free-entry</strong> text that <i>students</i> can:
+    <p>&nbsp; This is <strong>free-entry</strong> text that <i>students</i> can:
     <ul><li>enter</li><li>style</li><li>organize</li></ul>
-    <p>however they like.
+    <p>however they like. We can&#39;t unescape everything.
   -->
   <xsl:template match="Response[contains(text(),'textEntryInteraction_')]/text()">
     <xsl:variable name="escapedResponse" select="replace(., '.+&lt;value&gt;(.+)&lt;/value&gt;.+', '$1', 's')"/>
