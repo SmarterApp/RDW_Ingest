@@ -186,6 +186,35 @@
                 <ScoreRationale/>
             </ScoreInfo>
         </Item>
+        <!-- Sample Equation Interaction (EQ) (from xls, no sample in TRTs) -->
+        <Item adminDate="2018-09-05T16:42:07.67-05:00" bankKey="10200" clientId="" dropped="0" format="IAT" isSelected="1"
+              key="92135" mimeType="text/xml" numberVisits="1" operational="1" pageNumber="2" pageTime="21100"
+              pageVisits="1" position="2" responseDuration="21100" score="1" scoreStatus="SCORED"
+              segmentId="(SBAC)SBAC-GEN-INTR-IAB-MA-NS-8-Winter-2018-2019">
+            <Response date="2018-09-05T16:42:48.843-05:00" key="dde221bd-1840-4da2-8e58-335ed79a22c7" type="">&lt;itemResponse&gt;
+                &lt;response id="equationInteraction_1.CUSTOM"&gt;
+                &lt;value&gt;&amp;lt;response&amp;gt;&amp;lt;math xmlns="http://www.w3.org/1998/Math/MathML" title="50"&amp;gt;&amp;lt;mstyle&amp;gt;&amp;lt;mn&amp;gt;50&amp;lt;/mn&amp;gt;&amp;lt;/mstyle&amp;gt;&amp;lt;/math&amp;gt;&amp;lt;/response&amp;gt;
+                &lt;/value&gt;
+            &lt;/response&gt;
+            &lt;/itemResponse&gt;</Response>
+            <ScoreInfo maxScore="1" scoreDimension="overall" scorePoint="1" scoreStatus="Scored">
+                <ScoreRationale/>
+            </ScoreInfo>
+        </Item>
+        <!-- Sample Grid Interaction (GI) (from xls, no sample in TRTs) -->
+        <Item adminDate="2018-09-05T16:42:07.67-05:00" bankKey="10200" clientId="" dropped="0" format="IAT" isSelected="1"
+              key="92135" mimeType="text/xml" numberVisits="1" operational="1" pageNumber="2" pageTime="21100"
+              pageVisits="1" position="2" responseDuration="21100" score="1" scoreStatus="SCORED"
+              segmentId="(SBAC)SBAC-GEN-INTR-IAB-MA-NS-8-Winter-2018-2019">
+            <Response date="2018-09-05T16:42:48.843-05:00" key="dde221bd-1840-4da2-8e58-335ed79a22c7" type="">&lt;itemResponse&gt;
+                &lt;response id="gridInteraction_1.CUSTOM"&gt;
+                &lt;value&gt;&amp;lt;?xml version="1.0" encoding="UTF-8"?&amp;gt;&amp;lt;AnswerSet&amp;gt;&amp;lt;Question id=""&amp;gt;&amp;lt;QuestionPart id="1"&amp;gt;&amp;lt;ObjectSet&amp;gt;&amp;lt;AtomicObject&amp;gt;{AminusB(91,49)}&amp;lt;/AtomicObject&amp;gt;&amp;lt;AtomicObject&amp;gt;{BC(193,49)}&amp;lt;/AtomicObject&amp;gt;&amp;lt;AtomicObject&amp;gt;{C(299,49)}&amp;lt;/AtomicObject&amp;gt;&amp;lt;RegionGroupObject name="PartA" numselected="1"&amp;gt;&amp;lt;RegionObject name="Step1" isselected="false" /&amp;gt;&amp;lt;RegionObject name="Step2" isselected="true" /&amp;gt;&amp;lt;RegionObject name="Step3" isselected="false" /&amp;gt;&amp;lt;RegionObject name="Step4" isselected="false" /&amp;gt;&amp;lt;/RegionGroupObject&amp;gt;&amp;lt;/ObjectSet&amp;gt;&amp;lt;SnapPoint&amp;gt;70@91,361;193,361;299,361;407,361;299,345;299,377&amp;lt;/SnapPoint&amp;gt;&amp;lt;/QuestionPart&amp;gt;&amp;lt;/Question&amp;gt;&amp;lt;/AnswerSet&amp;gt;&lt;/value&gt;
+            &lt;/response&gt;
+            &lt;/itemResponse&gt;</Response>
+            <ScoreInfo maxScore="1" scoreDimension="overall" scorePoint="1" scoreStatus="Scored">
+                <ScoreRationale/>
+            </ScoreInfo>
+        </Item>
         <Item responseDuration="27" pageTime="0" pageNumber="7" pageVisits="0" numberVisits="2" format="MI" adminDate="2016-10-12T21:56:15.723" clientId=""
               key="90323" bankKey="10200" position="7" contentLevel="1|S|TS07|L-4" strand="1" scoreStatus="SCORED" operational="1" dropped="0" isSelected="1" score="1"
               mimeType="text/plain" segmentId="(SBAC)SBAC-IAB-FIXED-G4M-G-MATH-4-Winter-2016-2017">

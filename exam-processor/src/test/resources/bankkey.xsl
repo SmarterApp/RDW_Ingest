@@ -106,6 +106,46 @@
     <xsl:value-of select="replace($convertedIds, 'hotTextInteraction_\d-hottext-(\d)', '$1')"/>
   </xsl:template>
 
+  <!--
+    This rule converts Equation Interaction (EQ) responses to the expected format:
+    <response>
+      <math xmlns="http://www.w3.org/1998/Math/MathML" title="50">
+        <mstyle><mn>50</mn></mstyle>
+      </math>
+    </response>
+  -->
+  <xsl:template match="Response[contains(text(),'equationInteraction_')]/text()">
+    <xsl:variable name="escapedResponse" select="replace(., '.+&lt;value&gt;(.+)&lt;/value&gt;.+', '$1', 's')"/>
+    <xsl:value-of select="trt:unescape($escapedResponse)"/>
+  </xsl:template>
+
+  <!--
+    This rule converts Grid Interaction (GI) responses to the expected format:
+    <?xml version="1.0" encoding="UTF-8"?>
+    <AnswerSet>
+      <Question id="">
+        <QuestionPart id="1">
+          <ObjectSet>
+            <AtomicObject>{AminusB(91,49)}</AtomicObject>
+            <AtomicObject>{BC(193,49)}</AtomicObject>
+            <AtomicObject>{C(299,49)}</AtomicObject>
+            <RegionGroupObject name="PartA" numselected="1">
+              <RegionObject name="Step1" isselected="false" />
+              <RegionObject name="Step2" isselected="true" />
+              <RegionObject name="Step3" isselected="false" />
+              <RegionObject name="Step4" isselected="false" />
+            </RegionGroupObject>
+          </ObjectSet>
+          <SnapPoint>70@91,361;193,361;299,361;407,361;299,345;299,377</SnapPoint>
+        </QuestionPart>
+      </Question>
+    </AnswerSet>
+  -->
+  <xsl:template match="Response[contains(text(),'gridInteraction_')]/text()">
+    <xsl:variable name="escapedResponse" select="replace(., '.+&lt;value&gt;(.+)&lt;/value&gt;.+', '$1', 's')"/>
+    <xsl:value-of select="trt:unescape($escapedResponse)"/>
+  </xsl:template>
+
 
 </xsl:stylesheet>
 
