@@ -146,6 +146,17 @@
     <xsl:value-of select="trt:unescape($escapedResponse)"/>
   </xsl:template>
 
+  <!--
+    This rule converts Short Answer / Writing Extended Response Interaction (SA|ER|WER) responses to the expected WYSIWYG format:
+    <p>This is <strong>free-entry</strong> text that <i>students</i> can:
+    <ul><li>enter</li><li>style</li><li>organize</li></ul>
+    <p>however they like.
+  -->
+  <xsl:template match="Response[contains(text(),'textEntryInteraction_')]/text()">
+    <xsl:variable name="escapedResponse" select="replace(., '.+&lt;value&gt;(.+)&lt;/value&gt;.+', '$1', 's')"/>
+    <xsl:value-of select="trt:unescape($escapedResponse)"/>
+  </xsl:template>
+
 
 </xsl:stylesheet>
 
