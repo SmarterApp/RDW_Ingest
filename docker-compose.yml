@@ -8,7 +8,7 @@
 #   $ export DATAWAREHOUSE_HOST=$(ipconfig getifaddr en0)
 # This value may have to be reset when you change networks.
 #
-# CONFIG_SERVICE_REPO - git repo url, e.g. https://gitlab.com/fairwaytech/sbac-config-repo.git
+# CONFIG_SERVICE_REPO - git repo url, e.g. https://gitlab.com/fairwaytech/rdw_config.git
 # GIT_USER - user with rights to access CONFIG_SERVICE_REPO
 # GIT_PASSWORD - password for GIT_USER
 
