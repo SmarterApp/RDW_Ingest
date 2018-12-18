@@ -9,6 +9,11 @@ server:
     max-connections: 2
     max-threads: 2
 
+# enable lifecycle endpoints for pausing and resuming migration
+endpoints:
+  restart:
+    enabled: true
+
 # A batch size of 2000 offers good performance with reasonable resource utilization (-Xmx512m). A larger batch
 # size (e.g. 4000) may improve overall performance but the resource limits need to be raised (e.g. -Xmx768m).
 migrate:

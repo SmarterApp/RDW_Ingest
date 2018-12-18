@@ -9,6 +9,11 @@ server:
     max-connections: 2
     max-threads: 2
 
+# enable lifecycle endpoints for pausing and resuming migration
+endpoints:
+  restart:
+    enabled: true
+
 cloud:
   aws:
     # there must be a default region when running locally
