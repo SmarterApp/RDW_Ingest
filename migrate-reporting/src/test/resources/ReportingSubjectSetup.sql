@@ -6,12 +6,12 @@ INSERT INTO subject(id, code, update_import_id, migrate_id) VALUES
     (-3, 'Update', -99, -99);
 
 -- add subjects' related data for the new subjects
-INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count) VALUES
-  (1, -2, 5, 2, 6),
+INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report) VALUES
+  (1, -2, 5, 2, 6, 0),
    --  to delete
-  (3, -3, 7, 2, 7),
+  (3, -3, 7, 2, 7, 1),
    -- updated entry
-  (2, -3, 3, 3, 3);
+  (2, -3, 3, 3, 3, 0);
 
 INSERT INTO subject_claim_score (id, subject_id, asmt_type_id, code, display_order, data_order) VALUES
   (-4,  -2, 3, 'Score4', 4, 1),

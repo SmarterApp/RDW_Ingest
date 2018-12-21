@@ -468,7 +468,8 @@ sql:
           s.code as subject_code,
           sat.performance_level_count,
           sat.performance_level_standard_cutoff,
-          sat.claim_score_performance_level_count
+          sat.claim_score_performance_level_count,
+          sat.target_report
         FROM subject_asmt_type sat
           JOIN asmt_type at ON at.id = sat.asmt_type_id
           JOIN subject s ON s.id = sat.subject_id
@@ -480,20 +481,22 @@ sql:
           s.code as subject_code,
           sat.performance_level_count,
           sat.performance_level_standard_cutoff,
-          sat.claim_score_performance_level_count
+          sat.claim_score_performance_level_count,
+          sat.target_report
         FROM subject_asmt_type sat
           JOIN asmt_type at ON at.id = sat.asmt_type_id
           JOIN subject s ON s.id = sat.subject_id
         WHERE sat.subject_id = :subject_id AND sat.asmt_type_id = :asmt_type_id
 
       insert: >-
-        INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count)
+        INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report)
           SELECT
             asmt_type.id,
             subject.id,
             :performance_level_count,
             :performance_level_standard_cutoff,
-            :claim_score_performance_level_count
+            :claim_score_performance_level_count,
+            :target_report
           FROM subject
             JOIN asmt_type ON asmt_type.code = :asmt_type_code
           WHERE subject.code = :subject_code
@@ -505,7 +508,8 @@ sql:
         SET
           subject_asmt_type.performance_level_count = :performance_level_count,
           subject_asmt_type.performance_level_standard_cutoff = :performance_level_standard_cutoff,
-          subject_asmt_type.claim_score_performance_level_count = :claim_score_performance_level_count
+          subject_asmt_type.claim_score_performance_level_count = :claim_score_performance_level_count,
+          subject_asmt_type.target_report = :target_report
         WHERE subject.code = :subject_code
           AND asmt_type.code = :asmt_type_code
 

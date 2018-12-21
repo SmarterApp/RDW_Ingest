@@ -16,21 +16,21 @@ UPDATE subject
 WHERE id IN (1,2);
 
 -- add subjects' related data for the new subjects
-INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count) VALUES
+INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report) VALUES
 -- NOTE: Because of the life BEFORE 'configurable subjects' the below two subjects (and the related data) are pre-loaded by default
---  (1,  1,  4, 3,    3),
---  (1,  2,  4, 3,    3),
---  (2,  1,  3, null, null),
---  (2,  2,  3, null, null),
---  (3,  1,  4, 3,    3),
---  (3,  2,  4, 3,    3),
+--  (1,  1,  4, 3,    3,    0),
+--  (1,  2,  4, 3,    3,    0),
+--  (2,  1,  3, null, null, 0),
+--  (2,  2,  3, null, null, 0),
+--  (3,  1,  4, 3,    3,    1),
+--  (3,  2,  4, 3,    3,    1),
 
-  (1, -1, 10, 3, 6),
-  (1, -2, 5, 2, 6),
+  (1, -1, 10, 3, 6, 0),
+  (1, -2, 5, 2, 6, 0),
    -- new entry
-  (1, -3, 8, 2, 7),
+  (1, -3, 8, 2, 7, 0),
    -- updated entry
-  (2, -3, 8, 2, 7);
+  (2, -3, 8, 2, 7, 0);
 
 INSERT INTO subject_claim_score (id, subject_id, asmt_type_id, code, display_order, data_order) VALUES
   (-1,  -1, 1, 'Score1',   0, 1),

@@ -4,12 +4,12 @@ INSERT INTO staging_subject (id, code, update_import_id, migrate_id, updated) VA
   (-3, 'Update', -99, -99, now());
 
 -- add subjects' related data for the new subjects
-INSERT INTO staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, migrate_id) VALUES
-  (1, -1, 10, 3, 6, -99),
+INSERT INTO staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report, migrate_id) VALUES
+  (1, -1, 10, 3, 6, false, -99),
    -- new entry
-  (1, -3, 8, 2, 7, -99),
+  (1, -3, 8, 2, 7, false, -99),
    -- updated entry
-  (2, -3, 8, 2, 7, -99);
+  (2, -3, 8, 2, 7, false, -99);
 
 INSERT INTO staging_subject_claim_score (id, subject_id, asmt_type_id, code, migrate_id) VALUES
   (-1,  -1, 1, 'Score1', -99),
