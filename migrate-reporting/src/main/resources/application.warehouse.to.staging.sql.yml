@@ -195,14 +195,15 @@ sql:
                 wsat.subject_id,
                 wsat.performance_level_count,
                 wsat.performance_level_standard_cutoff,
-                wsat.claim_score_performance_level_count
+                wsat.claim_score_performance_level_count,
+                wsat.target_report
               FROM subject_asmt_type wsat
                 JOIN subject ws ON ws.id = wsat.subject_id
               WHERE ws.created > :first_at AND ws.created <= :last_at
 
             stagingInsert: >-
-              INSERT INTO staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count) VALUES
-                 ( :asmt_type_id, :subject_id, :performance_level_count, :performance_level_standard_cutoff, :claim_score_performance_level_count)
+              INSERT INTO staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report) VALUES
+                 ( :asmt_type_id, :subject_id, :performance_level_count, :performance_level_standard_cutoff, :claim_score_performance_level_count, :target_report)
 
         subject_asmt_type_by_update_import_id:
           sql:
@@ -212,14 +213,15 @@ sql:
                 wsat.subject_id,
                 wsat.performance_level_count,
                 wsat.performance_level_standard_cutoff,
-                wsat.claim_score_performance_level_count
+                wsat.claim_score_performance_level_count,
+                wsat.target_report
               FROM subject_asmt_type wsat
                  JOIN subject ws ON ws.id = wsat.subject_id
               WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
 
             stagingInsert: >-
-               INSERT IGNORE INTO staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count) VALUES
-                 ( :asmt_type_id, :subject_id, :performance_level_count, :performance_level_standard_cutoff, :claim_score_performance_level_count)
+               INSERT IGNORE INTO staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report) VALUES
+                 ( :asmt_type_id, :subject_id, :performance_level_count, :performance_level_standard_cutoff, :claim_score_performance_level_count, :target_report)
 
         # ---------------- subject_claim_score  -----------------------------------------------
         subject_claim_score:

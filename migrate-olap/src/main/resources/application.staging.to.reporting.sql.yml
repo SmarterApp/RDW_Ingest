@@ -223,13 +223,14 @@ sql:
         subject_asmt_type:
           sql:
             insert: >-
-              INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count)
+              INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report)
                 SELECT DISTINCT
                   ssat.asmt_type_id,
                   ssat.subject_id,
                   ssat.performance_level_count,
                   ssat.performance_level_standard_cutoff,
-                  ssat.claim_score_performance_level_count
+                  ssat.claim_score_performance_level_count,
+                  ssat.target_report
                 FROM staging_subject_asmt_type ssat
                   LEFT JOIN subject_asmt_type rsat ON (rsat.subject_id = ssat.subject_id AND rsat.asmt_type_id = ssat.asmt_type_id)
                 WHERE rsat.asmt_type_id IS NULL;
@@ -239,7 +240,8 @@ sql:
               SET
                 performance_level_count  = ssat.performance_level_count,
                 performance_level_standard_cutoff = ssat.performance_level_standard_cutoff,
-                claim_score_performance_level_count = ssat.claim_score_performance_level_count
+                claim_score_performance_level_count = ssat.claim_score_performance_level_count,
+                target_report = ssat.target_report
               FROM staging_subject_asmt_type ssat
                 JOIN subject_asmt_type rsat ON (rsat.subject_id = ssat.subject_id AND rsat.asmt_type_id = ssat.asmt_type_id);
 

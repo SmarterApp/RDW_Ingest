@@ -291,6 +291,7 @@ sql:
                 wsat.performance_level_count,
                 wsat.performance_level_standard_cutoff,
                 wsat.claim_score_performance_level_count,
+                wsat.target_report,
                 ? as migrate_id
               FROM subject_asmt_type wsat
                 JOIN subject ws ON ws.id = wsat.subject_id
@@ -300,7 +301,7 @@ sql:
               LINES TERMINATED BY '\n'
 
             stagingInsert: >-
-              COPY staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, migrate_id)
+              COPY staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report, migrate_id)
                 FROM '${archive.root}/${migrate.aws.location}/subject_asmt_type.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
@@ -316,6 +317,7 @@ sql:
                 wsat.performance_level_count,
                 wsat.performance_level_standard_cutoff,
                 wsat.claim_score_performance_level_count,
+                wsat.target_report,
                 ? as migrate_id
               FROM subject_asmt_type wsat
                 JOIN subject ws ON ws.id = wsat.subject_id
@@ -325,7 +327,7 @@ sql:
               LINES TERMINATED BY '\n'
 
             stagingInsert: >-
-              COPY staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, migrate_id)
+              COPY staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report, migrate_id)
                 FROM '${archive.root}/${migrate.aws.location}/subject_asmt_type_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV

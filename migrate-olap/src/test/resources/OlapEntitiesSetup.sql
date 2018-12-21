@@ -6,20 +6,20 @@ INSERT INTO subject(id, code, updated, update_import_id, migrate_id) VALUES
   (-2, 'Old',    now(), -99, -99),
   (-3, 'Update', now(), -99, -99);
 
-INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count) VALUES
+INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report) VALUES
 -- NOTE: Because of the life BEFORE configurable subject, some subjects are pre-loaded into the report
---  (1,  1,  4, 3,    3),
---  (1,  2,  4, 3,    3),
---  (2,  1,  3, null, null),
---  (2,  2,  3, null, null),
---  (3,  1,  4, 3,    3),
---  (3,  2,  4, 3,    3),
+--  (1,  1,  4, 3,    3,    false),
+--  (1,  2,  4, 3,    3,    false),
+--  (2,  1,  3, null, null, false),
+--  (2,  2,  3, null, null, false),
+--  (3,  1,  4, 3,    3,    true),
+--  (3,  2,  4, 3,    3,    true),
 
-  (1, -2, 5, 2, 6),
+  (1, -2, 5, 2, 6, false),
    --  to delete
-  (3, -3, 7, 2, 7),
+  (3, -3, 7, 2, 7, true),
    -- updated entry
-  (2, -3, 3, 3, 3);
+  (2, -3, 3, 3, 3, false);
 
 INSERT INTO subject_claim_score (id, subject_id, asmt_type_id, code) VALUES
 -- NOTE: Because of the life BEFORE configurable subject, some subjects are pre-loaded into the report

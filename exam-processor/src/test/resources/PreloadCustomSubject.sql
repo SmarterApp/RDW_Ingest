@@ -1,8 +1,8 @@
 
 INSERT INTO subject(id, code, import_id, update_import_id) VALUES (-1, 'Custom', 1, 1);
 
-INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count) VALUES
-  (1, -1, 10, 3, 6);
+INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report) VALUES
+  (1, -1, 10, 3, 6, 0);
 
 INSERT INTO subject_claim_score (id, subject_id, asmt_type_id, code, display_order) VALUES
   (-1,  -1, 1, 'Score1', 1) ,
