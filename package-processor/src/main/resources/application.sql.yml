@@ -4,11 +4,6 @@ sql:
     findIdByCode: >-
       SELECT id FROM asmt_type WHERE code= :code
 
-  #JdbcGradeRepository
-  grade:
-    findIdByCode: >-
-      SELECT id FROM grade WHERE code= :code
-
   #JdbcAssessmentPackageRepository
   assessment:
     findOneByNaturalId: >-

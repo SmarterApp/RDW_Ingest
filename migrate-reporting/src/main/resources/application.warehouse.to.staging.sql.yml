@@ -1094,9 +1094,9 @@ sql:
                 we.migrant_status,
                 we.eng_prof_lvl,
                 we.t3_program_type,
-                we.language_code,
+                wl.code AS language_code,
                 we.prim_disability_type
-              FROM exam we
+              FROM exam we JOIN language wl ON we.language_id = wl.id
               WHERE we.created > :first_at AND we.created <= :last_at
 
             stagingInsert: >-
@@ -1140,9 +1140,9 @@ sql:
                 we.migrant_status,
                 we.eng_prof_lvl,
                 we.t3_program_type,
-                we.language_code,
+                wl.code AS language_code,
                 we.prim_disability_type
-              FROM exam we
+              FROM exam we JOIN language wl ON we.language_id = wl.id
               WHERE we.updated > :first_at AND we.updated <= :last_at AND we.updated <> we.created
 
             stagingInsert: >-
