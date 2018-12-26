@@ -1,5 +1,6 @@
 INSERT INTO grade(id, code, sequence) VALUES (-99,'99', 9),(-98 ,'98', 8);
 INSERT INTO elas(id, code) VALUES (-99, 'E99'),(-98, 'E98');
+INSERT INTO language(id, code, name) VALUES (-99, 'abc', 'lang-abc'),(-98, 'cba', 'lang-cba');
 INSERT INTO completeness(id, code) VALUES (-99, 'test99'), (-98, 'test98'),(-95, 'test95');
 INSERT INTO administration_condition(id, code) VALUES (-99,'test99'),(-98,'test98'),(-97,'test97'),(-96,'test96'),(-95, 'test95');
 INSERT INTO ethnicity(id, code) VALUES (-99,'AmericanIndianOrAlaskaNative-test'),(-98,'Asian-test');

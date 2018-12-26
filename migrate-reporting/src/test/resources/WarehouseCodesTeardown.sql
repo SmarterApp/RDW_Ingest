@@ -1,4 +1,5 @@
 DELETE FROM elas WHERE id in (-99, -98);
+DELETE FROM language WHERE id in (-99, -98);
 DELETE FROM completeness WHERE id IN (-99,-98);
 DELETE FROM administration_condition WHERE id IN (-99,-98, -97, -96);
 DELETE FROM ethnicity WHERE id IN (-99,-98);
