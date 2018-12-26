@@ -822,7 +822,7 @@ sql:
                 economic_disadvantage       = CASE WHEN se.economic_disadvantage = true THEN 1 WHEN se.economic_disadvantage = false THEN 0 ELSE 2 END,
                 migrant_status              = CASE WHEN se.migrant_status = true THEN 1 WHEN se.migrant_status = false THEN 0 ELSE 2 END,
                 elas_id                     = COALESCE(se.elas_id, 1),
-                language_id                 = COALESCE(se.language_id, 1),
+                language_id                 = COALESCE(se.language_id, 0),
                 completeness_id             = se.completeness_id,
                 administration_condition_id = se.administration_condition_id,
                 scale_score                 = se.scale_score,
