@@ -8,6 +8,7 @@ sql:
       - delete from staging_ethnicity
       - delete from staging_gender
       - delete from staging_grade
+      - delete from staging_language
       - delete from staging_school_year
       - delete from staging_subject
       - delete from staging_subject_claim_score
@@ -150,7 +151,27 @@ sql:
               DELIMITER ','
               COMPUPDATE OFF
 
-        # ------------ school_year  -------------------------------------------------------------------
+      # ------------ language  -------------------------------------------------------------------
+        language:
+          sql:
+            warehouseRead: >-
+              SELECT
+                id,
+                code
+              FROM language
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/language'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+              LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+              COPY staging_language (id, code)
+                FROM '${archive.root}/${migrate.aws.location}/language.part_00000'
+              CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+              FORMAT AS CSV
+              DELIMITER ','
+              COMPUPDATE OFF
+
+      # ------------ school_year  -------------------------------------------------------------------
         school_year:
           sql:
             warehouseRead: >-
@@ -1007,6 +1028,7 @@ sql:
                 school_year,
                 asmt_id,
                 elas_id,
+                language_id,
                 completeness_id,
                 administration_condition_id,
                 scale_score,
@@ -1037,6 +1059,7 @@ sql:
                 school_year,
                 asmt_id,
                 elas_id,
+                language_id,
                 completeness_id,
                 administration_condition_id,
                 scale_score,
@@ -1070,6 +1093,7 @@ sql:
                 school_year,
                 asmt_id,
                 elas_id,
+                language_id,
                 completeness_id,
                 administration_condition_id,
                 scale_score,
@@ -1100,6 +1124,7 @@ sql:
                 school_year,
                 asmt_id,
                 elas_id,
+                language_id,
                 completeness_id,
                 administration_condition_id,
                 scale_score,
