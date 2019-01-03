@@ -40,8 +40,10 @@ spring:
     validationQueryTimeout: 10000
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
-    maxActive: 12
     initialSize: 6
+    maxActive: 12
+    minIdle: ${spring.datasource.initialSize}
+    maxIdle: ${spring.datasource.maxActive}
     maxWait: 10000
 
   jackson:
