@@ -8,4 +8,4 @@ INSERT INTO gender(id, code) VALUES (-98, 'Male-test');
 INSERT INTO accommodation(id, code) VALUES (-98, 'code2-test');
 INSERT INTO school_year(year) VALUES (1998);
 INSERT INTO math_practice(practice, description, code) VALUES (-98, 'Reason abstractly and quantitatively', '-8');
-INSERT INTO accommodation_translation(accommodation_id, language_code, label) VALUES (-98, 'gua', 'Adios');
+INSERT INTO accommodation_translation(accommodation_id, language_code, school_year, label) VALUES (-98, 'gua', 2017, 'Adios');
