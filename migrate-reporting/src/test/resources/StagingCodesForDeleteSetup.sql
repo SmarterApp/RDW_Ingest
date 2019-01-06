@@ -8,4 +8,4 @@ INSERT INTO staging_gender(id, code) VALUES (-98, 'Male-test');
 INSERT INTO staging_accommodation(id, code) VALUES (-98, 'code2-test');
 INSERT INTO staging_school_year(year) VALUES (1998);
 INSERT INTO staging_math_practice(practice, description, code) VALUES (-98, 'Reason abstractly and quantitatively', '-8');
-INSERT INTO staging_accommodation_translation(label_code, language_code, label) VALUES ('code2-test', 'gua', 'Adios');
+INSERT INTO staging_accommodation_translation(label_code, language_code, label) VALUES ('code2-test.2017', 'gua', 'Adios');

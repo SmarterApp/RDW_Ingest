@@ -153,8 +153,8 @@ sql:
         accommodation_translation:
           sql:
             warehouseRead: >-
-              SELECT a.code AS label_code, wat.language_code AS language_code, wat.label FROM accommodation_translation AS wat
-                            JOIN accommodation a ON wat.accommodation_id=a.id
+              SELECT CONCAT(a.code, '.', wat.school_year) AS label_code, wat.language_code, wat.label
+                FROM accommodation_translation wat JOIN accommodation a ON wat.accommodation_id=a.id
 
             stagingInsert: >-
               INSERT INTO staging_accommodation_translation (label_code, language_code, label) VALUES

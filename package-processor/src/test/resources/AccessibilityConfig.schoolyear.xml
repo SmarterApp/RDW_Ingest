@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Accessibility xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schoolYear="2019">
+<!-- missing new schoolYear attribute so should fail schema check -->
+<Accessibility xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	
 	<!-- ================================================================================================= -->
 	<!-- ================================================================================================= -->

@@ -274,14 +274,13 @@ sql:
 
   #JdbcAccommodationTranslationRepository
   accommodationTranslation:
-    accommodation:
-      create: >-
-        INSERT IGNORE INTO accommodation (code) VALUES (:code)
+    createAccommodation: >-
+      INSERT IGNORE INTO accommodation (code) VALUES (:code)
 
     upsert: >-
-      INSERT INTO accommodation_translation (accommodation_id, language_code, label)
-         SELECT (SELECT id AS accommodation_id FROM accommodation WHERE code = :accCode), :languageCode, :label
-           ON DUPLICATE KEY UPDATE label=:label
+      INSERT INTO accommodation_translation (accommodation_id, language_code, school_year, label)
+         SELECT id, :languageCode, :schoolYear, :label FROM accommodation WHERE code = :accCode
+         ON DUPLICATE KEY UPDATE label=:label
 
   status:
     readTest: >-
