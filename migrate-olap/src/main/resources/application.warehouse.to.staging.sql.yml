@@ -158,7 +158,7 @@ sql:
               SELECT
                 id,
                 code
-              FROM language
+              FROM language WHERE display_order IS NOT NULL
               INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/language'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'

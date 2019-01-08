@@ -7,7 +7,7 @@ sql:
   # JdbcLanguageRepository
   language:
     findIdByCode: >-
-      SELECT id FROM language WHERE code = LOWER(:code) OR altcode = :code
+      SELECT id FROM language WHERE (code = LOWER(:code) OR altcode = :code) AND display_order IS NOT NULL
 
   # JdbcImportRepository
   import:

@@ -73,11 +73,12 @@ sql:
         language:
           sql:
             warehouseRead: >-
-              SELECT wl.id, wl.code, wl.altcode, wl.name from language wl
+              SELECT wl.id, wl.code, wl.display_order, wl.name FROM language wl
+                WHERE wl.display_order IS NOT NULL
 
             stagingInsert: >-
-              INSERT INTO staging_language (id, code, altcode, name) VALUES
-                (:id, :code, :altcode, :name)
+              INSERT INTO staging_language (id, code, display_order, name) VALUES
+                (:id, :code, :display_order, :name)
 
         # ------------ completeness  ------------------------------------------------------------
         completeness:
