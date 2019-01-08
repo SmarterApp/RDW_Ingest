@@ -50,26 +50,20 @@ sql:
       language:
         sql:
           update:  >-
-              UPDATE language rl
-                 JOIN staging_language sl ON sl.id = rl.id
-              SET
-               rl.code = sl.code,
-               rl.altcode = sl.altcode,
-               rl.name = sl.name;
+            UPDATE language rl JOIN staging_language sl ON sl.id = rl.id
+            SET
+              rl.code = sl.code,
+              rl.display_order = sl.display_order,
+              rl.name = sl.name;
 
           insert:  >-
-              INSERT INTO language (id, code, altcode, name)
-                SELECT
-                  sl.id,
-                  sl.code,
-                  sl.altcode,
-                  sl.name
-                FROM staging_language sl
-                LEFT JOIN language rl ON rl.id = sl.id
-                WHERE rl.id IS NULL;
+            INSERT INTO language (id, code, display_order, name)
+              SELECT sl.id, sl.code, sl.display_order, sl.name
+              FROM staging_language sl LEFT JOIN language rl ON rl.id = sl.id
+              WHERE rl.id IS NULL;
 
           delete: >-
-             DELETE rl FROM language rl
+            DELETE rl FROM language rl
               WHERE NOT EXISTS(SELECT sl.id FROM staging_language sl WHERE sl.id = rl.id);
 
       # ------------ completeness  -------------------------------------------------------------------

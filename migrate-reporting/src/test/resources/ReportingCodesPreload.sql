@@ -1,6 +1,6 @@
 INSERT INTO grade(id, code, sequence) VALUES (-99,'AA', 9);
 INSERT INTO elas(id, code) VALUES (-99, 'before test');
-INSERT INTO language(id, code, name) VALUES (-99, 'abc', 'before test');
+INSERT INTO language(id, code, display_order, name) VALUES (-99, 'abc', 1, 'before test');
 INSERT INTO completeness(id, code) VALUES (-99, 'before');
 INSERT INTO administration_condition(id, code) VALUES (-99,'before test');
 INSERT INTO ethnicity(id, code) VALUES (-99,'before test');
