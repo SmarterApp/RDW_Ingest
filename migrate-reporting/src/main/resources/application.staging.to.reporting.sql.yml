@@ -53,12 +53,13 @@ sql:
             UPDATE language rl JOIN staging_language sl ON sl.id = rl.id
             SET
               rl.code = sl.code,
+              rl.altcode = sl.altcode,
               rl.display_order = sl.display_order,
               rl.name = sl.name;
 
           insert:  >-
-            INSERT INTO language (id, code, display_order, name)
-              SELECT sl.id, sl.code, sl.display_order, sl.name
+            INSERT INTO language (id, code, altcode, display_order, name)
+              SELECT sl.id, sl.code, sl.altcode, sl.display_order, sl.name
               FROM staging_language sl LEFT JOIN language rl ON rl.id = sl.id
               WHERE rl.id IS NULL;
 
