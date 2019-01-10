@@ -74,7 +74,6 @@ sql:
           sql:
             warehouseRead: >-
               SELECT wl.id, wl.code, wl.altcode, wl.display_order, wl.name FROM language wl
-                WHERE wl.display_order IS NOT NULL
 
             stagingInsert: >-
               INSERT INTO staging_language (id, code, altcode, display_order, name) VALUES
