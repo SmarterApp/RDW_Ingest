@@ -8,6 +8,7 @@
         <ExamineeAttribute name="LastOrSurname" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="StudentIdentifier" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="MiddleName" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
+        <ExamineeAttribute name="AliasName" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="AlternateSSID" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="HispanicOrLatinoEthnicity" value="bad data" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="AmericanIndianOrAlaskaNative" value="bad data" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
