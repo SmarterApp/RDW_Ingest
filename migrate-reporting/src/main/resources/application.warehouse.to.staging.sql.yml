@@ -542,6 +542,7 @@ sql:
                 ws.last_or_surname,
                 ws.first_name,
                 ws.middle_name,
+                ws.alias_name,
                 ws.gender_id,
                 ws.first_entry_into_us_school_at,
                 ws.lep_entry_at,
@@ -555,9 +556,9 @@ sql:
               WHERE ws.created > :first_at AND ws.created <= :last_at
 
             stagingInsert: >-
-              INSERT INTO staging_student (id, ssid, last_or_surname, first_name, middle_name, gender_id, first_entry_into_us_school_at,
+              INSERT INTO staging_student (id, ssid, last_or_surname, first_name, middle_name, alias_name, gender_id, first_entry_into_us_school_at,
                                lep_entry_at, lep_exit_at, birthday, inferred_school_id, update_import_id, deleted, updated, migrate_id) VALUES
-                (:id, :ssid, :last_or_surname, :first_name, :middle_name, :gender_id, :first_entry_into_us_school_at,
+                (:id, :ssid, :last_or_surname, :first_name, :middle_name, :alias_name, :gender_id, :first_entry_into_us_school_at,
                               :lep_entry_at, :lep_exit_at, :birthday, :inferred_school_id, :update_import_id, :deleted, :updated, :migrate_id)
 
         student_by_update_import_id:
@@ -569,6 +570,7 @@ sql:
                 ws.last_or_surname,
                 ws.first_name,
                 ws.middle_name,
+                ws.alias_name,
                 ws.gender_id,
                 ws.first_entry_into_us_school_at,
                 ws.lep_entry_at,
@@ -582,9 +584,9 @@ sql:
               WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging_student (id, ssid, last_or_surname, first_name, middle_name, gender_id, first_entry_into_us_school_at,
+              INSERT IGNORE INTO staging_student (id, ssid, last_or_surname, first_name, middle_name, alias_name, gender_id, first_entry_into_us_school_at,
                                lep_entry_at, lep_exit_at, birthday, inferred_school_id, update_import_id, deleted, updated, migrate_id) VALUES
-                (:id, :ssid, :last_or_surname, :first_name, :middle_name, :gender_id, :first_entry_into_us_school_at,
+                (:id, :ssid, :last_or_surname, :first_name, :middle_name, :alias_name, :gender_id, :first_entry_into_us_school_at,
                               :lep_entry_at, :lep_exit_at, :birthday, :inferred_school_id, :update_import_id, :deleted, :updated, :migrate_id)
 
         # ------------ student_ethnicity  -------------------------------------------------------------------

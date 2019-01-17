@@ -1049,7 +1049,7 @@ sql:
       student:
         sql:
           insert: >-
-            INSERT INTO student (id, ssid, last_or_surname, first_name, middle_name, gender_id, gender_code,
+            INSERT INTO student (id, ssid, last_or_surname, first_name, middle_name, alias_name, gender_id, gender_code,
                                            first_entry_into_us_school_at, lep_entry_at, lep_exit_at, birthday, inferred_school_id, update_import_id, updated, migrate_id)
               SELECT
                 ss.id,
@@ -1057,6 +1057,7 @@ sql:
                 ss.last_or_surname,
                 ss.first_name,
                 ss.middle_name,
+                ss.alias_name,
                 ss.gender_id,
                 rg.code,
                 ss.first_entry_into_us_school_at,
@@ -1081,6 +1082,7 @@ sql:
               rs.last_or_surname = ss.last_or_surname,
               rs.first_name = ss.first_name,
               rs.middle_name = ss.middle_name,
+              rs.alias_name = ss.alias_name,
               rs.gender_id = ss.gender_id,
               rs.gender_code = rg.code,
               rs.first_entry_into_us_school_at = ss.first_entry_into_us_school_at,

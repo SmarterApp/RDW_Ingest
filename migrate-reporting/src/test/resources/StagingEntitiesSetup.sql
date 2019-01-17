@@ -169,12 +169,12 @@ INSERT INTO staging_percentile_score (percentile_id, percentile_rank, score, min
 
 -- ------------------------------------------ Student and Groups  ------------------------------------------------------------------------------------------------
 
- INSERT INTO staging_student (id, ssid, last_or_surname, first_name, middle_name, gender_id, first_entry_into_us_school_at, lep_entry_at,
+ INSERT INTO staging_student (id, ssid, last_or_surname, first_name, middle_name, alias_name, gender_id, first_entry_into_us_school_at, lep_entry_at,
         lep_exit_at, birthday, update_import_id, migrate_id, deleted, updated) VALUES
-   (-89, '89', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -89, -99, 0, '2017-07-18 20:14:34.000000'),
-   (-88, '88', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -88, -99, 0, '2017-07-18 20:14:34.000000'),
-   (-87, '87', 'LastName2', 'FirstName2', 'MiddleName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -87, -99, 0, '2017-07-18 20:14:34.000000'),
-   (-86, '86', 'LastName2', 'FirstName2', 'MiddleName2', null, '2012-08-14', '2012-11-13', null, '2000-01-01', -86, -99, 0, '2017-07-18 20:14:34.000000');
+   (-89, '89', 'LastName2', 'FirstName2', 'MiddleName2', 'AliasName2', -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -89, -99, 0, '2017-07-18 20:14:34.000000'),
+   (-88, '88', 'LastName2', 'FirstName2', 'MiddleName2', null, -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -88, -99, 0, '2017-07-18 20:14:34.000000'),
+   (-87, '87', 'LastName2', 'FirstName2', 'MiddleName2', null, -98, '2012-08-14', '2012-11-13', null, '2000-01-01', -87, -99, 0, '2017-07-18 20:14:34.000000'),
+   (-86, '86', 'LastName2', 'FirstName2', 'MiddleName2', null, null, '2012-08-14', '2012-11-13', null, '2000-01-01', -86, -99, 0, '2017-07-18 20:14:34.000000');
 
 INSERT INTO staging_student_ethnicity(student_id, ethnicity_id) values
     (-89,  -99),

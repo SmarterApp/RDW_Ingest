@@ -59,10 +59,10 @@ INSERT INTO percentile_score (percentile_id, percentile_rank, score, min_inclusi
   (-89, 25, 2278, 1000, 2420),(-89, 50, 2420, 2420, 2566),(-89, 75, 2566, 2566, 3000);
 
 -- ------------------------------------------ Student and Groups  ------------------------------------------------------------------------------------------------
-INSERT INTO student (id, ssid, last_or_surname, first_name, middle_name, gender_id, gender_code, first_entry_into_us_school_at, lep_entry_at,
+INSERT INTO student (id, ssid, last_or_surname, first_name, middle_name, alias_name, gender_id, gender_code, first_entry_into_us_school_at, lep_entry_at,
         lep_exit_at, birthday, update_import_id, updated, migrate_id) VALUES
-   (-11, '11', 'TestName', 'FirstName2', 'MiddleName2', -98, 'before_test', '2012-08-14', '2012-11-13', null, '2000-01-01', -5000, '2017-05-18 20:06:34.966000', -1),
-   (-89, '89', 'TestName', 'FirstName2', 'MiddleName2', -98, 'before_test', '2012-08-14', '2012-11-13', null, '2000-01-01', -5000, '2017-05-18 20:06:34.966000', -1);
+   (-11, '11', 'TestName', 'FirstName2', 'MiddleName2', 'AliasName', -98, 'before_test', '2012-08-14', '2012-11-13', null, '2000-01-01', -5000, '2017-05-18 20:06:34.966000', -1),
+   (-89, '89', 'TestName', 'FirstName2', 'MiddleName2', 'AliasName', -98, 'before_test', '2012-08-14', '2012-11-13', null, '2000-01-01', -5000, '2017-05-18 20:06:34.966000', -1);
 
 INSERT INTO student_ethnicity(student_id, ethnicity_id, ethnicity_code) values
     (-89,  -99, 'before test');
