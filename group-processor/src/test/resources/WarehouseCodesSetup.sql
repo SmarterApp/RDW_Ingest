@@ -6,6 +6,7 @@ INSERT INTO grade (id, code, name, sequence) VALUES (-99,'99','K-garten', 9),(-9
 INSERT INTO elas (id, code) VALUES (-99, 'E99'),(-98, 'E98');
 INSERT INTO completeness (id, code) VALUES (-99, 'test1'), (-98, 'test55');
 INSERT INTO administration_condition VALUES (-99,'IN-test'),(-98,'NS-test'),(-97,'SD-test'),(-96,'Valid-test');
+INSERT INTO military_connected VALUES (-99,'No'),(-98,'Active');
 INSERT INTO ethnicity VALUES (-99,'AmericanIndianOrAlaskaNative-test'),(-98,'Asian-test');
 INSERT INTO gender VALUES (-99,'Female-test'),(-98,'Male-test');
 INSERT INTO accommodation (id, code) VALUES(-99, 'code1-test'),( -98 ,'code2-test');

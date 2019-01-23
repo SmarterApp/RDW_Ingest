@@ -176,6 +176,28 @@ sql:
              DELETE ra FROM accommodation ra
               WHERE NOT EXISTS(SELECT sa.id FROM staging_accommodation sa WHERE sa.id = ra.id);
 
+      # ------------ Military Connected ---------------------------------------------------------
+      military_connected:
+        sql:
+          update:  >-
+            UPDATE military_connected rmc
+              JOIN staging_military_connected smc ON smc.id = rmc.id
+            SET
+              rmc.code = smc.code;
+
+          insert:  >-
+            INSERT INTO military_connected (id, code)
+              SELECT
+                smc.id,
+                smc.code
+              FROM staging_military_connected smc
+                LEFT JOIN military_connected rmc ON rmc.id = smc.id
+              WHERE rmc.id IS NULL;
+
+          delete: >-
+            DELETE rmc FROM military_connected rmc
+              WHERE NOT EXISTS(SELECT smc.id FROM staging_military_connected smc WHERE smc.id = rmc.id);
+
       # ------------ School Year ------------------------------------------------------------------------
       school_year:
         sql:
@@ -565,7 +587,8 @@ sql:
             INSERT INTO exam (id, grade_id, grade_code, student_id, school_id, iep, lep, section504,
                                         economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type,
                                         language_code, prim_disability_type, type_id, school_year, asmt_id, asmt_version,
-                                        opportunity, elas_code, completeness_code, administration_condition_code,
+                                        opportunity, elas_code, completeness_code,
+                                        administration_condition_code, military_connected_code,
                                         session_id, performance_level, scale_score, scale_score_std_err,
                                         update_import_id, completed_at, elas_start_at,
                                         claim1_scale_score, claim1_scale_score_std_err, claim1_category,
@@ -598,6 +621,7 @@ sql:
                 rel.code,
                 rc.code,
                 rac.code,
+                rmc.code,
                 se.session_id,
                 se.performance_level,
                 se.scale_score,
@@ -661,6 +685,7 @@ sql:
                 LEFT JOIN language rl ON rl.id = se.language_id
                 LEFT JOIN elas rel ON rel.id = se.elas_id
                 LEFT JOIN administration_condition rac ON rac.id = se.administration_condition_id
+                LEFT JOIN military_connected rmc ON rmc.id = se.military_connected_id
                 LEFT JOIN completeness rc ON rc.id = se.completeness_id
                 JOIN grade rg ON rg.id = se.grade_id
                 LEFT JOIN
@@ -678,6 +703,7 @@ sql:
               LEFT JOIN elas rel ON rel.id = se.elas_id
               LEFT JOIN completeness rc ON rc.id = se.completeness_id
               LEFT JOIN administration_condition rac ON rac.id = se.administration_condition_id
+              LEFT JOIN military_connected rmc ON rmc.id = se.military_connected_id
               JOIN grade rg ON rg.id = se.grade_id
               LEFT JOIN (
                            SELECT s.exam_id
@@ -787,6 +813,7 @@ sql:
               re.elas_code = rel.code,
               re.completeness_code = rc.code,
               re.administration_condition_code = rac.code,
+              re.military_connected_code = rmc.code,
               re.available_accommodation_codes = code.codes,
               re.updated = se.updated,
               re.migrate_id = se.migrate_id
