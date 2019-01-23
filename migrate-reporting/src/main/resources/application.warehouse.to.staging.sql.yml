@@ -4,6 +4,7 @@ sql:
     truncateStageList:
       - TRUNCATE TABLE staging_grade
       - TRUNCATE TABLE staging_elas
+      - TRUNCATE TABLE staging_military_connected
       - TRUNCATE TABLE staging_language
       - TRUNCATE TABLE staging_completeness
       - TRUNCATE TABLE staging_administration_condition
@@ -119,7 +120,17 @@ sql:
               INSERT INTO staging_gender (id, code) VALUES
                 (:id, :code)
 
-        # ------------ accommodation  -----------------------------------------------------------
+      # ------------ military_connected  ------------------------------------------------
+        military_connected:
+          sql:
+            warehouseRead: >-
+              SELECT wmc.id, wmc.code from military_connected wmc
+
+            stagingInsert: >-
+              INSERT INTO staging_military_connected (id, code) VALUES
+                (:id, :code)
+
+      # ------------ accommodation  -----------------------------------------------------------
         accommodation:
           sql:
             warehouseRead: >-
@@ -1087,6 +1098,7 @@ sql:
                 we.opportunity,
                 we.completeness_id,
                 we.administration_condition_id,
+                we.military_connected_id,
                 we.session_id,
                 we.performance_level,
                 round(we.scale_score) AS scale_score,
@@ -1113,11 +1125,11 @@ sql:
               WHERE we.created > :first_at AND we.created <= :last_at
 
             stagingInsert: >-
-              INSERT INTO staging_exam (id, type_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id,
+              INSERT INTO staging_exam (id, type_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id, military_connected_id,
                                                  session_id, performance_level, scale_score, scale_score_std_err, completed_at, deleted, update_import_id, updated,
                                                  grade_id, student_id, school_id, iep, lep, elas_id, elas_start_at, section504, economic_disadvantage, migrant_status,
                                                  eng_prof_lvl, t3_program_type, language_id, prim_disability_type, migrate_id) VALUES
-                                       (:id, :type_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id,
+                                       (:id, :type_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id, :military_connected_id,
                                                 :session_id, :performance_level, :scale_score, :scale_score_std_err, :completed_at, :deleted, :update_import_id, :updated,
                                                 :grade_id, :student_id, :school_id, :iep, :lep, :elas_id, :elas_start_at, :section504, :economic_disadvantage, :migrant_status,
                                                 :eng_prof_lvl, :t3_program_type, :language_id, :prim_disability_type, :migrate_id)
@@ -1133,6 +1145,7 @@ sql:
                 we.opportunity,
                 we.completeness_id,
                 we.administration_condition_id,
+                we.military_connected_id,
                 we.session_id,
                 we.performance_level,
                 round(we.scale_score) AS scale_score,
@@ -1159,11 +1172,11 @@ sql:
               WHERE we.updated > :first_at AND we.updated <= :last_at AND we.updated <> we.created
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging_exam (id, type_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id,
+              INSERT IGNORE INTO staging_exam (id, type_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id, military_connected_id,
                                                  session_id, performance_level, scale_score, scale_score_std_err, completed_at, deleted, update_import_id, updated,
                                                  grade_id, student_id, school_id, iep, lep, elas_id, elas_start_at, section504, economic_disadvantage, migrant_status,
                                                  eng_prof_lvl, t3_program_type, language_id, prim_disability_type, migrate_id) VALUES
-                                              (:id, :type_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id,
+                                              (:id, :type_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id, :military_connected_id,
                                                  :session_id, :performance_level, :scale_score, :scale_score_std_err, :completed_at, :deleted, :update_import_id, :updated,
                                                  :grade_id, :student_id, :school_id, :iep, :lep, :elas_id, :elas_start_at, :section504, :economic_disadvantage, :migrant_status,
                                                  :eng_prof_lvl, :t3_program_type, :language_id, :prim_disability_type, :migrate_id)

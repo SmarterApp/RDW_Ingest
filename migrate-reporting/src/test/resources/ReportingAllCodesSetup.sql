@@ -3,6 +3,7 @@ INSERT INTO elas(id, code) VALUES (-99, 'E99'),(-98, 'E98');
 INSERT INTO language(id, code, display_order, name) VALUES (-99, 'abc', 1, 'lang-abc'),(-98, 'cba', 2, 'lang-cba');
 INSERT INTO completeness(id, code) VALUES (-99, 'test99'), (-98, 'test98'),(-95, 'test95');
 INSERT INTO administration_condition(id, code) VALUES (-99,'test99'),(-98,'test98'),(-97,'test97'),(-96,'test96'),(-95, 'test95');
+INSERT INTO military_connected(id, code) VALUES (-99,'No-test'),(-98,'Active-test');
 INSERT INTO ethnicity(id, code) VALUES (-99,'AmericanIndianOrAlaskaNative-test'),(-98,'Asian-test');
 INSERT INTO gender(id, code) VALUES (-99,'Female-test'),(-98,'Male-test');
 INSERT INTO accommodation(id, code) VALUES(-99, 'code1-test'),( -98 ,'code2-test');

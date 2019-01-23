@@ -3,6 +3,7 @@ INSERT INTO elas(id, code) VALUES (-99, 'before test');
 INSERT INTO language(id, code, display_order, name) VALUES (-99, 'abc', 1, 'before test');
 INSERT INTO completeness(id, code) VALUES (-99, 'before');
 INSERT INTO administration_condition(id, code) VALUES (-99,'before test');
+INSERT INTO military_connected(id, code) VALUES (-99,'before test');
 INSERT INTO ethnicity(id, code) VALUES (-99,'before test');
 INSERT INTO gender(id, code) VALUES (-99,'before test');
 INSERT INTO accommodation(id, code) VALUES(-99, 'before test');

@@ -4,5 +4,6 @@ INSERT INTO elas(id, code) VALUES (-98, 'E98');
 INSERT INTO language(id, code, display_order, name) VALUES (-98, 'cba', 2, 'lang-cba');
 INSERT INTO completeness(id, code) VALUES (-98, 'test55');
 INSERT INTO administration_condition(id, code) VALUES (-98, 'NS-test'), (-97, 'SD-test'), (-96, 'Valid-test');
+INSERT INTO military_connected(id, code) VALUES (-98, 'Active-test');
 INSERT INTO ethnicity(id, code) VALUES (-98, 'Asian-test');
 INSERT INTO gender(id, code) VALUES (-98, 'Male-test');

@@ -157,6 +157,28 @@ sql:
               DELETE FROM language
                 WHERE NOT EXISTS(SELECT sl.id FROM staging_language sl WHERE sl.id = language.id);
 
+      # ------------ military_connected  -------------------------------------------------------------------
+        military_connected:
+          sql:
+            update:  >-
+              UPDATE military_connected
+              SET
+                code = smc.code
+              FROM staging_military_connected smc where smc.id = military_connected.id;
+
+            insert: >-
+              INSERT INTO military_connected (id, code)
+                SELECT
+                  smc.id,
+                  smc.code
+                FROM staging_military_connected smc
+                  LEFT JOIN military_connected rmc ON rmc.id = smc.id
+                WHERE rmc.id IS NULL;
+
+            delete: >-
+              DELETE FROM military_connected
+                WHERE NOT EXISTS(SELECT smc.id FROM staging_military_connected smc WHERE smc.id = military_connected.id);
+
       # ------------ school_year  -------------------------------------------------------------------
         school_year:
           sql:
@@ -602,6 +624,7 @@ sql:
                 language_id,
                 completeness_id,
                 administration_condition_id,
+                military_connected_id,
                 scale_score,
                 performance_level,
                 completed_at,
@@ -625,6 +648,7 @@ sql:
                   COALESCE(se.language_id, 0),
                   se.completeness_id,
                   se.administration_condition_id,
+                  COALESCE(se.military_connected_id, 1),
                   se.scale_score,
                   se.performance_level,
                   se.completed_at,
@@ -650,6 +674,7 @@ sql:
                 language_id                 = COALESCE(se.language_id, 0),
                 completeness_id             = se.completeness_id,
                 administration_condition_id = se.administration_condition_id,
+                military_connected_id       = COALESCE(se.military_connected_id, 1),
                 scale_score                 = se.scale_score,
                 performance_level           = se.performance_level,
                 completed_at                = se.completed_at,
@@ -777,6 +802,7 @@ sql:
                 language_id,
                 completeness_id,
                 administration_condition_id,
+                military_connected_id,
                 scale_score,
                 performance_level,
                 completed_at,
@@ -800,6 +826,7 @@ sql:
                   COALESCE(se.language_id, 0),
                   se.completeness_id,
                   se.administration_condition_id,
+                  COALESCE(se.military_connected_id, 1),
                   se.scale_score,
                   se.performance_level,
                   se.completed_at,
@@ -825,6 +852,7 @@ sql:
                 language_id                 = COALESCE(se.language_id, 0),
                 completeness_id             = se.completeness_id,
                 administration_condition_id = se.administration_condition_id,
+                military_connected_id       = COALESCE(se.military_connected_id, 1),
                 scale_score                 = se.scale_score,
                 performance_level           = se.performance_level,
                 completed_at                = se.completed_at,
@@ -896,6 +924,7 @@ sql:
                 language_id,
                 completeness_id,
                 administration_condition_id,
+                military_connected_id,
                 scale_score,
                 performance_level,
                 completed_at,
@@ -922,6 +951,7 @@ sql:
                   COALESCE(se.language_id, 0),
                   se.completeness_id,
                   se.administration_condition_id,
+                  COALESCE(se.military_connected_id, 1),
                   se.scale_score,
                   se.performance_level,
                   se.completed_at,
@@ -950,6 +980,7 @@ sql:
                 language_id                 = COALESCE(se.language_id, 0),
                 completeness_id             = se.completeness_id,
                 administration_condition_id = se.administration_condition_id,
+                military_connected_id       = COALESCE(se.military_connected_id, 1),
                 scale_score                 = se.scale_score,
                 performance_level           = se.performance_level,
                 completed_at                = se.completed_at,

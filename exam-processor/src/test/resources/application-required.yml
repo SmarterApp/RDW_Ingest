@@ -23,5 +23,6 @@ validation:
     - EconomicDisadvantageStatus
     - MigrantStatus
     - LanguageCode
+    - MilitaryConnectedStudentIndicator
     - PrimaryDisabilityType
     - Ethnicity

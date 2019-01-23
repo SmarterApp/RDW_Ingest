@@ -205,16 +205,17 @@ INSERT INTO staging_student_group (id, creator, created, school_id, school_year,
 
 -- ------------------------------------------  Exams ------------------------------------------------------------------------------------------------
 INSERT INTO  staging_exam ( id, type_id, school_year, asmt_id, asmt_version, opportunity, completeness_id,
-             administration_condition_id, session_id, performance_level, scale_score, scale_score_std_err, completed_at, update_import_id, deleted, migrate_id, updated,
+             administration_condition_id, military_connected_id, session_id, performance_level, scale_score,
+             scale_score_std_err, completed_at, update_import_id, deleted, migrate_id, updated,
              grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage,
              migrant_status, eng_prof_lvl, t3_program_type, language_id, prim_disability_type) VALUES
-(-88, 1, 1999, -99,  null, 1, -98, -98, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -89, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 'updated t3 type', 0, null),
-(-87, 1, 1999, -11,  null, 1, null, null, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null),
-(-86, 1, 1999, -11,  null, 1, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null),
+(-88, 1, 1999, -99,  null, 1, -98, -98, -98, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -89, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 'updated t3 type', 0, null),
+(-87, 1, 1999, -11,  null, 1, null, null, null, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null),
+(-86, 1, 1999, -11,  null, 1, -99, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null),
 
-(-59, 3, 1999, -59,  null, 1, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null),
-(-111,3, 1999, -111, null, 1, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null),
-(-311,3, 1999, -311, null, 1, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null);
+(-59, 3, 1999, -59,  null, 1, -99, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null),
+(-111,3, 1999, -111, null, 1, -99, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null),
+(-311,3, 1999, -311, null, 1, -99, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null);
 
 INSERT INTO staging_exam_available_accommodation (exam_id, accommodation_id) VALUES
     (-88, -98),

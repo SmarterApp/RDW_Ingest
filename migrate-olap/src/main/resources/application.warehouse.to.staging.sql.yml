@@ -9,6 +9,7 @@ sql:
       - delete from staging_gender
       - delete from staging_grade
       - delete from staging_language
+      - delete from staging_military_connected
       - delete from staging_school_year
       - delete from staging_subject
       - delete from staging_subject_claim_score
@@ -166,6 +167,26 @@ sql:
             stagingInsert: >-
               COPY staging_language (id, code)
                 FROM '${archive.root}/${migrate.aws.location}/language.part_00000'
+              CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+              FORMAT AS CSV
+              DELIMITER ','
+              COMPUPDATE OFF
+
+      # ------------ military_connected  -------------------------------------------------------------------
+        military_connected:
+          sql:
+            warehouseRead: >-
+              SELECT
+                id,
+                code
+              FROM military_connected
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/military_connected'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+              LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+              COPY staging_military_connected (id, code)
+                FROM '${archive.root}/${migrate.aws.location}/military_connected.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
@@ -1031,6 +1052,7 @@ sql:
                 language_id,
                 completeness_id,
                 administration_condition_id,
+                military_connected_id,
                 scale_score,
                 performance_level,
                 completed_at,
@@ -1062,6 +1084,7 @@ sql:
                 language_id,
                 completeness_id,
                 administration_condition_id,
+                military_connected_id,
                 scale_score,
                 performance_level,
                 completed_at,
@@ -1096,6 +1119,7 @@ sql:
                 language_id,
                 completeness_id,
                 administration_condition_id,
+                military_connected_id,
                 scale_score,
                 performance_level,
                 completed_at,
@@ -1127,6 +1151,7 @@ sql:
                 language_id,
                 completeness_id,
                 administration_condition_id,
+                military_connected_id,
                 scale_score,
                 performance_level,
                 completed_at,

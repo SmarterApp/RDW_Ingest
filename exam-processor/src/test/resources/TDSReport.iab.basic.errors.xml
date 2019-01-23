@@ -23,6 +23,7 @@
         <ExamineeAttribute name="EconomicDisadvantageStatus" value="bad data" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="MigrantStatus" value="bad data" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="LanguageCode" value="bad data" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
+        <ExamineeAttribute name="MilitaryConnectedStudentIndicator" value="bad data" context="FINAL" contextDate="2016-10-12T21:51:46.003"/>
         <ExamineeAttribute name="FirstEntryDateIntoUSSchool" value="bad data" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="LimitedEnglishProficiencyEntryDate" value="bad data" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="LEPExitDate" value="bad data" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
