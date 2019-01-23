@@ -22,6 +22,7 @@
         <ExamineeAttribute name="LEPStatus" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="Section504Status" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="EconomicDisadvantageStatus" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
+        <ExamineeAttribute name="MilitaryConnectedStudentIndicator" value="" context="FINAL" contextDate="2016-10-12T21:51:46.003"/>
         <ExamineeAttribute name="MigrantStatus" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="FirstEntryDateIntoUSSchool" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="LimitedEnglishProficiencyEntryDate" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
