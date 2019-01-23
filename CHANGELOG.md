@@ -2,7 +2,7 @@
 
 #### 1.3.0
 
-* Add (optional) student alias name.
+* Add (optional) student alias name and (optional) student military connected status.
 * Add school-year to accessibility configuration file.
 * Add language reference table and enforce primary language code.
 * Add optional flag in subject schema to disable target reports for the subject summative assessment.
