@@ -1,6 +1,6 @@
 validation:
   scaleScore:
-    min: 1500
+    min: 1000
     max: 3500
   thetaScore:
     min: -5

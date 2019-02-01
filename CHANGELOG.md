@@ -7,6 +7,7 @@
 * Add language reference table and enforce primary language code.
 * Add optional flag in subject schema to disable target reports for the subject summative assessment.
 * Add migrate endpoints for managing migrate tasks (https://github.com/SmarterApp/RDW/blob/develop/docs/API.md#task-endpoints).
+* Upgrade Spring framework and other dependencies.
 
 #### 1.2.3 - 2018-09-13
 
