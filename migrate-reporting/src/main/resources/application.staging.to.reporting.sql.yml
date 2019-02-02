@@ -651,35 +651,29 @@ sql:
                 se.updated,
                 se.migrate_id
               FROM staging_exam se
-                LEFT JOIN (
-                            SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category
-                              FROM staging_exam_claim_score s
+                LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category
+                             FROM staging_exam_claim_score s
                                INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 1
                            ) AS claim1 ON claim1.exam_id = se.id
-                LEFT JOIN (
-                            SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category
-                              FROM staging_exam_claim_score s
+                LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category
+                             FROM staging_exam_claim_score s
                                INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 2
                            ) AS claim2 ON claim2.exam_id = se.id
-                LEFT JOIN (
-                            SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category
-                              FROM staging_exam_claim_score s
+                LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category
+                             FROM staging_exam_claim_score s
                                INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 3
                            ) AS claim3 ON claim3.exam_id = se.id
-                LEFT JOIN (
-                            SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category
-                              FROM staging_exam_claim_score s
-                              INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 4
+                LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category
+                             FROM staging_exam_claim_score s
+                               INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 4
                           ) AS claim4 ON claim4.exam_id = se.id
-                LEFT JOIN (
-                            SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category
-                              FROM staging_exam_claim_score s
-                              INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 5
+                LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category
+                             FROM staging_exam_claim_score s
+                               INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 5
                           ) AS claim5 ON claim5.exam_id = se.id
-                LEFT JOIN (
-                            SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category
-                              FROM staging_exam_claim_score s
-                              INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 6
+                LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category
+                             FROM staging_exam_claim_score s
+                               INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 6
                           ) AS claim6 ON claim6.exam_id = se.id
                 LEFT JOIN exam re ON re.id = se.id
                 LEFT JOIN language rl ON rl.id = se.language_id
@@ -705,66 +699,34 @@ sql:
               LEFT JOIN administration_condition rac ON rac.id = se.administration_condition_id
               LEFT JOIN military_connected rmc ON rmc.id = se.military_connected_id
               JOIN grade rg ON rg.id = se.grade_id
-              LEFT JOIN (
-                           SELECT s.exam_id
-                             ,s.scale_score
-                             ,s.scale_score_std_err
-                             ,s.category
+              LEFT JOIN (SELECT s.exam_id ,s.scale_score ,s.scale_score_std_err ,s.category
                            FROM staging_exam_claim_score s
-                             INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id
-                                                                                AND m.data_order = 1
+                             INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 1
                          ) AS claim1 ON claim1.exam_id = se.id
-              LEFT JOIN (
-                           SELECT s.exam_id
-                             ,s.scale_score
-                             ,s.scale_score_std_err
-                             ,s.category
+              LEFT JOIN (SELECT s.exam_id ,s.scale_score ,s.scale_score_std_err ,s.category
                            FROM staging_exam_claim_score s
-                             INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id
-                                                                                AND m.data_order = 2
+                             INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 2
                          ) AS claim2 ON claim2.exam_id = se.id
-              LEFT JOIN (
-                           SELECT s.exam_id
-                             ,s.scale_score
-                             ,s.scale_score_std_err
-                             ,s.category
+              LEFT JOIN (SELECT s.exam_id ,s.scale_score ,s.scale_score_std_err ,s.category
                            FROM staging_exam_claim_score s
-                             INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id
-                                                                                AND m.data_order = 3
+                             INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 3
                          ) AS claim3 ON claim3.exam_id = se.id
-              LEFT JOIN (
-                          SELECT s.exam_id
-                            ,s.scale_score
-                            ,s.scale_score_std_err
-                            ,s.category
-                          FROM staging_exam_claim_score s
-                            INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id
-                                                                               AND m.data_order = 4
+              LEFT JOIN (SELECT s.exam_id ,s.scale_score ,s.scale_score_std_err ,s.category
+                           FROM staging_exam_claim_score s
+                             INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 4
                         ) AS claim4 ON claim4.exam_id = se.id
-              LEFT JOIN (
-                          SELECT s.exam_id
-                            ,s.scale_score
-                            ,s.scale_score_std_err
-                            ,s.category
-                          FROM staging_exam_claim_score s
-                            INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id
-                                                                               AND m.data_order = 5
+              LEFT JOIN (SELECT s.exam_id ,s.scale_score ,s.scale_score_std_err ,s.category
+                           FROM staging_exam_claim_score s
+                             INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 5
                         ) AS claim5 ON claim5.exam_id = se.id
-              LEFT JOIN (
-                          SELECT s.exam_id
-                            ,s.scale_score
-                            ,s.scale_score_std_err
-                            ,s.category
-                          FROM staging_exam_claim_score s
-                            INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id
-                                                                               AND m.data_order = 6
+              LEFT JOIN (SELECT s.exam_id ,s.scale_score ,s.scale_score_std_err ,s.category
+                           FROM staging_exam_claim_score s
+                             INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 6
                         ) AS claim6 ON claim6.exam_id = se.id
-
-              LEFT JOIN
-                      (SELECT seaa.exam_id as exam_id, GROUP_CONCAT(ra.code ORDER BY ra.id SEPARATOR '|') AS codes
-                          FROM staging_exam_available_accommodation seaa
-                            JOIN accommodation ra ON ra.id = seaa.accommodation_id
-                          GROUP BY seaa.exam_id
+              LEFT JOIN (SELECT seaa.exam_id as exam_id, GROUP_CONCAT(ra.code ORDER BY ra.id SEPARATOR '|') AS codes
+                           FROM staging_exam_available_accommodation seaa
+                             JOIN accommodation ra ON ra.id = seaa.accommodation_id
+                           GROUP BY seaa.exam_id
                       ) AS code ON code.exam_id = se.id
             SET
               re.grade_id = se.grade_id,
