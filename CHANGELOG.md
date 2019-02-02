@@ -2,6 +2,8 @@
 
 #### 1.3.0
 
+* Add (optional) data order to subject configuration.
+* Fix problems with ingest of item-less assessment packages.
 * Add (optional) student alias name and (optional) student military connected status.
 * Add school-year to accessibility configuration file.
 * Add language reference table and enforce primary language code.
