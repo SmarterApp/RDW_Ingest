@@ -1,6 +1,9 @@
 ## Change Log
 
-#### 1.3.0
+#### 1.3.1
+
+
+#### 1.3.0 - 2019-02-05
 
 * Add (optional) data order to subject configuration.
 * Fix problems with ingest of item-less assessment packages.
