@@ -1,0 +1,2 @@
+AssessmentId,AssessmentName,AssessmentSubject,AssessmentGrade,AssessmentType,AssessmentSubtype,AssessmentLabel,AssessmentVersion,AcademicYear,ScaledLow1,ScaledHigh1,ScaledLow2,ScaledHigh2,ScaledLow3,ScaledHigh3,ScaledLow4,ScaledHigh4,ScaledLow5,ScaledHigh5,ScaledLow6,ScaledHigh6
+(SBAC)SBAC-IAB-FIXED-G11E-BriefWrites-ELA-11-Winter-2016-2017,SBAC-IAB-FIXED-G11E-BriefWrites-ELA-11,ELA,11,interim,IAB,ELA IAB G11 BriefWrites,9832,2017,2300,2490,2490,2580,2580,2680,2680,2800,,,,

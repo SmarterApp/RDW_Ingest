@@ -135,7 +135,51 @@ sql:
               DELETE FROM grade
                 WHERE NOT EXISTS(SELECT sg.id FROM staging_grade sg WHERE sg.id = grade.id);
 
-       # ------------ school_year  -------------------------------------------------------------------
+      # ------------ language  -------------------------------------------------------------------
+        language:
+          sql:
+            update:  >-
+              UPDATE language
+                SET
+                  code = sl.code
+                FROM staging_language sl where sl.id = language.id;
+
+            insert: >-
+              INSERT INTO language (id, code)
+                SELECT
+                  sl.id,
+                  sl.code
+                FROM staging_language sl
+                  LEFT JOIN language rl ON rl.id = sl.id
+                WHERE rl.id IS NULL;
+
+            delete: >-
+              DELETE FROM language
+                WHERE NOT EXISTS(SELECT sl.id FROM staging_language sl WHERE sl.id = language.id);
+
+      # ------------ military_connected  -------------------------------------------------------------------
+        military_connected:
+          sql:
+            update:  >-
+              UPDATE military_connected
+              SET
+                code = smc.code
+              FROM staging_military_connected smc where smc.id = military_connected.id;
+
+            insert: >-
+              INSERT INTO military_connected (id, code)
+                SELECT
+                  smc.id,
+                  smc.code
+                FROM staging_military_connected smc
+                  LEFT JOIN military_connected rmc ON rmc.id = smc.id
+                WHERE rmc.id IS NULL;
+
+            delete: >-
+              DELETE FROM military_connected
+                WHERE NOT EXISTS(SELECT smc.id FROM staging_military_connected smc WHERE smc.id = military_connected.id);
+
+      # ------------ school_year  -------------------------------------------------------------------
         school_year:
           sql:
             update:  >-
@@ -223,13 +267,14 @@ sql:
         subject_asmt_type:
           sql:
             insert: >-
-              INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count)
+              INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report)
                 SELECT DISTINCT
                   ssat.asmt_type_id,
                   ssat.subject_id,
                   ssat.performance_level_count,
                   ssat.performance_level_standard_cutoff,
-                  ssat.claim_score_performance_level_count
+                  ssat.claim_score_performance_level_count,
+                  ssat.target_report
                 FROM staging_subject_asmt_type ssat
                   LEFT JOIN subject_asmt_type rsat ON (rsat.subject_id = ssat.subject_id AND rsat.asmt_type_id = ssat.asmt_type_id)
                 WHERE rsat.asmt_type_id IS NULL;
@@ -239,7 +284,8 @@ sql:
               SET
                 performance_level_count  = ssat.performance_level_count,
                 performance_level_standard_cutoff = ssat.performance_level_standard_cutoff,
-                claim_score_performance_level_count = ssat.claim_score_performance_level_count
+                claim_score_performance_level_count = ssat.claim_score_performance_level_count,
+                target_report = ssat.target_report
               FROM staging_subject_asmt_type ssat
                 JOIN subject_asmt_type rsat ON (rsat.subject_id = ssat.subject_id AND rsat.asmt_type_id = ssat.asmt_type_id);
 
@@ -575,8 +621,10 @@ sql:
                 economic_disadvantage,
                 migrant_status,
                 elas_id,
+                language_id,
                 completeness_id,
                 administration_condition_id,
+                military_connected_id,
                 scale_score,
                 performance_level,
                 completed_at,
@@ -597,8 +645,10 @@ sql:
                   CASE WHEN se.economic_disadvantage = true THEN 1 WHEN se.economic_disadvantage = false THEN 0 ELSE 2 END,
                   CASE WHEN se.migrant_status = true THEN 1 WHEN se.migrant_status = false THEN 0 ELSE 2 END,
                   COALESCE(se.elas_id, 1),
+                  COALESCE(se.language_id, 0),
                   se.completeness_id,
                   se.administration_condition_id,
+                  COALESCE(se.military_connected_id, 1),
                   se.scale_score,
                   se.performance_level,
                   se.completed_at,
@@ -621,8 +671,10 @@ sql:
                 economic_disadvantage       = CASE WHEN se.economic_disadvantage = true THEN 1 WHEN se.economic_disadvantage = false THEN 0 ELSE 2 END,
                 migrant_status              = CASE WHEN se.migrant_status = true THEN 1 WHEN se.migrant_status = false THEN 0 ELSE 2 END,
                 elas_id                     = COALESCE(se.elas_id, 1),
+                language_id                 = COALESCE(se.language_id, 0),
                 completeness_id             = se.completeness_id,
                 administration_condition_id = se.administration_condition_id,
+                military_connected_id       = COALESCE(se.military_connected_id, 1),
                 scale_score                 = se.scale_score,
                 performance_level           = se.performance_level,
                 completed_at                = se.completed_at,
@@ -747,8 +799,10 @@ sql:
                 economic_disadvantage,
                 migrant_status,
                 elas_id,
+                language_id,
                 completeness_id,
                 administration_condition_id,
+                military_connected_id,
                 scale_score,
                 performance_level,
                 completed_at,
@@ -769,8 +823,10 @@ sql:
                   CASE WHEN se.economic_disadvantage = true THEN 1 WHEN se.economic_disadvantage = false THEN 0 ELSE 2 END,
                   CASE WHEN se.migrant_status = true THEN 1 WHEN se.migrant_status = false THEN 0 ELSE 2 END,
                   COALESCE(se.elas_id, 1),
+                  COALESCE(se.language_id, 0),
                   se.completeness_id,
                   se.administration_condition_id,
+                  COALESCE(se.military_connected_id, 1),
                   se.scale_score,
                   se.performance_level,
                   se.completed_at,
@@ -793,8 +849,10 @@ sql:
                 economic_disadvantage       = CASE WHEN se.economic_disadvantage = true THEN 1 WHEN se.economic_disadvantage = false THEN 0 ELSE 2 END,
                 migrant_status              = CASE WHEN se.migrant_status = true THEN 1 WHEN se.migrant_status = false THEN 0 ELSE 2 END,
                 elas_id                     = COALESCE(se.elas_id, 1),
+                language_id                 = COALESCE(se.language_id, 0),
                 completeness_id             = se.completeness_id,
                 administration_condition_id = se.administration_condition_id,
+                military_connected_id       = COALESCE(se.military_connected_id, 1),
                 scale_score                 = se.scale_score,
                 performance_level           = se.performance_level,
                 completed_at                = se.completed_at,
@@ -863,8 +921,10 @@ sql:
                 economic_disadvantage,
                 migrant_status,
                 elas_id,
+                language_id,
                 completeness_id,
                 administration_condition_id,
+                military_connected_id,
                 scale_score,
                 performance_level,
                 completed_at,
@@ -888,8 +948,10 @@ sql:
                   CASE WHEN se.economic_disadvantage = true THEN 1 WHEN se.economic_disadvantage = false THEN 0 ELSE 2 END,
                   CASE WHEN se.migrant_status = true THEN 1 WHEN se.migrant_status = false THEN 0 ELSE 2 END,
                   COALESCE(se.elas_id, 1),
+                  COALESCE(se.language_id, 0),
                   se.completeness_id,
                   se.administration_condition_id,
+                  COALESCE(se.military_connected_id, 1),
                   se.scale_score,
                   se.performance_level,
                   se.completed_at,
@@ -915,8 +977,10 @@ sql:
                 economic_disadvantage       = CASE WHEN se.economic_disadvantage = true THEN 1 WHEN se.economic_disadvantage = false THEN 0 ELSE 2 END,
                 migrant_status              = CASE WHEN se.migrant_status = true THEN 1 WHEN se.migrant_status = false THEN 0 ELSE 2 END,
                 elas_id                     = COALESCE(se.elas_id, 1),
+                language_id                 = COALESCE(se.language_id, 0),
                 completeness_id             = se.completeness_id,
                 administration_condition_id = se.administration_condition_id,
+                military_connected_id       = COALESCE(se.military_connected_id, 1),
                 scale_score                 = se.scale_score,
                 performance_level           = se.performance_level,
                 completed_at                = se.completed_at,

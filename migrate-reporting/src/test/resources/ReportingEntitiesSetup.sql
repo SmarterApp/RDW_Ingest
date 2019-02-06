@@ -59,10 +59,10 @@ INSERT INTO percentile_score (percentile_id, percentile_rank, score, min_inclusi
   (-89, 25, 2278, 1000, 2420),(-89, 50, 2420, 2420, 2566),(-89, 75, 2566, 2566, 3000);
 
 -- ------------------------------------------ Student and Groups  ------------------------------------------------------------------------------------------------
-INSERT INTO student (id, ssid, last_or_surname, first_name, middle_name, gender_id, gender_code, first_entry_into_us_school_at, lep_entry_at,
+INSERT INTO student (id, ssid, last_or_surname, first_name, middle_name, alias_name, gender_id, gender_code, first_entry_into_us_school_at, lep_entry_at,
         lep_exit_at, birthday, update_import_id, updated, migrate_id) VALUES
-   (-11, '11', 'TestName', 'FirstName2', 'MiddleName2', -98, 'before_test', '2012-08-14', '2012-11-13', null, '2000-01-01', -5000, '2017-05-18 20:06:34.966000', -1),
-   (-89, '89', 'TestName', 'FirstName2', 'MiddleName2', -98, 'before_test', '2012-08-14', '2012-11-13', null, '2000-01-01', -5000, '2017-05-18 20:06:34.966000', -1);
+   (-11, '11', 'TestName', 'FirstName2', 'MiddleName2', 'AliasName', -98, 'before_test', '2012-08-14', '2012-11-13', null, '2000-01-01', -5000, '2017-05-18 20:06:34.966000', -1),
+   (-89, '89', 'TestName', 'FirstName2', 'MiddleName2', 'AliasName', -98, 'before_test', '2012-08-14', '2012-11-13', null, '2000-01-01', -5000, '2017-05-18 20:06:34.966000', -1);
 
 INSERT INTO student_ethnicity(student_id, ethnicity_id, ethnicity_code) values
     (-89,  -99, 'before test');
@@ -78,23 +78,24 @@ INSERT INTO user_student_group (student_group_id, user_login) VALUES
 
 -- ------------------------------------------ Exams ---------------------------------------------------------------------------------------------
 
-INSERT INTO  exam (id, type_id, school_year, asmt_id, asmt_version, opportunity, administration_condition_code, session_id, performance_level,
-                                scale_score, scale_score_std_err, completed_at, update_import_id, grade_id, student_id, school_id,
-                                iep, lep, section504, economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type,
+INSERT INTO  exam (id, type_id, school_year, asmt_id, asmt_version, opportunity, administration_condition_code,
+                                military_connected_code, session_id, performance_level, scale_score, scale_score_std_err,
+                                completed_at, update_import_id, grade_id, student_id, school_id, iep, lep, section504,
+                                economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type,
                                 language_code, prim_disability_type, completeness_code, grade_code,
                                 claim1_scale_score, claim1_scale_score_std_err,claim1_category,
                                 claim2_scale_score, claim2_scale_score_std_err,claim2_category,
                                 claim3_scale_score, claim3_scale_score_std_err,claim3_category,
                                 claim4_scale_score, claim4_scale_score_std_err,claim4_category,
                                 updated, migrate_id) VALUES
-(-88, 1,  1999, -99,  null, 1, 'before test', 'test', 1, 2145, 0.17, '2016-08-14', -88, -98, -89, -1, 1, 1, 0, 0, 1,
+(-88, 1,  1999, -99,  null, 1, 'before test', 'before test', 'test', 1, 2145, 0.17, '2016-08-14', -88, -98, -89, -1, 1, 1, 0, 0, 1,
   'test', 'test', 'eng', null, 'before', '98', 2000, 0.11, 1, 2100, 0.12, 2, 2500, 0.13, 3, 3000, .15, 4, '2017-07-18 19:06:07.966000', -1),
 
-(-59,  3, 1999, -59,   null, 1, 'before test', 'test', 1, 2145, 0.17, '2016-08-14', -88, -98, -11, -1, 1, 1, 0, 0, 1,
+(-59,  3, 1999, -59,   null, 1, 'before test', 'before test', 'test', 1, 2145, 0.17, '2016-08-14', -88, -98, -11, -1, 1, 1, 0, 0, 1,
   'test', 'test', 'eng', null, 'before', '98', 2000, 0.11, 1, 2100, 0.12, 2, 2500, 0.13, 3, 3000, .15, 4, '2017-07-18 19:06:07.966000', -1),
-(-111, 3, 1999, -111,  null, 1, 'before test', 'test', 1, 2145, 0.17, '2016-08-14', -88, -98, -11, -1, 1, 1, 0, 0, 1,
+(-111, 3, 1999, -111,  null, 1, 'before test', 'before test', 'test', 1, 2145, 0.17, '2016-08-14', -88, -98, -11, -1, 1, 1, 0, 0, 1,
   'test', 'test', 'eng', null, 'before', '98', 2000, 0.11, 1, 2100, 0.12, 2, 2500, 0.13, 3, 3000, .15, 4, '2017-07-18 19:06:07.966000', -1),
-(-311, 3, 1999, -311,  null, 1, 'before test', 'test', 1, 2145, 0.17, '2016-08-14', -88, -98, -11, -1, 1, 1, 0, 0, 1,
+(-311, 3, 1999, -311,  null, 1, 'before test', 'before test', 'test', 1, 2145, 0.17, '2016-08-14', -88, -98, -11, -1, 1, 1, 0, 0, 1,
   'test', 'test', 'eng', null, 'before', '98', 2000, 0.11, 1, 2100, 0.12, 2, 2500, 0.13, 3, 3000, .15, 4, '2017-07-18 19:06:07.966000', -1);
 
 INSERT INTO exam_available_accommodation (exam_id, accommodation_id) VALUES

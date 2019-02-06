@@ -43,7 +43,6 @@ Use feature branches off of `develop` for all new features. Use a prefix of `fea
 For example, the new shoesize feature work would be in `feature/shoesize`. Create pull requests from the feature
 branch to `develop` to solicit code reviews and feedback. Once approved use `squash and merge` into `develop`.
 
-
 ##### Developing with RDW_Schema
 If you are making changes within a standalone clone of RDW_Schema and want to test RDW_Ingest with the local changes to
 the schema, then all you have to do is install the changes to RDW_Schema that you have made, and tell ingest to use the 
@@ -57,6 +56,14 @@ and then run the integration tests as usual, but using the local SNAPSHOT versio
 # under the RDW_Ingest directory...
 RDW_Ingest$ ./gradlew build it -Pschema=1.1.0-SNAPSHOT
 ```
+
+### Resource Requirements
+As changes are made to the code, the resulting services will change their resource requirements. Since these are
+documented for the users, e.g. https://github.com/SmarterApp/RDW/blob/develop/docs/Runbook.md#import-service, it is
+important to keep them current. This isn't too hard to do using Native Memory Tracking (NMT). Please refer to
+https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/tooldescr007.html to calculate the off-heap
+memory utilization.
+
 
 ### Running
 

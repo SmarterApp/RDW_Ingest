@@ -8,6 +8,8 @@ sql:
       - delete from staging_ethnicity
       - delete from staging_gender
       - delete from staging_grade
+      - delete from staging_language
+      - delete from staging_military_connected
       - delete from staging_school_year
       - delete from staging_subject
       - delete from staging_subject_claim_score
@@ -150,7 +152,47 @@ sql:
               DELIMITER ','
               COMPUPDATE OFF
 
-        # ------------ school_year  -------------------------------------------------------------------
+      # ------------ language  -------------------------------------------------------------------
+        language:
+          sql:
+            warehouseRead: >-
+              SELECT
+                id,
+                code
+              FROM language
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/language'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+              LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+              COPY staging_language (id, code)
+                FROM '${archive.root}/${migrate.aws.location}/language.part_00000'
+              CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+              FORMAT AS CSV
+              DELIMITER ','
+              COMPUPDATE OFF
+
+      # ------------ military_connected  -------------------------------------------------------------------
+        military_connected:
+          sql:
+            warehouseRead: >-
+              SELECT
+                id,
+                code
+              FROM military_connected
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/military_connected'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+              LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+              COPY staging_military_connected (id, code)
+                FROM '${archive.root}/${migrate.aws.location}/military_connected.part_00000'
+              CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+              FORMAT AS CSV
+              DELIMITER ','
+              COMPUPDATE OFF
+
+      # ------------ school_year  -------------------------------------------------------------------
         school_year:
           sql:
             warehouseRead: >-
@@ -291,6 +333,7 @@ sql:
                 wsat.performance_level_count,
                 wsat.performance_level_standard_cutoff,
                 wsat.claim_score_performance_level_count,
+                wsat.target_report,
                 ? as migrate_id
               FROM subject_asmt_type wsat
                 JOIN subject ws ON ws.id = wsat.subject_id
@@ -300,7 +343,7 @@ sql:
               LINES TERMINATED BY '\n'
 
             stagingInsert: >-
-              COPY staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, migrate_id)
+              COPY staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report, migrate_id)
                 FROM '${archive.root}/${migrate.aws.location}/subject_asmt_type.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
@@ -316,6 +359,7 @@ sql:
                 wsat.performance_level_count,
                 wsat.performance_level_standard_cutoff,
                 wsat.claim_score_performance_level_count,
+                wsat.target_report,
                 ? as migrate_id
               FROM subject_asmt_type wsat
                 JOIN subject ws ON ws.id = wsat.subject_id
@@ -325,7 +369,7 @@ sql:
               LINES TERMINATED BY '\n'
 
             stagingInsert: >-
-              COPY staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, migrate_id)
+              COPY staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report, migrate_id)
                 FROM '${archive.root}/${migrate.aws.location}/subject_asmt_type_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
@@ -1005,8 +1049,10 @@ sql:
                 school_year,
                 asmt_id,
                 elas_id,
+                language_id,
                 completeness_id,
                 administration_condition_id,
+                military_connected_id,
                 scale_score,
                 performance_level,
                 completed_at,
@@ -1035,8 +1081,10 @@ sql:
                 school_year,
                 asmt_id,
                 elas_id,
+                language_id,
                 completeness_id,
                 administration_condition_id,
+                military_connected_id,
                 scale_score,
                 performance_level,
                 completed_at,
@@ -1068,8 +1116,10 @@ sql:
                 school_year,
                 asmt_id,
                 elas_id,
+                language_id,
                 completeness_id,
                 administration_condition_id,
+                military_connected_id,
                 scale_score,
                 performance_level,
                 completed_at,
@@ -1098,8 +1148,10 @@ sql:
                 school_year,
                 asmt_id,
                 elas_id,
+                language_id,
                 completeness_id,
                 administration_condition_id,
+                military_connected_id,
                 scale_score,
                 performance_level,
                 completed_at,

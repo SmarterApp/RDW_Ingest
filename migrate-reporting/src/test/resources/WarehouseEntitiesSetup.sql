@@ -16,13 +16,13 @@ UPDATE subject
 WHERE id IN (1,2);
 
 -- add subjects' related data for the new subjects
-INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count) VALUES
-  (1, -1, 10, 3, 6),
-  (1, -2, 5, 2, 6),
+INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report) VALUES
+  (1, -1, 10, 3, 6, 0),
+  (1, -2, 5, 2, 6, 0),
    -- new entry
-  (1, -3, 8, 2, 7),
+  (1, -3, 8, 2, 7, 0),
    -- updated entry
-  (2, -3, 8, 2, 7);
+  (2, -3, 8, 2, 7, 0);
 
 INSERT INTO subject_claim_score (id, subject_id, asmt_type_id, code, display_order, data_order) VALUES
   (-1,  -1, 1, 'Score1',   0, 1),
@@ -264,18 +264,18 @@ INSERT INTO user_student_group (student_group_id, user_login) VALUES
   (-91, 'dwtest@example.com-91-2');
 
 INSERT INTO exam ( id, type_id, school_year, asmt_id, asmt_version, opportunity, completeness_id, elas_id, elas_start_at,
-                    administration_condition_id, session_id, performance_level, scale_score, scale_score_std_err, completed_at,
-                    import_id, update_import_id, deleted, created, updated,
+                    administration_condition_id, military_connected_id, session_id, performance_level, scale_score, scale_score_std_err,
+                    completed_at, import_id, update_import_id, deleted, created, updated,
                     grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage,
-                    migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type) VALUES
-  (-88, 1, 1999,  -99,  null, 1, 1,  null, null,        1, 'session', 1, 2145, 0.17,   '2016-08-14', -5000, -88, 1,'2017-05-18 19:05:33.967000', '2017-07-18 19:06:07.966000', -98, -89, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
-  (-87, 1, 1999,  -98,  null, 1, 1,  -99, '2014-08-01', 1, 'session', 1, null, null,   '2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
-  (-86, 2, 1999,  -11,  null, 1, 1,  -98, '2015-08-01', 1, 'session', 1, null, null,   '2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
-  (-85, 2, 1999,  -11,  null, 1, 1,  null, null,        1, 'session', 1, 2145, 0.17,   '2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
+                    migrant_status, eng_prof_lvl, t3_program_type, language_id, prim_disability_type) VALUES
+  (-88, 1, 1999,  -99,  null, 1, 1,  null, null,        1, 1, 'session', 1, 2145, 0.17,   '2016-08-14', -5000, -88, 1,'2017-05-18 19:05:33.967000', '2017-07-18 19:06:07.966000', -98, -89, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null),
+  (-87, 1, 1999,  -98,  null, 1, 1,  -99, '2014-08-01', 1, 1, 'session', 1, null, null,   '2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null),
+  (-86, 2, 1999,  -11,  null, 1, 1,  -98, '2015-08-01', 1, 1, 'session', 1, null, null,   '2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null),
+  (-85, 2, 1999,  -11,  null, 1, 1,  null, null,        1, 1, 'session', 1, 2145, 0.17,   '2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null),
 
-  (-59,  3, 1999, -59,  null, 1, 1, -98,   null,        1, 'session', 1, null, null,   '2016-08-14', -88, -88, 1, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
-  (-111, 3, 1999, -111, null, 1, 1, -98,   null,        1, 'session', 1, null, null,   '2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
-  (-311, 3, 1999, -311, null, 1, 1, -98,   null,        1, 'session', null, null, null,'2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null);
+  (-59,  3, 1999, -59,  null, 1, 1, -98,   null,        1, 1, 'session', 1, null, null,   '2016-08-14', -88, -88, 1, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null),
+  (-111, 3, 1999, -111, null, 1, 1, -98,   null,        1, 1, 'session', 1, null, null,   '2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null),
+  (-311, 3, 1999, -311, null, 1, 1, -98,   null,        1, 1, 'session', null, null, null,'2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null);
 
 INSERT INTO exam_available_accommodation (exam_id, accommodation_id) VALUES
   (-88, -98),

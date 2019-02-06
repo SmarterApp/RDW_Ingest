@@ -15,8 +15,9 @@ sql:
         UPDATE migrate SET status = :status
           WHERE id = :id
 
-      lastStatus: >-
-        SELECT status FROM migrate ORDER BY id DESC LIMIT 1
+      findLast: >-
+        SELECT id, job_id, status, first_at, last_at, size, migrate_codes, migrate_embargo
+          FROM migrate ORDER BY id DESC LIMIT 1
 
   warehouse:
     import:

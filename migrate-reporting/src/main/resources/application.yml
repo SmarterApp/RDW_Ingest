@@ -9,6 +9,11 @@ server:
     max-connections: 2
     max-threads: 2
 
+# enable lifecycle endpoints for pausing and resuming migration
+endpoints:
+  restart:
+    enabled: true
+
 # A batch size of 2000 offers good performance with reasonable resource utilization (-Xmx512m). A larger batch
 # size (e.g. 4000) may improve overall performance but the resource limits need to be raised (e.g. -Xmx768m).
 migrate:
@@ -38,8 +43,10 @@ spring:
     validationQueryTimeout: 10000
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
-    maxActive: 10
     initialSize: 4
+    maxActive: 10
+    minIdle: ${spring.reporting_datasource.initialSize}
+    maxIdle: ${spring.reporting_datasource.maxActive}
 
   warehouse_datasource:
     url: "\
@@ -58,8 +65,10 @@ spring:
     validationQueryTimeout: 10000
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
-    maxActive: 10
     initialSize: 4
+    maxActive: 10
+    minIdle: ${spring.warehouse_datasource.initialSize}
+    maxIdle: ${spring.warehouse_datasource.maxActive}
 
   batch:
     job:

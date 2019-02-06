@@ -7,7 +7,7 @@
   <!-- Add target scores measureOf="1-IT|10-11", measureOf="2-W|8-11" -->
   <!-- Delete item key="10003" -->
   <!-- Change item key="10004" -->
-  <!-- Add MiddleName -->
+  <!-- Add MiddleName, AliasName -->
   <!-- Add ethnicity White, Filipino -->
   <Test academicYear="2018" assessmentType="Interim" assessmentVersion="11111" bankKey="777" contract="MOCK" grade="11"
         mode="online" name="(naturalId)MOCK-ICA-G11-2017-2018" subject="ELA"
@@ -20,6 +20,7 @@
     <ExamineeAttribute context="FINAL" contextDate="2018-05-01T08:05:00.000000" name="Birthdate" value="2001-06-23"/>
     <ExamineeAttribute context="FINAL" contextDate="2018-05-01T08:05:00.000000" name="FirstName" value="Gladys"/>
     <ExamineeAttribute context="FINAL" contextDate="2018-05-01T08:05:00.000000" name="MiddleName" value="Ruth"/>
+    <ExamineeAttribute context="FINAL" contextDate="2018-05-01T08:05:00.000000" name="AliasName" value="Ruth"/>
     <ExamineeAttribute context="FINAL" contextDate="2018-05-01T08:05:00.000000" name="LastOrSurname" value="Durrant"/>
     <ExamineeAttribute context="FINAL" contextDate="2018-05-01T08:05:00.000000" name="Sex" value="Female"/>
     <ExamineeAttribute context="FINAL" contextDate="2018-05-01T08:05:00.000000" name="GradeLevelWhenAssessed" value="11"/>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Accessibility xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schoolYear="2018">
+	
+	<!-- ================================================================================================= -->
+	<!-- ================================================================================================= -->
+	<!-- MASTER RESOURCE FAMILY -->
+	<!-- ================================================================================================= -->
+	<!-- ================================================================================================= -->
+	
+	<MasterResourceFamily>
+
+		<MultiSelectResource>
+			<Code>NonEmbeddedAccommodations</Code>
+			<Order>32</Order>
+			<DefaultSelection>NEA0</DefaultSelection>
+      <ResourceType>Accommodation</ResourceType>
+			<Text>
+				<Language>eng</Language>
+				<Label>Non-Embedded Accommodations</Label>
+			</Text>
+			<Selection>
+				<Code>NEA0</Code>
+				<Order>1</Order>
+				<MutuallyExclusive/>
+				<Text>
+					<Language>eng</Language>
+					<Label>None 2018</Label>
+				</Text>
+			</Selection>
+			<Selection>
+				<Code>Test</Code>
+				<Order>11</Order>
+				<Text>
+					<Language>eng</Language>
+					<Label>Test 2018</Label>
+				</Text>
+			</Selection>
+		</MultiSelectResource>
+		
+	</MasterResourceFamily>
+
+</Accessibility>

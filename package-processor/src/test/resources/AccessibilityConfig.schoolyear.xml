@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- missing new schoolYear attribute so should fail schema check -->
+<Accessibility xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	
+	<!-- ================================================================================================= -->
+	<!-- ================================================================================================= -->
+	<!-- MASTER RESOURCE FAMILY -->
+	<!-- ================================================================================================= -->
+	<!-- ================================================================================================= -->
+	
+	<MasterResourceFamily>
+
+		<SingleSelectResource>
+			<Code>AmericanSignLanguage</Code>
+			<Order>1</Order>
+			<DefaultSelection/>
+      <ResourceType>Accommodation</ResourceType>
+			<Text>
+				<Language>eng</Language>
+				<Label>American Sign Language</Label>
+				<Description>Some students who are deaf or hard of hearing and who typically use ASL may need this accommodation when accessing text-based content in the assessment. The use of this accommodation may result in the student needing additional overall time to complete the assessment. For many students who are deaf or hard of hearing, viewing signs is the only way to access information presented orally. It is important to note, however, that some students who are hard of hearing will be able to listen to information presented orally if provided with appropriate amplification and a setting in which extraneous sounds do not interfere with clear presentation of the audio presentation in a listening test. (EMBEDDED)</Description>
+			</Text>
+			<Selection>
+				<Code>TDS_ASL0</Code>
+				<Order>1</Order>
+				<Text>
+					<Language>eng</Language>
+					<Label>Do not show ASL videos</Label>
+				</Text>
+			</Selection>
+			<Selection>
+				<Code>TDS_ASL1</Code>
+				<Order>2</Order>
+				<Text>
+					<Language>eng</Language>
+					<Label>Show ASL videos</Label>
+					<Message>ELA PTs do not have listening stimuli</Message>
+				</Text>
+			</Selection>
+		</SingleSelectResource>
+
+		<MultiSelectResource>
+			<Code>NonEmbeddedAccommodations</Code>
+			<Order>32</Order>
+			<DefaultSelection>NEA0</DefaultSelection>
+      <ResourceType>Accommodation</ResourceType>
+			<Text>
+				<Language>eng</Language>
+				<Label>Non-Embedded Accommodations</Label>
+			</Text>
+			<Selection>
+				<Code>NEA0</Code>
+				<Order>1</Order>
+				<MutuallyExclusive/>
+				<Text>
+					<Language>eng</Language>
+					<Label>None</Label>
+				</Text>
+			</Selection>
+			<Selection>
+				<Code>NEA_AR</Code>
+				<Order>2</Order>
+				<Text>
+					<Language>eng</Language>
+					<Label>Alternate Response Options</Label>
+					<Description>Students with some physical disabilities (including both fine motor and gross motor skills) may need to use the alternate response options accommodation. Some alternate response options are external devices that must be plugged in and be compatible with the assessment delivery platform. Use of this support will likely also require separate setting or extra time. (NON-EMBEDDED)</Description>
+				</Text>
+			</Selection>
+			<Selection>
+				<Code>NEA_RA_Stimuli</Code>
+				<Order>3</Order>
+				<Text>
+					<Language>eng</Language>
+					<Label>Read Aloud CAT Reading Passages</Label>
+					<Description>This accommodation is appropriate for a very small number of students (estimated to be approximately 1–2% of students with disabilities participating in a general assessment). For students in grades 3–5, read aloud will not be an available accommodation. Content experts agree that this accommodation should not be provided during these grades because it would compromise the construct being measured. For students in grades 6–8 and 11, read aloud is available as an accommodation for students whose need is documented in an IEP or 504 plan. Reports can be run to indicate the percent of students who had access to read aloud on reading test passages. Readers should be provided to students on an individual basis – not to a group of students. A student should have the option of asking a reader to slow down or repeat text. Use of this support will likely also require separate setting or extra time. (NON-EMBEDDED)</Description>
+				</Text>
+			</Selection>
+			<Selection>
+				<Code>NEA_SC_WritItems</Code>
+				<Order>4</Order>
+				<Text>
+					<Language>eng</Language>
+					<Label>Scribe Items (Writing)</Label>
+					<Description>Students who have documented significant motor or processing difficulties, or who have had a recent injury (such as a broken hand or arm) that makes it difficult to produce responses may need to dictate their responses to a human, who then records the students’ responses verbatim. The use of this accommodation may result in the student needing overall additional time to complete the assessment. For many of these students, dictating to a human scribe is the only way to demonstrate their composition skills. It is important that these students be able to develop planning notes via the human scribe, and to view what they produce while composing via dictation to the scribe. Use of this support will likely also require separate setting or extra time. (NON-EMBEDDED)</Description>
+				</Text>
+			</Selection>
+			<Selection>
+				<Code>NEA_STT</Code>
+				<Order>5</Order>
+				<Text>
+					<Language>eng</Language>
+					<Label>Speech-to-Text</Label>
+					<Description>Students who have motor or processing disabilities (such as dyslexia) or who have had a recent injury (such as a broken hand or arm) that make it difficult to produce text or commands using computer keys may need alternative ways to work with computers. Students will need to be familiar with the software, and have had many opportunities to use it prior to testing. Speech-to-text software requires that the student go back through all generated text to correct errors in transcription, including use of writing conventions; thus, prior experience with this accommodation is essential. If students use their own assistive technology devices, all assessment content should be deleted from these devices after the test for security purposes. For many of these students, using voice recognition software is the only way to demonstrate their composition skills. Still, use of speech-to-text does require that students know writing conventions and that they have the review and editing skills required of students who enter text via the computer keyboard. It is important that students who use speech-to-text also be able to develop planning notes via speech-to-text, and to view what they produce while composing via speech-to-text. Use of this support will likely also require separate setting or extra time. (NON-EMBEDDED)</Description>
+				</Text>
+			</Selection>
+			<Selection>
+				<Code>NEA_Abacus</Code>
+				<Order>6</Order>
+				<Text>
+					<Language>eng</Language>
+					<Label>Abacus</Label>
+					<Description>Some students with visual impairments who typically use an abacus may use an abacus in place of using scratch paper. (NON-EMBEDDED)</Description>
+				</Text>
+			</Selection>
+			<Selection>
+				<Code>NEA_Calc</Code>
+				<Order>7</Order>
+				<Text>
+					<Language>eng</Language>
+					<Label>Calculator</Label>
+					<Description>Students with visual impairments who are unable to use the embedded calculator for calculator-allowed items will be able to use the calculator that they typically use, such as a braille calculator or a talking calculator. Test administrators should ensure that the calculator is available only for designated calculator items. (NON-EMBEDDED)</Description>
+				</Text>
+			</Selection>
+			<Selection>
+				<Code>NEA_MT</Code>
+				<Order>8</Order>
+				<Text>
+					<Language>eng</Language>
+					<Label>Multiplication Table</Label>
+					<Description>For students with a documented and persistent calculation disability (i.e., dyscalculia). (NON-EMBEDDED)</Description>
+				</Text>
+				<Text>
+					<Language>ukr</Language>
+					<Label>Таблиця множення</Label>
+				</Text>
+			</Selection>
+			<Selection>
+				<Code>NEA_NumTbl</Code>
+				<Order>9</Order>
+				<Text>
+					<Language>eng</Language>
+					<Label>100s Number Table</Label>
+					<Description>A paper-based table listing numbers from 1–100 available from Smarter Balanced for reference.</Description>
+				</Text>
+			</Selection>
+		</MultiSelectResource>
+		
+		<EditResource>
+			<Code>Other</Code>
+			<Order>33</Order>
+			<Text>
+				<Language>eng</Language>
+				<Label>Other</Label>
+			</Text>
+		</EditResource>
+  
+	</MasterResourceFamily>
+
+</Accessibility>

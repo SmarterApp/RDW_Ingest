@@ -4,6 +4,8 @@ sql:
     truncateStageList:
       - TRUNCATE TABLE staging_grade
       - TRUNCATE TABLE staging_elas
+      - TRUNCATE TABLE staging_military_connected
+      - TRUNCATE TABLE staging_language
       - TRUNCATE TABLE staging_completeness
       - TRUNCATE TABLE staging_administration_condition
       - TRUNCATE TABLE staging_ethnicity
@@ -58,7 +60,7 @@ sql:
               INSERT INTO staging_grade (id, code, sequence) VALUES
                 (:id, :code, :sequence)
 
-        # ------------ elas  ------------------------------------------------------------
+        # ------------ elas  --------------------------------------------------------------------
         elas:
           sql:
             warehouseRead: >-
@@ -67,6 +69,16 @@ sql:
             stagingInsert: >-
               INSERT INTO staging_elas (id, code) VALUES
                 (:id, :code)
+
+        # ------------ language  ----------------------------------------------------------------
+        language:
+          sql:
+            warehouseRead: >-
+              SELECT wl.id, wl.code, wl.altcode, wl.display_order, wl.name FROM language wl
+
+            stagingInsert: >-
+              INSERT INTO staging_language (id, code, altcode, display_order, name) VALUES
+                (:id, :code, :altcode, :display_order, :name)
 
         # ------------ completeness  ------------------------------------------------------------
         completeness:
@@ -108,7 +120,17 @@ sql:
               INSERT INTO staging_gender (id, code) VALUES
                 (:id, :code)
 
-        # ------------ accommodation  -----------------------------------------------------------
+      # ------------ military_connected  ------------------------------------------------
+        military_connected:
+          sql:
+            warehouseRead: >-
+              SELECT wmc.id, wmc.code from military_connected wmc
+
+            stagingInsert: >-
+              INSERT INTO staging_military_connected (id, code) VALUES
+                (:id, :code)
+
+      # ------------ accommodation  -----------------------------------------------------------
         accommodation:
           sql:
             warehouseRead: >-
@@ -142,8 +164,8 @@ sql:
         accommodation_translation:
           sql:
             warehouseRead: >-
-              SELECT a.code AS label_code, wat.language_code AS language_code, wat.label FROM accommodation_translation AS wat
-                            JOIN accommodation a ON wat.accommodation_id=a.id
+              SELECT CONCAT(a.code, '.', wat.school_year) AS label_code, wat.language_code, wat.label
+                FROM accommodation_translation wat JOIN accommodation a ON wat.accommodation_id=a.id
 
             stagingInsert: >-
               INSERT INTO staging_accommodation_translation (label_code, language_code, label) VALUES
@@ -195,14 +217,15 @@ sql:
                 wsat.subject_id,
                 wsat.performance_level_count,
                 wsat.performance_level_standard_cutoff,
-                wsat.claim_score_performance_level_count
+                wsat.claim_score_performance_level_count,
+                wsat.target_report
               FROM subject_asmt_type wsat
                 JOIN subject ws ON ws.id = wsat.subject_id
               WHERE ws.created > :first_at AND ws.created <= :last_at
 
             stagingInsert: >-
-              INSERT INTO staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count) VALUES
-                 ( :asmt_type_id, :subject_id, :performance_level_count, :performance_level_standard_cutoff, :claim_score_performance_level_count)
+              INSERT INTO staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report) VALUES
+                 ( :asmt_type_id, :subject_id, :performance_level_count, :performance_level_standard_cutoff, :claim_score_performance_level_count, :target_report)
 
         subject_asmt_type_by_update_import_id:
           sql:
@@ -212,14 +235,15 @@ sql:
                 wsat.subject_id,
                 wsat.performance_level_count,
                 wsat.performance_level_standard_cutoff,
-                wsat.claim_score_performance_level_count
+                wsat.claim_score_performance_level_count,
+                wsat.target_report
               FROM subject_asmt_type wsat
                  JOIN subject ws ON ws.id = wsat.subject_id
               WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
 
             stagingInsert: >-
-               INSERT IGNORE INTO staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count) VALUES
-                 ( :asmt_type_id, :subject_id, :performance_level_count, :performance_level_standard_cutoff, :claim_score_performance_level_count)
+               INSERT IGNORE INTO staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report) VALUES
+                 ( :asmt_type_id, :subject_id, :performance_level_count, :performance_level_standard_cutoff, :claim_score_performance_level_count, :target_report)
 
         # ---------------- subject_claim_score  -----------------------------------------------
         subject_claim_score:
@@ -529,6 +553,7 @@ sql:
                 ws.last_or_surname,
                 ws.first_name,
                 ws.middle_name,
+                ws.alias_name,
                 ws.gender_id,
                 ws.first_entry_into_us_school_at,
                 ws.lep_entry_at,
@@ -542,9 +567,9 @@ sql:
               WHERE ws.created > :first_at AND ws.created <= :last_at
 
             stagingInsert: >-
-              INSERT INTO staging_student (id, ssid, last_or_surname, first_name, middle_name, gender_id, first_entry_into_us_school_at,
+              INSERT INTO staging_student (id, ssid, last_or_surname, first_name, middle_name, alias_name, gender_id, first_entry_into_us_school_at,
                                lep_entry_at, lep_exit_at, birthday, inferred_school_id, update_import_id, deleted, updated, migrate_id) VALUES
-                (:id, :ssid, :last_or_surname, :first_name, :middle_name, :gender_id, :first_entry_into_us_school_at,
+                (:id, :ssid, :last_or_surname, :first_name, :middle_name, :alias_name, :gender_id, :first_entry_into_us_school_at,
                               :lep_entry_at, :lep_exit_at, :birthday, :inferred_school_id, :update_import_id, :deleted, :updated, :migrate_id)
 
         student_by_update_import_id:
@@ -556,6 +581,7 @@ sql:
                 ws.last_or_surname,
                 ws.first_name,
                 ws.middle_name,
+                ws.alias_name,
                 ws.gender_id,
                 ws.first_entry_into_us_school_at,
                 ws.lep_entry_at,
@@ -569,9 +595,9 @@ sql:
               WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging_student (id, ssid, last_or_surname, first_name, middle_name, gender_id, first_entry_into_us_school_at,
+              INSERT IGNORE INTO staging_student (id, ssid, last_or_surname, first_name, middle_name, alias_name, gender_id, first_entry_into_us_school_at,
                                lep_entry_at, lep_exit_at, birthday, inferred_school_id, update_import_id, deleted, updated, migrate_id) VALUES
-                (:id, :ssid, :last_or_surname, :first_name, :middle_name, :gender_id, :first_entry_into_us_school_at,
+                (:id, :ssid, :last_or_surname, :first_name, :middle_name, :alias_name, :gender_id, :first_entry_into_us_school_at,
                               :lep_entry_at, :lep_exit_at, :birthday, :inferred_school_id, :update_import_id, :deleted, :updated, :migrate_id)
 
         # ------------ student_ethnicity  -------------------------------------------------------------------
@@ -1072,6 +1098,7 @@ sql:
                 we.opportunity,
                 we.completeness_id,
                 we.administration_condition_id,
+                we.military_connected_id,
                 we.session_id,
                 we.performance_level,
                 round(we.scale_score) AS scale_score,
@@ -1092,20 +1119,20 @@ sql:
                 we.migrant_status,
                 we.eng_prof_lvl,
                 we.t3_program_type,
-                we.language_code,
+                we.language_id,
                 we.prim_disability_type
               FROM exam we
               WHERE we.created > :first_at AND we.created <= :last_at
 
             stagingInsert: >-
-              INSERT INTO staging_exam (id, type_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id,
+              INSERT INTO staging_exam (id, type_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id, military_connected_id,
                                                  session_id, performance_level, scale_score, scale_score_std_err, completed_at, deleted, update_import_id, updated,
                                                  grade_id, student_id, school_id, iep, lep, elas_id, elas_start_at, section504, economic_disadvantage, migrant_status,
-                                                 eng_prof_lvl, t3_program_type, language_code, prim_disability_type, migrate_id) VALUES
-                                       (:id, :type_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id,
+                                                 eng_prof_lvl, t3_program_type, language_id, prim_disability_type, migrate_id) VALUES
+                                       (:id, :type_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id, :military_connected_id,
                                                 :session_id, :performance_level, :scale_score, :scale_score_std_err, :completed_at, :deleted, :update_import_id, :updated,
                                                 :grade_id, :student_id, :school_id, :iep, :lep, :elas_id, :elas_start_at, :section504, :economic_disadvantage, :migrant_status,
-                                                :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type, :migrate_id)
+                                                :eng_prof_lvl, :t3_program_type, :language_id, :prim_disability_type, :migrate_id)
         exam_by_update_import_id:
           sql:
             warehouseRead: >-
@@ -1118,6 +1145,7 @@ sql:
                 we.opportunity,
                 we.completeness_id,
                 we.administration_condition_id,
+                we.military_connected_id,
                 we.session_id,
                 we.performance_level,
                 round(we.scale_score) AS scale_score,
@@ -1138,20 +1166,20 @@ sql:
                 we.migrant_status,
                 we.eng_prof_lvl,
                 we.t3_program_type,
-                we.language_code,
+                we.language_id,
                 we.prim_disability_type
               FROM exam we
               WHERE we.updated > :first_at AND we.updated <= :last_at AND we.updated <> we.created
 
             stagingInsert: >-
-              INSERT IGNORE INTO staging_exam (id, type_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id,
+              INSERT IGNORE INTO staging_exam (id, type_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id, military_connected_id,
                                                  session_id, performance_level, scale_score, scale_score_std_err, completed_at, deleted, update_import_id, updated,
                                                  grade_id, student_id, school_id, iep, lep, elas_id, elas_start_at, section504, economic_disadvantage, migrant_status,
-                                                 eng_prof_lvl, t3_program_type, language_code, prim_disability_type, migrate_id) VALUES
-                                              (:id, :type_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id,
+                                                 eng_prof_lvl, t3_program_type, language_id, prim_disability_type, migrate_id) VALUES
+                                              (:id, :type_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id, :military_connected_id,
                                                  :session_id, :performance_level, :scale_score, :scale_score_std_err, :completed_at, :deleted, :update_import_id, :updated,
                                                  :grade_id, :student_id, :school_id, :iep, :lep, :elas_id, :elas_start_at, :section504, :economic_disadvantage, :migrant_status,
-                                                 :eng_prof_lvl, :t3_program_type, :language_code, :prim_disability_type, :migrate_id)
+                                                 :eng_prof_lvl, :t3_program_type, :language_id, :prim_disability_type, :migrate_id)
 
         # ------------ exam_item  ---------------------------------------------------------------------------------------
         exam_item:

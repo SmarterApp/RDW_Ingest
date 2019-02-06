@@ -8,6 +8,7 @@
         <ExamineeAttribute name="LastOrSurname" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="StudentIdentifier" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="MiddleName" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
+        <ExamineeAttribute name="AliasName" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="AlternateSSID" value="" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="HispanicOrLatinoEthnicity" value="bad data" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="AmericanIndianOrAlaskaNative" value="bad data" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
@@ -21,6 +22,8 @@
         <ExamineeAttribute name="Section504Status" value="bad data" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="EconomicDisadvantageStatus" value="bad data" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="MigrantStatus" value="bad data" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
+        <ExamineeAttribute name="LanguageCode" value="bad data" context="INITIAL" contextDate="2016-10-12T21:51:46.003"/>
+        <ExamineeAttribute name="MilitaryConnectedStudentIndicator" value="bad data" context="FINAL" contextDate="2016-10-12T21:51:46.003"/>
         <ExamineeAttribute name="FirstEntryDateIntoUSSchool" value="bad data" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="LimitedEnglishProficiencyEntryDate" value="bad data" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>
         <ExamineeAttribute name="LEPExitDate" value="bad data" context="FINAL" contextDate="2016-10-12T22:00:49.069"/>

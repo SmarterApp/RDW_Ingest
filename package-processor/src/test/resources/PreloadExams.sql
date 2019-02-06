@@ -30,10 +30,10 @@ INSERT INTO  exam ( id, type_id, school_year, asmt_id, asmt_version, opportunity
                     administration_condition_id, session_id, performance_level, scale_score, scale_score_std_err, completed_at,
                     import_id, update_import_id, deleted, created, updated,
                     grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage,
-                    migrant_status, eng_prof_lvl, t3_program_type, language_code, prim_disability_type) VALUES
-  (-87, 1, 2016, -11,  null, 1, 1, 1, 'session', 1, null, null, '2016-08-14', -5000, -5000, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
-  (-86, 2, 2016, -11,  null, 1, 1, 1, 'session', 1, null, null, '2016-08-14', -5000, -5000, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null),
-  (-85, 1, 2016, -11,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -5000, -5000, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 'eng', null);
+                    migrant_status, eng_prof_lvl, t3_program_type, language_id, prim_disability_type) VALUES
+  (-87, 1, 2016, -11,  null, 1, 1, 1, 'session', 1, null, null, '2016-08-14', -5000, -5000, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null),
+  (-86, 2, 2016, -11,  null, 1, 1, 1, 'session', 1, null, null, '2016-08-14', -5000, -5000, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null),
+  (-85, 1, 2016, -11,  null, 1, 1, 1, 'session', 1, 2145, 0.17, '2016-08-14', -5000, -5000, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null);
 
 INSERT INTO exam_available_accommodation (exam_id, accommodation_id) VALUES
   (-87, -98),

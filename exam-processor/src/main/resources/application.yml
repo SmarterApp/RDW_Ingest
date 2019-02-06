@@ -12,7 +12,7 @@ server:
 spring:
   cache:
     type: SIMPLE
-    cache-names: adminCondition, assessmentType, completeness, ethnicity, ethnicityCodes, gender, grade, subject, subjectClaimTargets, accCode, elas
+    cache-names: accCode, adminCondition, assessmentType, completeness, elas, ethnicity, ethnicityCodes, gender, grade, language, militaryConnected, subject, subjectClaimTargets
 
   cloud:
     stream:
@@ -40,8 +40,10 @@ spring:
     validationQueryTimeout: 10000
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
-    maxActive: 12
     initialSize: 6
+    maxActive: 12
+    minIdle: ${spring.datasource.initialSize}
+    maxIdle: ${spring.datasource.maxActive}
     maxWait: 10000
 
   jackson:

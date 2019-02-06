@@ -6,20 +6,20 @@ INSERT INTO subject(id, code, updated, update_import_id, migrate_id) VALUES
   (-2, 'Old',    now(), -99, -99),
   (-3, 'Update', now(), -99, -99);
 
-INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count) VALUES
+INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report) VALUES
 -- NOTE: Because of the life BEFORE configurable subject, some subjects are pre-loaded into the report
---  (1,  1,  4, 3,    3),
---  (1,  2,  4, 3,    3),
---  (2,  1,  3, null, null),
---  (2,  2,  3, null, null),
---  (3,  1,  4, 3,    3),
---  (3,  2,  4, 3,    3),
+--  (1,  1,  4, 3,    3,    false),
+--  (1,  2,  4, 3,    3,    false),
+--  (2,  1,  3, null, null, false),
+--  (2,  2,  3, null, null, false),
+--  (3,  1,  4, 3,    3,    true),
+--  (3,  2,  4, 3,    3,    true),
 
-  (1, -2, 5, 2, 6),
+  (1, -2, 5, 2, 6, false),
    --  to delete
-  (3, -3, 7, 2, 7),
+  (3, -3, 7, 2, 7, true),
    -- updated entry
-  (2, -3, 3, 3, 3);
+  (2, -3, 3, 3, 3, false);
 
 INSERT INTO subject_claim_score (id, subject_id, asmt_type_id, code) VALUES
 -- NOTE: Because of the life BEFORE configurable subject, some subjects are pre-loaded into the report
@@ -123,31 +123,31 @@ INSERT INTO student_ethnicity(student_id, ethnicity_id) values
 
 -- ------------------------------------------ Facts ---------------------------------------------------------------------------------------------
 INSERT INTO  exam (id, school_year, asmt_id, student_id, completed_at,
-                                    elas_id, completeness_id, administration_condition_id, performance_level,
-                                    scale_score, grade_id, school_id,
+                                    elas_id, completeness_id, administration_condition_id, military_connected_id,
+                                    performance_level, scale_score, grade_id, school_id, language_id,
                                     iep, lep, section504, economic_disadvantage, migrant_status,
                                     updated, update_import_id, migrate_id) VALUES
-  (-88,  1999, -99, -89, '2016-08-14 19:05:33.000000', -99, -99, -99, 1, 2145, 108, -1, 1, 1, 0, 0, 1, '2017-07-18 20:14:34.000000', -1, -1),
-  (-100, 1998, -11, -18, '2016-05-14 19:05:33.000000', -99, -99, -99, 1, 2145, 108, -1, 1, 1, 0, 0, 1, '2017-07-18 20:14:34.000000', -1, -1),
-  (-82 , 1998, -11, -89, '2016-09-14 19:05:33.000000', -99, -99, -99, 1, 2005, 108, -1, 1, 1, 0, 0, 1, '2017-07-18 20:14:34.000000', -1, -1);
+  (-88,  1999, -99, -89, '2016-08-14 19:05:33.000000', -99, -99, -99, -99, 1, 2145, 108, -1, 0, 1, 1, 0, 0, 1, '2017-07-18 20:14:34.000000', -1, -1),
+  (-100, 1998, -11, -18, '2016-05-14 19:05:33.000000', -99, -99, -99, -99, 1, 2145, 108, -1, 0, 1, 1, 0, 0, 1, '2017-07-18 20:14:34.000000', -1, -1),
+  (-82 , 1998, -11, -89, '2016-09-14 19:05:33.000000', -99, -99, -99, -99, 1, 2005, 108, -1, 0, 1, 1, 0, 0, 1, '2017-07-18 20:14:34.000000', -1, -1);
 
 INSERT INTO  iab_exam (id, school_year, asmt_id, student_id, completed_at,
-                                    elas_id, completeness_id, administration_condition_id, performance_level,
-                                    scale_score, grade_id, school_id,
+                                    elas_id, completeness_id, administration_condition_id, military_connected_id,
+                                    performance_level, scale_score, grade_id, school_id, language_id,
                                     iep, lep, section504, economic_disadvantage, migrant_status,
                                     updated, update_import_id, migrate_id) VALUES
-  (-68,  1999, -66, -89, '2016-08-14 19:05:33.000000', -99, -99, -99, 1, 2145, 108, -1, 1, 1, 0, 0, 1, '2017-07-18 20:14:34.000000', -1, -1),
-  (-10,  1998, -55, -18, '2016-05-14 19:05:33.000000', -99, -99, -99, 1, 2145, 108, -1, 1, 1, 0, 0, 1, '2017-07-18 20:14:34.000000', -1, -1),
-  (-62 , 1998, -55, -89, '2016-09-14 19:05:33.000000', -99, -99, -99, 1, 2005, 108, -1, 1, 1, 0, 0, 1, '2017-07-18 20:14:34.000000', -1, -1);
+  (-68,  1999, -66, -89, '2016-08-14 19:05:33.000000', -99, -99, -99, -99, 1, 2145, 108, -1, 0, 1, 1, 0, 0, 1, '2017-07-18 20:14:34.000000', -1, -1),
+  (-10,  1998, -55, -18, '2016-05-14 19:05:33.000000', -99, -99, -99, -99, 1, 2145, 108, -1, 0, 1, 1, 0, 0, 1, '2017-07-18 20:14:34.000000', -1, -1),
+  (-62 , 1998, -55, -89, '2016-09-14 19:05:33.000000', -99, -99, -99, -99, 1, 2005, 108, -1, 0, 1, 1, 0, 0, 1, '2017-07-18 20:14:34.000000', -1, -1);
 
 INSERT INTO  exam_longitudinal (id, school_year, asmt_id, school_year_asmt_grade_code, subject_id, asmt_grade_id, student_id, completed_at,
-                                    elas_id, completeness_id, administration_condition_id, performance_level,
-                                    scale_score, grade_id, school_id,
+                                    elas_id, completeness_id, administration_condition_id, military_connected_id,
+                                    performance_level, scale_score, grade_id, school_id, language_id,
                                     iep, lep, section504, economic_disadvantage, migrant_status,
                                     updated, update_import_id, migrate_id) VALUES
-  (-268, 1998, -107, '1998,07', 1, 107, -89, '2016-08-14 19:05:33.000000', -99, -99, -99, 1, 2145, 107, -1, 1, 1, 0, 0, 1, '2017-07-18 20:14:34.000000', -1, -1),
-  (-200, 1999, -111, '1999,11', 1, 111, -18, '2016-05-14 19:05:33.000000', -99, -99, -99, 1, 2145, 108, -1, 1, 1, 0, 0, 1, '2017-07-18 20:14:34.000000', -1, -1),
-  (-199, 1999, -111, '1999,11', 1, 111, -89, '2016-09-14 19:05:33.000000', -99, -99, -99, 1, 2005, 111, -1, 1, 1, 0, 0, 1, '2017-07-18 20:14:34.000000', -1, -1);
+  (-268, 1998, -107, '1998,07', 1, 107, -89, '2016-08-14 19:05:33.000000', -99, -99, -99, -99, 1, 2145, 107, -1, 0, 1, 1, 0, 0, 1, '2017-07-18 20:14:34.000000', -1, -1),
+  (-200, 1999, -111, '1999,11', 1, 111, -18, '2016-05-14 19:05:33.000000', -99, -99, -99, -99, 1, 2145, 108, -1, 0, 1, 1, 0, 0, 1, '2017-07-18 20:14:34.000000', -1, -1),
+  (-199, 1999, -111, '1999,11', 1, 111, -89, '2016-09-14 19:05:33.000000', -99, -99, -99, -99, 1, 2005, 111, -1, 0, 1, 1, 0, 0, 1, '2017-07-18 20:14:34.000000', -1, -1);
 
 INSERT INTO  exam_claim_score (id, exam_id, subject_claim_score_id, school_year, asmt_id, student_id, completed_at,
                                     category, updated, update_import_id, migrate_id) VALUES

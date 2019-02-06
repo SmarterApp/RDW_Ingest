@@ -1,260 +1,263 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-	<xs:element name="Accessibility">
-		<xs:complexType>
-			<xs:sequence>
-				
-	<!-- ================================================================================================= -->
-	<!-- ================================================================================================= -->
-	<!-- ================================================================================================= -->
-			
-				<xs:element name="MasterResourceFamily" minOccurs="1" maxOccurs="1">
-					<xs:complexType>
-						<xs:choice maxOccurs="unbounded">
+  <xs:element name="Accessibility">
+    <xs:complexType>
+      <xs:sequence>
 
-	<!-- ================================================================================================= -->
+        <!-- ================================================================================================= -->
+        <!-- ================================================================================================= -->
+        <!-- ================================================================================================= -->
 
-							<xs:element name="SingleSelectResource" minOccurs="0" maxOccurs="unbounded">
-								<xs:complexType>
-									<xs:sequence>
-										<xs:element name="Code" type="xs:string" minOccurs="1" maxOccurs="1"/>
-										<xs:element name="Order" type="xs:positiveInteger" minOccurs="1" maxOccurs="1"/>
-										<xs:element name="DefaultSelection" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="MasterResourceFamily" minOccurs="1" maxOccurs="1">
+          <xs:complexType>
+            <xs:choice maxOccurs="unbounded">
+
+              <!-- ================================================================================================= -->
+
+              <xs:element name="SingleSelectResource" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Code" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="Order" type="xs:positiveInteger" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="EmbedType" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="DefaultSelection" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="ResourceType" minOccurs="0" maxOccurs="1"/>
-										<xs:element name="Text" minOccurs="1" maxOccurs="unbounded">
-											<xs:complexType>
-												<xs:sequence>
-													<xs:element name="Language" type="LanguageType"  minOccurs="1" maxOccurs="1"/>
-													<xs:element name="Label" type="xs:string"  minOccurs="1" maxOccurs="1"/>
-													<xs:element name="Description" type="xs:string"  minOccurs="0" maxOccurs="1"/>
-												</xs:sequence>
-											</xs:complexType>
-										</xs:element>
-										<xs:element name="Selection" minOccurs="0" maxOccurs="unbounded">
-											<xs:complexType>
-												<xs:sequence>
-													<xs:element name="Code" minOccurs="1" maxOccurs="1" type="xs:string"/>
-													<xs:element name="Order" minOccurs="1" maxOccurs="1" type="xs:positiveInteger"/>
-													<xs:element name="Text" minOccurs="1" maxOccurs="unbounded" >
-														<xs:complexType>
-															<xs:sequence>
-																<xs:element name="Language" type="LanguageType" minOccurs="1" maxOccurs="1"/>
-																<xs:element name="Label" type="xs:string" minOccurs="1" maxOccurs="1"/>
-																<xs:element name="Description" type="xs:string" minOccurs="0" maxOccurs="1"/>
-																<xs:element name="Message" type="xs:string" minOccurs="0" maxOccurs="1"/>
-															</xs:sequence>
-														</xs:complexType>
-													</xs:element>
-												</xs:sequence>
-											</xs:complexType>
-										</xs:element>
-									</xs:sequence>
-								 </xs:complexType>
-							</xs:element>
+                    <xs:element name="Text" minOccurs="1" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Language" type="LanguageType"  minOccurs="1" maxOccurs="1"/>
+                          <xs:element name="Label" type="xs:string"  minOccurs="1" maxOccurs="1"/>
+                          <xs:element name="Description" type="xs:string"  minOccurs="0" maxOccurs="1"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Selection" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Code" minOccurs="1" maxOccurs="1" type="xs:string"/>
+                          <xs:element name="Order" minOccurs="1" maxOccurs="1" type="xs:positiveInteger"/>
+                          <xs:element name="Text" minOccurs="1" maxOccurs="unbounded" >
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="Language" type="LanguageType" minOccurs="1" maxOccurs="1"/>
+                                <xs:element name="Label" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                <xs:element name="Description" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                <xs:element name="Message" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
 
-	<!-- ================================================================================================= -->
+              <!-- ================================================================================================= -->
 
-							<xs:element name="MultiSelectResource" minOccurs="0" maxOccurs="unbounded">
-								<xs:complexType>
-									<xs:sequence>
-										<xs:element name="Code" type="xs:string" minOccurs="1" maxOccurs="1"/>
-										<xs:element name="Order" type="xs:positiveInteger" minOccurs="1" maxOccurs="1"/>
-										<xs:element name="DefaultSelection" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="MultiSelectResource" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Code" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="Order" type="xs:positiveInteger" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="DefaultSelection" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="ResourceType" minOccurs="0" maxOccurs="1"/>
-										<xs:element name="Text" minOccurs="1" maxOccurs="unbounded">
-											<xs:complexType>
-												<xs:sequence>
-													<xs:element name="Language" type="LanguageType"  minOccurs="1" maxOccurs="1"/>
-													<xs:element name="Label" type="xs:string"  minOccurs="1" maxOccurs="1"/>
-													<xs:element name="Description" type="xs:string"  minOccurs="0" maxOccurs="1"/>
-												</xs:sequence>
-											</xs:complexType>
-										</xs:element>
-										<xs:element name="Selection" minOccurs="0" maxOccurs="unbounded">
-											<xs:complexType>
-												<xs:sequence>
-													<xs:element name="Code" minOccurs="1" maxOccurs="1" type="xs:string"/>
-													<xs:element name="Order" minOccurs="1" maxOccurs="1" type="xs:positiveInteger"/>
-													<xs:element name="MutuallyExclusive" minOccurs="0" maxOccurs="1"><xs:complexType></xs:complexType></xs:element>
-													<xs:element name="Text" minOccurs="1" maxOccurs="unbounded" >
-														<xs:complexType>
-															<xs:sequence>
-																<xs:element name="Language" type="LanguageType" minOccurs="1" maxOccurs="1"/>
-																<xs:element name="Label" type="xs:string" minOccurs="1" maxOccurs="1"/>
-																<xs:element name="Description" type="xs:string" minOccurs="0" maxOccurs="1"/>
-																<xs:element name="Message" type="xs:string" minOccurs="0" maxOccurs="1"/>
-															</xs:sequence>
-														</xs:complexType>
-													</xs:element>
-												</xs:sequence>
-											</xs:complexType>
-										</xs:element>
-									</xs:sequence>
-								 </xs:complexType>
-							</xs:element>
+                    <xs:element name="Text" minOccurs="1" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Language" type="LanguageType"  minOccurs="1" maxOccurs="1"/>
+                          <xs:element name="Label" type="xs:string"  minOccurs="1" maxOccurs="1"/>
+                          <xs:element name="Description" type="xs:string"  minOccurs="0" maxOccurs="1"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Selection" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Code" minOccurs="1" maxOccurs="1" type="xs:string"/>
+                          <xs:element name="Order" minOccurs="1" maxOccurs="1" type="xs:positiveInteger"/>
+                          <xs:element name="MutuallyExclusive" minOccurs="0" maxOccurs="1"><xs:complexType></xs:complexType></xs:element>
+                          <xs:element name="Text" minOccurs="1" maxOccurs="unbounded" >
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="Language" type="LanguageType" minOccurs="1" maxOccurs="1"/>
+                                <xs:element name="Label" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                <xs:element name="Description" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                                <xs:element name="Message" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
 
-	<!-- ================================================================================================= -->
+              <!-- ================================================================================================= -->
 
-							<xs:element name="EditResource" minOccurs="0" maxOccurs="unbounded">
-								<xs:complexType>
-									<xs:sequence>
-										<xs:element name="Code" type="xs:string" minOccurs="1" maxOccurs="1"/>
-										<xs:element name="Order" type="xs:positiveInteger" minOccurs="1" maxOccurs="1"/>
-										<xs:element name="Text" minOccurs="1" maxOccurs="unbounded">
-											<xs:complexType>
-												<xs:sequence>
-													<xs:element name="Language" type="LanguageType"  minOccurs="1" maxOccurs="1"/>
-													<xs:element name="Label" type="xs:string"  minOccurs="1" maxOccurs="1"/>
-													<xs:element name="Description" type="xs:string"  minOccurs="0" maxOccurs="1"/>
-												</xs:sequence>
-											</xs:complexType>
-										</xs:element>
-									</xs:sequence>
-								 </xs:complexType>							
-							</xs:element>
-						</xs:choice>
-					</xs:complexType>
-				</xs:element>
-				
-	<!-- ================================================================================================= -->
-	<!-- ================================================================================================= -->
-	<!-- ================================================================================================= -->
+              <xs:element name="EditResource" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Code" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="Order" type="xs:positiveInteger" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="Text" minOccurs="1" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Language" type="LanguageType"  minOccurs="1" maxOccurs="1"/>
+                          <xs:element name="Label" type="xs:string"  minOccurs="1" maxOccurs="1"/>
+                          <xs:element name="Description" type="xs:string"  minOccurs="0" maxOccurs="1"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:choice>
+          </xs:complexType>
+        </xs:element>
 
-				<xs:element name="ResourceFamily" minOccurs="0" maxOccurs="unbounded">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="Subject" minOccurs="1" maxOccurs="unbounded">
-								<xs:complexType>
-									<xs:sequence>
-										<xs:element name="Code" type="xs:string" minOccurs="1" maxOccurs="1"/>
-										<xs:element name="Name" type="xs:string" minOccurs="1" maxOccurs="1"/>
-									</xs:sequence>
-								</xs:complexType>
-							</xs:element>
-							<xs:element name="Grade" type="GradeType" minOccurs="1" maxOccurs="unbounded"/>
-							
-	<!-- ================================================================================================= -->
-				
-							<xs:element name="SingleSelectResource" minOccurs="0" maxOccurs="unbounded">
-								<xs:complexType>
-									<xs:sequence>
-										<xs:element name="Code" type="xs:string" minOccurs="1" maxOccurs="1"/>
-										<xs:element name="Disabled" minOccurs="0" maxOccurs="1"><xs:complexType></xs:complexType></xs:element>
-											<xs:sequence>
-												<xs:element name="DefaultSelection" minOccurs="0" maxOccurs="1"/>
-												<xs:element name="Selection" minOccurs="0" maxOccurs="unbounded">
-													<xs:complexType>
-														<xs:sequence>
-															<xs:element name="Code" type="xs:string" minOccurs="1" maxOccurs="1"/>
-															<xs:element name="Text" minOccurs="0" maxOccurs="unbounded">
-																	<xs:complexType>
-																		<xs:sequence>
-																			<xs:element name="Language" type="LanguageType"  minOccurs="1" maxOccurs="1"/>
-																			<xs:element name="Label" type="xs:string"  minOccurs="1" maxOccurs="1"/>
-																			<xs:element name="Description" type="xs:string"  minOccurs="0" maxOccurs="1"/>
-																			<xs:element name="Message" type="xs:string" minOccurs="0" maxOccurs="1" />
-																		</xs:sequence>
-																	</xs:complexType>
-															</xs:element>
-														</xs:sequence>
-													</xs:complexType>
-												</xs:element>
-											</xs:sequence>
-									</xs:sequence>
-								</xs:complexType>
-							</xs:element>
+        <!-- ================================================================================================= -->
+        <!-- ================================================================================================= -->
+        <!-- ================================================================================================= -->
 
-	<!-- ================================================================================================= -->
+        <xs:element name="ResourceFamily" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Subject" minOccurs="1" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Code" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="Name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Grade" type="GradeType" minOccurs="1" maxOccurs="unbounded"/>
 
-							<xs:element name="MultiSelectResource" minOccurs="0" maxOccurs="unbounded">
-								<xs:complexType>
-									<xs:sequence>
-										<xs:element name="Code" type="xs:string" minOccurs="1" maxOccurs="1"/>
-										<xs:element name="Disabled" minOccurs="0" maxOccurs="1"><xs:complexType></xs:complexType></xs:element>
-										<xs:element name="DefaultSelection" minOccurs="0" maxOccurs="1"/>
-										<xs:element name="Selection" minOccurs="0" maxOccurs="unbounded">
-											<xs:complexType>
-												<xs:sequence>
-													<xs:element name="Code" type="xs:string" minOccurs="1" maxOccurs="1"/>
-													<xs:element name="MutuallyExclusive" minOccurs="0" maxOccurs="1"/>							
-													<xs:element name="Text" minOccurs="0" maxOccurs="unbounded">
-														<xs:complexType>
-															<xs:sequence>
-																<xs:element name="Language" type="LanguageType"  minOccurs="1" maxOccurs="1"/>
-																<xs:element name="Label" type="xs:string"  minOccurs="1" maxOccurs="1"/>
-																<xs:element name="Description" type="xs:string"  minOccurs="0" maxOccurs="1"/>
-																<xs:element name="Message" type="xs:string" minOccurs="0" maxOccurs="1" />
-															</xs:sequence>
-														</xs:complexType>
-													</xs:element>
-												</xs:sequence>
-											</xs:complexType>
-										</xs:element>
-									</xs:sequence>
-								</xs:complexType>
-							</xs:element>
+              <!-- ================================================================================================= -->
 
-	<!-- ================================================================================================= -->
+              <xs:element name="SingleSelectResource" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Code" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="Disabled" minOccurs="0" maxOccurs="1"><xs:complexType></xs:complexType></xs:element>
+                    <xs:sequence>
+                      <xs:element name="DefaultSelection" minOccurs="0" maxOccurs="1"/>
+                      <xs:element name="Selection" minOccurs="0" maxOccurs="unbounded">
+                        <xs:complexType>
+                          <xs:sequence>
+                            <xs:element name="Code" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                            <xs:element name="Text" minOccurs="0" maxOccurs="unbounded">
+                              <xs:complexType>
+                                <xs:sequence>
+                                  <xs:element name="Language" type="LanguageType"  minOccurs="1" maxOccurs="1"/>
+                                  <xs:element name="Label" type="xs:string"  minOccurs="1" maxOccurs="1"/>
+                                  <xs:element name="Description" type="xs:string"  minOccurs="0" maxOccurs="1"/>
+                                  <xs:element name="Message" type="xs:string" minOccurs="0" maxOccurs="1" />
+                                </xs:sequence>
+                              </xs:complexType>
+                            </xs:element>
+                          </xs:sequence>
+                        </xs:complexType>
+                      </xs:element>
+                    </xs:sequence>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
 
-							<xs:element name="EditResource" minOccurs="0" maxOccurs="unbounded">
-								<xs:complexType>
-									<xs:sequence>
-										<xs:element name="Code" type="xs:string" minOccurs="1" maxOccurs="1"/>
-										<xs:element name="Disabled" minOccurs="0" maxOccurs="1"><xs:complexType></xs:complexType></xs:element>
-									</xs:sequence>
-								 </xs:complexType>							
-							</xs:element>
+              <!-- ================================================================================================= -->
 
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
+              <xs:element name="MultiSelectResource" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Code" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="Disabled" minOccurs="0" maxOccurs="1"><xs:complexType></xs:complexType></xs:element>
+                    <xs:element name="DefaultSelection" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="Selection" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Code" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                          <xs:element name="MutuallyExclusive" minOccurs="0" maxOccurs="1"/>
+                          <xs:element name="Text" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="Language" type="LanguageType"  minOccurs="1" maxOccurs="1"/>
+                                <xs:element name="Label" type="xs:string"  minOccurs="1" maxOccurs="1"/>
+                                <xs:element name="Description" type="xs:string"  minOccurs="0" maxOccurs="1"/>
+                                <xs:element name="Message" type="xs:string" minOccurs="0" maxOccurs="1" />
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
 
-	<!-- ================================================================================================= -->
-	<!-- ================================================================================================= -->
-	<!-- ================================================================================================= -->
+              <!-- ================================================================================================= -->
 
-	<xs:simpleType name="LanguageType">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="eng"/>
-			<xs:enumeration value="ara"/>
-			<xs:enumeration value="chi"/>
-			<xs:enumeration value="fil"/>
-			<xs:enumeration value="kor"/>
-			<xs:enumeration value="pan"/>
-			<xs:enumeration value="rus"/>
-			<xs:enumeration value="spa"/>
-			<xs:enumeration value="ukr"/>
-			<xs:enumeration value="vie"/>
-		</xs:restriction>
-	</xs:simpleType>
-	
-	<!-- ================================================================================================= -->
+              <xs:element name="EditResource" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Code" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="Disabled" minOccurs="0" maxOccurs="1"><xs:complexType></xs:complexType></xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
 
-	<xs:simpleType name="GradeType">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="01"/>
-			<xs:enumeration value="02"/>
-			<xs:enumeration value="03"/>
-			<xs:enumeration value="04"/>
-			<xs:enumeration value="05"/>
-			<xs:enumeration value="06"/>
-			<xs:enumeration value="07"/>
-			<xs:enumeration value="08"/>
-			<xs:enumeration value="09"/>
-			<xs:enumeration value="10"/>
-			<xs:enumeration value="11"/>
-			<xs:enumeration value="12"/>
-			<xs:enumeration value="IT"/>
-			<xs:enumeration value="PR"/>
-			<xs:enumeration value="PK"/>
-			<xs:enumeration value="TK"/>
-			<xs:enumeration value="KG"/>
-			<xs:enumeration value="PS"/>
-			<xs:enumeration value="UG"/>
-		</xs:restriction>
-	</xs:simpleType>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="schoolYear" use="required" type="xs:integer"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ================================================================================================= -->
+  <!-- ================================================================================================= -->
+  <!-- ================================================================================================= -->
+
+  <xs:simpleType name="LanguageType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="eng"/>
+      <xs:enumeration value="ara"/>
+      <xs:enumeration value="chi"/>
+      <xs:enumeration value="fil"/>
+      <xs:enumeration value="kor"/>
+      <xs:enumeration value="pan"/>
+      <xs:enumeration value="rus"/>
+      <xs:enumeration value="spa"/>
+      <xs:enumeration value="ukr"/>
+      <xs:enumeration value="vie"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- ================================================================================================= -->
+
+  <xs:simpleType name="GradeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="01"/>
+      <xs:enumeration value="02"/>
+      <xs:enumeration value="03"/>
+      <xs:enumeration value="04"/>
+      <xs:enumeration value="05"/>
+      <xs:enumeration value="06"/>
+      <xs:enumeration value="07"/>
+      <xs:enumeration value="08"/>
+      <xs:enumeration value="09"/>
+      <xs:enumeration value="10"/>
+      <xs:enumeration value="11"/>
+      <xs:enumeration value="12"/>
+      <xs:enumeration value="IT"/>
+      <xs:enumeration value="PR"/>
+      <xs:enumeration value="PK"/>
+      <xs:enumeration value="TK"/>
+      <xs:enumeration value="KG"/>
+      <xs:enumeration value="PS"/>
+      <xs:enumeration value="UG"/>
+    </xs:restriction>
+  </xs:simpleType>
 
 </xs:schema>
+
