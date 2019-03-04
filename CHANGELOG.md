@@ -1,6 +1,8 @@
 ## Change Log
 
-#### 1.3.1
+#### 1.4.0 - 2019-
+
+* Make sessionId optional by default (change `validation.requiredDataElements`)
 
 
 #### 1.3.0 - 2019-02-05
