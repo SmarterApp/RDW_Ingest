@@ -10,9 +10,6 @@ dependencies {
     compile 'org.opentestsystem.rdw.common:rdw-common-model'
     compile 'org.opentestsystem.rdw.common:rdw-common-utils'
 
-    // handy for creating metadata with @ConfigurationProperties
-    optional 'org.springframework.boot:spring-boot-configuration-processor'
-
     // for @NotNull
     compile 'javax.validation:validation-api'
 
