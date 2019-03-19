@@ -3,6 +3,15 @@
 #### 1.4.0 - 2019-
 
 * Make sessionId optional by default (change `validation.requiredDataElements`)
+* Enhance configurable subjects to support "alt" scores
+    * Existing subject definition files must be adjusted:
+        * introduce OverallScoring element with min/maxScore attributes
+        * add name attribute to ClaimScoring elements
+    * Validation
+        * assessment cut-points are now validated against their subject min/max scores
+        * exam scores are now validated against their assessment min/max scores
+            * claim scores are no longer validated
+            * theta scores are no longer validated
 
 
 #### 1.3.0 - 2019-02-05

@@ -1,7 +1,7 @@
 -- ---------------------------------------------- Exams ---------------------------------------------------------------------------------------------
 DELETE FROM exam_available_accommodation where exam_id < 0;
 DELETE FROM exam_item where exam_id < 0;
-DELETE FROM exam_claim_score where exam_id < 0;
+DELETE FROM exam_score where exam_id < 0;
 DELETE FROM exam_target_score where exam_id < 0;
 DELETE FROM exam where id < 0;
 
@@ -36,6 +36,6 @@ DELETE FROM common_core_standard WHERE id < 0;
 DELETE FROM claim WHERE id < 0;
 DELETE FROM subject_translation WHERE subject_id < 0;
 DELETE FROM subject_asmt_type WHERE subject_id < 0;
-DELETE FROM subject_claim_score WHERE subject_id < 0;
+DELETE FROM subject_score WHERE subject_id < 0;
 DELETE FROM subject WHERE id < 0;
 

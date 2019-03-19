@@ -211,16 +211,20 @@ sql:
         # ---------------- subject_asmt_type  -----------------------------------------------
         subject_asmt_type:
           sql:
+            # TODO - deal with subject_asmt_scoring and get rid of joins here
             warehouseRead: >-
               SELECT
                 wsat.asmt_type_id,
                 wsat.subject_id,
-                wsat.performance_level_count,
-                wsat.performance_level_standard_cutoff,
-                wsat.claim_score_performance_level_count,
-                wsat.target_report
+                wsas1.performance_level_count,
+                wsas1.performance_level_standard_cutoff,
+                wsas3.performance_level_count AS claim_score_performance_level_count,
+                wsat.target_report,
+                wsat.printed_report
               FROM subject_asmt_type wsat
                 JOIN subject ws ON ws.id = wsat.subject_id
+                LEFT JOIN subject_asmt_scoring wsas1 ON wsas1.subject_id = wsat.subject_id AND wsas1.asmt_type_id = wsat.asmt_type_id AND wsas1.score_type_id=1
+                LEFT JOIN subject_asmt_scoring wsas3 ON wsas3.subject_id = wsat.subject_id AND wsas3.asmt_type_id = wsat.asmt_type_id AND wsas3.score_type_id=3
               WHERE ws.created > :first_at AND ws.created <= :last_at
 
             stagingInsert: >-
@@ -229,25 +233,30 @@ sql:
 
         subject_asmt_type_by_update_import_id:
           sql:
+            # TODO - deal with subject_asmt_scoring and get rid of joins here
             warehouseRead: >-
               SELECT
                 wsat.asmt_type_id,
                 wsat.subject_id,
-                wsat.performance_level_count,
-                wsat.performance_level_standard_cutoff,
-                wsat.claim_score_performance_level_count,
-                wsat.target_report
+                wsas1.performance_level_count,
+                wsas1.performance_level_standard_cutoff,
+                wsas3.performance_level_count AS claim_score_performance_level_count,
+                wsat.target_report,
+                wsat.printed_report
               FROM subject_asmt_type wsat
-                 JOIN subject ws ON ws.id = wsat.subject_id
+                JOIN subject ws ON ws.id = wsat.subject_id
+                LEFT JOIN subject_asmt_scoring wsas1 ON wsas1.subject_id = wsat.subject_id AND wsas1.asmt_type_id = wsat.asmt_type_id AND wsas1.score_type_id=1
+                LEFT JOIN subject_asmt_scoring wsas3 ON wsas3.subject_id = wsat.subject_id AND wsas3.asmt_type_id = wsat.asmt_type_id AND wsas3.score_type_id=3
               WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
 
             stagingInsert: >-
                INSERT IGNORE INTO staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report) VALUES
                  ( :asmt_type_id, :subject_id, :performance_level_count, :performance_level_standard_cutoff, :claim_score_performance_level_count, :target_report)
 
-        # ---------------- subject_claim_score  -----------------------------------------------
-        subject_claim_score:
+        # ---------------- subject_score  -----------------------------------------------
+        subject_score:
           sql:
+            # TODO - deal with score_type_id and remove "AND score_type_id=3" which gets just CLAIM entries
             warehouseRead: >-
               SELECT
                 wscs.id,
@@ -256,16 +265,18 @@ sql:
                 wscs.code,
                 wscs.display_order,
                 wscs.data_order
-              FROM subject_claim_score wscs
+              FROM subject_score wscs
                 JOIN subject ws ON ws.id = wscs.subject_id
               WHERE ws.created > :first_at AND ws.created <= :last_at
+                AND wscs.score_type_id=3
 
             stagingInsert: >-
                INSERT INTO staging_subject_claim_score (id, subject_id, asmt_type_id, code, display_order, data_order) VALUES
                  ( :id, :subject_id, :asmt_type_id, :code, :display_order, :data_order)
 
-        subject_claim_score_by_update_import_id:
+        subject_score_by_update_import_id:
           sql:
+            # TODO - deal with score_type_id and remove "AND score_type_id=3" which gets just CLAIM entries
             warehouseRead: >-
               SELECT
                 wscs.id,
@@ -274,9 +285,10 @@ sql:
                 wscs.code,
                 wscs.display_order,
                 wscs.data_order
-              FROM subject_claim_score wscs
+              FROM subject_score wscs
                 JOIN subject ws ON ws.id = wscs.subject_id
               WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
+                AND wscs.score_type_id=3
 
             stagingInsert: >-
              INSERT IGNORE INTO staging_subject_claim_score (id, subject_id, asmt_type_id, code, display_order, data_order) VALUES
@@ -777,6 +789,7 @@ sql:
         # ------------ asmt_score  -------------------------------------------------------------------
         asmt_score:
           sql:
+            # TODO - deal with reporting changes and remove "AND subject_score_id IS NULL"
             warehouseRead: >-
               SELECT
                 was.asmt_id,
@@ -791,6 +804,7 @@ sql:
                 JOIN asmt wa ON wa.id = was.asmt_id
               WHERE wa.created > :first_at AND wa.created <= :last_at
                 AND wa.deleted = 0
+                AND was.subject_score_id IS NULL
 
             stagingInsert: >-
               INSERT INTO staging_asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, cut_point_4, cut_point_5, min_score, max_score, migrate_id) VALUES
@@ -798,6 +812,7 @@ sql:
 
         asmt_score_by_update_import_id:
           sql:
+            # TODO - deal with reporting changes and remove "AND subject_score_id IS NULL"
             warehouseRead: >-
               SELECT
                 was.asmt_id,
@@ -812,6 +827,7 @@ sql:
                 JOIN asmt wa ON wa.id = was.asmt_id
               WHERE wa.updated > :first_at AND wa.updated <= :last_at AND wa.updated <> wa.created
                 AND wa.deleted = 0
+                AND was.subject_score_id IS NULL
 
             stagingInsert: >-
               INSERT IGNORE INTO staging_asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, cut_point_4, cut_point_5, min_score, max_score, migrate_id) VALUES
@@ -1277,44 +1293,44 @@ sql:
              INSERT IGNORE INTO staging_exam_available_accommodation (exam_id, accommodation_id) VALUES
                (:exam_id, :accommodation_id)
 
-        # ------------ exam_claim_score  ---------------------------------------------------------------------------------------
-        exam_claim_score:
+        # ------------ exam_score  ---------------------------------------------------------------------------------------
+        exam_score:
           sql:
             warehouseRead: >-
               SELECT
                 wecs.id,
                 wecs.exam_id,
-                wecs.subject_claim_score_id,
+                wecs.subject_score_id,
                 round(wecs.scale_score) AS scale_score,
                 wecs.scale_score_std_err,
-                wecs.category
-              FROM exam_claim_score wecs
+                wecs.performance_level
+              FROM exam_score wecs
                 JOIN exam we ON wecs.exam_id = we.id
               WHERE we.created > :first_at AND we.created <= :last_at
                 AND we.deleted = 0
 
             stagingInsert: >-
               INSERT INTO staging_exam_claim_score (id, exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
-                (:id, :exam_id, :subject_claim_score_id, :scale_score, :scale_score_std_err, :category)
+                (:id, :exam_id, :subject_score_id, :scale_score, :scale_score_std_err, :performance_level)
 
-        exam_claim_score_by_update_import_id:
+        exam_score_by_update_import_id:
           sql:
             warehouseRead: >-
               SELECT
                 wecs.id,
                 wecs.exam_id,
-                wecs.subject_claim_score_id,
+                wecs.subject_score_id,
                 round(wecs.scale_score) AS scale_score,
                 wecs.scale_score_std_err,
-                wecs.category
-              FROM exam_claim_score wecs
+                wecs.performance_level
+              FROM exam_score wecs
                 JOIN exam we ON wecs.exam_id = we.id
               WHERE we.updated > :first_at AND we.updated <= :last_at AND we.updated <> we.created
                 AND we.deleted = 0
 
             stagingInsert: >-
               INSERT IGNORE INTO staging_exam_claim_score (id, exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
-                (:id, :exam_id, :subject_claim_score_id, :scale_score, :scale_score_std_err, :category)
+                (:id, :exam_id, :subject_score_id, :scale_score, :scale_score_std_err, :performance_level)
 
         # ------------ exam_target_score  ---------------------------------------------------------------------------------------
         # Only Summative target scores are included

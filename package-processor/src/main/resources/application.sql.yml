@@ -7,39 +7,36 @@ sql:
   #JdbcAssessmentPackageRepository
   assessment:
     findOneByNaturalId: >-
-        SELECT a.id, a.natural_id, a.grade_id, a.type_id, a.subject_id, a.school_year, a.name, a.label, a.version, s.cut_point_1, s.cut_point_2, s.cut_point_3, s.cut_point_4, s.cut_point_5, s.min_score, s.max_score
-           FROM asmt a JOIN asmt_score s ON s.asmt_id = a.id WHERE a.natural_id= :natural_id
+      SELECT a.id, a.natural_id, a.grade_id, a.type_id, a.subject_id, a.school_year, a.name, a.label, a.version, s.cut_point_1, s.cut_point_2, s.cut_point_3, s.cut_point_4, s.cut_point_5, s.min_score, s.max_score
+        FROM asmt a JOIN asmt_score s ON s.asmt_id = a.id WHERE a.natural_id= :natural_id
 
     update: >-
-       UPDATE asmt a
+      UPDATE asmt
         SET
-          a.school_year = :schoolYear,
-          a.name = :name,
-          a.label = :label,
-          a.version = :version,
-          a.update_import_id = :update_import_id
-        WHERE a.id = :id
+          school_year = :schoolYear,
+          name = :name,
+          label = :label,
+          version = :version,
+          update_import_id = :update_import_id
+        WHERE id = :id
 
     create: >-
         INSERT INTO asmt (natural_id, grade_id, type_id, subject_id, school_year, name, label, version, import_id, update_import_id) VALUES
                          (:naturalId, :gradeId, :typeId, :subjectId, :schoolYear, :name, :label, :version, :import_id, :update_import_id)
 
     assessmentScore:
-       create: >-
-         INSERT INTO asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, cut_point_4, cut_point_5, min_score, max_score)
-          SELECT (SELECT id FROM asmt WHERE natural_id=:asmtId), :cutPoint1, :cutPoint2, :cutPoint3, :cutPoint4, :cutPoint5, :minScore, :maxScore
+      findAll: >-
+        SELECT asmt_id, cut_point_1, cut_point_2, cut_point_3, cut_point_4, cut_point_5, min_score, max_score, subject_score_id
+          FROM asmt_score
+          WHERE asmt_id = :asmt_id
+          ORDER BY subject_score_id
 
-       update: >-
-         UPDATE asmt_score s
-           SET
-             s.cut_point_1 = :cutPoint1,
-             s.cut_point_2 = :cutPoint2,
-             s.cut_point_3 = :cutPoint3,
-             s.cut_point_4 = :cutPoint4,
-             s.cut_point_5 = :cutPoint5,
-             s.min_score = :minScore,
-             s.max_score = :maxScore
-          WHERE s.asmt_id = :asmt_id
+      create: >-
+        INSERT INTO asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, cut_point_4, cut_point_5, min_score, max_score, subject_score_id)
+          SELECT (SELECT id FROM asmt WHERE natural_id=:asmtId), :cutPoint1, :cutPoint2, :cutPoint3, :cutPoint4, :cutPoint5, :minScore, :maxScore, :subjectScoreId
+
+      delete: >-
+        DELETE FROM asmt_score WHERE asmt_id IN (SELECT id FROM asmt WHERE natural_id IN (:asmtIds))
 
     item:
       findAll: >-
@@ -334,50 +331,6 @@ sql:
     update: >-
       UPDATE school_group SET name = :name, external_id = :external_id WHERE id = :id
 
-  scorableClaim:
-    findBySubject: >-
-      SELECT
-        scs.id,
-        scs.code,
-        at.code as asmt_type_code,
-        scs.display_order,
-        scs.data_order
-      FROM subject_claim_score scs
-        JOIN subject s ON s.id = scs.subject_id
-        JOIN asmt_type at ON at.id = scs.asmt_type_id
-      WHERE s.code = :subject_code
-
-    insert: >-
-      INSERT INTO subject_claim_score (subject_id, asmt_type_id, code, display_order, data_order)
-        SELECT
-          s.id,
-          at.id,
-          :claim_code,
-          :display_order,
-          :data_order
-        FROM subject s
-          JOIN asmt_type at ON at.code = :asmt_type_code
-        WHERE s.code = :subject_code
-
-    update: >-
-      UPDATE subject_claim_score
-      SET
-        display_order = :display_order,
-        data_order = :data_order
-      WHERE id = :id
-
-    delete: >-
-      DELETE FROM subject_claim_score
-      WHERE id IN (:ids)
-
-    isReferenced: >-
-      SELECT
-        scs.id
-      FROM subject_claim_score scs
-        JOIN asmt a ON a.subject_id = scs.subject_id AND a.type_id = scs.asmt_type_id
-      WHERE scs.id IN (:ids)
-      LIMIT 1
-
   #JdbcPercentileRepository
   percentile:
     create: >-
@@ -456,73 +409,62 @@ sql:
       UPDATE subject SET update_import_id = :update_import_id WHERE code = :code
 
     assessmentType:
-      findBySubject: >-
-        SELECT
-          at.code as asmt_type_code,
-          s.code as subject_code,
-          sat.performance_level_count,
-          sat.performance_level_standard_cutoff,
-          sat.claim_score_performance_level_count,
-          sat.target_report
+      findBySubjectId: >-
+        SELECT sat.asmt_type_id, sat.target_report, sat.printed_report,
+          sas.score_type_id, sas.min_score, sas.max_score, sas.performance_level_count, sas.performance_level_standard_cutoff
         FROM subject_asmt_type sat
-          JOIN asmt_type at ON at.id = sat.asmt_type_id
-          JOIN subject s ON s.id = sat.subject_id
-        WHERE s.code = :subject_code
+          LEFT JOIN subject_asmt_scoring sas ON sas.subject_id = sat.subject_id AND sas.asmt_type_id = sat.asmt_type_id
+        WHERE sat.subject_id = :subject_id
 
-      findBySubjectIdAndAsmtTypeId: >-
-        SELECT
-          at.code as asmt_type_code,
-          s.code as subject_code,
-          sat.performance_level_count,
-          sat.performance_level_standard_cutoff,
-          sat.claim_score_performance_level_count,
-          sat.target_report
-        FROM subject_asmt_type sat
-          JOIN asmt_type at ON at.id = sat.asmt_type_id
-          JOIN subject s ON s.id = sat.subject_id
-        WHERE sat.subject_id = :subject_id AND sat.asmt_type_id = :asmt_type_id
+      create: >-
+        INSERT INTO subject_asmt_type (subject_id, asmt_type_id, target_report, printed_report)
+          VALUES (:subject_id, :asmt_type_id, :target_report, :printed_report)
 
-      insert: >-
-        INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report)
-          SELECT
-            asmt_type.id,
-            subject.id,
-            :performance_level_count,
-            :performance_level_standard_cutoff,
-            :claim_score_performance_level_count,
-            :target_report
-          FROM subject
-            JOIN asmt_type ON asmt_type.code = :asmt_type_code
-          WHERE subject.code = :subject_code
+      createScoring: >-
+        INSERT INTO subject_asmt_scoring (subject_id, asmt_type_id, score_type_id, min_score, max_score, performance_level_count, performance_level_standard_cutoff)
+          VALUES (:subject_id, :asmt_type_id, :score_type_id, :min_score, :max_score, :performance_level_count, :performance_level_standard_cutoff)
 
-      update: >-
-        UPDATE subject_asmt_type
-          JOIN subject ON subject.id = subject_asmt_type.subject_id
-          JOIN asmt_type ON asmt_type.id = subject_asmt_type.asmt_type_id
-        SET
-          subject_asmt_type.performance_level_count = :performance_level_count,
-          subject_asmt_type.performance_level_standard_cutoff = :performance_level_standard_cutoff,
-          subject_asmt_type.claim_score_performance_level_count = :claim_score_performance_level_count,
-          subject_asmt_type.target_report = :target_report
-        WHERE subject.code = :subject_code
-          AND asmt_type.code = :asmt_type_code
-
+      # takes advantage of ON CASCADE DELETE to remove subject_asmt_scoring children
       delete: >-
-        DELETE subject_asmt_type FROM subject_asmt_type
-          JOIN subject ON subject.id = subject_asmt_type.subject_id
-          JOIN asmt_type ON asmt_type.id = subject_asmt_type.asmt_type_id
-        WHERE subject.code = :subject_code
-          AND asmt_type.code = :asmt_type_code
+        DELETE FROM subject_asmt_type WHERE subject_id = :subject_id AND asmt_type_id = :asmt_type_id
 
       isReferenced: >-
-        SELECT EXISTS(
-          SELECT 1
-          FROM asmt a
-            JOIN subject s ON s.id = a.subject_id
-            JOIN asmt_type at ON at.id = a.type_id
-          WHERE s.code = :subject_code
-            AND at.code = :asmt_type_code
-          LIMIT 1)
+        SELECT EXISTS(SELECT 1 FROM asmt WHERE subject_id = :subject_id AND type_id = :asmt_type_id LIMIT 1)
+
+    score:
+      findBySubjectId: >-
+        SELECT id, asmt_type_id, score_type_id, code, display_order, data_order
+        FROM subject_score
+        WHERE subject_id = :subject_id
+        ORDER BY data_order
+
+      findBySubjectIdAsmtTypeIdScoreTypeId: >-
+        SELECT id, asmt_type_id, score_type_id, code, display_order, data_order
+        FROM subject_score
+        WHERE subject_id = :subject_id AND asmt_type_id = :asmt_type_id AND score_type_id = :score_type_id
+        ORDER BY data_order
+
+      insert: >-
+        INSERT INTO subject_score (subject_id, asmt_type_id, score_type_id, code, display_order, data_order) VALUES
+          (:subject_id, :asmt_type_id, :score_type_id, :code, :display_order, :data_order)
+
+      update: >-
+        UPDATE subject_score
+        SET
+          display_order = :display_order,
+          data_order = :data_order
+        WHERE id = :id
+
+      delete: >-
+        DELETE FROM subject_score
+        WHERE id IN (:ids)
+
+      isReferenced: >-
+        SELECT scs.id
+        FROM subject_score scs
+          JOIN asmt a ON a.subject_id = scs.subject_id AND a.type_id = scs.asmt_type_id
+        WHERE scs.id IN (:ids)
+        LIMIT 1
 
   subjectTranslation:
     findBySubject: >-

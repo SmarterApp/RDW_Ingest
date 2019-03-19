@@ -127,7 +127,7 @@ INSERT INTO exam_item (id, exam_id, item_id, score, score_status, response, posi
   (-6, -85,  -6, -1, 'SCORED', null, 16),
   (-7, -86,  -6, -1, 'SCORED', null, 16);
 
-INSERT INTO exam_claim_score (id, exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
+INSERT INTO exam_score (id, exam_id, subject_score_id, scale_score, scale_score_std_err, performance_level) VALUES
    (-1, -88, 1, 2014, 0.19, 1),
    (-2, -87, 1, 2014, 0.19, 1),
    (-3, -86, 1, 2014, 0.19, 1),
