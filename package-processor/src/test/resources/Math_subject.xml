@@ -6,13 +6,15 @@
   </Messages>
   <AssessmentTypes>
     <AssessmentType code="ica" name="ICA" longName="Interim Comprehensive Assessment">
-      <PerformanceLevels standardCutoff="3">
-        <PerformanceLevel level="1" name="Did Not Meet Standard" color="maroon"/>
-        <PerformanceLevel level="2" name="Nearly Met Standard" color="gray-darkest"/>
-        <PerformanceLevel level="3" name="Met Standard" color="green-dark"/>
-        <PerformanceLevel level="4" name="Exceeded Standard" color="blue-dark"/>
-      </PerformanceLevels>
-      <ClaimScoring>
+      <OverallScoring name="Overall">
+        <PerformanceLevels standardCutoff="3">
+          <PerformanceLevel level="1" name="Did Not Meet Standard" color="maroon"/>
+          <PerformanceLevel level="2" name="Nearly Met Standard" color="gray-darkest"/>
+          <PerformanceLevel level="3" name="Met Standard" color="green-dark"/>
+          <PerformanceLevel level="4" name="Exceeded Standard" color="blue-dark"/>
+        </PerformanceLevels>
+      </OverallScoring>
+      <ClaimScoring name="Claim">
         <PerformanceLevels>
           <PerformanceLevel level="1" name="Below Standard" shortName="Below" suffix="Standard" color="sb-iab-red"/>
           <PerformanceLevel level="2" name="Near Standard" shortName="Near" suffix="Standard" color="sb-iab-yellow"/>
@@ -21,19 +23,23 @@
       </ClaimScoring>
     </AssessmentType>
     <AssessmentType code="iab" name="IAB" longName="Interim Assessment Blocks">
-      <PerformanceLevels>
-        <PerformanceLevel level="1" name="Below Standard" shortName="Below" suffix="Standard" color="sb-iab-red"/>
-        <PerformanceLevel level="2" name="Near Standard" shortName="Near" suffix="Standard" color="sb-iab-yellow"/>
-        <PerformanceLevel level="3" name="Above Standard" shortName="Above" suffix="Standard" color="sb-iab-green"/>
-      </PerformanceLevels>
+      <OverallScoring name="Overall">
+        <PerformanceLevels>
+          <PerformanceLevel level="1" name="Below Standard" shortName="Below" suffix="Standard" color="sb-iab-red"/>
+          <PerformanceLevel level="2" name="Near Standard" shortName="Near" suffix="Standard" color="sb-iab-yellow"/>
+          <PerformanceLevel level="3" name="Above Standard" shortName="Above" suffix="Standard" color="sb-iab-green"/>
+        </PerformanceLevels>
+      </OverallScoring>
     </AssessmentType>
     <AssessmentType code="sum" name="Summative" longName="Summative Assessment">
-      <PerformanceLevels standardCutoff="3">
-        <PerformanceLevel level="1" name="Did Not Meet Standard" color="maroon"/>
-        <PerformanceLevel level="2" name="Nearly Met Standard" color="gray-darkest"/>
-        <PerformanceLevel level="3" name="Met Standard" color="green-dark"/>
-        <PerformanceLevel level="4" name="Exceeded Standard" color="blue-dark"/>
-      </PerformanceLevels>
+      <OverallScoring name="Overall">
+        <PerformanceLevels standardCutoff="3">
+          <PerformanceLevel level="1" name="Did Not Meet Standard" color="maroon"/>
+          <PerformanceLevel level="2" name="Nearly Met Standard" color="gray-darkest"/>
+          <PerformanceLevel level="3" name="Met Standard" color="green-dark"/>
+          <PerformanceLevel level="4" name="Exceeded Standard" color="blue-dark"/>
+        </PerformanceLevels>
+      </OverallScoring>
       <ClaimScoring>
         <PerformanceLevels>
           <PerformanceLevel level="1" name="Below Standard" shortName="Below" suffix="Standard" color="sb-iab-red"/>

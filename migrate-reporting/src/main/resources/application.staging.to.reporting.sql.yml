@@ -1318,12 +1318,12 @@ sql:
                 sa.label,
                 sa.version,
                 sa.update_import_id,
-                claim1,
-                claim2,
-                claim3,
-                claim4,
-                claim5,
-                claim6,
+                scs1.code,
+                scs2.code,
+                scs3.code,
+                scs4.code,
+                scs5.code,
+                scs6.code,
                 sas.cut_point_1,
                 sas.cut_point_2,
                 sas.cut_point_3,
@@ -1335,29 +1335,12 @@ sql:
                 sa.migrate_id
               FROM staging_asmt sa
                 LEFT JOIN asmt ra ON ra.id = sa.id
-                LEFT JOIN (SELECT rs.code as claim1, rs.subject_id, rs.asmt_type_id FROM subject_claim_score rs
-                          JOIN subject_claim_score rm ON rm.id = rs.id AND rm.data_order = 1)
-                    AS s1 ON sa.subject_id = s1.subject_id AND sa.type_id = s1.asmt_type_id
-
-                LEFT JOIN (SELECT rs.code as claim2, rs.subject_id, rs.asmt_type_id FROM subject_claim_score rs
-                          JOIN subject_claim_score rm ON rm.id = rs.id AND rm.data_order = 2)
-                    AS s2 ON sa.subject_id = s2.subject_id AND sa.type_id = s2.asmt_type_id
-
-                LEFT JOIN (SELECT rs.code as claim3, rs.subject_id, rs.asmt_type_id FROM subject_claim_score rs
-                          JOIN subject_claim_score rm ON rm.id = rs.id AND rm.data_order = 3)
-                    AS s3 ON sa.subject_id = s3.subject_id AND sa.type_id = s3.asmt_type_id
-
-                LEFT JOIN (SELECT rs.code as claim4, rs.subject_id, rs.asmt_type_id FROM subject_claim_score rs
-                               JOIN subject_claim_score rm ON rm.id = rs.id AND rm.data_order = 4)
-                    AS s4 ON sa.subject_id = s4.subject_id AND sa.type_id = s4.asmt_type_id
-
-                LEFT JOIN (SELECT rs.code as claim5, rs.subject_id, rs.asmt_type_id FROM subject_claim_score rs
-                               JOIN subject_claim_score rm ON rm.id = rs.id AND rm.data_order = 5)
-                    AS s5 ON sa.subject_id = s5.subject_id AND sa.type_id = s5.asmt_type_id
-
-                LEFT JOIN (SELECT rs.code as claim6, rs.subject_id, rs.asmt_type_id FROM subject_claim_score rs
-                               JOIN subject_claim_score rm ON rm.id = rs.id AND rm.data_order = 6)
-                    AS s6 ON sa.subject_id = s6.subject_id AND sa.type_id = s6.asmt_type_id
+                LEFT JOIN subject_claim_score scs1 ON sa.subject_id = scs1.subject_id AND sa.type_id = scs1.asmt_type_id AND scs1.data_order = 1
+                LEFT JOIN subject_claim_score scs2 ON sa.subject_id = scs2.subject_id AND sa.type_id = scs2.asmt_type_id AND scs2.data_order = 2
+                LEFT JOIN subject_claim_score scs3 ON sa.subject_id = scs3.subject_id AND sa.type_id = scs3.asmt_type_id AND scs3.data_order = 3
+                LEFT JOIN subject_claim_score scs4 ON sa.subject_id = scs4.subject_id AND sa.type_id = scs4.asmt_type_id AND scs4.data_order = 4
+                LEFT JOIN subject_claim_score scs5 ON sa.subject_id = scs5.subject_id AND sa.type_id = scs5.asmt_type_id AND scs5.data_order = 5
+                LEFT JOIN subject_claim_score scs6 ON sa.subject_id = scs6.subject_id AND sa.type_id = scs6.asmt_type_id AND scs6.data_order = 6
                 JOIN staging_asmt_score sas ON sa.id = sas.asmt_id
                 JOIN grade rg ON rg.id = sa.grade_id
               WHERE ra.id IS NULL and sa.deleted = 0;
@@ -1365,30 +1348,12 @@ sql:
           update: >-
             UPDATE asmt ra
               JOIN staging_asmt sa ON sa.id = ra.id
-                LEFT JOIN (SELECT rs.code as claim1, rs.subject_id, rs.asmt_type_id FROM subject_claim_score rs
-                          JOIN subject_claim_score rm ON rm.id = rs.id AND rm.data_order = 1)
-                    AS s1 ON sa.subject_id = s1.subject_id AND sa.type_id = s1.asmt_type_id
-
-                LEFT JOIN (SELECT rs.code as claim2, rs.subject_id, rs.asmt_type_id FROM subject_claim_score rs
-                          JOIN subject_claim_score rm ON rm.id = rs.id AND rm.data_order = 2)
-                    AS s2 ON sa.subject_id = s2.subject_id AND sa.type_id = s2.asmt_type_id
-
-                LEFT JOIN (SELECT rs.code as claim3, rs.subject_id, rs.asmt_type_id FROM subject_claim_score rs
-                          JOIN subject_claim_score rm ON rm.id = rs.id AND rm.data_order = 3)
-                    AS s3 ON sa.subject_id = s3.subject_id AND sa.type_id = s3.asmt_type_id
-
-                LEFT JOIN (SELECT rs.code as claim4, rs.subject_id, rs.asmt_type_id FROM subject_claim_score rs
-                               JOIN subject_claim_score rm ON rm.id = rs.id AND rm.data_order = 4)
-                    AS s4 ON sa.subject_id = s4.subject_id AND sa.type_id = s4.asmt_type_id
-
-                LEFT JOIN (SELECT rs.code as claim5, rs.subject_id, rs.asmt_type_id FROM subject_claim_score rs
-                               JOIN subject_claim_score rm ON rm.id = rs.id AND rm.data_order = 5)
-                    AS s5 ON sa.subject_id = s5.subject_id AND sa.type_id = s5.asmt_type_id
-
-                LEFT JOIN (SELECT rs.code as claim6, rs.subject_id, rs.asmt_type_id FROM subject_claim_score rs
-                               JOIN subject_claim_score rm ON rm.id = rs.id AND rm.data_order = 6)
-                    AS s6 ON sa.subject_id = s6.subject_id AND sa.type_id = s6.asmt_type_id
-
+              LEFT JOIN subject_claim_score scs1 ON sa.subject_id = scs1.subject_id AND sa.type_id = scs1.asmt_type_id AND scs1.data_order = 1
+              LEFT JOIN subject_claim_score scs2 ON sa.subject_id = scs2.subject_id AND sa.type_id = scs2.asmt_type_id AND scs2.data_order = 2
+              LEFT JOIN subject_claim_score scs3 ON sa.subject_id = scs3.subject_id AND sa.type_id = scs3.asmt_type_id AND scs3.data_order = 3
+              LEFT JOIN subject_claim_score scs4 ON sa.subject_id = scs4.subject_id AND sa.type_id = scs4.asmt_type_id AND scs4.data_order = 4
+              LEFT JOIN subject_claim_score scs5 ON sa.subject_id = scs5.subject_id AND sa.type_id = scs5.asmt_type_id AND scs5.data_order = 5
+              LEFT JOIN subject_claim_score scs6 ON sa.subject_id = scs6.subject_id AND sa.type_id = scs6.asmt_type_id AND scs6.data_order = 6
               JOIN staging_asmt_score sas ON ra.id = sas.asmt_id
               JOIN grade rg ON rg.id = sa.grade_id
             SET
@@ -1401,12 +1366,12 @@ sql:
               ra.label       = sa.label,
               ra.version     = sa.version,
               ra.update_import_id  = sa.update_import_id,
-              ra.claim1_score_code = claim1,
-              ra.claim2_score_code = claim2,
-              ra.claim3_score_code = claim3,
-              ra.claim4_score_code = claim4,
-              ra.claim5_score_code = claim5,
-              ra.claim6_score_code = claim6,
+              ra.claim1_score_code = scs1.code,
+              ra.claim2_score_code = scs2.code,
+              ra.claim3_score_code = scs3.code,
+              ra.claim4_score_code = scs4.code,
+              ra.claim5_score_code = scs5.code,
+              ra.claim6_score_code = scs6.code,
               ra.cut_point_1 = sas.cut_point_1,
               ra.cut_point_2 = sas.cut_point_2,
               ra.cut_point_3 = sas.cut_point_3,

@@ -66,17 +66,28 @@ sql:
           FROM asmt a
             JOIN subject s ON s.id = a.subject_id
             JOIN grade g ON g.id = a.grade_id
-          WHERE a.natural_id= :natural_id
+          WHERE a.natural_id = :natural_id
 
-    subjectClaimScore:
-      findBySubjectAndAsmtType: >-
-        SELECT id, code FROM subject_claim_score WHERE subject_id = :subject_id and asmt_type_id =:asmt_type_id
+    score:
+      # for OVERALL, only the asmt_score table will have an entry (no subject-specific info for overall)
+      # for ALTs, both tables will have entries
+      # for CLAIMs, likely only the subject_score table has entries (no assessment-specific info for scorable CLAIMS)
+      findAllForAssessment: >-
+        SELECT 1 as score_type_id, NULL as subject_score_id, 'OVERALL' as code, min_score, max_score
+          FROM asmt_score
+          WHERE subject_score_id IS NULL and asmt_id = :asmt_id
+        UNION ALL
+        SELECT s.score_type_id, s.id as subject_score_id, s.code, a.min_score, a.max_score
+          FROM subject_score s
+            JOIN asmt ON s.subject_id = asmt.subject_id AND s.asmt_type_id = asmt.type_id
+            LEFT JOIN asmt_score a ON s.id = a.subject_score_id AND asmt.id = a.asmt_id
+          WHERE asmt.id = :asmt_id
 
     item:
       findAllForAssessment: >-
         SELECT i.id, i.natural_id, i.target_id, CONCAT(c.code, '|', t.natural_id) AS target_code
          FROM item i JOIN target t ON t.id = i.target_id JOIN claim c ON t.claim_id = c.id
-        WHERE asmt_id = :asmt_id order by natural_id asc
+        WHERE asmt_id = :asmt_id ORDER BY natural_id ASC
 
   # JdbcExamRepository
   exam:
@@ -219,34 +230,34 @@ sql:
 
     examClaimScore:
       create: >-
-        INSERT INTO exam_claim_score (exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category, theta_score, theta_score_std_err) VALUES
-                                    (:exam_id, :subject_claim_score_id, :scale_score, :scale_score_std_err, :category, :theta_score, :theta_score_std_err)
+        INSERT INTO exam_score (exam_id, subject_score_id, scale_score, scale_score_std_err, performance_level, theta_score, theta_score_std_err) VALUES
+                               (:exam_id, :subject_score_id, :scale_score, :scale_score_std_err, :performance_level, :theta_score, :theta_score_std_err)
 
       update: >-
-        UPDATE exam_claim_score
+        UPDATE exam_score
         SET
-          subject_claim_score_id = :subject_claim_score_id,
+          subject_score_id = :subject_score_id,
           scale_score = :scale_score,
           scale_score_std_err = :scale_score_std_err,
-          category = :category,
+          performance_level = :performance_level,
           theta_score = :theta_score,
           theta_score_std_err = :theta_score_std_err
         WHERE id = :id
 
       delete: >-
-        DELETE FROM exam_claim_score
+        DELETE FROM exam_score
         WHERE id IN (:ids)
 
       findByExamId: >-
         SELECT
           id,
-          subject_claim_score_id,
+          subject_score_id,
           scale_score,
           scale_score_std_err,
-          category,
+          performance_level,
           theta_score,
           theta_score_std_err
-        FROM exam_claim_score
+        FROM exam_score
         WHERE exam_id = :exam_id
 
     examTargetScore:

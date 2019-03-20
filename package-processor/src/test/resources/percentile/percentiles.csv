@@ -44,7 +44,7 @@ assessment_id,start_date,end_date,count,mean,standard_deviation,min_score,max_sc
 
 # yippy skippy, even all empty records are gracefully ignored now
 ,,,,,,,,,
-(naturalId)MOCK-IAB-G11E-2017-2018,2018-01-01,2018-03-31,843395,2467,,,,5,2345
+(naturalId)MOCK-IAB-G11E-2017-2018,2018-01-01,2018-03-31,843395,2467,90.0,1000,3000,5,2345
 (naturalId)MOCK-IAB-G11E-2017-2018,2018-01-01,2018-03-31,,,,,,10,2375
 (naturalId)MOCK-IAB-G11E-2017-2018,2018-01-01,2018-03-31,,,,,,15,2397
 (naturalId)MOCK-IAB-G11E-2017-2018,2018-01-01,2018-03-31,,,,,,20,2415
