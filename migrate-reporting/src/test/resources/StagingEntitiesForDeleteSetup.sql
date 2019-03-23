@@ -27,5 +27,5 @@ DELETE from staging_user_student_group where student_group_id = -91;
 UPDATE staging_exam SET deleted = 1 WHERE id IN (-88, -59);
 DELETE from staging_exam_available_accommodation  WHERE exam_id  IN (-88, -59);
 DELETE from staging_exam_item  WHERE exam_id IN (-88, -59);
-DELETE from staging_exam_claim_score  WHERE exam_id IN (-88, -59);
+DELETE from staging_exam_score  WHERE exam_id IN (-88, -59);
 DELETE from staging_exam_target_score  WHERE exam_id IN (-88, -59);
