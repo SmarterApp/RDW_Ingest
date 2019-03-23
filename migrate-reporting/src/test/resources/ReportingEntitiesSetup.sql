@@ -13,6 +13,7 @@ INSERT INTO school (id, district_id, district_group_id, school_group_id, name, n
   (-1, -1, NULL, NULL, 'Before Test -1', 'natural_id-1', 0, -5000, '2017-05-18 20:06:34.966000', -1),
   (-99, -99, NULL, NULL, 'Before Test -99', 'natural_id-99', 0, -1, '2017-07-18 20:14:34.000000', -1);
 
+
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
 INSERT INTO asmt (id, natural_id, grade_id, grade_code, type_id, subject_id, school_year, name, label, version, update_import_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score, updated, migrate_id) VALUES
    (-11, '(SBAC)SBAC-IAB-ASMT TEST-11',   -98, '98', 2, 1, 1999, 'IAB-ASMT TEST-11', 'test',    '9835', -1, 2442, 2502, 2582, 2201, 2701, '2017-07-18 20:14:34.000000', -1),
@@ -29,9 +30,6 @@ INSERT INTO asmt_target(asmt_id, target_id, include_in_report) VALUES
    (-59,  -71, false),
    (-111, -71, false),
    (-111, -72, true);
-
-INSERT INTO asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score) VALUES
-  (-99, 2442, 2502, 2582, 2201, 2701);
 
 INSERT INTO item (id, claim_id, claim_code, target_id, common_core_standard_ids, natural_id, asmt_id, dok_id, difficulty_code, max_points, math_practice, allow_calc, position) VALUES
   (-9,   -1, '1', -71, null, '200-2009',  -11, -99, 'E', 2, -99, 0, 1),

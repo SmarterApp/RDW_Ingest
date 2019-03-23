@@ -240,65 +240,80 @@ sql:
               rs.update_import_id = ss.update_import_id,
               rs.migrate_id = ss.migrate_id
 
-      # ------------ Subject Asmt Type ------------------------------------------------------------------------
+      # ------------ subject_asmt_type ------------------------------------------------------------------------
       subject_asmt_type:
         sql:
           insert: >-
-            INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report)
+            INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, alt_score_performance_level_count, target_report, printed_report)
               SELECT
                 ssat.asmt_type_id,
                 ssat.subject_id,
-                ssat.performance_level_count,
-                ssat.performance_level_standard_cutoff,
-                ssat.claim_score_performance_level_count,
-                ssat.target_report
+                ssas1.performance_level_count,
+                ssas1.performance_level_standard_cutoff,
+                ssas2.performance_level_count AS alt_score_performance_level_count,
+                ssas3.performance_level_count AS claim_score_performance_level_count,
+                ssat.target_report,
+                ssat.printed_report
               FROM staging_subject_asmt_type ssat
                 LEFT JOIN subject_asmt_type rsat ON (rsat.subject_id = ssat.subject_id AND rsat.asmt_type_id = ssat.asmt_type_id)
+                LEFT JOIN staging_subject_asmt_scoring ssas1 ON ssas1.subject_id = ssat.subject_id AND ssas1.asmt_type_id = ssat.asmt_type_id AND ssas1.score_type_id=1
+                LEFT JOIN staging_subject_asmt_scoring ssas2 ON ssas2.subject_id = ssat.subject_id AND ssas2.asmt_type_id = ssat.asmt_type_id AND ssas2.score_type_id=2
+                LEFT JOIN staging_subject_asmt_scoring ssas3 ON ssas3.subject_id = ssat.subject_id AND ssas3.asmt_type_id = ssat.asmt_type_id AND ssas3.score_type_id=3
               WHERE rsat.subject_id IS NULL;
 
           update: >-
            UPDATE subject_asmt_type rsat
              JOIN staging_subject_asmt_type ssat ON (rsat.subject_id = ssat.subject_id AND rsat.asmt_type_id = ssat.asmt_type_id)
+             LEFT JOIN staging_subject_asmt_scoring ssas1 ON ssas1.subject_id = ssat.subject_id AND ssas1.asmt_type_id = ssat.asmt_type_id AND ssas1.score_type_id=1
+             LEFT JOIN staging_subject_asmt_scoring ssas2 ON ssas2.subject_id = ssat.subject_id AND ssas2.asmt_type_id = ssat.asmt_type_id AND ssas2.score_type_id=2
+             LEFT JOIN staging_subject_asmt_scoring ssas3 ON ssas3.subject_id = ssat.subject_id AND ssas3.asmt_type_id = ssat.asmt_type_id AND ssas3.score_type_id=3
            SET
-             rsat.performance_level_count = ssat.performance_level_count,
-             rsat.performance_level_standard_cutoff = ssat.performance_level_standard_cutoff,
-             rsat.claim_score_performance_level_count = ssat.claim_score_performance_level_count,
-             rsat.target_report = ssat.target_report
+             rsat.performance_level_count = ssas1.performance_level_count,
+             rsat.performance_level_standard_cutoff = ssas1.performance_level_standard_cutoff,
+             rsat.alt_score_performance_level_count = ssas2.performance_level_count,
+             rsat.claim_score_performance_level_count = ssas3.performance_level_count,
+             rsat.target_report = ssat.target_report,
+             rsat.printed_report = ssat.printed_report
 
           deleteAsPartOfParentUpdate: >-
             DELETE rsat FROM subject_asmt_type rsat
               JOIN staging_subject ss ON ss.id = rsat.subject_id
-              WHERE NOT EXISTS( SELECT 1 FROM staging_subject_asmt_type ssat WHERE ssat.asmt_type_id = rsat.asmt_type_id and ssat.subject_id = rsat.subject_id);
+              WHERE NOT EXISTS (SELECT 1 FROM staging_subject_asmt_type ssat WHERE ssat.asmt_type_id = rsat.asmt_type_id and ssat.subject_id = rsat.subject_id);
 
-      # ---------------- subject_claim_score  -----------------------------------------------
-      subject_claim_score:
+      # ---------------- subject_asmt_scoring  -----------------------------------------------
+      # subject_asmt_scoring gets denormalized, extracting just the performance level counts for overall, alt, claim
+      # (see subject_asmt_type above)
+
+      # ---------------- subject_score  -----------------------------------------------
+      subject_score:
         sql:
           insert: >-
-            INSERT INTO subject_claim_score (id, subject_id, asmt_type_id, code, display_order, data_order)
+            INSERT INTO subject_score (id, subject_id, asmt_type_id, score_type_id, code, display_order, data_order)
               SELECT
                 sscs.id,
                 sscs.subject_id,
                 sscs.asmt_type_id,
+                sscs.score_type_id,
                 sscs.code,
                 sscs.display_order,
                 sscs.data_order
-              FROM staging_subject_claim_score sscs
-                LEFT JOIN subject_claim_score rscs ON rscs.id = sscs.id
+              FROM staging_subject_score sscs
+                LEFT JOIN subject_score rscs ON rscs.id = sscs.id
               WHERE rscs.id IS NULL;
 
           # NOTE: updating data order is only possible when there are no associated assessments or exams loaded
           # It is assumed that ingest manages this rule
           update: >-
-            UPDATE subject_claim_score rscs
-              JOIN staging_subject_claim_score sscs ON rscs.id = sscs.id
+            UPDATE subject_score rscs
+              JOIN staging_subject_score sscs ON rscs.id = sscs.id
             SET
               rscs.data_order = sscs.data_order,
               rscs.display_order = sscs.display_order
 
           deleteAsPartOfParentUpdate: >-
-            DELETE rscs FROM subject_claim_score rscs
+            DELETE rscs FROM subject_score rscs
               JOIN staging_subject ss ON ss.id = rscs.subject_id
-            WHERE NOT EXISTS( SELECT 1 FROM staging_subject_claim_score sscc WHERE sscc.id = rscs.id);
+            WHERE NOT EXISTS (SELECT 1 FROM staging_subject_score sscc WHERE sscc.id = rscs.id);
 
     # ---------------- subject_translation  -----------------------------------------------
       subject_translation:
@@ -585,19 +600,25 @@ sql:
         sql:
           insert: >-
             INSERT INTO exam (id, grade_id, grade_code, student_id, school_id, iep, lep, section504,
-                                        economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type,
-                                        language_code, prim_disability_type, type_id, school_year, asmt_id, asmt_version,
-                                        opportunity, elas_code, completeness_code,
-                                        administration_condition_code, military_connected_code,
-                                        session_id, performance_level, scale_score, scale_score_std_err,
-                                        update_import_id, completed_at, elas_start_at,
-                                        claim1_scale_score, claim1_scale_score_std_err, claim1_category,
-                                        claim2_scale_score, claim2_scale_score_std_err, claim2_category,
-                                        claim3_scale_score, claim3_scale_score_std_err, claim3_category,
-                                        claim4_scale_score, claim4_scale_score_std_err, claim4_category,
-                                        claim5_scale_score, claim5_scale_score_std_err, claim5_category,
-                                        claim6_scale_score, claim6_scale_score_std_err, claim6_category,
-                                        available_accommodation_codes, updated, migrate_id)
+                              economic_disadvantage, migrant_status, eng_prof_lvl, t3_program_type,
+                              language_code, prim_disability_type, type_id, school_year, asmt_id, asmt_version,
+                              opportunity, elas_code, completeness_code,
+                              administration_condition_code, military_connected_code,
+                              session_id, performance_level, scale_score, scale_score_std_err,
+                              update_import_id, completed_at, elas_start_at,
+                              claim1_scale_score, claim1_scale_score_std_err, claim1_category,
+                              claim2_scale_score, claim2_scale_score_std_err, claim2_category,
+                              claim3_scale_score, claim3_scale_score_std_err, claim3_category,
+                              claim4_scale_score, claim4_scale_score_std_err, claim4_category,
+                              claim5_scale_score, claim5_scale_score_std_err, claim5_category,
+                              claim6_scale_score, claim6_scale_score_std_err, claim6_category,
+                              alt1_scale_score, alt1_scale_score_std_err, alt1_performance_level,
+                              alt2_scale_score, alt2_scale_score_std_err, alt2_performance_level,
+                              alt3_scale_score, alt3_scale_score_std_err, alt3_performance_level,
+                              alt4_scale_score, alt4_scale_score_std_err, alt4_performance_level,
+                              alt5_scale_score, alt5_scale_score_std_err, alt5_performance_level,
+                              alt6_scale_score, alt6_scale_score_std_err, alt6_performance_level,
+                              available_accommodation_codes, updated, migrate_id)
               SELECT
                 se.id,
                 se.grade_id,
@@ -631,50 +652,80 @@ sql:
                 se.elas_start_at,
                 claim1.scale_score as claim1_scale_score,
                 claim1.scale_score_std_err as claim1_scale_score_std_err,
-                claim1.category as claim1_category,
+                claim1.performance_level as claim1_category,
                 claim2.scale_score as claim2_scale_score,
                 claim2.scale_score_std_err as claim2_scale_score_std_err,
-                claim2.category as claim2_category,
+                claim2.performance_level as claim2_category,
                 claim3.scale_score as claim3_scale_score,
                 claim3.scale_score_std_err as claim3_scale_score_std_err,
-                claim3.category as claim3_category,
+                claim3.performance_level as claim3_category,
                 claim4.scale_score as claim4_scale_score,
                 claim4.scale_score_std_err as claim4_scale_score_std_err,
-                claim4.category as claim4_category,
+                claim4.performance_level as claim4_category,
                 claim5.scale_score as claim5_scale_score,
                 claim5.scale_score_std_err as claim5_scale_score_std_err,
-                claim5.category as claim5_category,
+                claim5.performance_level as claim5_category,
                 claim6.scale_score as claim6_scale_score,
                 claim6.scale_score_std_err as claim6_scale_score_std_err,
-                claim6.category as claim6_category,
+                claim6.performance_level as claim6_category,
+                alt1.scale_score as alt1_scale_score,
+                alt1.scale_score_std_err as alt1_scale_score_std_err,
+                alt1.performance_level as alt1_performance_level,
+                alt2.scale_score as alt2_scale_score,
+                alt2.scale_score_std_err as alt2_scale_score_std_err,
+                alt2.performance_level as alt2_performance_level,
+                alt3.scale_score as alt3_scale_score,
+                alt3.scale_score_std_err as alt3_scale_score_std_err,
+                alt3.performance_level as alt3_performance_level,
+                alt4.scale_score as alt4_scale_score,
+                alt4.scale_score_std_err as alt4_scale_score_std_err,
+                alt4.performance_level as alt4_performance_level,
+                alt5.scale_score as alt5_scale_score,
+                alt5.scale_score_std_err as alt5_scale_score_std_err,
+                alt5.performance_level as alt5_performance_level,
+                alt6.scale_score as alt6_scale_score,
+                alt6.scale_score_std_err as alt6_scale_score_std_err,
+                alt6.performance_level as alt6_performance_level,
                 code.codes,
                 se.updated,
                 se.migrate_id
               FROM staging_exam se
-                LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category
-                             FROM staging_exam_claim_score s
-                               INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 1
+                LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.performance_level
+                             FROM staging_exam_score s JOIN subject_score m ON m.id = s.subject_score_id AND m.score_type_id=3 AND m.data_order=1
                            ) AS claim1 ON claim1.exam_id = se.id
-                LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category
-                             FROM staging_exam_claim_score s
-                               INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 2
+                LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.performance_level
+                             FROM staging_exam_score s JOIN subject_score m ON m.id = s.subject_score_id AND m.score_type_id=3 AND m.data_order=2
                            ) AS claim2 ON claim2.exam_id = se.id
-                LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category
-                             FROM staging_exam_claim_score s
-                               INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 3
+                LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.performance_level
+                             FROM staging_exam_score s JOIN subject_score m ON m.id = s.subject_score_id AND m.score_type_id=3 AND m.data_order=3
                            ) AS claim3 ON claim3.exam_id = se.id
-                LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category
-                             FROM staging_exam_claim_score s
-                               INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 4
+                LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.performance_level
+                             FROM staging_exam_score s JOIN subject_score m ON m.id = s.subject_score_id AND m.score_type_id=3 AND m.data_order=4
                           ) AS claim4 ON claim4.exam_id = se.id
-                LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category
-                             FROM staging_exam_claim_score s
-                               INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 5
+                LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.performance_level
+                             FROM staging_exam_score s JOIN subject_score m ON m.id = s.subject_score_id AND m.score_type_id=3 AND m.data_order=5
                           ) AS claim5 ON claim5.exam_id = se.id
-                LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.category
-                             FROM staging_exam_claim_score s
-                               INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 6
+                LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.performance_level
+                             FROM staging_exam_score s JOIN subject_score m ON m.id = s.subject_score_id AND m.score_type_id=3 AND m.data_order=6
                           ) AS claim6 ON claim6.exam_id = se.id
+                LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.performance_level
+                             FROM staging_exam_score s JOIN subject_score m ON m.id = s.subject_score_id AND m.score_type_id=2 AND m.data_order=1
+                           ) AS alt1 ON alt1.exam_id = se.id
+                LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.performance_level
+                             FROM staging_exam_score s JOIN subject_score m ON m.id = s.subject_score_id AND m.score_type_id=2 AND m.data_order=2
+                           ) AS alt2 ON alt2.exam_id = se.id
+                LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.performance_level
+                             FROM staging_exam_score s JOIN subject_score m ON m.id = s.subject_score_id AND m.score_type_id=2 AND m.data_order=3
+                           ) AS alt3 ON alt3.exam_id = se.id
+                LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.performance_level
+                             FROM staging_exam_score s JOIN subject_score m ON m.id = s.subject_score_id AND m.score_type_id=2 AND m.data_order=4
+                           ) AS alt4 ON alt4.exam_id = se.id
+                LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.performance_level
+                             FROM staging_exam_score s JOIN subject_score m ON m.id = s.subject_score_id AND m.score_type_id=2 AND m.data_order=5
+                           ) AS alt5 ON alt5.exam_id = se.id
+                LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.performance_level
+                             FROM staging_exam_score s JOIN subject_score m ON m.id = s.subject_score_id AND m.score_type_id=2 AND m.data_order=6
+                           ) AS alt6 ON alt6.exam_id = se.id
                 LEFT JOIN exam re ON re.id = se.id
                 LEFT JOIN language rl ON rl.id = se.language_id
                 LEFT JOIN elas rel ON rel.id = se.elas_id
@@ -699,30 +750,42 @@ sql:
               LEFT JOIN administration_condition rac ON rac.id = se.administration_condition_id
               LEFT JOIN military_connected rmc ON rmc.id = se.military_connected_id
               JOIN grade rg ON rg.id = se.grade_id
-              LEFT JOIN (SELECT s.exam_id ,s.scale_score ,s.scale_score_std_err ,s.category
-                           FROM staging_exam_claim_score s
-                             INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 1
+              LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.performance_level
+                           FROM staging_exam_score s JOIN subject_score m ON m.id = s.subject_score_id AND m.score_type_id=3 AND m.data_order=1
                          ) AS claim1 ON claim1.exam_id = se.id
-              LEFT JOIN (SELECT s.exam_id ,s.scale_score ,s.scale_score_std_err ,s.category
-                           FROM staging_exam_claim_score s
-                             INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 2
+              LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.performance_level
+                           FROM staging_exam_score s JOIN subject_score m ON m.id = s.subject_score_id AND m.score_type_id=3 AND m.data_order=2
                          ) AS claim2 ON claim2.exam_id = se.id
-              LEFT JOIN (SELECT s.exam_id ,s.scale_score ,s.scale_score_std_err ,s.category
-                           FROM staging_exam_claim_score s
-                             INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 3
+              LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.performance_level
+                           FROM staging_exam_score s JOIN subject_score m ON m.id = s.subject_score_id AND m.score_type_id=3 AND m.data_order=3
                          ) AS claim3 ON claim3.exam_id = se.id
-              LEFT JOIN (SELECT s.exam_id ,s.scale_score ,s.scale_score_std_err ,s.category
-                           FROM staging_exam_claim_score s
-                             INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 4
+              LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.performance_level
+                           FROM staging_exam_score s JOIN subject_score m ON m.id = s.subject_score_id AND m.score_type_id=3 AND m.data_order=4
                         ) AS claim4 ON claim4.exam_id = se.id
-              LEFT JOIN (SELECT s.exam_id ,s.scale_score ,s.scale_score_std_err ,s.category
-                           FROM staging_exam_claim_score s
-                             INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 5
+              LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.performance_level
+                           FROM staging_exam_score s JOIN subject_score m ON m.id = s.subject_score_id AND m.score_type_id=3 AND m.data_order=5
                         ) AS claim5 ON claim5.exam_id = se.id
-              LEFT JOIN (SELECT s.exam_id ,s.scale_score ,s.scale_score_std_err ,s.category
-                           FROM staging_exam_claim_score s
-                             INNER JOIN subject_claim_score m ON m.id = s.subject_claim_score_id AND m.data_order = 6
+              LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.performance_level
+                           FROM staging_exam_score s JOIN subject_score m ON m.id = s.subject_score_id AND m.score_type_id=3 AND m.data_order=6
                         ) AS claim6 ON claim6.exam_id = se.id
+              LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.performance_level
+                           FROM staging_exam_score s JOIN subject_score m ON m.id = s.subject_score_id AND m.score_type_id=2 AND m.data_order=1
+                         ) AS alt1 ON alt1.exam_id = se.id
+              LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.performance_level
+                           FROM staging_exam_score s JOIN subject_score m ON m.id = s.subject_score_id AND m.score_type_id=2 AND m.data_order=2
+                         ) AS alt2 ON alt2.exam_id = se.id
+              LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.performance_level
+                           FROM staging_exam_score s JOIN subject_score m ON m.id = s.subject_score_id AND m.score_type_id=2 AND m.data_order=3
+                         ) AS alt3 ON alt3.exam_id = se.id
+              LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.performance_level
+                           FROM staging_exam_score s JOIN subject_score m ON m.id = s.subject_score_id AND m.score_type_id=2 AND m.data_order=4
+                         ) AS alt4 ON alt4.exam_id = se.id
+              LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.performance_level
+                           FROM staging_exam_score s JOIN subject_score m ON m.id = s.subject_score_id AND m.score_type_id=2 AND m.data_order=5
+                         ) AS alt5 ON alt5.exam_id = se.id
+              LEFT JOIN (SELECT s.exam_id, s.scale_score, s.scale_score_std_err, s.performance_level
+                           FROM staging_exam_score s JOIN subject_score m ON m.id = s.subject_score_id AND m.score_type_id=2 AND m.data_order=6
+                         ) AS alt6 ON alt6.exam_id = se.id
               LEFT JOIN (SELECT seaa.exam_id as exam_id, GROUP_CONCAT(ra.code ORDER BY ra.id SEPARATOR '|') AS codes
                            FROM staging_exam_available_accommodation seaa
                              JOIN accommodation ra ON ra.id = seaa.accommodation_id
@@ -755,22 +818,40 @@ sql:
               re.update_import_id = se.update_import_id,
               re.claim1_scale_score = claim1.scale_score,
               re.claim1_scale_score_std_err = claim1.scale_score_std_err,
-              re.claim1_category = claim1.category,
+              re.claim1_category = claim1.performance_level,
               re.claim2_scale_score  = claim2.scale_score,
               re.claim2_scale_score_std_err = claim2.scale_score_std_err,
-              re.claim2_category = claim2.category,
+              re.claim2_category = claim2.performance_level,
               re.claim3_scale_score = claim3.scale_score,
               re.claim3_scale_score_std_err = claim3.scale_score_std_err,
-              re.claim3_category = claim3.category,
+              re.claim3_category = claim3.performance_level,
               re.claim4_scale_score = claim4.scale_score,
               re.claim4_scale_score_std_err = claim4.scale_score_std_err,
-              re.claim4_category = claim4.category,
+              re.claim4_category = claim4.performance_level,
               re.claim5_scale_score = claim5.scale_score,
               re.claim5_scale_score_std_err = claim5.scale_score_std_err,
-              re.claim5_category = claim5.category,
+              re.claim5_category = claim5.performance_level,
               re.claim6_scale_score = claim6.scale_score,
               re.claim6_scale_score_std_err = claim6.scale_score_std_err,
-              re.claim6_category = claim6.category,
+              re.claim6_category = claim6.performance_level,
+              re.alt1_scale_score = alt1.scale_score,
+              re.alt1_scale_score_std_err = alt1.scale_score_std_err,
+              re.alt1_performance_level = alt1.performance_level,
+              re.alt2_scale_score = alt2.scale_score,
+              re.alt2_scale_score_std_err = alt2.scale_score_std_err,
+              re.alt2_performance_level = alt2.performance_level,
+              re.alt3_scale_score = alt3.scale_score,
+              re.alt3_scale_score_std_err = alt3.scale_score_std_err,
+              re.alt3_performance_level = alt3.performance_level,
+              re.alt4_scale_score = alt4.scale_score,
+              re.alt4_scale_score_std_err = alt4.scale_score_std_err,
+              re.alt4_performance_level = alt4.performance_level,
+              re.alt5_scale_score = alt5.scale_score,
+              re.alt5_scale_score_std_err = alt5.scale_score_std_err,
+              re.alt5_performance_level = alt5.performance_level,
+              re.alt6_scale_score = alt6.scale_score,
+              re.alt6_scale_score_std_err = alt6.scale_score_std_err,
+              re.alt6_performance_level = alt6.performance_level,
               re.language_code = rl.code,
               re.elas_code = rel.code,
               re.completeness_code = rc.code,
@@ -1091,45 +1172,8 @@ sql:
 
       # ############## Assessment  ###################################################################
       # ------------ asmt_score -----------------------------------------------------------------------
-      asmt_score:
-        sql:
-          insert: >-
-            INSERT INTO asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, cut_point_4, cut_point_5, min_score, max_score)
-              SELECT
-                sas.asmt_id,
-                sas.cut_point_1,
-                sas.cut_point_2,
-                sas.cut_point_3,
-                sas.cut_point_4,
-                sas.cut_point_5,
-                sas.min_score,
-                sas.max_score
-              FROM staging_asmt_score sas
-                LEFT JOIN asmt_score ras ON ras.asmt_id = sas.asmt_id
-              WHERE ras.asmt_id IS NULL;
-
-          update: >-
-            UPDATE asmt_score ras
-              JOIN staging_asmt_score sas ON ras.asmt_id = sas.asmt_id
-            SET
-              ras.cut_point_1 = sas.cut_point_1,
-              ras.cut_point_2 = sas.cut_point_2,
-              ras.cut_point_3 = sas.cut_point_3,
-              ras.cut_point_4 = sas.cut_point_4,
-              ras.cut_point_5 = sas.cut_point_5,
-              ras.min_score   = sas.min_score,
-              ras.max_score   = sas.max_score;
-
-          deleteAsPartOfParentUpdate: >-
-            DELETE rs FROM asmt_score rs
-              JOIN staging_asmt sa ON sa.id = rs.asmt_id
-            WHERE sa.deleted = 0
-                  AND NOT EXISTS(SELECT sas.asmt_id FROM staging_asmt_score sas WHERE sas.asmt_id = rs.asmt_id);
-
-          delete: >-
-            DELETE ras FROM asmt_score ras
-              JOIN staging_asmt sa ON sa.id = ras.asmt_id
-            WHERE sa.deleted = 1;
+      # There is no asmt_score table in reporting: the (OVERALL) min/max and cut-points
+      # are denormalized in the asmt table.
 
       # ------------ item -----------------------------------------------------------------------
       item:
@@ -1299,13 +1343,20 @@ sql:
             WHERE sa.deleted = 1;
 
       # ------------ asmt -----------------------------------------------------------------------
+      # This table is heavily denormalized.
+      #   The OVERALL min/max and cut-points are pulled from the asmt_score table
+      #     (the OVERALL record is the one where the subject_score_id is null)
+      #   The CLAIM codes are pulled from the subject_score table.
+      #   The ALT codes are pulled from the subject_score table.
       asmt:
         sql:
           insert: >-
             INSERT INTO asmt (id, natural_id, grade_id, grade_code, type_id, subject_id, school_year, name,
-                             label, version, update_import_id,
-                             claim1_score_code, claim2_score_code, claim3_score_code, claim4_score_code, claim5_score_code, claim6_score_code,
-                             cut_point_1, cut_point_2, cut_point_3, cut_point_4, cut_point_5, min_score, max_score, updated, migrate_id)
+                              label, version, update_import_id,
+                              cut_point_1, cut_point_2, cut_point_3, cut_point_4, cut_point_5, min_score, max_score,
+                              alt1_score_code, alt2_score_code, alt3_score_code, alt4_score_code, alt5_score_code, alt6_score_code,
+                              claim1_score_code, claim2_score_code, claim3_score_code, claim4_score_code, claim5_score_code, claim6_score_code,
+                              updated, migrate_id)
               SELECT
                 sa.id,
                 sa.natural_id,
@@ -1318,12 +1369,6 @@ sql:
                 sa.label,
                 sa.version,
                 sa.update_import_id,
-                scs1.code,
-                scs2.code,
-                scs3.code,
-                scs4.code,
-                scs5.code,
-                scs6.code,
                 sas.cut_point_1,
                 sas.cut_point_2,
                 sas.cut_point_3,
@@ -1331,30 +1376,54 @@ sql:
                 sas.cut_point_5,
                 sas.min_score,
                 sas.max_score,
+                ssa1.code,
+                ssa2.code,
+                ssa3.code,
+                ssa4.code,
+                ssa5.code,
+                ssa6.code,
+                ssc1.code,
+                ssc2.code,
+                ssc3.code,
+                ssc4.code,
+                ssc5.code,
+                ssc6.code,
                 sa.updated,
                 sa.migrate_id
               FROM staging_asmt sa
                 LEFT JOIN asmt ra ON ra.id = sa.id
-                LEFT JOIN subject_claim_score scs1 ON sa.subject_id = scs1.subject_id AND sa.type_id = scs1.asmt_type_id AND scs1.data_order = 1
-                LEFT JOIN subject_claim_score scs2 ON sa.subject_id = scs2.subject_id AND sa.type_id = scs2.asmt_type_id AND scs2.data_order = 2
-                LEFT JOIN subject_claim_score scs3 ON sa.subject_id = scs3.subject_id AND sa.type_id = scs3.asmt_type_id AND scs3.data_order = 3
-                LEFT JOIN subject_claim_score scs4 ON sa.subject_id = scs4.subject_id AND sa.type_id = scs4.asmt_type_id AND scs4.data_order = 4
-                LEFT JOIN subject_claim_score scs5 ON sa.subject_id = scs5.subject_id AND sa.type_id = scs5.asmt_type_id AND scs5.data_order = 5
-                LEFT JOIN subject_claim_score scs6 ON sa.subject_id = scs6.subject_id AND sa.type_id = scs6.asmt_type_id AND scs6.data_order = 6
-                JOIN staging_asmt_score sas ON sa.id = sas.asmt_id
+                LEFT JOIN subject_score ssa1 ON sa.subject_id = ssa1.subject_id AND sa.type_id = ssa1.asmt_type_id AND ssa1.score_type_id = 2 AND ssa1.data_order = 1
+                LEFT JOIN subject_score ssa2 ON sa.subject_id = ssa2.subject_id AND sa.type_id = ssa2.asmt_type_id AND ssa2.score_type_id = 2 AND ssa2.data_order = 2
+                LEFT JOIN subject_score ssa3 ON sa.subject_id = ssa3.subject_id AND sa.type_id = ssa3.asmt_type_id AND ssa3.score_type_id = 2 AND ssa3.data_order = 3
+                LEFT JOIN subject_score ssa4 ON sa.subject_id = ssa4.subject_id AND sa.type_id = ssa4.asmt_type_id AND ssa4.score_type_id = 2 AND ssa4.data_order = 4
+                LEFT JOIN subject_score ssa5 ON sa.subject_id = ssa5.subject_id AND sa.type_id = ssa5.asmt_type_id AND ssa5.score_type_id = 2 AND ssa5.data_order = 5
+                LEFT JOIN subject_score ssa6 ON sa.subject_id = ssa6.subject_id AND sa.type_id = ssa6.asmt_type_id AND ssa6.score_type_id = 2 AND ssa6.data_order = 6
+                LEFT JOIN subject_score ssc1 ON sa.subject_id = ssc1.subject_id AND sa.type_id = ssc1.asmt_type_id AND ssc1.score_type_id = 3 AND ssc1.data_order = 1
+                LEFT JOIN subject_score ssc2 ON sa.subject_id = ssc2.subject_id AND sa.type_id = ssc2.asmt_type_id AND ssc2.score_type_id = 3 AND ssc2.data_order = 2
+                LEFT JOIN subject_score ssc3 ON sa.subject_id = ssc3.subject_id AND sa.type_id = ssc3.asmt_type_id AND ssc3.score_type_id = 3 AND ssc3.data_order = 3
+                LEFT JOIN subject_score ssc4 ON sa.subject_id = ssc4.subject_id AND sa.type_id = ssc4.asmt_type_id AND ssc4.score_type_id = 3 AND ssc4.data_order = 4
+                LEFT JOIN subject_score ssc5 ON sa.subject_id = ssc5.subject_id AND sa.type_id = ssc5.asmt_type_id AND ssc5.score_type_id = 3 AND ssc5.data_order = 5
+                LEFT JOIN subject_score ssc6 ON sa.subject_id = ssc6.subject_id AND sa.type_id = ssc6.asmt_type_id AND ssc6.score_type_id = 3 AND ssc6.data_order = 6
+                JOIN staging_asmt_score sas ON sa.id = sas.asmt_id AND sas.subject_score_id IS NULL
                 JOIN grade rg ON rg.id = sa.grade_id
               WHERE ra.id IS NULL and sa.deleted = 0;
 
           update: >-
             UPDATE asmt ra
               JOIN staging_asmt sa ON sa.id = ra.id
-              LEFT JOIN subject_claim_score scs1 ON sa.subject_id = scs1.subject_id AND sa.type_id = scs1.asmt_type_id AND scs1.data_order = 1
-              LEFT JOIN subject_claim_score scs2 ON sa.subject_id = scs2.subject_id AND sa.type_id = scs2.asmt_type_id AND scs2.data_order = 2
-              LEFT JOIN subject_claim_score scs3 ON sa.subject_id = scs3.subject_id AND sa.type_id = scs3.asmt_type_id AND scs3.data_order = 3
-              LEFT JOIN subject_claim_score scs4 ON sa.subject_id = scs4.subject_id AND sa.type_id = scs4.asmt_type_id AND scs4.data_order = 4
-              LEFT JOIN subject_claim_score scs5 ON sa.subject_id = scs5.subject_id AND sa.type_id = scs5.asmt_type_id AND scs5.data_order = 5
-              LEFT JOIN subject_claim_score scs6 ON sa.subject_id = scs6.subject_id AND sa.type_id = scs6.asmt_type_id AND scs6.data_order = 6
-              JOIN staging_asmt_score sas ON ra.id = sas.asmt_id
+              LEFT JOIN subject_score ssa1 ON sa.subject_id = ssa1.subject_id AND sa.type_id = ssa1.asmt_type_id AND ssa1.score_type_id = 2 AND ssa1.data_order = 1
+              LEFT JOIN subject_score ssa2 ON sa.subject_id = ssa2.subject_id AND sa.type_id = ssa2.asmt_type_id AND ssa2.score_type_id = 2 AND ssa2.data_order = 2
+              LEFT JOIN subject_score ssa3 ON sa.subject_id = ssa3.subject_id AND sa.type_id = ssa3.asmt_type_id AND ssa3.score_type_id = 2 AND ssa3.data_order = 3
+              LEFT JOIN subject_score ssa4 ON sa.subject_id = ssa4.subject_id AND sa.type_id = ssa4.asmt_type_id AND ssa4.score_type_id = 2 AND ssa4.data_order = 4
+              LEFT JOIN subject_score ssa5 ON sa.subject_id = ssa5.subject_id AND sa.type_id = ssa5.asmt_type_id AND ssa5.score_type_id = 2 AND ssa5.data_order = 5
+              LEFT JOIN subject_score ssa6 ON sa.subject_id = ssa6.subject_id AND sa.type_id = ssa6.asmt_type_id AND ssa6.score_type_id = 2 AND ssa6.data_order = 6
+              LEFT JOIN subject_score ssc1 ON sa.subject_id = ssc1.subject_id AND sa.type_id = ssc1.asmt_type_id AND ssc1.score_type_id = 3 AND ssc1.data_order = 1
+              LEFT JOIN subject_score ssc2 ON sa.subject_id = ssc2.subject_id AND sa.type_id = ssc2.asmt_type_id AND ssc2.score_type_id = 3 AND ssc2.data_order = 2
+              LEFT JOIN subject_score ssc3 ON sa.subject_id = ssc3.subject_id AND sa.type_id = ssc3.asmt_type_id AND ssc3.score_type_id = 3 AND ssc3.data_order = 3
+              LEFT JOIN subject_score ssc4 ON sa.subject_id = ssc4.subject_id AND sa.type_id = ssc4.asmt_type_id AND ssc4.score_type_id = 3 AND ssc4.data_order = 4
+              LEFT JOIN subject_score ssc5 ON sa.subject_id = ssc5.subject_id AND sa.type_id = ssc5.asmt_type_id AND ssc5.score_type_id = 3 AND ssc5.data_order = 5
+              LEFT JOIN subject_score ssc6 ON sa.subject_id = ssc6.subject_id AND sa.type_id = ssc6.asmt_type_id AND ssc6.score_type_id = 3 AND ssc6.data_order = 6
+              JOIN staging_asmt_score sas ON ra.id = sas.asmt_id AND sas.subject_score_id IS NULL
               JOIN grade rg ON rg.id = sa.grade_id
             SET
               ra.grade_id    = sa.grade_id,
@@ -1366,12 +1435,6 @@ sql:
               ra.label       = sa.label,
               ra.version     = sa.version,
               ra.update_import_id  = sa.update_import_id,
-              ra.claim1_score_code = scs1.code,
-              ra.claim2_score_code = scs2.code,
-              ra.claim3_score_code = scs3.code,
-              ra.claim4_score_code = scs4.code,
-              ra.claim5_score_code = scs5.code,
-              ra.claim6_score_code = scs6.code,
               ra.cut_point_1 = sas.cut_point_1,
               ra.cut_point_2 = sas.cut_point_2,
               ra.cut_point_3 = sas.cut_point_3,
@@ -1379,6 +1442,18 @@ sql:
               ra.cut_point_5 = sas.cut_point_5,
               ra.min_score = sas.min_score,
               ra.max_score = sas.max_score,
+              ra.alt1_score_code = ssa1.code,
+              ra.alt2_score_code = ssa2.code,
+              ra.alt3_score_code = ssa3.code,
+              ra.alt4_score_code = ssa4.code,
+              ra.alt5_score_code = ssa5.code,
+              ra.alt6_score_code = ssa6.code,
+              ra.claim1_score_code = ssc1.code,
+              ra.claim2_score_code = ssc2.code,
+              ra.claim3_score_code = ssc3.code,
+              ra.claim4_score_code = ssc4.code,
+              ra.claim5_score_code = ssc5.code,
+              ra.claim6_score_code = ssc6.code,
               ra.updated = sa.updated,
               ra.migrate_id = sa.migrate_id
             WHERE sa.deleted = 0;
