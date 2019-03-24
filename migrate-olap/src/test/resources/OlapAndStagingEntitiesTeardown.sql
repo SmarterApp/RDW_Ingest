@@ -1,7 +1,7 @@
 -- ----------------------------------------------------------------------------------------------------------------
 -- CLEAN UP staging
 -- ------------------------------------------  Exams --------------------------------------------------------------
-DELETE FROM staging_exam_claim_score where exam_id < 0;
+DELETE FROM staging_exam_score where exam_id < 0;
 DELETE FROM staging_exam_target_score where exam_id < 0;
 DELETE FROM staging_exam where id < 0;
 
@@ -22,8 +22,9 @@ DELETE FROM staging_student where id < 0;
 
 -- ------------------------------------------ Subject -------------------------------------------------------------
 DELETE FROM staging_target;
-DELETE FROM staging_subject_claim_score;
-DELETE FROM subject_asmt_type;
+DELETE FROM staging_subject_score;
+DELETE FROM staging_subject_asmt_type;
+DELETE FROM staging_subject_asmt_scoring;
 DELETE FROM staging_subject;
 
 -- ----------------------------------------------------------------------------------------------------------------
@@ -56,6 +57,6 @@ DELETE FROM asmt_active_year where asmt_id < 0;
 -- Ideally, with the configurable subjects introduction, there should not be any data pre-loaded into warehouse
 -- But this is not the case...
 DELETE FROM subject_asmt_type WHERE subject_id < 0;
-DELETE FROM subject_claim_score WHERE subject_id < 0;
+DELETE FROM subject_score WHERE subject_id < 0;
 DELETE FROM target WHERE subject_id < 0;
 DELETE FROM subject WHERE id < 0;
