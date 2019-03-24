@@ -21,7 +21,7 @@ INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count
    -- updated entry
   (2, -3, 3, 3, 3, false);
 
-INSERT INTO subject_claim_score (id, subject_id, asmt_type_id, code) VALUES
+INSERT INTO subject_score (id, subject_id, asmt_type_id, score_type_id, code) VALUES
 -- NOTE: Because of the life BEFORE configurable subject, some subjects are pre-loaded into the report
 --  (1,  1, 1, '1'),
 --  (2,  1, 1, 'SOCK_2'),
@@ -38,11 +38,11 @@ INSERT INTO subject_claim_score (id, subject_id, asmt_type_id, code) VALUES
 --  (13, 2, 3, '2-W'),
 --  (14, 2, 3, '4-CR'),
 
-  (-4,  -2, 3, 'Score4'),
-  (-5,  -2, 3, 'Score5'),
-  (-6,  -2, 3, 'Score6'),
-  (-15, -3, 3, 'Update'),
-  (-60, -3, 3, 'Delete');
+  (-4,  -2, 3, 3, 'Score4'),
+  (-5,  -2, 3, 3, 'Score5'),
+  (-6,  -2, 3, 3, 'Score6'),
+  (-15, -3, 3, 3, 'Update'),
+  (-60, -3, 3, 3, 'Delete');
 
 
 INSERT INTO target(id, subject_id, natural_id, claim_code) VALUES

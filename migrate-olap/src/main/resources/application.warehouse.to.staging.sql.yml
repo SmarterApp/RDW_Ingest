@@ -12,8 +12,9 @@ sql:
       - delete from staging_military_connected
       - delete from staging_school_year
       - delete from staging_subject
-      - delete from staging_subject_claim_score
+      - delete from staging_subject_score
       - delete from staging_subject_asmt_type
+      - delete from staging_subject_asmt_scoring
       - delete from staging_target
       - delete from staging_school
       - delete from staging_district
@@ -27,7 +28,7 @@ sql:
       - delete from staging_asmt_target
       - delete from staging_asmt_target_exclusion
       - delete from staging_exam
-      - delete from staging_exam_claim_score
+      - delete from staging_exam_score
       - delete from staging_exam_target_score
 
     entities:
@@ -225,8 +226,7 @@ sql:
               FROM subject ws
                 WHERE ws.created > ? AND ws.created <= ?
               INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/subject'
-              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-                             LINES TERMINATED BY '\n'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_subject(
@@ -254,8 +254,7 @@ sql:
               FROM subject ws
               WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
               INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/subject_update'
-              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-                             LINES TERMINATED BY '\n'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_subject(
@@ -323,30 +322,19 @@ sql:
               DELIMITER ','
               COMPUPDATE OFF
 
-        # ------------ subject asmt type  ---------------------------------------------------------------------------------------
+        # ------------ subject_asmt_type  ---------------------------------------------------------------------------------------
         subject_asmt_type:
           sql:
-            # TODO - deal with subject_asmt_scoring and get rid of joins here
             warehouseRead: >-
-              SELECT
-                wsat.asmt_type_id,
-                wsat.subject_id,
-                wsas1.performance_level_count,
-                wsas1.performance_level_standard_cutoff,
-                wsas3.performance_level_count AS claim_score_performance_level_count,
-                wsat.target_report,
-                ? as migrate_id
+              SELECT wsat.subject_id, wsat.asmt_type_id, wsat.target_report, ? as migrate_id
               FROM subject_asmt_type wsat
                 JOIN subject ws ON ws.id = wsat.subject_id
-                LEFT JOIN subject_asmt_scoring wsas1 ON wsas1.subject_id = wsat.subject_id AND wsas1.asmt_type_id = wsat.asmt_type_id AND wsas1.score_type_id=1
-                LEFT JOIN subject_asmt_scoring wsas3 ON wsas3.subject_id = wsat.subject_id AND wsas3.asmt_type_id = wsat.asmt_type_id AND wsas3.score_type_id=3
               WHERE ws.created > ? AND ws.created <= ?
               INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/subject_asmt_type'
-              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-              LINES TERMINATED BY '\n'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
 
             stagingInsert: >-
-              COPY staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report, migrate_id)
+              COPY staging_subject_asmt_type (subject_id, asmt_type_id, target_report, migrate_id)
                 FROM '${archive.root}/${migrate.aws.location}/subject_asmt_type.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
@@ -355,28 +343,54 @@ sql:
 
         subject_asmt_type_update:
           sql:
-            # TODO - deal with subject_asmt_scoring and get rid of joins here
             warehouseRead: >-
-              SELECT
-                wsat.asmt_type_id,
-                wsat.subject_id,
-                wsas1.performance_level_count,
-                wsas1.performance_level_standard_cutoff,
-                wsas3.performance_level_count AS claim_score_performance_level_count,
-                wsat.target_report,
-                ? as migrate_id
+              SELECT wsat.asmt_type_id, wsat.subject_id, wsat.target_report, ? as migrate_id
               FROM subject_asmt_type wsat
                 JOIN subject ws ON ws.id = wsat.subject_id
-                LEFT JOIN subject_asmt_scoring wsas1 ON wsas1.subject_id = wsat.subject_id AND wsas1.asmt_type_id = wsat.asmt_type_id AND wsas1.score_type_id=1
-                LEFT JOIN subject_asmt_scoring wsas3 ON wsas3.subject_id = wsat.subject_id AND wsas3.asmt_type_id = wsat.asmt_type_id AND wsas3.score_type_id=3
               WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
               INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/subject_asmt_type_update'
-              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-              LINES TERMINATED BY '\n'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
 
             stagingInsert: >-
-              COPY staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report, migrate_id)
+              COPY staging_subject_asmt_type (subject_id, asmt_type_id, target_report, migrate_id)
                 FROM '${archive.root}/${migrate.aws.location}/subject_asmt_type_update.part_00000'
+              CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+              FORMAT AS CSV
+              DELIMITER ','
+              COMPUPDATE OFF
+
+        # ------------ subject_asmt_scoring  ---------------------------------------------------------------------------------------
+        subject_asmt_scoring:
+          sql:
+            warehouseRead: >-
+              SELECT wsas.subject_id, wsas.asmt_type_id, wsas.score_type_id, wsas.min_score, wsas.max_score, wsas.performance_level_count, wsas.performance_level_standard_cutoff, ? as migrate_id
+              FROM subject_asmt_scoring wsas
+                JOIN subject ws ON ws.id = wsas.subject_id
+              WHERE ws.created > ? AND ws.created <= ?
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/subject_asmt_scoring'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+              COPY staging_subject_asmt_scoring (subject_id, asmt_type_id, score_type_id, min_score, max_score, performance_level_count, performance_level_standard_cutoff, migrate_id)
+                FROM '${archive.root}/${migrate.aws.location}/subject_asmt_scoring.part_00000'
+              CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+              FORMAT AS CSV
+              DELIMITER ','
+              COMPUPDATE OFF
+
+        subject_asmt_scoring_update:
+          sql:
+            warehouseRead: >-
+              SELECT wsas.subject_id, wsas.asmt_type_id, wsas.score_type_id, wsas.min_score, wsas.max_score, wsas.performance_level_count, wsas.performance_level_standard_cutoff, ? as migrate_id
+              FROM subject_asmt_scoring wsas
+                JOIN subject ws ON ws.id = wsas.subject_id
+              WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/subject_asmt_scoring_update'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+              COPY staging_subject_asmt_scoring (subject_id, asmt_type_id, score_type_id, min_score, max_score, performance_level_count, performance_level_standard_cutoff, migrate_id)
+                FROM '${archive.root}/${migrate.aws.location}/subject_asmt_scoring_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
@@ -385,25 +399,24 @@ sql:
         # ------------ subject_score ---------------------------------------------------------------------------
         subject_score:
           sql:
-            # TODO - deal with score_type_id and remove "AND score_type_id=3" which gets just CLAIM entries
             warehouseRead: >-
               SELECT
-                wscs.id,
-                wscs.subject_id,
-                wscs.asmt_type_id,
-                wscs.code,
+                wss.id,
+                wss.subject_id,
+                wss.asmt_type_id,
+                wss.score_type_id,
+                wss.code,
                 ? as migrate_id
-              FROM subject_score wscs
-                JOIN subject ws ON ws.id = wscs.subject_id
+              FROM subject_score wss
+                JOIN subject ws ON ws.id = wss.subject_id
               WHERE ws.created > ? AND ws.created <= ?
-                AND wscs.score_type_id=3
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/subject_claim_score'
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/subject_score'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
 
             stagingInsert: >-
-              COPY staging_subject_claim_score (id, subject_id, asmt_type_id, code, migrate_id)
-                FROM '${archive.root}/${migrate.aws.location}/subject_claim_score.part_00000'
+              COPY staging_subject_score (id, subject_id, asmt_type_id, score_type_id, code, migrate_id)
+                FROM '${archive.root}/${migrate.aws.location}/subject_score.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
@@ -411,25 +424,24 @@ sql:
 
         subject_score_update:
           sql:
-            # TODO - deal with score_type_id and remove "AND score_type_id=3" which gets just CLAIM entries
             warehouseRead: >-
               SELECT
-                wscs.id,
-                wscs.subject_id,
-                wscs.asmt_type_id,
-                wscs.code,
+                wss.id,
+                wss.subject_id,
+                wss.asmt_type_id,
+                wss.score_type_id,
+                wss.code,
                 ? as migrate_id
-              FROM subject_score wscs
-                JOIN subject ws ON ws.id = wscs.subject_id
+              FROM subject_score wss
+                JOIN subject ws ON ws.id = wss.subject_id
               WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
-                AND wscs.score_type_id=3
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/subject_claim_score_update'
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/subject_score_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
 
             stagingInsert: >-
-              COPY staging_subject_claim_score (id, subject_id, asmt_type_id, code, migrate_id)
-                FROM '${archive.root}/${migrate.aws.location}/subject_claim_score_update.part_00000'
+              COPY staging_subject_score (id, subject_id, asmt_type_id, score_type_id, code, migrate_id)
+                FROM '${archive.root}/${migrate.aws.location}/subject_score_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
@@ -549,10 +561,10 @@ sql:
               DELIMITER ','
               COMPUPDATE OFF
 
-        # ------------ asmt  -------------------------------------------------------------------
+        # ------------ asmt -------------------------------------------------------------------
+        # NOTE: "AND was.subject_score_id IS NULL" selects just the OVERALL score info
         asmt:
           sql:
-            # TODO - deal with olap reporting changes and remove "AND was.subject_score_id IS NULL"
             warehouseRead: >-
               SELECT
                 wa.id,
@@ -573,12 +585,10 @@ sql:
                 wa.updated,
                 wa.update_import_id,
                 ? as migrate_id
-              FROM asmt wa JOIN asmt_score was ON wa.id = was.asmt_id
-                AND was.subject_score_id IS NULL
+              FROM asmt wa JOIN asmt_score was ON wa.id = was.asmt_id AND was.subject_score_id IS NULL
               WHERE wa.created > ? AND wa.created <= ?
               INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/asmt'
-              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-                             LINES TERMINATED BY '\n'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_asmt(
@@ -609,7 +619,6 @@ sql:
 
         asmt_update:
           sql:
-            # TODO - deal with olap reporting changes and remove "AND was.subject_score_id IS NULL"
             warehouseRead: >-
               SELECT
                 wa.id,
@@ -630,8 +639,7 @@ sql:
                 wa.updated,
                 wa.update_import_id,
                 ? as migrate_id
-              FROM asmt wa JOIN asmt_score was ON wa.id = was.asmt_id
-                AND was.subject_score_id IS NULL
+              FROM asmt wa JOIN asmt_score was ON wa.id = was.asmt_id AND was.subject_score_id IS NULL
               WHERE wa.updated > ? AND wa.updated <= ? AND wa.updated <> wa.created
               INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/asmt_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
@@ -1187,26 +1195,25 @@ sql:
               SELECT
                 ecs.id,
                 ecs.exam_id,
-                ecs.subject_score_id AS subject_claim_score_id,
-                ecs.performance_level AS category,
+                ecs.subject_score_id,
+                ecs.performance_level,
                 ? as migrate_id
               FROM exam_score ecs
                 JOIN exam we ON we.id = ecs.exam_id
                WHERE we.created > ? AND we.deleted = 0 AND we.created <= ?
                 AND we.scale_score IS NOT NULL AND we.scale_score_std_err IS NOT NULL AND we.performance_level IS NOT NULL
                 AND ecs.performance_level IS NOT NULL
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_claim_score'
-              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-              LINES TERMINATED BY '\n'
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_score'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
 
             stagingInsert: >-
-              COPY staging_exam_claim_score(
+              COPY staging_exam_score(
                 id,
                 exam_id,
-                subject_claim_score_id,
-                category,
+                subject_score_id,
+                performance_level,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/exam_claim_score.part_00000'
+              FROM '${archive.root}/${migrate.aws.location}/exam_score.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
@@ -1218,34 +1225,33 @@ sql:
               SELECT
                 ecs.id,
                 ecs.exam_id,
-                ecs.subject_score_id AS subject_claim_score_id,
-                ecs.performance_level AS category,
+                ecs.subject_score_id,
+                ecs.performance_level,
                 ? as migrate_id
               FROM exam_score ecs
                 JOIN exam we ON we.id = ecs.exam_id
               WHERE we.updated > ? AND we.deleted = 0 AND we.updated <= ? AND we.updated <> we.created
                 AND we.scale_score IS NOT NULL AND we.scale_score_std_err IS NOT NULL AND we.performance_level IS NOT NULL
                 AND ecs.performance_level IS NOT NULL
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_claim_score_update'
-              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-              LINES TERMINATED BY '\n'
+              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_score_update'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
 
             stagingInsert: >-
-              COPY staging_exam_claim_score(
+              COPY staging_exam_score(
                 id,
                 exam_id,
-                subject_claim_score_id,
-                category,
+                subject_score_id,
+                performance_level,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/exam_claim_score_update.part_00000'
+              FROM '${archive.root}/${migrate.aws.location}/exam_score_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
               COMPUPDATE OFF
 
- # ------------ exam_target_score  -------------------------------------------------------------------
-       # Only Summative target scores are included
-       # For Smarter Balanced Math, only the Concepts and Procedures targets are included
+        # ------------ exam_target_score  -------------------------------------------------------------------
+        # Only Summative target scores are included
+        # For Smarter Balanced Math, only the Concepts and Procedures targets are included
         exam_target_score:
           sql:
             warehouseRead: >-
