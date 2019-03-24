@@ -9,13 +9,13 @@ INSERT INTO staging_subject_asmt_type (subject_id, asmt_type_id, target_report, 
   (-3, 1, false, -99),   -- new entry
   (-3, 2, false, -99);   -- updated entry
 
-INSERT INTO staging_subject_asmt_scoring (subject_id, asmt_type_id, score_type_id, performance_level_count, performance_level_standard_cutoff) VALUES
-(-1, 1, 1, 10, 3),
-(-1, 1, 3, 6, null),
-(-3, 1, 1, 8, 2),
-(-3, 1, 3, 7, null),
-(-3, 2, 1, 8, 2),
-(-3, 2, 3, 7, null);
+INSERT INTO staging_subject_asmt_scoring (subject_id, asmt_type_id, score_type_id, performance_level_count, performance_level_standard_cutoff, migrate_id) VALUES
+(-1, 1, 1, 10, 3, -99),
+(-1, 1, 3, 6, null, -99),
+(-3, 1, 1, 8, 2, -99),
+(-3, 1, 3, 7, null, -99),
+(-3, 2, 1, 8, 2, -99),
+(-3, 2, 3, 7, null, -99);
 
 INSERT INTO staging_subject_score (id, subject_id, asmt_type_id, score_type_id, code, migrate_id) VALUES
   (-1,  -1, 1, 3, 'Score1', -99),
