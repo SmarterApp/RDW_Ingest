@@ -275,12 +275,7 @@ sql:
         target:
           sql:
             warehouseRead: >-
-              SELECT
-                wt.id,
-                ws.id,
-                wt.natural_id,
-                wc.code,
-                ? as migrate_id
+              SELECT wt.id, ws.id, wt.natural_id, wc.code, ? as migrate_id
               FROM target wt
                 JOIN claim wc ON wc.id = wt.claim_id
                 JOIN subject ws ON ws.id = wc.subject_id
@@ -300,12 +295,7 @@ sql:
         target_update:
           sql:
             warehouseRead: >-
-              SELECT
-                wt.id,
-                ws.id,
-                wt.natural_id,
-                wc.code,
-                ? as migrate_id
+              SELECT wt.id, ws.id, wt.natural_id, wc.code, ? as migrate_id
               FROM target wt
                 JOIN claim wc ON wc.id = wt.claim_id
                 JOIN subject ws ON ws.id = wc.subject_id
@@ -344,7 +334,7 @@ sql:
         subject_asmt_type_update:
           sql:
             warehouseRead: >-
-              SELECT wsat.asmt_type_id, wsat.subject_id, wsat.target_report, ? as migrate_id
+              SELECT wsat.subject_id, wsat.asmt_type_id, wsat.target_report, ? as migrate_id
               FROM subject_asmt_type wsat
                 JOIN subject ws ON ws.id = wsat.subject_id
               WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
@@ -400,13 +390,7 @@ sql:
         subject_score:
           sql:
             warehouseRead: >-
-              SELECT
-                wss.id,
-                wss.subject_id,
-                wss.asmt_type_id,
-                wss.score_type_id,
-                wss.code,
-                ? as migrate_id
+              SELECT wss.id, wss.subject_id, wss.asmt_type_id, wss.score_type_id, wss.code, ? as migrate_id
               FROM subject_score wss
                 JOIN subject ws ON ws.id = wss.subject_id
               WHERE ws.created > ? AND ws.created <= ?
@@ -425,13 +409,7 @@ sql:
         subject_score_update:
           sql:
             warehouseRead: >-
-              SELECT
-                wss.id,
-                wss.subject_id,
-                wss.asmt_type_id,
-                wss.score_type_id,
-                wss.code,
-                ? as migrate_id
+              SELECT wss.id, wss.subject_id, wss.asmt_type_id, wss.score_type_id, wss.code, ? as migrate_id
               FROM subject_score wss
                 JOIN subject ws ON ws.id = wss.subject_id
               WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
