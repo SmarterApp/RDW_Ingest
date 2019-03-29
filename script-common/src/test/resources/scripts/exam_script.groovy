@@ -34,7 +34,7 @@ transform '//Response' by { response ->
                 text.contains('textEntryInteraction_')) {
         response.text = text
                 .replaceAll(~/(?s).+<value>(.+)<\/value>.+/, '$1')
-                .unescapeXml()
+                .unescapeHtmlTags()
     }
 }
 
