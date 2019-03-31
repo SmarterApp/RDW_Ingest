@@ -1,0 +1,3 @@
+applyXsl xslAllRules
+
+outputXml
