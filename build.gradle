@@ -78,6 +78,7 @@ subprojects {
             dependency 'org.apache.commons:commons-csv:1.6'
             dependency 'org.apache.commons:commons-lang3:3.8.1'
             dependency 'org.slf4j:slf4j-api:1.7.25'
+            dependency 'net.sf.saxon:Saxon-HE:9.7.0-21'
 
             // commonly used test libraries
             dependency 'junit:junit:4.12'

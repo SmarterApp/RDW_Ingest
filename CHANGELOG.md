@@ -14,6 +14,11 @@
             * theta scores are no longer validated
 
 
+#### 1.3.1 - 2019-04-02
+
+* Fix problem with large group file migrate dropping some groups (RP-192).
+* Fix migrate/enable end-point to properly enable the job runner (RP-172).
+
 #### 1.3.0 - 2019-02-05
 
 * Add (optional) data order to subject configuration.
