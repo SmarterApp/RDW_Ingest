@@ -1,5 +1,10 @@
 ## Change Log
 
+#### 1.3.1
+
+* Fix problem with large group file migrate dropping some groups (RP-192).
+* Fix migrate/enable end-point to properly enable the job runner (RP-172).
+
 #### 1.3.0
 
 * Add (optional) data order to subject configuration.
