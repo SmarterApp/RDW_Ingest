@@ -632,6 +632,10 @@ sql:
                 ( :ethnicity_id, :student_id )
 
         # ------------ student_group  -------------------------------------------------------------------
+        # Because student groups are imported as part of very large update files, the time-based
+        # migration can fail: the groups may be committed (as part of a large transaction) after
+        # the migrate operation but with created/updated timestamps that are before the migrate
+        # time range; thus getting lost forever.
         student_group:
           sql:
             warehouseRead: >-
@@ -648,32 +652,11 @@ sql:
                 wsg.deleted,
                 wsg.updated
               FROM student_group wsg
-              WHERE wsg.created > :first_at AND wsg.created <= :last_at
+                JOIN import i ON i.id = wsg.update_import_id
+              WHERE i.updated > :first_at AND i.updated <= :last_at
 
             stagingInsert: >-
               INSERT INTO staging_student_group (id, name, school_id, school_year, subject_id, active, creator, created, update_import_id, deleted, updated, migrate_id) VALUES
-                (:id, :name, :school_id, :school_year, :subject_id, :active, :creator, :created, :update_import_id, :deleted, :updated, :migrate_id)
-
-        student_group_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wsg.id,
-                wsg.name,
-                wsg.school_id,
-                wsg.school_year,
-                wsg.subject_id,
-                wsg.active,
-                wsg.creator,
-                wsg.created,
-                wsg.update_import_id,
-                wsg.deleted,
-                wsg.updated
-              FROM student_group wsg
-              WHERE wsg.updated > :first_at AND wsg.updated <= :last_at and wsg.updated <> wsg.created
-
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_student_group (id, name, school_id, school_year, subject_id, active, creator, created, update_import_id, deleted, updated, migrate_id) VALUES
                 (:id, :name, :school_id, :school_year, :subject_id, :active, :creator, :created, :update_import_id, :deleted, :updated, :migrate_id)
 
         # ------------ student_group_membership  -------------------------------------------------------------------
@@ -686,7 +669,8 @@ sql:
               FROM student_group_membership wsgm
                 JOIN student_group wsg ON wsg.id = wsgm.student_group_id
                 JOIN student ws ON ws.id = wsgm.student_id
-              WHERE ( (wsg.created > :first_at AND wsg.created <= :last_at) OR (wsg.updated > :first_at AND wsg.updated <= :last_at) )
+                JOIN import i ON i.id = wsg.update_import_id
+              WHERE i.updated > :first_at AND i.updated <= :last_at
                 AND ws.created <= :last_at AND ws.deleted = 0
                 AND wsg.deleted = 0 AND wsg.active != 0
 
@@ -694,7 +678,7 @@ sql:
               INSERT INTO staging_student_group_membership (student_group_id, student_id) VALUES
                 (:student_group_id, :student_id)
 
-        # ------------ staging_user_student_group  -------------------------------------------------------------------
+        # ------------ user_student_group  -------------------------------------------------------------------
         user_student_group:
           sql:
             warehouseRead: >-
@@ -703,26 +687,12 @@ sql:
                 wusg.user_login
               FROM user_student_group wusg
                 JOIN student_group wsg ON wsg.id= wusg.student_group_id
-              WHERE wsg.created > :first_at AND wsg.created <= :last_at
+                JOIN import i ON i.id = wsg.update_import_id
+              WHERE i.updated > :first_at AND i.updated <= :last_at
                 AND wsg.deleted = 0 and wsg.active != 0
 
             stagingInsert: >-
               INSERT INTO staging_user_student_group (student_group_id, user_login) VALUES
-                (:student_group_id, :user_login)
-
-        user_student_group_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wusg.student_group_id,
-                wusg.user_login
-              FROM user_student_group wusg
-                JOIN student_group wsg ON wsg.id= wusg.student_group_id
-              WHERE wsg.updated > :first_at AND wsg.updated <= :last_at AND wsg.updated <> wsg.created
-                AND wsg.deleted = 0 and wsg.active != 0
-
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_user_student_group (student_group_id, user_login) VALUES
                 (:student_group_id, :user_login)
 
         ##### PACKAGE ImportContent Type ####

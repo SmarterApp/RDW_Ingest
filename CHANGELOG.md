@@ -1,5 +1,9 @@
 ## Change Log
 
+#### 1.3.1
+
+* Fix problem with large group file migrate dropping some groups.
+
 #### 1.3.0
 
 * Add (optional) data order to subject configuration.
