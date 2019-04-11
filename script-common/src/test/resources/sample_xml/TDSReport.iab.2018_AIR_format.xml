@@ -77,32 +77,32 @@
                  startDate="2016-10-12T21:52:34.065" oppId="100149" windowOpportunity="1" opportunity="1" gracePeriodRestarts="0" effectiveDate="2016-08-29">
         <Segment id="(SBAC)SBAC-IAB-FIXED-G4M-G-MATH-4-Winter-2016-2017" position="1" formId="IAB-G4M-G-2017 ENG" formKey="200-18740" algorithm="fixedform"
                  algorithmVersion="0"/>
-        <Accommodation scriptCode="ENU" type="Language" value="English" segment="0"/>
-        <Accommodation scriptCode="NEA0" type="Non-Embedded Accommodations" value="None" segment="0"/>
-        <Accommodation scriptCode="NEDS0" type="Non-Embedded Designated Supports" value="None" segment="0"/>
-        <Accommodation scriptCode="TDS_APC_PSP" type="Audio Playback Controls" value="Play Stop and Pause" segment="0"/>
-        <Accommodation scriptCode="TDS_ASL0" type="American Sign Language" value="Do not show ASL videos" segment="0"/>
-        <Accommodation scriptCode="TDS_ClosedCap0" type="Closed Captioning" value="Closed Captioning Not Available" segment="0"/>
-        <Accommodation scriptCode="TDS_ExpandablePassages1" type="Expandable Passages" value="Expandable Passages On" segment="0"/>
-        <Accommodation scriptCode="TDS_FT_Serif" type="Font Type" value="Times New Roman" segment="0"/>
-        <Accommodation scriptCode="TDS_F_S14" type="Passage Font Size" value="14pt" segment="0"/>
-        <Accommodation scriptCode="TDS_GN1" type="Global Notes" value="Global Notes On" segment="0"/>
-        <Accommodation scriptCode="TDS_Highlight1" type="Highlight" value="True" segment="0"/>
-        <Accommodation scriptCode="TDS_HWPlayback" type="Hardware Checks" value="Check Playback Capabilities" segment="0"/>
-        <Accommodation scriptCode="TDS_IF_S14" type="Item Font Size" value="14pt Items" segment="0"/>
-        <Accommodation scriptCode="TDS_ITM1" type="Item Tools Menu" value="On" segment="0"/>
-        <Accommodation scriptCode="TDS_ITTC0" type="IntraTest TTS Controls" value="IntraTest TTS Controls Off" segment="0"/>
-        <Accommodation scriptCode="TDS_MfR1" type="Mark for Review" value="True" segment="0"/>
-        <Accommodation scriptCode="TDS_Other" type="Other" value="None" segment="0"/>
-        <Accommodation scriptCode="TDS_PM0" type="Permissive Mode" value="Permissive Mode Disabled" segment="0"/>
-        <Accommodation scriptCode="TDS_PS_L0" type="Print Size" value="No default zoom applied" segment="0"/>
-        <Accommodation scriptCode="TDS_RSL_ListView" type="Review Screen Layout" value="List" segment="0"/>
-        <Accommodation scriptCode="TDS_SCNotepad" type="Student Comments" value="On" segment="0"/>
-        <Accommodation scriptCode="TDS_ST1" type="Strikethrough" value="True" segment="0"/>
-        <Accommodation scriptCode="TDS_SVC1" type="System Volume Control" value="Show widget" segment="0"/>
-        <Accommodation scriptCode="TDS_TPI_ResponsesFix" type="Test Progress Indicator" value="Show indicator as a fraction and adjust to test length" segment="0"/>
-        <Accommodation scriptCode="TDS_TS_Universal" type="Test Shell" value="Universal Shell" segment="0"/>
-        <Accommodation scriptCode="TDS_WL_Glossary" type="Word List" value="English Glossary" segment="0"/>
+        <Accommodation code="ENU" type="Language" value="English" segment="0"/>
+        <Accommodation code="NEA0" type="Non-Embedded Accommodations" value="None" segment="0"/>
+        <Accommodation code="NEDS0" type="Non-Embedded Designated Supports" value="None" segment="0"/>
+        <Accommodation code="TDS_APC_PSP" type="Audio Playback Controls" value="Play Stop and Pause" segment="0"/>
+        <Accommodation code="TDS_ASL0" type="American Sign Language" value="Do not show ASL videos" segment="0"/>
+        <Accommodation code="TDS_ClosedCap0" type="Closed Captioning" value="Closed Captioning Not Available" segment="0"/>
+        <Accommodation code="TDS_ExpandablePassages1" type="Expandable Passages" value="Expandable Passages On" segment="0"/>
+        <Accommodation code="TDS_FT_Serif" type="Font Type" value="Times New Roman" segment="0"/>
+        <Accommodation code="TDS_F_S14" type="Passage Font Size" value="14pt" segment="0"/>
+        <Accommodation code="TDS_GN1" type="Global Notes" value="Global Notes On" segment="0"/>
+        <Accommodation code="TDS_Highlight1" type="Highlight" value="True" segment="0"/>
+        <Accommodation code="TDS_HWPlayback" type="Hardware Checks" value="Check Playback Capabilities" segment="0"/>
+        <Accommodation code="TDS_IF_S14" type="Item Font Size" value="14pt Items" segment="0"/>
+        <Accommodation code="TDS_ITM1" type="Item Tools Menu" value="On" segment="0"/>
+        <Accommodation code="TDS_ITTC0" type="IntraTest TTS Controls" value="IntraTest TTS Controls Off" segment="0"/>
+        <Accommodation code="TDS_MfR1" type="Mark for Review" value="True" segment="0"/>
+        <Accommodation code="TDS_Other" type="Other" value="None" segment="0"/>
+        <Accommodation code="TDS_PM0" type="Permissive Mode" value="Permissive Mode Disabled" segment="0"/>
+        <Accommodation code="TDS_PS_L0" type="Print Size" value="No default zoom applied" segment="0"/>
+        <Accommodation code="TDS_RSL_ListView" type="Review Screen Layout" value="List" segment="0"/>
+        <Accommodation code="TDS_SCNotepad" type="Student Comments" value="On" segment="0"/>
+        <Accommodation code="TDS_ST1" type="Strikethrough" value="True" segment="0"/>
+        <Accommodation code="TDS_SVC1" type="System Volume Control" value="Show widget" segment="0"/>
+        <Accommodation code="TDS_TPI_ResponsesFix" type="Test Progress Indicator" value="Show indicator as a fraction and adjust to test length" segment="0"/>
+        <Accommodation code="TDS_TS_Universal" type="Test Shell" value="Universal Shell" segment="0"/>
+        <Accommodation code="TDS_WL_Glossary" type="Word List" value="English Glossary" segment="0"/>
         <Score measureOf="Overall" measureLabel="Attempted" value="Y" standardError=""/>
         <Score measureOf="Overall" measureLabel="ThetaScore" value="1.02243078695094" standardError="0.641280451016051"/>
         <Score measureOf="Overall" measureLabel="ScaleScore" value="2595.97876140521" standardError="50.8535397655728"/>
