@@ -1061,7 +1061,7 @@ sql:
                 update_import_id,
                ? as migrate_id
               FROM exam we
-                WHERE we.created > ? AND we.created <= ? AND we.scale_score IS NOT NULL AND we.scale_score_std_err IS NOT NULL AND we.performance_level IS NOT NULL
+                WHERE we.created > ? AND we.created <= ? AND we.scale_score IS NOT NULL AND we.performance_level IS NOT NULL
               INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
@@ -1128,7 +1128,7 @@ sql:
                 update_import_id,
                ? as migrate_id
               FROM exam we
-              WHERE we.updated > ? AND we.updated <= ? AND we.updated <> we.created AND we.scale_score IS NOT NULL AND we.scale_score_std_err IS NOT NULL AND we.performance_level IS NOT NULL
+              WHERE we.updated > ? AND we.updated <= ? AND we.updated <> we.created AND we.scale_score IS NOT NULL AND we.performance_level IS NOT NULL
               INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
@@ -1179,8 +1179,7 @@ sql:
               FROM exam_score ecs
                 JOIN exam we ON we.id = ecs.exam_id
                WHERE we.created > ? AND we.deleted = 0 AND we.created <= ?
-                AND we.scale_score IS NOT NULL AND we.scale_score_std_err IS NOT NULL AND we.performance_level IS NOT NULL
-                AND ecs.performance_level IS NOT NULL
+                AND we.scale_score IS NOT NULL AND we.performance_level IS NOT NULL AND ecs.performance_level IS NOT NULL
               INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_score'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
 
@@ -1209,8 +1208,7 @@ sql:
               FROM exam_score ecs
                 JOIN exam we ON we.id = ecs.exam_id
               WHERE we.updated > ? AND we.deleted = 0 AND we.updated <= ? AND we.updated <> we.created
-                AND we.scale_score IS NOT NULL AND we.scale_score_std_err IS NOT NULL AND we.performance_level IS NOT NULL
-                AND ecs.performance_level IS NOT NULL
+                AND we.scale_score IS NOT NULL AND we.performance_level IS NOT NULL AND ecs.performance_level IS NOT NULL
               INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_score_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
 
@@ -1247,7 +1245,7 @@ sql:
                 JOIN subject ws ON ws.id = wc.subject_id
               WHERE we.type_id = 3 AND ( ws.code <> 'Math' OR wc.code='1' ) AND
                   we.created > ? AND we.deleted = 0 AND we.created <= ? AND
-                  we.scale_score IS NOT NULL AND we.scale_score_std_err IS NOT NULL AND we.performance_level IS NOT NULL AND
+                  we.scale_score IS NOT NULL AND we.performance_level IS NOT NULL AND
                   wets.standard_met_relative_residual_score IS NOT NULL AND wets.student_relative_residual_score IS NOT NULL
                 INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_target_score'
                 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
@@ -1284,7 +1282,7 @@ sql:
                 JOIN subject ws ON ws.id = wc.subject_id
               WHERE we.type_id = 3 AND ( ws.code <> 'Math' OR wc.code='1' ) AND
                 we.updated > ? AND we.deleted = 0 AND we.updated <= ? AND we.updated <> we.created AND
-                we.scale_score IS NOT NULL AND we.scale_score_std_err IS NOT NULL AND we.performance_level IS NOT NULL AND
+                we.scale_score IS NOT NULL AND we.performance_level IS NOT NULL AND
                 wets.standard_met_relative_residual_score IS NOT NULL AND wets.student_relative_residual_score IS NOT NULL
               INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_target_score_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
