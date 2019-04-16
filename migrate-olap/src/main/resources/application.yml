@@ -51,7 +51,7 @@ migrate:
     run-cron: "0 0 1 * * *"
 
 reporting:
-  school-year: 2018
+  school-year: 2019
 
 spring:
   batch:
