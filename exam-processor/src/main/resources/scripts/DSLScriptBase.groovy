@@ -17,8 +17,9 @@ import org.xml.sax.InputSource
 import javax.xml.transform.Transformer
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.stream.StreamSource
+
 /**
- * Base class for Groovy pipeline scriptClasses. Provides a DSL that will be available to the scriptClasses.
+ * Base class for Groovy pipeline scripts. Provides a DSL that will be available to the scripts.
  */
 abstract class DSLScriptBase extends PipelineScript {
 
@@ -119,7 +120,6 @@ abstract class DSLScriptBase extends PipelineScript {
 
         // Converts the document object to a string. Typically this should be the last statement in a script.
         this.metaClass.getOutputXml {
-            print input.getClass()
             if (input instanceof Reader) {
                 getOutputXmlAsString()
             } else {
