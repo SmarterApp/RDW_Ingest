@@ -1,0 +1,161 @@
+<TDSReport>
+  <Test academicYear="2015" assessmentType="Interim" assessmentVersion="8016" contract="SBAC" grade="08" mode="online"
+        name="(SBAC)SBAC-IAB-FIXED-G8M-EE-Winter-2014-2015" subject="Math" testId="SBAC-IAB-FIXED-G8M-EE"/>
+  <Examinee key="1000000000">
+    <ExamineeAttribute context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="StudentIdentifier"
+                       value="6000000009"/>
+    <ExamineeAttribute context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="AlternateSSID"
+                       value="c33076e9271ec879a7c9cc8e7aeaa918"/>
+    <ExamineeAttribute context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="Birthdate" value="2001-06-18"/>
+    <ExamineeAttribute context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="FirstName" value="Marcelo"/>
+    <ExamineeAttribute context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="MiddleName" value="William"/>
+    <ExamineeAttribute context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="LastOrSurname" value="Perry"/>
+    <ExamineeAttribute context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="Sex" value="Male"/>
+    <ExamineeAttribute context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="GradeLevelWhenAssessed"
+                       value="08"/>
+    <ExamineeAttribute context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="HispanicOrLatinoEthnicity"
+                       value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="AmericanIndianOrAlaskaNative"
+                       value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="Asian" value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="Filipino" value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="BlackOrAfricanAmerican"
+                       value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="White" value="Yes"/>
+    <ExamineeAttribute context="FINAL" contextDate="2015-01-21T07:04:08.123000"
+                       name="NativeHawaiianOrOtherPacificIslander" value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="DemographicRaceTwoOrMoreRaces"
+                       value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="IDEAIndicator" value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="LEPStatus" value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="Section504Status" value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="EconomicDisadvantageStatus"
+                       value="Yes"/>
+    <ExamineeAttribute context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="EnglishLanguageAcquisitionStatus"
+                       value="EO"/>
+    <ExamineeAttribute context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="MigrantStatus" value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="Advancement" value="Normal"/>
+    <ExamineeAttribute context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="Capability"
+                       value="2.106425544787923"/>
+    <ExamineeRelationship context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="StateAbbreviation" value="CA"/>
+    <ExamineeRelationship context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="StateName" value="California"/>
+    <ExamineeRelationship context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="DistrictId"
+                          value="88800120000000"/>
+    <ExamineeRelationship context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="DistrictName"
+                          value="Igen District"/>
+    <ExamineeRelationship context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="SchoolId"
+                          value="88800120012001"/>
+    <ExamineeRelationship context="FINAL" contextDate="2015-01-21T07:04:08.123000" name="SchoolName" value="Big Bay"/>
+  </Examinee>
+  <Opportunity abnormalStarts="0" administrationCondition="NS" assessmentParticipantSessionPlatformUserAgent=""
+               clientName="SBAC" completeStatus="Complete" completeness="Complete" database="session"
+               dateCompleted="2015-01-21T07:04:08.123000" effectiveDate="2014-08-15" ftCount="0" gracePeriodRestarts="0"
+               itemCount="14" key="1000000000" oppId="1000000000" opportunity="5" pauseCount="0"
+               server="ip-10-113-148-45" sessionId="BRO-8604" startDate="2015-01-21T07:00:55" status="scored"
+               statusDate="2015-01-21T07:04:08.123000" windowId="WINDOW_ID">
+    <Segment algorithm="Fixed" algorithmVersion="0" id="bd936075-c568-4e45-a415-bc7343381bde" position="1"/>
+    <Accommodation code="TDS_BT_UCT" segment="0" type="BrailleType" value="UEB"/>
+    <Accommodation code="TDS_CalcBasic" segment="0" type="Calculator" value="Calculator on"/>
+    <Accommodation code="NEA_Calc" segment="0" type="Non-Embedded Accommodations" value="Calculator"/>
+    <Score measureLabel="ScaleScore" measureOf="Overall" standardError="50" value="2542"/>
+    <Score measureLabel="PerformanceLevel" measureOf="Overall" standardError="" value="2"/>
+
+    <!-- Sample Multiple Choice (MC) -->
+    <Item adminDate="2018-08-27T15:38:47.967-05:00" bankKey="10200" clientId="" dropped="0" format="IAT"
+          isSelected="1" key="46849" mimeType="text/xml" numberVisits="1" operational="1" pageNumber="1"
+          pageTime="4300" pageVisits="1" position="1" responseDuration="4300" score="1" scoreStatus="SCORED"
+          segmentId="(SBAC)SBAC-GEN-INTR-ICA-ELA-COMBINED-6-SEG1-Winter-2018-2019">
+      <Response date="2018-08-27T15:38:51.637-05:00" key="1a43cab1-baea-4b6d-9d28-34f447e6b53e" type="">&lt;itemResponse&gt;&lt;response
+        id="choiceInteraction_1.RESPONSE"&gt;&lt;value&gt;choiceInteraction_1-choice-A&lt;/value&gt;&lt;/response&gt;&lt;/itemResponse&gt;
+      </Response>
+      <ScoreInfo maxScore="1" scoreDimension="overall" scorePoint="1" scoreStatus="Scored">
+        <ScoreRationale/>
+      </ScoreInfo>
+    </Item>
+
+    <Item adminDate="2015-01-21T07:00:00" bankKey="10200" dropped="0" format="EQ" isSelected="1" key="10364"
+          mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="55000" pageVisits="1"
+          position="5" responseDuration="55.0" score="1" scoreStatus="SCORED"
+          segmentId="bd936075-c568-4e45-a415-bc7343381bde">
+      <Response date="2015-01-21T07:00:55" type="value">good EQ response</Response>
+    </Item>
+    <Item adminDate="2015-01-21T07:00:00" bankKey="10200" dropped="0" format="MS" isSelected="1" key="12647"
+          mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="16000" pageVisits="1"
+          position="7" responseDuration="16.0" score="1" scoreStatus="SCORED"
+          segmentId="bd936075-c568-4e45-a415-bc7343381bde">
+      <Response date="2015-01-21T07:01:11" type="value">B,D</Response>
+    </Item>
+    <Item adminDate="2015-01-21T07:00:00" bankKey="10200" dropped="0" format="MC" isSelected="1" key="14308"
+          mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="4000" pageVisits="1"
+          position="3" responseDuration="4.0" score="1" scoreStatus="SCORED"
+          segmentId="bd936075-c568-4e45-a415-bc7343381bde">
+      <Response date="2015-01-21T07:01:15" type="value">B</Response>
+    </Item>
+    <Item adminDate="2015-01-21T07:00:00" bankKey="10200" dropped="0" format="EQ" isSelected="1" key="1470"
+          mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="58000" pageVisits="1"
+          position="1" responseDuration="58.0" score="0" scoreStatus="SCORED"
+          segmentId="bd936075-c568-4e45-a415-bc7343381bde">
+      <Response date="2015-01-21T07:02:13" type="value">poor EQ response</Response>
+    </Item>
+    <Item adminDate="2015-01-21T07:00:00" bankKey="10200" dropped="0" format="MC" isSelected="1" key="15260"
+          mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="10000" pageVisits="1"
+          position="11" responseDuration="10.0" score="0" scoreStatus="SCORED"
+          segmentId="bd936075-c568-4e45-a415-bc7343381bde">
+      <Response date="2015-01-21T07:02:23" type="value">C</Response>
+    </Item>
+    <Item adminDate="2015-01-21T07:00:00" bankKey="10200" dropped="0" format="MC" isSelected="1" key="15283"
+          mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="6000" pageVisits="1"
+          position="4" responseDuration="6.0" score="1" scoreStatus="SCORED"
+          segmentId="bd936075-c568-4e45-a415-bc7343381bde">
+      <Response date="2015-01-21T07:02:29" type="value">C</Response>
+    </Item>
+    <Item adminDate="2015-01-21T07:00:00" bankKey="10200" dropped="0" format="MC" isSelected="1" key="15972"
+          mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="10000" pageVisits="1"
+          position="14" responseDuration="10.0" score="0" scoreStatus="SCORED"
+          segmentId="bd936075-c568-4e45-a415-bc7343381bde">
+      <Response date="2015-01-21T07:02:39" type="value">B</Response>
+    </Item>
+    <Item adminDate="2015-01-21T07:00:00" bankKey="10200" dropped="0" format="EQ" isSelected="1" key="4260"
+          mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="2000" pageVisits="1"
+          position="8" responseDuration="2.0" score="2" scoreStatus="SCORED"
+          segmentId="bd936075-c568-4e45-a415-bc7343381bde">
+      <Response date="2015-01-21T07:02:41" type="value">good EQ response</Response>
+    </Item>
+    <Item adminDate="2015-01-21T07:00:00" bankKey="10200" dropped="0" format="EQ" isSelected="1" key="4264"
+          mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="17000" pageVisits="1"
+          position="10" responseDuration="17.0" score="2" scoreStatus="SCORED"
+          segmentId="bd936075-c568-4e45-a415-bc7343381bde">
+      <Response date="2015-01-21T07:02:58" type="value">good EQ response</Response>
+    </Item>
+    <Item adminDate="2015-01-21T07:00:00" bankKey="10200" dropped="0" format="EQ" isSelected="1" key="4282"
+          mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="22000" pageVisits="1"
+          position="13" responseDuration="22.0" score="1" scoreStatus="SCORED"
+          segmentId="bd936075-c568-4e45-a415-bc7343381bde">
+      <Response date="2015-01-21T07:03:20" type="value">poor EQ response</Response>
+    </Item>
+    <Item adminDate="2015-01-21T07:00:00" bankKey="10200" dropped="0" format="MC" isSelected="0" key="46877"
+          mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="2123" pageVisits="1"
+          position="6" responseDuration="2.123" score="0" scoreStatus="SCORED"
+          segmentId="bd936075-c568-4e45-a415-bc7343381bde">
+      <Response date="2015-01-21T07:03:22.123000" type="value"/>
+    </Item>
+    <Item adminDate="2015-01-21T07:00:00" bankKey="10200" dropped="0" format="EQ" isSelected="1" key="754"
+          mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="20000" pageVisits="1"
+          position="2" responseDuration="20.0" score="1" scoreStatus="SCORED"
+          segmentId="bd936075-c568-4e45-a415-bc7343381bde">
+      <Response date="2015-01-21T07:03:42.123000" type="value">good EQ response</Response>
+    </Item>
+    <Item adminDate="2015-01-21T07:00:00" bankKey="10200" dropped="0" format="EQ" isSelected="1" key="782"
+          mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="19000" pageVisits="1"
+          position="9" responseDuration="19.0" score="0" scoreStatus="SCORED"
+          segmentId="bd936075-c568-4e45-a415-bc7343381bde">
+      <Response date="2015-01-21T07:04:01.123000" type="value">poor EQ response</Response>
+    </Item>
+    <Item adminDate="2015-01-21T07:00:00" bankKey="10200" dropped="0" format="EQ" isSelected="1" key="9911"
+          mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="7000" pageVisits="1"
+          position="12" responseDuration="7.0" score="0" scoreStatus="SCORED"
+          segmentId="bd936075-c568-4e45-a415-bc7343381bde">
+      <Response date="2015-01-21T07:04:08.123000" type="value">poor EQ response</Response>
+    </Item>
+  </Opportunity>
+</TDSReport>

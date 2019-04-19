@@ -1,5 +1,7 @@
 apply plugin: 'org.springframework.boot'
 
+ext['groovy.version'] = '2.5.6'
+
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-aop'
     compile 'org.springframework.boot:spring-boot-starter-cache'
@@ -23,6 +25,8 @@ dependencies {
     compile 'net.sf.saxon:Saxon-HE'
 
     compile project(':rdw-ingest-common')
+    compile project(':rdw-ingest-script-common')
+    
     testCompile project(path: ':rdw-ingest-common', configuration: 'tests')
 }
 
