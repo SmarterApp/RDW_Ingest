@@ -21,6 +21,8 @@ dependencies {
     // fixes java 8 time marshaling
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.7'
 
+    compile project(':rdw-ingest-common')
+
     testCompile 'org.xmlunit:xmlunit-core'
     testCompile 'org.xmlunit:xmlunit-matchers'
     testCompile 'org.springframework.boot:spring-boot-starter-test' 

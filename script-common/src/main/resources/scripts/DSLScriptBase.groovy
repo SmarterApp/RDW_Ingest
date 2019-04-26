@@ -1,6 +1,5 @@
 package scripts
 
-
 import org.apache.tools.ant.util.ReaderInputStream
 import org.jdom2.Document
 import org.jdom2.Element
@@ -11,6 +10,11 @@ import org.jdom2.output.XMLOutputter
 import org.jdom2.transform.JDOMResult
 import org.jdom2.transform.JDOMSource
 import org.jdom2.xpath.XPathFactory
+import org.opentestsystem.rdw.common.model.ImportStatus
+import org.opentestsystem.rdw.ingest.common.model.ImportException
+import org.opentestsystem.rdw.ingest.common.util.DataElementError
+import org.opentestsystem.rdw.ingest.common.util.DataElementErrorCollector
+import org.opentestsystem.rdw.ingest.common.util.ParserHelper
 import org.opentestsystem.rdw.ingest.script.PipelineScript
 import org.xml.sax.InputSource
 
@@ -22,6 +26,130 @@ import javax.xml.transform.stream.StreamSource
  * Base class for Groovy pipeline scripts. Provides a DSL that will be available to the scripts.
  */
 abstract class DSLScriptBase extends PipelineScript {
+    // Collection of errors found by validating scripts.
+    private DataElementErrorCollector errorCollector = new DataElementErrorCollector()
+
+    // Parser Helper wrapping error collector
+    private ParserHelper parserHelper = new ParserHelper(errorCollector)
+
+    /**
+     * Returns true if no errors have been found, otherwise throws ImportException.
+     * This can be called anywhere to fast fail on input errors, but for scripts
+     * that primarily do validation, it must at least be
+     * called at the end of the script to return a final status to the caller.
+     *
+     * @return true if no errors found
+     * @throws ImportException if any errors have been found. The collected errors will be summarized by this exception.
+     * @param status code for the failure, defaults to ImportStatus.BAD_DATA
+     */
+    Boolean getCheckValid(ImportStatus status = ImportStatus.BAD_DATA) {
+        if (errorCollector.isEmpty()) {
+            return true
+        }
+
+        throw new ImportException(status, errorCollector.toJson())
+    }
+
+    ParserHelper getParserHelper() {
+        return parserHelper
+    }
+
+    /**
+     * This method is the same as {@link #getCheckValid(ImportStatus)}, but allows the status to be passed
+     * in as a string. This should match (case-insensitive) one of names in the ImportStatus enum.
+     *
+     * @param statusString string matching one of the Import Status enums.
+     * @return see {@link #getCheckValid(ImportStatus)}
+     */
+    Boolean checkValid(String statusString) {
+        ImportStatus status = stringToImportStatus(statusString)
+        getCheckValid(status)
+    }
+
+    /**
+     * Adds a DataElementError to the error collector.
+     *
+     * @param elementName
+     * @param value
+     * @param error
+     *
+     * @see DataElementError
+     */
+    void addError(String elementName, String value, String error) {
+        errorCollector.add(new DataElementError(elementName, value, error));
+    }
+
+    /**
+     * Throws an ImportException immediately on execution with status BAD_DATA.
+     *
+     * @param message message used for import exception.
+     * @throws ImportException
+     */
+    void errorImmediately(String message) {
+        errorImmediately(ImportStatus.BAD_DATA, message)
+    }
+
+    /**
+     * Throws an ImportException immediately on execution with status BAD_DATA.
+     *
+     * @param statusString status for import exception if convertible to an ImportStatus enum value.
+     * @param message message used for import exception.
+     * @throws ImportException
+     */
+    void errorImmediately(String statusString, String message) {
+        errorImmediately(stringToImportStatus(statusString), message)
+    }
+
+    /**
+     * Throws an ImportException immediately on execution with status BAD_DATA.
+     *
+     * @param status status for import exception.
+     * @param message message used for import exception.
+     * @throws ImportException
+     */
+    void errorImmediately(ImportStatus status, String message) {
+        throw new ImportException(status, message)
+    }
+
+    /**
+     * Resolves missing properties by delegating to custom property resolver if one has been set.
+     *
+     * @param name the name of the property to resolve
+     * @return an object that the property resolver maps to the name.
+     * @throws MissingPropertyException if name cannot be resolved
+     */
+    def propertyMissing(String name) {
+        // Avoid endless recursion
+        if (name == 'propertyResolver') {
+            return null
+        }
+
+        if (propertyResolver != null) {
+            try {
+                def property = propertyResolver.resolveProperty(name)
+                if (property != null) {
+                    return property
+                }
+            } catch (Exception e) {
+                throw new MissingPropertyException(name, this.class, e)
+            }
+        }
+
+        throw new MissingPropertyException(name, this.class)
+    }
+
+    // Convert string to ImportStatus enum value. Returns BAD_DATA if conversion fails.
+    private ImportStatus stringToImportStatus(String statusString) {
+        for (ImportStatus status : ImportStatus.values()) {
+            if (status.name().equalsIgnoreCase(statusString)) {
+                return status
+            }
+        }
+
+        // Default
+        return ImportStatus.BAD_DATA
+    }
+
 
     /**
      * Adds XML parsing, transformation, formatting helper methods to the script class.
