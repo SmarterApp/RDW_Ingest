@@ -2,7 +2,11 @@
 
 #### 1.4.0 - 2019-
 
+* Refactor assessment package validation, separating structural/schema validation from business rules.
+This may affect DevOps/IT if packages are malformed; they may now use the standalone validation utility.
 * Make sessionId optional by default (change `validation.requiredDataElements`)
+* Add Groovy-based ingest processing pipeline
+    * Replaces XSLT-based TRT pre-processing.
 * Enhance configurable subjects to support "alt" scores
     * Existing subject definition files must be adjusted:
         * introduce OverallScoring element with min/maxScore attributes
@@ -12,6 +16,8 @@
         * exam scores are now validated against their assessment min/max scores
             * claim scores are no longer validated
             * theta scores are no longer validated
+* A number of fixes regarding subjects with itemless, summative assessments only.
+* Make default administration condition based on assessment type (interim=SD, summative=Valid) (RP-276).
 
 
 #### 1.3.1 - 2019-04-02
