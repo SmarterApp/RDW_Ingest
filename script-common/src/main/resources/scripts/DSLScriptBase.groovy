@@ -33,18 +33,20 @@ abstract class DSLScriptBase extends PipelineScript {
     private ParserHelper parserHelper = new ParserHelper(errorCollector)
 
     /**
-     * Returns true if no errors have been found, otherwise throws ImportException.
+     * Returns original input if no errors have been found, otherwise throws ImportException.
      * This can be called anywhere to fast fail on input errors, but for scripts
      * that primarily do validation, it must at least be
-     * called at the end of the script to return a final status to the caller.
+     * called at the end of the script, where it will return the untransformed input to be used as input
+     * for the next script in the pipeline or to throw an exception that summarizes the contents of the
+     * error collector.
      *
-     * @return true if no errors found
+     * @return original input if no errors found, otherwise exception thrown
      * @throws ImportException if any errors have been found. The collected errors will be summarized by this exception.
      * @param status code for the failure, defaults to ImportStatus.BAD_DATA
      */
-    Boolean getCheckValid(ImportStatus status = ImportStatus.BAD_DATA) {
+    def getCheckValid(ImportStatus status = ImportStatus.BAD_DATA) {
         if (errorCollector.isEmpty()) {
-            return true
+            return input
         }
 
         throw new ImportException(status, errorCollector.toJson())
@@ -150,6 +152,18 @@ abstract class DSLScriptBase extends PipelineScript {
         return ImportStatus.BAD_DATA
     }
 
+    /**
+     * Enables domain specific language (DSL) as needed by the script.
+     *
+     * @param type the type of DSL to enable. Currently only supports 'xml'
+     */
+    void enable(String type) {
+        if ('xml'.equalsIgnoreCase(type)) {
+            enableXmlExtensions()
+        } else {
+            throw new RuntimeException("Unsupported extension type: " + type)
+        }
+    }
 
     /**
      * Adds XML parsing, transformation, formatting helper methods to the script class.
@@ -158,8 +172,7 @@ abstract class DSLScriptBase extends PipelineScript {
      *
      * @return reference to the script class (for chained calls).
      */
-    @Override
-    PipelineScript enableXmlExtensions() {
+    private void enableXmlExtensions() {
         def input = getProperty("input")
 
         if (input == null) {
@@ -293,7 +306,5 @@ abstract class DSLScriptBase extends PipelineScript {
 
             setProperty('document', out.document)
         }
-
-        return this
     }
 }

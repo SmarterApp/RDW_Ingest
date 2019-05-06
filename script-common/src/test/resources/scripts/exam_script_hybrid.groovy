@@ -1,3 +1,5 @@
+enable 'xml'
+
 applyXsl xslItemRulesOnly
 
 transform '//Response' by { response ->
