@@ -1,3 +1,5 @@
+enable 'xml'
+
 transform '//Item' by { item ->
     if (item.bankKey.startsWith('10')) {
         item.bankKey = item.bankKey.substring(2)

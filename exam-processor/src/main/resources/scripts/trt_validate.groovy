@@ -20,10 +20,23 @@ if (assessment == null)
 
 logger.debug("Found assessment for natural ID: ${assessmentNaturalId}")
 
+//
 // Validate the TRT's test against the stored assessment
-validateTest(report.test, assessment)
+//
+if (!assessment.subjectCode.equalsIgnoreCase(report.test.subject))
+    addError "Assessment natural id [${assessment.naturalId}], Test subject",
+            report.test.subject,
+            "exam subject does not match asmt subject: ${assessment.subjectCode}"
 
+def formattedGrade = parserHelper.validate("grade", report.test.grade, parserHelper.toGrade)
+if (!assessment.gradeCode.equalsIgnoreCase(formattedGrade))
+    addError "Assessment natural id [${assessment.naturalId}], Test grade",
+            formattedGrade,
+            "exam grade does not match asmt grade: ${assessment.gradeCode}"
+
+//
 // Use existing processing services for additional validation
+//
 def exam = studentExamProcessor.parseExam(report, schoolId, assessment)
 examineeProcessor.parseStudent(report.examinee, exam.schoolYear, schoolId)
 
@@ -52,20 +65,4 @@ int parseSchoolId(def examinee) {
                 "unable to find a school with natural id [${naturalId}]. School name: ${schoolName}, " +
                         "district id: [${districtId}], district name: ${districtName}"
     }
-}
-
-//
-// Validate the TRT test against the data store assessment.
-//
-def validateTest(def test, def assessment) {
-    if (!assessment.subjectCode.equalsIgnoreCase(test.subject))
-        addError "Assessment natural id [${assessment.naturalId}], Test subject",
-                 test.subject,
-                 "exam subject does not match asmt subject: ${assessment.subjectCode}"
-
-    def formattedGrade = parserHelper.validate("grade", test.grade, parserHelper.toGrade)
-    if (!assessment.gradeCode.equalsIgnoreCase(formattedGrade))
-        addError "Assessment natural id [${assessment.naturalId}], Test grade",
-                 formattedGrade,
-                 "exam grade does not match asmt grade: ${assessment.gradeCode}"
 }
