@@ -1,3 +1,6 @@
+// Enable XML extensions to simplify processing the XML document
+enable 'xml'
+
 // This rule removes leading 10 from item bank key
 transform '//Item' by { item ->
     if (item.bankKey.startsWith('10')) {

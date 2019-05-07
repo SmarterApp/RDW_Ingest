@@ -3,10 +3,16 @@
   "version": "1.0",
   "type": "PIPELINE",
   "rollbackVersion": "",
-  "options": ["xml"],
-  "nodeDefinitions": [{
-    "name": "trt_transform",
-    "version": "1.0",
-    "type": "USER_NODE"
-  }]
+  "nodeDefinitions": [
+    {
+      "name": "trt_transform",
+      "version": "1.0",
+      "type": "USER_NODE"
+    },
+    {
+      "name": "trt_validate",
+      "version": "1.0",
+      "type": "SYSTEM_NODE"
+    }
+  ]
 }
