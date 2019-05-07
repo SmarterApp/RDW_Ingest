@@ -1,5 +1,9 @@
 ## Change Log
 
+#### 1.3.2
+
+* Reduce the tenancy chain when storing metadata in S3 (RP-321).
+
 #### 1.3.1
 
 * Fix problem with large group file migrate dropping some groups (RP-192).
