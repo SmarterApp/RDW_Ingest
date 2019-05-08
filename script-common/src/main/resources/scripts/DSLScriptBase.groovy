@@ -1,6 +1,5 @@
 package scripts
 
-import org.apache.tools.ant.util.ReaderInputStream
 import org.jdom2.Document
 import org.jdom2.Element
 import org.jdom2.input.SAXBuilder
@@ -21,6 +20,7 @@ import org.xml.sax.InputSource
 import javax.xml.transform.Transformer
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.stream.StreamSource
+import java.nio.charset.StandardCharsets
 
 /**
  * Base class for Groovy pipeline scripts. Provides a DSL that will be available to the scripts.
@@ -296,7 +296,7 @@ abstract class DSLScriptBase extends PipelineScript {
         // or an open java.io.InputStream.
         this.metaClass.applyXsl {xsl ->
             if (xsl instanceof String) {
-                xsl = new ReaderInputStream(new StringReader(xsl))
+                xsl = new ByteArrayInputStream(xsl.getBytes(StandardCharsets.UTF_8))
             }
 
             JDOMSource source = new JDOMSource((Document)getProperty('document'))
