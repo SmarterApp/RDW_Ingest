@@ -10,11 +10,11 @@ import org.jdom2.transform.JDOMResult
 import org.jdom2.transform.JDOMSource
 import org.jdom2.xpath.XPathFactory
 import org.opentestsystem.rdw.common.model.ImportStatus
-import org.opentestsystem.rdw.ingest.common.model.ImportException
-import org.opentestsystem.rdw.ingest.common.util.DataElementError
-import org.opentestsystem.rdw.ingest.common.util.DataElementErrorCollector
-import org.opentestsystem.rdw.ingest.common.util.ParserHelper
-import org.opentestsystem.rdw.ingest.script.PipelineScript
+import org.opentestsystem.rdw.common.model.ImportException
+import org.opentestsystem.rdw.utils.DataElementError
+import org.opentestsystem.rdw.utils.DataElementErrorCollector
+import org.opentestsystem.rdw.utils.ParserHelper
+import org.opentestsystem.rdw.script.PipelineScript
 import org.xml.sax.InputSource
 
 import javax.xml.transform.Transformer
