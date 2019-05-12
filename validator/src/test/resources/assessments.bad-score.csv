@@ -1,0 +1,2 @@
+AssessmentId,AssessmentName,AssessmentSubject,AssessmentGrade,AssessmentType,AssessmentSubtype,AssessmentLabel,AssessmentVersion,AcademicYear,ScaledLow1,ScaledHigh1,ScaledLow2,ScaledHigh2,ScaledLow3,ScaledHigh3,ScaledLow4,ScaledHigh4,Alt1Low1,Alt1High1
+GEO-GRADE-01-2018,GEO-GRADE-01,GEO,01,summative,SUM,GEO Grade 1, 112,2018,100,200,200,400,400,1000,,,0,100

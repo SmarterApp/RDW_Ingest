@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Notes
+This was initially done for Summative only. However, there is also an "Initial ELPAC".
+These notes will include issues and concerns with the Initial ELPAC even though that
+test is not yet being specified or reported on.
+
+Glossary / Definitions:
+CSEM = Conditional Standard Error of Measurement
+
+Summative:
+  Overall Scale Score: 1150-1950, Perf Level: 1-4
+  Oral Language Scale Score: 1150-1950, CSEM: 000-999, Perf Level: 1-4
+  Written Language Scale Score: 1150-1950, CSEM: 000-999, Perf Level: 1-4
+  https://www.cde.ca.gov/ta/tg/ep/documents/elpacsummscalescore.pdf  <- has cut-points by grade
+
+Initial:
+  Overall Scale Score: 150-600
+    1: Novice aka "Minimally Developed", 150-369
+    2: Intermediate aka "Somewhat to Moderately Developed", 370-449
+    3: Initially Fluent English Proficient (IFEP) aka "Well Developed", 450-600
+  Oral Perf Level: 1-3 (no scores that i can see)
+  Written Perf Level: 1-3 (no scores that i can see)
+
+Domains (same for both Summative and Initial):
+  Listening Perf Level: 1-3
+  Speaking Perf Level: 1-3
+  Reading Perf Level: 1-3
+  Writing Perf Level: 1-3
+Composites:
+  Oral = Listening & Speaking
+  Written aka Literacy = Reading & Writing
+
+ELPAC results provide absolutely no item information. Many of the elements in the subject XML
+schema are related to items. For example the "standard-description" message, the alt/claim score
+descriptions, DepthsOfKnowledge, ItemDifficulties, Standards.
+
+ELPAC does not support ISR's so ReportGrades is not needed.
+
+That slims down this file a lot ...
+
+-->
+
+<Subject code="ELPAC" name="ELPAC">
+  <Messages>
+    <Message key="sum.performance-info"><![CDATA[Student scores on the Summative ELPAC are assigned to one of four achievement levels based on the scale score.]]></Message>
+  </Messages>
+  <AssessmentTypes>
+    <AssessmentType code="sum" name="Summative" longName="Summative ELPAC" targetReport="false" printedReport="false">
+      <OverallScoring name="Overall" minScore="1150" maxScore="1950">
+        <PerformanceLevels>
+          <PerformanceLevel level="1" name="Level 1" shortName="Level 1" suffix="" color="maroon"/>
+          <PerformanceLevel level="2" name="Level 2" shortName="Level 2" suffix="" color="orange"/>
+          <PerformanceLevel level="3" name="Level 3" shortName="Level 3" suffix="" color="blue"/>
+          <PerformanceLevel level="4" name="Level 4" shortName="Level 4" suffix="" color="green"/>
+        </PerformanceLevels>
+      </OverallScoring>
+      <AltScoring name="Composite" minScore="1150" maxScore="1950">
+        <PerformanceLevels>
+          <PerformanceLevel level="1" name="Level 1" shortName="Level 1" suffix="" color="maroon"/>
+          <PerformanceLevel level="2" name="Level 2" shortName="Level 2" suffix="" color="orange"/>
+          <PerformanceLevel level="3" name="Level 3" shortName="Level 3" suffix="" color="blue"/>
+          <PerformanceLevel level="4" name="Level 4" shortName="Level 4" suffix="" color="green"/>
+        </PerformanceLevels>
+      </AltScoring>
+      <ClaimScoring name="Domain">
+        <PerformanceLevels>
+          <PerformanceLevel level="1" name="Beginning" shortName="Beginning" suffix="" color="sb-iab-red"/>
+          <PerformanceLevel level="2" name="Somewhat/Moderately Developed" shortName="Moderately" suffix="Developed" color="sb-iab-yellow"/>
+          <PerformanceLevel level="3" name="Well Developed" shortName="Well" suffix="Developed" color="sb-iab-green"/>
+        </PerformanceLevels>
+      </ClaimScoring>
+    </AssessmentType>
+  </AssessmentTypes>
+  <AltScores>
+    <AltScore code="1" name="Oral Language" displayOrder="1">
+      <Icon>fa-comment</Icon>
+    </AltScore>
+    <AltScore code="2" name="Written Language" displayOrder="2">
+      <Icon>fa-edit</Icon>
+    </AltScore>
+  </AltScores>
+  <Claims>
+    <Claim code="1-L" name="Listening" displayOrder="1" organizational="false">
+      <Icon>fa-headphones</Icon>
+    </Claim>
+    <Claim code="1-S" name="Speaking" displayOrder="2" organizational="false">
+      <Icon>fa-comment</Icon>
+    </Claim>
+    <Claim code="2-R" name="Reading" displayOrder="3" organizational="false">
+      <Icon>fa-book</Icon>
+    </Claim>
+    <Claim code="2-W" name="Writing" displayOrder="4" organizational="false">
+      <Icon>fa-edit</Icon>
+    </Claim>
+  </Claims>
+</Subject>

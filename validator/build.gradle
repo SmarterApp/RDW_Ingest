@@ -1,0 +1,45 @@
+import org.gradle.internal.jvm.Jvm
+
+// For now this will just produce an executable jar used like this:
+//   java -jar build/libs/validator.jar -s subject.xml -t asmt.csv
+//
+// Maybe we can use launch4j (Windows/Mac), executable jar (linux), GraalVM
+// or something similar to make a true standalone executable
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.github.rholder:gradle-one-jar:1.0.4'
+    }
+}
+apply plugin: 'gradle-one-jar'
+
+task executableJar(type: OneJar, dependsOn: build) {
+    // this drops a one-jar.properties file into the final executable jar
+    // to suppress the one-jar log output
+    File oneJarConfigDir = new File("$buildDir/tmp/one-jar")
+    doFirst {
+        oneJarConfigDir.mkdirs()
+        new File(oneJarConfigDir, "one-jar.properties").text = "one-jar.silent=true"
+    }
+    additionalDir = oneJarConfigDir
+    mainClass = 'org.opentestsystem.rdw.ingest.validator.ValidatorApplication'
+    archiveName = 'validator.jar'
+}
+
+dependencies {
+    compile 'commons-cli:commons-cli:1.4'
+    compile 'org.opentestsystem.rdw.common:rdw-common-model'
+
+    // Add a runtime binding to the java tool.jar required by Sun's MSV (multi-schema-validator)
+    // implementation which is used during streaming XSD-based XML validation
+    runtime files(Jvm.current().toolsJar)
+
+    // runtime binding get rid of the slf4j warning
+    runtime 'org.slf4j:slf4j-nop:1.7.25'
+
+    testCompile 'com.github.stefanbirkner:system-rules:1.19.0'
+}
+

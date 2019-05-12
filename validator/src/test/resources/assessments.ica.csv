@@ -1,0 +1,2 @@
+AssessmentId,AssessmentName,AssessmentSubject,AssessmentGrade,AssessmentType,AssessmentSubtype,AssessmentLabel,AssessmentVersion,AcademicYear,ScaledLow1,ScaledHigh1,ScaledLow2,ScaledHigh2,ScaledLow3,ScaledHigh3,ScaledLow4,ScaledHigh4
+GEO-GRADE-01-2018,GEO-GRADE-01,GEO,01,interim,ICA,GEO Grade 1, 112,2018,1150,1410,1411,1454,1455,1506,1507,1700
