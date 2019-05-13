@@ -5,6 +5,9 @@ import org.gradle.internal.jvm.Jvm
 //
 // Maybe we can use launch4j (Windows/Mac), executable jar (linux), GraalVM
 // or something similar to make a true standalone executable
+//
+// This project: https://github.com/EmilyBjoerk/lsml/blob/develop/build.gradle
+// uses wix http://wixtoolset.org/; maybe overkill.
 
 buildscript {
     repositories {
