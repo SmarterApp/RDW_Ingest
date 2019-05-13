@@ -2,6 +2,7 @@
 
 #### 1.4.0 - 2019-
 
+* Reduce the tenancy chain stored in metadata for archived import payloads.
 * Refactor assessment package validation, separating structural/schema validation from business rules.
 This may affect DevOps/IT if packages are malformed; they may now use the standalone validation utility.
 * Make sessionId optional by default (change `validation.requiredDataElements`)
