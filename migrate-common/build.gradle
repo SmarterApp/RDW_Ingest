@@ -5,6 +5,9 @@ bootRepackage.enabled = false
 bootRun.enabled = false
 
 dependencies {
+    // handy for creating metadata with @ConfigurationProperties
+    compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
+
     compile 'org.springframework.boot:spring-boot-starter-batch'
 
     compile project(':rdw-ingest-common')

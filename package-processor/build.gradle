@@ -3,6 +3,9 @@ import org.gradle.internal.jvm.Jvm
 apply plugin: 'org.springframework.boot'
 
 dependencies {
+    // handy for creating metadata with @ConfigurationProperties
+    compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
+
     compile 'org.springframework.boot:spring-boot-starter-cache'
     compile 'org.springframework.boot:spring-boot-starter-jdbc'
     compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'

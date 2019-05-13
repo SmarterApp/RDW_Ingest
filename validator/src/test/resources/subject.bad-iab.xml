@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Subject code="GEO" name="Geology">
+  <Messages>
+    <Message key="iab.performance-info"><![CDATA[Geology IAB.]]></Message>
+  </Messages>
+  <AssessmentTypes>
+    <AssessmentType code="iab" name="Geology IAB">
+      <OverallScoring name="Overall">
+        <PerformanceLevels standardCutoff="1">
+          <PerformanceLevel level="1" name="Pass" color="green"/>
+        </PerformanceLevels>
+      </OverallScoring>
+      <AltScoring name="Section">
+        <PerformanceLevels>
+          <PerformanceLevel level="1" name="Pass" color="green"/>
+        </PerformanceLevels>
+      </AltScoring>
+      <ClaimScoring name="Claim">
+        <PerformanceLevels>
+          <PerformanceLevel level="1" name="Pass" color="green"/>
+        </PerformanceLevels>
+      </ClaimScoring>
+    </AssessmentType>
+  </AssessmentTypes>
+</Subject>
