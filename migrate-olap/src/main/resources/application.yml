@@ -63,14 +63,15 @@ spring:
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
 
-  migrate_datasource:
+datasources:
+  migrate_rw:
     url: "\
-      jdbc:mysql://${spring.migrate_datasource.url-server:localhost:3306}/${spring.migrate_datasource.url-schema:migrate_olap}\
-      ?useSSL=${spring.migrate_datasource.use-ssl:false}\
-      &useLegacyDatetimeCode=${spring.migrate_datasource.use-legacy-datetime-code:false}\
-      &characterEncoding=${spring.migrate_datasource.character-encoding:utf8}\
-      &connectTimeout=${spring.migrate_datasource.connect-timeout:10000}\
-      &socketTimeout=${spring.migrate_datasource.socket-timeout:0}\
+      jdbc:mysql://${datasources.migrate_rw.url-server:localhost:3306}/${datasources.migrate_rw.url-schema:migrate_olap}\
+      ?useSSL=${datasources.migrate_rw.use-ssl:false}\
+      &useLegacyDatetimeCode=${datasources.migrate_rw.use-legacy-datetime-code:false}\
+      &characterEncoding=${datasources.migrate_rw.character-encoding:utf8}\
+      &connectTimeout=${datasources.migrate_rw.connect-timeout:10000}\
+      &socketTimeout=${datasources.migrate_rw.socket-timeout:0}\
       "
     username: root
     password:
@@ -81,18 +82,18 @@ spring:
     initialize: false
     initialSize: 4
     maxActive: 10
-    minIdle: ${spring.migrate_datasource.initialSize}
-    maxIdle: ${spring.migrate_datasource.maxActive}
+    minIdle: ${datasources.migrate_rw.initialSize}
+    maxIdle: ${datasources.migrate_rw.maxActive}
 
   # http://docs.aws.amazon.com/redshift/latest/mgmt/configure-jdbc-options.html
   # https://jdbc.postgresql.org/documentation/head/connect.html
   # NOTE: nothing in these settings controls the schema; it is controlled by the user's search_path
-  olap_datasource:
+  olap_rw:
     url: "\
-      jdbc:redshift://${spring.olap_datasource.url-server:localhost:5432}/${spring.olap_datasource.url-db:dev}\
+      jdbc:redshift://${datasources.olap_rw.url-server:localhost:5432}/${datasources.olap_rw.url-db:dev}\
       ?ApplicationName=rdw-ingest-migrate-olap\
-      &loginTimeout=${spring.olap_datasource.connect-timeout:10}\
-      &socketTimeout=${spring.olap_datasource.socket-timeout:0}\
+      &loginTimeout=${datasources.olap_rw.connect-timeout:10}\
+      &socketTimeout=${datasources.olap_rw.socket-timeout:0}\
       "
     username: root
     password:
@@ -101,14 +102,14 @@ spring:
     validationQueryTimeout: 30000
     driverClassName: com.amazon.redshift.jdbc42.Driver
 
-  warehouse_datasource:
+  warehouse_rw:
     url: "\
-      jdbc:mysql://${spring.warehouse_datasource.url-server:localhost:3306}/${spring.warehouse_datasource.url-schema:warehouse}\
-      ?useSSL=${spring.warehouse_datasource.use-ssl:false}\
-      &useLegacyDatetimeCode=${spring.warehouse_datasource.use-legacy-datetime-code:false}\
-      &characterEncoding=${spring.warehouse_datasource.character-encoding:utf8}\
-      &connectTimeout=${spring.warehouse_datasource.connect-timeout:10000}\
-      &socketTimeout=${spring.warehouse_datasource.socket-timeout:0}\
+      jdbc:mysql://${datasources.warehouse_rw.url-server:localhost:3306}/${datasources.warehouse_rw.url-schema:warehouse}\
+      ?useSSL=${datasources.warehouse_rw.use-ssl:false}\
+      &useLegacyDatetimeCode=${datasources.warehouse_rw.use-legacy-datetime-code:false}\
+      &characterEncoding=${datasources.warehouse_rw.character-encoding:utf8}\
+      &connectTimeout=${datasources.warehouse_rw.connect-timeout:10000}\
+      &socketTimeout=${datasources.warehouse_rw.socket-timeout:0}\
       "
     username: root
     password:
@@ -119,8 +120,8 @@ spring:
     initialize: false
     initialSize: 4
     maxActive: 10
-    minIdle: ${spring.warehouse_datasource.initialSize}
-    maxIdle: ${spring.warehouse_datasource.maxActive}
+    minIdle: ${datasources.warehouse_rw.initialSize}
+    maxIdle: ${datasources.warehouse_rw.maxActive}
 
 logging:
   level:

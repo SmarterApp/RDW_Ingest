@@ -19,8 +19,8 @@ migrate:
 reporting:
   school-year: 1999
 
-spring:
-  migrate_datasource:
+datasources:
+  migrate_rw:
     url-server: rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306
     url-schema: migrate_olap_test
     username: sbac

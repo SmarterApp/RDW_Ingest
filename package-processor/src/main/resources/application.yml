@@ -46,21 +46,27 @@ spring:
           destination: SUBJECT
           group: default
 
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+
   profiles:
     include: ingest-common
 
-  datasource:
+datasources:
+  warehouse_rw:
     url: "\
-      jdbc:mysql://${spring.datasource.url-server:localhost:3306}/${spring.datasource.url-schema:warehouse}\
-      ?useSSL=${spring.datasource.use-ssl:false}\
-      &useLegacyDatetimeCode=${spring.datasource.use-legacy-datetime-code:false}\
-      &characterEncoding=${spring.datasource.character-encoding:utf8}\
-      &rewriteBatchedStatements=${spring.datasource.rewrite-batched-statements:true}\
-      &noAccessToProcedureBodies=${spring.datasource.no-access-to-procedure-bodies:true}\
-      &connectTimeout=${spring.datasource.connect-timeout:10000}\
-      &socketTimeout=${spring.datasource.socket-timeout:130000}\
+      jdbc:mysql://${datasources.warehouse_rw.url-server:localhost:3306}/${datasources.warehouse_rw.url-schema:warehouse}\
+      ?useSSL=${datasources.warehouse_rw.use-ssl:false}\
+      &useLegacyDatetimeCode=${datasources.warehouse_rw.use-legacy-datetime-code:false}\
+      &characterEncoding=${datasources.warehouse_rw.character-encoding:utf8}\
+      &rewriteBatchedStatements=${datasources.warehouse_rw.rewrite-batched-statements:true}\
+      &noAccessToProcedureBodies=${datasources.warehouse_rw.no-access-to-procedure-bodies:true}\
+      &connectTimeout=${datasources.warehouse_rw.connect-timeout:10000}\
+      &socketTimeout=${datasources.warehouse_rw.socket-timeout:130000}\
       "
-    jdbcInterceptors: "QueryTimeoutInterceptor(queryTimeout=${spring.datasource.query-timeout:120})"
+    jdbcInterceptors: "QueryTimeoutInterceptor(queryTimeout=${datasources.warehouse_rw.query-timeout:120})"
     username: root
     password:
     testWhileIdle: true
@@ -70,10 +76,5 @@ spring:
     initialize: false
     initialSize: 4
     maxActive: 10
-    minIdle: ${spring.datasource.initialSize}
-    maxIdle: ${spring.datasource.maxActive}
-
-  jackson:
-    default-property-inclusion: non_null
-    serialization:
-      WRITE_DATES_AS_TIMESTAMPS: false
+    minIdle: ${datasources.warehouse_rw.initialSize}
+    maxIdle: ${datasources.warehouse_rw.maxActive}
