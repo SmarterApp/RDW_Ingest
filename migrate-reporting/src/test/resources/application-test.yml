@@ -1,9 +1,8 @@
 reporting:
   school-year: 1999
 
-spring:
-  reporting_datasource:
-    url-schema: reporting_test
-  warehouse_datasource:
+datasources:
+  warehouse_rw:
     url-schema: warehouse_test
-
+  reporting_rw:
+    url-schema: reporting_test

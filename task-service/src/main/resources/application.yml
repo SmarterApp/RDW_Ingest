@@ -23,16 +23,22 @@ cloud:
       instance-profile: false
 
 spring:
-  datasource:
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+
+datasources:
+  warehouse_rw:
     url: "\
-      jdbc:mysql://${spring.datasource.url-server:localhost:3306}/${spring.datasource.url-schema:warehouse}\
-      ?useSSL=${spring.datasource.use-ssl:false}\
-      &characterEncoding=${spring.datasource.character-encoding:utf8}\
-      &useLegacyDatetimeCode=${spring.datasource.use-legacy-datetime-code:false}\
-      &connectTimeout=${spring.datasource.connect-timeout:10000}\
-      &socketTimeout=${spring.datasource.socket-timeout:40000}\
+      jdbc:mysql://${datasources.warehouse_rw.url-server:localhost:3306}/${datasources.warehouse_rw.url-schema:warehouse}\
+      ?useSSL=${datasources.warehouse_rw.use-ssl:false}\
+      &characterEncoding=${datasources.warehouse_rw.character-encoding:utf8}\
+      &useLegacyDatetimeCode=${datasources.warehouse_rw.use-legacy-datetime-code:false}\
+      &connectTimeout=${datasources.warehouse_rw.connect-timeout:10000}\
+      &socketTimeout=${datasources.warehouse_rw.socket-timeout:40000}\
       "
-    jdbcInterceptors: "QueryTimeoutInterceptor(queryTimeout=${spring.datasource.query-timeout:30})"
+    jdbcInterceptors: "QueryTimeoutInterceptor(queryTimeout=${datasources.warehouse_rw.query-timeout:30})"
     username: root
     password:
     testWhileIdle: true
@@ -42,13 +48,8 @@ spring:
     initialize: false
     initialSize: 4
     maxActive: 10
-    minIdle: ${spring.datasource.initialSize}
-    maxIdle: ${spring.datasource.maxActive}
-
-  jackson:
-    default-property-inclusion: non_null
-    serialization:
-      WRITE_DATES_AS_TIMESTAMPS: false
+    minIdle: ${datasources.warehouse_rw.initialSize}
+    maxIdle: ${datasources.warehouse_rw.maxActive}
 
 task:
 # by default, all tasks are disabled for local dev environment; uncomment and set secrets/hosts to test
