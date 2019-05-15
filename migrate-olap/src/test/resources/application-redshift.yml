@@ -30,7 +30,7 @@ datasources:
     url-db: ci
     username: ci
     password:
-  warehouse_datasource:
+  warehouse_rw:
     url-server: rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306
     url-schema: warehouse_test
     username: sbac
