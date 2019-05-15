@@ -25,7 +25,7 @@ datasources:
     url-schema: migrate_olap_test
     username: sbac
     password:
-  olap_datasource:
+  olap_rw:
     url-server: rdw-qa.cibkulpjrgtr.us-west-2.redshift.amazonaws.com:5439
     url-db: ci
     username: ci
