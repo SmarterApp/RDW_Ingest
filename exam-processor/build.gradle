@@ -22,14 +22,14 @@ dependencies {
     compile "com.google.code.gson:gson"
     compile 'org.opentestsystem.rdw.common:rdw-common-messaging'
     compile 'org.opentestsystem.rdw.common:rdw-common-model'
+    compile 'org.opentestsystem.rdw.common:rdw-common-script'
     compile 'org.opentestsystem.rdw.common:rdw-common-status'
     compile 'org.opentestsystem.rdw.common:rdw-common-utils'
     compile 'mysql:mysql-connector-java'
     compile 'net.sf.saxon:Saxon-HE'
 
     compile project(':rdw-ingest-common')
-    compile project(':rdw-ingest-script-common')
-    
+
     testCompile project(path: ':rdw-ingest-common', configuration: 'tests')
 }
 
