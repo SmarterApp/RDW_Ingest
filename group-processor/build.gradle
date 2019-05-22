@@ -22,6 +22,7 @@ dependencies {
     compile 'org.apache.commons:commons-lang3'
     compile 'org.opentestsystem.rdw.common:rdw-common-messaging'
     compile 'org.opentestsystem.rdw.common:rdw-common-model'
+    compile 'org.opentestsystem.rdw.common:rdw-common-multi-tenant'
     compile 'org.opentestsystem.rdw.common:rdw-common-status'
     compile 'org.opentestsystem.rdw.common:rdw-common-utils'
     compile 'org.opentestsystem.rdw.common:rdw-common-archive'

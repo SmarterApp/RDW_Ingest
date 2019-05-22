@@ -56,16 +56,19 @@ spring:
 
 datasources:
   warehouse_rw:
-    url: "\
-      jdbc:mysql://${datasources.warehouse_rw.url-server:localhost:3306}/${datasources.warehouse_rw.url-schema:warehouse}\
-      ?useSSL=${datasources.warehouse_rw.use-ssl:false}\
-      &useLegacyDatetimeCode=${datasources.warehouse_rw.use-legacy-datetime-code:false}\
-      &characterEncoding=${datasources.warehouse_rw.character-encoding:utf8}\
-      &rewriteBatchedStatements=${datasources.warehouse_rw.rewrite-batched-statements:true}\
-      &noAccessToProcedureBodies=${datasources.warehouse_rw.no-access-to-procedure-bodies:true}\
-      &connectTimeout=${datasources.warehouse_rw.connect-timeout:10000}\
-      &socketTimeout=${datasources.warehouse_rw.socket-timeout:130000}\
-      "
+    url-parts:
+      protocol: "jdbc:mysql:"
+      hosts: "${datasources.warehouse_rw.url-server:localhost:3306}"
+      database: "${datasources.warehouse_rw.url-schema:warehouse}"
+      properties: "useSSL=${datasources.warehouse_rw.use-ssl:false}\
+                   &useLegacyDatetimeCode=${datasources.warehouse_rw.use-legacy-datetime-code:false}\
+                   &characterEncoding=${datasources.warehouse_rw.character-encoding:utf8}\
+                   &rewriteBatchedStatements=${datasources.warehouse_rw.rewrite-batched-statements:true}\
+                   &noAccessToProcedureBodies=${datasources.warehouse_rw.no-access-to-procedure-bodies:true}\
+                   &connectTimeout=${datasources.warehouse_rw.connect-timeout:10000}\
+                   &socketTimeout=${datasources.warehouse_rw.socket-timeout:130000}\
+                   "
+    url: "${datasources.warehouse_rw.url-parts.protocol}//${datasources.warehouse_rw.url-parts.hosts}/${datasources.warehouse_rw.url-parts.database}?${datasources.warehouse_rw.url-parts.properties}"
     jdbcInterceptors: "QueryTimeoutInterceptor(queryTimeout=${datasources.warehouse_rw.query-timeout:120})"
     username: root
     password:
@@ -78,3 +81,7 @@ datasources:
     maxActive: 10
     minIdle: ${datasources.warehouse_rw.initialSize}
     maxIdle: ${datasources.warehouse_rw.maxActive}
+    maxWait: 10000
+    removeAbandoned: false
+    removeAbandonedTimeout: 60
+    logAbandoned: false
