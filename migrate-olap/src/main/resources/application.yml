@@ -65,14 +65,17 @@ spring:
 
 datasources:
   migrate_rw:
-    url: "\
-      jdbc:mysql://${datasources.migrate_rw.url-server:localhost:3306}/${datasources.migrate_rw.url-schema:migrate_olap}\
-      ?useSSL=${datasources.migrate_rw.use-ssl:false}\
-      &useLegacyDatetimeCode=${datasources.migrate_rw.use-legacy-datetime-code:false}\
-      &characterEncoding=${datasources.migrate_rw.character-encoding:utf8}\
-      &connectTimeout=${datasources.migrate_rw.connect-timeout:10000}\
-      &socketTimeout=${datasources.migrate_rw.socket-timeout:0}\
-      "
+    url-parts:
+      protocol: "jdbc:mysql:"
+      hosts: "${datasources.migrate_rw.url-server:localhost:3306}"
+      database: "${datasources.migrate_rw.url-schema:migrate_olap}"
+      properties: "useSSL=${datasources.migrate_rw.use-ssl:false}\
+                   &useLegacyDatetimeCode=${datasources.migrate_rw.use-legacy-datetime-code:false}\
+                   &characterEncoding=${datasources.migrate_rw.character-encoding:utf8}\
+                   &connectTimeout=${datasources.migrate_rw.connect-timeout:10000}\
+                   &socketTimeout=${datasources.migrate_rw.socket-timeout:0}\
+                   "
+    url: "${datasources.migrate_rw.url-parts.protocol}//${datasources.migrate_rw.url-parts.hosts}/${datasources.migrate_rw.url-parts.database}?${datasources.migrate_rw.url-parts.properties}"
     username: root
     password:
     testWhileIdle: true
@@ -84,17 +87,23 @@ datasources:
     maxActive: 10
     minIdle: ${datasources.migrate_rw.initialSize}
     maxIdle: ${datasources.migrate_rw.maxActive}
+    removeAbandoned: false
+    removeAbandonedTimeout: 60
+    logAbandoned: false
 
   # http://docs.aws.amazon.com/redshift/latest/mgmt/configure-jdbc-options.html
   # https://jdbc.postgresql.org/documentation/head/connect.html
   # NOTE: nothing in these settings controls the schema; it is controlled by the user's search_path
   olap_rw:
-    url: "\
-      jdbc:redshift://${datasources.olap_rw.url-server:localhost:5432}/${datasources.olap_rw.url-db:dev}\
-      ?ApplicationName=rdw-ingest-migrate-olap\
-      &loginTimeout=${datasources.olap_rw.connect-timeout:10}\
-      &socketTimeout=${datasources.olap_rw.socket-timeout:0}\
-      "
+    url-parts:
+      protocol: "jdbc:redshift:"
+      hosts: "${datasources.olap_rw.url-server:localhost:5432}"
+      database: "${datasources.olap_rw.url-db:dev}"
+      properties: "ApplicationName=rdw-ingest-migrate-olap\
+                   &loginTimeout=${datasources.olap_rw.connect-timeout:10}\
+                   &socketTimeout=${datasources.olap_rw.socket-timeout:0}\
+                   "
+    url: "${datasources.olap_rw.url-parts.protocol}//${datasources.olap_rw.url-parts.hosts}/${datasources.olap_rw.url-parts.database}?${datasources.olap_rw.url-parts.properties}"
     username: root
     password:
     testWhileIdle: true
@@ -103,14 +112,17 @@ datasources:
     driverClassName: com.amazon.redshift.jdbc42.Driver
 
   warehouse_rw:
-    url: "\
-      jdbc:mysql://${datasources.warehouse_rw.url-server:localhost:3306}/${datasources.warehouse_rw.url-schema:warehouse}\
-      ?useSSL=${datasources.warehouse_rw.use-ssl:false}\
-      &useLegacyDatetimeCode=${datasources.warehouse_rw.use-legacy-datetime-code:false}\
-      &characterEncoding=${datasources.warehouse_rw.character-encoding:utf8}\
-      &connectTimeout=${datasources.warehouse_rw.connect-timeout:10000}\
-      &socketTimeout=${datasources.warehouse_rw.socket-timeout:0}\
-      "
+    url-parts:
+      protocol: "jdbc:mysql:"
+      hosts: "${datasources.warehouse_rw.url-server:localhost:3306}"
+      database: "${datasources.warehouse_rw.url-schema:warehouse}"
+      properties: "useSSL=${datasources.warehouse_rw.use-ssl:false}\
+                   &useLegacyDatetimeCode=${datasources.warehouse_rw.use-legacy-datetime-code:false}\
+                   &characterEncoding=${datasources.warehouse_rw.character-encoding:utf8}\
+                   &connectTimeout=${datasources.warehouse_rw.connect-timeout:10000}\
+                   &socketTimeout=${datasources.warehouse_rw.socket-timeout:0}\
+                   "
+    url: "${datasources.warehouse_rw.url-parts.protocol}//${datasources.warehouse_rw.url-parts.hosts}/${datasources.warehouse_rw.url-parts.database}?${datasources.warehouse_rw.url-parts.properties}"
     username: root
     password:
     testWhileIdle: true
@@ -122,6 +134,10 @@ datasources:
     maxActive: 10
     minIdle: ${datasources.warehouse_rw.initialSize}
     maxIdle: ${datasources.warehouse_rw.maxActive}
+    maxWait: 10000
+    removeAbandoned: false
+    removeAbandonedTimeout: 60
+    logAbandoned: false
 
 logging:
   level:
