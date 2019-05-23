@@ -14,33 +14,13 @@ endpoints:
   restart:
     enabled: true
 
-cloud:
-  aws:
-    # there must be a default region when running locally
-    region:
-      auto: false
-      static: us-west-2
-    # disable CloudFormation stuff
-    stack:
-      auto: false
-    credentials:
-      instance-profile: false
-
-# TODO - why do we have placeholders in the main application.yml?
-# TODO - why not just make them set the values directly in configuration?
+# no point in defaulting to anything since the tests have to run against AWS resources
 archive:
-  root: ${rdw.resource.root:}
-  cloud:
-    aws:
-      credentials:
-        accessKey: ${rdw.aws.access.key:}
-        secretKey: ${rdw.aws.secret.key:}
-      region:
-        auto: false
-        static: us-west-2
+  uri-root:
 
 migrate:
   aws:
+    # TODO - multitenant issue?
     location: MigrateOlap
     redshift:
       role: ${rdw.migrate.aws.redshift.role}

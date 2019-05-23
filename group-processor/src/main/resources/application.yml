@@ -24,7 +24,7 @@ cloud:
 
 # use LocalArchiveService by default
 archive:
-  root: file:///tmp/
+  uri-root: file:///tmp/
 
 spring:
   cloud:
