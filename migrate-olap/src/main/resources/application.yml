@@ -20,8 +20,8 @@ archive:
 
 migrate:
   aws:
-    # TODO - multitenant issue?
     location: MigrateOlap
+    # this is used in placeholders in the migrate SQL
     redshift:
       role: ${rdw.migrate.aws.redshift.role}
 
