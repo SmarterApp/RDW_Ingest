@@ -2,13 +2,10 @@
 # All the properties should be set to default to the CI environment settings; developers may
 # override them locally but the CI system assumes the defaults are for CI resources.
 archive:
-  root: s3://rdw-ci-archive
-  cloud:
-    aws:
-      # rdw-ci
-      credentials:
-        accessKey: AKIAIXXQNZAWSVCGK3WQ
-        secretKey:
+  uri-root: s3://rdw-ci-archive
+  s3-access-key: AKIAIXXQNZAWSVCGK3WQ
+  s3-secret-key:
+  s3-region-static: us-west-2
 
 migrate:
   aws:
