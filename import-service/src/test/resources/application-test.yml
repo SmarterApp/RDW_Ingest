@@ -4,3 +4,8 @@ datasources:
     maxActive: 10
     query-timeout: 2
 
+tenant-properties:
+  tenants:
+    - id: CA
+      key: CA
+      name: California
