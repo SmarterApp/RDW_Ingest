@@ -4,6 +4,7 @@ datasources:
 
 tenant-properties:
   tenants:
-    - id: CA
+    CA:
+      id: CA
       key: CA
       name: California
