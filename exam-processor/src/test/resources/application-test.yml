@@ -1,3 +1,9 @@
 datasources:
   warehouse_rw:
     url-schema: warehouse_test
+
+tenant-properties:
+  tenants:
+    - id: CA
+      key: CA
+      name: California
