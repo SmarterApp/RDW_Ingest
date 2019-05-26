@@ -2,7 +2,7 @@ datasources:
   warehouse_rw:
     url-schema: warehouse_test
 
-tenant-properties:
+tenantProperties:
   tenants:
     CA:
       id: CA
