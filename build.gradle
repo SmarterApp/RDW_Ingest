@@ -86,6 +86,7 @@ subprojects {
             dependency 'junit:junit:4.12'
             dependency 'org.assertj:assertj-core:3.11.1'
             dependency 'org.mockito:mockito-core:2.23.4'
+            dependency 'org.mockito:mockito-inline:2.23.4'
             dependency 'org.xmlunit:xmlunit-core:2.6.2'
             dependency 'org.xmlunit:xmlunit-matchers:2.6.2'
         }
