@@ -25,6 +25,7 @@ services:
     environment:
       - CONFIG_SERVICE_REPO
       - ENCRYPT_KEY
+      - CONFIG_SERVICE_SEARCH_PATH=tenant*
       - GIT_USER
       - GIT_PASSWORD
       - SPRING_RABBITMQ_ADDRESSES=rabbitmq:5672
@@ -34,6 +35,7 @@ services:
       test: ["CMD", "curl", "-f", "http://localhost:8888/health"]
       interval: 10s
       timeout: 2s
+      retries: 6
 
   import-service:
     image: smarterbalanced/rdw-ingest-import-service

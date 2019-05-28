@@ -47,6 +47,11 @@ reporting:
 
 spring:
   batch:
+    # we create the tables in our flyway scripts so completely disable initialization of them
+    initialize-schema: never
+    initializer:
+      enabled: false
+    # don't run any jobs automatically on startup
     job:
       enabled: false
 
