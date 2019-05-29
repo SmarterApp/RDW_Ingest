@@ -24,7 +24,11 @@ cloud:
 
 # use LocalArchiveService by default
 archive:
-  root: file:///tmp/
+  uri-root: file:///tmp/
+
+reporting:
+  state:
+    code: CA
 
 spring:
   cache:
