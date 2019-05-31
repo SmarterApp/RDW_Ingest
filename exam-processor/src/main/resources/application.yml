@@ -3,6 +3,10 @@
 management:
   security:
     enabled: false
+  # disable health check for tenant-specific features
+  health:
+    db:
+      enabled: false
 server:
   port: 8008
   tomcat:
