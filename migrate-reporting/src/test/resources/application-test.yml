@@ -1,3 +1,16 @@
+# spring auto-configured aws defense
+cloud:
+  aws:
+    # there must be a default region when running locally
+    region:
+      auto: false
+      static: us-west-2
+    # disable CloudFormation stuff
+    stack:
+      auto: false
+    credentials:
+      instance-profile: false
+
 reporting:
   school-year: 1999
 
