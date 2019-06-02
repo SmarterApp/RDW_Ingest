@@ -1,3 +1,4 @@
+package scripts
 //
 // System validation script for ingested TRTs.
 //
