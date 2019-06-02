@@ -18,18 +18,6 @@ endpoints:
   restart:
     enabled: true
 
-cloud:
-  aws:
-    # there must be a default region when running locally
-    region:
-      auto: false
-      static: us-west-2
-    # disable CloudFormation stuff
-    stack:
-      auto: false
-    credentials:
-      instance-profile: false
-
 # no point in defaulting to anything since the tests have to run against AWS resources
 archive:
   uri-root:

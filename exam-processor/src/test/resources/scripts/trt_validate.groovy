@@ -1,7 +1,8 @@
+package scripts
 //
 // System validation script for ingested TRTs.
 //
-logger.debug('Running system validation for Exam Processor')
+//logger.debug('Running system validation for Exam Processor')
 
 // Convert input to report object
 def report = xmlUtils.tdsReportFromXml(new ByteArrayInputStream(input as byte []))
@@ -9,7 +10,7 @@ if (report.examinee == null) errorImmediately("Examinee may not be null")
 
 // Validate school ID exists and matches record in school repo
 Integer schoolId = parseSchoolId(report.examinee)
-logger.debug("Retrieved school ID: ${schoolId}")
+//logger.debug("Retrieved school ID: ${schoolId}")
 
 // Validate that test matches a stored assessment
 // (TRT has an assessment name and id flipped, so this is intentional)
@@ -18,7 +19,7 @@ def assessment =  assessmentRepository.findOneByNaturalId(assessmentNaturalId)
 if (assessment == null)
     errorImmediately('UNKNOWN_ASMT', "Unable to find an assessment by natural id [${assessmentNaturalId}]")
 
-logger.debug("Found assessment for natural ID: ${assessmentNaturalId}")
+//logger.debug("Found assessment for natural ID: ${assessmentNaturalId}")
 
 //
 // Validate the TRT's test against the stored assessment
