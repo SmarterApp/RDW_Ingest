@@ -16,3 +16,7 @@ sql:
 
     updateStatusAndMessageById: >-
       UPDATE import SET status = :status, message = :message WHERE id = :id
+
+  pipeline:
+    findActiveVersionByCode: >-
+      SELECT active_version FROM pipeline WHERE code = :code
