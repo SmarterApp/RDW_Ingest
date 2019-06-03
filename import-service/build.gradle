@@ -17,7 +17,6 @@ dependencies {
     // auth
     compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'org.springframework.security.oauth:spring-security-oauth2'
-    testCompile 'org.springframework.security:spring-security-test'
 
     // this is for retrying connection to config server
     compile 'org.springframework.boot:spring-boot-starter-aop'
