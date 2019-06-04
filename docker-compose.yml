@@ -59,6 +59,8 @@ services:
     image: smarterbalanced/rdw-ingest-exam-processor
     ports:
       - 8082:8008
+    volumes:
+      - /tmp:/tmp
     links:
       - config-server
       - rabbitmq
