@@ -1,0 +1,17 @@
+AssessmentId,AssessmentName,AssessmentSubject,AssessmentGrade,AssessmentType,AssessmentSubtype,AssessmentLabel,AssessmentVersion,AcademicYear,FullItemKey,BankKey,ItemId,Filename,Version,AnswerKey,NumberOfAnswerOptions,ItemType,Grade,Standard,Claim,Target,ClaimContentTarget,SecondaryClaimContentTarget,CommonCore,SecondaryCommonCore,ASL
+(SBAC)SBAC-IAB-FIXED-G11E-BriefWrites-ELA-11-Winter-2016-2017,Here is a very very very very very very very very very very very very very very long name,ELA,11,interim,IAB,ELA IAB G11 BriefWrites,9832,2017,200-58197,200,58197,item-200-58197.xml,9832,Hand,1,SA,11,SBAC-ELA-v1:2-W|1-11,"2-W	","1-11	","2-W	|1-11	","2-W	|1-11	;2-W |3-11 ",5.RI.10;8.L.5b,5.RI.10;8.L.5b,N
+(SBAC)SBAC-IAB-FIXED-G11E-BriefWrites-ELA-11-Winter-2016-2017,SBAC-IAB-FIXED-G11E-BriefWrites-ELA-11,ELA,11,interim,IAB,ELA IAB G11 BriefWrites,9832,2017,200-59189,200,59189,item-200-59189.xml,9832,Hand,2,SA,11,SBAC-ELA-v1:2-W|1-11,"2-W	","1-11	","2-W	|1-11	","2-W	|1-11	",8.L.5b,8.L.5b;8.L.5b,N
+
+
+(SBAC)SBAC-IAB-FIXED-G11E-BriefWrites-ELA-11-Winter-2016-2017,SBAC-IAB-FIXED-G11E-BriefWrites-ELA-11,ELA,11,interim,IAB,ELA IAB G11 BriefWrites,9832,2017,200-33218,200,33218,item-200-33218.xml,9832,qrx,3,SA,11,SBAC-ELA-v1:2-W|3-11,"2-W	","3-11	","2-W	|3-11	","2-W	|3-11	",6.W.2c,6.W.2c,
+(SBAC)SBAC-IAB-FIXED-G11E-BriefWrites-ELA-11-Winter-2016-2017,SBAC-IAB-FIXED-G11E-BriefWrites-ELA-11,ELA,11,interim,IAB,ELA IAB G11 BriefWrites,9832,2017,200-58558,200,58558,item-200-58558.xml,9832,Hand,4,SA,11,SBAC-ELA-v1:2-W|3-11,"2-W	","3-11	","2-W	|3-11	","2-W	|3-11	",5.RL.10,5.RL.10,
+DELETE_ME-(SBAC)SBAC-IAB-FIXED-G11E-BriefWrites-ELA-11-Winter-2016-2017,SBAC-IAB-FIXED-G11E-BriefWrites-ELA-11,ELA,11,interim,IAB,ELA IAB G11 BriefWrites,9832,2017,200-33230,200,33230,item-200-33230.xml,9832,Hand,5,SA,11,SBAC-ELA-v1:2-W|6-11,"2-W	","6-11	","2-W	|6-11	","2-W	|6-11	",8.L.5c,8.L.5c,
+(SBAC)SBAC-IAB-FIXED-G11E-BriefWrites-ELA-11-Winter-2016-2017,SBAC-IAB-FIXED-G11E-BriefWrites-ELA-11,ELA,11,interim,IAB,ELA IAB G11 BriefWrites,9832,2017,200-34008,200,34008,item-200-34008.xml,9832,qrx,1,SA,11,SBAC-ELA-v1:2-W|6-11,"2-W	","6-11	","2-W	|6-11	","2-W	|6-11	",6.W.2d,6.W.2d,
+(SBAC)SBAC-IAB-FIXED-G11E-Editing-ELA-11-Winter-2016-2017,SBAC-IAB-FIXED-G11E-Editing-ELA-11,ELA,11,interim,IAB,Grade 11 ELA,9832,2017,200-19965,200,19965,item-200-19965.xml,9832,Hand,2,MC,11,SBAC-ELA-v1:2-W|9-11,"2-W	","9-11	","2-W	|9-11	",,5.W.10,5.W.10,
+(SBAC)SBAC-IAB-FIXED-G11E-Editing-ELA-11-Winter-2016-2017,SBAC-IAB-FIXED-G11E-Editing-ELA-11,ELA,11,interim,IAB,Grade 11 ELA,9832,2017,200-20125,200,20125,item-200-20125.xml,9832,Hand,3,HTQ,11,SBAC-ELA-v1:2-W|9-11,"2-W	","9-11	","2-W	|9-11	",,8.L.6,8.L.6,
+DELETE_ME-SBAC)SBAC-IAB-FIXED-G11E-Editing-ELA-11-Winter-2016-2017,SBAC-IAB-FIXED-G11E-Editing-ELA-11,ELA,11,interim,IAB,Grade 11 ELA,9832,2017,200-21821,200,21821,item-200-21821.xml,9832,Hand,3,MC,11,SBAC-ELA-v1:2-W|9-11,"2-W	","9-11	","2-W	|9-11	",,6.W.2e,6.W.2e,
+
+
+
+
+
