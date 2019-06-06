@@ -1,7 +1,5 @@
 apply plugin: 'org.springframework.boot'
 
-ext['groovy.version'] = '2.5.6'
-
 dependencies {
     // handy for creating metadata with @ConfigurationProperties
     compileOnly 'org.springframework.boot:spring-boot-configuration-processor'

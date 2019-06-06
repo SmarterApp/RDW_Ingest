@@ -9,6 +9,7 @@ dependencies {
     compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
 
     compile 'org.springframework.boot:spring-boot-starter-jdbc'
+    compile 'org.opentestsystem.rdw.common:rdw-common-archive'
     compile 'org.opentestsystem.rdw.common:rdw-common-messaging'
     compile 'org.opentestsystem.rdw.common:rdw-common-model'
     compile 'org.opentestsystem.rdw.common:rdw-common-multi-tenant'
