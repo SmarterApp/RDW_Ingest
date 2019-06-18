@@ -1,4 +1,3 @@
-package scripts
 // Enable XML extensions to simplify processing the XML document
 enable 'xml'
 
