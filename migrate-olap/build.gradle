@@ -1,5 +1,10 @@
 apply plugin: 'org.springframework.boot'
 
+// it shouldn't but, empirically this service needs a larger heap
+createDockerfile {
+    environmentVariable("MAX_HEAP_SIZE", "-Xmx512m")
+}
+
 dependencies {
     // handy for creating metadata with @ConfigurationProperties
     compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
