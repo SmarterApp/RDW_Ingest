@@ -89,16 +89,3 @@ task:
 #      organizations-imports-url: http://localhost:8080/organizations/imports
 #      status-url: http://localhost:8081/status
 #      stub-auth: sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||
-#  resubmit-unprocessed-imports:
-#### This runs at 1pm GMT, regardless of the server's timezone setting
-#    cron: 0 0 13 * * *
-#    import-service-client:
-#      exams-imports-url: http://localhost:8080/exams/imports/resubmit
-#      status-url: http://localhost:8081/status
-#      stub-auth: sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||
-#      oauth2:
-#        access-token-uri: https://sso-deployment.sbtds.org:443/auth/oauth2/access_token?realm=/sbac
-#        client-id: sbacdw
-#        client-secret:
-#        username: dwtest@example.com
-#        password:
