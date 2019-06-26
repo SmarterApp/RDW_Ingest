@@ -9,4 +9,4 @@ task:
         username: test
         password: pswd
       - type: archive
-        root: file:///tmp/
+        uri-root: file:///tmp/
