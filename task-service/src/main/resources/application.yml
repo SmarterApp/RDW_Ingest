@@ -13,19 +13,6 @@ server:
     max-connections: 2
     max-threads: 2
 
-# spring auto-configured aws defense
-cloud:
-  aws:
-    # there must be a default region when running locally
-    region:
-      auto: false
-      static: us-west-2
-    # disable CloudFormation stuff
-    stack:
-      auto: false
-    credentials:
-      instance-profile: false
-
 spring:
   jackson:
     default-property-inclusion: non_null
@@ -75,16 +62,11 @@ task:
 #        password:
 #      - type: log
 #      - type: archive
-#        root: file:///tmp/
-#      - type: archive
-#        root: s3:///bucket
-#        cloud:
-#          aws:
-#            credentials:
-#              access-key: AccessKey
-#              secret-key: SecretKey
-#            region:
-#              static: us-west-2
+#        uri-root: s3:///bucket
+#        s3-access-key: AccessKey
+#        s3-secret-key: SecretKey
+#        s3-region-static: us-west-2
+#        s3-sse: AES256
 #  update-organizations:
 #### This runs at 4am GMT, regardless of the server's timezone setting
 #    cron: 0 0 4 * * *

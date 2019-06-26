@@ -8,5 +8,3 @@ task:
         server: localhost
         username: test
         password: pswd
-      - type: archive
-        root: file:///tmp/
