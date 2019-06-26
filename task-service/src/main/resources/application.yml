@@ -62,6 +62,8 @@ task:
 #        password:
 #      - type: log
 #      - type: archive
+#        uri-root: file:///tmp/
+#      - type: archive
 #        uri-root: s3:///bucket
 #        s3-access-key: AccessKey
 #        s3-secret-key: SecretKey
