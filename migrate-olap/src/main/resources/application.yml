@@ -13,8 +13,14 @@ server:
     max-connections: 2
     max-threads: 2
 
-# enable lifecycle endpoints for pausing and resuming migration
 endpoints:
+  # configure actuator endpoints to unmask "key" properties so tenant keys won't be masked. However, we still
+  # mask secret keys (i.e. props ending with secretKey, secret-key, or secret_key in lower, upper, or mixed case)
+  env:
+    keys-to-sanitize: password,secret,token,.*credentials.*,vcap_services,secret[-_]?key
+  configprops:
+    keys-to-sanitize: password,secret,token,.*credentials.*,vcap_services,secret[-_]?key
+  # enable lifecycle endpoints for pausing and resuming migration
   restart:
     enabled: true
 
