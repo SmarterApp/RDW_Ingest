@@ -75,6 +75,8 @@ spring:
         SUBJECT:
           producer:
             requiredGroups: default
+        ConfigpropsUpdateOutput:
+          destination: ConfigpropsUpdateExchange
 
   http:
     multipart:

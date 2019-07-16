@@ -27,6 +27,12 @@ spring:
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
 
+  cloud:
+    stream:
+      bindings:
+        ConfigpropsUpdateOutput:
+          destination: ConfigpropsUpdateExchange
+
 datasources:
   warehouse_rw:
     url-parts:

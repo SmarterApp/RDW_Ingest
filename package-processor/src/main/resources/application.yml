@@ -44,6 +44,8 @@ spring:
         subjectInput:
           destination: SUBJECT
           group: default
+        ConfigpropsUpdateOutput:
+          destination: ConfigpropsUpdateExchange
 
   jackson:
     default-property-inclusion: non_null

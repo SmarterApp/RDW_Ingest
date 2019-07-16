@@ -17,6 +17,10 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-aop'
     compile 'org.springframework.retry:spring-retry'
 
+    // cloud stream
+    compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
+    compile 'org.springframework.cloud:spring-cloud-stream'
+    
     compile project(':rdw-ingest-common')
     compile project(':rdw-ingest-migrate-common')
 
