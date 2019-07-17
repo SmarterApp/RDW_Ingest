@@ -45,6 +45,8 @@ spring:
         input:
           destination: GROUPS
           group: default
+        ConfigpropsUpdateOutput:
+          destination: ConfigpropsUpdateExchange
 
   jackson:
     default-property-inclusion: non_null

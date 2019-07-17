@@ -41,6 +41,9 @@ spring:
           destination: EXAM
           group: default
 
+        ConfigpropsUpdateOutput:
+          destination: ConfigpropsUpdateExchange
+
   jackson:
     default-property-inclusion: non_null
     serialization:

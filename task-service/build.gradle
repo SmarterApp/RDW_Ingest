@@ -28,6 +28,10 @@ dependencies {
     compile 'org.opentestsystem.rdw.common:rdw-common-status'
     compile project(':rdw-ingest-common')
 
+    // cloud stream
+    compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
+    compile 'org.springframework.cloud:spring-cloud-stream'
+
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 
     // fixes java 8 time marshaling
