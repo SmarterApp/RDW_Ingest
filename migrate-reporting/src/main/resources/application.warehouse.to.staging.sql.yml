@@ -746,12 +746,16 @@ sql:
                 (:id, :natural_id, :grade_id, :type_id, :subject_id, :school_year, :name, :label, :version, :update_import_id, :deleted, :updated, :migrate_id)
 
         # ------------ asmt_score  -------------------------------------------------------------------
+        # We rely on the unique index and INSERT IGNORE to avoid duplicate entries. But MySQL does
+        # not enforce uniqueness when a key value is NULL. To get around this, we will coalesce
+        # NULL values to 0 (which should be safe since id's aren't 0 in this system). Obviously
+        # the subsequent migrate step (staging to reporting) has to deal with this as well.
         asmt_score:
           sql:
             warehouseRead: >-
               SELECT
                 was.asmt_id,
-                was.subject_score_id,
+                COALESCE(was.subject_score_id, 0) AS subject_score_id,
                 round(was.cut_point_1) AS cut_point_1,
                 round(was.cut_point_2) AS cut_point_2,
                 round(was.cut_point_3) AS cut_point_3,
@@ -773,7 +777,7 @@ sql:
             warehouseRead: >-
               SELECT
                 was.asmt_id,
-                was.subject_score_id,
+                COALESCE(was.subject_score_id, 0) AS subject_score_id,
                 round(was.cut_point_1) AS cut_point_1,
                 round(was.cut_point_2) AS cut_point_2,
                 round(was.cut_point_3) AS cut_point_3,
