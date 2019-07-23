@@ -1173,7 +1173,8 @@ sql:
       # ############## Assessment  ###################################################################
       # ------------ asmt_score -----------------------------------------------------------------------
       # There is no asmt_score table in reporting: the (OVERALL) min/max and cut-points
-      # are denormalized in the asmt table.
+      # are denormalized in the asmt table. And note the issue with the subject_score_id
+      # being coalesced to 0 during the warehouse-to-staging step.
 
       # ------------ item -----------------------------------------------------------------------
       item:
@@ -1404,7 +1405,7 @@ sql:
                 LEFT JOIN subject_score ssc4 ON sa.subject_id = ssc4.subject_id AND sa.type_id = ssc4.asmt_type_id AND ssc4.score_type_id = 3 AND ssc4.data_order = 4
                 LEFT JOIN subject_score ssc5 ON sa.subject_id = ssc5.subject_id AND sa.type_id = ssc5.asmt_type_id AND ssc5.score_type_id = 3 AND ssc5.data_order = 5
                 LEFT JOIN subject_score ssc6 ON sa.subject_id = ssc6.subject_id AND sa.type_id = ssc6.asmt_type_id AND ssc6.score_type_id = 3 AND ssc6.data_order = 6
-                JOIN staging_asmt_score sas ON sa.id = sas.asmt_id AND sas.subject_score_id IS NULL
+                JOIN staging_asmt_score sas ON sa.id = sas.asmt_id AND sas.subject_score_id = 0
                 JOIN grade rg ON rg.id = sa.grade_id
               WHERE ra.id IS NULL and sa.deleted = 0;
 
@@ -1423,7 +1424,7 @@ sql:
               LEFT JOIN subject_score ssc4 ON sa.subject_id = ssc4.subject_id AND sa.type_id = ssc4.asmt_type_id AND ssc4.score_type_id = 3 AND ssc4.data_order = 4
               LEFT JOIN subject_score ssc5 ON sa.subject_id = ssc5.subject_id AND sa.type_id = ssc5.asmt_type_id AND ssc5.score_type_id = 3 AND ssc5.data_order = 5
               LEFT JOIN subject_score ssc6 ON sa.subject_id = ssc6.subject_id AND sa.type_id = ssc6.asmt_type_id AND ssc6.score_type_id = 3 AND ssc6.data_order = 6
-              JOIN staging_asmt_score sas ON ra.id = sas.asmt_id AND sas.subject_score_id IS NULL
+              JOIN staging_asmt_score sas ON ra.id = sas.asmt_id AND sas.subject_score_id = 0
               JOIN grade rg ON rg.id = sa.grade_id
             SET
               ra.grade_id    = sa.grade_id,

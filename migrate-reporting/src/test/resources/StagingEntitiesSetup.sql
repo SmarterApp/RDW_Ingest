@@ -141,14 +141,14 @@ INSERT INTO staging_asmt_target_exclusion(asmt_id, target_id, migrate_id) VALUES
    (-311, -12, -99),
    (-111, -71, -99);
 
--- OVERALL asmt score info, doesn't need subject_score_id
-INSERT INTO staging_asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score, migrate_id) VALUES
-  (-99, 2442, 2502, 2582, 2201, 2701, -99),
-  (-98, 2442, 2502, 2582, 2201, 2701, -99),
-  (-59, 2442, 2502, 2582, 2201, 2701, -99),
-  (-311, 2442, 2502, 2582, 2201, 2701, -99),
-  (-111, 2442, 2502, 2582, 2201, 2701, -99),
-  (-113, 1000, 1500, 2000, 1000, 2500, -99);
+-- OVERALL asmt score info, set subject_score_id=0 per coalesce behavior in migrate sql
+INSERT INTO staging_asmt_score (asmt_id, subject_score_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score, migrate_id) VALUES
+  (-99, 0, 2442, 2502, 2582, 2201, 2701, -99),
+  (-98, 0, 2442, 2502, 2582, 2201, 2701, -99),
+  (-59, 0, 2442, 2502, 2582, 2201, 2701, -99),
+  (-311, 0, 2442, 2502, 2582, 2201, 2701, -99),
+  (-111, 0, 2442, 2502, 2582, 2201, 2701, -99),
+  (-113, 0, 1000, 1500, 2000, 1000, 2500, -99);
 -- ALT asmt score info, let's skip cut-points
 INSERT INTO staging_asmt_score (asmt_id, subject_score_id, min_score, max_score, migrate_id) VALUES
   (-113, -18, 0, 100, -99);
