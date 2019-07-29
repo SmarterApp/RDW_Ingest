@@ -83,10 +83,9 @@ task:
 #        s3-secret-key: SecretKey
 #        s3-region-static: us-west-2
 #        s3-sse: AES256
-#  update-organizations:
-#### This runs at 4am GMT, regardless of the server's timezone setting
+  update-organizations:
+### This runs at 4am GMT, regardless of the server's timezone setting
 #    cron: 0 0 4 * * *
-#    state: CA
 #    art-client:
 #      groups-of-districts-url: https://art-deployment.sbtds.org/rest/groupofdistrict?stateAbbreviation={state}&pageSize=1000
 #      districts-url: https://art-deployment.sbtds.org/rest/district?stateAbbreviation={state}&pageSize=5000
@@ -97,9 +96,21 @@ task:
 #        access-token-uri: https://sso-deployment.sbtds.org:443/auth/oauth2/access_token?realm=/sbac
 #        client-id: sbacdw
 #        client-secret:
-#        username: ca.admin@example.com
+#        username: prime.user@example.com
 #        password:
 #    import-service-client:
 #      organizations-imports-url: http://localhost:8080/organizations/imports
 #      status-url: http://localhost:8081/status
-#      stub-auth: sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||
+#      oauth2:
+#        access-token-uri: https://sso-deployment.sbtds.org:443/auth/oauth2/access_token?realm=/sbac
+#        client-id: sbacdw
+#        client-secret:
+#      tenants:
+#        CA:
+#          oauth2:
+#            username:
+#            password:
+#        NV:
+#          oauth2:
+#            username:
+#            password:
