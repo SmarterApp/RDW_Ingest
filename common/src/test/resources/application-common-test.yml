@@ -15,12 +15,11 @@ datasources:
       &connectTimeout=${datasources.warehouse_rw.connect-timeout:10000}\
       &socketTimeout=${datasources.warehouse_rw.socket-timeout:40000}\
       "
-    jdbcInterceptors: "QueryTimeoutInterceptor(queryTimeout=${datasources.warehouse_rw.query-timeout:30})"
     username: root
     password:
     testWhileIdle: true
     validationQuery: SELECT 1
-    validationQueryTimeout: 10000
+    validationInterval: 35000
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
     maxActive: 12
