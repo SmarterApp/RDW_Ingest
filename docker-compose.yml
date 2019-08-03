@@ -42,7 +42,6 @@ services:
     ports:
       - 8080:8080
       - 8081:8008
-      - 9090:9090
     volumes:
       - /tmp:/tmp
     links:
@@ -56,22 +55,22 @@ services:
       - CONFIG_SERVICE_ENABLED=true
       - CONFIG_SERVICE_URL=http://config-server:8888
 
-#  exam-processor:
-#    image: smarterbalanced/rdw-ingest-exam-processor
-#    ports:
-#      - 8082:8008
-#    volumes:
-#      - /tmp:/tmp
-#    links:
-#      - config-server
-#      - rabbitmq
-#    depends_on:
-#      config-server:
-#        condition: service_healthy
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=local-docker
-#      - CONFIG_SERVICE_ENABLED=true
-#      - CONFIG_SERVICE_URL=http://config-server:8888
+  exam-processor:
+    image: smarterbalanced/rdw-ingest-exam-processor
+    ports:
+      - 8082:8008
+    volumes:
+      - /tmp:/tmp
+    links:
+      - config-server
+      - rabbitmq
+    depends_on:
+      config-server:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=local-docker
+      - CONFIG_SERVICE_ENABLED=true
+      - CONFIG_SERVICE_URL=http://config-server:8888
 
   group-processor:
     image: smarterbalanced/rdw-ingest-group-processor
@@ -90,22 +89,22 @@ services:
       - CONFIG_SERVICE_ENABLED=true
       - CONFIG_SERVICE_URL=http://config-server:8888
 
-#  package-processor:
-#    image: smarterbalanced/rdw-ingest-package-processor
-#    ports:
-#      - 8083:8008
-#    volumes:
-#      - /tmp:/tmp
-#    links:
-#      - config-server
-#      - rabbitmq
-#    depends_on:
-#      config-server:
-#        condition: service_healthy
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=local-docker
-#      - CONFIG_SERVICE_ENABLED=true
-#      - CONFIG_SERVICE_URL=http://config-server:8888
+  package-processor:
+    image: smarterbalanced/rdw-ingest-package-processor
+    ports:
+      - 8083:8008
+    volumes:
+      - /tmp:/tmp
+    links:
+      - config-server
+      - rabbitmq
+    depends_on:
+      config-server:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=local-docker
+      - CONFIG_SERVICE_ENABLED=true
+      - CONFIG_SERVICE_URL=http://config-server:8888
 
   task-service:
     image: smarterbalanced/rdw-ingest-task-service
