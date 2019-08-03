@@ -1334,7 +1334,7 @@ sql:
                 IF(aggregate = 0, 0, 1) AS aggregate,
                 ? as migrate_id
               FROM state_embargo
-              WHERE school_year = ${reporting.school-year}
+              WHERE school_year = :system_school_year
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/state_embargo'
                 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                 LINES TERMINATED BY '\n'
