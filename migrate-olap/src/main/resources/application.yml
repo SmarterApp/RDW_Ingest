@@ -81,7 +81,7 @@ datasources:
     password:
     testWhileIdle: true
     validationQuery: SELECT 1
-    validationQueryTimeout: 10000
+    validationInterval: 35000
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
     initialSize: 4
@@ -109,7 +109,7 @@ datasources:
     password:
     testWhileIdle: true
     validationQuery: SELECT 1
-    validationQueryTimeout: 30000
+    validationInterval: 35000
     driverClassName: com.amazon.redshift.jdbc42.Driver
 
   warehouse_rw:
@@ -128,7 +128,7 @@ datasources:
     password:
     testWhileIdle: true
     validationQuery: SELECT 1
-    validationQueryTimeout: 10000
+    validationInterval: 35000
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
     initialSize: 4
