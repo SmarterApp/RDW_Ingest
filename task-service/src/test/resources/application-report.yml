@@ -1,12 +1,22 @@
 task:
   send-reconciliation-report:
     cron: 0 0 14 * * *
-    query: status=PROCESSED&after=-PT24H
-    senders:
-      - type: log
-      - type: ftp
-        server: localhost
-        username: test
-        password: pswd
-      - type: archive
-        uri-root: file:///tmp/
+
+taskSendReconciliationReport:
+  tenants:
+    CA:
+      query: status=PROCESSED&after=-PT24H
+      log: false
+      archives:
+        - uri-root: file:///tmp/
+        - uri-root: s3:///bucket
+          s3-access-key: AccessKey
+          s3-secret-key: SecretKey
+          s3-region-static: us-west-2
+          s3-sse: AES256
+    NV:
+      query: status=PROCESSED&after=-PT24H&creator=dwtest
+      log: true
+      archives:
+        - uri-root: file:///tmp/
+
