@@ -71,6 +71,7 @@ services:
       - SPRING_PROFILES_ACTIVE=local-docker
       - CONFIG_SERVICE_ENABLED=true
       - CONFIG_SERVICE_URL=http://config-server:8888
+      - SPRING_RABBITMQ_HOST=rabbitmq
 
   group-processor:
     image: smarterbalanced/rdw-ingest-group-processor
@@ -88,6 +89,7 @@ services:
       - SPRING_PROFILES_ACTIVE=local-docker
       - CONFIG_SERVICE_ENABLED=true
       - CONFIG_SERVICE_URL=http://config-server:8888
+      - SPRING_RABBITMQ_HOST=rabbitmq
 
   package-processor:
     image: smarterbalanced/rdw-ingest-package-processor
@@ -105,6 +107,7 @@ services:
       - SPRING_PROFILES_ACTIVE=local-docker
       - CONFIG_SERVICE_ENABLED=true
       - CONFIG_SERVICE_URL=http://config-server:8888
+      - SPRING_RABBITMQ_HOST=rabbitmq
 
   task-service:
     image: smarterbalanced/rdw-ingest-task-service
@@ -115,6 +118,7 @@ services:
     links:
       - config-server
       - import-service
+      - rabbitmq
     depends_on:
       config-server:
         condition: service_healthy
@@ -122,6 +126,7 @@ services:
       - SPRING_PROFILES_ACTIVE=local-docker
       - CONFIG_SERVICE_ENABLED=true
       - CONFIG_SERVICE_URL=http://config-server:8888
+      - SPRING_RABBITMQ_HOST=rabbitmq
 
   migrate-reporting:
     image: smarterbalanced/rdw-ingest-migrate-reporting
@@ -136,3 +141,4 @@ services:
       - SPRING_PROFILES_ACTIVE=local-docker
       - CONFIG_SERVICE_ENABLED=true
       - CONFIG_SERVICE_URL=http://config-server:8888
+      - SPRING_RABBITMQ_HOST=rabbitmq
