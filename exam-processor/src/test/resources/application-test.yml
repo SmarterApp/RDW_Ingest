@@ -19,3 +19,7 @@ validation:
     - IDEAIndicator
     - Completeness
     - AdministrationCondition
+
+reporting:
+  state:
+    code: CA
