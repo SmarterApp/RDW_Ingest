@@ -25,10 +25,6 @@ endpoints:
 archive:
   uri-root: file:///tmp/
 
-reporting:
-  state:
-    code: CA
-
 spring:
   cache:
     type: SIMPLE

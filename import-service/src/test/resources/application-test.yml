@@ -9,3 +9,7 @@ tenantProperties:
       id: CA
       key: CA
       name: California
+
+reporting:
+  state:
+    code: CA

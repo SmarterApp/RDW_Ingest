@@ -22,10 +22,6 @@ endpoints:
 archive:
   uri-root: file:///tmp/
 
-reporting:
-  state:
-    code: CA
-
 security:
   # "local" causes stub services to be used
   oauth2:
