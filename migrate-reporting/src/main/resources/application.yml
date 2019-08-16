@@ -32,9 +32,6 @@ migrate:
     size: 2000
     delay: 60000
 
-reporting:
-  school-year: 2019
-
 spring:
   batch:
     # we create the tables in our flyway scripts so completely disable initialization of them
