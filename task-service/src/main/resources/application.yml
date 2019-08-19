@@ -27,6 +27,12 @@ spring:
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
 
+  cloud:
+    stream:
+      bindings:
+        ConfigpropsUpdateOutput:
+          destination: ConfigpropsUpdateExchange
+
 datasources:
   warehouse_rw:
     url-parts:
@@ -40,12 +46,11 @@ datasources:
                    &socketTimeout=${datasources.warehouse_rw.socket-timeout:40000}\
                    "
     url: "${datasources.warehouse_rw.url-parts.protocol}//${datasources.warehouse_rw.url-parts.hosts}/${datasources.warehouse_rw.url-parts.database}?${datasources.warehouse_rw.url-parts.properties}"
-    jdbcInterceptors: "QueryTimeoutInterceptor(queryTimeout=${datasources.warehouse_rw.query-timeout:30})"
     username: root
     password:
     testWhileIdle: true
     validationQuery: SELECT 1
-    validationQueryTimeout: 10000
+    validationInterval: 35000
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
     initialSize: 4
@@ -58,42 +63,55 @@ datasources:
     logAbandoned: false
 
 task:
-# by default, all tasks are disabled for local dev environment; uncomment and set secrets/hosts to test
+# SendReconciliationReport task. Uncomment to enable; also configure log and archives under taskSendReconciliationReport
 #  send-reconciliation-report:
 #### This runs at 2pm GMT, regardless of the server's timezone setting
 #    cron: 0 0 14 * * *
-#    query: status=PROCESSED&after=-PT24H
-#    senders:
-#      - type: ftp
-#        server:
+# UpdateOrganizations task. Uncomment to enable; also configure taskUpdateOrganizationsArtClient and taskUpdateOrganizationsImportServiceClient
+#  update-organizations:
+### This runs at 4am GMT, regardless of the server's timezone setting
+#    cron: 0 0 4 * * *
+
+#taskSendReconciliationReport:
+#  # there is no root (non-tenant) configuration for this task
+#  tenants:
+#    CA:
+#      query: status=PROCESSED&after=-PT24H
+#      log: false
+#      archives:
+#        - uri-root: file:///tmp/
+#        - uri-root: s3://bucket
+#          s3-access-key: AccessKey
+#          s3-secret-key: SecretKey
+#          s3-region-static: us-west-2
+#          s3-sse: AES256
+
+#taskUpdateOrganizationsArtClient:
+#  groups-of-districts-url: https://art-deployment.sbtds.org/rest/groupofdistrict?stateAbbreviation={state}&pageSize=1000
+#  districts-url: https://art-deployment.sbtds.org/rest/district?stateAbbreviation={state}&pageSize=5000
+#  groups-of-schools-url: https://art-deployment.sbtds.org/rest/groupofinstitution?stateAbbreviation={state}&pageSize=1000
+#  schools-url: https://art-deployment.sbtds.org/rest/institution?stateAbbreviation={state}&pageSize=20000
+#  status-url: https://art-deployment.sbtds.org/rest/status
+#  oauth2:
+#    access-token-uri: https://sso-deployment.sbtds.org:443/auth/oauth2/access_token?realm=/sbac
+#    client-id: sbacdw
+#    client-secret:
+#    username: prime.user@example.com
+#    password:
+
+#taskUpdateOrganizationsImportServiceClient:
+#  organizations-imports-url: http://localhost:8080/organizations/imports
+#  status-url: http://localhost:8081/status
+#  oauth2:
+#    access-token-uri: https://sso-deployment.sbtds.org:443/auth/oauth2/access_token?realm=/sbac
+#    client-id: sbacdw
+#    client-secret:
+#  tenants:
+#    CA:
+#      oauth2:
 #        username:
 #        password:
-#      - type: log
-#      - type: archive
-#        uri-root: file:///tmp/
-#      - type: archive
-#        uri-root: s3:///bucket
-#        s3-access-key: AccessKey
-#        s3-secret-key: SecretKey
-#        s3-region-static: us-west-2
-#        s3-sse: AES256
-#  update-organizations:
-#### This runs at 4am GMT, regardless of the server's timezone setting
-#    cron: 0 0 4 * * *
-#    state: CA
-#    art-client:
-#      groups-of-districts-url: https://art-deployment.sbtds.org/rest/groupofdistrict?stateAbbreviation={state}&pageSize=1000
-#      districts-url: https://art-deployment.sbtds.org/rest/district?stateAbbreviation={state}&pageSize=5000
-#      groups-of-schools-url: https://art-deployment.sbtds.org/rest/groupofinstitution?stateAbbreviation={state}&pageSize=1000
-#      schools-url: https://art-deployment.sbtds.org/rest/institution?stateAbbreviation={state}&pageSize=20000
-#      status-url: https://art-deployment.sbtds.org/rest/status
+#    NV:
 #      oauth2:
-#        access-token-uri: https://sso-deployment.sbtds.org:443/auth/oauth2/access_token?realm=/sbac
-#        client-id: sbacdw
-#        client-secret:
-#        username: ca.admin@example.com
+#        username:
 #        password:
-#    import-service-client:
-#      organizations-imports-url: http://localhost:8080/organizations/imports
-#      status-url: http://localhost:8081/status
-#      stub-auth: sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||

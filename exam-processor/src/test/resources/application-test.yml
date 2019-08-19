@@ -8,3 +8,18 @@ tenantProperties:
       id: CA
       key: CA
       name: California
+
+validation:
+  requiredDataElements:
+    - FirstName
+    - LastOrSurname
+    - Birthdate
+    - Sex
+    - EconomicDisadvantageStatus
+    - IDEAIndicator
+    - Completeness
+    - AdministrationCondition
+
+reporting:
+  state:
+    code: CA

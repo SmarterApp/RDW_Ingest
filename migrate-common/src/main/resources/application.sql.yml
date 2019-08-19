@@ -67,5 +67,5 @@ sql:
            IF(se.individual = 0 OR de.individual = 0 OR (se.individual IS NULL and de.individual IS NULL), 0, 1) AS individual,
            IF(se.aggregate = 0 OR de.aggregate = 0, 0, 1) AS aggregate
     FROM district d
-      LEFT JOIN district_embargo de ON de.district_id = d.id AND de.school_year = ${reporting.school-year}
-      LEFT JOIN state_embargo se ON se.school_year = ${reporting.school-year}
+      LEFT JOIN district_embargo de ON de.district_id = d.id AND de.school_year = :system_school_year
+      LEFT JOIN state_embargo se ON se.school_year = :system_school_year

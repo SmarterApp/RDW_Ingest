@@ -222,9 +222,9 @@ sql:
                 code,
                 updated,
                 update_import_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM subject ws
-                WHERE ws.created > ? AND ws.created <= ?
+                WHERE ws.created > :first_at AND ws.created <= :last_at
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/subject'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
 
@@ -250,9 +250,9 @@ sql:
                 code,
                 updated,
                 update_import_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM subject ws
-              WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
+              WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/subject_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
 
@@ -275,11 +275,11 @@ sql:
         target:
           sql:
             warehouseRead: >-
-              SELECT wt.id, ws.id, wt.natural_id, wc.code, ? as migrate_id
+              SELECT wt.id, ws.id, wt.natural_id, wc.code, :migrate_id as migrate_id
               FROM target wt
                 JOIN claim wc ON wc.id = wt.claim_id
                 JOIN subject ws ON ws.id = wc.subject_id
-              WHERE ( ws.code <> 'Math' OR wc.code='1' ) AND  ws.created > ? AND ws.created <= ?
+              WHERE ( ws.code <> 'Math' OR wc.code='1' ) AND  ws.created > :first_at AND ws.created <= :last_at
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/target'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
@@ -295,11 +295,11 @@ sql:
         target_update:
           sql:
             warehouseRead: >-
-              SELECT wt.id, ws.id, wt.natural_id, wc.code, ? as migrate_id
+              SELECT wt.id, ws.id, wt.natural_id, wc.code, :migrate_id as migrate_id
               FROM target wt
                 JOIN claim wc ON wc.id = wt.claim_id
                 JOIN subject ws ON ws.id = wc.subject_id
-              WHERE ( ws.code <> 'Math' OR wc.code='1' ) AND ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
+              WHERE ( ws.code <> 'Math' OR wc.code='1' ) AND ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/target_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
@@ -316,10 +316,10 @@ sql:
         subject_asmt_type:
           sql:
             warehouseRead: >-
-              SELECT wsat.subject_id, wsat.asmt_type_id, wsat.target_report, ? as migrate_id
+              SELECT wsat.subject_id, wsat.asmt_type_id, wsat.target_report, :migrate_id as migrate_id
               FROM subject_asmt_type wsat
                 JOIN subject ws ON ws.id = wsat.subject_id
-              WHERE ws.created > ? AND ws.created <= ?
+              WHERE ws.created > :first_at AND ws.created <= :last_at
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/subject_asmt_type'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
 
@@ -334,10 +334,10 @@ sql:
         subject_asmt_type_update:
           sql:
             warehouseRead: >-
-              SELECT wsat.subject_id, wsat.asmt_type_id, wsat.target_report, ? as migrate_id
+              SELECT wsat.subject_id, wsat.asmt_type_id, wsat.target_report, :migrate_id as migrate_id
               FROM subject_asmt_type wsat
                 JOIN subject ws ON ws.id = wsat.subject_id
-              WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
+              WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/subject_asmt_type_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
 
@@ -353,10 +353,10 @@ sql:
         subject_asmt_scoring:
           sql:
             warehouseRead: >-
-              SELECT wsas.subject_id, wsas.asmt_type_id, wsas.score_type_id, wsas.min_score, wsas.max_score, wsas.performance_level_count, wsas.performance_level_standard_cutoff, ? as migrate_id
+              SELECT wsas.subject_id, wsas.asmt_type_id, wsas.score_type_id, wsas.min_score, wsas.max_score, wsas.performance_level_count, wsas.performance_level_standard_cutoff, :migrate_id as migrate_id
               FROM subject_asmt_scoring wsas
                 JOIN subject ws ON ws.id = wsas.subject_id
-              WHERE ws.created > ? AND ws.created <= ?
+              WHERE ws.created > :first_at AND ws.created <= :last_at
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/subject_asmt_scoring'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
 
@@ -371,10 +371,10 @@ sql:
         subject_asmt_scoring_update:
           sql:
             warehouseRead: >-
-              SELECT wsas.subject_id, wsas.asmt_type_id, wsas.score_type_id, wsas.min_score, wsas.max_score, wsas.performance_level_count, wsas.performance_level_standard_cutoff, ? as migrate_id
+              SELECT wsas.subject_id, wsas.asmt_type_id, wsas.score_type_id, wsas.min_score, wsas.max_score, wsas.performance_level_count, wsas.performance_level_standard_cutoff, :migrate_id as migrate_id
               FROM subject_asmt_scoring wsas
                 JOIN subject ws ON ws.id = wsas.subject_id
-              WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
+              WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/subject_asmt_scoring_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
 
@@ -390,10 +390,10 @@ sql:
         subject_score:
           sql:
             warehouseRead: >-
-              SELECT wss.id, wss.subject_id, wss.asmt_type_id, wss.score_type_id, wss.code, ? as migrate_id
+              SELECT wss.id, wss.subject_id, wss.asmt_type_id, wss.score_type_id, wss.code, :migrate_id as migrate_id
               FROM subject_score wss
                 JOIN subject ws ON ws.id = wss.subject_id
-              WHERE ws.created > ? AND ws.created <= ?
+              WHERE ws.created > :first_at AND ws.created <= :last_at
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/subject_score'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
@@ -409,10 +409,10 @@ sql:
         subject_score_update:
           sql:
             warehouseRead: >-
-              SELECT wss.id, wss.subject_id, wss.asmt_type_id, wss.score_type_id, wss.code, ? as migrate_id
+              SELECT wss.id, wss.subject_id, wss.asmt_type_id, wss.score_type_id, wss.code, :migrate_id as migrate_id
               FROM subject_score wss
                 JOIN subject ws ON ws.id = wss.subject_id
-              WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
+              WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/subject_score_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
@@ -435,9 +435,9 @@ sql:
                 deleted,
                 updated,
                 update_import_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM student ws
-                WHERE ws.created > ? AND ws.created <= ?
+                WHERE ws.created > :first_at AND ws.created <= :last_at
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/student'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'
@@ -466,9 +466,9 @@ sql:
                 deleted,
                 updated,
                 update_import_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM student ws
-              WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
+              WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/student_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'
@@ -495,10 +495,10 @@ sql:
               SELECT
                 ethnicity_id,
                 student_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM student_ethnicity
                 JOIN student ws ON ws.id = student_ethnicity.student_id
-              WHERE ws.created > ? AND ws.created <= ? AND ws.deleted = 0
+              WHERE ws.created > :first_at AND ws.created <= :last_at AND ws.deleted = 0
                 INTO OUTFILE S3 '$[migrateLocationPlaceholder]/student_ethnicity'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                               LINES TERMINATED BY '\n'
@@ -520,10 +520,10 @@ sql:
               SELECT
                 ethnicity_id,
                 student_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM student_ethnicity
                 JOIN student ws ON ws.id = student_ethnicity.student_id
-              WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created AND ws.deleted = 0
+              WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created AND ws.deleted = 0
                 INTO OUTFILE S3 '$[migrateLocationPlaceholder]/student_ethnicity_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                               LINES TERMINATED BY '\n'
@@ -562,9 +562,9 @@ sql:
                 wa.deleted,
                 wa.updated,
                 wa.update_import_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM asmt wa JOIN asmt_score was ON wa.id = was.asmt_id AND was.subject_score_id IS NULL
-              WHERE wa.created > ? AND wa.created <= ?
+              WHERE wa.created > :first_at AND wa.created <= :last_at
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/asmt'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
 
@@ -616,9 +616,9 @@ sql:
                 wa.deleted,
                 wa.updated,
                 wa.update_import_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM asmt wa JOIN asmt_score was ON wa.id = was.asmt_id AND was.subject_score_id IS NULL
-              WHERE wa.updated > ? AND wa.updated <= ? AND wa.updated <> wa.created
+              WHERE wa.updated > :first_at AND wa.updated <= :last_at AND wa.updated <> wa.created
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/asmt_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'
@@ -659,14 +659,14 @@ sql:
               SELECT
                 wats.asmt_id,
                 wats.target_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM asmt_target_exclusion wats
                 JOIN asmt wa ON wa.id = wats.asmt_id
                 JOIN target wt ON wt.id = wats.target_id
                 JOIN claim wc ON wc.id = wt.claim_id
                 JOIN subject ws ON ws.id = wc.subject_id
               WHERE wa.type_id = 3 AND ( ws.code <> 'Math' OR wc.code='1' ) AND
-                 wa.created > ? AND wa.created <= ? AND wa.deleted = 0
+                 wa.created > :first_at AND wa.created <= :last_at AND wa.deleted = 0
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/exclusion_asmt_target'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'
@@ -689,14 +689,14 @@ sql:
               SELECT
                 wats.asmt_id,
                 wats.target_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM asmt_target_exclusion wats
                  JOIN asmt wa ON wa.id = wats.asmt_id
                   JOIN target wt ON wt.id = wats.target_id
                   JOIN claim wc ON wc.id = wt.claim_id
                   JOIN subject ws ON ws.id = wc.subject_id
                 WHERE wa.type_id = 3 AND ( ws.code <> 'Math' OR wc.code='1' ) AND
-                      wa.updated > ? AND wa.updated <= ? AND wa.updated <> wa.created AND wa.deleted = 0
+                      wa.updated > :first_at AND wa.updated <= :last_at AND wa.updated <> wa.created AND wa.deleted = 0
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/exclusion_asmt_target_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'
@@ -725,13 +725,13 @@ sql:
               SELECT DISTINCT
                 wi.asmt_id,
                 wi.target_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM item wi JOIN asmt wa ON wa.id = wi.asmt_id
                   JOIN target wt ON wt.id = wi.target_id
                   JOIN claim wc ON wc.id = wt.claim_id
                   JOIN subject ws ON ws.id = wc.subject_id
                 WHERE wa.type_id = 3 AND ( ws.code <> 'Math' OR wc.code='1' ) AND
-                      wa.created > ? AND wa.created <= ? AND wa.deleted = 0
+                      wa.created > :first_at AND wa.created <= :last_at AND wa.deleted = 0
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/asmt_target'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'
@@ -754,13 +754,13 @@ sql:
               SELECT DISTINCT
                 wi.asmt_id,
                 wi.target_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM item wi JOIN asmt wa ON wa.id = wi.asmt_id
                 JOIN target wt ON wt.id = wi.target_id
                 JOIN claim wc ON wc.id = wt.claim_id
                 JOIN subject ws ON ws.id = wc.subject_id
                 WHERE wa.type_id = 3 AND ( ws.code <> 'Math' OR wc.code='1' ) AND
-                  wa.updated > ? AND wa.updated <= ? AND wa.updated <> wa.created AND wa.deleted = 0
+                  wa.updated > :first_at AND wa.updated <= :last_at AND wa.updated <> wa.created AND wa.deleted = 0
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/asmt_target_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'
@@ -792,9 +792,9 @@ sql:
                 deleted,
                 updated,
                 update_import_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM school ws
-              WHERE ws.created > ? AND ws.created <= ?
+              WHERE ws.created > :first_at AND ws.created <= :last_at
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/school'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'
@@ -833,9 +833,9 @@ sql:
                 deleted,
                 updated,
                 update_import_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM school ws
-              WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
+              WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/school_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'
@@ -869,9 +869,9 @@ sql:
                 name,
                 natural_id,
                 external_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM district wd
-              WHERE EXISTS( SELECT id FROM school  WHERE created > ? AND created <= ? AND deleted = 0 AND district_id = wd.id)
+              WHERE EXISTS( SELECT id FROM school  WHERE created > :first_at AND created <= :last_at AND deleted = 0 AND district_id = wd.id)
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/district'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'
@@ -897,9 +897,9 @@ sql:
                 name,
                 natural_id,
                 external_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM district wd
-              WHERE EXISTS( SELECT id FROM school WHERE updated > ? AND updated <= ? AND updated <> created AND deleted = 0 AND district_id = wd.id)
+              WHERE EXISTS( SELECT id FROM school WHERE updated > :first_at AND updated <= :last_at AND updated <> created AND deleted = 0 AND district_id = wd.id)
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/district_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'
@@ -926,9 +926,9 @@ sql:
                 name,
                 natural_id,
                 external_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM district_group wdg
-                WHERE EXISTS( SELECT id FROM school  WHERE created > ? AND created <= ? AND deleted = 0 AND district_group_id = wdg.id)
+                WHERE EXISTS( SELECT id FROM school  WHERE created > :first_at AND created <= :last_at AND deleted = 0 AND district_group_id = wdg.id)
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/dstrgroup'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                               LINES TERMINATED BY '\n'
@@ -954,9 +954,9 @@ sql:
                 name,
                 natural_id,
                 external_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM district_group wdg
-               WHERE EXISTS( SELECT id FROM school WHERE updated > ? AND updated <= ? AND updated <> created AND deleted = 0 AND district_group_id = wdg.id)
+               WHERE EXISTS( SELECT id FROM school WHERE updated > :first_at AND updated <= :last_at AND updated <> created AND deleted = 0 AND district_group_id = wdg.id)
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/dstrgroup_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                               LINES TERMINATED BY '\n'
@@ -983,9 +983,9 @@ sql:
                 name,
                 natural_id,
                 external_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM school_group wsg
-               WHERE EXISTS( SELECT id FROM school  WHERE created > ? AND created <= ? AND deleted = 0 AND school_group_id = wsg.id)
+               WHERE EXISTS( SELECT id FROM school  WHERE created > :first_at AND created <= :last_at AND deleted = 0 AND school_group_id = wsg.id)
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/schgroup'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                               LINES TERMINATED BY '\n'
@@ -1011,9 +1011,9 @@ sql:
                 name,
                 natural_id,
                 external_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM school_group wdg
-               WHERE EXISTS( SELECT id FROM school WHERE updated > ? AND updated <= ? AND updated <> created AND deleted = 0 AND school_group_id = wdg.id)
+               WHERE EXISTS( SELECT id FROM school WHERE updated > :first_at AND updated <= :last_at AND updated <> created AND deleted = 0 AND school_group_id = wdg.id)
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/schgroup_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                               LINES TERMINATED BY '\n'
@@ -1059,9 +1059,9 @@ sql:
                 deleted,
                 updated,
                 update_import_id,
-               ? as migrate_id
+               :migrate_id as migrate_id
               FROM exam we
-                WHERE we.created > ? AND we.created <= ? AND we.scale_score IS NOT NULL AND we.performance_level IS NOT NULL
+                WHERE we.created > :first_at AND we.created <= :last_at AND we.scale_score IS NOT NULL AND we.performance_level IS NOT NULL
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/exam'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
@@ -1126,9 +1126,9 @@ sql:
                 deleted,
                 updated,
                 update_import_id,
-               ? as migrate_id
+               :migrate_id as migrate_id
               FROM exam we
-              WHERE we.updated > ? AND we.updated <= ? AND we.updated <> we.created AND we.scale_score IS NOT NULL AND we.performance_level IS NOT NULL
+              WHERE we.updated > :first_at AND we.updated <= :last_at AND we.updated <> we.created AND we.scale_score IS NOT NULL AND we.performance_level IS NOT NULL
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/exam_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
@@ -1175,10 +1175,10 @@ sql:
                 ecs.exam_id,
                 ecs.subject_score_id,
                 ecs.performance_level,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM exam_score ecs
                 JOIN exam we ON we.id = ecs.exam_id
-               WHERE we.created > ? AND we.deleted = 0 AND we.created <= ?
+               WHERE we.created > :first_at AND we.deleted = 0 AND we.created <= :last_at
                 AND we.scale_score IS NOT NULL AND we.performance_level IS NOT NULL AND ecs.performance_level IS NOT NULL
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/exam_score'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
@@ -1204,10 +1204,10 @@ sql:
                 ecs.exam_id,
                 ecs.subject_score_id,
                 ecs.performance_level,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM exam_score ecs
                 JOIN exam we ON we.id = ecs.exam_id
-              WHERE we.updated > ? AND we.deleted = 0 AND we.updated <= ? AND we.updated <> we.created
+              WHERE we.updated > :first_at AND we.deleted = 0 AND we.updated <= :last_at AND we.updated <> we.created
                 AND we.scale_score IS NOT NULL AND we.performance_level IS NOT NULL AND ecs.performance_level IS NOT NULL
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/exam_score_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
@@ -1237,14 +1237,14 @@ sql:
                 wets.target_id,
                 wets.student_relative_residual_score,
                 wets.standard_met_relative_residual_score,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM exam_target_score wets
                 JOIN exam we ON wets.exam_id = we.id
                 JOIN target wt ON wt.id = wets.target_id
                 JOIN claim wc ON wc.id = wt.claim_id
                 JOIN subject ws ON ws.id = wc.subject_id
               WHERE we.type_id = 3 AND ( ws.code <> 'Math' OR wc.code='1' ) AND
-                  we.created > ? AND we.deleted = 0 AND we.created <= ? AND
+                  we.created > :first_at AND we.deleted = 0 AND we.created <= :last_at AND
                   we.scale_score IS NOT NULL AND we.performance_level IS NOT NULL AND
                   wets.standard_met_relative_residual_score IS NOT NULL AND wets.student_relative_residual_score IS NOT NULL
                 INTO OUTFILE S3 '$[migrateLocationPlaceholder]/exam_target_score'
@@ -1274,14 +1274,14 @@ sql:
                 wets.target_id,
                 wets.student_relative_residual_score,
                 wets.standard_met_relative_residual_score,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM exam_target_score wets
                 JOIN exam we ON wets.exam_id = we.id
                 JOIN target wt ON wt.id = wets.target_id
                 JOIN claim wc ON wc.id = wt.claim_id
                 JOIN subject ws ON ws.id = wc.subject_id
               WHERE we.type_id = 3 AND ( ws.code <> 'Math' OR wc.code='1' ) AND
-                we.updated > ? AND we.deleted = 0 AND we.updated <= ? AND we.updated <> we.created AND
+                we.updated > :first_at AND we.deleted = 0 AND we.updated <= :last_at AND we.updated <> we.created AND
                 we.scale_score IS NOT NULL AND we.performance_level IS NOT NULL AND
                 wets.standard_met_relative_residual_score IS NOT NULL AND wets.student_relative_residual_score IS NOT NULL
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/exam_target_score_update'
@@ -1309,7 +1309,7 @@ sql:
               SELECT
                 e.district_id,
                 e.aggregate,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM (${sql.embargo}) e
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/embargo'
                 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
@@ -1332,9 +1332,9 @@ sql:
             warehouseRead:
               SELECT
                 IF(aggregate = 0, 0, 1) AS aggregate,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM state_embargo
-              WHERE school_year = ${reporting.school-year}
+              WHERE school_year = :system_school_year
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/state_embargo'
                 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                 LINES TERMINATED BY '\n'

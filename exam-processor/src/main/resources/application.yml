@@ -25,10 +25,6 @@ endpoints:
 archive:
   uri-root: file:///tmp/
 
-reporting:
-  state:
-    code: CA
-
 spring:
   cache:
     type: SIMPLE
@@ -40,6 +36,9 @@ spring:
         input:
           destination: EXAM
           group: default
+
+        ConfigpropsUpdateOutput:
+          destination: ConfigpropsUpdateExchange
 
   jackson:
     default-property-inclusion: non_null
@@ -64,12 +63,11 @@ datasources:
                    &socketTimeout=${datasources.warehouse_rw.socket-timeout:40000}\
                    "
     url: "${datasources.warehouse_rw.url-parts.protocol}//${datasources.warehouse_rw.url-parts.hosts}/${datasources.warehouse_rw.url-parts.database}?${datasources.warehouse_rw.url-parts.properties}"
-    jdbcInterceptors: "QueryTimeoutInterceptor(queryTimeout=${datasources.warehouse_rw.query-timeout:30})"
     username: root
     password:
     testWhileIdle: true
     validationQuery: SELECT 1
-    validationQueryTimeout: 10000
+    validationInterval: 35000
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
     initialSize: 6

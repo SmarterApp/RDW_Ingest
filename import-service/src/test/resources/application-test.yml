@@ -2,7 +2,6 @@ datasources:
   warehouse_rw:
     url-schema: warehouse_test
     maxActive: 10
-    query-timeout: 2
 
 tenantProperties:
   tenants:
@@ -10,3 +9,7 @@ tenantProperties:
       id: CA
       key: CA
       name: California
+
+reporting:
+  state:
+    code: CA
