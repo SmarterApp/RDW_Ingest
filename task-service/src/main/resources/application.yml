@@ -72,6 +72,10 @@ task:
 ### This runs at 4am GMT, regardless of the server's timezone setting
 #    cron: 0 0 4 * * *
 
+taskSendReconciliationReport:
+  query: status=PROCESSED&after=-PT24H
+  log: false
+
 #taskSendReconciliationReport:
 #  # there is no root (non-tenant) configuration for this task
 #  tenants:
