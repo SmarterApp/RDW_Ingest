@@ -70,8 +70,8 @@ datasources:
     validationInterval: 35000
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
-    initialSize: 6
-    maxActive: 12
+    initialSize: 2
+    maxActive: 6
     minIdle: ${datasources.warehouse_rw.initialSize}
     maxIdle: ${datasources.warehouse_rw.maxActive}
     maxWait: 10000

@@ -81,8 +81,8 @@ datasources:
     validationInterval: 35000
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
-    initialSize: 4
-    maxActive: 10
+    initialSize: 2
+    maxActive: 6
     minIdle: ${datasources.migrate_rw.initialSize}
     maxIdle: ${datasources.migrate_rw.maxActive}
     removeAbandoned: false
@@ -128,8 +128,8 @@ datasources:
     validationInterval: 35000
     driverClassName: com.mysql.jdbc.Driver
     initialize: false
-    initialSize: 4
-    maxActive: 10
+    initialSize: 2
+    maxActive: 6
     minIdle: ${datasources.warehouse_rw.initialSize}
     maxIdle: ${datasources.warehouse_rw.maxActive}
     maxWait: 10000
