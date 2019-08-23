@@ -73,11 +73,9 @@ task:
 #    cron: 0 0 4 * * *
 
 taskSendReconciliationReport:
+  # default root settings
   query: status=PROCESSED&after=-PT24H
   log: false
-
-#taskSendReconciliationReport:
-#  # there is no root (non-tenant) configuration for this task
 #  tenants:
 #    CA:
 #      query: status=PROCESSED&after=-PT24H
