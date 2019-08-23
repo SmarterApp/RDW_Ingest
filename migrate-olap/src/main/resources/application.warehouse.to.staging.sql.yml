@@ -1228,28 +1228,30 @@ sql:
         # ------------ exam_target_score  -------------------------------------------------------------------
         # Only Summative target scores are included
         # For Smarter Balanced Math, only the Concepts and Procedures targets are included
+        # The exam_target_score table can be very large; the sub-select forces the optimizer to do the right thing
         exam_target_score:
           sql:
             warehouseRead: >-
               SELECT
-                wets.id,
-                wets.exam_id,
-                wets.target_id,
-                wets.student_relative_residual_score,
-                wets.standard_met_relative_residual_score,
-                :migrate_id as migrate_id
-              FROM exam_target_score wets
-                JOIN exam we ON wets.exam_id = we.id
-                JOIN target wt ON wt.id = wets.target_id
+                sub.id,
+                sub.exam_id,
+                sub.target_id,
+                sub.student_relative_residual_score,
+                sub.standard_met_relative_residual_score,
+                :migrate_id AS migrate_id
+              FROM (SELECT wets.id, wets.exam_id, wets.target_id, wets.student_relative_residual_score, wets.standard_met_relative_residual_score
+                    FROM exam_target_score wets JOIN exam we ON wets.exam_id = we.id
+                    WHERE we.type_id = 3
+                      AND we.created > :first_at AND we.deleted = 0 AND we.created <= :last_at
+                      AND we.scale_score IS NOT NULL AND we.performance_level IS NOT NULL
+                      AND wets.standard_met_relative_residual_score IS NOT NULL AND wets.student_relative_residual_score IS NOT NULL) sub
+                JOIN target wt ON wt.id = sub.target_id
                 JOIN claim wc ON wc.id = wt.claim_id
                 JOIN subject ws ON ws.id = wc.subject_id
-              WHERE we.type_id = 3 AND ( ws.code <> 'Math' OR wc.code='1' ) AND
-                  we.created > :first_at AND we.deleted = 0 AND we.created <= :last_at AND
-                  we.scale_score IS NOT NULL AND we.performance_level IS NOT NULL AND
-                  wets.standard_met_relative_residual_score IS NOT NULL AND wets.student_relative_residual_score IS NOT NULL
-                INTO OUTFILE S3 '$[migrateLocationPlaceholder]/exam_target_score'
-                FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-                LINES TERMINATED BY '\n'
+              WHERE (ws.code <> 'Math' OR wc.code='1')
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/exam_target_score'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+              LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_exam_target_score(
@@ -1269,21 +1271,22 @@ sql:
           sql:
             warehouseRead: >-
               SELECT
-                wets.id,
-                wets.exam_id,
-                wets.target_id,
-                wets.student_relative_residual_score,
-                wets.standard_met_relative_residual_score,
-                :migrate_id as migrate_id
-              FROM exam_target_score wets
-                JOIN exam we ON wets.exam_id = we.id
-                JOIN target wt ON wt.id = wets.target_id
+                sub.id,
+                sub.exam_id,
+                sub.target_id,
+                sub.student_relative_residual_score,
+                sub.standard_met_relative_residual_score,
+                :migrate_id AS migrate_id
+              FROM (SELECT wets.id, wets.exam_id, wets.target_id, wets.student_relative_residual_score, wets.standard_met_relative_residual_score
+                    FROM exam_target_score wets JOIN exam we ON wets.exam_id = we.id
+                    WHERE we.type_id = 3
+                      AND we.updated > :first_at AND we.deleted = 0 AND we.updated <= :last_at AND we.updated <> we.created
+                      AND we.scale_score IS NOT NULL AND we.performance_level IS NOT NULL
+                      AND wets.standard_met_relative_residual_score IS NOT NULL AND wets.student_relative_residual_score IS NOT NULL) sub
+                JOIN target wt ON wt.id = sub.target_id
                 JOIN claim wc ON wc.id = wt.claim_id
                 JOIN subject ws ON ws.id = wc.subject_id
-              WHERE we.type_id = 3 AND ( ws.code <> 'Math' OR wc.code='1' ) AND
-                we.updated > :first_at AND we.deleted = 0 AND we.updated <= :last_at AND we.updated <> we.created AND
-                we.scale_score IS NOT NULL AND we.performance_level IS NOT NULL AND
-                wets.standard_met_relative_residual_score IS NOT NULL AND wets.student_relative_residual_score IS NOT NULL
+              WHERE (ws.code <> 'Math' OR wc.code='1')
               INTO OUTFILE S3 '$[migrateLocationPlaceholder]/exam_target_score_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
