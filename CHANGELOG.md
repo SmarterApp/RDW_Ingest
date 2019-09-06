@@ -1,6 +1,8 @@
 ## Change Log
 
-#### 1.4.0 - 2019-06
+#### 2.0.0 - 2019-08-27
+
+NOTE: this release was originally 1.4.0 but was re-labelled just before release. So there are artifacts labelled 1.4.0-RC# which are precursors to the 2.0.0-RELEASE.
 
 * Make all services multi-tenant aware
     * This requires significant changes to configuration.
@@ -15,13 +17,21 @@
         * assessment cut-points are now validated against their subject min/max scores
         * exam scores are now validated against their assessment min/max scores
             * claim scores, theta scores and student residual scores are no longer validated
-* Reduce the tenancy chain stored in metadata for archived import payloads.
+* Support Okta for SSO and OAuth2 (in addition to OpenAM).
 * Refactor assessment package validation, separating structural/schema validation from business rules.
 This may affect DevOps/IT if packages are malformed; they may now use the standalone validation utility.
-* Make sessionId optional by default (change `validation.requiredDataElements`)
-* A number of fixes regarding subjects with itemless, summative assessments only.
-* Make default administration condition based on assessment type (interim=SD, summative=Valid) (RP-276).
-* Allow for "NS"/"0" in overall score to indicate unscored results.
+* Hundreds of minor functionality changes and bug fixes. Most are not listed but here are some:             
+    * Reduce the tenancy chain stored in metadata for archived import payloads.
+    * Handle multiple tenancy chains in a single string
+    * Make sessionId optional by default (change `validation.requiredDataElements`)
+    * A number of fixes regarding subjects with itemless, summative assessments only.
+    * Make default administration condition based on assessment type (interim=SD, summative=Valid) (RP-276).
+    * Allow for "NS"/"0" in overall score to indicate unscored results.
+    * Handle null vs. 0 std-err (RP-633) (RDW-105)
+    * Don't run migrate olap on service startup
+    * Handle edge case when assessment packages are loaded and modified within one migrate cycle (RDW-103)
+    * Enforce `limit` param being set in resubmit calls (RDW-97)
+    * Properly resolve permissions for district/school level ingest users (RP-567)
 
 #### 1.3.1 - 2019-04-02
 
