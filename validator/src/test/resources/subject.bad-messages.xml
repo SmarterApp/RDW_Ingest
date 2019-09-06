@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Subject code="GEO" name="Geology">
+  <Messages>
+    <Message key="ica.performance-info"><![CDATA[Geology summative.]]></Message>
+    <Message key="ica.performance-info"><![CDATA[Geology summative, duplicate message.]]></Message>
+  </Messages>
+  <AssessmentTypes>
+    <AssessmentType code="sum" name="Summative">
+      <OverallScoring>
+        <PerformanceLevels>
+          <PerformanceLevel level="1" name="Pass" color="green"/>
+        </PerformanceLevels>
+      </OverallScoring>
+    </AssessmentType>
+  </AssessmentTypes>
+</Subject>

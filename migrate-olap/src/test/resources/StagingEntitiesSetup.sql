@@ -4,20 +4,26 @@ INSERT INTO staging_subject (id, code, update_import_id, migrate_id, updated) VA
   (-3, 'Update', -99, -99, now());
 
 -- add subjects' related data for the new subjects
-INSERT INTO staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report, migrate_id) VALUES
-  (1, -1, 10, 3, 6, false, -99),
-   -- new entry
-  (1, -3, 8, 2, 7, false, -99),
-   -- updated entry
-  (2, -3, 8, 2, 7, false, -99);
+INSERT INTO staging_subject_asmt_type (subject_id, asmt_type_id, target_report, migrate_id) VALUES
+  (-1, 1, false, -99),
+  (-3, 1, false, -99),   -- new entry
+  (-3, 2, false, -99);   -- updated entry
 
-INSERT INTO staging_subject_claim_score (id, subject_id, asmt_type_id, code, migrate_id) VALUES
-  (-1,  -1, 1, 'Score1', -99),
-  (-2,  -1, 1, 'Score2', -99),
-  (-3,  -1, 1, 'Score3', -99),
-  (-14, -3, 3, 'Score7', -99),
-  (-15, -3, 3, 'Update', -99),
-  (-16, -3, 3, 'New',    -99);
+INSERT INTO staging_subject_asmt_scoring (subject_id, asmt_type_id, score_type_id, performance_level_count, performance_level_standard_cutoff, migrate_id) VALUES
+(-1, 1, 1, 10, 3, -99),
+(-1, 1, 3, 6, null, -99),
+(-3, 1, 1, 8, 2, -99),
+(-3, 1, 3, 7, null, -99),
+(-3, 2, 1, 8, 2, -99),
+(-3, 2, 3, 7, null, -99);
+
+INSERT INTO staging_subject_score (id, subject_id, asmt_type_id, score_type_id, code, migrate_id) VALUES
+  (-1,  -1, 1, 3, 'Score1', -99),
+  (-2,  -1, 1, 3, 'Score2', -99),
+  (-3,  -1, 1, 3, 'Score3', -99),
+  (-14, -3, 3, 3, 'Score7', -99),
+  (-15, -3, 3, 3, 'Update', -99),
+  (-16, -3, 3, 3, 'New',    -99);
 
 INSERT INTO staging_target(id, subject_id, natural_id, claim_code, migrate_id) VALUES
   (-1, -1, 'F',  't1',   -99),
@@ -179,7 +185,7 @@ INSERT INTO  staging_exam ( id, type_id, school_year, asmt_id, asmt_grade_id, su
 
 -- Note: ids are irrelevant to the migrate, we are migrating based on the latest student's exam per school year/assessment.
 -- To better understand the use cases, refer to the comments in staging_exam table.
-INSERT INTO staging_exam_claim_score (id, exam_id, subject_claim_score_id, category, migrate_id) VALUES
+INSERT INTO staging_exam_score (id, exam_id, subject_score_id, performance_level, migrate_id) VALUES
   (-881, -88, 1, 4, -99),
   (-882, -88, 2, 1, -99),
   (-883, -88, 3, 2, -99),

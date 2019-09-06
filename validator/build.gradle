@@ -1,0 +1,37 @@
+import org.gradle.internal.jvm.Jvm
+
+// For now this will just produce an executable jar used like this:
+//   java -jar build/libs/rdw-ingest-validator-1.4.0-SNAPSHOT.jar -s subject.xml -t asmt.csv
+//
+// Maybe we can use launch4j (Windows/Mac), executable jar (linux), GraalVM
+// or something similar to make a true standalone executable
+//
+// This project: https://github.com/EmilyBjoerk/lsml/blob/develop/build.gradle
+// uses wix http://wixtoolset.org/; maybe overkill.
+
+// create an executable fat jar
+jar {
+    manifest {
+        attributes 'Main-Class': 'org.opentestsystem.rdw.ingest.validator.ValidatorApplication'
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+dependencies {
+    compile 'commons-cli:commons-cli:1.4'
+    compile 'org.opentestsystem.rdw.common:rdw-common-model'
+
+    // need a runtime slf4j impl
+    runtime 'org.slf4j:slf4j-simple:1.7.25'
+
+    // Add a runtime binding to the java tool.jar required by Sun's MSV (multi-schema-validator)
+    // implementation which is used during streaming XSD-based XML validation
+    runtime files(Jvm.current().toolsJar)
+
+    testCompile 'com.github.stefanbirkner:system-rules:1.19.0'
+}
+

@@ -12,8 +12,9 @@ sql:
       - delete from staging_military_connected
       - delete from staging_school_year
       - delete from staging_subject
-      - delete from staging_subject_claim_score
+      - delete from staging_subject_score
       - delete from staging_subject_asmt_type
+      - delete from staging_subject_asmt_scoring
       - delete from staging_target
       - delete from staging_school
       - delete from staging_district
@@ -27,7 +28,7 @@ sql:
       - delete from staging_asmt_target
       - delete from staging_asmt_target_exclusion
       - delete from staging_exam
-      - delete from staging_exam_claim_score
+      - delete from staging_exam_score
       - delete from staging_exam_target_score
 
     entities:
@@ -39,13 +40,13 @@ sql:
                 id,
                 code
               FROM administration_condition
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/administration_condition'
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/administration_condition'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_administration_condition (id, code)
-                FROM '${archive.root}/${migrate.aws.location}/administration_condition.part_00000'
+                FROM '$[migrateLocationPlaceholder]/administration_condition.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
@@ -59,13 +60,13 @@ sql:
                 id,
                 code
               FROM completeness
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/completeness'
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/completeness'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_completeness (id, code)
-                FROM '${archive.root}/${migrate.aws.location}/completeness.part_00000'
+                FROM '$[migrateLocationPlaceholder]/completeness.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
@@ -79,13 +80,13 @@ sql:
                 id,
                 code
               FROM elas
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/elas'
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/elas'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_elas (id, code)
-                FROM '${archive.root}/${migrate.aws.location}/elas.part_00000'
+                FROM '$[migrateLocationPlaceholder]/elas.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
@@ -99,13 +100,13 @@ sql:
                 id,
                 code
               FROM ethnicity
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/ethnicity'
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/ethnicity'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_ethnicity (id, code)
-                FROM '${archive.root}/${migrate.aws.location}/ethnicity.part_00000'
+                FROM '$[migrateLocationPlaceholder]/ethnicity.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
@@ -119,13 +120,13 @@ sql:
                 id,
                 code
               FROM gender
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/gender'
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/gender'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_gender (id, code)
-                FROM '${archive.root}/${migrate.aws.location}/gender.part_00000'
+                FROM '$[migrateLocationPlaceholder]/gender.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
@@ -140,19 +141,19 @@ sql:
                 code,
                 sequence
               FROM grade
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/grade'
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/grade'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_grade (id, code, sequence)
-                FROM '${archive.root}/${migrate.aws.location}/grade.part_00000'
+                FROM '$[migrateLocationPlaceholder]/grade.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
               COMPUPDATE OFF
 
-      # ------------ language  -------------------------------------------------------------------
+        # ------------ language  -------------------------------------------------------------------
         language:
           sql:
             warehouseRead: >-
@@ -160,19 +161,19 @@ sql:
                 id,
                 code
               FROM language
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/language'
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/language'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_language (id, code)
-                FROM '${archive.root}/${migrate.aws.location}/language.part_00000'
+                FROM '$[migrateLocationPlaceholder]/language.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
               COMPUPDATE OFF
 
-      # ------------ military_connected  -------------------------------------------------------------------
+        # ------------ military_connected  -------------------------------------------------------------------
         military_connected:
           sql:
             warehouseRead: >-
@@ -180,32 +181,32 @@ sql:
                 id,
                 code
               FROM military_connected
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/military_connected'
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/military_connected'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_military_connected (id, code)
-                FROM '${archive.root}/${migrate.aws.location}/military_connected.part_00000'
+                FROM '$[migrateLocationPlaceholder]/military_connected.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
               COMPUPDATE OFF
 
-      # ------------ school_year  -------------------------------------------------------------------
+        # ------------ school_year  -------------------------------------------------------------------
         school_year:
           sql:
             warehouseRead: >-
               SELECT
                 year
               FROM school_year
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/year'
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/year'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_school_year (year)
-                FROM '${archive.root}/${migrate.aws.location}/year.part_00000'
+                FROM '$[migrateLocationPlaceholder]/year.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
@@ -221,12 +222,11 @@ sql:
                 code,
                 updated,
                 update_import_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM subject ws
-                WHERE ws.created > ? AND ws.created <= ?
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/subject'
-              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-                             LINES TERMINATED BY '\n'
+                WHERE ws.created > :first_at AND ws.created <= :last_at
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/subject'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_subject(
@@ -235,7 +235,7 @@ sql:
                 updated,
                 update_import_id,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/subject.part_00000'
+              FROM '$[migrateLocationPlaceholder]/subject.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               TIMEFORMAT 'auto'
@@ -250,12 +250,11 @@ sql:
                 code,
                 updated,
                 update_import_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM subject ws
-              WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/subject_update'
-              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-                             LINES TERMINATED BY '\n'
+              WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/subject_update'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_subject(
@@ -264,7 +263,7 @@ sql:
                 updated,
                 update_import_id,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/subject_update.part_00000'
+              FROM '$[migrateLocationPlaceholder]/subject_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               TIMEFORMAT 'auto'
@@ -276,23 +275,18 @@ sql:
         target:
           sql:
             warehouseRead: >-
-              SELECT
-                wt.id,
-                ws.id,
-                wt.natural_id,
-                wc.code,
-                ? as migrate_id
+              SELECT wt.id, ws.id, wt.natural_id, wc.code, :migrate_id as migrate_id
               FROM target wt
                 JOIN claim wc ON wc.id = wt.claim_id
                 JOIN subject ws ON ws.id = wc.subject_id
-              WHERE ( ws.code <> 'Math' OR wc.code='1' ) AND  ws.created > ? AND ws.created <= ?
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/target'
+              WHERE ( ws.code <> 'Math' OR wc.code='1' ) AND  ws.created > :first_at AND ws.created <= :last_at
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/target'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_target (id, subject_id, natural_id, claim_code, migrate_id)
-                FROM '${archive.root}/${migrate.aws.location}/target.part_00000'
+                FROM '$[migrateLocationPlaceholder]/target.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
@@ -301,50 +295,37 @@ sql:
         target_update:
           sql:
             warehouseRead: >-
-              SELECT
-                wt.id,
-                ws.id,
-                wt.natural_id,
-                wc.code,
-                ? as migrate_id
+              SELECT wt.id, ws.id, wt.natural_id, wc.code, :migrate_id as migrate_id
               FROM target wt
                 JOIN claim wc ON wc.id = wt.claim_id
                 JOIN subject ws ON ws.id = wc.subject_id
-              WHERE ( ws.code <> 'Math' OR wc.code='1' ) AND ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/target_update'
+              WHERE ( ws.code <> 'Math' OR wc.code='1' ) AND ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/target_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_target (id, subject_id, natural_id, claim_code, migrate_id)
-                FROM '${archive.root}/${migrate.aws.location}/target_update.part_00000'
+                FROM '$[migrateLocationPlaceholder]/target_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
               COMPUPDATE OFF
 
-        # ------------ subject asmt type  ---------------------------------------------------------------------------------------
+        # ------------ subject_asmt_type  ---------------------------------------------------------------------------------------
         subject_asmt_type:
           sql:
             warehouseRead: >-
-              SELECT
-                wsat.asmt_type_id,
-                wsat.subject_id,
-                wsat.performance_level_count,
-                wsat.performance_level_standard_cutoff,
-                wsat.claim_score_performance_level_count,
-                wsat.target_report,
-                ? as migrate_id
+              SELECT wsat.subject_id, wsat.asmt_type_id, wsat.target_report, :migrate_id as migrate_id
               FROM subject_asmt_type wsat
                 JOIN subject ws ON ws.id = wsat.subject_id
-              WHERE ws.created > ? AND ws.created <= ?
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/subject_asmt_type'
-              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-              LINES TERMINATED BY '\n'
+              WHERE ws.created > :first_at AND ws.created <= :last_at
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/subject_asmt_type'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
 
             stagingInsert: >-
-              COPY staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report, migrate_id)
-                FROM '${archive.root}/${migrate.aws.location}/subject_asmt_type.part_00000'
+              COPY staging_subject_asmt_type (subject_id, asmt_type_id, target_report, migrate_id)
+                FROM '$[migrateLocationPlaceholder]/subject_asmt_type.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
@@ -353,73 +334,92 @@ sql:
         subject_asmt_type_update:
           sql:
             warehouseRead: >-
-              SELECT
-                wsat.asmt_type_id,
-                wsat.subject_id,
-                wsat.performance_level_count,
-                wsat.performance_level_standard_cutoff,
-                wsat.claim_score_performance_level_count,
-                wsat.target_report,
-                ? as migrate_id
+              SELECT wsat.subject_id, wsat.asmt_type_id, wsat.target_report, :migrate_id as migrate_id
               FROM subject_asmt_type wsat
                 JOIN subject ws ON ws.id = wsat.subject_id
-              WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/subject_asmt_type_update'
-              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-              LINES TERMINATED BY '\n'
+              WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/subject_asmt_type_update'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
 
             stagingInsert: >-
-              COPY staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report, migrate_id)
-                FROM '${archive.root}/${migrate.aws.location}/subject_asmt_type_update.part_00000'
+              COPY staging_subject_asmt_type (subject_id, asmt_type_id, target_report, migrate_id)
+                FROM '$[migrateLocationPlaceholder]/subject_asmt_type_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
               COMPUPDATE OFF
 
-        # ------------ subject claim score  ---------------------------------------------------------------------------------------
-        subject_claim_score:
+        # ------------ subject_asmt_scoring  ---------------------------------------------------------------------------------------
+        subject_asmt_scoring:
           sql:
             warehouseRead: >-
-              SELECT
-                wscs.id,
-                wscs.subject_id,
-                wscs.asmt_type_id,
-                wscs.code,
-                ? as migrate_id
-              FROM subject_claim_score wscs
-                JOIN subject ws ON ws.id = wscs.subject_id
-              WHERE ws.created > ? AND ws.created <= ?
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/subject_claim_score'
-              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-              LINES TERMINATED BY '\n'
+              SELECT wsas.subject_id, wsas.asmt_type_id, wsas.score_type_id, wsas.min_score, wsas.max_score, wsas.performance_level_count, wsas.performance_level_standard_cutoff, :migrate_id as migrate_id
+              FROM subject_asmt_scoring wsas
+                JOIN subject ws ON ws.id = wsas.subject_id
+              WHERE ws.created > :first_at AND ws.created <= :last_at
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/subject_asmt_scoring'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
 
             stagingInsert: >-
-              COPY staging_subject_claim_score (id, subject_id, asmt_type_id, code, migrate_id)
-                FROM '${archive.root}/${migrate.aws.location}/subject_claim_score.part_00000'
+              COPY staging_subject_asmt_scoring (subject_id, asmt_type_id, score_type_id, min_score, max_score, performance_level_count, performance_level_standard_cutoff, migrate_id)
+                FROM '$[migrateLocationPlaceholder]/subject_asmt_scoring.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
               COMPUPDATE OFF
 
-        subject_claim_score_update:
+        subject_asmt_scoring_update:
           sql:
             warehouseRead: >-
-              SELECT
-                wscs.id,
-                wscs.subject_id,
-                wscs.asmt_type_id,
-                wscs.code,
-                ? as migrate_id
-              FROM subject_claim_score wscs
-                JOIN subject ws ON ws.id = wscs.subject_id
-              WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/subject_claim_score_update'
+              SELECT wsas.subject_id, wsas.asmt_type_id, wsas.score_type_id, wsas.min_score, wsas.max_score, wsas.performance_level_count, wsas.performance_level_standard_cutoff, :migrate_id as migrate_id
+              FROM subject_asmt_scoring wsas
+                JOIN subject ws ON ws.id = wsas.subject_id
+              WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/subject_asmt_scoring_update'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+              COPY staging_subject_asmt_scoring (subject_id, asmt_type_id, score_type_id, min_score, max_score, performance_level_count, performance_level_standard_cutoff, migrate_id)
+                FROM '$[migrateLocationPlaceholder]/subject_asmt_scoring_update.part_00000'
+              CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+              FORMAT AS CSV
+              DELIMITER ','
+              COMPUPDATE OFF
+
+        # ------------ subject_score ---------------------------------------------------------------------------
+        subject_score:
+          sql:
+            warehouseRead: >-
+              SELECT wss.id, wss.subject_id, wss.asmt_type_id, wss.score_type_id, wss.code, :migrate_id as migrate_id
+              FROM subject_score wss
+                JOIN subject ws ON ws.id = wss.subject_id
+              WHERE ws.created > :first_at AND ws.created <= :last_at
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/subject_score'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
 
             stagingInsert: >-
-              COPY staging_subject_claim_score (id, subject_id, asmt_type_id, code, migrate_id)
-                FROM '${archive.root}/${migrate.aws.location}/subject_claim_score_update.part_00000'
+              COPY staging_subject_score (id, subject_id, asmt_type_id, score_type_id, code, migrate_id)
+                FROM '$[migrateLocationPlaceholder]/subject_score.part_00000'
+              CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
+              FORMAT AS CSV
+              DELIMITER ','
+              COMPUPDATE OFF
+
+        subject_score_update:
+          sql:
+            warehouseRead: >-
+              SELECT wss.id, wss.subject_id, wss.asmt_type_id, wss.score_type_id, wss.code, :migrate_id as migrate_id
+              FROM subject_score wss
+                JOIN subject ws ON ws.id = wss.subject_id
+              WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/subject_score_update'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+              LINES TERMINATED BY '\n'
+
+            stagingInsert: >-
+              COPY staging_subject_score (id, subject_id, asmt_type_id, score_type_id, code, migrate_id)
+                FROM '$[migrateLocationPlaceholder]/subject_score_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
@@ -435,10 +435,10 @@ sql:
                 deleted,
                 updated,
                 update_import_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM student ws
-                WHERE ws.created > ? AND ws.created <= ?
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/student'
+                WHERE ws.created > :first_at AND ws.created <= :last_at
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/student'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'
 
@@ -450,7 +450,7 @@ sql:
                 updated,
                 update_import_id,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/student.part_00000'
+              FROM '$[migrateLocationPlaceholder]/student.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               TIMEFORMAT 'auto'
@@ -466,10 +466,10 @@ sql:
                 deleted,
                 updated,
                 update_import_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM student ws
-              WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/student_update'
+              WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/student_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'
 
@@ -481,7 +481,7 @@ sql:
                 updated,
                 update_import_id,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/student_update.part_00000'
+              FROM '$[migrateLocationPlaceholder]/student_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               TIMEFORMAT 'auto'
@@ -495,11 +495,11 @@ sql:
               SELECT
                 ethnicity_id,
                 student_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM student_ethnicity
                 JOIN student ws ON ws.id = student_ethnicity.student_id
-              WHERE ws.created > ? AND ws.created <= ? AND ws.deleted = 0
-                INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/student_ethnicity'
+              WHERE ws.created > :first_at AND ws.created <= :last_at AND ws.deleted = 0
+                INTO OUTFILE S3 '$[migrateLocationPlaceholder]/student_ethnicity'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                               LINES TERMINATED BY '\n'
 
@@ -508,7 +508,7 @@ sql:
                 ethnicity_id,
                 student_id,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/student_ethnicity.part_00000'
+              FROM '$[migrateLocationPlaceholder]/student_ethnicity.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
@@ -520,11 +520,11 @@ sql:
               SELECT
                 ethnicity_id,
                 student_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM student_ethnicity
                 JOIN student ws ON ws.id = student_ethnicity.student_id
-              WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created AND ws.deleted = 0
-                INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/student_ethnicity_update'
+              WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created AND ws.deleted = 0
+                INTO OUTFILE S3 '$[migrateLocationPlaceholder]/student_ethnicity_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                               LINES TERMINATED BY '\n'
 
@@ -533,13 +533,14 @@ sql:
                 ethnicity_id,
                 student_id,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/student_ethnicity_update.part_00000'
+              FROM '$[migrateLocationPlaceholder]/student_ethnicity_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
               COMPUPDATE OFF
 
-  # ------------ asmt  -------------------------------------------------------------------
+        # ------------ asmt -------------------------------------------------------------------
+        # NOTE: "AND was.subject_score_id IS NULL" selects just the OVERALL score info
         asmt:
           sql:
             warehouseRead: >-
@@ -561,12 +562,11 @@ sql:
                 wa.deleted,
                 wa.updated,
                 wa.update_import_id,
-                ? as migrate_id
-              FROM asmt wa JOIN asmt_score was ON wa.id = was.asmt_id
-              WHERE wa.created > ? AND wa.created <= ?
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/asmt'
-              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-                             LINES TERMINATED BY '\n'
+                :migrate_id as migrate_id
+              FROM asmt wa JOIN asmt_score was ON wa.id = was.asmt_id AND was.subject_score_id IS NULL
+              WHERE wa.created > :first_at AND wa.created <= :last_at
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/asmt'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_asmt(
@@ -588,7 +588,7 @@ sql:
                 updated,
                 update_import_id,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/asmt.part_00000'
+              FROM '$[migrateLocationPlaceholder]/asmt.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               TIMEFORMAT 'auto'
@@ -616,10 +616,10 @@ sql:
                 wa.deleted,
                 wa.updated,
                 wa.update_import_id,
-                ? as migrate_id
-              FROM asmt wa JOIN asmt_score was ON wa.id = was.asmt_id
-              WHERE wa.updated > ? AND wa.updated <= ? AND wa.updated <> wa.created
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/asmt_update'
+                :migrate_id as migrate_id
+              FROM asmt wa JOIN asmt_score was ON wa.id = was.asmt_id AND was.subject_score_id IS NULL
+              WHERE wa.updated > :first_at AND wa.updated <= :last_at AND wa.updated <> wa.created
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/asmt_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'
 
@@ -643,31 +643,31 @@ sql:
                 updated,
                 update_import_id,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/asmt_update.part_00000'
+              FROM '$[migrateLocationPlaceholder]/asmt_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               TIMEFORMAT 'auto'
               DELIMITER ','
               COMPUPDATE OFF
 
-    # ------------ asmt_target_exclusion  -------------------------------------------------------------------
-    # Only Summative target scores are included
-    # For Smarter Balanced Math, only the Concepts and Procedures targets are included
+        # ------------ asmt_target_exclusion  -------------------------------------------------------------------
+        # Only Summative target scores are included
+        # For Smarter Balanced Math, only the Concepts and Procedures targets are included
         asmt_target_exclusion:
           sql:
             warehouseRead: >-
               SELECT
                 wats.asmt_id,
                 wats.target_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM asmt_target_exclusion wats
                 JOIN asmt wa ON wa.id = wats.asmt_id
                 JOIN target wt ON wt.id = wats.target_id
                 JOIN claim wc ON wc.id = wt.claim_id
                 JOIN subject ws ON ws.id = wc.subject_id
               WHERE wa.type_id = 3 AND ( ws.code <> 'Math' OR wc.code='1' ) AND
-                 wa.created > ? AND wa.created <= ? AND wa.deleted = 0
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exclusion_asmt_target'
+                 wa.created > :first_at AND wa.created <= :last_at AND wa.deleted = 0
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/exclusion_asmt_target'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'
 
@@ -676,7 +676,7 @@ sql:
                 asmt_id,
                 target_id,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/exclusion_asmt_target.part_00000'
+              FROM '$[migrateLocationPlaceholder]/exclusion_asmt_target.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               TIMEFORMAT 'auto'
@@ -689,15 +689,15 @@ sql:
               SELECT
                 wats.asmt_id,
                 wats.target_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM asmt_target_exclusion wats
                  JOIN asmt wa ON wa.id = wats.asmt_id
                   JOIN target wt ON wt.id = wats.target_id
                   JOIN claim wc ON wc.id = wt.claim_id
                   JOIN subject ws ON ws.id = wc.subject_id
                 WHERE wa.type_id = 3 AND ( ws.code <> 'Math' OR wc.code='1' ) AND
-                      wa.updated > ? AND wa.updated <= ? AND wa.updated <> wa.created AND wa.deleted = 0
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exclusion_asmt_target_update'
+                      wa.updated > :first_at AND wa.updated <= :last_at AND wa.updated <> wa.created AND wa.deleted = 0
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/exclusion_asmt_target_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'
 
@@ -706,7 +706,7 @@ sql:
                 asmt_id,
                 target_id,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/exclusion_asmt_target_update.part_00000'
+              FROM '$[migrateLocationPlaceholder]/exclusion_asmt_target_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               TIMEFORMAT 'auto'
@@ -725,14 +725,14 @@ sql:
               SELECT DISTINCT
                 wi.asmt_id,
                 wi.target_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM item wi JOIN asmt wa ON wa.id = wi.asmt_id
                   JOIN target wt ON wt.id = wi.target_id
                   JOIN claim wc ON wc.id = wt.claim_id
                   JOIN subject ws ON ws.id = wc.subject_id
                 WHERE wa.type_id = 3 AND ( ws.code <> 'Math' OR wc.code='1' ) AND
-                      wa.created > ? AND wa.created <= ? AND wa.deleted = 0
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/asmt_target'
+                      wa.created > :first_at AND wa.created <= :last_at AND wa.deleted = 0
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/asmt_target'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'
 
@@ -741,7 +741,7 @@ sql:
                 asmt_id,
                 target_id,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/asmt_target.part_00000'
+              FROM '$[migrateLocationPlaceholder]/asmt_target.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               TIMEFORMAT 'auto'
@@ -754,14 +754,14 @@ sql:
               SELECT DISTINCT
                 wi.asmt_id,
                 wi.target_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM item wi JOIN asmt wa ON wa.id = wi.asmt_id
                 JOIN target wt ON wt.id = wi.target_id
                 JOIN claim wc ON wc.id = wt.claim_id
                 JOIN subject ws ON ws.id = wc.subject_id
                 WHERE wa.type_id = 3 AND ( ws.code <> 'Math' OR wc.code='1' ) AND
-                  wa.updated > ? AND wa.updated <= ? AND wa.updated <> wa.created AND wa.deleted = 0
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/asmt_target_update'
+                  wa.updated > :first_at AND wa.updated <= :last_at AND wa.updated <> wa.created AND wa.deleted = 0
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/asmt_target_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'
 
@@ -770,14 +770,14 @@ sql:
                 asmt_id,
                 target_id,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/asmt_target_update.part_00000'
+              FROM '$[migrateLocationPlaceholder]/asmt_target_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               TIMEFORMAT 'auto'
               DELIMITER ','
               COMPUPDATE OFF
 
-  # ------------ school  -------------------------------------------------------------------
+        # ------------ school  -------------------------------------------------------------------
         school:
           sql:
             warehouseRead: >-
@@ -792,10 +792,10 @@ sql:
                 deleted,
                 updated,
                 update_import_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM school ws
-              WHERE ws.created > ? AND ws.created <= ?
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/school'
+              WHERE ws.created > :first_at AND ws.created <= :last_at
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/school'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'
 
@@ -812,7 +812,7 @@ sql:
                 updated,
                 update_import_id,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/school.part_00000'
+              FROM '$[migrateLocationPlaceholder]/school.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               TIMEFORMAT 'auto'
@@ -833,10 +833,10 @@ sql:
                 deleted,
                 updated,
                 update_import_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM school ws
-              WHERE ws.updated > ? AND ws.updated <= ? AND ws.updated <> ws.created
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/school_update'
+              WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/school_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'
 
@@ -853,14 +853,14 @@ sql:
                 updated,
                 update_import_id,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/school_update.part_00000'
+              FROM '$[migrateLocationPlaceholder]/school_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               TIMEFORMAT 'auto'
               DELIMITER ','
               COMPUPDATE OFF
 
-  # ------------ district  -------------------------------------------------------------------
+        # ------------ district  -------------------------------------------------------------------
         district:
           sql:
             warehouseRead: >-
@@ -869,10 +869,10 @@ sql:
                 name,
                 natural_id,
                 external_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM district wd
-              WHERE EXISTS( SELECT id FROM school  WHERE created > ? AND created <= ? AND deleted = 0 AND district_id = wd.id)
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/district'
+              WHERE EXISTS( SELECT id FROM school  WHERE created > :first_at AND created <= :last_at AND deleted = 0 AND district_id = wd.id)
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/district'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'
 
@@ -883,7 +883,7 @@ sql:
                 natural_id,
                 external_id,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/district.part_00000'
+              FROM '$[migrateLocationPlaceholder]/district.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
@@ -897,10 +897,10 @@ sql:
                 name,
                 natural_id,
                 external_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM district wd
-              WHERE EXISTS( SELECT id FROM school WHERE updated > ? AND updated <= ? AND updated <> created AND deleted = 0 AND district_id = wd.id)
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/district_update'
+              WHERE EXISTS( SELECT id FROM school WHERE updated > :first_at AND updated <= :last_at AND updated <> created AND deleted = 0 AND district_id = wd.id)
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/district_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                              LINES TERMINATED BY '\n'
 
@@ -911,13 +911,13 @@ sql:
                 natural_id,
                 external_id,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/district_update.part_00000'
+              FROM '$[migrateLocationPlaceholder]/district_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
               COMPUPDATE OFF
 
- # ------------ district_group  -------------------------------------------------------------------
+        # ------------ district_group  -------------------------------------------------------------------
         district_group:
           sql:
             warehouseRead: >-
@@ -926,10 +926,10 @@ sql:
                 name,
                 natural_id,
                 external_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM district_group wdg
-                WHERE EXISTS( SELECT id FROM school  WHERE created > ? AND created <= ? AND deleted = 0 AND district_group_id = wdg.id)
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/dstrgroup'
+                WHERE EXISTS( SELECT id FROM school  WHERE created > :first_at AND created <= :last_at AND deleted = 0 AND district_group_id = wdg.id)
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/dstrgroup'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                               LINES TERMINATED BY '\n'
 
@@ -940,7 +940,7 @@ sql:
                 natural_id,
                 external_id,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/dstrgroup.part_00000'
+              FROM '$[migrateLocationPlaceholder]/dstrgroup.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
@@ -954,10 +954,10 @@ sql:
                 name,
                 natural_id,
                 external_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM district_group wdg
-               WHERE EXISTS( SELECT id FROM school WHERE updated > ? AND updated <= ? AND updated <> created AND deleted = 0 AND district_group_id = wdg.id)
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/dstrgroup_update'
+               WHERE EXISTS( SELECT id FROM school WHERE updated > :first_at AND updated <= :last_at AND updated <> created AND deleted = 0 AND district_group_id = wdg.id)
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/dstrgroup_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                               LINES TERMINATED BY '\n'
 
@@ -968,13 +968,13 @@ sql:
                 natural_id,
                 external_id,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/dstrgroup_update.part_00000'
+              FROM '$[migrateLocationPlaceholder]/dstrgroup_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
               COMPUPDATE OFF
 
- # ------------ school_group  -------------------------------------------------------------------
+        # ------------ school_group  -------------------------------------------------------------------
         school_group:
           sql:
             warehouseRead: >-
@@ -983,10 +983,10 @@ sql:
                 name,
                 natural_id,
                 external_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM school_group wsg
-               WHERE EXISTS( SELECT id FROM school  WHERE created > ? AND created <= ? AND deleted = 0 AND school_group_id = wsg.id)
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/schgroup'
+               WHERE EXISTS( SELECT id FROM school  WHERE created > :first_at AND created <= :last_at AND deleted = 0 AND school_group_id = wsg.id)
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/schgroup'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                               LINES TERMINATED BY '\n'
 
@@ -997,7 +997,7 @@ sql:
                 natural_id,
                 external_id,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/schgroup.part_00000'
+              FROM '$[migrateLocationPlaceholder]/schgroup.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
@@ -1011,10 +1011,10 @@ sql:
                 name,
                 natural_id,
                 external_id,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM school_group wdg
-               WHERE EXISTS( SELECT id FROM school WHERE updated > ? AND updated <= ? AND updated <> created AND deleted = 0 AND school_group_id = wdg.id)
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/schgroup_update'
+               WHERE EXISTS( SELECT id FROM school WHERE updated > :first_at AND updated <= :last_at AND updated <> created AND deleted = 0 AND school_group_id = wdg.id)
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/schgroup_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                               LINES TERMINATED BY '\n'
 
@@ -1025,13 +1025,13 @@ sql:
                 natural_id,
                 external_id,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/schgroup_update.part_00000'
+              FROM '$[migrateLocationPlaceholder]/schgroup_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
               COMPUPDATE OFF
 
- # ------------ exam  -------------------------------------------------------------------
+        # ------------ exam  -------------------------------------------------------------------
         exam:
           sql:
             warehouseRead: >-
@@ -1059,10 +1059,10 @@ sql:
                 deleted,
                 updated,
                 update_import_id,
-               ? as migrate_id
+               :migrate_id as migrate_id
               FROM exam we
-                WHERE we.created > ? AND we.created <= ? AND we.scale_score IS NOT NULL AND we.scale_score_std_err IS NOT NULL AND we.performance_level IS NOT NULL
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam'
+                WHERE we.created > :first_at AND we.created <= :last_at AND we.scale_score IS NOT NULL AND we.performance_level IS NOT NULL
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/exam'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
 
@@ -1092,7 +1092,7 @@ sql:
                 updated,
                 update_import_id,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/exam.part_00000'
+              FROM '$[migrateLocationPlaceholder]/exam.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               TIMEFORMAT 'auto'
@@ -1126,10 +1126,10 @@ sql:
                 deleted,
                 updated,
                 update_import_id,
-               ? as migrate_id
+               :migrate_id as migrate_id
               FROM exam we
-              WHERE we.updated > ? AND we.updated <= ? AND we.updated <> we.created AND we.scale_score IS NOT NULL AND we.scale_score_std_err IS NOT NULL AND we.performance_level IS NOT NULL
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_update'
+              WHERE we.updated > :first_at AND we.updated <= :last_at AND we.updated <> we.created AND we.scale_score IS NOT NULL AND we.performance_level IS NOT NULL
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/exam_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
 
@@ -1159,101 +1159,99 @@ sql:
                 updated,
                 update_import_id,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/exam_update.part_00000'
+              FROM '$[migrateLocationPlaceholder]/exam_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               TIMEFORMAT 'auto'
               DELIMITER ','
               COMPUPDATE OFF
 
- # ------------ exam_claim_score  -------------------------------------------------------------------
-        exam_claim_score:
+        # ------------ exam_score  -------------------------------------------------------------------
+        exam_score:
           sql:
             warehouseRead: >-
               SELECT
                 ecs.id,
                 ecs.exam_id,
-                ecs.subject_claim_score_id,
-                ecs.category,
-                ? as migrate_id
-              FROM exam_claim_score ecs
+                ecs.subject_score_id,
+                ecs.performance_level,
+                :migrate_id as migrate_id
+              FROM exam_score ecs
                 JOIN exam we ON we.id = ecs.exam_id
-               WHERE we.created > ? AND we.deleted = 0 AND we.created <= ?
-                AND we.scale_score IS NOT NULL AND we.scale_score_std_err IS NOT NULL AND we.performance_level IS NOT NULL
-                AND ecs.category IS NOT NULL
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_claim_score'
-              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-              LINES TERMINATED BY '\n'
+               WHERE we.created > :first_at AND we.deleted = 0 AND we.created <= :last_at
+                AND we.scale_score IS NOT NULL AND we.performance_level IS NOT NULL AND ecs.performance_level IS NOT NULL
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/exam_score'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
 
             stagingInsert: >-
-              COPY staging_exam_claim_score(
+              COPY staging_exam_score(
                 id,
                 exam_id,
-                subject_claim_score_id,
-                category,
+                subject_score_id,
+                performance_level,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/exam_claim_score.part_00000'
+              FROM '$[migrateLocationPlaceholder]/exam_score.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
               COMPUPDATE OFF
 
-        exam_claim_score_update:
+        exam_score_update:
           sql:
             warehouseRead: >-
               SELECT
                 ecs.id,
                 ecs.exam_id,
-                ecs.subject_claim_score_id,
-                ecs.category,
-                ? as migrate_id
-              FROM exam_claim_score ecs
+                ecs.subject_score_id,
+                ecs.performance_level,
+                :migrate_id as migrate_id
+              FROM exam_score ecs
                 JOIN exam we ON we.id = ecs.exam_id
-              WHERE we.updated > ? AND we.deleted = 0 AND we.updated <= ? AND we.updated <> we.created
-                AND we.scale_score IS NOT NULL AND we.scale_score_std_err IS NOT NULL AND we.performance_level IS NOT NULL
-                AND ecs.category IS NOT NULL
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_claim_score_update'
-              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-              LINES TERMINATED BY '\n'
+              WHERE we.updated > :first_at AND we.deleted = 0 AND we.updated <= :last_at AND we.updated <> we.created
+                AND we.scale_score IS NOT NULL AND we.performance_level IS NOT NULL AND ecs.performance_level IS NOT NULL
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/exam_score_update'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
 
             stagingInsert: >-
-              COPY staging_exam_claim_score(
+              COPY staging_exam_score(
                 id,
                 exam_id,
-                subject_claim_score_id,
-                category,
+                subject_score_id,
+                performance_level,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/exam_claim_score_update.part_00000'
+              FROM '$[migrateLocationPlaceholder]/exam_score_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
               COMPUPDATE OFF
 
- # ------------ exam_target_score  -------------------------------------------------------------------
-       # Only Summative target scores are included
-       # For Smarter Balanced Math, only the Concepts and Procedures targets are included
+        # ------------ exam_target_score  -------------------------------------------------------------------
+        # Only Summative target scores are included
+        # For Smarter Balanced Math, only the Concepts and Procedures targets are included
+        # The exam_target_score table can be very large; the sub-select forces the optimizer to do the right thing
         exam_target_score:
           sql:
             warehouseRead: >-
               SELECT
-                wets.id,
-                wets.exam_id,
-                wets.target_id,
-                wets.student_relative_residual_score,
-                wets.standard_met_relative_residual_score,
-                ? as migrate_id
-              FROM exam_target_score wets
-                JOIN exam we ON wets.exam_id = we.id
-                JOIN target wt ON wt.id = wets.target_id
+                sub.id,
+                sub.exam_id,
+                sub.target_id,
+                sub.student_relative_residual_score,
+                sub.standard_met_relative_residual_score,
+                :migrate_id AS migrate_id
+              FROM (SELECT wets.id, wets.exam_id, wets.target_id, wets.student_relative_residual_score, wets.standard_met_relative_residual_score
+                    FROM exam_target_score wets JOIN exam we ON wets.exam_id = we.id
+                    WHERE we.type_id = 3
+                      AND we.created > :first_at AND we.deleted = 0 AND we.created <= :last_at
+                      AND we.scale_score IS NOT NULL AND we.performance_level IS NOT NULL
+                      AND wets.standard_met_relative_residual_score IS NOT NULL AND wets.student_relative_residual_score IS NOT NULL) sub
+                JOIN target wt ON wt.id = sub.target_id
                 JOIN claim wc ON wc.id = wt.claim_id
                 JOIN subject ws ON ws.id = wc.subject_id
-              WHERE we.type_id = 3 AND ( ws.code <> 'Math' OR wc.code='1' ) AND
-                  we.created > ? AND we.deleted = 0 AND we.created <= ? AND
-                  we.scale_score IS NOT NULL AND we.scale_score_std_err IS NOT NULL AND we.performance_level IS NOT NULL AND
-                  wets.standard_met_relative_residual_score IS NOT NULL AND wets.student_relative_residual_score IS NOT NULL
-                INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_target_score'
-                FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-                LINES TERMINATED BY '\n'
+              WHERE (ws.code <> 'Math' OR wc.code='1')
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/exam_target_score'
+              FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+              LINES TERMINATED BY '\n'
 
             stagingInsert: >-
               COPY staging_exam_target_score(
@@ -1263,7 +1261,7 @@ sql:
                 student_relative_residual_score,
                 standard_met_relative_residual_score,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/exam_target_score.part_00000'
+              FROM '$[migrateLocationPlaceholder]/exam_target_score.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
@@ -1273,22 +1271,23 @@ sql:
           sql:
             warehouseRead: >-
               SELECT
-                wets.id,
-                wets.exam_id,
-                wets.target_id,
-                wets.student_relative_residual_score,
-                wets.standard_met_relative_residual_score,
-                ? as migrate_id
-              FROM exam_target_score wets
-                JOIN exam we ON wets.exam_id = we.id
-                JOIN target wt ON wt.id = wets.target_id
+                sub.id,
+                sub.exam_id,
+                sub.target_id,
+                sub.student_relative_residual_score,
+                sub.standard_met_relative_residual_score,
+                :migrate_id AS migrate_id
+              FROM (SELECT wets.id, wets.exam_id, wets.target_id, wets.student_relative_residual_score, wets.standard_met_relative_residual_score
+                    FROM exam_target_score wets JOIN exam we ON wets.exam_id = we.id
+                    WHERE we.type_id = 3
+                      AND we.updated > :first_at AND we.deleted = 0 AND we.updated <= :last_at AND we.updated <> we.created
+                      AND we.scale_score IS NOT NULL AND we.performance_level IS NOT NULL
+                      AND wets.standard_met_relative_residual_score IS NOT NULL AND wets.student_relative_residual_score IS NOT NULL) sub
+                JOIN target wt ON wt.id = sub.target_id
                 JOIN claim wc ON wc.id = wt.claim_id
                 JOIN subject ws ON ws.id = wc.subject_id
-              WHERE we.type_id = 3 AND ( ws.code <> 'Math' OR wc.code='1' ) AND
-                we.updated > ? AND we.deleted = 0 AND we.updated <= ? AND we.updated <> we.created AND
-                we.scale_score IS NOT NULL AND we.scale_score_std_err IS NOT NULL AND we.performance_level IS NOT NULL AND
-                wets.standard_met_relative_residual_score IS NOT NULL AND wets.student_relative_residual_score IS NOT NULL
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/exam_target_score_update'
+              WHERE (ws.code <> 'Math' OR wc.code='1')
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/exam_target_score_update'
               FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
               LINES TERMINATED BY '\n'
 
@@ -1300,7 +1299,7 @@ sql:
                 student_relative_residual_score,
                 standard_met_relative_residual_score,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/exam_target_score_update.part_00000'
+              FROM '$[migrateLocationPlaceholder]/exam_target_score_update.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
@@ -1313,9 +1312,9 @@ sql:
               SELECT
                 e.district_id,
                 e.aggregate,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM (${sql.embargo}) e
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/embargo'
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/embargo'
                 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                 LINES TERMINATED BY '\n'
 
@@ -1324,7 +1323,7 @@ sql:
                 district_id,
                 aggregate,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/embargo.part_00000'
+              FROM '$[migrateLocationPlaceholder]/embargo.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','
@@ -1336,10 +1335,10 @@ sql:
             warehouseRead:
               SELECT
                 IF(aggregate = 0, 0, 1) AS aggregate,
-                ? as migrate_id
+                :migrate_id as migrate_id
               FROM state_embargo
-              WHERE school_year = ${reporting.school-year}
-              INTO OUTFILE S3 '${archive.root}/${migrate.aws.location}/state_embargo'
+              WHERE school_year = :system_school_year
+              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/state_embargo'
                 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
                 LINES TERMINATED BY '\n'
 
@@ -1347,7 +1346,7 @@ sql:
               COPY staging_state_embargo (
                 aggregate,
                 migrate_id)
-              FROM '${archive.root}/${migrate.aws.location}/state_embargo.part_00000'
+              FROM '$[migrateLocationPlaceholder]/state_embargo.part_00000'
               CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
               FORMAT AS CSV
               DELIMITER ','

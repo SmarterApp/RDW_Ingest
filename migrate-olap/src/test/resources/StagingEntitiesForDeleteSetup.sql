@@ -15,5 +15,5 @@ DELETE from staging_student_ethnicity where student_id = -89;
 
 -- ------------------------------------------  Exams ---------------------------------------------------------------------------------------------
 UPDATE staging_exam SET deleted = 1 WHERE id in (-88, -68, -268);
-DELETE from staging_exam_claim_score WHERE exam_id = -88;
+DELETE from staging_exam_score WHERE exam_id = -88;
 DELETE from staging_exam_target_score WHERE exam_id = -88;

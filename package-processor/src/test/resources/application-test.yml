@@ -1,3 +1,10 @@
-spring:
-  datasource:
+datasources:
+  warehouse_rw:
     url-schema: warehouse_test
+
+tenantProperties:
+  tenants:
+    CA:
+      id: CA
+      key: CA
+      name: California

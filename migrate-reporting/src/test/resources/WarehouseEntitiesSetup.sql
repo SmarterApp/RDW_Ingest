@@ -4,11 +4,11 @@ INSERT INTO subject(id, code, import_id, update_import_id, created, updated) VAL
 -- Ideally it should not be there, but it is.
 --  (1,   'Math',  -99, -99, '2017-07-18 19:06:30.966000', '2017-07-18 19:06:30.966000'),
 --  (2,   'ELA',   -99, -99, '2017-07-18 19:06:30.966000', '2017-07-18 19:06:30.966000');
-
 -- add new subjects to better control test use cases
     (-1, 'New',    -99, -99, '2017-07-18 19:06:30.966000', '2017-07-18 19:06:30.966000'),
     (-2, 'Old',    -99, -99, '2014-07-18 19:06:30.966000', '2017-04-18 19:06:30.966000'),
-    (-3, 'Update', -99, -99, '2017-07-18 19:06:30.966000', '2017-07-18 19:06:30.966000');
+    (-3, 'Update', -99, -99, '2017-07-18 19:06:30.966000', '2017-07-18 19:06:30.966000'),
+    (-5, 'Alt', -99, -99, '2017-07-18 19:06:30.966000', '2017-07-18 19:06:30.966000');
 
 -- To trigger the default subjects data migration we need to update the timestamps
 UPDATE subject
@@ -16,24 +16,38 @@ UPDATE subject
 WHERE id IN (1,2);
 
 -- add subjects' related data for the new subjects
-INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report) VALUES
-  (1, -1, 10, 3, 6, 0),
-  (1, -2, 5, 2, 6, 0),
-   -- new entry
-  (1, -3, 8, 2, 7, 0),
-   -- updated entry
-  (2, -3, 8, 2, 7, 0);
+INSERT INTO subject_asmt_type (subject_id, asmt_type_id, target_report, printed_report) VALUES
+  (-1, 1, 0, 0),
+  (-2, 1, 0, 0),
+  (-3, 1, 0, 0),  -- new entry
+  (-3, 2, 0, 0),  -- updated entry
+  (-5, 3, 0, 0);
 
-INSERT INTO subject_claim_score (id, subject_id, asmt_type_id, code, display_order, data_order) VALUES
-  (-1,  -1, 1, 'Score1',   0, 1),
-  (-2,  -1, 1, 'Score2',   0, 2),
-  (-3,  -1, 1, 'Score3',  -3, 3),
-  (-4,  -2, 3, 'Score4',  -4, 4),
-  (-5,  -2, 3, 'Score5',   0, 5),
-  (-6,  -2, 3, 'Score6',  -5, 6),
-  (-14,  -3, 3, 'Score7', -6, 4),
-  (-15,  -3, 3, 'Update', -7, 5),
-  (-16,  -3, 3, 'New',    -8, 6);
+INSERT INTO subject_asmt_scoring (subject_id, asmt_type_id, score_type_id, min_score, max_score, performance_level_count, performance_level_standard_cutoff) VALUES
+  (-1, 1, 1, 1000, 3500, 10, 3),
+  (-1, 1, 2, null, null, 4, null),  -- add alt score level count
+  (-1, 1, 3, null, null, 6, null),
+  (-2, 1, 1, 1000, 3500, 5, 2),
+  (-2, 1, 3, null, null, 6, null),
+  (-3, 1, 1, 1000, 3500, 8, 2),
+  (-3, 1, 3, null, null, 7, null),
+  (-3, 2, 1, 1000, 3500, 8, 2),
+  (-3, 2, 3, null, null, 7, null),
+  (-5, 3, 1, 1000, 2000, 3, 2),
+  (-5, 3, 2, 0, 100, 2, null);
+
+INSERT INTO subject_score (id, subject_id, asmt_type_id, score_type_id, code, display_order, data_order) VALUES
+  (-1,  -1, 1, 3, 'Score1',   0, 1),
+  (-17, -1, 1, 2, 'Alt1',  1, 1),
+  (-2,  -1, 1, 3, 'Score2',   0, 2),
+  (-3,  -1, 1, 3, 'Score3',  -3, 3),
+  (-4,  -2, 3, 3, 'Score4',  -4, 4),
+  (-5,  -2, 3, 3, 'Score5',   0, 5),
+  (-6,  -2, 3, 3, 'Score6',  -5, 6),
+  (-14, -3, 3, 3, 'Score7', -6, 4),
+  (-15, -3, 3, 3, 'Update', -7, 5),
+  (-16, -3, 3, 3, 'New',    -8, 6),
+  (-18, -5, 3, 2, 'PassFail', 1, 1);
 
 INSERT INTO subject_translation(subject_id, label_code, label) VALUES
   (-1, 'integration test subject 1',       '1 test label'),
@@ -149,7 +163,22 @@ INSERT INTO asmt (id, natural_id, grade_id, type_id, subject_id, school_year, na
 
   (-59,  '(SBAC)SBAC-SUMMATIVE-TEST-59', -99, 3, 1, 1999, 'SUMMATIVE TEST-59', 'SUMMATIVE TEST-59 Math', '1', 1, -5000, -20, '2017-05-18 19:05:33.969660', '2017-07-18 19:05:34.966000'),
   (-311, '(SBAC)SBAC-SUMMATIVE-TEST-58', -98, 3, 2, 1999, 'SUMMATIVE TEST-58', 'SUMMATIVE TEST-58 Ela',  '1', 0, -20,   -20, '2017-07-18 19:05:34.966000', '2017-07-18 19:05:34.966000'),
-  (-111, '(SBAC)SBAC-SUMMATIVE-TEST-48', -98, 3, 1, 1999, 'SUMMATIVE TEST-48', 'SUMMATIVE TEST-48 Math', '1', 0, -20,   -20, '2017-07-18 19:05:34.966000', '2017-07-18 19:05:34.966000');
+  (-111, '(SBAC)SBAC-SUMMATIVE-TEST-48', -98, 3, 1, 1999, 'SUMMATIVE TEST-48', 'SUMMATIVE TEST-48 Math', '1', 0, -20,   -20, '2017-07-18 19:05:34.966000', '2017-07-18 19:05:34.966000'),
+  (-113, 'UBER-EXIT-TEST', -98, 3, -5, 1999, 'UBER-EXIT-TEST', 'Exit Exam', '1', 0, -20, -20, '2017-07-18 19:05:34.966000', '2017-07-18 19:05:34.966000');
+
+INSERT INTO asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, cut_point_4, cut_point_5, min_score, max_score) VALUES
+  (-99,  2442, 2502, 2582, null, null, 2201, 2701),
+  (-98,  2442, 2502, 2582, 2590, 2595, 2201, 2701),
+  (-59,  2442, 2502, 2582, null, null, 2201, 2701),
+  (-111, 2442, 2502, 2582, null, null, 2201, 2701),
+  (-113, 1000, 1500, 2000, null, null, 1000, 2500),
+  (-311, 2442, 2502, 2582, null, null, 2201, 2701);
+INSERT INTO asmt_score (asmt_id, subject_score_id, min_score, max_score) VALUES
+(-99,   -1, 1000, 3000),  -- CLAIM score details, doesn't happen in real life
+(-99,   -2, 1000, 3000),  -- CLAIM score details, doesn't happen in real life
+(-98,   -1, 1000, 3000),  -- CLAIM score details, doesn't happen in real life
+(-113, -18, 0, 100);  -- ALT score for PassFail
+
 
 INSERT INTO item (id, claim_id, target_id, natural_id, asmt_id, dok_id, difficulty, difficulty_code, max_points, math_practice, allow_calc, position,
                 field_test, active, type, options_count, answer_key, performance_task_writing_type ) VALUES
@@ -204,13 +233,6 @@ INSERT INTO asmt_target_exclusion(asmt_id, target_id) VALUES
   (-990, -98),
   (-990, -99),
   (-980, -98);
-
-INSERT INTO asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, cut_point_4, cut_point_5, min_score, max_score) VALUES
-  (-99,  2442, 2502, 2582, null, null, 2201, 2701),
-  (-98,  2442, 2502, 2582, 2590, 2595, 2201, 2701),
-  (-59,  2442, 2502, 2582, null, null, 2201, 2701),
-  (-111, 2442, 2502, 2582, null, null, 2201, 2701),
-  (-311, 2442, 2502, 2582, null, null, 2201, 2701);
 
 INSERT INTO item_other_target(item_id, target_id) values
   (-990, -98),
@@ -294,7 +316,7 @@ INSERT INTO exam_item (id, exam_id, item_id, score, score_status, response, posi
   (-7, -86,  -6,  -1, 'SCORED', null, 16),
   (-8, -311,-180, -1, 'SCORED', null, 16);
 
-INSERT INTO exam_claim_score (id, exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
+INSERT INTO exam_score (id, exam_id, subject_score_id, scale_score, scale_score_std_err, performance_level) VALUES
    (-11, -88, 1, 2014, 0.19, 1),
    (-12, -88, 2, 2014, 0.19, 1),
    (-13, -88, 3, 2014, null, 1),

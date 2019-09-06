@@ -7,6 +7,7 @@ include 'migrate-olap'
 include 'migrate-reporting'
 include 'package-processor'
 include 'task-service'
+include 'validator'
 
 // It is considered good practice to explicitly set the root project name
 rootProject.name = "rdw-ingest"

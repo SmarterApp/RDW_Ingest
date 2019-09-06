@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Subject code="GEO" name="Geology">
+  <Messages>
+    <Message key="sum.performance-info"><![CDATA[Geology summative.]]></Message>
+  </Messages>
+  <AssessmentTypes>
+    <AssessmentType code="sum" name="Summative">
+      <OverallScoring>
+        <PerformanceLevels>
+          <PerformanceLevel level="1" name="Pass" color="green"/>
+        </PerformanceLevels>
+      </OverallScoring>
+      <AltScoring name="Section">
+        <PerformanceLevels>
+          <PerformanceLevel level="1" name="Pass" color="green"/>
+        </PerformanceLevels>
+      </AltScoring>
+      <ClaimScoring name="Claim">
+        <PerformanceLevels>
+          <PerformanceLevel level="1" name="Pass" color="green"/>
+        </PerformanceLevels>
+      </ClaimScoring>
+    </AssessmentType>
+  </AssessmentTypes>
+  <AltScores>
+    <AltScore code="R" name="Rocks Section" displayOrder="1"/>
+  </AltScores>
+  <Claims>
+    <Claim code="R" name="Rocks Claim" displayOrder="1" organizational="false">
+      <Icon>comment</Icon>
+      <Targets>
+        <Target code="M1" name="Metamorphic"/>
+        <Target code="S1" name="Sedimentary"/>
+        <Target code="M1" name="Igneous"/>
+      </Targets>
+    </Claim>
+  </Claims>
+</Subject>

@@ -1,0 +1,136 @@
+<TDSReport>
+  <Test academicYear="2019" assessmentType="Summative" assessmentVersion="1" contract="SBAC" bankKey="10200" grade="03" mode="online" name="(SBAC)SBAC-SUM-ELA-3-2019-2020" subject="ELA" testId="SBAC-SUM-ELA-3-2019-2020"/>
+  <Examinee key="1000000000">
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="StudentIdentifier" value="4000000001"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="AlternateSSID" value="5b392e5b9afcbdd11cd656e684709eea"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="Birthdate" value="2010-05-09"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="FirstName" value="Daniel"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="LastOrSurname" value="Coriell"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="Sex" value="Male"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="GradeLevelWhenAssessed" value="03"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="HispanicOrLatinoEthnicity" value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="AmericanIndianOrAlaskaNative" value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="Asian" value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="Filipino" value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="BlackOrAfricanAmerican" value="Yes"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="White" value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="NativeHawaiianOrOtherPacificIslander" value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="DemographicRaceTwoOrMoreRaces" value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="IDEAIndicator" value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="LEPStatus" value="Yes"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="LimitedEnglishProficiencyEntryDate" value="2016-08-15"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="Section504Status" value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="EconomicDisadvantageStatus" value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="LanguageCode" value="ben"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="EnglishLanguageProficiencyLevel" value="adequate"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="EnglishLanguageAcquisitionStatus" value="EL"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="EnglishLanguageAcquisitionStatusStartDate" value="2016-08-15"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="MigrantStatus" value="No"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="MilitaryConnectedStudentIndicator" value="NotMilitaryConnected"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="Advancement" value="Normal"/>
+    <ExamineeAttribute context="FINAL" contextDate="2019-05-10T09:30:34" name="Capability" value="3.085734088416547"/>
+    <ExamineeRelationship context="FINAL" contextDate="2019-05-10T09:30:34" name="StateAbbreviation" value="TS"/>
+    <ExamineeRelationship context="FINAL" contextDate="2019-05-10T09:30:34" name="StateName" value="Test State"/>
+    <ExamineeRelationship context="FINAL" contextDate="2019-05-10T09:30:34" name="DistrictId" value="99900010000000"/>
+    <ExamineeRelationship context="FINAL" contextDate="2019-05-10T09:30:34" name="DistrictName" value="Demo District"/>
+    <ExamineeRelationship context="FINAL" contextDate="2019-05-10T09:30:34" name="SchoolId" value="900010000001"/>
+    <ExamineeRelationship context="FINAL" contextDate="2019-05-10T09:30:34" name="SchoolName" value="Demo Elementary"/>
+  </Examinee>
+  <Opportunity abnormalStarts="0" administrationCondition="Valid" assessmentParticipantSessionPlatformUserAgent="" clientName="SBAC" completeStatus="Complete" completeness="Complete" database="session" dateCompleted="2019-05-10T09:30:34" effectiveDate="2018-08-15" ftCount="0" gracePeriodRestarts="0" itemCount="34" key="1000000000" oppId="1000000000" opportunity="5" pauseCount="0" server="ip-10-113-148-45" sessionId="JOH-2107" startDate="2019-05-10T09:08:34" status="scored" statusDate="2019-05-10T09:30:34" windowId="WINDOW_ID">
+    <Segment algorithm="Fixed" algorithmVersion="0" id="69159edd-47a9-48db-9c5c-e6f7804d5c30" position="1"/>
+    <Score measureLabel="ScaleScore" measureOf="Overall" standardError="92" value="2523"/>
+    <Score measureLabel="PerformanceLevel" measureOf="Overall" standardError="" value="4"/>
+    <Score measureLabel="ScaleScore" measureOf="SOCK_R" standardError="61" value="2567"/>
+    <Score measureLabel="PerformanceLevel" measureOf="SOCK_R" standardError="" value="3"/>
+    <Score measureLabel="ScaleScore" measureOf="2-W" standardError="51" value="2622"/>
+    <Score measureLabel="PerformanceLevel" measureOf="2-W" standardError="" value="3"/>
+    <Score measureLabel="ScaleScore" measureOf="SOCK_LS" standardError="113" value="2270"/>
+    <Score measureLabel="PerformanceLevel" measureOf="SOCK_LS" standardError="" value="2"/>
+    <Score measureLabel="ScaleScore" measureOf="4-CR" standardError="71" value="2622"/>
+    <Score measureLabel="PerformanceLevel" measureOf="4-CR" standardError="" value="3"/>
+    <Score measureLabel="StudentRelativeResidualScore" measureOf="2-W|4-3" standardError="" value="-0.049697103505108545"/>
+    <Score measureLabel="StandardMetRelativeResidualScore" measureOf="2-W|4-3" standardError="" value="-0.21152337566274404"/>
+    <Score measureLabel="StudentRelativeResidualScore" measureOf="4-CR|4-3" standardError="" value="-0.05997181965185348"/>
+    <Score measureLabel="StandardMetRelativeResidualScore" measureOf="4-CR|4-3" standardError="" value="0.5335906505322028"/>
+    <Score measureLabel="StudentRelativeResidualScore" measureOf="4-CR|3-3" standardError="" value="0.025559233648106555"/>
+    <Score measureLabel="StandardMetRelativeResidualScore" measureOf="4-CR|3-3" standardError="" value="0.33142146694097496"/>
+    <Score measureLabel="StudentRelativeResidualScore" measureOf="1-LT|1-3" standardError="" value="0.07233676654328827"/>
+    <Score measureLabel="StandardMetRelativeResidualScore" measureOf="1-LT|1-3" standardError="" value="0.2041202514680982"/>
+    <Score measureLabel="StudentRelativeResidualScore" measureOf="1-LT|3-3" standardError="" value="0.0034309040920164763"/>
+    <Score measureLabel="StandardMetRelativeResidualScore" measureOf="1-LT|3-3" standardError="" value="0.84737871154064"/>
+    <Score measureLabel="BenchmarkScore" measureOf="1-LT|4-3" standardError="" value="-0.012075445007325908"/>
+    <Score measureLabel="StandardMetRelativeResidualScore" measureOf="1-LT|4-3" standardError="" value="-0.1402502341040135"/>
+    <Score measureLabel="StudentRelativeResidualScore" measureOf="1-LT|5-3" standardError="" value="0.04414317974684012"/>
+    <Score measureLabel="StandardMetRelativeResidualScore" measureOf="1-LT|5-3" standardError="" value="0.33032525743604557"/>
+    <Score measureLabel="StudentRelativeResidualScore" measureOf="1-LT|6-3" standardError="" value="-0.06030882277782412"/>
+    <Score measureLabel="StandardMetRelativeResidualScore" measureOf="1-LT|6-3" standardError="" value="0.006010322487657316"/>
+    <Score measureLabel="StudentRelativeResidualScore" measureOf="1-LT|7-3" standardError="" value="-0.09029525190168426"/>
+    <Score measureLabel="StandardMetRelativeResidualScore" measureOf="1-LT|7-3" standardError="" value="0.6459937885596663"/>
+    <Score measureLabel="StudentRelativeResidualScore" measureOf="1-IT|8-3" standardError="" value="-0.034361680532475306"/>
+    <Score measureLabel="StandardMetRelativeResidualScore" measureOf="1-IT|8-3" standardError="" value="0.7627080217939427"/>
+    <Score measureLabel="StudentRelativeResidualScore" measureOf="1-IT|11-3" standardError="" value="-0.005727488705041167"/>
+    <Score measureLabel="StandardMetRelativeResidualScore" measureOf="1-IT|11-3" standardError="" value="0.4607962109725787"/>
+    <Score measureLabel="StudentRelativeResidualScore" measureOf="1-IT|12-3" standardError="" value="0.0035486285792619976"/>
+    <Score measureLabel="StandardMetRelativeResidualScore" measureOf="1-IT|12-3" standardError="" value="0.579869455662"/>
+    <Score measureLabel="StudentRelativeResidualScore" measureOf="1-IT|13-3" standardError="" value="0.07215892004005847"/>
+    <Score measureLabel="StandardMetRelativeResidualScore" measureOf="1-IT|13-3" standardError="" value="0.3636749911346673"/>
+    <Score measureLabel="StudentRelativeResidualScore" measureOf="1-IT|14-3" standardError="" value="0.07666442774263366"/>
+    <Score measureLabel="StandardMetRelativeResidualScore" measureOf="1-IT|14-3" standardError="" value="-0.16896871540892333"/>
+    <Score measureLabel="BenchmarkScore" measureOf="2-W|1-3" standardError="" value="0.06747014630534495"/>
+    <Score measureLabel="StandardMetRelativeResidualScore" measureOf="2-W|1-3" standardError="" value="0.6460129144294215"/>
+    <Score measureLabel="StudentRelativeResidualScore" measureOf="2-W|3-3" standardError="" value="0.05863458473047617"/>
+    <Score measureLabel="StandardMetRelativeResidualScore" measureOf="2-W|3-3" standardError="" value="0.8445710264792543"/>
+    <Score measureLabel="StudentRelativeResidualScore" measureOf="2-W|6-3" standardError="" value="0.07095478075194989"/>
+    <Score measureLabel="StandardMetRelativeResidualScore" measureOf="2-W|6-3" standardError="" value="0.40299712086008554"/>
+    <Score measureLabel="StudentRelativeResidualScore" measureOf="2-W|8-3" standardError="" value="-0.00903301868191446"/>
+    <Score measureLabel="StandardMetRelativeResidualScore" measureOf="2-W|8-3" standardError="" value="0.4756954126684825"/>
+    <Score measureLabel="StudentRelativeResidualScore" measureOf="2-W|9-3" standardError="" value="0.0697151939954268"/>
+    <Score measureLabel="StandardMetRelativeResidualScore" measureOf="2-W|9-3" standardError="" value="-0.48886962772698705"/>
+    <Score measureLabel="BenchmarkScore" measureOf="3-L|4-3" standardError="" value="-0.0013828273340955877"/>
+    <Score measureLabel="StandardMetRelativeResidualScore" measureOf="3-L|4-3" standardError="" value="0.7280237257863447"/>
+    <Score measureLabel="BenchmarkScore" measureOf="4-CR|2-3" standardError="" value="-0.08228553785231905"/>
+    <Score measureLabel="StandardMetRelativeResidualScore" measureOf="4-CR|2-3" standardError="" value="0.22640795542113157"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="10200" dropped="0" format="WER" isSelected="1" key="182558" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="514000" pageVisits="1" position="1" responseDuration="514.0" score="0" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30">
+      <ScoreInfo maxScore="0" scoreDimension="Overall" scorePoint="0" scoreStatus="Scored">
+        <SubScoreList>
+          <ScoreInfo maxScore="0" scoreDimension="Organization/Purpose" scorePoint="0" scoreStatus="Scored"/>
+          <ScoreInfo maxScore="0" scoreDimension="Evidence/Elaboration" scorePoint="0" scoreStatus="Scored"/>
+          <ScoreInfo maxScore="0" scoreDimension="Conventions" scorePoint="0" scoreStatus="Scored"/>
+        </SubScoreList>
+      </ScoreInfo>
+    </Item>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="MI" isSelected="1" key="182643" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="13000" pageVisits="1" position="2" responseDuration="13.0" score="1" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="SA" isSelected="1" key="182644" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="177000" pageVisits="1" position="3" responseDuration="177.0" score="0" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="SA" isSelected="1" key="182645" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="69000" pageVisits="1" position="4" responseDuration="69.0" score="2" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="MC" isSelected="1" key="182882" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="1000" pageVisits="1" position="5" responseDuration="1.0" score="1" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="MC" isSelected="1" key="182884" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="3000" pageVisits="1" position="6" responseDuration="3.0" score="1" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="EBSR" isSelected="1" key="182888" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="38000" pageVisits="1" position="7" responseDuration="38.0" score="1" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="MC" isSelected="1" key="182880" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="7000" pageVisits="1" position="8" responseDuration="7.0" score="0" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="SA" isSelected="1" key="182886" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="115000" pageVisits="1" position="9" responseDuration="115.0" score="2" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="10200" dropped="0" format="MC" isSelected="1" key="182924" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="4000" pageVisits="1" position="10" responseDuration="4.0" score="0" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="MC" isSelected="1" key="182889" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="10000" pageVisits="1" position="11" responseDuration="10.0" score="0" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="MC" isSelected="1" key="182891" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="4000" pageVisits="1" position="12" responseDuration="4.0" score="1" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="MC" isSelected="1" key="183163" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="2000" pageVisits="1" position="13" responseDuration="2.0" score="1" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="HTQ" isSelected="1" key="183187" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="34000" pageVisits="1" position="14" responseDuration="34.0" score="1" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="SA" isSelected="1" key="183177" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="262000" pageVisits="1" position="15" responseDuration="262.0" score="2" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="MC" isSelected="1" key="183178" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="10000" pageVisits="1" position="16" responseDuration="10.0" score="0" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="MS" isSelected="1" key="183161" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="19000" pageVisits="1" position="17" responseDuration="19.0" score="1" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="MC" isSelected="1" key="183180" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="13000" pageVisits="1" position="18" responseDuration="13.0" score="1" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="MC" isSelected="1" key="183160" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="11000" pageVisits="1" position="19" responseDuration="11.0" score="1" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="MS" isSelected="1" key="182816" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="14000" pageVisits="1" position="20" responseDuration="14.0" score="1" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="MS" isSelected="1" key="182818" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="21000" pageVisits="1" position="21" responseDuration="21.0" score="1" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="SA" isSelected="1" key="182912" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="227000" pageVisits="1" position="22" responseDuration="227.0" score="2" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="MS" isSelected="1" key="182820" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="10000" pageVisits="1" position="23" responseDuration="10.0" score="1" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="HTQ" isSelected="1" key="182822" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="42000" pageVisits="1" position="24" responseDuration="42.0" score="1" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="HTQ" isSelected="1" key="182827" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="33000" pageVisits="1" position="25" responseDuration="33.0" score="1" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="10200" dropped="0" format="EBSR" isSelected="1" key="182860" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="52000" pageVisits="1" position="26" responseDuration="52.0" score="1" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="MC" isSelected="1" key="182862" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="4000" pageVisits="1" position="27" responseDuration="4.0" score="1" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="MI" isSelected="1" key="182863" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="51000" pageVisits="1" position="28" responseDuration="51.0" score="1" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="MC" isSelected="1" key="182849" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="8000" pageVisits="1" position="29" responseDuration="8.0" score="1" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="MI" isSelected="1" key="182825" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="28000" pageVisits="1" position="30" responseDuration="28.0" score="1" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="MC" isSelected="1" key="182831" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="4000" pageVisits="1" position="31" responseDuration="4.0" score="1" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="MS" isSelected="1" key="182926" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="16000" pageVisits="1" position="32" responseDuration="16.0" score="1" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="MC" isSelected="1" key="182876" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="6000" pageVisits="1" position="33" responseDuration="6.0" score="0" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+    <Item adminDate="2019-05-10T09:00:00" bankKey="200" dropped="0" format="MC" isSelected="1" key="182865" mimeType="text/plain" numberVisits="1" operational="1" pageNumber="1" pageTime="12000" pageVisits="1" position="34" responseDuration="12.0" score="1" scoreStatus="SCORED" segmentId="69159edd-47a9-48db-9c5c-e6f7804d5c30"/>
+  </Opportunity>
+</TDSReport>

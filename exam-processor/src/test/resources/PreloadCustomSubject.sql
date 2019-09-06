@@ -1,16 +1,20 @@
 
 INSERT INTO subject(id, code, import_id, update_import_id) VALUES (-1, 'Custom', 1, 1);
 
-INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report) VALUES
-  (1, -1, 10, 3, 6, 0);
+INSERT INTO subject_asmt_type (subject_id, asmt_type_id, target_report, printed_report) VALUES
+  (-1, 1, 0, 0);
 
-INSERT INTO subject_claim_score (id, subject_id, asmt_type_id, code, display_order) VALUES
-  (-1,  -1, 1, 'Score1', 1) ,
-  (-2,  -1, 1, 'Score2', 2),
-  (-3,  -1, 1, 'Score3', 3),
-  (-4,  -1, 1, 'Score4', 4),
-  (-5,  -1, 1, 'Score5', 5),
-  (-6,  -1, 1, 'Score6', 6);
+INSERT INTO subject_asmt_scoring (subject_id, asmt_type_id, score_type_id, performance_level_count, performance_level_standard_cutoff) VALUES
+  (-1, 1, 1, 10, 3),
+  (-1, 1, 3, 6, null);
+
+INSERT INTO subject_score (id, subject_id, asmt_type_id, score_type_id, code, display_order, data_order) VALUES
+  (-1,  -1, 1, 3, 'Score1', 1, 1) ,
+  (-2,  -1, 1, 3, 'Score2', 2, 2),
+  (-3,  -1, 1, 3, 'Score3', 3, 3),
+  (-4,  -1, 1, 3, 'Score4', 4, 4),
+  (-5,  -1, 1, 3, 'Score5', 5, 5),
+  (-6,  -1, 1, 3, 'Score6', 6, 6);
 
 INSERT INTO claim (id, subject_id, code) VALUES
   (-1, -1, 'ClaimCode1'),

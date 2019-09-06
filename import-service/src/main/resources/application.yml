@@ -5,27 +5,22 @@ management:
   port: 8008
   security:
     enabled: false
+  # disable health check for tenant-specific features
+  health:
+    db:
+      enabled: false
 
-# spring auto-configured aws defense
-cloud:
-  aws:
-    # there must be a default region when running locally
-    region:
-      auto: false
-      static: us-west-2
-    # disable CloudFormation stuff
-    stack:
-      auto: false
-    credentials:
-      instance-profile: false
+# configure actuator endpoints to unmask "key" properties so tenant keys won't be masked. However, we still
+# mask secret keys (i.e. props ending with secretKey, secret-key, or secret_key in lower, upper, or mixed case)
+endpoints:
+  env:
+    keys-to-sanitize: password,secret,token,.*credentials.*,vcap_services,secret[-_]?key
+  configprops:
+    keys-to-sanitize: password,secret,token,.*credentials.*,vcap_services,secret[-_]?key
 
 # use LocalArchiveService by default
 archive:
-  root: file:///tmp/
-
-reporting:
-  state:
-    code: CA
+  uri-root: file:///tmp/
 
 security:
   # "local" causes stub services to be used
@@ -76,29 +71,8 @@ spring:
         SUBJECT:
           producer:
             requiredGroups: default
-
-  datasource:
-    url: "\
-      jdbc:mysql://${spring.datasource.url-server:localhost:3306}/${spring.datasource.url-schema:warehouse}\
-      ?useSSL=${spring.datasource.use-ssl:false}\
-      &useLegacyDatetimeCode=${spring.datasource.use-legacy-datetime-code:false}\
-      &characterEncoding=${spring.datasource.character-encoding:utf8}\
-      &connectTimeout=${spring.datasource.connect-timeout:10000}\
-      &socketTimeout=${spring.datasource.socket-timeout:40000}\
-      "
-    jdbcInterceptors: "QueryTimeoutInterceptor(queryTimeout=${spring.datasource.query-timeout:30})"
-    username: root
-    password:
-    testWhileIdle: true
-    validationQuery: SELECT 1
-    validationQueryTimeout: 10000
-    driverClassName: com.mysql.jdbc.Driver
-    initialize: false
-    initialSize: 4
-    maxActive: 20
-    minIdle: ${spring.datasource.initialSize}
-    maxIdle: ${spring.datasource.maxActive}
-    maxWait: 10000
+        ConfigpropsUpdateOutput:
+          destination: ConfigpropsUpdateExchange
 
   http:
     multipart:
@@ -109,3 +83,32 @@ spring:
     default-property-inclusion: non_null
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
+
+datasources:
+  warehouse_rw:
+    url-parts:
+      protocol: "jdbc:mysql:"
+      hosts: "${datasources.warehouse_rw.url-server:localhost:3306}"
+      database: "${datasources.warehouse_rw.url-schema:warehouse}"
+      properties: "useSSL=${datasources.warehouse_rw.use-ssl:false}\
+                   &useLegacyDatetimeCode=${datasources.warehouse_rw.use-legacy-datetime-code:false}\
+                   &characterEncoding=${datasources.warehouse_rw.character-encoding:utf8}\
+                   &connectTimeout=${datasources.warehouse_rw.connect-timeout:10000}\
+                   &socketTimeout=${datasources.warehouse_rw.socket-timeout:40000}\
+                   "
+    url: "${datasources.warehouse_rw.url-parts.protocol}//${datasources.warehouse_rw.url-parts.hosts}/${datasources.warehouse_rw.url-parts.database}?${datasources.warehouse_rw.url-parts.properties}"
+    username: root
+    password:
+    testWhileIdle: true
+    validationQuery: SELECT 1
+    validationInterval: 35000
+    driverClassName: com.mysql.jdbc.Driver
+    initialize: false
+    initialSize: 4
+    maxActive: 20
+    minIdle: ${datasources.warehouse_rw.initialSize}
+    maxIdle: ${datasources.warehouse_rw.maxActive}
+    maxWait: 10000
+    removeAbandoned: false
+    removeAbandonedTimeout: 60
+    logAbandoned: false

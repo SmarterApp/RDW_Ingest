@@ -1,17 +1,27 @@
 apply plugin: 'org.springframework.boot'
 
+// it shouldn't but, empirically this service needs a larger heap
+createDockerfile {
+    environmentVariable("MAX_HEAP_SIZE", "-Xmx512m")
+}
+
 dependencies {
     // handy for creating metadata with @ConfigurationProperties
-    optional "org.springframework.boot:spring-boot-configuration-processor"
+    compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
 
     compile 'org.springframework.boot:spring-boot-starter-batch'
     compile 'org.springframework.boot:spring-boot-starter-jdbc'
     compile 'org.springframework.cloud:spring-cloud-starter-config'
+    compile 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
 
     // this is for retrying connection to config server
     compile 'org.springframework.boot:spring-boot-starter-aop'
     compile 'org.springframework.retry:spring-retry'
 
+    // cloud stream
+    compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
+    compile 'org.springframework.cloud:spring-cloud-stream'
+    
     compile project(':rdw-ingest-common')
     compile project(':rdw-ingest-migrate-common')
 
@@ -48,21 +58,21 @@ cleanAllTest migrateAllTest
 // (but don't check in your changes!) or set environment variables. If you are using the default
 // CI instances with personal schemas you should set:
 //   ARCHIVE_CLOUD_AWS_CREDENTIALS_SECRETKEY
-//   SPRING_MIGRATE_DATASOURCE_URL_SCHEMA
-//   SPRING_MIGRATE_DATASOURCE_PASSWORD
-//   SPRING_OLAP_DATASOURCE_USERNAME
-//   SPRING_OLAP_DATASOURCE_PASSWORD
-//   SPRING_WAREHOUSE_DATASOURCE_URL_SCHEMA
-//   SPRING_WAREHOUSE_DATASOURCE_PASSWORD
+//   DATASOURCES_MIGRATE_RW_URL_SCHEMA
+//   DATASOURCES_MIGRATE_RW_PASSWORD
+//   DATASOURCES_OLAP_RW_USERNAME
+//   DATASOURCES_OLAP_RW_PASSWORD
+//   DATASOURCES_WAREHOUSE_RW_URL_SCHEMA
+//   DATASOURCES_WAREHOUSE_RW_PASSWORD
 // If you are running from the command-line you can use local bash export to do it in one command, e.g.:
 /*
 (export ARCHIVE_CLOUD_AWS_CREDENTIALS_SECRETKEY=secretkey; \
- export SPRING_MIGRATE_DATASOURCE_URL_SCHEMA=bob_migrate_olap_test; \
- export SPRING_MIGRATE_DATASOURCE_PASSWORD=password; \
- export SPRING_OLAP_DATASOURCE_USERNAME=bob; \
- export SPRING_OLAP_DATASOURCE_PASSWORD=password; \
- export SPRING_WAREHOUSE_DATASOURCE_URL_SCHEMA=bob_warehouse_test; \
- export SPRING_WAREHOUSE_DATASOURCE_PASSWORD=password; \
+ export DATASOURCES_MIGRATE_RW_URL_SCHEMA=bob_migrate_olap_test; \
+ export DATASOURCES_MIGRATE_RW_PASSWORD=password; \
+ export DATASOURCES_OLAP_RW_USERNAME=bob; \
+ export DATASOURCES_OLAP_RW_PASSWORD=password; \
+ export DATASOURCES_WAREHOUSE_RW_URL_SCHEMA=bob_warehouse_test; \
+ export DATASOURCES_WAREHOUSE_RW_PASSWORD=password; \
  gradle rst)
 */
 // If you are using different instances the full set of variables can be found in application-redshift.yml.
@@ -75,18 +85,18 @@ cleanAllTest migrateAllTest
 --archive.cloud.aws.credentials.accessKey=access-key
 --archive.cloud.aws.credentials.secretKey=secret-key
 --migrate.aws.redshift.role=arn:aws:iam::269146879732:role/rdw-redshift
---spring.migrate_datasource.url-server=rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306
---spring.migrate_datasource.url-schema=bob_migrate_olap_test
---spring.migrate_datasource.username=sbac
---spring.migrate_datasource.password=password
---spring.olap_datasource.url-server=rdw-qa.cibkulpjrgtr.us-west-2.redshift.amazonaws.com:5439
---spring.olap_datasource.url-db=ci
---spring.olap_datasource.username=bob
---spring.olap_datasource.password=password
---spring.warehouse_datasource.url-server=rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306
---spring.warehouse_datasource.url-schema=bob_warehouse_test
---spring.warehouse_datasource.username=sbac
---spring.warehouse_datasource.password=password
+--datasources.migrate_rw.url-server=rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306
+--datasources.migrate_rw.url-schema=bob_migrate_olap_test
+--datasources.migrate_rw.username=sbac
+--datasources.migrate_rw.password=password
+--datasources.olap_rw.url-server=rdw-qa.cibkulpjrgtr.us-west-2.redshift.amazonaws.com:5439
+--datasources.olap_rw.url-db=ci
+--datasources.olap_rw.username=bob
+--datasources.olap_rw.password=password
+--datasources.warehouse_rw.url-server=rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306
+--datasources.warehouse_rw.url-schema=bob_warehouse_test
+--datasources.warehouse_rw.username=sbac
+--datasources.warehouse_rw.password=password
  */
 
 task RST(type: Test) {

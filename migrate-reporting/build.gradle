@@ -1,22 +1,28 @@
 apply plugin: 'org.springframework.boot'
 
 // migrate is a bit of a memory hog; for batch size 2000, -Xmx512m is a good heap size
-// (for a batch size of 4000, this should be set to at least -Xmx768m)
+// but need larger for more tenants or larger batch size (for a batch size of 4000,
+// this should be set to at least -Xmx768m)
 createDockerfile {
     environmentVariable("MAX_HEAP_SIZE", "-Xmx512m")
 }
 
 dependencies {
     // handy for creating metadata with @ConfigurationProperties
-    optional "org.springframework.boot:spring-boot-configuration-processor"
+    compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
 
     compile 'org.springframework.boot:spring-boot-starter-batch'
     compile 'org.springframework.boot:spring-boot-starter-jdbc'
     compile 'org.springframework.cloud:spring-cloud-starter-config'
+    compile 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
 
     // this is for retrying connection to config server
     compile 'org.springframework.boot:spring-boot-starter-aop'
     compile 'org.springframework.retry:spring-retry'
+
+    // cloud stream
+    compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
+    compile 'org.springframework.cloud:spring-cloud-stream'    
 
     compile project(':rdw-ingest-common')
     compile project(':rdw-ingest-migrate-common')

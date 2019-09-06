@@ -3,106 +3,117 @@
 management:
   security:
     enabled: false
+  # disable health check for tenant-specific features
+  health:
+    db:
+      enabled: false
 server:
   port: 8008
   tomcat:
     max-connections: 2
     max-threads: 2
 
-# spring auto-configured aws defense
-cloud:
-  aws:
-    # there must be a default region when running locally
-    region:
-      auto: false
-      static: us-west-2
-    # disable CloudFormation stuff
-    stack:
-      auto: false
-    credentials:
-      instance-profile: false
+# configure actuator endpoints to unmask "key" properties so tenant keys won't be masked. However, we still
+# mask secret keys (i.e. props ending with secretKey, secret-key, or secret_key in lower, upper, or mixed case)
+endpoints:
+  env:
+    keys-to-sanitize: password,secret,token,.*credentials.*,vcap_services,secret[-_]?key
+  configprops:
+    keys-to-sanitize: password,secret,token,.*credentials.*,vcap_services,secret[-_]?key
 
 spring:
-  datasource:
-    url: "\
-      jdbc:mysql://${spring.datasource.url-server:localhost:3306}/${spring.datasource.url-schema:warehouse}\
-      ?useSSL=${spring.datasource.use-ssl:false}\
-      &characterEncoding=${spring.datasource.character-encoding:utf8}\
-      &useLegacyDatetimeCode=${spring.datasource.use-legacy-datetime-code:false}\
-      &connectTimeout=${spring.datasource.connect-timeout:10000}\
-      &socketTimeout=${spring.datasource.socket-timeout:40000}\
-      "
-    jdbcInterceptors: "QueryTimeoutInterceptor(queryTimeout=${spring.datasource.query-timeout:30})"
-    username: root
-    password:
-    testWhileIdle: true
-    validationQuery: SELECT 1
-    validationQueryTimeout: 10000
-    driverClassName: com.mysql.jdbc.Driver
-    initialize: false
-    initialSize: 4
-    maxActive: 10
-    minIdle: ${spring.datasource.initialSize}
-    maxIdle: ${spring.datasource.maxActive}
-
   jackson:
     default-property-inclusion: non_null
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
 
+  cloud:
+    stream:
+      bindings:
+        ConfigpropsUpdateOutput:
+          destination: ConfigpropsUpdateExchange
+
+datasources:
+  warehouse_rw:
+    url-parts:
+      protocol: "jdbc:mysql:"
+      hosts: "${datasources.warehouse_rw.url-server:localhost:3306}"
+      database: "${datasources.warehouse_rw.url-schema:warehouse}"
+      properties: "useSSL=${datasources.warehouse_rw.use-ssl:false}\
+                   &useLegacyDatetimeCode=${datasources.warehouse_rw.use-legacy-datetime-code:false}\
+                   &characterEncoding=${datasources.warehouse_rw.character-encoding:utf8}\
+                   &connectTimeout=${datasources.warehouse_rw.connect-timeout:10000}\
+                   &socketTimeout=${datasources.warehouse_rw.socket-timeout:40000}\
+                   "
+    url: "${datasources.warehouse_rw.url-parts.protocol}//${datasources.warehouse_rw.url-parts.hosts}/${datasources.warehouse_rw.url-parts.database}?${datasources.warehouse_rw.url-parts.properties}"
+    username: root
+    password:
+    testWhileIdle: true
+    validationQuery: SELECT 1
+    validationInterval: 35000
+    driverClassName: com.mysql.jdbc.Driver
+    initialize: false
+    initialSize: 4
+    maxActive: 10
+    minIdle: ${datasources.warehouse_rw.initialSize}
+    maxIdle: ${datasources.warehouse_rw.maxActive}
+    maxWait: 10000
+    removeAbandoned: false
+    removeAbandonedTimeout: 60
+    logAbandoned: false
+
 task:
-# by default, all tasks are disabled for local dev environment; uncomment and set secrets/hosts to test
+# SendReconciliationReport task. Uncomment to enable; also configure log and archives under taskSendReconciliationReport
 #  send-reconciliation-report:
 #### This runs at 2pm GMT, regardless of the server's timezone setting
 #    cron: 0 0 14 * * *
-#    query: status=PROCESSED&after=-PT24H
-#    senders:
-#      - type: ftp
-#        server:
+# UpdateOrganizations task. Uncomment to enable; also configure taskUpdateOrganizationsArtClient and taskUpdateOrganizationsImportServiceClient
+#  update-organizations:
+### This runs at 4am GMT, regardless of the server's timezone setting
+#    cron: 0 0 4 * * *
+
+taskSendReconciliationReport:
+  # default root settings
+  query: status=PROCESSED&after=-PT24H
+  log: false
+#  tenants:
+#    CA:
+#      query: status=PROCESSED&after=-PT24H
+#      log: false
+#      archives:
+#        - uri-root: file:///tmp/
+#        - uri-root: s3://bucket
+#          s3-access-key: AccessKey
+#          s3-secret-key: SecretKey
+#          s3-region-static: us-west-2
+#          s3-sse: AES256
+
+#taskUpdateOrganizationsArtClient:
+#  groups-of-districts-url: https://art-deployment.sbtds.org/rest/groupofdistrict?stateAbbreviation={state}&pageSize=1000
+#  districts-url: https://art-deployment.sbtds.org/rest/district?stateAbbreviation={state}&pageSize=5000
+#  groups-of-schools-url: https://art-deployment.sbtds.org/rest/groupofinstitution?stateAbbreviation={state}&pageSize=1000
+#  schools-url: https://art-deployment.sbtds.org/rest/institution?stateAbbreviation={state}&pageSize=20000
+#  status-url: https://art-deployment.sbtds.org/rest/status
+#  oauth2:
+#    access-token-uri: https://sso-deployment.sbtds.org:443/auth/oauth2/access_token?realm=/sbac
+#    client-id: sbacdw
+#    client-secret:
+#    username: prime.user@example.com
+#    password:
+
+#taskUpdateOrganizationsImportServiceClient:
+#  organizations-imports-url: http://localhost:8080/organizations/imports
+#  status-url: http://localhost:8081/status
+#  oauth2:
+#    access-token-uri: https://sso-deployment.sbtds.org:443/auth/oauth2/access_token?realm=/sbac
+#    client-id: sbacdw
+#    client-secret:
+#  tenants:
+#    CA:
+#      oauth2:
 #        username:
 #        password:
-#      - type: log
-#      - type: archive
-#        root: file:///tmp/
-#      - type: archive
-#        root: s3:///bucket
-#        cloud:
-#          aws:
-#            credentials:
-#              access-key: AccessKey
-#              secret-key: SecretKey
-#            region:
-#              static: us-west-2
-#  update-organizations:
-#### This runs at 4am GMT, regardless of the server's timezone setting
-#    cron: 0 0 4 * * *
-#    state: CA
-#    art-client:
-#      groups-of-districts-url: https://art-deployment.sbtds.org/rest/groupofdistrict?stateAbbreviation={state}&pageSize=1000
-#      districts-url: https://art-deployment.sbtds.org/rest/district?stateAbbreviation={state}&pageSize=5000
-#      groups-of-schools-url: https://art-deployment.sbtds.org/rest/groupofinstitution?stateAbbreviation={state}&pageSize=1000
-#      schools-url: https://art-deployment.sbtds.org/rest/institution?stateAbbreviation={state}&pageSize=20000
-#      status-url: https://art-deployment.sbtds.org/rest/status
+#    NV:
 #      oauth2:
-#        access-token-uri: https://sso-deployment.sbtds.org:443/auth/oauth2/access_token?realm=/sbac
-#        client-id: sbacdw
-#        client-secret:
-#        username: ca.admin@example.com
-#        password:
-#    import-service-client:
-#      organizations-imports-url: http://localhost:8080/organizations/imports
-#      status-url: http://localhost:8081/status
-#      stub-auth: sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||
-#  resubmit-unprocessed-imports:
-#### This runs at 1pm GMT, regardless of the server's timezone setting
-#    cron: 0 0 13 * * *
-#    import-service-client:
-#      exams-imports-url: http://localhost:8080/exams/imports/resubmit
-#      status-url: http://localhost:8081/status
-#      stub-auth: sbac;dwtest@example.com;|SBAC|ASMTDATALOAD|CLIENT|SBAC||||||||||||||
-#      oauth2:
-#        access-token-uri: https://sso-deployment.sbtds.org:443/auth/oauth2/access_token?realm=/sbac
-#        client-id: sbacdw
-#        client-secret:
-#        username: dwtest@example.com
+#        username:
 #        password:

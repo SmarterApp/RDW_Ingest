@@ -2,13 +2,10 @@
 # All the properties should be set to default to the CI environment settings; developers may
 # override them locally but the CI system assumes the defaults are for CI resources.
 archive:
-  root: s3://rdw-ci-archive
-  cloud:
-    aws:
-      # rdw-ci
-      credentials:
-        accessKey: AKIAIXXQNZAWSVCGK3WQ
-        secretKey:
+  uri-root: s3://rdw-ci-archive
+  s3-access-key: AKIAIXXQNZAWSVCGK3WQ
+  s3-secret-key:
+  s3-region-static: us-west-2
 
 migrate:
   aws:
@@ -19,18 +16,18 @@ migrate:
 reporting:
   school-year: 1999
 
-spring:
-  migrate_datasource:
+datasources:
+  migrate_rw:
     url-server: rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306
     url-schema: migrate_olap_test
     username: sbac
     password:
-  olap_datasource:
+  olap_rw:
     url-server: rdw-qa.cibkulpjrgtr.us-west-2.redshift.amazonaws.com:5439
     url-db: ci
     username: ci
     password:
-  warehouse_datasource:
+  warehouse_rw:
     url-server: rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306
     url-schema: warehouse_test
     username: sbac

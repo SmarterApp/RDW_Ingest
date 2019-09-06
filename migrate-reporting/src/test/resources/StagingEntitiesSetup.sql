@@ -1,23 +1,36 @@
 -- ------------------------ Subjects and related data ---------------------------------------------------------------------------------------------------------------------
 INSERT INTO staging_subject(id, code, update_import_id, migrate_id, updated) VALUES
-    (-1, 'New',    -99, -99,now()),
-    (-3, 'Update', -99, -99, now());
+  (-1, 'New',    -99, -99, now()),
+  (-3, 'Update', -99, -99, now()),
+  (-5, 'Alt', -99, -99, now());  -- itemless summative-only subject with a pass/fail alt score
 
 -- add subjects' related data for the new subjects
-INSERT INTO staging_subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report) VALUES
-  (1, -1, 10, 3, 6, 0),
-   -- new entry
-  (1, -3, 8, 2, 7, 0),
-   -- updated entry
-  (2, -3, 8, 2, 7, 0);
+INSERT INTO staging_subject_asmt_type (subject_id, asmt_type_id, target_report, printed_report) VALUES
+  (-1, 1, 0, 0),  -- new subject
+  (-3, 1, 0, 0),  -- new entry for this subject
+  (-3, 2, 0, 0),  -- updated for this subject
+  (-5, 3, 0, 0);
 
-INSERT INTO staging_subject_claim_score (id, subject_id, asmt_type_id, code, display_order, data_order) VALUES
-  (-1,  -1, 1, 'Score1',  0, 1),
-  (-2,  -1, 1, 'Score2',  0, 2),
-  (-3,  -1, 1, 'Score3', -3, 3),
-  (-14,  -3, 3, 'Score7', 0, 4),
-  (-15,  -3, 3, 'Update', 0, 5),
-  (-16,  -3, 3, 'New',    1, 6);
+INSERT INTO staging_subject_asmt_scoring (subject_id, asmt_type_id, score_type_id, performance_level_count, performance_level_standard_cutoff) VALUES
+  (-1, 1, 1, 10, 3),
+  (-1, 1, 2, 4, null),  -- add alt score level count
+  (-1, 1, 3, 6, null),
+  (-3, 1, 1, 8, 2),
+  (-3, 1, 3, 7, null),
+  (-3, 2, 1, 8, 2),
+  (-3, 2, 3, 7, null),
+  (-5, 3, 1, 3, 2),
+  (-5, 3, 2, 2, null);
+
+INSERT INTO staging_subject_score (id, subject_id, asmt_type_id, score_type_id, code, display_order, data_order) VALUES
+  (-1,  -1, 1, 3, 'Score1',  0, 1),
+  (-17, -1, 1, 2, 'Alt1',  1, 1),
+  (-2,  -1, 1, 3, 'Score2',  0, 2),
+  (-3,  -1, 1, 3, 'Score3', -3, 3),
+  (-14, -3, 3, 3, 'Score7', 0, 4),
+  (-15, -3, 3, 3, 'Update', 0, 5),
+  (-16, -3, 3, 3, 'New',    1, 6),
+  (-18, -5, 3, 2, 'PassFail', 1, 1);
 
 INSERT INTO staging_subject_translation(subject_id, label_code, label) VALUES
   (-1, 'integration test subject 1',       '1 test label'),
@@ -111,7 +124,8 @@ INSERT INTO staging_asmt (id, natural_id, grade_id, type_id, subject_id, school_
 
   (-59,  '(SBAC)SBAC-SUMMATIVE-TEST-59', -99, 3, 1, 1999, 'SUMMATIVE TEST-59', 'SUMMATIVE TEST-59 Math', '1', 0, -99, -1, '2017-07-18 20:14:34.000000'),
   (-311, '(SBAC)SBAC-SUMMATIVE-TEST-58', -98, 3, 2, 1999, 'SUMMATIVE TEST-58', 'SUMMATIVE TEST-58 Ela',  '1', 0, -99, -1, '2017-07-18 20:14:34.000000'),
-  (-111, '(SBAC)SBAC-SUMMATIVE-TEST-48', -98, 3, 1, 1999, 'SUMMATIVE TEST-48', 'SUMMATIVE TEST-48 Math', '1', 0, -99, -1, '2017-07-18 20:14:34.000000');
+  (-111, '(SBAC)SBAC-SUMMATIVE-TEST-48', -98, 3, 1, 1999, 'SUMMATIVE TEST-48', 'SUMMATIVE TEST-48 Math', '1', 0, -99, -1, '2017-07-18 20:14:34.000000'),
+  (-113, 'UBER-EXIT-TEST', -98, 3, -5, 1999, 'UBER-EXIT-TEST', 'Exit Exam', '1', 0, -99, -1, '2017-07-18 20:14:34.000000');
 
 INSERT INTO staging_asmt_target(asmt_id, target_id, migrate_id) VALUES
    (-59,  -71, -99),
@@ -127,12 +141,17 @@ INSERT INTO staging_asmt_target_exclusion(asmt_id, target_id, migrate_id) VALUES
    (-311, -12, -99),
    (-111, -71, -99);
 
-INSERT INTO staging_asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score, migrate_id) VALUES
-  (-99, 2442, 2502, 2582, 2201, 2701, -99),
-  (-98, 2442, 2502, 2582, 2201, 2701, -99),
-  (-59, 2442, 2502, 2582, 2201, 2701, -99),
-  (-311, 2442, 2502, 2582, 2201, 2701, -99),
-  (-111, 2442, 2502, 2582, 2201, 2701, -99);
+-- OVERALL asmt score info, set subject_score_id=0 per coalesce behavior in migrate sql
+INSERT INTO staging_asmt_score (asmt_id, subject_score_id, cut_point_1, cut_point_2, cut_point_3, min_score, max_score, migrate_id) VALUES
+  (-99, 0, 2442, 2502, 2582, 2201, 2701, -99),
+  (-98, 0, 2442, 2502, 2582, 2201, 2701, -99),
+  (-59, 0, 2442, 2502, 2582, 2201, 2701, -99),
+  (-311, 0, 2442, 2502, 2582, 2201, 2701, -99),
+  (-111, 0, 2442, 2502, 2582, 2201, 2701, -99),
+  (-113, 0, 1000, 1500, 2000, 1000, 2500, -99);
+-- ALT asmt score info, let's skip cut-points
+INSERT INTO staging_asmt_score (asmt_id, subject_score_id, min_score, max_score, migrate_id) VALUES
+  (-113, -18, 0, 100, -99);
 
 INSERT INTO staging_item (id, claim_id, target_id, natural_id, asmt_id, dok_id, difficulty_code, max_points, math_practice, allow_calc, position, performance_task_writing_type, migrate_id) VALUES
   (-990, -1, -71, '200-2010',  -99, -99, 'M', 2, -99, 0, 1, 'pttype1', -99),
@@ -229,7 +248,7 @@ INSERT INTO staging_exam_item (id, exam_id, item_id, score, score_status, respon
    (-4, -88,  -6, -1, 'SCORED', null, 16, -88),
    (-5, -87,  -6, -1, 'SCORED', null, 16, -88);
 
-INSERT INTO staging_exam_claim_score (id, exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
+INSERT INTO staging_exam_score (id, exam_id, subject_score_id, scale_score, scale_score_std_err, performance_level) VALUES
    (-1, -88, 1, 2014, 0.19, 1);
 
 INSERT INTO staging_exam_target_score (id, target_id, exam_id, student_relative_residual_score, standard_met_relative_residual_score) VALUES

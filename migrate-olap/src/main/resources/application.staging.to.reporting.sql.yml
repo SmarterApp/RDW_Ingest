@@ -243,51 +243,61 @@ sql:
               WHERE ss.id = target.subject_id AND
                 NOT EXISTS(SELECT 1 FROM staging_target st WHERE st.id = target.id AND st.subject_id = ss.id)
 
-      # ------------ subject_claim_score -----------------------------------------------------------------------
-        subject_claim_score:
+      # ------------ subject_score -----------------------------------------------------------------------
+        subject_score:
           sql:
             insert: >-
-              INSERT INTO subject_claim_score (id, subject_id, asmt_type_id, code)
+              INSERT INTO subject_score (id, subject_id, asmt_type_id, score_type_id, code)
                 SELECT DISTINCT
                   sscs.id,
                   sscs.subject_id,
                   sscs.asmt_type_id,
+                  sscs.score_type_id,
                   sscs.code
-                FROM staging_subject_claim_score sscs
-                  LEFT JOIN subject_claim_score rscs ON rscs.id = sscs.id
+                FROM staging_subject_score sscs
+                  LEFT JOIN subject_score rscs ON rscs.id = sscs.id
                 WHERE rscs.id IS NULL;
 
             deleteAsPartOfParentUpdate: >-
-              DELETE FROM subject_claim_score
+              DELETE FROM subject_score
                 USING staging_subject ss
-              WHERE ss.id = subject_claim_score.subject_id AND
-                NOT EXISTS(SELECT 1 FROM staging_subject_claim_score sscs WHERE sscs.id = subject_claim_score.id AND sscs.subject_id = ss.id)
+              WHERE ss.id = subject_score.subject_id AND
+                NOT EXISTS(SELECT 1 FROM staging_subject_score sscs WHERE sscs.id = subject_score.id AND sscs.subject_id = ss.id)
 
-      # ------------ subject_asmt_type -----------------------------------------------------------------------
+        # ------------ subject_asmt_type -----------------------------------------------------------------------
+        # This has the subject_asmt_scoring denormalized into it.
         subject_asmt_type:
           sql:
             insert: >-
-              INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report)
+              INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, alt_score_performance_level_count, claim_score_performance_level_count, target_report)
                 SELECT DISTINCT
                   ssat.asmt_type_id,
                   ssat.subject_id,
-                  ssat.performance_level_count,
-                  ssat.performance_level_standard_cutoff,
-                  ssat.claim_score_performance_level_count,
+                  ssas1.performance_level_count,
+                  ssas1.performance_level_standard_cutoff,
+                  ssas2.performance_level_count AS alt_score_performance_level_count,
+                  ssas3.performance_level_count AS claim_score_performance_level_count,
                   ssat.target_report
                 FROM staging_subject_asmt_type ssat
-                  LEFT JOIN subject_asmt_type rsat ON (rsat.subject_id = ssat.subject_id AND rsat.asmt_type_id = ssat.asmt_type_id)
+                  LEFT JOIN staging_subject_asmt_scoring ssas1 ON ssas1.subject_id = ssat.subject_id AND ssas1.asmt_type_id = ssat.asmt_type_id AND ssas1.score_type_id=1
+                  LEFT JOIN staging_subject_asmt_scoring ssas2 ON ssas2.subject_id = ssat.subject_id AND ssas2.asmt_type_id = ssat.asmt_type_id AND ssas2.score_type_id=2
+                  LEFT JOIN staging_subject_asmt_scoring ssas3 ON ssas3.subject_id = ssat.subject_id AND ssas3.asmt_type_id = ssat.asmt_type_id AND ssas3.score_type_id=3
+                  LEFT JOIN subject_asmt_type rsat ON rsat.subject_id = ssat.subject_id AND rsat.asmt_type_id = ssat.asmt_type_id
                 WHERE rsat.asmt_type_id IS NULL;
 
             update: >-
               UPDATE subject_asmt_type
               SET
-                performance_level_count  = ssat.performance_level_count,
-                performance_level_standard_cutoff = ssat.performance_level_standard_cutoff,
-                claim_score_performance_level_count = ssat.claim_score_performance_level_count,
+                performance_level_count  = ssas1.performance_level_count,
+                performance_level_standard_cutoff = ssas1.performance_level_standard_cutoff,
+                alt_score_performance_level_count = ssas2.performance_level_count,
+                claim_score_performance_level_count = ssas3.performance_level_count,
                 target_report = ssat.target_report
               FROM staging_subject_asmt_type ssat
-                JOIN subject_asmt_type rsat ON (rsat.subject_id = ssat.subject_id AND rsat.asmt_type_id = ssat.asmt_type_id);
+                LEFT JOIN staging_subject_asmt_scoring ssas1 ON ssas1.subject_id = ssat.subject_id AND ssas1.asmt_type_id = ssat.asmt_type_id AND ssas1.score_type_id=1
+                LEFT JOIN staging_subject_asmt_scoring ssas2 ON ssas2.subject_id = ssat.subject_id AND ssas2.asmt_type_id = ssat.asmt_type_id AND ssas2.score_type_id=2
+                LEFT JOIN staging_subject_asmt_scoring ssas3 ON ssas3.subject_id = ssat.subject_id AND ssas3.asmt_type_id = ssat.asmt_type_id AND ssas3.score_type_id=3
+                JOIN subject_asmt_type rsat ON rsat.subject_id = ssat.subject_id AND rsat.asmt_type_id = ssat.asmt_type_id;
 
             deleteAsPartOfParentUpdate: >-
               DELETE FROM subject_asmt_type
@@ -350,7 +360,7 @@ sql:
                 USING staging_student ss
               WHERE ss.id = student_ethnicity.student_id AND ss.deleted = 1;
 
-      # ------------ asmt -----------------------------------------------------------------------
+        # ------------ asmt -----------------------------------------------------------------------
         asmt:
           sql:
             insert: >-
@@ -690,36 +700,17 @@ sql:
                 USING staging_exam se
               WHERE se.id = exam.id and se.deleted = 1;
 
-      # ------------ exam_claim_score -----------------------------------------------------------------------
+        # ------------ exam_claim_score -----------------------------------------------------------------------
+        # Aggregate reporting doesn't deal with alt scores so the exam scores are just CLAIMs for now.
+        # That's why the table has not yet been renamed to exam_score.
+        # And that's why "AND ss.score_type_id=3" is there to filter to just CLAIM scores.
         exam_claim_score:
           sql:
             insert: >-
-              INSERT INTO exam_claim_score (
-                id,
-                exam_id,
-                subject_claim_score_id,
-                asmt_id,
-                student_id,
-                school_year,
-                category,
-                completed_at,
-                updated,
-                update_import_id,
-                migrate_id
-                )
-                SELECT DISTINCT
-                  scs.id,
-                  scs.exam_id,
-                  scs.subject_claim_score_id,
-                  se.asmt_id,
-                  se.student_id,
-                  se.school_year,
-                  scs.category,
-                  se.completed_at,
-                  se.updated,
-                  se.update_import_id,
-                  se.migrate_id
-                FROM staging_exam_claim_score scs
+              INSERT INTO exam_claim_score (id, exam_id, subject_claim_score_id, asmt_id, student_id, school_year, category, completed_at, updated, update_import_id, migrate_id)
+                SELECT DISTINCT scs.id, scs.exam_id, scs.subject_score_id AS subject_claim_score_id, se.asmt_id, se.student_id, se.school_year, scs.performance_level AS category, se.completed_at, se.updated, se.update_import_id, se.migrate_id
+                FROM staging_exam_score scs
+                  JOIN subject_score ss ON ss.id = scs.subject_score_id AND ss.score_type_id = 3
                   JOIN staging_exam se ON se.id = scs.exam_id
                   LEFT JOIN exam_claim_score e ON e.student_id = se.student_id and e.asmt_id = se.asmt_id and e.school_year = se.school_year
                 WHERE se.type_id IN (1, 3) AND se.latest = true AND e.exam_id IS NULL;

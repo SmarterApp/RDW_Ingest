@@ -1,10 +1,7 @@
 -- ------------------------ Subjects and related data ---------------------------------------------------------------------------------------------------------------------
 INSERT INTO subject(id, code, import_id, update_import_id, created, updated) VALUES
--- NOTE: Because of the life BEFORE 'configurable subjects' the below two subjects (and the related data) are pre-loaded by default
--- Ideally it should not be there, but it is.
---  (1,   'Math',  -99, -99, '2017-07-18 19:06:30.966000', '2017-07-18 19:06:30.966000'),
---  (2,   'ELA',   -99, -99, '2017-07-18 19:06:30.966000', '2017-07-18 19:06:30.966000');
-
+-- NOTE: Because of the life BEFORE 'configurable subjects' the two SB subjects (and the related data)
+-- are pre-loaded by default. Ideally it should not be there, but it is.
 -- add new subjects to better control test use cases
     (-1, 'New',    -99, -99, '2017-07-18 19:06:30.966000', '2017-07-18 19:06:30.966000'),
     (-2, 'Old',    -99, -99, '2014-07-18 19:06:30.966000', '2017-04-18 19:06:30.966000'),
@@ -16,32 +13,32 @@ UPDATE subject
 WHERE id IN (1,2);
 
 -- add subjects' related data for the new subjects
-INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report) VALUES
--- NOTE: Because of the life BEFORE 'configurable subjects' the below two subjects (and the related data) are pre-loaded by default
---  (1,  1,  4, 3,    3,    0),
---  (1,  2,  4, 3,    3,    0),
---  (2,  1,  3, null, null, 0),
---  (2,  2,  3, null, null, 0),
---  (3,  1,  4, 3,    3,    1),
---  (3,  2,  4, 3,    3,    1),
+INSERT INTO subject_asmt_type (subject_id, asmt_type_id, target_report, printed_report) VALUES
+  (-1, 1, 0, 1),
+  (-2, 1, 0, 1),
+  (-3, 1, 0, 1),    -- new entry
+  (-3, 2, 0, 1);    -- updated entry
 
-  (1, -1, 10, 3, 6, 0),
-  (1, -2, 5, 2, 6, 0),
-   -- new entry
-  (1, -3, 8, 2, 7, 0),
-   -- updated entry
-  (2, -3, 8, 2, 7, 0);
+INSERT INTO subject_asmt_scoring (subject_id, asmt_type_id, score_type_id, performance_level_count, performance_level_standard_cutoff) VALUES
+  (-1, 1, 1, 10, 3),
+  (-1, 1, 3, 6, null),
+  (-2, 1, 1, 5, 2),
+  (-2, 1, 3, 6, null),
+  (-3, 1, 1, 8, 2),
+  (-3, 1, 3, 7, null),
+  (-3, 2, 1, 8, 2),
+  (-3, 2, 3, 7, null);
 
-INSERT INTO subject_claim_score (id, subject_id, asmt_type_id, code, display_order, data_order) VALUES
-  (-1,  -1, 1, 'Score1',   0, 1),
-  (-2,  -1, 1, 'Score2',   0, 2),
-  (-3,  -1, 1, 'Score3',  -3, 3),
-  (-4,  -2, 3, 'Score4',  -4, 4),
-  (-5,  -2, 3, 'Score5',   0, 5),
-  (-6,  -2, 3, 'Score6',  -5, 6),
-  (-14,  -3, 3, 'Score7', -6, 4),
-  (-15,  -3, 3, 'Update', -7, 5),
-  (-16,  -3, 3, 'New',    -8, 6);
+INSERT INTO subject_score (id, subject_id, asmt_type_id, score_type_id, code, display_order, data_order) VALUES
+  (-1,  -1, 1, 3, 'Score1',   0, 1),
+  (-2,  -1, 1, 3, 'Score2',   0, 2),
+  (-3,  -1, 1, 3, 'Score3',  -3, 3),
+  (-4,  -2, 3, 3, 'Score4',  -4, 4),
+  (-5,  -2, 3, 3, 'Score5',   0, 5),
+  (-6,  -2, 3, 3, 'Score6',  -5, 6),
+  (-14,  -3, 3, 3, 'Score7', -6, 4),
+  (-15,  -3, 3, 3, 'Update', -7, 5),
+  (-16,  -3, 3, 3, 'New',    -8, 6);
 
 INSERT INTO claim (id, subject_id, code) VALUES
   (-21,-1, 'ClaimCode2'),
@@ -176,6 +173,11 @@ INSERT INTO asmt_score (asmt_id, cut_point_1, cut_point_2, cut_point_3, min_scor
   (-97, 2442, 2502, 2582, 2201, 2701),
   (-107, 2442, 2502, 2582, 2201, 2701),
   (-111, 2442, 2502, 2582, 2201, 2701);
+-- put a couple extra scores in to test stopgap filtering; TODO - put real alternate scores in
+INSERT INTO asmt_score (asmt_id, subject_score_id, min_score, max_score) VALUES
+  (-99,  -1, 1000, 3000),
+  (-99,  -2, 1000, 3000),
+  (-98,  -1, 1000, 3000);
 
 INSERT INTO asmt_target_exclusion(asmt_id, target_id) VALUES
   (-99,  -71),
@@ -229,7 +231,7 @@ INSERT INTO  exam ( id, type_id, school_year, asmt_id, student_id, completed_at,
 
   (-311, 3, 1999, -311, -33, '2016-08-14 19:06:07.966000', null, 1, 1,   1, 1, 1, 'session', 3,    2145, 40.17,  -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', 111, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null);
 
-INSERT INTO exam_claim_score (id, exam_id, subject_claim_score_id, scale_score, scale_score_std_err, category) VALUES
+INSERT INTO exam_score (id, exam_id, subject_score_id, scale_score, scale_score_std_err, performance_level) VALUES
    (-2, -87, 1, 2014, 0.19, 1),
    (-4, -85, 1, 2014, 0.19, 1),
    (-5, -268, 1, 2014, 0.19, 1),

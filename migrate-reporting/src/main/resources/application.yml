@@ -3,16 +3,27 @@
 management:
   security:
     enabled: false
+  # disable health check for tenant-specific features
+  health:
+    db:
+      enabled: false
 server:
   port: 8008
   tomcat:
     max-connections: 2
     max-threads: 2
 
-# enable lifecycle endpoints for pausing and resuming migration
 endpoints:
+  # configure actuator endpoints to unmask "key" properties so tenant keys won't be masked. However, we still
+  # mask secret keys (i.e. props ending with secretKey, secret-key, or secret_key in lower, upper, or mixed case)
+  env:
+    keys-to-sanitize: password,secret,token,.*credentials.*,vcap_services,secret[-_]?key
+  configprops:
+    keys-to-sanitize: password,secret,token,.*credentials.*,vcap_services,secret[-_]?key
+  # enable lifecycle endpoints for pausing and resuming migration
   restart:
     enabled: true
+
 
 # A batch size of 2000 offers good performance with reasonable resource utilization (-Xmx512m). A larger batch
 # size (e.g. 4000) may improve overall performance but the resource limits need to be raised (e.g. -Xmx768m).
@@ -21,56 +32,13 @@ migrate:
     size: 2000
     delay: 60000
 
-reporting:
-  school-year: 2018
-
 spring:
-  reporting_datasource:
-    url: "\
-      jdbc:mysql://${spring.reporting_datasource.url-server:localhost:3306}/${spring.reporting_datasource.url-schema:reporting}\
-      ?useSSL=${spring.reporting_datasource.use-ssl:false}\
-      &useLegacyDatetimeCode=${spring.reporting_datasource.use-legacy-datetime-code:false}\
-      &characterEncoding=${spring.reporting_datasource.character-encoding:utf8}\
-      &rewriteBatchedStatements=${spring.reporting_datasource.rewrite-batched-statements:true}\
-      &connectTimeout=${spring.reporting_datasource.connect-timeout:10000}\
-      &socketTimeout=${spring.reporting_datasource.socket-timeout:130000}\
-      "
-    jdbcInterceptors: "QueryTimeoutInterceptor(queryTimeout=${spring.reporting_datasource.query-timeout:120})"
-    username: root
-    password:
-    testWhileIdle: true
-    validationQuery: SELECT 1
-    validationQueryTimeout: 10000
-    driverClassName: com.mysql.jdbc.Driver
-    initialize: false
-    initialSize: 4
-    maxActive: 10
-    minIdle: ${spring.reporting_datasource.initialSize}
-    maxIdle: ${spring.reporting_datasource.maxActive}
-
-  warehouse_datasource:
-    url: "\
-      jdbc:mysql://${spring.warehouse_datasource.url-server:localhost:3306}/${spring.warehouse_datasource.url-schema:warehouse}\
-      ?useSSL=${spring.warehouse_datasource.use-ssl:false}\
-      &useLegacyDatetimeCode=${spring.warehouse_datasource.use-legacy-datetime-code:false}\
-      &characterEncoding=${spring.warehouse_datasource.character-encoding:utf8}\
-      &connectTimeout=${spring.warehouse_datasource.connect-timeout:10000}\
-      &socketTimeout=${spring.warehouse_datasource.socket-timeout:130000}\
-      "
-    jdbcInterceptors: "QueryTimeoutInterceptor(queryTimeout=${spring.warehouse_datasource.query-timeout:120})"
-    username: root
-    password:
-    testWhileIdle: true
-    validationQuery: SELECT 1
-    validationQueryTimeout: 10000
-    driverClassName: com.mysql.jdbc.Driver
-    initialize: false
-    initialSize: 4
-    maxActive: 10
-    minIdle: ${spring.warehouse_datasource.initialSize}
-    maxIdle: ${spring.warehouse_datasource.maxActive}
-
   batch:
+    # we create the tables in our flyway scripts so completely disable initialization of them
+    initialize-schema: never
+    initializer:
+      enabled: false
+    # don't run any jobs automatically on startup
     job:
       enabled: false
 
@@ -78,6 +46,69 @@ spring:
     default-property-inclusion: non_null
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
+
+  cloud:
+    stream:
+      bindings:
+        ConfigpropsUpdateOutput:
+          destination: ConfigpropsUpdateExchange
+
+datasources:
+  reporting_rw:
+    url-parts:
+      protocol: "jdbc:mysql:"
+      hosts: "${datasources.reporting_rw.url-server:localhost:3306}"
+      database: "${datasources.reporting_rw.url-schema:reporting}"
+      properties: "useSSL=${datasources.reporting_rw.use-ssl:false}\
+                   &useLegacyDatetimeCode=${datasources.reporting_rw.use-legacy-datetime-code:false}\
+                   &characterEncoding=${datasources.reporting_rw.character-encoding:utf8}\
+                   &rewriteBatchedStatements=${datasources.reporting_rw.rewrite-batched-statements:true}\
+                   &connectTimeout=${datasources.reporting_rw.connect-timeout:10000}\
+                   &socketTimeout=${datasources.reporting_rw.socket-timeout:130000}\
+                   "
+    url: "${datasources.warehouse_rw.url-parts.protocol}//${datasources.warehouse_rw.url-parts.hosts}/${datasources.warehouse_rw.url-parts.database}?${datasources.warehouse_rw.url-parts.properties}"
+    username: root
+    password:
+    testWhileIdle: true
+    validationQuery: SELECT 1
+    validationInterval: 35000
+    driverClassName: com.mysql.jdbc.Driver
+    initialize: false
+    initialSize: 2
+    maxActive: 6
+    minIdle: ${datasources.reporting_rw.initialSize}
+    maxIdle: ${datasources.reporting_rw.maxActive}
+    removeAbandoned: false
+    removeAbandonedTimeout: 60
+    logAbandoned: false
+
+  warehouse_rw:
+    url-parts:
+      protocol: "jdbc:mysql:"
+      hosts: "${datasources.warehouse_rw.url-server:localhost:3306}"
+      database: "${datasources.warehouse_rw.url-schema:warehouse}"
+      properties: "useSSL=${datasources.warehouse_rw.use-ssl:false}\
+                   &useLegacyDatetimeCode=${datasources.warehouse_rw.use-legacy-datetime-code:false}\
+                   &characterEncoding=${datasources.warehouse_rw.character-encoding:utf8}\
+                   &connectTimeout=${datasources.warehouse_rw.connect-timeout:10000}\
+                   &socketTimeout=${datasources.warehouse_rw.socket-timeout:130000}\
+                   "
+    url: "${datasources.warehouse_rw.url-parts.protocol}//${datasources.warehouse_rw.url-parts.hosts}/${datasources.warehouse_rw.url-parts.database}?${datasources.warehouse_rw.url-parts.properties}"
+    username: root
+    password:
+    testWhileIdle: true
+    validationQuery: SELECT 1
+    validationInterval: 35000
+    driverClassName: com.mysql.jdbc.Driver
+    initialize: false
+    initialSize: 2
+    maxActive: 6
+    minIdle: ${datasources.warehouse_rw.initialSize}
+    maxIdle: ${datasources.warehouse_rw.maxActive}
+    maxWait: 10000
+    removeAbandoned: false
+    removeAbandonedTimeout: 60
+    logAbandoned: false
 
 logging:
   level:
