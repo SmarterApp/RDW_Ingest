@@ -1,5 +1,13 @@
 ## Change Log
 
+#### 2.1.0 - 2019-09-18
+
+No real code changes but some "nearby" fixes for this release:
+
+* RP-740: Subject Definition Workbook will not allow less than 3 claims
+* RP-754: Latin description levels don't display correctly in the PDF reports
+* RP-791: Data Generator - latin results for only grades 5, 8, 11
+
 #### 2.0.0 - 2019-08-27
 
 NOTE: this release was originally 1.4.0 but was re-labelled just before release. So there are artifacts labelled 1.4.0-RC# which are precursors to the 2.0.0-RELEASE.
