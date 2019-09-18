@@ -29,7 +29,7 @@ String dockerPrefix = "smarterbalanced"
 
 allprojects {
     group = 'org.opentestsystem.rdw.ingest'
-    version = '2.0.1-SNAPSHOT'
+    version = '2.1.0-SNAPSHOT'
 
     apply plugin: 'idea'
     apply plugin: "com.jfrog.artifactory"
