@@ -60,6 +60,15 @@ spring:
       bindings:
         ConfigpropsUpdateOutput:
           destination: ConfigpropsUpdateExchange
+        MigrateJobInput:
+          content-type: application/json
+          destination: MigrateOlapJobExchange
+          group: MigrateOlapJobQueue
+          producer:
+            requiredGroups: MigrateOlapJobQueue
+        MigrateJobOutput:
+          content-type: application/json
+          destination: MigrateOlapJobExchange
 
 datasources:
   migrate_rw:

@@ -52,6 +52,15 @@ spring:
       bindings:
         ConfigpropsUpdateOutput:
           destination: ConfigpropsUpdateExchange
+        MigrateJobInput:
+          content-type: application/json
+          destination: MigrateReportingJobExchange
+          group: MigrateReportingJobQueue
+          producer:
+            requiredGroups: MigrateReportingJobQueue
+        MigrateJobOutput:
+          content-type: application/json
+          destination: MigrateReportingJobExchange
 
 datasources:
   reporting_rw:
