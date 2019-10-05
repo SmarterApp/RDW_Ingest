@@ -94,6 +94,27 @@ mysql> SELECT @@system_time_zone, @@global.time_zone, @@session.time_zone;
 
 The applications depend on the database schema being created properly. See instructions below under [Running](#running)
 
+#### MySQL - docker
+
+Experiment in running mysql in docker so you don't have to do a native side-by-side install or whatever.
+
+```bash
+# FYI, to get list of settings
+docker run -it --rm mysql:5.6 --verbose --help
+
+# launch mysql
+docker run --rm --name rdw-mysql -p 3306:3306 -v /tmp:/tmp -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -d mysql:5.6 --explicit-defaults-for-timestamp=1 --secure-file-priv=''
+
+# some examples of exec'ing things 
+docker exec -it rdw-mysql bash
+mkdir -p /tmp/dataset
+docker exec rdw-mysql mysqldump -u root --tab=/tmp/dataset warehouse 
+
+# you can stop and start the container; data is preserved as long as container isn't removed/recreated
+docker stop rdw-mysql
+docker start rdw-mysql
+```
+
 
 ### Cloning
 ```bash
