@@ -23,8 +23,8 @@ apply plugin: 'io.spring.dependency-management'
 ext['groovy.version'] = '2.5.6'
 
 // Set version dependencies. This allows the cli to force version, e.g. `-Pcommon=1.2.0-SNAPSHOT`
-String rdwCommonVersion = project.hasProperty("common") ? project.property("common") : "2.0.0-3"
-String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "2.0.0-1"
+String rdwCommonVersion = project.hasProperty("common") ? project.property("common") : "2.1.0-4"
+String rdwSchemaVersion = project.hasProperty("schema") ? project.property("schema") : "2.1.0-2"
 String dockerPrefix = "smarterbalanced"
 
 allprojects {
