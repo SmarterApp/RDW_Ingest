@@ -1,0 +1,4 @@
+AssessmentId,AssessmentName,AssessmentSubject,AssessmentGrade,AssessmentType,AssessmentSubtype,AssessmentLabel,AssessmentVersion,AcademicYear,ScaledLow1,ScaledHigh1,ScaledLow2,ScaledHigh2,ScaledLow3,ScaledHigh3,ScaledLow4,ScaledHigh4
+GEO-GRADE-07-2018,GEO-ASMT,GEO,07,summative,SUM,GEO Grade 7, 112,2018,1150,1480,1481,1526,1527,1575,1576,1900
+GEO-GRADE-08-2018,GEO-ASMT,GEO,08,summative,SUM,GEO Grade 8, 112,2018,1150,1485,1486,1533,1534,1589,1590,1900
+HIST-GRADE-08-2018,GEO-ASMT,HIST,08,summative,SUM,HIST Grade 8, 112,2018,1150,1485,1486,1533,1534,1589,1590,1900
