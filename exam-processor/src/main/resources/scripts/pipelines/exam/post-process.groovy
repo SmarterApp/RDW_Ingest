@@ -47,22 +47,28 @@ checkValid
 
 
 //
-// Validates that the examinee's school exists in the data store, and return its ID.
+// Validate that the examinee's school exists in the data store, and return its ID.
 //
 int parseSchoolId(def examinee) {
     trtUtils.with {
         String naturalId = getBestRelationshipValue(examinee, "SchoolId")
+        if (naturalId == null) {
+            errorImmediately 'UNKNOWN_SCHOOL', "report does not contain school id for Examinee"
+        }
+
         Integer schoolId = schoolRepository.findIdByNaturalId(naturalId)
 
-        if (schoolId != null) return schoolId
+        if (schoolId == null) {
+            // put as much info as possible into the import message
+            final String schoolName = getBestRelationshipValue(examinee, "SchoolName")
+            final String districtId = getBestRelationshipValue(examinee, "DistrictId")
+            final String districtName = getBestRelationshipValue(examinee, "DistrictName")
 
-        // put as much info as possible into the import message
-        final String schoolName = getBestRelationshipValue(examinee, "SchoolName")
-        final String districtId = getBestRelationshipValue(examinee, "DistrictId")
-        final String districtName = getBestRelationshipValue(examinee, "DistrictName")
+            errorImmediately 'UNKNOWN_SCHOOL',
+                    "unable to find a school with natural id [${naturalId}]. School name: ${schoolName}, " +
+                            "district id: [${districtId}], district name: ${districtName}"
+        }
 
-        errorImmediately 'UNKNOWN_SCHOOL',
-                "unable to find a school with natural id [${naturalId}]. School name: ${schoolName}, " +
-                        "district id: [${districtId}], district name: ${districtName}"
+        return schoolId
     }
 }
