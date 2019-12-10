@@ -1,6 +1,8 @@
 sql:
   migrate:
+    # No-Op for now
     finalizeList:
+      - NULL
 
     entities:
         # ------------ administration_condition  -------------------------------------------------------------------
