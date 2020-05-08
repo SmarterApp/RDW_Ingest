@@ -1,5 +1,3 @@
-apply plugin: 'org.springframework.boot'
-
 // migrate is a bit of a memory hog; for batch size 2000, -Xmx512m is a good heap size
 // but need larger for more tenants or larger batch size (for a batch size of 4000,
 // this should be set to at least -Xmx768m)
@@ -8,31 +6,35 @@ createDockerfile {
 }
 
 dependencies {
-    // handy for creating metadata with @ConfigurationProperties
-    compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
-
-    compile 'org.springframework.boot:spring-boot-starter-batch'
-    compile 'org.springframework.boot:spring-boot-starter-jdbc'
-    compile 'org.springframework.cloud:spring-cloud-starter-config'
-    compile 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
 
     // this is for retrying connection to config server
-    compile 'org.springframework.boot:spring-boot-starter-aop'
-    compile 'org.springframework.retry:spring-retry'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.springframework.retry:spring-retry'
 
     // cloud stream
-    compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
-    compile 'org.springframework.cloud:spring-cloud-stream'    
+    implementation 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
+    implementation 'org.springframework.cloud:spring-cloud-stream'
 
-    compile project(':rdw-ingest-common')
-    compile project(':rdw-ingest-migrate-common')
+    implementation 'org.opentestsystem.rdw.common:rdw-common-status'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-utils'
+    implementation 'mysql:mysql-connector-java'
 
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
-    testCompile 'org.springframework.batch:spring-batch-test'
+    implementation project(':rdw-ingest-common')
+    implementation project(':rdw-ingest-migrate-common')
 
-    compile 'org.opentestsystem.rdw.common:rdw-common-status'
-    compile 'org.opentestsystem.rdw.common:rdw-common-utils'
-    compile 'mysql:mysql-connector-java'
+    // This is stupid and there has to be a better solution but for now ...
+    // We have to explicitly bring this in so we can exclude the runtime auto
+    // configuration it contains, which is brought in transitively
+    // (see MigrateReportingApplication and TestAppConfig)
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws'
 
-    testCompile project(path: ':rdw-ingest-migrate-common', configuration: 'tests')
+    testImplementation 'org.opentestsystem.rdw.common:rdw-common-model'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.batch:spring-batch-test'
+
+    testImplementation project(path: ':rdw-ingest-migrate-common', configuration: 'tests')
 }

@@ -1,34 +1,29 @@
-apply plugin: 'org.springframework.boot'
-
 dependencies {
-    // handy for creating metadata with @ConfigurationProperties
-    compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
-
-    compile 'org.springframework.boot:spring-boot-starter-jdbc'
-    compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
-    compile 'org.springframework.cloud:spring-cloud-starter-config'
-    compile 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
-    compile 'org.springframework.cloud:spring-cloud-stream'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+    implementation 'org.springframework.cloud:spring-cloud-stream'
 
     // this is for retrying connection to config server
-    compile 'org.springframework.boot:spring-boot-starter-aop'
-    compile 'org.springframework.retry:spring-retry'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.springframework.retry:spring-retry'
 
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
-    testCompile 'org.springframework.cloud:spring-cloud-stream-test-support'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
 
-    compile 'com.google.code.gson:gson'
-    compile 'mysql:mysql-connector-java'
-    compile 'org.apache.commons:commons-csv'
-    compile 'org.apache.commons:commons-lang3'
-    compile 'org.opentestsystem.rdw.common:rdw-common-messaging'
-    compile 'org.opentestsystem.rdw.common:rdw-common-model'
-    compile 'org.opentestsystem.rdw.common:rdw-common-multi-tenant'
-    compile 'org.opentestsystem.rdw.common:rdw-common-status'
-    compile 'org.opentestsystem.rdw.common:rdw-common-utils'
-    compile 'org.opentestsystem.rdw.common:rdw-common-archive'
-    compile 'org.springframework.boot:spring-boot-devtools'
+    implementation 'com.google.code.gson:gson'
+    implementation 'mysql:mysql-connector-java'
+    implementation 'org.apache.commons:commons-csv'
+    implementation 'org.apache.commons:commons-lang3'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-messaging'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-model'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-multi-tenant'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-status'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-utils'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-archive'
+    implementation 'org.springframework.boot:spring-boot-devtools'
 
-    compile project(':rdw-ingest-common')
-    testCompile project(path: ':rdw-ingest-common', configuration: 'tests')
+    implementation project(':rdw-ingest-common')
+    testImplementation project(path: ':rdw-ingest-common', configuration: 'tests')
 }
