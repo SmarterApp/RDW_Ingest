@@ -1,5 +1,13 @@
 ## Change Log
 
+#### 2.4.0 -
+
+Work done as part of RDW Phase 6.
+
+* TechDebt
+    * Upgrade gradle, including plugins
+    * Upgrade SpringFramework and other libraries (most recent minor revs only, no major upgrades)
+
 #### 2.2.0 -
 
 #### 2.1.0 - 2019-09-18

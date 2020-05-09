@@ -1,27 +1,19 @@
-// This pulls in the dependency management which is great.
-// But it also defines silly boot tasks which we don't want here.
-apply plugin: 'org.springframework.boot'
-bootRepackage.enabled = false
-bootRun.enabled = false
-
 dependencies {
-    // handy for creating metadata with @ConfigurationProperties
-    compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
+    implementation 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
+    implementation 'org.springframework.cloud:spring-cloud-stream'
 
-    compile 'org.springframework.boot:spring-boot-starter-batch'
-    compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
-    compile 'org.springframework.cloud:spring-cloud-stream'
+    implementation project(':rdw-ingest-common')
 
-    compile project(':rdw-ingest-common')
+    implementation 'org.opentestsystem.rdw.common:rdw-common-model'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-status'
 
-    compile 'org.opentestsystem.rdw.common:rdw-common-status'
-
-    testCompile 'org.springframework:spring-test'
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework:spring-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 task testsJar(type: Jar, dependsOn: testClasses) {
-    classifier = 'tests'
+    archiveClassifier.set('tests')
     from sourceSets.test.output
 }
 configurations {

@@ -4,5 +4,7 @@ out/
 
 *.iml
 .idea/
-
 .gradle/
+
+# local configuration files that should never be checked in
+.env

@@ -1,47 +1,42 @@
-apply plugin: 'org.springframework.boot'
-
 dependencies {
-    // handy for creating metadata with @ConfigurationProperties
-    compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
-
-    compile 'org.springframework.boot:spring-boot-starter-jdbc'
-    compile 'org.springframework.boot:spring-boot-starter-hateoas'
-    compile 'org.springframework.boot:spring-boot-starter-web'
-    compile 'org.springframework.cloud:spring-cloud-starter-config'
-    compile 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-hateoas'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
 
     // cloud stream
-    compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
-    compile 'org.springframework.cloud:spring-cloud-stream'
-    testCompile 'org.springframework.cloud:spring-cloud-stream-test-support'
+    implementation 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
+    implementation 'org.springframework.cloud:spring-cloud-stream'
+    testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
 
     // auth
-    compile 'org.springframework.boot:spring-boot-starter-security'
-    compile 'org.springframework.security.oauth:spring-security-oauth2'
-    compile group: 'com.okta.jwt', name: 'okta-jwt-verifier', version: '0.4.0'
-    compile group: 'com.okta.jwt', name: 'okta-jwt-verifier-impl', version: '0.4.0'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.security.oauth:spring-security-oauth2'
+    implementation group: 'com.okta.jwt', name: 'okta-jwt-verifier', version: '0.4.0'
+    implementation group: 'com.okta.jwt', name: 'okta-jwt-verifier-impl', version: '0.4.0'
 
     // this is for retrying connection to config server
-    compile 'org.springframework.boot:spring-boot-starter-aop'
-    compile 'org.springframework.retry:spring-retry'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.springframework.retry:spring-retry'
 
-    compile project(':rdw-ingest-common')
+    implementation project(':rdw-ingest-common')
 
-    compile 'commons-io:commons-io'
+    implementation 'commons-io:commons-io'
 
-    compile 'org.opentestsystem.rdw.common:rdw-common-archive'
-    compile 'org.opentestsystem.rdw.common:rdw-common-group'
-    compile 'org.opentestsystem.rdw.common:rdw-common-messaging'
-    compile 'org.opentestsystem.rdw.common:rdw-common-model'
-    compile 'org.opentestsystem.rdw.common:rdw-common-multi-tenant'
-    compile 'org.opentestsystem.rdw.common:rdw-common-security'
-    compile 'org.opentestsystem.rdw.common:rdw-common-status'
-    compile 'org.opentestsystem.rdw.common:rdw-common-utils'
-    compile 'mysql:mysql-connector-java'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-archive'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-group'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-messaging'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-model'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-multi-tenant'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-security'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-status'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-utils'
+    implementation 'mysql:mysql-connector-java'
 
     // fixes java 8 time marshaling
-    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.7'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.7'
 
     // for CachingTest amongst other things
-    testCompile project(path: ':rdw-ingest-common', configuration: 'tests')
+    testImplementation project(path: ':rdw-ingest-common', configuration: 'tests')
 }

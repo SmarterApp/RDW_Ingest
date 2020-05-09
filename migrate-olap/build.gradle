@@ -1,40 +1,35 @@
-apply plugin: 'org.springframework.boot'
-
-// it shouldn't but, empirically this service needs a larger heap
+// it shouldn't but, empirically, this service needs a larger heap
 createDockerfile {
     environmentVariable("MAX_HEAP_SIZE", "-Xmx512m")
 }
 
 dependencies {
-    // handy for creating metadata with @ConfigurationProperties
-    compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
-
-    compile 'org.springframework.boot:spring-boot-starter-batch'
-    compile 'org.springframework.boot:spring-boot-starter-jdbc'
-    compile 'org.springframework.cloud:spring-cloud-starter-config'
-    compile 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
 
     // this is for retrying connection to config server
-    compile 'org.springframework.boot:spring-boot-starter-aop'
-    compile 'org.springframework.retry:spring-retry'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.springframework.retry:spring-retry'
 
     // cloud stream
-    compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
-    compile 'org.springframework.cloud:spring-cloud-stream'
+    implementation 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
+    implementation 'org.springframework.cloud:spring-cloud-stream'
     
-    compile project(':rdw-ingest-common')
-    compile project(':rdw-ingest-migrate-common')
+    implementation project(':rdw-ingest-common')
+    implementation project(':rdw-ingest-migrate-common')
 
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
-    testCompile 'org.springframework.batch:spring-batch-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.batch:spring-batch-test'
 
-    compile 'org.opentestsystem.rdw.common:rdw-common-archive'
-    compile 'org.opentestsystem.rdw.common:rdw-common-status'
-    compile 'org.opentestsystem.rdw.common:rdw-common-utils'
-    compile 'mysql:mysql-connector-java'
-    compile 'com.amazon.redshift:redshift-jdbc42-no-awssdk:1.2.8.1005'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-archive'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-status'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-utils'
+    implementation 'mysql:mysql-connector-java'
+    implementation 'com.amazon.redshift:redshift-jdbc42-no-awssdk:1.2.8.1005'
 
-    testCompile project(path: ':rdw-ingest-migrate-common', configuration: 'tests')
+    testImplementation project(path: ':rdw-ingest-migrate-common', configuration: 'tests')
 }
 
 // Task to run RST (redshift integration tests).

@@ -22,8 +22,8 @@ jar {
 }
 
 dependencies {
-    compile 'commons-cli:commons-cli:1.4'
-    compile 'org.opentestsystem.rdw.common:rdw-common-model'
+    implementation 'commons-cli:commons-cli:1.4'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-model'
 
     // need a runtime slf4j impl
     runtime 'org.slf4j:slf4j-simple:1.7.25'
@@ -32,6 +32,6 @@ dependencies {
     // implementation which is used during streaming XSD-based XML validation
     runtime files(Jvm.current().toolsJar)
 
-    testCompile 'com.github.stefanbirkner:system-rules:1.19.0'
+    testImplementation 'com.github.stefanbirkner:system-rules:1.19.0'
 }
 
