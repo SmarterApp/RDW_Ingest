@@ -1,24 +1,8 @@
 import org.gradle.internal.jvm.Jvm
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-cache'
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    implementation 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
-    implementation 'org.springframework.cloud:spring-cloud-starter-config'
-    implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
-    implementation 'org.springframework.cloud:spring-cloud-stream'
+    implementation project(':rdw-ingest-common')
 
-    // this is for retrying connection to config server
-    implementation 'org.springframework.boot:spring-boot-starter-aop'
-    implementation 'org.springframework.retry:spring-retry'
-
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
-
-    implementation 'com.google.code.gson:gson'
-    implementation 'commons-io:commons-io'
-    implementation 'mysql:mysql-connector-java'
-    implementation 'org.apache.commons:commons-csv'
     implementation 'org.opentestsystem.rdw.common:rdw-common-archive'
     implementation 'org.opentestsystem.rdw.common:rdw-common-messaging'
     implementation 'org.opentestsystem.rdw.common:rdw-common-model'
@@ -28,7 +12,40 @@ dependencies {
     implementation 'org.opentestsystem.rdw.common:rdw-common-utils'
     implementation 'org.springframework.boot:spring-boot-devtools'
 
-    implementation project(':rdw-ingest-common')
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
+    implementation 'org.springframework.cloud:spring-cloud-stream'
+
+    // this is for retrying connection to config server
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.springframework.retry:spring-retry'
+
+    implementation 'com.google.code.gson:gson'
+    implementation 'commons-io:commons-io'
+    implementation 'mysql:mysql-connector-java'
+    implementation 'org.apache.commons:commons-csv'
+
+    // for rdw-common-script (see note in that project's build.gradle)
+    implementation 'org.codehaus.groovy:groovy'
+    implementation 'org.jdom:jdom2'
+    implementation 'jaxen:jaxen'
+//    implementation 'commons-io:commons-io'
+//    implementation 'org.apache.commons:commons-csv'
+
+    // for rdw-common-model (creating classes at runtime)
+    runtimeOnly 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
+    runtimeOnly 'msv:msv'
+    runtimeOnly 'msv:xsdlib'
+
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
+    testImplementation 'org.apache.commons:commons-lang3'
+
     testImplementation project(path: ':rdw-ingest-common', configuration: 'tests')
 
     // Add a runtime binding to the java tool.jar required by Sun's MSV (multi-schema-validator)

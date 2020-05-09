@@ -1,19 +1,6 @@
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-aop'
-    implementation 'org.springframework.boot:spring-boot-starter-cache'
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    implementation 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
-    implementation 'org.springframework.cloud:spring-cloud-starter-config'
-    implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
-    implementation 'org.springframework.cloud:spring-cloud-stream'
-    implementation 'org.springframework.retry:spring-retry'
+    implementation project(':rdw-ingest-common')
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
-    testImplementation 'org.xmlunit:xmlunit-core'
-    testImplementation 'org.xmlunit:xmlunit-matchers'
-
-    implementation "com.google.code.gson:gson"
     implementation 'org.opentestsystem.rdw.common:rdw-common-archive'
     implementation 'org.opentestsystem.rdw.common:rdw-common-messaging'
     implementation 'org.opentestsystem.rdw.common:rdw-common-model'
@@ -21,10 +8,34 @@ dependencies {
     implementation 'org.opentestsystem.rdw.common:rdw-common-script'
     implementation 'org.opentestsystem.rdw.common:rdw-common-status'
     implementation 'org.opentestsystem.rdw.common:rdw-common-utils'
+
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
+    implementation 'org.springframework.cloud:spring-cloud-stream'
+    implementation 'org.springframework.retry:spring-retry'
+
+    implementation 'com.google.code.gson:gson'
     implementation 'mysql:mysql-connector-java'
     implementation 'net.sf.saxon:Saxon-HE'
+    implementation 'org.apache.commons:commons-lang3'
 
-    implementation project(':rdw-ingest-common')
+    // for rdw-common-script (see note in that project's build.gradle)
+    implementation 'commons-io:commons-io'
+    implementation 'jaxen:jaxen'
+    implementation 'org.apache.commons:commons-csv'
+    implementation 'org.codehaus.groovy:groovy'
+    implementation 'org.jdom:jdom2'
+
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
+    testImplementation 'org.xmlunit:xmlunit-core'
+    testImplementation 'org.xmlunit:xmlunit-matchers'
 
     testImplementation project(path: ':rdw-ingest-common', configuration: 'tests')
 }

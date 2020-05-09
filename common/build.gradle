@@ -1,8 +1,4 @@
 dependencies {
-    // handy for creating metadata with @ConfigurationProperties
-    compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
-
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.opentestsystem.rdw.common:rdw-common-archive'
     implementation 'org.opentestsystem.rdw.common:rdw-common-messaging'
     implementation 'org.opentestsystem.rdw.common:rdw-common-model'
@@ -12,8 +8,11 @@ dependencies {
 
     // for @NotNull
     implementation 'javax.validation:validation-api'
-
     implementation 'com.google.code.gson:gson'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+    // Included for rdw-common-script (see note in that project's build.gradle)
+    testImplementation 'org.codehaus.groovy:groovy'
 
     testImplementation 'mysql:mysql-connector-java'
     testImplementation 'org.apache.commons:commons-lang3'
@@ -21,7 +20,7 @@ dependencies {
     testImplementation 'org.springframework:spring-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-validation'
-//    testImplementation 'org.springframework.cloud:spring-cloud-aws'
+    testImplementation 'org.springframework.cloud:spring-cloud-starter-aws'
 }
 
 task testsJar(type: Jar, dependsOn: testClasses) {

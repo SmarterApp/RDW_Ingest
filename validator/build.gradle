@@ -22,8 +22,23 @@ jar {
 }
 
 dependencies {
-    implementation 'commons-cli:commons-cli:1.4'
     implementation 'org.opentestsystem.rdw.common:rdw-common-model'
+
+    implementation 'commons-cli:commons-cli:1.4'
+    implementation 'org.apache.commons:commons-lang3'
+
+    // for rdw-common-model (need a bom or something for this)
+    // NOTE: not sure how much is needed for tests vs. build
+    implementation 'com.fasterxml.jackson.core:jackson-annotations'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-guava'
+    implementation 'org.apache.commons:commons-csv'
+    implementation 'org.apache.commons:commons-lang3'
+    implementation 'org.codehaus.woodstox:stax2-api'
+    implementation 'msv:msv'
+    implementation 'msv:xsdlib'
+    implementation 'xerces:xercesImpl'
 
     // need a runtime slf4j impl
     runtime 'org.slf4j:slf4j-simple:1.7.25'
@@ -32,6 +47,7 @@ dependencies {
     // implementation which is used during streaming XSD-based XML validation
     runtime files(Jvm.current().toolsJar)
 
+    testImplementation 'commons-io:commons-io'
     testImplementation 'com.github.stefanbirkner:system-rules:1.19.0'
 }
 

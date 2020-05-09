@@ -1,12 +1,14 @@
 dependencies {
+    implementation project(':rdw-ingest-common')
+
+    implementation 'org.opentestsystem.rdw.common:rdw-common-model'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-multi-tenant'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-status'
+
     implementation 'org.springframework.boot:spring-boot-starter-batch'
     implementation 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
     implementation 'org.springframework.cloud:spring-cloud-stream'
 
-    implementation project(':rdw-ingest-common')
-
-    implementation 'org.opentestsystem.rdw.common:rdw-common-model'
-    implementation 'org.opentestsystem.rdw.common:rdw-common-status'
 
     testImplementation 'org.springframework:spring-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
