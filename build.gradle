@@ -289,6 +289,8 @@ task cleanAndMigrateTestSchema(type: GradleBuild, dependsOn: extractSchema) {
     group = "Schema"
     description = "Cleans and migrates the schemas that integration tests depend on"
     buildFile = schemaDir() + '/build.gradle'
+    // copy any command-line properties for sub-build
+    startParameter.projectProperties = gradle.startParameter.projectProperties
     tasks = ['cleanAll_test', 'migrateAll_test']
 }
 
