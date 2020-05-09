@@ -1,9 +1,21 @@
 dependencies {
+    implementation project(':rdw-ingest-common')
+
+    implementation 'org.opentestsystem.rdw.common:rdw-common-archive'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-group'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-messaging'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-model'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-multi-tenant'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-security'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-status'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-utils'
+
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-hateoas'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws'
     implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
 
     // cloud stream
     implementation 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
@@ -20,19 +32,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation 'org.springframework.retry:spring-retry'
 
-    implementation project(':rdw-ingest-common')
-
     implementation 'commons-io:commons-io'
-
-    implementation 'org.opentestsystem.rdw.common:rdw-common-archive'
-    implementation 'org.opentestsystem.rdw.common:rdw-common-group'
-    implementation 'org.opentestsystem.rdw.common:rdw-common-messaging'
-    implementation 'org.opentestsystem.rdw.common:rdw-common-model'
-    implementation 'org.opentestsystem.rdw.common:rdw-common-multi-tenant'
-    implementation 'org.opentestsystem.rdw.common:rdw-common-security'
-    implementation 'org.opentestsystem.rdw.common:rdw-common-status'
-    implementation 'org.opentestsystem.rdw.common:rdw-common-utils'
     implementation 'mysql:mysql-connector-java'
+    implementation 'org.apache.commons:commons-csv'
+    implementation 'org.apache.commons:commons-lang3'
 
     // fixes java 8 time marshaling
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.7'

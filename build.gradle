@@ -19,8 +19,8 @@ idea {
 
 project.ext.apps = subprojects.findAll { !'lib'.equalsIgnoreCase(it.findProperty('moduleType') as String) }
 
-// Set version dependencies. This allows the cli to force version, e.g. `-Pcommon=1.2.0-SNAPSHOT`
-String rdwCommonVersion = project.hasProperty('common') ? project.property('common') : '2.4.0-11'
+// Set version dependencies. This allows the cli to force version, e.g. `-Pcommon=2.4.0-SNAPSHOT`
+String rdwCommonVersion = project.hasProperty('common') ? project.property('common') : '2.4.0-12'
 String rdwSchemaVersion = project.hasProperty('schema') ? project.property('schema') : '2.4.0-8'
 String dockerPrefix = 'smarterbalanced'
 
@@ -55,6 +55,7 @@ subprojects {
         rootProject.ext['assertj.version'] = '3.14.0'
         rootProject.ext['mockito.version'] = '2.28.2'
         rootProject.ext['groovy.version'] = '2.5.6'
+        rootProject.ext['jackson.version'] = '2.9.9'
 
         constraints {
             implementation "org.opentestsystem.rdw.common:rdw-common-archive:${rdwCommonVersion}"
@@ -75,15 +76,35 @@ subprojects {
             implementation 'net.sf.saxon:Saxon-HE:9.7.0-21'
             implementation 'org.apache.commons:commons-csv:1.6'
             implementation 'org.apache.commons:commons-lang3:3.8.1'
+            implementation "org.codehaus.groovy:groovy:${rootProject.ext['groovy.version']}"
             implementation 'org.slf4j:slf4j-api:1.7.25'
 
+            // for rdw-common-script
+            implementation 'org.codehaus.groovy:groovy:2.5.6'
+            implementation 'org.jdom:jdom2:2.0.6'
+            implementation 'jaxen:jaxen:1.1.4'
+//            implementation 'commons-io:commons-io:2.6'
+//            implementation 'org.apache.commons:commons-csv:1.6'
+
+            // for rdw-common-model (mostly)
+            implementation "com.fasterxml.jackson.core:jackson-annotations:${rootProject.ext['jackson.version']}"
+            implementation "com.fasterxml.jackson.core:jackson-core:${rootProject.ext['jackson.version']}"
+            implementation "com.fasterxml.jackson.core:jackson-databind:${rootProject.ext['jackson.version']}.1"
+            implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${rootProject.ext['jackson.version']}"
+            implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${rootProject.ext['jackson.version']}"
+            implementation "com.fasterxml.jackson.datatype:jackson-datatype-guava:${rootProject.ext['jackson.version']}"
+            implementation 'org.codehaus.woodstox:stax2-api:4.1'
+            implementation 'msv:msv:20050913'
+            implementation 'msv:xsdlib:20050913'
+            implementation 'xerces:xercesImpl:2.11.0'
+
             // commonly used test libraries
-            implementation 'junit:junit:4.12'
-            implementation "org.assertj:assertj-core:${rootProject.ext['assertj.version']}"
-            implementation "org.mockito:mockito-core:${rootProject.ext['mockito.version']}"
-            implementation "org.mockito:mockito-inline:${rootProject.ext['mockito.version']}"
-            implementation 'org.xmlunit:xmlunit-core:2.6.2'
-            implementation 'org.xmlunit:xmlunit-matchers:2.6.2'
+            testImplementation 'junit:junit:4.12'
+            testImplementation "org.assertj:assertj-core:${rootProject.ext['assertj.version']}"
+            testImplementation "org.mockito:mockito-core:${rootProject.ext['mockito.version']}"
+            testImplementation "org.mockito:mockito-inline:${rootProject.ext['mockito.version']}"
+            testImplementation 'org.xmlunit:xmlunit-core:2.6.2'
+            testImplementation 'org.xmlunit:xmlunit-matchers:2.6.2'
         }
 
         implementation platform('org.springframework.boot:spring-boot-dependencies:1.5.21.RELEASE')
