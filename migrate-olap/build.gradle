@@ -36,6 +36,12 @@ dependencies {
     testImplementation project(path: ':rdw-ingest-migrate-common', configuration: 'tests')
 }
 
+// no ITs in this module
+IT {
+    enabled = false
+    dependsOn = []
+}
+
 // Task to run RST (redshift integration tests).
 //
 // RSTs require AWS databases. The convention is for developers to use the CI instances and either

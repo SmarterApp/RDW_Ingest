@@ -14,6 +14,13 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+// no ITs in this module
+IT {
+    enabled = false
+    dependsOn = []
+}
+
+// make a tests jar for dependent apps to use
 task testsJar(type: Jar, dependsOn: testClasses) {
     archiveClassifier.set('tests')
     from sourceSets.test.output

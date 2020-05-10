@@ -51,3 +51,8 @@ dependencies {
     testImplementation 'com.github.stefanbirkner:system-rules:1.19.0'
 }
 
+// no ITs in this module
+IT {
+    enabled = false
+    dependsOn = []
+}

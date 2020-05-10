@@ -126,8 +126,15 @@ subprojects {
     // this is for creating metadata
     compileJava.dependsOn(processResources)
 
-    // Skip running integration and system tests automatically, because they take a long time
-    test.exclude '**/*IT.*', '**/*RST.*'
+    test {
+        // Skip running integration and system tests automatically, because they take a long time
+        exclude '**/*IT.*', '**/*RST.*'
+
+        // log non-passing test results to the console
+        testLogging {
+            events 'skipped', 'failed'
+        }
+    }
 
     // This task for for manually running the integration tests without automatically cleaning and creating
     // the test database schemas
@@ -140,7 +147,13 @@ subprojects {
     }
 
     // Specific integration test task that will automatically clean and migrate
-    // the test database schemas before running ...
+    // the test database schemas before running.
+    // If a module has no ITs, to avoid running the cleanAndMigrateTestSchema
+    // task needlessly, it should completely disable this by doing:
+    //    IT {
+    //        enabled = false
+    //        dependsOn = []
+    //    }
     task IT(type: Test, dependsOn: ':cleanAndMigrateTestSchema') {
         include '**/*IT.*'
         group = 'Verification'
@@ -153,15 +166,11 @@ subprojects {
 
     task coverage(type: Task, dependsOn: [test, IT]) {
         doFirst {
-            jacocoTestReport.executionData(test, IT)
-            jacocoTestReport.reports.html.destination = file("${reporting.baseDir}/${name}")
-
-            // Only include execution data that exists (handle projects without integration tests)
-            jacocoTestReport {
-                executionData = files(executionData.findAll {
-                    it.exists()
-                })
+            jacocoTestReport.executionData(test)
+            if (IT.enabled) {
+                jacocoTestReport.executionData(IT)
             }
+            jacocoTestReport.reports.html.destination = file("${reporting.baseDir}/${name}")
         }
         finalizedBy(jacocoTestReport)
     }
