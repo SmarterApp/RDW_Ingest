@@ -1,6 +1,15 @@
 ## RDW_Ingest for Developers
 
-This document is targeted at developers contributing to the RDW_Ingest project.
+This document targets developers contributing to the RDW_Ingest project. It includes conventions 
+and guidelines (please read before contributing), and detailed instructions for running the services
+in various development-friendly configurations.
+
+Table of Contents:
+* [Coding Conventions](#coding-conventions)
+* [Version Control Conventions](#version-control-conventions)
+* [Documentation Conventions](#documentation-conventions)
+* [Developer Setup](#developer-setup)
+* [Running](#running)
 
 ### Coding Conventions
 
@@ -43,21 +52,15 @@ Use feature branches off of `develop` for all new features. Use a prefix of `fea
 For example, the new shoesize feature work would be in `feature/shoesize`. Create pull requests from the feature
 branch to `develop` to solicit code reviews and feedback. Once approved use `squash and merge` into `develop`.
 
-##### Developing with RDW_Schema
-If you are making changes within a standalone clone of RDW_Schema and want to test RDW_Ingest with the local changes to
-the schema, then all you have to do is install the changes to RDW_Schema that you have made, and tell ingest to use the 
-SNAPSHOT version of the RDW_Schema:
-```bash
-# under the RDW_Schema directory...
-RDW_Schema$ ./gradlew install
-```
-and then run the integration tests as usual, but using the local SNAPSHOT version of RDW_Schema:
-```bash
-# under the RDW_Ingest directory...
-RDW_Ingest$ ./gradlew build it -Pschema=1.1.0-SNAPSHOT
-```
 
-### Resource Requirements
+### Documentation Conventions
+As changes are made to the project, please maintain the documentation. Within this project `README.md` is
+intended as an introduction with sufficient information for building and deploying the project.
+`CONTRIBUTING.md` is targeted at developers and has more detailed information on building, testing, and
+debugging the applications. Please update `CHANGELOG.md` as work is completed so we don't have to mine 
+the vcs log to glean the high level changes.  
+
+##### Resource Requirements Documentation
 As changes are made to the code, the resulting services will change their resource requirements. Since these are
 documented for the users, e.g. https://github.com/SmarterApp/RDW/blob/develop/docs/Runbook.md#import-service, it is
 important to keep them current. This isn't too hard to do using Native Memory Tracking (NMT). Please refer to
@@ -65,7 +68,56 @@ https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/tooldescr007
 memory utilization.
 
 
+### Developer Setup
+Developers should start with the [basic build instructions](./README.md#building). And, of course, developers
+should have their favorite Java IDE installed, IntelliJ is a good choice. Pull down the repository and load
+the project from its gradle configuration.
+
+Additionally, developers should:
+* Pull down [RDW](https://github.com/SmarterApp/RDW)
+* Pull down [RDW_Common](https://github.com/SmarterApp/RDW_Common)
+* Pull down [RDW_Schema](https://github.com/SmarterApp/RDW_Schema) 
+* Get access to the git repository backing the configuration service, ask the project lead.
+* Load the test data mentioned in [loading data](./README.md#loading-data), ask the project lead for the file.
+```bash
+mysql -u root < ~/mysqltestdata.dmp
+gw migrateAll
+```
+
+##### Developing with RDW_Schema
+If you are developing RDW_Schema and would like to test your local changes in this project, you can build 
+RDW_Schema locally, install your changes to the local repository, and specify the SNAPSHOT version of 
+RDW_Schema when building RDW_Ingest:
+```bash
+cd ../RDW_Schema
+# make local changes
+gw install
+
+cd ../RDW_Ingest
+gw build it -Pschema=2.4.0-SNAPSHOT
+```
+
+##### Developing with RDW_Common
+If you are developing RDW_Common and would like to test your local changes in this project, you can build 
+RDW_Common locally, install your changes to the local repository, and specify the SNAPSHOT version of 
+RDW_Common when building RDW_Ingest:
+```bash
+cd ../RDW_Common
+# make local changes
+gw install
+
+cd ../RDW_Ingest
+gw build it -Pcommon=1.1.0-SNAPSHOT
+```
+
 ### Running
+
+RDW_Ingest applications are loosely coupled using a message queue to coordinate work. And the default
+configuration for the applications is "developer-friendly" pointing at local resources. Because of this,
+it is seldom necessary to orchestrate all the applications to do effective development. Instead:
+1. Use unit tests to develop core functionality.
+1. Use integration tests to develop database-related and application framework functionality.
+1. Run one or two applications from the IDE to do system-level testing.
 
 #### Running From IDE
 The [README](./README.md) outlines how to run the applications using docker. As a developer you will want to run an
@@ -85,42 +137,3 @@ specified to avoid conflict.
 java -jar import-service/build/libs/rdw-ingest-import-service-1.1.0-SNAPSHOT.jar
 java -jar exam-processor/build/libs/rdw-ingest-exam-processor-1.1.0-SNAPSHOT.jar --server.port=8082
 ```
-
-#### FTP Server
-The task service can be configured to use FTP to send reconciliation reports. If you don't have an FTP server but want 
-to test that functionality, you can use docker to run ProFTPD. Either directly run it and modify the task service 
-application.yml to hit localhost:
-```bash
-docker run -d --name ftpd -e FTP_USERNAME=alice -e FTP_PASSWORD=pswd -v /tmp/ftpd:/home/alice -p 20:20 -p 21:21 hauptmedia/proftpd
-```
-```bash
-task:
-  send-reconciliation-report:
-    cron: 0 0/1 * * * *
-    query: status=PROCESSED
-    ftp-sender:
-      server:localhost
-      username:alice
-      password:pswd
-```
-Or, set it all in the docker-compose.yml:
-```yaml
-  ftpd:
-    image: hauptmedia/proftpd
-    container_name: ftpd
-    ports:
-      - 0021:0021
-      - 0020:0020
-    volumes:
-      - /tmp/ftpd:/home/alice
-    environment:
-      - FTP_USERNAME=alice
-      - FTP_PASSWORD=pswd
-...
-  task-service:
-    links:
-      - ftpd
-    environment:
-      - task.send-reconciliation-report.ftp-sender.server=ftpd
-```
-Either way, the reconciliation reports should appear in `/tmp/ftpd` if things are working properly.
