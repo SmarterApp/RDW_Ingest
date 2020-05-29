@@ -78,6 +78,7 @@ Additionally, developers should:
 * Pull down [RDW_Common](https://github.com/SmarterApp/RDW_Common)
 * Pull down [RDW_Schema](https://github.com/SmarterApp/RDW_Schema) 
 * Get access to the git repository backing the configuration service, ask the project lead.
+* Get access to the Redshift and Aurora dev/test databases, ask the project lead.
 * Load the test data mentioned in [loading data](./README.md#loading-data), ask the project lead for the file.
 ```bash
 mysql -u root < ~/mysqltestdata.dmp
