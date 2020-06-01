@@ -8,12 +8,17 @@ Work done as part of RDW Phase 6.
     * Upgrade gradle, including plugins
     * Upgrade SpringFramework and other libraries (most recent minor revs only, no major upgrades)
 
-#### 2.2.0 -
+#### 2.3.0 - 2019-11-13
+
+* RP-656: Enforce unique assessment names across subjects (previously only enforced within a subject)
+
+#### 2.2.0 - 2019-10-15
+
+No real code changes; added some tests; bumped version to align with RDW_Reporting.
 
 #### 2.1.0 - 2019-09-18
 
-No real code changes but some "nearby" fixes for this release:
-
+No real code changes, but some "nearby" fixes for this release:
 * RP-740: Subject Definition Workbook will not allow less than 3 claims
 * RP-754: Latin description levels don't display correctly in the PDF reports
 * RP-791: Data Generator - latin results for only grades 5, 8, 11
