@@ -56,6 +56,7 @@ INSERT INTO staging_target(id, subject_id, natural_id, claim_code, migrate_id) V
   (-42, 2, 'MD|D',    '4',   -99),
   (-43, 2, 'OA|A',    '4',   -99);
 
+
 -- ------------------------------------------ School/Districts --------------------------------------------------------------------------------------------------
 INSERT INTO staging_district_group (id, name, natural_id, migrate_id) VALUES
   (-98, 'Sample District Group -98', 'natural_id-98', -99);
@@ -205,6 +206,11 @@ INSERT INTO staging_exam_score (id, exam_id, subject_score_id, performance_level
   (-832, -83, 2, 1, -99),
   (-131, -13, 1, 1, -99),
   (-132, -13, 2, 1, -99);
+-- add alt scores for one of the exams (note this isn't exactly rigorous since the subject_score_id doesn't
+-- match the subject of the asmt; but migrate doesn't care)
+INSERT INTO staging_exam_score (id, exam_id, subject_score_id, scale_score, performance_level, migrate_id) VALUES
+  (-821, -88, -11, 113, 2, -99),
+  (-822, -88, -12, 141, 3, -99);
 
 -- Note: ids are irrelevant to the migrate, we are migrating based on the latest student's exam per school year/assessment.
 -- To better understand the use cases, refer to the comments in staging_exam table.

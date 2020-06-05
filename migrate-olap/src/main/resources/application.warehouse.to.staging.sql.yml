@@ -1174,6 +1174,7 @@ sql:
                 ecs.id,
                 ecs.exam_id,
                 ecs.subject_score_id,
+                ecs.scale_score,
                 ecs.performance_level,
                 :migrate_id as migrate_id
               FROM exam_score ecs
@@ -1188,6 +1189,7 @@ sql:
                 id,
                 exam_id,
                 subject_score_id,
+                scale_score,
                 performance_level,
                 migrate_id)
               FROM '$[migrateLocationPlaceholder]/exam_score.part_00000'
@@ -1203,6 +1205,7 @@ sql:
                 ecs.id,
                 ecs.exam_id,
                 ecs.subject_score_id,
+                ecs.scale_score,
                 ecs.performance_level,
                 :migrate_id as migrate_id
               FROM exam_score ecs
@@ -1217,6 +1220,7 @@ sql:
                 id,
                 exam_id,
                 subject_score_id,
+                scale_score,
                 performance_level,
                 migrate_id)
               FROM '$[migrateLocationPlaceholder]/exam_score_update.part_00000'
