@@ -33,6 +33,7 @@ DELETE FROM staging_subject;
 DELETE FROM exam where id < 0;
 DELETE FROM iab_exam where id < 0;
 DELETE FROM exam_longitudinal where id < 0;
+DELETE FROM exam_alt_score where id < 0;
 DELETE FROM exam_claim_score where id < 0;
 DELETE FROM exam_target_score where id < 0;
 
