@@ -264,6 +264,36 @@ sql:
       WHERE iot.target_id IN (:target_ids)
       LIMIT 1
 
+  # JdbcTraitRepository
+  trait:
+    findCodesBySubject: >-
+      SELECT st.code
+      FROM subject_trait st
+        JOIN subject s ON s.id = st.subject_id
+      WHERE s.code = :subject_code
+
+    insert: >-
+      INSERT INTO subject_trait (subject_id, code, purpose, category)
+        SELECT s.id, :code, :purpose, :category
+        FROM subject s
+        WHERE s.code = :subject_code
+
+    delete: >-
+      DELETE st
+      FROM subject_trait st
+        JOIN subject s ON s.id = st.subject_id
+      WHERE s.code = :subject_code
+        AND st.code = :code
+
+    isReferenced: >-
+      SELECT EXISTS(
+        SELECT 1
+        FROM exam_trait_score ets
+          JOIN subject_trait st ON st.id = ets.trait_id
+        WHERE s.code = :subject_code
+          AND st.code = :code
+        LIMIT 1)
+
   #JdbcCommonCoreStandardRepository
   commonCoreStandard:
     findIdsBySubjectIdAndNaturalIds: >-

@@ -662,6 +662,23 @@
       </ReportAssessmentTypes>
     </ReportGrade>
   </ReportGrades>
+  <Traits>
+    <Trait code="SOCK_ARGU_ORG" purpose="ARGU" category="ORG" />
+    <Trait code="SOCK_ARGU_CON" purpose="ARGU" category="CON" />
+    <Trait code="SOCK_ARGU_EVI" purpose="ARGU" category="EVI" />
+    <Trait code="SOCK_EXPL_ORG" purpose="EXPL" category="ORG" />
+    <Trait code="SOCK_EXPL_CON" purpose="EXPL" category="CON" />
+    <Trait code="SOCK_EXPL_EVI" purpose="EXPL" category="EVI" />
+    <Trait code="SOCK_INFO_ORG" purpose="INFO" category="ORG" />
+    <Trait code="SOCK_INFO_CON" purpose="INFO" category="CON" />
+    <Trait code="SOCK_INFO_EVI" purpose="INFO" category="EVI" />
+    <Trait code="SOCK_NARR_ORG" purpose="NARR" category="ORG" />
+    <Trait code="SOCK_NARR_CON" purpose="NARR" category="CON" />
+    <Trait code="SOCK_NARR_EVI" purpose="NARR" category="EVI" />
+    <Trait code="SOCK_OPIN_ORG" purpose="OPIN" category="ORG" />
+    <Trait code="SOCK_OPIN_CON" purpose="OPIN" category="CON" />
+    <Trait code="SOCK_OPIN_EVI" purpose="OPIN" category="EVI" />
+  </Traits>
   <Claims>
     <Claim code="SOCK_R" name="Reading" organizational="false" displayOrder="1">
       <Icon>fa-book</Icon>
