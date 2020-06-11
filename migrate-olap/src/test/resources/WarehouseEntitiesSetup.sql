@@ -13,7 +13,7 @@ UPDATE subject
 WHERE id IN (1,2);
 
 -- add subjects' related data for the new subjects
-INSERT INTO subject_asmt_type (subject_id, asmt_type_id, target_report, printed_report, target_report) VALUES
+INSERT INTO subject_asmt_type (subject_id, asmt_type_id, target_report, printed_report, trait_report) VALUES
   (-1, 1, 0, 1, 0),
   (-2, 1, 0, 1, 0),
   (-3, 1, 0, 1, 0),    -- new entry
