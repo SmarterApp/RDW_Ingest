@@ -31,7 +31,7 @@
         </PerformanceLevels>
       </OverallScoring>
     </AssessmentType>
-    <AssessmentType code="sum" name ="Summative" longName="Summative Assessment">
+    <AssessmentType code="sum" name ="Summative" longName="Summative Assessment" traitReport="true">
       <OverallScoring name="Overall">
         <PerformanceLevels standardCutoff="3">
           <PerformanceLevel level="1" name="Did Not Meet Standard" color="maroon"/>
