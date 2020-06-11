@@ -16,12 +16,12 @@ UPDATE subject
 WHERE id IN (1,2);
 
 -- add subjects' related data for the new subjects
-INSERT INTO subject_asmt_type (subject_id, asmt_type_id, target_report, printed_report) VALUES
-  (-1, 1, 0, 0),
-  (-2, 1, 0, 0),
-  (-3, 1, 0, 0),  -- new entry
-  (-3, 2, 0, 0),  -- updated entry
-  (-5, 3, 0, 0);
+INSERT INTO subject_asmt_type (subject_id, asmt_type_id, target_report, printed_report, trait_report) VALUES
+  (-1, 1, 0, 0, 0),
+  (-2, 1, 0, 0, 0),
+  (-3, 1, 0, 0, 0),  -- new entry
+  (-3, 2, 0, 0, 0),  -- updated entry
+  (-5, 3, 0, 0, 1);
 
 INSERT INTO subject_asmt_scoring (subject_id, asmt_type_id, score_type_id, min_score, max_score, performance_level_count, performance_level_standard_cutoff) VALUES
   (-1, 1, 1, 1000, 3500, 10, 3),
