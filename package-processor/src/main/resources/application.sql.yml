@@ -273,8 +273,8 @@ sql:
       WHERE s.code = :subject_code
 
     insert: >-
-      INSERT INTO subject_trait (subject_id, code, purpose, category)
-        SELECT s.id, :code, :purpose, :category
+      INSERT INTO subject_trait (subject_id, code, purpose, category, max_score)
+        SELECT s.id, :code, :purpose, :category, :max_score
         FROM subject s
         WHERE s.code = :subject_code
 
