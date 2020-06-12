@@ -290,26 +290,26 @@ sql:
       subject_trait:
         sql:
           warehouseRead: >-
-            SELECT wst.id, wst.subject_id, wst.code, wst.purpose, wst.category
+            SELECT wst.id, wst.subject_id, wst.code, wst.purpose, wst.category, wst.max_score
             FROM subject_trait wst
               JOIN subject ws ON ws.id = wst.subject_id
             WHERE ws.created > :first_at AND ws.created <= :last_at
 
           stagingInsert: >-
-             INSERT INTO staging_subject_trait (id, subject_id, code, purpose, category) VALUES
-               (:id, :subject_id, :code, :purpose, :category)
+             INSERT INTO staging_subject_trait (id, subject_id, code, purpose, category, max_score) VALUES
+               (:id, :subject_id, :code, :purpose, :category, :max_score)
 
       subject_trait_by_update_import_id:
         sql:
           warehouseRead: >-
-            SELECT wst.id, wst.subject_id, wst.code, wst.purpose, wst.category
+            SELECT wst.id, wst.subject_id, wst.code, wst.purpose, wst.category, wst.max_score
             FROM subject_trait wst
               JOIN subject ws ON ws.id = wst.subject_id
             WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
 
           stagingInsert: >-
-           INSERT IGNORE INTO staging_subject_trait (id, subject_id, code, purpose, category) VALUES
-             (:id, :subject_id, :code, :purpose, :category)
+           INSERT IGNORE INTO staging_subject_trait (id, subject_id, code, purpose, category, max_score) VALUES
+             (:id, :subject_id, :code, :purpose, :category, :max_score)
 
       # ---------------- subject_translation  -----------------------------------------------
       subject_translation:
@@ -1374,15 +1374,14 @@ sql:
               wets.exam_id,
               wets.trait_id,
               wets.score,
-              wets.stderr,
               wets.condition_code
             FROM exam_trait_score wets
               JOIN exam we ON wets.exam_id = we.id
             WHERE we.created > :first_at AND we.created <= :last_at AND we.deleted = 0
 
           stagingInsert: >-
-            INSERT INTO staging_exam_trait_score (id, exam_id, trait_id, score, stderr, condition_code) VALUES
-              (:id, :exam_id, :trait_id, :score, :stderr, :condition_code)
+            INSERT INTO staging_exam_trait_score (id, exam_id, trait_id, score, condition_code) VALUES
+              (:id, :exam_id, :trait_id, :score, :condition_code)
 
       exam_trait_score_by_update_import_id:
         sql:
@@ -1392,12 +1391,11 @@ sql:
               wets.exam_id,
               wets.trait_id,
               wets.score,
-              wets.stderr,
               wets.condition_code
             FROM exam_trait_score wets
               JOIN exam we ON wets.exam_id = we.id
             WHERE we.updated > :first_at AND we.updated <= :last_at AND we.updated <> we.created AND we.deleted = 0
 
           stagingInsert: >-
-            INSERT IGNORE INTO staging_exam_target_score (id, exam_id, trait_id, score, stderr, condition_code) VALUES
-              (:id, :exam_id, :trait_id, :score, :stderr, :condition_code)
+            INSERT IGNORE INTO staging_exam_target_score (id, exam_id, trait_id, score, condition_code) VALUES
+              (:id, :exam_id, :trait_id, :score, :condition_code)

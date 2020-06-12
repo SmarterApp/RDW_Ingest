@@ -21,9 +21,9 @@ INSERT INTO subject_score (id, subject_id, asmt_type_id, score_type_id, code, di
   (-60, -3, 3, 3, 'Delete', 6, 6),
   (-18, -5, 3, 2, 'PassFail', 1, 1);
 
-INSERT INTO subject_trait (id, subject_id, code, purpose, category) VALUES
-  (-1, -5, 'ALT_EXPL_ORG', 'EXPL', 'ORG'),
-  (-10, -3, 'U_EXPL_ORG', 'EXPL', 'ORG');
+INSERT INTO subject_trait (id, subject_id, code, purpose, category, max_score) VALUES
+  (-1, -5, 'ALT_EXPL_ORG', 'EXPL', 'ORG', 3),
+  (-10, -3, 'U_EXPL_ORG', 'EXPL', 'ORG', 3);
 
 INSERT INTO subject_translation(subject_id, label_code, label) VALUES
   (-2, 'integration test label subject 2', 'subject 2'),
