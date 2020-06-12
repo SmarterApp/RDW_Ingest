@@ -42,1298 +42,1362 @@ sql:
       - TRUNCATE TABLE staging_exam_available_accommodation
       - TRUNCATE TABLE staging_exam_score
       - TRUNCATE TABLE staging_exam_target_score
+      - TRUNCATE TABLE staging_exam_trait_score
       - TRUNCATE TABLE staging_subject
       - TRUNCATE TABLE staging_subject_asmt_type
       - TRUNCATE TABLE staging_subject_asmt_scoring
       - TRUNCATE TABLE staging_subject_score
+      - TRUNCATE TABLE staging_subject_trait
       - TRUNCATE TABLE staging_subject_translation
 
     entities:
-        ##### CODES entities ####################################################################
+      ##### CODES entities ####################################################################
 
-        # ------------ grade  -------------------------------------------------------------------
-        grade:
-          sql:
-            warehouseRead: >-
-              SELECT wg.id, wg.code, wg.sequence from grade wg
+      # ------------ grade  -------------------------------------------------------------------
+      grade:
+        sql:
+          warehouseRead: >-
+            SELECT wg.id, wg.code, wg.sequence from grade wg
 
-            stagingInsert: >-
-              INSERT INTO staging_grade (id, code, sequence) VALUES
-                (:id, :code, :sequence)
+          stagingInsert: >-
+            INSERT INTO staging_grade (id, code, sequence) VALUES
+              (:id, :code, :sequence)
 
-        # ------------ elas  --------------------------------------------------------------------
-        elas:
-          sql:
-            warehouseRead: >-
-              SELECT we.id, we.code from elas we
+      # ------------ elas  --------------------------------------------------------------------
+      elas:
+        sql:
+          warehouseRead: >-
+            SELECT we.id, we.code from elas we
 
-            stagingInsert: >-
-              INSERT INTO staging_elas (id, code) VALUES
-                (:id, :code)
+          stagingInsert: >-
+            INSERT INTO staging_elas (id, code) VALUES
+              (:id, :code)
 
-        # ------------ language  ----------------------------------------------------------------
-        language:
-          sql:
-            warehouseRead: >-
-              SELECT wl.id, wl.code, wl.altcode, wl.display_order, wl.name FROM language wl
+      # ------------ language  ----------------------------------------------------------------
+      language:
+        sql:
+          warehouseRead: >-
+            SELECT wl.id, wl.code, wl.altcode, wl.display_order, wl.name FROM language wl
 
-            stagingInsert: >-
-              INSERT INTO staging_language (id, code, altcode, display_order, name) VALUES
-                (:id, :code, :altcode, :display_order, :name)
+          stagingInsert: >-
+            INSERT INTO staging_language (id, code, altcode, display_order, name) VALUES
+              (:id, :code, :altcode, :display_order, :name)
 
-        # ------------ completeness  ------------------------------------------------------------
-        completeness:
-          sql:
-            warehouseRead: >-
-              SELECT wc.id, wc.code from completeness wc
+      # ------------ completeness  ------------------------------------------------------------
+      completeness:
+        sql:
+          warehouseRead: >-
+            SELECT wc.id, wc.code from completeness wc
 
-            stagingInsert: >-
-              INSERT INTO staging_completeness (id, code) VALUES
-                (:id, :code)
+          stagingInsert: >-
+            INSERT INTO staging_completeness (id, code) VALUES
+              (:id, :code)
 
-        # ------------ administration_condition  ------------------------------------------------
-        administration_condition:
-          sql:
-            warehouseRead: >-
-              SELECT wac.id, wac.code from administration_condition wac
+      # ------------ administration_condition  ------------------------------------------------
+      administration_condition:
+        sql:
+          warehouseRead: >-
+            SELECT wac.id, wac.code from administration_condition wac
 
-            stagingInsert: >-
-              INSERT INTO staging_administration_condition (id, code) VALUES
-                (:id, :code)
+          stagingInsert: >-
+            INSERT INTO staging_administration_condition (id, code) VALUES
+              (:id, :code)
 
-        # ------------ ethnicity  ---------------------------------------------------------------
-        ethnicity:
-          sql:
-            warehouseRead: >-
-             SELECT we.id, we.code from ethnicity we
+      # ------------ ethnicity  ---------------------------------------------------------------
+      ethnicity:
+        sql:
+          warehouseRead: >-
+           SELECT we.id, we.code from ethnicity we
 
-            stagingInsert: >-
-              INSERT INTO staging_ethnicity (id, code) VALUES
-                (:id, :code)
+          stagingInsert: >-
+            INSERT INTO staging_ethnicity (id, code) VALUES
+              (:id, :code)
 
-        # ------------ gender  ------------------------------------------------------------------
-        gender:
-          sql:
-            warehouseRead: >-
-             SELECT wg.id, wg.code from gender wg
+      # ------------ gender  ------------------------------------------------------------------
+      gender:
+        sql:
+          warehouseRead: >-
+           SELECT wg.id, wg.code from gender wg
 
-            stagingInsert: >-
-              INSERT INTO staging_gender (id, code) VALUES
-                (:id, :code)
+          stagingInsert: >-
+            INSERT INTO staging_gender (id, code) VALUES
+              (:id, :code)
 
       # ------------ military_connected  ------------------------------------------------
-        military_connected:
-          sql:
-            warehouseRead: >-
-              SELECT wmc.id, wmc.code from military_connected wmc
+      military_connected:
+        sql:
+          warehouseRead: >-
+            SELECT wmc.id, wmc.code from military_connected wmc
 
-            stagingInsert: >-
-              INSERT INTO staging_military_connected (id, code) VALUES
-                (:id, :code)
+          stagingInsert: >-
+            INSERT INTO staging_military_connected (id, code) VALUES
+              (:id, :code)
 
       # ------------ accommodation  -----------------------------------------------------------
-        accommodation:
-          sql:
-            warehouseRead: >-
-             SELECT wa.id, wa.code from accommodation wa
+      accommodation:
+        sql:
+          warehouseRead: >-
+           SELECT wa.id, wa.code from accommodation wa
 
-            stagingInsert: >-
-              INSERT INTO staging_accommodation (id, code) VALUES
-                (:id, :code)
+          stagingInsert: >-
+            INSERT INTO staging_accommodation (id, code) VALUES
+              (:id, :code)
 
-        # ------------ school_year  -------------------------------------------------------------
-        school_year:
-          sql:
-            warehouseRead: >-
-             SELECT wy.year from school_year wy
+      # ------------ school_year  -------------------------------------------------------------
+      school_year:
+        sql:
+          warehouseRead: >-
+           SELECT wy.year from school_year wy
 
-            stagingInsert: >-
-              INSERT INTO staging_school_year (year) VALUES
-                (:year)
+          stagingInsert: >-
+            INSERT INTO staging_school_year (year) VALUES
+              (:year)
 
-        # ------------ math_practice  -----------------------------------------------------------
-        math_practice:
-          sql:
-            warehouseRead: >-
-              SELECT wmp.practice, wmp.description, wmp.code from math_practice wmp
+      # ------------ math_practice  -----------------------------------------------------------
+      math_practice:
+        sql:
+          warehouseRead: >-
+            SELECT wmp.practice, wmp.description, wmp.code from math_practice wmp
 
-            stagingInsert: >-
-              INSERT INTO staging_math_practice (practice, description, code) VALUES
-                (:practice, :description, :code)
+          stagingInsert: >-
+            INSERT INTO staging_math_practice (practice, description, code) VALUES
+              (:practice, :description, :code)
 
-        # ------------ accommodation_translation  -----------------------------------------------
-        accommodation_translation:
-          sql:
-            warehouseRead: >-
-              SELECT CONCAT(a.code, '.', wat.school_year) AS label_code, wat.language_code, wat.label
-                FROM accommodation_translation wat JOIN accommodation a ON wat.accommodation_id=a.id
+      # ------------ accommodation_translation  -----------------------------------------------
+      accommodation_translation:
+        sql:
+          warehouseRead: >-
+            SELECT CONCAT(a.code, '.', wat.school_year) AS label_code, wat.language_code, wat.label
+              FROM accommodation_translation wat JOIN accommodation a ON wat.accommodation_id=a.id
 
-            stagingInsert: >-
-              INSERT INTO staging_accommodation_translation (label_code, language_code, label) VALUES
-                (:label_code, :language_code, :label)
+          stagingInsert: >-
+            INSERT INTO staging_accommodation_translation (label_code, language_code, label) VALUES
+              (:label_code, :language_code, :label)
 
-        ##### EMBARGO ###########################################################################
+      ##### EMBARGO ###########################################################################
 
-        district_embargo:
-          sql:
-            warehouseRead:
-              ${sql.embargo}
+      district_embargo:
+        sql:
+          warehouseRead:
+            ${sql.embargo}
 
-            stagingInsert:
-              INSERT INTO staging_district_embargo (district_id, individual, aggregate, migrate_id) VALUES
-                (:district_id, :individual, :aggregate, :migrate_id)
+          stagingInsert:
+            INSERT INTO staging_district_embargo (district_id, individual, aggregate, migrate_id) VALUES
+              (:district_id, :individual, :aggregate, :migrate_id)
 
-        ##### Entities migrated by timestamp range ##############################################
-        # filter results by timestamp, treating create/update separately
-        # migrate_id is added by JdbcSqlCopyWarehouseToStagingRepository
-        # ------------ subject  -------------------------------------------------------------------
-        subject:
-          sql:
-            warehouseRead: >-
-              SELECT ws.id, ws.code, ws.updated, ws.update_import_id
-                FROM subject ws
-                WHERE ws.created > :first_at AND ws.created <= :last_at
-
-            stagingInsert: >-
-              INSERT INTO staging_subject (id, code, updated, update_import_id, migrate_id) VALUES
-                (:id, :code, :updated, :update_import_id, :migrate_id)
-
-        subject_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT ws.id, ws.code, ws.updated, ws.update_import_id
-                FROM subject ws
-                WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
-
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_subject (id, code, updated, update_import_id, migrate_id)  VALUES
-                (:id, :code, :updated, :update_import_id, :migrate_id)
-
-        # ---------------- subject_asmt_type  -----------------------------------------------
-        subject_asmt_type:
-          sql:
-            warehouseRead: >-
-              SELECT wsat.asmt_type_id, wsat.subject_id, wsat.target_report, wsat.printed_report
-              FROM subject_asmt_type wsat
-                JOIN subject ws ON ws.id = wsat.subject_id
+      ##### Entities migrated by timestamp range ##############################################
+      # filter results by timestamp, treating create/update separately
+      # migrate_id is added by JdbcSqlCopyWarehouseToStagingRepository
+      # ------------ subject  -------------------------------------------------------------------
+      subject:
+        sql:
+          warehouseRead: >-
+            SELECT ws.id, ws.code, ws.updated, ws.update_import_id
+              FROM subject ws
               WHERE ws.created > :first_at AND ws.created <= :last_at
 
-            stagingInsert: >-
-              INSERT INTO staging_subject_asmt_type (asmt_type_id, subject_id, target_report, printed_report) VALUES
-                 (:asmt_type_id, :subject_id, :target_report, :printed_report)
+          stagingInsert: >-
+            INSERT INTO staging_subject (id, code, updated, update_import_id, migrate_id) VALUES
+              (:id, :code, :updated, :update_import_id, :migrate_id)
 
-        subject_asmt_type_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT wsat.asmt_type_id, wsat.subject_id, wsat.target_report, wsat.printed_report
-              FROM subject_asmt_type wsat
-                JOIN subject ws ON ws.id = wsat.subject_id
+      subject_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT ws.id, ws.code, ws.updated, ws.update_import_id
+              FROM subject ws
               WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
 
-            stagingInsert: >-
-               INSERT IGNORE INTO staging_subject_asmt_type (asmt_type_id, subject_id, target_report, printed_report) VALUES
-                 ( :asmt_type_id, :subject_id, :target_report, :printed_report)
+          stagingInsert: >-
+            INSERT IGNORE INTO staging_subject (id, code, updated, update_import_id, migrate_id)  VALUES
+              (:id, :code, :updated, :update_import_id, :migrate_id)
 
-        # ---------------- subject_asmt_scoring -----------------------------------------------
-        subject_asmt_scoring:
-          sql:
-            warehouseRead: >-
-              SELECT wsas.subject_id, wsas.asmt_type_id, wsas.score_type_id, wsas.min_score, wsas.max_score, wsas.performance_level_count, wsas.performance_level_standard_cutoff
-              FROM subject_asmt_scoring wsas
-                JOIN subject ws ON ws.id = wsas.subject_id
-              WHERE ws.created > :first_at AND ws.created <= :last_at
+      # ---------------- subject_asmt_type  -----------------------------------------------
+      subject_asmt_type:
+        sql:
+          warehouseRead: >-
+            SELECT wsat.asmt_type_id, wsat.subject_id, wsat.target_report, wsat.printed_report, wsat.trait_report
+            FROM subject_asmt_type wsat
+              JOIN subject ws ON ws.id = wsat.subject_id
+            WHERE ws.created > :first_at AND ws.created <= :last_at
 
-            stagingInsert: >-
-              INSERT INTO staging_subject_asmt_scoring (subject_id, asmt_type_id, score_type_id, min_score, max_score, performance_level_count, performance_level_standard_cutoff) VALUES
-                (:subject_id, :asmt_type_id, :score_type_id, :min_score, :max_score, :performance_level_count, :performance_level_standard_cutoff)
+          stagingInsert: >-
+            INSERT INTO staging_subject_asmt_type (asmt_type_id, subject_id, target_report, printed_report, trait_report) VALUES
+               (:asmt_type_id, :subject_id, :target_report, :printed_report, :trait_report)
 
-        subject_asmt_scoring_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT wsas.subject_id, wsas.asmt_type_id, wsas.score_type_id, wsas.min_score, wsas.max_score, wsas.performance_level_count, wsas.performance_level_standard_cutoff
-              FROM subject_asmt_scoring wsas
-                JOIN subject ws ON ws.id = wsas.subject_id
-              WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
+      subject_asmt_type_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT wsat.asmt_type_id, wsat.subject_id, wsat.target_report, wsat.printed_report, wsat.trait_report
+            FROM subject_asmt_type wsat
+              JOIN subject ws ON ws.id = wsat.subject_id
+            WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
 
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_subject_asmt_scoring (subject_id, asmt_type_id, score_type_id, min_score, max_score, performance_level_count, performance_level_standard_cutoff) VALUES
-                (:subject_id, :asmt_type_id, :score_type_id, :min_score, :max_score, :performance_level_count, :performance_level_standard_cutoff)
+          stagingInsert: >-
+             INSERT IGNORE INTO staging_subject_asmt_type (asmt_type_id, subject_id, target_report, printed_report, trait_report) VALUES
+               ( :asmt_type_id, :subject_id, :target_report, :printed_report, :trait_report)
 
-        # ---------------- subject_score ------------------------------------------------------
-        subject_score:
-          sql:
-            warehouseRead: >-
-              SELECT wscs.id, wscs.subject_id, wscs.asmt_type_id, wscs.score_type_id, wscs.code, wscs.display_order, wscs.data_order
-              FROM subject_score wscs
-                JOIN subject ws ON ws.id = wscs.subject_id
-              WHERE ws.created > :first_at AND ws.created <= :last_at
+      # ---------------- subject_asmt_scoring -----------------------------------------------
+      subject_asmt_scoring:
+        sql:
+          warehouseRead: >-
+            SELECT wsas.subject_id, wsas.asmt_type_id, wsas.score_type_id, wsas.min_score, wsas.max_score, wsas.performance_level_count, wsas.performance_level_standard_cutoff
+            FROM subject_asmt_scoring wsas
+              JOIN subject ws ON ws.id = wsas.subject_id
+            WHERE ws.created > :first_at AND ws.created <= :last_at
 
-            stagingInsert: >-
-               INSERT INTO staging_subject_score (id, subject_id, asmt_type_id, score_type_id, code, display_order, data_order) VALUES
-                 (:id, :subject_id, :asmt_type_id, :score_type_id, :code, :display_order, :data_order)
+          stagingInsert: >-
+            INSERT INTO staging_subject_asmt_scoring (subject_id, asmt_type_id, score_type_id, min_score, max_score, performance_level_count, performance_level_standard_cutoff) VALUES
+              (:subject_id, :asmt_type_id, :score_type_id, :min_score, :max_score, :performance_level_count, :performance_level_standard_cutoff)
 
-        subject_score_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT wscs.id, wscs.subject_id, wscs.asmt_type_id, wscs.score_type_id, wscs.code, wscs.display_order, wscs.data_order
-              FROM subject_score wscs
-                JOIN subject ws ON ws.id = wscs.subject_id
-              WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
+      subject_asmt_scoring_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT wsas.subject_id, wsas.asmt_type_id, wsas.score_type_id, wsas.min_score, wsas.max_score, wsas.performance_level_count, wsas.performance_level_standard_cutoff
+            FROM subject_asmt_scoring wsas
+              JOIN subject ws ON ws.id = wsas.subject_id
+            WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
 
-            stagingInsert: >-
-             INSERT IGNORE INTO staging_subject_score (id, subject_id, asmt_type_id, score_type_id, code, display_order, data_order) VALUES
+          stagingInsert: >-
+            INSERT IGNORE INTO staging_subject_asmt_scoring (subject_id, asmt_type_id, score_type_id, min_score, max_score, performance_level_count, performance_level_standard_cutoff) VALUES
+              (:subject_id, :asmt_type_id, :score_type_id, :min_score, :max_score, :performance_level_count, :performance_level_standard_cutoff)
+
+      # ---------------- subject_score ------------------------------------------------------
+      subject_score:
+        sql:
+          warehouseRead: >-
+            SELECT wscs.id, wscs.subject_id, wscs.asmt_type_id, wscs.score_type_id, wscs.code, wscs.display_order, wscs.data_order
+            FROM subject_score wscs
+              JOIN subject ws ON ws.id = wscs.subject_id
+            WHERE ws.created > :first_at AND ws.created <= :last_at
+
+          stagingInsert: >-
+             INSERT INTO staging_subject_score (id, subject_id, asmt_type_id, score_type_id, code, display_order, data_order) VALUES
                (:id, :subject_id, :asmt_type_id, :score_type_id, :code, :display_order, :data_order)
 
-        # ---------------- subject_translation  -----------------------------------------------
-        subject_translation:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wst.subject_id,
-                wst.label_code,
-                wst.label
-              FROM subject_translation wst
-                JOIN subject ws ON ws.id = wst.subject_id
+      subject_score_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT wscs.id, wscs.subject_id, wscs.asmt_type_id, wscs.score_type_id, wscs.code, wscs.display_order, wscs.data_order
+            FROM subject_score wscs
+              JOIN subject ws ON ws.id = wscs.subject_id
+            WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
+
+          stagingInsert: >-
+           INSERT IGNORE INTO staging_subject_score (id, subject_id, asmt_type_id, score_type_id, code, display_order, data_order) VALUES
+             (:id, :subject_id, :asmt_type_id, :score_type_id, :code, :display_order, :data_order)
+
+      # ---------------- subject_trait ------------------------------------------------------
+      subject_trait:
+        sql:
+          warehouseRead: >-
+            SELECT wst.id, wst.subject_id, wst.code, wst.purpose, wst.category
+            FROM subject_trait wst
+              JOIN subject ws ON ws.id = wst.subject_id
+            WHERE ws.created > :first_at AND ws.created <= :last_at
+
+          stagingInsert: >-
+             INSERT INTO staging_subject_trait (id, subject_id, code, purpose, category) VALUES
+               (:id, :subject_id, :code, :purpose, :category)
+
+      subject_trait_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT wst.id, wst.subject_id, wst.code, wst.purpose, wst.category
+            FROM subject_trait wst
+              JOIN subject ws ON ws.id = wst.subject_id
+            WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
+
+          stagingInsert: >-
+           INSERT IGNORE INTO staging_subject_trait (id, subject_id, code, purpose, category) VALUES
+             (:id, :subject_id, :code, :purpose, :category)
+
+      # ---------------- subject_translation  -----------------------------------------------
+      subject_translation:
+        sql:
+          warehouseRead: >-
+            SELECT
+              wst.subject_id,
+              wst.label_code,
+              wst.label
+            FROM subject_translation wst
+              JOIN subject ws ON ws.id = wst.subject_id
+            WHERE ws.created > :first_at AND ws.created <= :last_at
+
+          stagingInsert: >-
+             INSERT INTO staging_subject_translation (subject_id, label_code, label) VALUES
+               ( :subject_id, :label_code, :label)
+
+      subject_translation_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT
+              wst.subject_id,
+              wst.label_code,
+              wst.label
+            FROM subject_translation wst
+              JOIN subject ws ON ws.id = wst.subject_id
+             WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
+
+          stagingInsert: >-
+             INSERT IGNORE INTO staging_subject_translation (subject_id, label_code, label) VALUES
+               ( :subject_id, :label_code, :label)
+
+      # ------------ claim  -------------------------------------------------------------------
+      claim:
+        sql:
+          warehouseRead: >-
+            SELECT wc.id, wc.subject_id, wc.code
+              FROM claim wc
+              JOIN subject ws ON ws.id = wc.subject_id
+            WHERE ws.created > :first_at AND ws.created <= :last_at
+
+          stagingInsert: >-
+            INSERT INTO staging_claim (id, subject_id, code) VALUES
+              (:id, :subject_id, :code)
+
+      # ------------ claim  -------------------------------------------------------------------
+      claim_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT wc.id, wc.subject_id, wc.code
+              FROM claim wc
+              JOIN subject ws ON ws.id = wc.subject_id
+            WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
+
+          stagingInsert: >-
+            INSERT IGNORE INTO staging_claim (id, subject_id, code) VALUES
+              (:id, :subject_id, :code)
+
+      # ------------ target  ------------------------------------------------------------------
+      target:
+        sql:
+          warehouseRead: >-
+            SELECT wt.id, wt.natural_id, wt.claim_id
+              FROM target wt
+              JOIN claim wc ON wc.id = wt.claim_id
+              JOIN subject ws ON ws.id = wc.subject_id
+            WHERE ws.created > :first_at AND ws.created <= :last_at
+
+          stagingInsert: >-
+            INSERT INTO staging_target (id, natural_id, claim_id) VALUES
+              (:id, :natural_id, :claim_id)
+
+      target_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT wt.id, wt.natural_id, wt.claim_id
+              FROM target wt
+              JOIN claim wc ON wc.id = wt.claim_id
+              JOIN subject ws ON ws.id = wc.subject_id
+             WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
+
+          stagingInsert: >-
+            INSERT IGNORE INTO staging_target (id, natural_id, claim_id) VALUES
+              (:id, :natural_id, :claim_id)
+
+      # ------------ common_core_standard  ----------------------------------------------------
+      common_core_standard:
+        sql:
+          warehouseRead: >-
+            SELECT wccs.id, wccs.natural_id, wccs.subject_id
+              FROM common_core_standard wccs
+              JOIN subject ws ON ws.id = wccs.subject_id
+            WHERE ws.created > :first_at AND ws.created <= :last_at
+
+          stagingInsert: >-
+            INSERT INTO staging_common_core_standard (id, natural_id, subject_id) VALUES
+              (:id, :natural_id, :subject_id)
+
+      common_core_standard_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT wccs.id, wccs.natural_id, wccs.subject_id
+              FROM common_core_standard wccs
+              JOIN subject ws ON ws.id = wccs.subject_id
+            WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
+
+          stagingInsert: >-
+            INSERT IGNORE INTO staging_common_core_standard (id, natural_id, subject_id) VALUES
+              (:id, :natural_id, :subject_id)
+
+      # ------------ depth_of_knowledge  ------------------------------------------------------
+      depth_of_knowledge:
+        sql:
+          warehouseRead: >-
+            SELECT wdok.id, wdok.level, wdok.subject_id, wdok.reference
+              FROM depth_of_knowledge wdok
+              JOIN subject ws ON ws.id = wdok.subject_id
+            WHERE ws.created > :first_at AND ws.created <= :last_at
+
+          stagingInsert: >-
+            INSERT INTO staging_depth_of_knowledge (id, level, subject_id, reference) VALUES
+              (:id, :level, :subject_id, :reference)
+
+      depth_of_knowledge_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT wdok.id, wdok.level, wdok.subject_id, wdok.reference
+              FROM depth_of_knowledge wdok
+              JOIN subject ws ON ws.id = wdok.subject_id
+            WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
+
+          stagingInsert: >-
+            INSERT IGNORE INTO staging_depth_of_knowledge (id, level, subject_id, reference) VALUES
+              (:id, :level, :subject_id, :reference)
+
+      ##### ORGANIZATION ImportContent Type ####
+      #
+      # ------------ district_group  -------------------------------------------------------------------
+      district_group:
+        sql:
+          warehouseRead: >-
+            SELECT wdg.id, wdg.natural_id, wdg.name, wdg.external_id
+              FROM district_group wdg
+              WHERE EXISTS(
+                SELECT ws.id FROM school ws
+                  WHERE ws.created > :first_at AND ws.created <= :last_at
+                      AND ws.deleted = 0
+                      AND ws.district_group_id = wdg.id
+              )
+
+          stagingInsert: >-
+            INSERT INTO staging_district_group (id, natural_id, name, external_id, migrate_id) VALUES
+              (:id, :natural_id, :name, :external_id, :migrate_id)
+
+      district_group_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT wdg.id, wdg.natural_id, wdg.name, wdg.external_id
+              FROM district_group wdg
+              WHERE EXISTS(
+                SELECT ws.id FROM school ws
+                  WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
+                      AND ws.deleted = 0
+                      AND ws.district_group_id = wdg.id
+                    )
+
+          stagingInsert: >-
+            INSERT IGNORE INTO staging_district_group (id, natural_id, name, external_id, migrate_id) VALUES
+              (:id, :natural_id, :name, :external_id, :migrate_id)
+
+      # ------------ district  -------------------------------------------------------------------
+      district:
+        sql:
+          warehouseRead: >-
+            SELECT wd.id, wd.natural_id, wd.name, wd.external_id
+              FROM district wd
+              WHERE EXISTS(
+                SELECT ws.id FROM school ws
+                  WHERE ws.created > :first_at AND ws.created <= :last_at
+                      AND ws.deleted = 0
+                      AND ws.district_id = wd.id
+              )
+
+          stagingInsert: >-
+            INSERT INTO staging_district (id, natural_id, name, external_id, migrate_id) VALUES
+              (:id, :natural_id, :name, :external_id, :migrate_id)
+
+      district_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT wd.id, wd.natural_id, wd.name, wd.external_id
+              FROM district wd
+              WHERE EXISTS(
+                SELECT ws.id FROM school ws
+                  WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
+                      AND ws.deleted = 0
+                      AND ws.district_id = wd.id
+                    )
+
+          stagingInsert: >-
+            INSERT IGNORE INTO staging_district (id, natural_id, name, external_id, migrate_id) VALUES
+              (:id, :natural_id, :name, :external_id, :migrate_id)
+
+      # ------------ school_group  -------------------------------------------------------------------
+      school_group:
+        sql:
+          warehouseRead: >-
+            SELECT wsg.id, wsg.natural_id, wsg.name, wsg.external_id
+              FROM school_group wsg
+              WHERE EXISTS(
+                SELECT ws.id FROM school ws
+                  WHERE ws.created > :first_at AND ws.created <= :last_at
+                      AND ws.deleted = 0
+                      AND ws.school_group_id = wsg.id
+              )
+
+          stagingInsert: >-
+            INSERT INTO staging_school_group (id, natural_id, name, external_id, migrate_id) VALUES
+              (:id, :natural_id, :name, :external_id, :migrate_id)
+
+      school_group_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT wsg.id, wsg.natural_id, wsg.name, wsg.external_id
+              FROM school_group wsg
+              WHERE EXISTS(
+                SELECT ws.id FROM school ws
+                  WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
+                      AND ws.deleted = 0
+                      AND ws.school_group_id = wsg.id
+                    )
+
+          stagingInsert: >-
+            INSERT IGNORE INTO staging_school_group (id, natural_id, name, external_id, migrate_id) VALUES
+              (:id, :natural_id, :name, :external_id, :migrate_id)
+
+      # ------------ school  -------------------------------------------------------------------
+      school:
+        sql:
+          warehouseRead: >-
+            SELECT ws.id, ws.natural_id, ws.name, ws.external_id, ws.update_import_id, ws.deleted, ws.district_id, ws.district_group_id, ws.school_group_id, ws.updated
+              FROM school ws
               WHERE ws.created > :first_at AND ws.created <= :last_at
 
-            stagingInsert: >-
-               INSERT INTO staging_subject_translation (subject_id, label_code, label) VALUES
-                 ( :subject_id, :label_code, :label)
+          stagingInsert: >-
+            INSERT INTO staging_school (id, natural_id, name, external_id, update_import_id, deleted, district_id, district_group_id, school_group_id, updated, migrate_id) VALUES
+              (:id, :natural_id, :name, :external_id, :update_import_id, :deleted, :district_id, :district_group_id, :school_group_id, :updated, :migrate_id)
 
-        subject_translation_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wst.subject_id,
-                wst.label_code,
-                wst.label
-              FROM subject_translation wst
-                JOIN subject ws ON ws.id = wst.subject_id
-               WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
-
-            stagingInsert: >-
-               INSERT IGNORE INTO staging_subject_translation (subject_id, label_code, label) VALUES
-                 ( :subject_id, :label_code, :label)
-
-        # ------------ claim  -------------------------------------------------------------------
-        claim:
-          sql:
-            warehouseRead: >-
-              SELECT wc.id, wc.subject_id, wc.code
-                FROM claim wc
-                JOIN subject ws ON ws.id = wc.subject_id
-              WHERE ws.created > :first_at AND ws.created <= :last_at
-
-            stagingInsert: >-
-              INSERT INTO staging_claim (id, subject_id, code) VALUES
-                (:id, :subject_id, :code)
-
-        # ------------ claim  -------------------------------------------------------------------
-        claim_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT wc.id, wc.subject_id, wc.code
-                FROM claim wc
-                JOIN subject ws ON ws.id = wc.subject_id
+      school_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT ws.id, ws.natural_id, ws.name, ws.external_id, ws.update_import_id, ws.deleted, ws.district_id, ws.district_group_id, ws.school_group_id, ws.updated
+              FROM school ws
               WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
 
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_claim (id, subject_id, code) VALUES
-                (:id, :subject_id, :code)
-
-        # ------------ target  ------------------------------------------------------------------
-        target:
-          sql:
-            warehouseRead: >-
-              SELECT wt.id, wt.natural_id, wt.claim_id
-                FROM target wt
-                JOIN claim wc ON wc.id = wt.claim_id
-                JOIN subject ws ON ws.id = wc.subject_id
-              WHERE ws.created > :first_at AND ws.created <= :last_at
-
-            stagingInsert: >-
-              INSERT INTO staging_target (id, natural_id, claim_id) VALUES
-                (:id, :natural_id, :claim_id)
-
-        target_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT wt.id, wt.natural_id, wt.claim_id
-                FROM target wt
-                JOIN claim wc ON wc.id = wt.claim_id
-                JOIN subject ws ON ws.id = wc.subject_id
-               WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
-
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_target (id, natural_id, claim_id) VALUES
-                (:id, :natural_id, :claim_id)
-
-        # ------------ common_core_standard  ----------------------------------------------------
-        common_core_standard:
-          sql:
-            warehouseRead: >-
-              SELECT wccs.id, wccs.natural_id, wccs.subject_id
-                FROM common_core_standard wccs
-                JOIN subject ws ON ws.id = wccs.subject_id
-              WHERE ws.created > :first_at AND ws.created <= :last_at
-
-            stagingInsert: >-
-              INSERT INTO staging_common_core_standard (id, natural_id, subject_id) VALUES
-                (:id, :natural_id, :subject_id)
-
-        common_core_standard_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT wccs.id, wccs.natural_id, wccs.subject_id
-                FROM common_core_standard wccs
-                JOIN subject ws ON ws.id = wccs.subject_id
-              WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
-
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_common_core_standard (id, natural_id, subject_id) VALUES
-                (:id, :natural_id, :subject_id)
-
-        # ------------ depth_of_knowledge  ------------------------------------------------------
-        depth_of_knowledge:
-          sql:
-            warehouseRead: >-
-              SELECT wdok.id, wdok.level, wdok.subject_id, wdok.reference
-                FROM depth_of_knowledge wdok
-                JOIN subject ws ON ws.id = wdok.subject_id
-              WHERE ws.created > :first_at AND ws.created <= :last_at
-
-            stagingInsert: >-
-              INSERT INTO staging_depth_of_knowledge (id, level, subject_id, reference) VALUES
-                (:id, :level, :subject_id, :reference)
-
-        depth_of_knowledge_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT wdok.id, wdok.level, wdok.subject_id, wdok.reference
-                FROM depth_of_knowledge wdok
-                JOIN subject ws ON ws.id = wdok.subject_id
-              WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
-
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_depth_of_knowledge (id, level, subject_id, reference) VALUES
-                (:id, :level, :subject_id, :reference)
-
-        ##### ORGANIZATION ImportContent Type ####
-        #
-        # ------------ district_group  -------------------------------------------------------------------
-        district_group:
-          sql:
-            warehouseRead: >-
-              SELECT wdg.id, wdg.natural_id, wdg.name, wdg.external_id
-                FROM district_group wdg
-                WHERE EXISTS(
-                  SELECT ws.id FROM school ws
-                    WHERE ws.created > :first_at AND ws.created <= :last_at
-                        AND ws.deleted = 0
-                        AND ws.district_group_id = wdg.id
-                )
-
-            stagingInsert: >-
-              INSERT INTO staging_district_group (id, natural_id, name, external_id, migrate_id) VALUES
-                (:id, :natural_id, :name, :external_id, :migrate_id)
-
-        district_group_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT wdg.id, wdg.natural_id, wdg.name, wdg.external_id
-                FROM district_group wdg
-                WHERE EXISTS(
-                  SELECT ws.id FROM school ws
-                    WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
-                        AND ws.deleted = 0
-                        AND ws.district_group_id = wdg.id
-                      )
-
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_district_group (id, natural_id, name, external_id, migrate_id) VALUES
-                (:id, :natural_id, :name, :external_id, :migrate_id)
-
-        # ------------ district  -------------------------------------------------------------------
-        district:
-          sql:
-            warehouseRead: >-
-              SELECT wd.id, wd.natural_id, wd.name, wd.external_id
-                FROM district wd
-                WHERE EXISTS(
-                  SELECT ws.id FROM school ws
-                    WHERE ws.created > :first_at AND ws.created <= :last_at
-                        AND ws.deleted = 0
-                        AND ws.district_id = wd.id
-                )
-
-            stagingInsert: >-
-              INSERT INTO staging_district (id, natural_id, name, external_id, migrate_id) VALUES
-                (:id, :natural_id, :name, :external_id, :migrate_id)
-
-        district_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT wd.id, wd.natural_id, wd.name, wd.external_id
-                FROM district wd
-                WHERE EXISTS(
-                  SELECT ws.id FROM school ws
-                    WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
-                        AND ws.deleted = 0
-                        AND ws.district_id = wd.id
-                      )
-
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_district (id, natural_id, name, external_id, migrate_id) VALUES
-                (:id, :natural_id, :name, :external_id, :migrate_id)
-
-        # ------------ school_group  -------------------------------------------------------------------
-        school_group:
-          sql:
-            warehouseRead: >-
-              SELECT wsg.id, wsg.natural_id, wsg.name, wsg.external_id
-                FROM school_group wsg
-                WHERE EXISTS(
-                  SELECT ws.id FROM school ws
-                    WHERE ws.created > :first_at AND ws.created <= :last_at
-                        AND ws.deleted = 0
-                        AND ws.school_group_id = wsg.id
-                )
-
-            stagingInsert: >-
-              INSERT INTO staging_school_group (id, natural_id, name, external_id, migrate_id) VALUES
-                (:id, :natural_id, :name, :external_id, :migrate_id)
-
-        school_group_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT wsg.id, wsg.natural_id, wsg.name, wsg.external_id
-                FROM school_group wsg
-                WHERE EXISTS(
-                  SELECT ws.id FROM school ws
-                    WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
-                        AND ws.deleted = 0
-                        AND ws.school_group_id = wsg.id
-                      )
-
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_school_group (id, natural_id, name, external_id, migrate_id) VALUES
-                (:id, :natural_id, :name, :external_id, :migrate_id)
-
-        # ------------ school  -------------------------------------------------------------------
-        school:
-          sql:
-            warehouseRead: >-
-              SELECT ws.id, ws.natural_id, ws.name, ws.external_id, ws.update_import_id, ws.deleted, ws.district_id, ws.district_group_id, ws.school_group_id, ws.updated
-                FROM school ws
-                WHERE ws.created > :first_at AND ws.created <= :last_at
-
-            stagingInsert: >-
-              INSERT INTO staging_school (id, natural_id, name, external_id, update_import_id, deleted, district_id, district_group_id, school_group_id, updated, migrate_id) VALUES
-                (:id, :natural_id, :name, :external_id, :update_import_id, :deleted, :district_id, :district_group_id, :school_group_id, :updated, :migrate_id)
-
-        school_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT ws.id, ws.natural_id, ws.name, ws.external_id, ws.update_import_id, ws.deleted, ws.district_id, ws.district_group_id, ws.school_group_id, ws.updated
-                FROM school ws
-                WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
-
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_school (id, natural_id, name, external_id, update_import_id, deleted, district_id, district_group_id, school_group_id, updated, migrate_id) VALUES
-                (:id, :natural_id, :name, :external_id, :update_import_id, :deleted, :district_id, :district_group_id, :school_group_id, :updated, :migrate_id)
+          stagingInsert: >-
+            INSERT IGNORE INTO staging_school (id, natural_id, name, external_id, update_import_id, deleted, district_id, district_group_id, school_group_id, updated, migrate_id) VALUES
+              (:id, :natural_id, :name, :external_id, :update_import_id, :deleted, :district_id, :district_group_id, :school_group_id, :updated, :migrate_id)
 
 
-        ##### GROUPS ImportContent Type ####
-        #
-        # ------------ student  -------------------------------------------------------------------
-        student:
-          sql:
-            warehouseRead: >-
-              SELECT
-                ws.id,
-                ws.ssid,
-                ws.last_or_surname,
-                ws.first_name,
-                ws.middle_name,
-                ws.alias_name,
-                ws.gender_id,
-                ws.first_entry_into_us_school_at,
-                ws.lep_entry_at,
-                ws.lep_exit_at,
-                ws.birthday,
-                ws.inferred_school_id,
-                ws.update_import_id,
-                ws.deleted,
-                ws.updated
-              FROM student ws
-              WHERE ws.created > :first_at AND ws.created <= :last_at
+      ##### GROUPS ImportContent Type ####
+      #
+      # ------------ student  -------------------------------------------------------------------
+      student:
+        sql:
+          warehouseRead: >-
+            SELECT
+              ws.id,
+              ws.ssid,
+              ws.last_or_surname,
+              ws.first_name,
+              ws.middle_name,
+              ws.alias_name,
+              ws.gender_id,
+              ws.first_entry_into_us_school_at,
+              ws.lep_entry_at,
+              ws.lep_exit_at,
+              ws.birthday,
+              ws.inferred_school_id,
+              ws.update_import_id,
+              ws.deleted,
+              ws.updated
+            FROM student ws
+            WHERE ws.created > :first_at AND ws.created <= :last_at
 
-            stagingInsert: >-
-              INSERT INTO staging_student (id, ssid, last_or_surname, first_name, middle_name, alias_name, gender_id, first_entry_into_us_school_at,
-                               lep_entry_at, lep_exit_at, birthday, inferred_school_id, update_import_id, deleted, updated, migrate_id) VALUES
-                (:id, :ssid, :last_or_surname, :first_name, :middle_name, :alias_name, :gender_id, :first_entry_into_us_school_at,
-                              :lep_entry_at, :lep_exit_at, :birthday, :inferred_school_id, :update_import_id, :deleted, :updated, :migrate_id)
+          stagingInsert: >-
+            INSERT INTO staging_student (id, ssid, last_or_surname, first_name, middle_name, alias_name, gender_id, first_entry_into_us_school_at,
+                             lep_entry_at, lep_exit_at, birthday, inferred_school_id, update_import_id, deleted, updated, migrate_id) VALUES
+              (:id, :ssid, :last_or_surname, :first_name, :middle_name, :alias_name, :gender_id, :first_entry_into_us_school_at,
+                            :lep_entry_at, :lep_exit_at, :birthday, :inferred_school_id, :update_import_id, :deleted, :updated, :migrate_id)
 
-        student_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT
-                ws.id,
-                ws.ssid,
-                ws.last_or_surname,
-                ws.first_name,
-                ws.middle_name,
-                ws.alias_name,
-                ws.gender_id,
-                ws.first_entry_into_us_school_at,
-                ws.lep_entry_at,
-                ws.lep_exit_at,
-                ws.birthday,
-                ws.inferred_school_id,
-                ws.update_import_id,
-                ws.deleted,
-                ws.updated
-              FROM student ws
-              WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
+      student_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT
+              ws.id,
+              ws.ssid,
+              ws.last_or_surname,
+              ws.first_name,
+              ws.middle_name,
+              ws.alias_name,
+              ws.gender_id,
+              ws.first_entry_into_us_school_at,
+              ws.lep_entry_at,
+              ws.lep_exit_at,
+              ws.birthday,
+              ws.inferred_school_id,
+              ws.update_import_id,
+              ws.deleted,
+              ws.updated
+            FROM student ws
+            WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
 
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_student (id, ssid, last_or_surname, first_name, middle_name, alias_name, gender_id, first_entry_into_us_school_at,
-                               lep_entry_at, lep_exit_at, birthday, inferred_school_id, update_import_id, deleted, updated, migrate_id) VALUES
-                (:id, :ssid, :last_or_surname, :first_name, :middle_name, :alias_name, :gender_id, :first_entry_into_us_school_at,
-                              :lep_entry_at, :lep_exit_at, :birthday, :inferred_school_id, :update_import_id, :deleted, :updated, :migrate_id)
+          stagingInsert: >-
+            INSERT IGNORE INTO staging_student (id, ssid, last_or_surname, first_name, middle_name, alias_name, gender_id, first_entry_into_us_school_at,
+                             lep_entry_at, lep_exit_at, birthday, inferred_school_id, update_import_id, deleted, updated, migrate_id) VALUES
+              (:id, :ssid, :last_or_surname, :first_name, :middle_name, :alias_name, :gender_id, :first_entry_into_us_school_at,
+                            :lep_entry_at, :lep_exit_at, :birthday, :inferred_school_id, :update_import_id, :deleted, :updated, :migrate_id)
 
-        # ------------ student_ethnicity  -------------------------------------------------------------------
-        student_ethnicity:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wse.ethnicity_id,
-                wse.student_id
-              FROM student_ethnicity wse
-                JOIN student ws ON ws.id = wse.student_id
-              WHERE ws.created > :first_at AND ws.created <= :last_at
-                    AND ws.deleted = 0
+      # ------------ student_ethnicity  -------------------------------------------------------------------
+      student_ethnicity:
+        sql:
+          warehouseRead: >-
+            SELECT
+              wse.ethnicity_id,
+              wse.student_id
+            FROM student_ethnicity wse
+              JOIN student ws ON ws.id = wse.student_id
+            WHERE ws.created > :first_at AND ws.created <= :last_at
+                  AND ws.deleted = 0
 
-            stagingInsert: >-
-              INSERT INTO staging_student_ethnicity (ethnicity_id, student_id) VALUES
-                ( :ethnicity_id, :student_id )
+          stagingInsert: >-
+            INSERT INTO staging_student_ethnicity (ethnicity_id, student_id) VALUES
+              ( :ethnicity_id, :student_id )
 
-        student_ethnicity_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wse.ethnicity_id,
-                wse.student_id
-              FROM student_ethnicity wse
-                JOIN student ws ON ws.id = wse.student_id
-              WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
-                    AND ws.deleted = 0
+      student_ethnicity_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT
+              wse.ethnicity_id,
+              wse.student_id
+            FROM student_ethnicity wse
+              JOIN student ws ON ws.id = wse.student_id
+            WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
+                  AND ws.deleted = 0
 
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_student_ethnicity (ethnicity_id, student_id) VALUES
-                ( :ethnicity_id, :student_id )
+          stagingInsert: >-
+            INSERT IGNORE INTO staging_student_ethnicity (ethnicity_id, student_id) VALUES
+              ( :ethnicity_id, :student_id )
 
-        # ------------ student_group  -------------------------------------------------------------------
-        # Because student groups are imported as part of very large update files, the time-based
-        # migration can fail: the groups may be committed (as part of a large transaction) after
-        # the migrate operation but with created/updated timestamps that are before the migrate
-        # time range; thus getting lost forever.
-        student_group:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wsg.id,
-                wsg.name,
-                wsg.school_id,
-                wsg.school_year,
-                wsg.subject_id,
-                wsg.active,
-                wsg.creator,
-                wsg.created,
-                wsg.update_import_id,
-                wsg.deleted,
-                wsg.updated
-              FROM student_group wsg
-                JOIN import i ON i.id = wsg.update_import_id
-              WHERE i.updated > :first_at AND i.updated <= :last_at
+      # ------------ student_group  -------------------------------------------------------------------
+      # Because student groups are imported as part of very large update files, the time-based
+      # migration can fail: the groups may be committed (as part of a large transaction) after
+      # the migrate operation but with created/updated timestamps that are before the migrate
+      # time range; thus getting lost forever.
+      student_group:
+        sql:
+          warehouseRead: >-
+            SELECT
+              wsg.id,
+              wsg.name,
+              wsg.school_id,
+              wsg.school_year,
+              wsg.subject_id,
+              wsg.active,
+              wsg.creator,
+              wsg.created,
+              wsg.update_import_id,
+              wsg.deleted,
+              wsg.updated
+            FROM student_group wsg
+              JOIN import i ON i.id = wsg.update_import_id
+            WHERE i.updated > :first_at AND i.updated <= :last_at
 
-            stagingInsert: >-
-              INSERT INTO staging_student_group (id, name, school_id, school_year, subject_id, active, creator, created, update_import_id, deleted, updated, migrate_id) VALUES
-                (:id, :name, :school_id, :school_year, :subject_id, :active, :creator, :created, :update_import_id, :deleted, :updated, :migrate_id)
+          stagingInsert: >-
+            INSERT INTO staging_student_group (id, name, school_id, school_year, subject_id, active, creator, created, update_import_id, deleted, updated, migrate_id) VALUES
+              (:id, :name, :school_id, :school_year, :subject_id, :active, :creator, :created, :update_import_id, :deleted, :updated, :migrate_id)
 
-        # ------------ student_group_membership  -------------------------------------------------------------------
-        student_group_membership:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wsgm.student_group_id,
-                wsgm.student_id
-              FROM student_group_membership wsgm
-                JOIN student_group wsg ON wsg.id = wsgm.student_group_id
-                JOIN student ws ON ws.id = wsgm.student_id
-                JOIN import i ON i.id = wsg.update_import_id
-              WHERE i.updated > :first_at AND i.updated <= :last_at
-                AND ws.created <= :last_at AND ws.deleted = 0
-                AND wsg.deleted = 0 AND wsg.active != 0
+      # ------------ student_group_membership  -------------------------------------------------------------------
+      student_group_membership:
+        sql:
+          warehouseRead: >-
+            SELECT
+              wsgm.student_group_id,
+              wsgm.student_id
+            FROM student_group_membership wsgm
+              JOIN student_group wsg ON wsg.id = wsgm.student_group_id
+              JOIN student ws ON ws.id = wsgm.student_id
+              JOIN import i ON i.id = wsg.update_import_id
+            WHERE i.updated > :first_at AND i.updated <= :last_at
+              AND ws.created <= :last_at AND ws.deleted = 0
+              AND wsg.deleted = 0 AND wsg.active != 0
 
-            stagingInsert: >-
-              INSERT INTO staging_student_group_membership (student_group_id, student_id) VALUES
-                (:student_group_id, :student_id)
+          stagingInsert: >-
+            INSERT INTO staging_student_group_membership (student_group_id, student_id) VALUES
+              (:student_group_id, :student_id)
 
-        # ------------ user_student_group  -------------------------------------------------------------------
-        user_student_group:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wusg.student_group_id,
-                wusg.user_login
-              FROM user_student_group wusg
-                JOIN student_group wsg ON wsg.id= wusg.student_group_id
-                JOIN import i ON i.id = wsg.update_import_id
-              WHERE i.updated > :first_at AND i.updated <= :last_at
-                AND wsg.deleted = 0 and wsg.active != 0
+      # ------------ user_student_group  -------------------------------------------------------------------
+      user_student_group:
+        sql:
+          warehouseRead: >-
+            SELECT
+              wusg.student_group_id,
+              wusg.user_login
+            FROM user_student_group wusg
+              JOIN student_group wsg ON wsg.id= wusg.student_group_id
+              JOIN import i ON i.id = wsg.update_import_id
+            WHERE i.updated > :first_at AND i.updated <= :last_at
+              AND wsg.deleted = 0 and wsg.active != 0
 
-            stagingInsert: >-
-              INSERT INTO staging_user_student_group (student_group_id, user_login) VALUES
-                (:student_group_id, :user_login)
+          stagingInsert: >-
+            INSERT INTO staging_user_student_group (student_group_id, user_login) VALUES
+              (:student_group_id, :user_login)
 
-        ##### PACKAGE ImportContent Type ####
-        # ------------ asmt  -------------------------------------------------------------------
-        asmt:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wa.id,
-                wa.natural_id,
-                wa.grade_id,
-                wa.type_id,
-                wa.subject_id,
-                wa.school_year,
-                wa.name,
-                wa.label,
-                wa.version,
-                wa.update_import_id,
-                wa.deleted,
-                wa.updated
-              FROM asmt wa
-              WHERE  wa.created > :first_at AND wa.created <= :last_at
+      ##### PACKAGE ImportContent Type ####
+      # ------------ asmt  -------------------------------------------------------------------
+      asmt:
+        sql:
+          warehouseRead: >-
+            SELECT
+              wa.id,
+              wa.natural_id,
+              wa.grade_id,
+              wa.type_id,
+              wa.subject_id,
+              wa.school_year,
+              wa.name,
+              wa.label,
+              wa.version,
+              wa.update_import_id,
+              wa.deleted,
+              wa.updated
+            FROM asmt wa
+            WHERE  wa.created > :first_at AND wa.created <= :last_at
 
-            stagingInsert: >-
-              INSERT INTO staging_asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name, label, version, update_import_id, deleted, updated, migrate_id) VALUES
-                (:id, :natural_id, :grade_id, :type_id, :subject_id, :school_year, :name, :label, :version, :update_import_id, :deleted, :updated, :migrate_id)
+          stagingInsert: >-
+            INSERT INTO staging_asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name, label, version, update_import_id, deleted, updated, migrate_id) VALUES
+              (:id, :natural_id, :grade_id, :type_id, :subject_id, :school_year, :name, :label, :version, :update_import_id, :deleted, :updated, :migrate_id)
 
-        asmt_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wa.id,
-                wa.natural_id,
-                wa.grade_id,
-                wa.type_id,
-                wa.subject_id,
-                wa.school_year,
-                wa.name,
-                wa.label,
-                wa.version,
-                wa.update_import_id,
-                wa.deleted,
-                wa.updated
-              FROM asmt wa
-              WHERE  wa.updated > :first_at AND wa.updated <= :last_at AND wa.updated <> wa.created
+      asmt_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT
+              wa.id,
+              wa.natural_id,
+              wa.grade_id,
+              wa.type_id,
+              wa.subject_id,
+              wa.school_year,
+              wa.name,
+              wa.label,
+              wa.version,
+              wa.update_import_id,
+              wa.deleted,
+              wa.updated
+            FROM asmt wa
+            WHERE  wa.updated > :first_at AND wa.updated <= :last_at AND wa.updated <> wa.created
 
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name, label, version, update_import_id, deleted, updated, migrate_id) VALUES
-                (:id, :natural_id, :grade_id, :type_id, :subject_id, :school_year, :name, :label, :version, :update_import_id, :deleted, :updated, :migrate_id)
+          stagingInsert: >-
+            INSERT IGNORE INTO staging_asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name, label, version, update_import_id, deleted, updated, migrate_id) VALUES
+              (:id, :natural_id, :grade_id, :type_id, :subject_id, :school_year, :name, :label, :version, :update_import_id, :deleted, :updated, :migrate_id)
 
-        # ------------ asmt_score  -------------------------------------------------------------------
-        # We rely on the unique index and INSERT IGNORE to avoid duplicate entries. But MySQL does
-        # not enforce uniqueness when a key value is NULL. To get around this, we will coalesce
-        # NULL values to 0 (which should be safe since id's aren't 0 in this system). Obviously
-        # the subsequent migrate step (staging to reporting) has to deal with this as well.
-        asmt_score:
-          sql:
-            warehouseRead: >-
-              SELECT
-                was.asmt_id,
-                COALESCE(was.subject_score_id, 0) AS subject_score_id,
-                round(was.cut_point_1) AS cut_point_1,
-                round(was.cut_point_2) AS cut_point_2,
-                round(was.cut_point_3) AS cut_point_3,
-                round(was.cut_point_4) AS cut_point_4,
-                round(was.cut_point_5) AS cut_point_5,
-                round(was.min_score) AS min_score,
-                round(was.max_score) AS max_score
-              FROM asmt_score  was
-                JOIN asmt wa ON wa.id = was.asmt_id
+      # ------------ asmt_score  -------------------------------------------------------------------
+      # We rely on the unique index and INSERT IGNORE to avoid duplicate entries. But MySQL does
+      # not enforce uniqueness when a key value is NULL. To get around this, we will coalesce
+      # NULL values to 0 (which should be safe since id's aren't 0 in this system). Obviously
+      # the subsequent migrate step (staging to reporting) has to deal with this as well.
+      asmt_score:
+        sql:
+          warehouseRead: >-
+            SELECT
+              was.asmt_id,
+              COALESCE(was.subject_score_id, 0) AS subject_score_id,
+              round(was.cut_point_1) AS cut_point_1,
+              round(was.cut_point_2) AS cut_point_2,
+              round(was.cut_point_3) AS cut_point_3,
+              round(was.cut_point_4) AS cut_point_4,
+              round(was.cut_point_5) AS cut_point_5,
+              round(was.min_score) AS min_score,
+              round(was.max_score) AS max_score
+            FROM asmt_score  was
+              JOIN asmt wa ON wa.id = was.asmt_id
+            WHERE wa.created > :first_at AND wa.created <= :last_at
+              AND wa.deleted = 0
+
+          stagingInsert: >-
+            INSERT INTO staging_asmt_score (asmt_id, subject_score_id, cut_point_1, cut_point_2, cut_point_3, cut_point_4, cut_point_5, min_score, max_score, migrate_id) VALUES
+              (:asmt_id, :subject_score_id, :cut_point_1, :cut_point_2, :cut_point_3, :cut_point_4, :cut_point_5, :min_score, :max_score, :migrate_id)
+
+      asmt_score_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT
+              was.asmt_id,
+              COALESCE(was.subject_score_id, 0) AS subject_score_id,
+              round(was.cut_point_1) AS cut_point_1,
+              round(was.cut_point_2) AS cut_point_2,
+              round(was.cut_point_3) AS cut_point_3,
+              round(was.cut_point_4) AS cut_point_4,
+              round(was.cut_point_5) AS cut_point_5,
+              round(was.min_score) AS min_score,
+              round(was.max_score) AS max_score
+            FROM asmt_score  was
+              JOIN asmt wa ON wa.id = was.asmt_id
+            WHERE wa.updated > :first_at AND wa.updated <= :last_at AND wa.updated <> wa.created
+              AND wa.deleted = 0
+
+          stagingInsert: >-
+            INSERT IGNORE INTO staging_asmt_score (asmt_id, subject_score_id, cut_point_1, cut_point_2, cut_point_3, cut_point_4, cut_point_5, min_score, max_score, migrate_id) VALUES
+              (:asmt_id, :subject_score_id, :cut_point_1, :cut_point_2, :cut_point_3, :cut_point_4, :cut_point_5, :min_score, :max_score, :migrate_id)
+
+      # ------------ item  -------------------------------------------------------------------
+      item:
+        sql:
+          warehouseRead: >-
+            SELECT
+              wi.id,
+              wi.claim_id,
+              wi.target_id,
+              wi.natural_id,
+              wi.asmt_id,
+              wi.math_practice,
+              wi.allow_calc,
+              wi.position,
+              wi.dok_id,
+              wi.difficulty_code,
+              round(wi.max_points) AS max_points,
+              ccs.common_core_standard_ids,
+              wi.field_test,
+              wi.active,
+              wi.type,
+              wi.options_count,
+              CASE WHEN wa.type_id = 3 THEN NULL ELSE wi.answer_key END AS answer_key,
+              wi.performance_task_writing_type
+            FROM item  wi
+              JOIN asmt wa ON wa.id = wi.asmt_id
+              LEFT JOIN
+                ( SELECT wiccs.item_id as item_id, GROUP_CONCAT(wccs.natural_id ORDER BY wccs.id SEPARATOR '|') as common_core_standard_ids
+                    FROM item_common_core_standard wiccs
+                      JOIN  common_core_standard wccs on wccs.id = wiccs.common_core_standard_id
+                    GROUP BY wiccs.item_id
+                ) AS ccs on ccs.item_id = wi.id
               WHERE wa.created > :first_at AND wa.created <= :last_at
                 AND wa.deleted = 0
 
-            stagingInsert: >-
-              INSERT INTO staging_asmt_score (asmt_id, subject_score_id, cut_point_1, cut_point_2, cut_point_3, cut_point_4, cut_point_5, min_score, max_score, migrate_id) VALUES
-                (:asmt_id, :subject_score_id, :cut_point_1, :cut_point_2, :cut_point_3, :cut_point_4, :cut_point_5, :min_score, :max_score, :migrate_id)
+          stagingInsert: >-
+            INSERT INTO staging_item (id, claim_id, target_id, natural_id, asmt_id, math_practice, allow_calc, position, dok_id, difficulty_code, max_points, common_core_standard_ids, field_test, active, type, options_count, answer_key, performance_task_writing_type, migrate_id) VALUES
+              (:id, :claim_id, :target_id, :natural_id, :asmt_id, :math_practice, :allow_calc, :position, :dok_id, :difficulty_code, :max_points, :common_core_standard_ids, :field_test, :active, :type, :options_count, :answer_key, :performance_task_writing_type, :migrate_id)
 
-        asmt_score_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT
-                was.asmt_id,
-                COALESCE(was.subject_score_id, 0) AS subject_score_id,
-                round(was.cut_point_1) AS cut_point_1,
-                round(was.cut_point_2) AS cut_point_2,
-                round(was.cut_point_3) AS cut_point_3,
-                round(was.cut_point_4) AS cut_point_4,
-                round(was.cut_point_5) AS cut_point_5,
-                round(was.min_score) AS min_score,
-                round(was.max_score) AS max_score
-              FROM asmt_score  was
-                JOIN asmt wa ON wa.id = was.asmt_id
+      item_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT
+              wi.id,
+              wi.claim_id,
+              wi.target_id,
+              wi.natural_id,
+              wi.asmt_id,
+              wi.math_practice,
+              wi.allow_calc,
+              wi.position,
+              wi.dok_id,
+              wi.difficulty_code,
+              round(wi.max_points) AS max_points,
+              ccs.common_core_standard_ids,
+              wi.field_test,
+              wi.active,
+              wi.type,
+              wi.options_count,
+              CASE WHEN wa.type_id = 3 THEN NULL ELSE wi.answer_key END AS answer_key,
+              wi.performance_task_writing_type
+            FROM item  wi
+              JOIN asmt wa ON wa.id = wi.asmt_id
+              LEFT JOIN
+                ( SELECT wiccs.item_id as item_id, GROUP_CONCAT(wccs.natural_id ORDER BY wccs.id SEPARATOR '|') as common_core_standard_ids
+                    FROM item_common_core_standard wiccs
+                      JOIN  common_core_standard wccs on wccs.id = wiccs.common_core_standard_id
+                    GROUP BY wiccs.item_id
+                ) AS ccs on ccs.item_id = wi.id
               WHERE wa.updated > :first_at AND wa.updated <= :last_at AND wa.updated <> wa.created
                 AND wa.deleted = 0
 
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_asmt_score (asmt_id, subject_score_id, cut_point_1, cut_point_2, cut_point_3, cut_point_4, cut_point_5, min_score, max_score, migrate_id) VALUES
-                (:asmt_id, :subject_score_id, :cut_point_1, :cut_point_2, :cut_point_3, :cut_point_4, :cut_point_5, :min_score, :max_score, :migrate_id)
+          stagingInsert: >-
+            INSERT IGNORE INTO staging_item (id, claim_id, target_id, natural_id, asmt_id, math_practice, allow_calc, position, dok_id, difficulty_code, max_points, common_core_standard_ids, field_test, active, type, options_count, answer_key, performance_task_writing_type, migrate_id) VALUES
+              (:id, :claim_id, :target_id, :natural_id, :asmt_id, :math_practice, :allow_calc, :position, :dok_id, :difficulty_code, :max_points, :common_core_standard_ids, :field_test, :active, :type, :options_count, :answer_key, :performance_task_writing_type, :migrate_id)
 
-        # ------------ item  -------------------------------------------------------------------
-        item:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wi.id,
-                wi.claim_id,
-                wi.target_id,
-                wi.natural_id,
-                wi.asmt_id,
-                wi.math_practice,
-                wi.allow_calc,
-                wi.position,
-                wi.dok_id,
-                wi.difficulty_code,
-                round(wi.max_points) AS max_points,
-                ccs.common_core_standard_ids,
-                wi.field_test,
-                wi.active,
-                wi.type,
-                wi.options_count,
-                CASE WHEN wa.type_id = 3 THEN NULL ELSE wi.answer_key END AS answer_key,
-                wi.performance_task_writing_type
-              FROM item  wi
-                JOIN asmt wa ON wa.id = wi.asmt_id
-                LEFT JOIN
-                  ( SELECT wiccs.item_id as item_id, GROUP_CONCAT(wccs.natural_id ORDER BY wccs.id SEPARATOR '|') as common_core_standard_ids
-                      FROM item_common_core_standard wiccs
-                        JOIN  common_core_standard wccs on wccs.id = wiccs.common_core_standard_id
-                      GROUP BY wiccs.item_id
-                  ) AS ccs on ccs.item_id = wi.id
-                WHERE wa.created > :first_at AND wa.created <= :last_at
-                  AND wa.deleted = 0
+      # ------------ item_common_core_standard  -------------------------------------------------------------------
+      item_common_core_standard:
+        sql:
+          warehouseRead: >-
+            SELECT
+              wiccs.common_core_standard_id,
+              wiccs.item_id
+            FROM item_common_core_standard wiccs
+              JOIN item wi ON wi.id = wiccs.item_id
+              JOIN asmt wa ON wa.id = wi.asmt_id
+            WHERE wa.created > :first_at AND wa.created <= :last_at
+              AND wa.deleted = 0
 
-            stagingInsert: >-
-              INSERT INTO staging_item (id, claim_id, target_id, natural_id, asmt_id, math_practice, allow_calc, position, dok_id, difficulty_code, max_points, common_core_standard_ids, field_test, active, type, options_count, answer_key, performance_task_writing_type, migrate_id) VALUES
-                (:id, :claim_id, :target_id, :natural_id, :asmt_id, :math_practice, :allow_calc, :position, :dok_id, :difficulty_code, :max_points, :common_core_standard_ids, :field_test, :active, :type, :options_count, :answer_key, :performance_task_writing_type, :migrate_id)
+          stagingInsert: >-
+            INSERT INTO staging_item_common_core_standard (common_core_standard_id, item_id) VALUES
+              (:common_core_standard_id, :item_id)
 
-        item_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wi.id,
-                wi.claim_id,
-                wi.target_id,
-                wi.natural_id,
-                wi.asmt_id,
-                wi.math_practice,
-                wi.allow_calc,
-                wi.position,
-                wi.dok_id,
-                wi.difficulty_code,
-                round(wi.max_points) AS max_points,
-                ccs.common_core_standard_ids,
-                wi.field_test,
-                wi.active,
-                wi.type,
-                wi.options_count,
-                CASE WHEN wa.type_id = 3 THEN NULL ELSE wi.answer_key END AS answer_key,
-                wi.performance_task_writing_type
-              FROM item  wi
-                JOIN asmt wa ON wa.id = wi.asmt_id
-                LEFT JOIN
-                  ( SELECT wiccs.item_id as item_id, GROUP_CONCAT(wccs.natural_id ORDER BY wccs.id SEPARATOR '|') as common_core_standard_ids
-                      FROM item_common_core_standard wiccs
-                        JOIN  common_core_standard wccs on wccs.id = wiccs.common_core_standard_id
-                      GROUP BY wiccs.item_id
-                  ) AS ccs on ccs.item_id = wi.id
-                WHERE wa.updated > :first_at AND wa.updated <= :last_at AND wa.updated <> wa.created
-                  AND wa.deleted = 0
+      item_common_core_standard_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT
+              wiccs.common_core_standard_id,
+              wiccs.item_id
+            FROM item_common_core_standard wiccs
+              JOIN item wi ON wi.id = wiccs.item_id
+              JOIN asmt wa ON wa.id = wi.asmt_id
+            WHERE wa.updated > :first_at AND wa.updated <= :last_at AND wa.updated <> wa.created
+              AND wa.deleted = 0
 
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_item (id, claim_id, target_id, natural_id, asmt_id, math_practice, allow_calc, position, dok_id, difficulty_code, max_points, common_core_standard_ids, field_test, active, type, options_count, answer_key, performance_task_writing_type, migrate_id) VALUES
-                (:id, :claim_id, :target_id, :natural_id, :asmt_id, :math_practice, :allow_calc, :position, :dok_id, :difficulty_code, :max_points, :common_core_standard_ids, :field_test, :active, :type, :options_count, :answer_key, :performance_task_writing_type, :migrate_id)
+          stagingInsert: >-
+            INSERT IGNORE INTO staging_item_common_core_standard (common_core_standard_id, item_id) VALUES
+              (:common_core_standard_id, :item_id)
 
-        # ------------ item_common_core_standard  -------------------------------------------------------------------
-        item_common_core_standard:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wiccs.common_core_standard_id,
-                wiccs.item_id
-              FROM item_common_core_standard wiccs
-                JOIN item wi ON wi.id = wiccs.item_id
-                JOIN asmt wa ON wa.id = wi.asmt_id
-              WHERE wa.created > :first_at AND wa.created <= :last_at
-                AND wa.deleted = 0
+      # ------------ item_other_target  -------------------------------------------------------------------
+      item_other_target:
+        sql:
+          warehouseRead: >-
+            SELECT
+              wiot.item_id,
+              wiot.target_id
+            FROM item_other_target wiot
+              JOIN item wi ON wi.id = wiot.item_id
+              JOIN asmt wa ON wa.id = wi.asmt_id
+            WHERE  wa.created > :first_at AND wa.created <= :last_at
+              AND wa.deleted = 0
 
-            stagingInsert: >-
-              INSERT INTO staging_item_common_core_standard (common_core_standard_id, item_id) VALUES
-                (:common_core_standard_id, :item_id)
+          stagingInsert: >-
+            INSERT INTO staging_item_other_target (item_id, target_id) VALUES
+              (:item_id, :target_id)
 
-        item_common_core_standard_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wiccs.common_core_standard_id,
-                wiccs.item_id
-              FROM item_common_core_standard wiccs
-                JOIN item wi ON wi.id = wiccs.item_id
-                JOIN asmt wa ON wa.id = wi.asmt_id
-              WHERE wa.updated > :first_at AND wa.updated <= :last_at AND wa.updated <> wa.created
-                AND wa.deleted = 0
+      item_other_target_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT
+              wiot.item_id,
+              wiot.target_id
+            FROM item_other_target wiot
+              JOIN item wi ON wi.id = wiot.item_id
+              JOIN asmt wa ON wa.id = wi.asmt_id
+            WHERE wa.updated > :first_at AND wa.updated <= :last_at AND wa.updated <> wa.created
+              AND wa.deleted = 0
 
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_item_common_core_standard (common_core_standard_id, item_id) VALUES
-                (:common_core_standard_id, :item_id)
+          stagingInsert: >-
+            INSERT IGNORE INTO staging_item_other_target (item_id, target_id) VALUES
+              (:item_id, :target_id)
 
-        # ------------ item_other_target  -------------------------------------------------------------------
-        item_other_target:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wiot.item_id,
-                wiot.target_id
-              FROM item_other_target wiot
-                JOIN item wi ON wi.id = wiot.item_id
-                JOIN asmt wa ON wa.id = wi.asmt_id
-              WHERE  wa.created > :first_at AND wa.created <= :last_at
-                AND wa.deleted = 0
+      # ------------ asmt_target_exclusion  -------------------------------------------------------------------
+      # Only Summative target scores are included
+      # For Smarter Balanced Math, only the Concepts and Procedures targets are included
+      asmt_target_exclusion:
+        sql:
+          warehouseRead: >-
+            SELECT
+              wats.asmt_id,
+              wats.target_id
+            FROM asmt_target_exclusion wats
+              JOIN asmt wa ON wa.id = wats.asmt_id
+              JOIN target wt ON wt.id = wats.target_id
+              JOIN claim wc ON wc.id = wt.claim_id
+              JOIN subject ws ON ws.id = wc.subject_id
+            WHERE wa.type_id = 3 AND (ws.code <> 'Math' OR wc.code='1') AND
+              wa.created > :first_at AND wa.created <= :last_at AND wa.deleted = 0
 
-            stagingInsert: >-
-              INSERT INTO staging_item_other_target (item_id, target_id) VALUES
-                (:item_id, :target_id)
+          stagingInsert: >-
+            INSERT INTO staging_asmt_target_exclusion (asmt_id, target_id, migrate_id) VALUES
+              (:asmt_id, :target_id, :migrate_id)
 
-        item_other_target_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wiot.item_id,
-                wiot.target_id
-              FROM item_other_target wiot
-                JOIN item wi ON wi.id = wiot.item_id
-                JOIN asmt wa ON wa.id = wi.asmt_id
-              WHERE wa.updated > :first_at AND wa.updated <= :last_at AND wa.updated <> wa.created
-                AND wa.deleted = 0
+      asmt_target_exclusion_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT
+              wats.asmt_id,
+              wats.target_id
+            FROM asmt_target_exclusion wats
+              JOIN asmt wa ON wa.id = wats.asmt_id
+              JOIN target wt ON wt.id = wats.target_id
+              JOIN claim wc ON wc.id = wt.claim_id
+              JOIN subject ws ON ws.id = wc.subject_id
+            WHERE wa.type_id = 3 AND (ws.code <> 'Math' OR wc.code='1') AND
+              wa.updated > :first_at AND wa.updated <= :last_at AND wa.updated <> wa.created AND wa.deleted = 0
 
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_item_other_target (item_id, target_id) VALUES
-                (:item_id, :target_id)
+          stagingInsert: >-
+            INSERT IGNORE INTO staging_asmt_target_exclusion (asmt_id, target_id, migrate_id) VALUES
+              (:asmt_id, :target_id, :migrate_id)
 
-        # ------------ asmt_target_exclusion  -------------------------------------------------------------------
-        # Only Summative target scores are included
-        # For Smarter Balanced Math, only the Concepts and Procedures targets are included
-        asmt_target_exclusion:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wats.asmt_id,
-                wats.target_id
-              FROM asmt_target_exclusion wats
-                JOIN asmt wa ON wa.id = wats.asmt_id
-                JOIN target wt ON wt.id = wats.target_id
-                JOIN claim wc ON wc.id = wt.claim_id
-                JOIN subject ws ON ws.id = wc.subject_id
-              WHERE wa.type_id = 3 AND (ws.code <> 'Math' OR wc.code='1') AND
-                wa.created > :first_at AND wa.created <= :last_at AND wa.deleted = 0
+      # ------------ asmt_target  -------------------------------------------------------------------
+      # Only Summative target scores are included
+      # For Smarter Balanced Math, only the Concepts and Procedures targets are included
+      asmt_target:
+        sql:
+          warehouseRead: >-
+            SELECT DISTINCT
+              wa.id as asmt_id,
+              wi.target_id
+            FROM item wi
+              JOIN asmt wa ON wa.id = wi.asmt_id
+              JOIN target wt ON wt.id = wi.target_id
+              JOIN claim wc ON wc.id = wt.claim_id
+              JOIN subject ws ON ws.id = wc.subject_id
+            WHERE wa.type_id = 3 AND (ws.code <> 'Math' OR wc.code='1')AND
+              wa.created > :first_at AND wa.created <= :last_at AND wa.deleted = 0
 
-            stagingInsert: >-
-              INSERT INTO staging_asmt_target_exclusion (asmt_id, target_id, migrate_id) VALUES
-                (:asmt_id, :target_id, :migrate_id)
+          stagingInsert: >-
+            INSERT INTO staging_asmt_target (asmt_id, target_id, migrate_id) VALUES
+              (:asmt_id, :target_id, :migrate_id)
 
-        asmt_target_exclusion_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wats.asmt_id,
-                wats.target_id
-              FROM asmt_target_exclusion wats
-                JOIN asmt wa ON wa.id = wats.asmt_id
-                JOIN target wt ON wt.id = wats.target_id
-                JOIN claim wc ON wc.id = wt.claim_id
-                JOIN subject ws ON ws.id = wc.subject_id
-              WHERE wa.type_id = 3 AND (ws.code <> 'Math' OR wc.code='1') AND
-                wa.updated > :first_at AND wa.updated <= :last_at AND wa.updated <> wa.created AND wa.deleted = 0
+      asmt_target_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT DISTINCT
+              wa.id as asmt_id,
+              wi.target_id
+            FROM item wi
+              JOIN asmt wa ON wa.id = wi.asmt_id
+              JOIN target wt ON wt.id = wi.target_id
+              JOIN claim wc ON wc.id = wt.claim_id
+              JOIN subject ws ON ws.id = wc.subject_id
+            WHERE wa.type_id = 3 AND (ws.code <> 'Math' OR wc.code='1') AND
+              wa.updated > :first_at AND wa.updated <= :last_at AND wa.updated <> wa.created AND wa.deleted = 0
 
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_asmt_target_exclusion (asmt_id, target_id, migrate_id) VALUES
-                (:asmt_id, :target_id, :migrate_id)
+          stagingInsert: >-
+            INSERT IGNORE INTO staging_asmt_target (asmt_id, target_id, migrate_id) VALUES
+              (:asmt_id, :target_id, :migrate_id)
 
-        # ------------ asmt_target  -------------------------------------------------------------------
-        # Only Summative target scores are included
-        # For Smarter Balanced Math, only the Concepts and Procedures targets are included
-        asmt_target:
-          sql:
-            warehouseRead: >-
-              SELECT DISTINCT
-                wa.id as asmt_id,
-                wi.target_id
-              FROM item wi
-                JOIN asmt wa ON wa.id = wi.asmt_id
-                JOIN target wt ON wt.id = wi.target_id
-                JOIN claim wc ON wc.id = wt.claim_id
-                JOIN subject ws ON ws.id = wc.subject_id
-              WHERE wa.type_id = 3 AND (ws.code <> 'Math' OR wc.code='1')AND
-                wa.created > :first_at AND wa.created <= :last_at AND wa.deleted = 0
+      ##### NORMS ImportContent Type ####
+      #
+      # ------------ percentile  -------------------------------------------------------------------
+      percentile:
+        sql:
+          warehouseRead: >-
+            SELECT wp.id, wp.asmt_id, wp.start_date, wp.end_date, wp.count, wp.mean, wp.standard_deviation, wp.min_score, wp.max_score, wp.deleted, wp.update_import_id, wp.updated
+              FROM percentile wp
+              WHERE wp.created > :first_at AND wp.created <= :last_at
+          stagingInsert: >-
+            INSERT INTO staging_percentile (id, asmt_id, start_date, end_date, count, mean, standard_deviation, min_score, max_score, deleted, update_import_id, updated, migrate_id) VALUES
+              (:id, :asmt_id, :start_date, :end_date, :count, :mean, :standard_deviation, :min_score, :max_score, :deleted, :update_import_id, :updated, :migrate_id)
 
-            stagingInsert: >-
-              INSERT INTO staging_asmt_target (asmt_id, target_id, migrate_id) VALUES
-                (:asmt_id, :target_id, :migrate_id)
+      percentile_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT wp.id, wp.asmt_id, wp.start_date, wp.end_date, wp.count, wp.mean, wp.standard_deviation, wp.min_score, wp.max_score, wp.deleted, wp.update_import_id, wp.updated
+              FROM percentile wp
+              WHERE wp.updated > :first_at AND wp.updated <= :last_at AND wp.updated <> wp.created
+          stagingInsert: >-
+            INSERT IGNORE INTO staging_percentile (id, asmt_id, start_date, end_date, count, mean, standard_deviation, min_score, max_score, deleted, update_import_id, updated, migrate_id) VALUES
+              (:id, :asmt_id, :start_date, :end_date, :count, :mean, :standard_deviation, :min_score, :max_score, :deleted, :update_import_id, :updated, :migrate_id)
 
-        asmt_target_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT DISTINCT
-                wa.id as asmt_id,
-                wi.target_id
-              FROM item wi
-                JOIN asmt wa ON wa.id = wi.asmt_id
-                JOIN target wt ON wt.id = wi.target_id
-                JOIN claim wc ON wc.id = wt.claim_id
-                JOIN subject ws ON ws.id = wc.subject_id
-              WHERE wa.type_id = 3 AND (ws.code <> 'Math' OR wc.code='1') AND
-                wa.updated > :first_at AND wa.updated <= :last_at AND wa.updated <> wa.created AND wa.deleted = 0
+      # ------------ percentile_score  -------------------------------------------------------------------
+      percentile_score:
+        sql:
+          warehouseRead: >-
+            SELECT wps.percentile_id, wps.percentile_rank, wps.score, wps.min_inclusive, wps.max_exclusive
+              FROM percentile_score wps
+                JOIN percentile wp ON wp.id = wps.percentile_id
+              WHERE wp.created > :first_at AND wp.created <= :last_at AND wp.deleted = 0
 
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_asmt_target (asmt_id, target_id, migrate_id) VALUES
-                (:asmt_id, :target_id, :migrate_id)
+          stagingInsert: >-
+            INSERT INTO staging_percentile_score (percentile_id, percentile_rank, score, min_inclusive, max_exclusive) VALUES
+              (:percentile_id, :percentile_rank, :score, :min_inclusive, :max_exclusive)
 
-        ##### NORMS ImportContent Type ####
-        #
-        # ------------ percentile  -------------------------------------------------------------------
-        percentile:
-          sql:
-            warehouseRead: >-
-              SELECT wp.id, wp.asmt_id, wp.start_date, wp.end_date, wp.count, wp.mean, wp.standard_deviation, wp.min_score, wp.max_score, wp.deleted, wp.update_import_id, wp.updated
-                FROM percentile wp
-                WHERE wp.created > :first_at AND wp.created <= :last_at
-            stagingInsert: >-
-              INSERT INTO staging_percentile (id, asmt_id, start_date, end_date, count, mean, standard_deviation, min_score, max_score, deleted, update_import_id, updated, migrate_id) VALUES
-                (:id, :asmt_id, :start_date, :end_date, :count, :mean, :standard_deviation, :min_score, :max_score, :deleted, :update_import_id, :updated, :migrate_id)
+      percentile_score_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT wps.percentile_id, wps.percentile_rank, wps.score, wps.min_inclusive, wps.max_exclusive
+              FROM percentile_score wps
+                JOIN percentile wp ON wp.id = wps.percentile_id
+              WHERE wp.updated > :first_at AND wp.updated <= :last_at AND wp.updated <> wp.created AND wp.deleted = 0
 
-        percentile_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT wp.id, wp.asmt_id, wp.start_date, wp.end_date, wp.count, wp.mean, wp.standard_deviation, wp.min_score, wp.max_score, wp.deleted, wp.update_import_id, wp.updated
-                FROM percentile wp
-                WHERE wp.updated > :first_at AND wp.updated <= :last_at AND wp.updated <> wp.created
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_percentile (id, asmt_id, start_date, end_date, count, mean, standard_deviation, min_score, max_score, deleted, update_import_id, updated, migrate_id) VALUES
-                (:id, :asmt_id, :start_date, :end_date, :count, :mean, :standard_deviation, :min_score, :max_score, :deleted, :update_import_id, :updated, :migrate_id)
+          stagingInsert: >-
+            INSERT IGNORE INTO staging_percentile_score (percentile_id, percentile_rank, score, min_inclusive, max_exclusive) VALUES
+              (:percentile_id, :percentile_rank, :score, :min_inclusive, :max_exclusive)
 
-        # ------------ percentile_score  -------------------------------------------------------------------
-        percentile_score:
-          sql:
-            warehouseRead: >-
-              SELECT wps.percentile_id, wps.percentile_rank, wps.score, wps.min_inclusive, wps.max_exclusive
-                FROM percentile_score wps
-                  JOIN percentile wp ON wp.id = wps.percentile_id
-                WHERE wp.created > :first_at AND wp.created <= :last_at AND wp.deleted = 0
+      ##### EXAM ImportContent Type ####
+      # ------------ exam  ---------------------------------------------------------------------------------------
+      exam:
+        sql:
+          warehouseRead: >-
+            SELECT
+              we.id,
+              we.type_id,
+              we.school_year,
+              we.asmt_id,
+              we.asmt_version,
+              we.opportunity,
+              we.completeness_id,
+              we.administration_condition_id,
+              we.military_connected_id,
+              we.session_id,
+              we.performance_level,
+              round(we.scale_score) AS scale_score,
+              we.scale_score_std_err,
+              we.completed_at,
+              we.deleted,
+              we.update_import_id,
+              we.updated,
+              we.grade_id,
+              we.student_id,
+              we.school_id,
+              we.iep,
+              we.lep,
+              we.elas_id,
+              we.elas_start_at,
+              we.section504,
+              we.economic_disadvantage,
+              we.migrant_status,
+              we.eng_prof_lvl,
+              we.t3_program_type,
+              we.language_id,
+              we.prim_disability_type
+            FROM exam we
+            WHERE we.created > :first_at AND we.created <= :last_at
 
-            stagingInsert: >-
-              INSERT INTO staging_percentile_score (percentile_id, percentile_rank, score, min_inclusive, max_exclusive) VALUES
-                (:percentile_id, :percentile_rank, :score, :min_inclusive, :max_exclusive)
+          stagingInsert: >-
+            INSERT INTO staging_exam (id, type_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id, military_connected_id,
+                                               session_id, performance_level, scale_score, scale_score_std_err, completed_at, deleted, update_import_id, updated,
+                                               grade_id, student_id, school_id, iep, lep, elas_id, elas_start_at, section504, economic_disadvantage, migrant_status,
+                                               eng_prof_lvl, t3_program_type, language_id, prim_disability_type, migrate_id) VALUES
+                                     (:id, :type_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id, :military_connected_id,
+                                              :session_id, :performance_level, :scale_score, :scale_score_std_err, :completed_at, :deleted, :update_import_id, :updated,
+                                              :grade_id, :student_id, :school_id, :iep, :lep, :elas_id, :elas_start_at, :section504, :economic_disadvantage, :migrant_status,
+                                              :eng_prof_lvl, :t3_program_type, :language_id, :prim_disability_type, :migrate_id)
+      exam_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT
+              we.id,
+              we.type_id,
+              we.school_year,
+              we.asmt_id,
+              we.asmt_version,
+              we.opportunity,
+              we.completeness_id,
+              we.administration_condition_id,
+              we.military_connected_id,
+              we.session_id,
+              we.performance_level,
+              round(we.scale_score) AS scale_score,
+              we.scale_score_std_err,
+              we.completed_at,
+              we.deleted,
+              we.update_import_id,
+              we.updated,
+              we.grade_id,
+              we.student_id,
+              we.school_id,
+              we.iep,
+              we.lep,
+              we.elas_id,
+              we.elas_start_at,
+              we.section504,
+              we.economic_disadvantage,
+              we.migrant_status,
+              we.eng_prof_lvl,
+              we.t3_program_type,
+              we.language_id,
+              we.prim_disability_type
+            FROM exam we
+            WHERE we.updated > :first_at AND we.updated <= :last_at AND we.updated <> we.created
 
-        percentile_score_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT wps.percentile_id, wps.percentile_rank, wps.score, wps.min_inclusive, wps.max_exclusive
-                FROM percentile_score wps
-                  JOIN percentile wp ON wp.id = wps.percentile_id
-                WHERE wp.updated > :first_at AND wp.updated <= :last_at AND wp.updated <> wp.created AND wp.deleted = 0
+          stagingInsert: >-
+            INSERT IGNORE INTO staging_exam (id, type_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id, military_connected_id,
+                                               session_id, performance_level, scale_score, scale_score_std_err, completed_at, deleted, update_import_id, updated,
+                                               grade_id, student_id, school_id, iep, lep, elas_id, elas_start_at, section504, economic_disadvantage, migrant_status,
+                                               eng_prof_lvl, t3_program_type, language_id, prim_disability_type, migrate_id) VALUES
+                                            (:id, :type_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id, :military_connected_id,
+                                               :session_id, :performance_level, :scale_score, :scale_score_std_err, :completed_at, :deleted, :update_import_id, :updated,
+                                               :grade_id, :student_id, :school_id, :iep, :lep, :elas_id, :elas_start_at, :section504, :economic_disadvantage, :migrant_status,
+                                               :eng_prof_lvl, :t3_program_type, :language_id, :prim_disability_type, :migrate_id)
 
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_percentile_score (percentile_id, percentile_rank, score, min_inclusive, max_exclusive) VALUES
-                (:percentile_id, :percentile_rank, :score, :min_inclusive, :max_exclusive)
+      # ------------ exam_item  ---------------------------------------------------------------------------------------
+      exam_item:
+        sql:
+          warehouseRead: >-
+            SELECT
+              wei.id,
+              wei.exam_id,
+              wei.item_id,
+              round(wei.score) AS score,
+              wei.score_status,
+              wei.position,
+              CASE WHEN we.type_id = 3 THEN NULL ELSE wei.response END AS response,
+              round(wei.trait_evidence_elaboration_score) AS trait_evidence_elaboration_score,
+              wei.trait_evidence_elaboration_score_status,
+              round(wei.trait_organization_purpose_score) AS trait_organization_purpose_score,
+              wei.trait_organization_purpose_score_status,
+              round(wei.trait_conventions_score) AS trait_conventions_score,
+              wei.trait_conventions_score_status
+            FROM exam_item wei
+              JOIN exam we ON wei.exam_id = we.id
+            WHERE we.created > :first_at AND we.created <= :last_at
+             AND we.deleted = 0
 
-        ##### EXAM ImportContent Type ####
-        # ------------ exam  ---------------------------------------------------------------------------------------
-        exam:
-          sql:
-            warehouseRead: >-
-              SELECT
-                we.id,
-                we.type_id,
-                we.school_year,
-                we.asmt_id,
-                we.asmt_version,
-                we.opportunity,
-                we.completeness_id,
-                we.administration_condition_id,
-                we.military_connected_id,
-                we.session_id,
-                we.performance_level,
-                round(we.scale_score) AS scale_score,
-                we.scale_score_std_err,
-                we.completed_at,
-                we.deleted,
-                we.update_import_id,
-                we.updated,
-                we.grade_id,
-                we.student_id,
-                we.school_id,
-                we.iep,
-                we.lep,
-                we.elas_id,
-                we.elas_start_at,
-                we.section504,
-                we.economic_disadvantage,
-                we.migrant_status,
-                we.eng_prof_lvl,
-                we.t3_program_type,
-                we.language_id,
-                we.prim_disability_type
-              FROM exam we
-              WHERE we.created > :first_at AND we.created <= :last_at
+          stagingInsert: >-
+            INSERT INTO staging_exam_item (id, exam_id, item_id, score, score_status, position, response, trait_evidence_elaboration_score,
+                                            trait_evidence_elaboration_score_status, trait_organization_purpose_score,
+                                            trait_organization_purpose_score_status, trait_conventions_score,
+                                            trait_conventions_score_status, migrate_id) VALUES
+                                            (:id, :exam_id, :item_id, :score, :score_status, :position, :response, :trait_evidence_elaboration_score,
+                                               :trait_evidence_elaboration_score_status, :trait_organization_purpose_score,
+                                               :trait_organization_purpose_score_status, :trait_conventions_score,
+                                               :trait_conventions_score_status, :migrate_id)
 
-            stagingInsert: >-
-              INSERT INTO staging_exam (id, type_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id, military_connected_id,
-                                                 session_id, performance_level, scale_score, scale_score_std_err, completed_at, deleted, update_import_id, updated,
-                                                 grade_id, student_id, school_id, iep, lep, elas_id, elas_start_at, section504, economic_disadvantage, migrant_status,
-                                                 eng_prof_lvl, t3_program_type, language_id, prim_disability_type, migrate_id) VALUES
-                                       (:id, :type_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id, :military_connected_id,
-                                                :session_id, :performance_level, :scale_score, :scale_score_std_err, :completed_at, :deleted, :update_import_id, :updated,
-                                                :grade_id, :student_id, :school_id, :iep, :lep, :elas_id, :elas_start_at, :section504, :economic_disadvantage, :migrant_status,
-                                                :eng_prof_lvl, :t3_program_type, :language_id, :prim_disability_type, :migrate_id)
-        exam_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT
-                we.id,
-                we.type_id,
-                we.school_year,
-                we.asmt_id,
-                we.asmt_version,
-                we.opportunity,
-                we.completeness_id,
-                we.administration_condition_id,
-                we.military_connected_id,
-                we.session_id,
-                we.performance_level,
-                round(we.scale_score) AS scale_score,
-                we.scale_score_std_err,
-                we.completed_at,
-                we.deleted,
-                we.update_import_id,
-                we.updated,
-                we.grade_id,
-                we.student_id,
-                we.school_id,
-                we.iep,
-                we.lep,
-                we.elas_id,
-                we.elas_start_at,
-                we.section504,
-                we.economic_disadvantage,
-                we.migrant_status,
-                we.eng_prof_lvl,
-                we.t3_program_type,
-                we.language_id,
-                we.prim_disability_type
-              FROM exam we
-              WHERE we.updated > :first_at AND we.updated <= :last_at AND we.updated <> we.created
+      exam_item_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT
+              wei.id,
+              wei.exam_id,
+              wei.item_id,
+              round(wei.score) AS score,
+              wei.score_status,
+              wei.position,
+              CASE WHEN we.type_id = 3 THEN NULL ELSE wei.response END AS response,
+              round(wei.trait_evidence_elaboration_score) AS trait_evidence_elaboration_score,
+              wei.trait_evidence_elaboration_score_status,
+              round(wei.trait_organization_purpose_score) AS trait_organization_purpose_score,
+              wei.trait_organization_purpose_score_status,
+              round(wei.trait_conventions_score) AS trait_conventions_score,
+              wei.trait_conventions_score_status
+            FROM exam_item wei
+              JOIN exam we ON wei.exam_id = we.id
+            WHERE we.updated > :first_at AND we.updated <= :last_at AND we.updated <> we.created
+             AND we.deleted = 0
 
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_exam (id, type_id, school_year, asmt_id, asmt_version, opportunity,completeness_id, administration_condition_id, military_connected_id,
-                                                 session_id, performance_level, scale_score, scale_score_std_err, completed_at, deleted, update_import_id, updated,
-                                                 grade_id, student_id, school_id, iep, lep, elas_id, elas_start_at, section504, economic_disadvantage, migrant_status,
-                                                 eng_prof_lvl, t3_program_type, language_id, prim_disability_type, migrate_id) VALUES
-                                              (:id, :type_id, :school_year, :asmt_id, :asmt_version, :opportunity, :completeness_id, :administration_condition_id, :military_connected_id,
-                                                 :session_id, :performance_level, :scale_score, :scale_score_std_err, :completed_at, :deleted, :update_import_id, :updated,
-                                                 :grade_id, :student_id, :school_id, :iep, :lep, :elas_id, :elas_start_at, :section504, :economic_disadvantage, :migrant_status,
-                                                 :eng_prof_lvl, :t3_program_type, :language_id, :prim_disability_type, :migrate_id)
+          stagingInsert: >-
+            INSERT IGNORE INTO staging_exam_item (id, exam_id, item_id, score, score_status, position, response, trait_evidence_elaboration_score,
+                                            trait_evidence_elaboration_score_status, trait_organization_purpose_score,
+                                            trait_organization_purpose_score_status, trait_conventions_score,
+                                            trait_conventions_score_status, migrate_id) VALUES
+                                            (:id, :exam_id, :item_id, :score, :score_status, :position, :response, :trait_evidence_elaboration_score,
+                                               :trait_evidence_elaboration_score_status, :trait_organization_purpose_score,
+                                               :trait_organization_purpose_score_status, :trait_conventions_score,
+                                               :trait_conventions_score_status, :migrate_id)
 
-        # ------------ exam_item  ---------------------------------------------------------------------------------------
-        exam_item:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wei.id,
-                wei.exam_id,
-                wei.item_id,
-                round(wei.score) AS score,
-                wei.score_status,
-                wei.position,
-                CASE WHEN we.type_id = 3 THEN NULL ELSE wei.response END AS response,
-                round(wei.trait_evidence_elaboration_score) AS trait_evidence_elaboration_score,
-                wei.trait_evidence_elaboration_score_status,
-                round(wei.trait_organization_purpose_score) AS trait_organization_purpose_score,
-                wei.trait_organization_purpose_score_status,
-                round(wei.trait_conventions_score) AS trait_conventions_score,
-                wei.trait_conventions_score_status
-              FROM exam_item wei
-                JOIN exam we ON wei.exam_id = we.id
-              WHERE we.created > :first_at AND we.created <= :last_at
-               AND we.deleted = 0
+      # ------------ exam_available_accommodation  ---------------------------------------------------------------------------------------
+      exam_available_accommodation:
+        sql:
+          warehouseRead: >-
+            SELECT
+              weaa.exam_id,
+              weaa.accommodation_id
+            FROM exam_available_accommodation weaa
+              JOIN exam we ON weaa.exam_id = we.id
+            WHERE we.created > :first_at AND we.created <= :last_at
+              AND we.deleted = 0
 
-            stagingInsert: >-
-              INSERT INTO staging_exam_item (id, exam_id, item_id, score, score_status, position, response, trait_evidence_elaboration_score,
-                                              trait_evidence_elaboration_score_status, trait_organization_purpose_score,
-                                              trait_organization_purpose_score_status, trait_conventions_score,
-                                              trait_conventions_score_status, migrate_id) VALUES
-                                              (:id, :exam_id, :item_id, :score, :score_status, :position, :response, :trait_evidence_elaboration_score,
-                                                 :trait_evidence_elaboration_score_status, :trait_organization_purpose_score,
-                                                 :trait_organization_purpose_score_status, :trait_conventions_score,
-                                                 :trait_conventions_score_status, :migrate_id)
+          stagingInsert: >-
+           INSERT INTO staging_exam_available_accommodation (exam_id, accommodation_id) VALUES
+             (:exam_id, :accommodation_id)
 
-        exam_item_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wei.id,
-                wei.exam_id,
-                wei.item_id,
-                round(wei.score) AS score,
-                wei.score_status,
-                wei.position,
-                CASE WHEN we.type_id = 3 THEN NULL ELSE wei.response END AS response,
-                round(wei.trait_evidence_elaboration_score) AS trait_evidence_elaboration_score,
-                wei.trait_evidence_elaboration_score_status,
-                round(wei.trait_organization_purpose_score) AS trait_organization_purpose_score,
-                wei.trait_organization_purpose_score_status,
-                round(wei.trait_conventions_score) AS trait_conventions_score,
-                wei.trait_conventions_score_status
-              FROM exam_item wei
-                JOIN exam we ON wei.exam_id = we.id
-              WHERE we.updated > :first_at AND we.updated <= :last_at AND we.updated <> we.created
-               AND we.deleted = 0
+      exam_available_accommodation_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT
+              weaa.exam_id,
+              weaa.accommodation_id
+            FROM exam_available_accommodation weaa
+              JOIN exam we ON weaa.exam_id = we.id
+            WHERE we.updated > :first_at AND we.updated <= :last_at AND we.updated <> we.created
+              AND we.deleted = 0
 
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_exam_item (id, exam_id, item_id, score, score_status, position, response, trait_evidence_elaboration_score,
-                                              trait_evidence_elaboration_score_status, trait_organization_purpose_score,
-                                              trait_organization_purpose_score_status, trait_conventions_score,
-                                              trait_conventions_score_status, migrate_id) VALUES
-                                              (:id, :exam_id, :item_id, :score, :score_status, :position, :response, :trait_evidence_elaboration_score,
-                                                 :trait_evidence_elaboration_score_status, :trait_organization_purpose_score,
-                                                 :trait_organization_purpose_score_status, :trait_conventions_score,
-                                                 :trait_conventions_score_status, :migrate_id)
+          stagingInsert: >-
+           INSERT IGNORE INTO staging_exam_available_accommodation (exam_id, accommodation_id) VALUES
+             (:exam_id, :accommodation_id)
 
-        # ------------ exam_available_accommodation  ---------------------------------------------------------------------------------------
-        exam_available_accommodation:
-          sql:
-            warehouseRead: >-
-              SELECT
-                weaa.exam_id,
-                weaa.accommodation_id
-              FROM exam_available_accommodation weaa
-                JOIN exam we ON weaa.exam_id = we.id
-              WHERE we.created > :first_at AND we.created <= :last_at
-                AND we.deleted = 0
+      # ------------ exam_score  ---------------------------------------------------------------------------------------
+      exam_score:
+        sql:
+          warehouseRead: >-
+            SELECT
+              wecs.id,
+              wecs.exam_id,
+              wecs.subject_score_id,
+              round(wecs.scale_score) AS scale_score,
+              wecs.scale_score_std_err,
+              wecs.performance_level
+            FROM exam_score wecs
+              JOIN exam we ON wecs.exam_id = we.id
+            WHERE we.created > :first_at AND we.created <= :last_at
+              AND we.deleted = 0
 
-            stagingInsert: >-
-             INSERT INTO staging_exam_available_accommodation (exam_id, accommodation_id) VALUES
-               (:exam_id, :accommodation_id)
+          stagingInsert: >-
+            INSERT INTO staging_exam_score (id, exam_id, subject_score_id, scale_score, scale_score_std_err, performance_level) VALUES
+              (:id, :exam_id, :subject_score_id, :scale_score, :scale_score_std_err, :performance_level)
 
-        exam_available_accommodation_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT
-                weaa.exam_id,
-                weaa.accommodation_id
-              FROM exam_available_accommodation weaa
-                JOIN exam we ON weaa.exam_id = we.id
-              WHERE we.updated > :first_at AND we.updated <= :last_at AND we.updated <> we.created
-                AND we.deleted = 0
+      exam_score_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT
+              wecs.id,
+              wecs.exam_id,
+              wecs.subject_score_id,
+              round(wecs.scale_score) AS scale_score,
+              wecs.scale_score_std_err,
+              wecs.performance_level
+            FROM exam_score wecs
+              JOIN exam we ON wecs.exam_id = we.id
+            WHERE we.updated > :first_at AND we.updated <= :last_at AND we.updated <> we.created
+              AND we.deleted = 0
 
-            stagingInsert: >-
-             INSERT IGNORE INTO staging_exam_available_accommodation (exam_id, accommodation_id) VALUES
-               (:exam_id, :accommodation_id)
+          stagingInsert: >-
+            INSERT IGNORE INTO staging_exam_score (id, exam_id, subject_score_id, scale_score, scale_score_std_err, performance_level) VALUES
+              (:id, :exam_id, :subject_score_id, :scale_score, :scale_score_std_err, :performance_level)
 
-        # ------------ exam_score  ---------------------------------------------------------------------------------------
-        exam_score:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wecs.id,
-                wecs.exam_id,
-                wecs.subject_score_id,
-                round(wecs.scale_score) AS scale_score,
-                wecs.scale_score_std_err,
-                wecs.performance_level
-              FROM exam_score wecs
-                JOIN exam we ON wecs.exam_id = we.id
-              WHERE we.created > :first_at AND we.created <= :last_at
-                AND we.deleted = 0
+      # ------------ exam_target_score  ---------------------------------------------------------------------------------------
+      # Only Summative target scores are included
+      # For Smarter Balanced Math, only the Concepts and Procedures targets are included
+      exam_target_score:
+        sql:
+          warehouseRead: >-
+            SELECT
+              wets.id,
+              wets.exam_id,
+              wets.target_id,
+              wets.student_relative_residual_score,
+              wets.standard_met_relative_residual_score
+            FROM exam_target_score wets
+              JOIN exam we ON wets.exam_id = we.id
+              JOIN target wt ON wt.id = wets.target_id
+              JOIN claim wc ON wc.id = wt.claim_id
+              JOIN subject ws ON ws.id = wc.subject_id
+            WHERE we.type_id = 3 AND (ws.code <> 'Math' OR wc.code='1') AND
+              we.created > :first_at AND we.created <= :last_at AND we.deleted = 0
 
-            stagingInsert: >-
-              INSERT INTO staging_exam_score (id, exam_id, subject_score_id, scale_score, scale_score_std_err, performance_level) VALUES
-                (:id, :exam_id, :subject_score_id, :scale_score, :scale_score_std_err, :performance_level)
+          stagingInsert: >-
+            INSERT INTO staging_exam_target_score (id, exam_id, target_id, student_relative_residual_score, standard_met_relative_residual_score) VALUES
+              (:id, :exam_id, :target_id, :student_relative_residual_score, :standard_met_relative_residual_score)
 
-        exam_score_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wecs.id,
-                wecs.exam_id,
-                wecs.subject_score_id,
-                round(wecs.scale_score) AS scale_score,
-                wecs.scale_score_std_err,
-                wecs.performance_level
-              FROM exam_score wecs
-                JOIN exam we ON wecs.exam_id = we.id
-              WHERE we.updated > :first_at AND we.updated <= :last_at AND we.updated <> we.created
-                AND we.deleted = 0
+      exam_target_score_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT
+              wets.id,
+              wets.exam_id,
+              wets.target_id,
+              wets.student_relative_residual_score,
+              wets.standard_met_relative_residual_score
+            FROM exam_target_score wets
+              JOIN exam we ON wets.exam_id = we.id
+              JOIN target wt ON wt.id = wets.target_id
+              JOIN claim wc ON wc.id = wt.claim_id
+              JOIN subject ws ON ws.id = wc.subject_id
+            WHERE we.type_id = 3 AND (ws.code <> 'Math' OR wc.code='1') AND
+              we.updated > :first_at AND we.updated <= :last_at AND we.updated <> we.created AND we.deleted = 0
 
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_exam_score (id, exam_id, subject_score_id, scale_score, scale_score_std_err, performance_level) VALUES
-                (:id, :exam_id, :subject_score_id, :scale_score, :scale_score_std_err, :performance_level)
+          stagingInsert: >-
+            INSERT IGNORE INTO staging_exam_target_score (id, exam_id, target_id, student_relative_residual_score, standard_met_relative_residual_score) VALUES
+              (:id, :exam_id, :target_id, :student_relative_residual_score, :standard_met_relative_residual_score)
 
-        # ------------ exam_target_score  ---------------------------------------------------------------------------------------
-        # Only Summative target scores are included
-        # For Smarter Balanced Math, only the Concepts and Procedures targets are included
-        exam_target_score:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wets.id,
-                wets.exam_id,
-                wets.target_id,
-                wets.student_relative_residual_score,
-                wets.standard_met_relative_residual_score
-              FROM exam_target_score wets
-                JOIN exam we ON wets.exam_id = we.id
-                JOIN target wt ON wt.id = wets.target_id
-                JOIN claim wc ON wc.id = wt.claim_id
-                JOIN subject ws ON ws.id = wc.subject_id
-              WHERE we.type_id = 3 AND (ws.code <> 'Math' OR wc.code='1') AND
-                we.created > :first_at AND we.created <= :last_at AND we.deleted = 0
+      # ------------ exam_trait_score  ------------------------------------------------------------------------------
+      exam_trait_score:
+        sql:
+          warehouseRead: >-
+            SELECT
+              wets.id,
+              wets.exam_id,
+              wets.trait_id,
+              wets.score,
+              wets.stderr,
+              wets.condition_code
+            FROM exam_trait_score wets
+              JOIN exam we ON wets.exam_id = we.id
+            WHERE we.created > :first_at AND we.created <= :last_at AND we.deleted = 0
 
-            stagingInsert: >-
-              INSERT INTO staging_exam_target_score (id, exam_id, target_id, student_relative_residual_score, standard_met_relative_residual_score) VALUES
-                (:id, :exam_id, :target_id, :student_relative_residual_score, :standard_met_relative_residual_score)
+          stagingInsert: >-
+            INSERT INTO staging_exam_trait_score (id, exam_id, trait_id, score, stderr, condition_code) VALUES
+              (:id, :exam_id, :trait_id, :score, :stderr, :condition_code)
 
-        exam_target_score_by_update_import_id:
-          sql:
-            warehouseRead: >-
-              SELECT
-                wets.id,
-                wets.exam_id,
-                wets.target_id,
-                wets.student_relative_residual_score,
-                wets.standard_met_relative_residual_score
-              FROM exam_target_score wets
-                JOIN exam we ON wets.exam_id = we.id
-                JOIN target wt ON wt.id = wets.target_id
-                JOIN claim wc ON wc.id = wt.claim_id
-                JOIN subject ws ON ws.id = wc.subject_id
-              WHERE we.type_id = 3 AND (ws.code <> 'Math' OR wc.code='1') AND
-                we.updated > :first_at AND we.updated <= :last_at AND we.updated <> we.created AND we.deleted = 0
+      exam_trait_score_by_update_import_id:
+        sql:
+          warehouseRead: >-
+            SELECT
+              wets.id,
+              wets.exam_id,
+              wets.trait_id,
+              wets.score,
+              wets.stderr,
+              wets.condition_code
+            FROM exam_trait_score wets
+              JOIN exam we ON wets.exam_id = we.id
+            WHERE we.updated > :first_at AND we.updated <= :last_at AND we.updated <> we.created AND we.deleted = 0
 
-            stagingInsert: >-
-              INSERT IGNORE INTO staging_exam_target_score (id, exam_id, target_id, student_relative_residual_score, standard_met_relative_residual_score) VALUES
-                (:id, :exam_id, :target_id, :student_relative_residual_score, :standard_met_relative_residual_score)
+          stagingInsert: >-
+            INSERT IGNORE INTO staging_exam_target_score (id, exam_id, trait_id, score, stderr, condition_code) VALUES
+              (:id, :exam_id, :trait_id, :score, :stderr, :condition_code)

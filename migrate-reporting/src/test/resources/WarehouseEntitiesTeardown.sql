@@ -3,6 +3,7 @@ DELETE FROM exam_available_accommodation where exam_id < 0;
 DELETE FROM exam_item where exam_id < 0;
 DELETE FROM exam_score where exam_id < 0;
 DELETE FROM exam_target_score where exam_id < 0;
+DELETE FROM exam_trait_score where exam_id < 0;
 DELETE FROM exam where id < 0;
 
 -- ------------------------------------------ Student and Groups  ------------------------------------------------------------------------------------------------
@@ -37,5 +38,6 @@ DELETE FROM claim WHERE id < 0;
 DELETE FROM subject_translation WHERE subject_id < 0;
 DELETE FROM subject_asmt_type WHERE subject_id < 0;
 DELETE FROM subject_score WHERE subject_id < 0;
+DELETE FROM subject_trait WHERE subject_id < 0;
 DELETE FROM subject WHERE id < 0;
 

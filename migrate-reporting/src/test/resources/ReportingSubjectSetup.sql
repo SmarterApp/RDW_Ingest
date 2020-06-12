@@ -7,11 +7,11 @@ INSERT INTO subject(id, code, update_import_id, migrate_id) VALUES
   (-5, 'Alt', -99, -99);
 
 -- add subjects' related data for the new subjects
-INSERT INTO subject_asmt_type (subject_id, asmt_type_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report, printed_report) VALUES
-  (-2, 1, 5, 2, 6, 0, 0),
-  (-3, 3, 7, 2, 7, 1, 0),   --  to delete
-  (-3, 2, 3, 3, 3, 0, 0),   -- updated entry
-  (-5, 3, 3, 2, 3, 0, 0);
+INSERT INTO subject_asmt_type (subject_id, asmt_type_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, target_report, printed_report, trait_report) VALUES
+  (-2, 1, 5, 2, 6, 0, 0, 0),
+  (-3, 3, 7, 2, 7, 1, 0, 0),   --  to delete
+  (-3, 2, 3, 3, 3, 0, 0, 0),   -- updated entry
+  (-5, 3, 3, 2, 3, 0, 0, 1);
 
 INSERT INTO subject_score (id, subject_id, asmt_type_id, score_type_id, code, display_order, data_order) VALUES
   (-4,  -2, 3, 3, 'Score4', 4, 1),
@@ -20,6 +20,10 @@ INSERT INTO subject_score (id, subject_id, asmt_type_id, score_type_id, code, di
   (-15, -3, 3, 3, 'Update', 5, 5),
   (-60, -3, 3, 3, 'Delete', 6, 6),
   (-18, -5, 3, 2, 'PassFail', 1, 1);
+
+INSERT INTO subject_trait (id, subject_id, code, purpose, category) VALUES
+  (-1, -5, 'ALT_EXPL_ORG', 'EXPL', 'ORG'),
+  (-10, -3, 'U_EXPL_ORG', 'EXPL', 'ORG');
 
 INSERT INTO subject_translation(subject_id, label_code, label) VALUES
   (-2, 'integration test label subject 2', 'subject 2'),

@@ -5,11 +5,11 @@ INSERT INTO staging_subject(id, code, update_import_id, migrate_id, updated) VAL
   (-5, 'Alt', -99, -99, now());  -- itemless summative-only subject with a pass/fail alt score
 
 -- add subjects' related data for the new subjects
-INSERT INTO staging_subject_asmt_type (subject_id, asmt_type_id, target_report, printed_report) VALUES
-  (-1, 1, 0, 0),  -- new subject
-  (-3, 1, 0, 0),  -- new entry for this subject
-  (-3, 2, 0, 0),  -- updated for this subject
-  (-5, 3, 0, 0);
+INSERT INTO staging_subject_asmt_type (subject_id, asmt_type_id, target_report, printed_report, trait_report) VALUES
+  (-1, 1, 0, 0, 0),  -- new subject
+  (-3, 1, 0, 0, 0),  -- new entry for this subject
+  (-3, 2, 0, 0, 0),  -- updated for this subject
+  (-5, 3, 0, 0, 1);
 
 INSERT INTO staging_subject_asmt_scoring (subject_id, asmt_type_id, score_type_id, performance_level_count, performance_level_standard_cutoff) VALUES
   (-1, 1, 1, 10, 3),
@@ -31,6 +31,10 @@ INSERT INTO staging_subject_score (id, subject_id, asmt_type_id, score_type_id, 
   (-15, -3, 3, 3, 'Update', 0, 5),
   (-16, -3, 3, 3, 'New',    1, 6),
   (-18, -5, 3, 2, 'PassFail', 1, 1);
+
+INSERT INTO staging_subject_trait (id, subject_id, code, purpose, category) VALUES
+  (-1, -5, 'ALT_EXPL_ORG', 'EXPL', 'ORG'),
+  (-2, -5, 'ALT_EXPL_EVI', 'EXPL', 'EVI');
 
 INSERT INTO staging_subject_translation(subject_id, label_code, label) VALUES
   (-1, 'integration test subject 1',       '1 test label'),
@@ -234,6 +238,7 @@ INSERT INTO  staging_exam ( id, type_id, school_year, asmt_id, asmt_version, opp
 
 (-59, 3, 1999, -59,  null, 1, -99, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null),
 (-111,3, 1999, -111, null, 1, -99, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null),
+(-113,3, 1999, -113, null, 1, 1, null, null, 'session', 2, 1600,   23, '2016-08-14', -88, 0, -88, '2017-07-18 19:06:07.966000', -98, -33, -1, 0, 0, 0, 0, 0, 'eng_prof_lvl', 't3_program_type', 0, null),
 (-311,3, 1999, -311, null, 1, -99, -99, -99, 'session', 1, 2145, 0.17, '2016-08-14', -88, 0, -88, '2017-07-18 20:14:34.000000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null);
 
 INSERT INTO staging_exam_available_accommodation (exam_id, accommodation_id) VALUES
@@ -260,3 +265,7 @@ INSERT INTO staging_exam_target_score (id, target_id, exam_id, student_relative_
   (-192, -43, -311,  null,   0.1   ),
 
   (-230,  -73, -111, null,    null );
+
+INSERT INTO staging_exam_trait_score (id, exam_id, trait_id, score, stderr, condition_code) VALUES
+  (-10, -113, -1, 3, null, null),
+  (-11, -113, -2, 2, null, null);

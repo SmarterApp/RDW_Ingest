@@ -4,6 +4,7 @@ DELETE FROM staging_exam_available_accommodation where exam_id < 0;
 DELETE FROM staging_exam_item where exam_id < 0;
 DELETE FROM staging_exam_score where exam_id < 0;
 DELETE FROM staging_exam_target_score where exam_id < 0;
+DELETE FROM staging_exam_trait_score where exam_id < 0;
 DELETE FROM staging_exam where id < 0;
 
 -- ------------------------------------------ School/Districts --------------------------------------------------------------------------------------------------
@@ -42,12 +43,14 @@ TRUNCATE staging_subject_translation;
 TRUNCATE staging_subject_asmt_type;
 TRUNCATE staging_subject_asmt_scoring;
 TRUNCATE staging_subject_score;
+TRUNCATE staging_subject_trait;
 
 -- CLEAN UP reporting
 -- ------------------------------------------  Exams ---------------------------------------------------------------------------------------------
 DELETE FROM exam_available_accommodation where exam_id < 0;
 DELETE FROM exam_item where exam_id < 0;
 DELETE FROM exam_target_score where exam_id < 0;
+DELETE FROM exam_trait_score where exam_id < 0;
 DELETE FROM exam where id < 0;
 
 -- ------------------------------------------ Student and Groups  ------------------------------------------------------------------------------------------------
@@ -80,6 +83,7 @@ DELETE FROM common_core_standard  WHERE subject_id < 0 or id < 0;
 DELETE FROM subject_translation WHERE subject_id < 0 or label_code like '%integration test%';
 DELETE FROM subject_asmt_type WHERE subject_id < 0;
 DELETE FROM subject_score WHERE subject_id < 0;
+DELETE FROM subject_trait WHERE subject_id < 0;
 -- TODO: this is not ideal since we are deleting more data that created by the test
 -- This is because we have some data pre-loaded in warehouse and when testing the batch they moved into reporting
 -- Ideally, with the configurable subjects introduction, there should not be any data pre-loaded into warehouse
