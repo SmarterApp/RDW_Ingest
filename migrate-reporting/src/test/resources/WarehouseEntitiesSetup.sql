@@ -49,6 +49,10 @@ INSERT INTO subject_score (id, subject_id, asmt_type_id, score_type_id, code, di
   (-16, -3, 3, 3, 'New',    -8, 6),
   (-18, -5, 3, 2, 'PassFail', 1, 1);
 
+INSERT INTO subject_trait (id, subject_id, code, purpose, category) VALUES
+  (-1, -5, 'ALT_EXPL_ORG', 'EXPL', 'ORG'),
+  (-2, -5, 'ALT_EXPL_EVI', 'EXPL', 'EVI');
+
 INSERT INTO subject_translation(subject_id, label_code, label) VALUES
   (-1, 'integration test subject 1',       '1 test label'),
   (-1, 'integration test subject 1 again', '1 again test label'),
@@ -297,6 +301,7 @@ INSERT INTO exam ( id, type_id, school_year, asmt_id, asmt_version, opportunity,
 
   (-59,  3, 1999, -59,  null, 1, 1, -98,   null,        1, 1, 'session', 1, null, null,   '2016-08-14', -88, -88, 1, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null),
   (-111, 3, 1999, -111, null, 1, 1, -98,   null,        1, 1, 'session', 1, null, null,   '2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null),
+  (-113, 3, 1999, -113, null, 1, 1, null,  null,        1, 1, 'session', 2, 1600, 23,     '2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -33, -1, 0, 0, 0, 0, 0, 'eng_prof_lvl', 't3_program_type', 0, null),
   (-311, 3, 1999, -311, null, 1, 1, -98,   null,        1, 1, 'session', null, null, null,'2016-08-14', -88, -88, 0, '2017-07-18 19:06:07.966000', '2017-07-18 19:06:07.966000', -98, -11, -1, 1, 1, 0, 0, 1, 'eng_prof_lvl', 't3_program_type', 0, null);
 
 INSERT INTO exam_available_accommodation (exam_id, accommodation_id) VALUES
@@ -317,13 +322,14 @@ INSERT INTO exam_item (id, exam_id, item_id, score, score_status, response, posi
   (-8, -311,-180, -1, 'SCORED', null, 16);
 
 INSERT INTO exam_score (id, exam_id, subject_score_id, scale_score, scale_score_std_err, performance_level) VALUES
-   (-11, -88, 1, 2014, 0.19, 1),
-   (-12, -88, 2, 2014, 0.19, 1),
-   (-13, -88, 3, 2014, null, 1),
-   (-14, -88, 4, 2014, 0.19, null),
-   (-21, -87, 5, 2014, 0.19, 1),
-   (-22, -87, 6, 2014, null, 1),
-   (-23, -87, 7, 2014, 0.19, null);
+  (-11, -88, 1, 2014, 0.19, 1),
+  (-12, -88, 2, 2014, 0.19, 1),
+  (-13, -88, 3, 2014, null, 1),
+  (-14, -88, 4, 2014, 0.19, null),
+  (-21, -87, 5, 2014, 0.19, 1),
+  (-22, -87, 6, 2014, null, 1),
+  (-23, -87, 7, 2014, 0.19, null),
+  (-24, -113, -18, 65, null, 1);
 
 INSERT INTO exam_target_score (id, target_id, exam_id, student_relative_residual_score, standard_met_relative_residual_score) VALUES
   (-1,   -71, -59,  -1,    -1     ),
@@ -344,3 +350,7 @@ INSERT INTO exam_target_score (id, target_id, exam_id, student_relative_residual
   (-210,  -71, -111, -0.88, -0.88  ),
   (-220,  -72, -111, 1,      1     ),
   (-230,  -73, -111, 0.1,    0.1   );
+
+INSERT INTO exam_trait_score (id, exam_id, trait_id, score, stderr, condition_code) VALUES
+  (-10, -113, -1, 3, null, null),
+  (-11, -113, -2, 2, null, null);
