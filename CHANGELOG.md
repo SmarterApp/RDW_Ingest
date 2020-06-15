@@ -6,9 +6,9 @@ Work done as part of RDW Phase 6.
 
 * Add UI Colors to RDW Palette (Phase 6, Req. 2)
     * Add additional colors to XSD schema for subject definition
-* Add subject traits and exam trait scores (Phase 6, Req. 3)
+* Add subject trait definitions and exam trait scores (Phase 6, Req. 3)
     * Add traits to subject definition; ingest, store, and migrate
-    * Add trait scores to exam definition; ingest, store, and migrate    
+    * Add trait scores to exams; ingest, store, and migrate    
 * Alternate Score Aggregate Report (Phase 6, Req. 4)
     * Migrate alt score data to OLAP database
 * TechDebt
