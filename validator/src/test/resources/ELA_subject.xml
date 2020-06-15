@@ -6,6 +6,14 @@
     <Message key="iab.performance-info"><![CDATA[Student scores on each Interim Assessment Block are assigned to one of three reporting categories (Below Standard, Near Standard, Above Standard). The standard is based on the minimum scale score for the 'Met Standard' achievement level on the Interim Comprehensive and summative assessments (the score that separates Levels 2 and 3). See the Interpretive Guide for more information on how placement into the reporting categories is determined.]]></Message>
     <Message key="ica.performance-info"><![CDATA[Student scores on the Summative and Interim Comprehensive assessments are assigned to one of four achievement levels (Standard Not Met, Standard Nearly Met, Standard Met, and Standard Exceeded) based on the scale score.]]></Message>
     <Message key="sum.performance-info"><![CDATA[Student scores on the Summative and Interim Comprehensive assessments are assigned to one of four achievement levels (Standard Not Met, Standard Nearly Met, Standard Met, and Standard Exceeded) based on the scale score.]]></Message>
+    <Message key="trait.purpose.ARGU">Argument</Message>
+    <Message key="trait.purpose.EXPL">Explanatory</Message>
+    <Message key="trait.purpose.INFO">Informative</Message>
+    <Message key="trait.purpose.NARR">Narrative</Message>
+    <Message key="trait.purpose.OPIN">Opinion</Message>
+    <Message key="trait.category.ORG">Organization/Purpose</Message>
+    <Message key="trait.category.CON">Conventions</Message>
+    <Message key="trait.category.EVI">Evidence/Elaboration</Message>
   </Messages>
   <AssessmentTypes>
     <AssessmentType code="ica" name="ICA" longName="Interim Comprehensive Assessment">
@@ -665,6 +673,23 @@
       </ReportAssessmentTypes>
     </ReportGrade>
   </ReportGrades>
+  <Traits>
+    <Trait code="SOCK_ARGU_ORG" purpose="ARGU" category="ORG" maxScore="4" />
+    <Trait code="SOCK_ARGU_CON" purpose="ARGU" category="CON" maxScore="2" />
+    <Trait code="SOCK_ARGU_EVI" purpose="ARGU" category="EVI" maxScore="4" />
+    <Trait code="SOCK_EXPL_ORG" purpose="EXPL" category="ORG" maxScore="4" />
+    <Trait code="SOCK_EXPL_CON" purpose="EXPL" category="CON" maxScore="2" />
+    <Trait code="SOCK_EXPL_EVI" purpose="EXPL" category="EVI" maxScore="4" />
+    <Trait code="SOCK_INFO_ORG" purpose="INFO" category="ORG" maxScore="4" />
+    <Trait code="SOCK_INFO_CON" purpose="INFO" category="CON" maxScore="2" />
+    <Trait code="SOCK_INFO_EVI" purpose="INFO" category="EVI" maxScore="4" />
+    <Trait code="SOCK_NARR_ORG" purpose="NARR" category="ORG" maxScore="4" />
+    <Trait code="SOCK_NARR_CON" purpose="NARR" category="CON" maxScore="2" />
+    <Trait code="SOCK_NARR_EVI" purpose="NARR" category="EVI" maxScore="4" />
+    <Trait code="SOCK_OPIN_ORG" purpose="OPIN" category="ORG" maxScore="4" />
+    <Trait code="SOCK_OPIN_CON" purpose="OPIN" category="CON" maxScore="2" />
+    <Trait code="SOCK_OPIN_EVI" purpose="OPIN" category="EVI" maxScore="4" />
+  </Traits>
   <Claims>
     <Claim code="SOCK_R" name="Reading" organizational="false" displayOrder="1">
       <Icon>fa-book</Icon>
