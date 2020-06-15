@@ -28,6 +28,7 @@ dependencies {
     implementation 'commons-io:commons-io'
     implementation 'mysql:mysql-connector-java'
     implementation 'org.apache.commons:commons-csv'
+    implementation 'org.apache.commons:commons-lang3'
 
     // for rdw-common-script (see note in that project's build.gradle)
     implementation 'org.codehaus.groovy:groovy'
