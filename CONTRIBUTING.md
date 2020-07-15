@@ -52,6 +52,80 @@ Use feature branches off of `develop` for all new features. Use a prefix of `fea
 For example, the new shoesize feature work would be in `feature/shoesize`. Create pull requests from the feature
 branch to `develop` to solicit code reviews and feedback. Once approved use `squash and merge` into `develop`.
 
+#### Release Process
+1. Checkout the latest `develop` branch
+2. Verify the version number is right for the upcoming release, e.g. 5.1.0-SNAPSHOT.
+3. Update the CHANGELOG to capture the changes for the upcoming release.
+4. Create a release branch off of develop; name it with release/ prefix and release number, e.g. release/5.1.0.
+```bash
+# create new release branch
+git pull origin develop
+git checkout -b release/5.1.0 develop 
+git push -u origin release/5.1.0
+```
+5. Finalize the CHANGELOG.md if necessary
+6. Refine the release candidate, starting with RC1 (details depend on CI server)
+    a. Prefer applying bug fixes to the release branch, merging into develop as necessary
+    ```bash
+    # merge changes from release branch into develop 
+    git checkout release/5.1.0; git pull
+    git checkout develop; git pull
+    git merge release/5.1.0
+    git push origin develop
+    ```
+    b. If bug fix is made in develop, merge into the release branch (may require cherry picking).
+    ```bash
+    # merge changes from develop into release branch 
+    git checkout develop; git pull
+    git checkout release/5.1.0; git pull
+    git merge develop
+    git push origin release/5.1.0
+    ```
+7. Once release looks good, merge into master and tag it. This can be done in the GitHub UI.
+*NOTE: do _NOT_ squash changes when merging, we want the full commit history in master*
+```bash
+# merge release branch into master and create tag
+# NOTE: these commands are not fully vetted, use with caution 
+git checkout release/5.1.0; git pull
+git rebase -i master
+git checkout master
+git merge --ff-only release/5.1.0
+git tag -a 5.1.0
+git push --tags origin master
+```
+8. Verify the release build, should create artifacts with release suffix, e.g. 5.1.0-RELEASE.
+9. Delete the release branch
+```bash
+# delete the release branch
+git push origin -d release/1.0.0 
+git branch -d release/1.0.0
+```
+10. Advance the version in develop, e.g. 5.2.0-SNAPSHOT.
+
+#### Hotfix Process
+Hotfixes are focused changes to a release. The branching happens directly off master.
+
+1. Create a hotfix branch off of master; name it with hotfix/ prefix and the release number. 
+The release number should be the same as master major.minor with the patch number incremented, e.g. hotfix/5.1.1.
+```bash
+# create new hotfix branch
+git pull origin master
+git checkout -b hotfix/5.1.1 master 
+git push -u origin hotfix/5.1.1
+```
+2. Update the release number in the source code.
+3. Update the CHANGELOG.md to reflect changes.
+4. Refine the hotfix candidate
+    a. Apply the hotfix code changes to the branch.
+    b. Manually trigger the hotfix build. CI should produce an artifact with 5.1.1-HOTFIX.
+    c. Test the artifact, focusing on the hotfix and basic regression testing.
+    d. Iterate. These instructions don't really deal with iterations but i guess the artifact could get incremented HOTFIX# suffixes.
+5. Merge the hotfix branch into master. This should be done from GitHub as a PR. Do not squash the changes, we want the commit history in master. Tag the master branch with the release tag, 5.1.1.
+6. Manually trigger the release build. CI should produce an artifact with 5.1.1-RELEASE.
+7. Verify the release build is happy and healthy.
+8. Merge the hotfix branch into develop so the changes are preserved in the next release. However, you'll want to not merge the version
+changes.
+9. Delete the hotfix branch.
 
 ### Documentation Conventions
 As changes are made to the project, please maintain the documentation. Within this project `README.md` is
