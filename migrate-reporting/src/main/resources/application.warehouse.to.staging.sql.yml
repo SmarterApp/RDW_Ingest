@@ -290,26 +290,26 @@ sql:
       subject_trait:
         sql:
           warehouseRead: >-
-            SELECT wst.id, wst.subject_id, wst.code, wst.purpose, wst.category, wst.max_score
+            SELECT wst.id, wst.subject_id, wst.purpose, wst.category, wst.max_score
             FROM subject_trait wst
               JOIN subject ws ON ws.id = wst.subject_id
             WHERE ws.created > :first_at AND ws.created <= :last_at
 
           stagingInsert: >-
-             INSERT INTO staging_subject_trait (id, subject_id, code, purpose, category, max_score) VALUES
-               (:id, :subject_id, :code, :purpose, :category, :max_score)
+             INSERT INTO staging_subject_trait (id, subject_id, purpose, category, max_score) VALUES
+               (:id, :subject_id, :purpose, :category, :max_score)
 
       subject_trait_by_update_import_id:
         sql:
           warehouseRead: >-
-            SELECT wst.id, wst.subject_id, wst.code, wst.purpose, wst.category, wst.max_score
+            SELECT wst.id, wst.subject_id, wst.purpose, wst.category, wst.max_score
             FROM subject_trait wst
               JOIN subject ws ON ws.id = wst.subject_id
             WHERE ws.updated > :first_at AND ws.updated <= :last_at AND ws.updated <> ws.created
 
           stagingInsert: >-
-           INSERT IGNORE INTO staging_subject_trait (id, subject_id, code, purpose, category, max_score) VALUES
-             (:id, :subject_id, :code, :purpose, :category, :max_score)
+           INSERT IGNORE INTO staging_subject_trait (id, subject_id, purpose, category, max_score) VALUES
+             (:id, :subject_id, :purpose, :category, :max_score)
 
       # ---------------- subject_translation  -----------------------------------------------
       subject_translation:

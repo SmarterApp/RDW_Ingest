@@ -32,9 +32,9 @@ INSERT INTO staging_subject_score (id, subject_id, asmt_type_id, score_type_id, 
   (-16, -3, 3, 3, 'New',    1, 6),
   (-18, -5, 3, 2, 'PassFail', 1, 1);
 
-INSERT INTO staging_subject_trait (id, subject_id, code, purpose, category, max_score) VALUES
-  (-1, -5, 'ALT_EXPL_ORG', 'EXPL', 'ORG', 3),
-  (-2, -5, 'ALT_EXPL_EVI', 'EXPL', 'EVI', 3);
+INSERT INTO staging_subject_trait (id, subject_id, purpose, category, max_score) VALUES
+  (-1, -5, 'EXPL', 'ORG', 3),
+  (-2, -5, 'EXPL', 'EVI', 3);
 
 INSERT INTO staging_subject_translation(subject_id, label_code, label) VALUES
   (-1, 'integration test subject 1',       '1 test label'),
