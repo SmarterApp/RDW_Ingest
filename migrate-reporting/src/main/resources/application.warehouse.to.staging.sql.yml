@@ -1397,5 +1397,5 @@ sql:
             WHERE we.updated > :first_at AND we.updated <= :last_at AND we.updated <> we.created AND we.deleted = 0
 
           stagingInsert: >-
-            INSERT IGNORE INTO staging_exam_target_score (id, exam_id, trait_id, score, condition_code) VALUES
+            INSERT IGNORE INTO staging_exam_trait_score (id, exam_id, trait_id, score, condition_code) VALUES
               (:id, :exam_id, :trait_id, :score, :condition_code)
