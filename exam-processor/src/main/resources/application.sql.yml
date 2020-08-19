@@ -91,7 +91,7 @@ sql:
 
     trait:
       findAllForAssessment: >-
-        SELECT st.id, st.code
+        SELECT st.id, st.code, st.max_score
           FROM asmt a JOIN subject_trait st ON a.subject_id = st.subject_id
         WHERE a.id = :asmt_id
 
