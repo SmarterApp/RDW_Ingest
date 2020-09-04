@@ -176,9 +176,14 @@ sql:
 
       ##### EMBARGO ###########################################################################
 
+# TODO - this changes for Phase 6
+# TODO   district_embargo only has updated column (no created); do we always do INSERT IGNORE then?
       district_embargo:
         sql:
           warehouseRead:
+            SELECT wde.*
+              FROM district_embargo wde
+              WHERE
             ${sql.embargo}
 
           stagingInsert:
@@ -355,7 +360,6 @@ sql:
             INSERT INTO staging_claim (id, subject_id, code) VALUES
               (:id, :subject_id, :code)
 
-      # ------------ claim  -------------------------------------------------------------------
       claim_by_update_import_id:
         sql:
           warehouseRead: >-

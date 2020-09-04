@@ -62,6 +62,7 @@ sql:
   #         F    | F | F | F |  | F | F | F |
   #         null | T | F | F |  | T | F | T |
   #               -----------    -----------
+  # TODO - all this goes away with Phase 6 embargo changes
   embargo:
     SELECT d.id as district_id,
            IF(se.individual = 0 OR de.individual = 0 OR (se.individual IS NULL and de.individual IS NULL), 0, 1) AS individual,
