@@ -15,6 +15,10 @@ Work done as part of RDW Phase 6.
     * Upgrade gradle, including plugins
     * Upgrade SpringFramework and other libraries (most recent minor revs only, no major upgrades)
 
+#### 2.3.1 - 2020-09-24
+
+* SRS-199: Fix problem with TRT not picking up the overridden ingest validation value 
+
 #### 2.3.0 - 2019-11-13
 
 * RP-656: Enforce unique assessment names across subjects (previously only enforced within a subject)
