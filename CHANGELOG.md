@@ -1,5 +1,8 @@
 ## Change Log
 
+#### 2.3.1 - 2020-09-24
+* SRS-199: Fix problem with TRT not picking up the overridden ingest validation value 
+
 #### 2.2.0 -
 
 #### 2.1.0 - 2019-09-18

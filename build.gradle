@@ -29,7 +29,7 @@ String dockerPrefix = "smarterbalanced"
 
 allprojects {
     group = 'org.opentestsystem.rdw.ingest'
-    version = '2.3.0-SNAPSHOT'
+    version = '2.3.1-SNAPSHOT'
 
     apply plugin: 'idea'
     apply plugin: "com.jfrog.artifactory"
@@ -290,7 +290,7 @@ taskMap.keySet().each { key ->
 * JFrog Artifactory setup
 *****************************/
 artifactory {
-    contextUrl = "https://airdev.jfrog.io/airdev"
+    contextUrl = "https://artifactory.smarterbalanced.org/artifactory"
     resolve {
         repository {
             repoKey = 'libs-releases'
