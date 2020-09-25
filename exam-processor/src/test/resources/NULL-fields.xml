@@ -13,7 +13,7 @@
         <ExamineeRelationship context="FINAL" contextDate="2017-10-01T08:03:27.878000" name="SchoolId" value="APTEST1" />
         <ExamineeRelationship context="FINAL" contextDate="2017-10-01T08:03:27.878000" name="SchoolName" value="APTEST1" />
     </Examinee>
-    <Opportunity abnormalStarts="0" administrationCondition="" assessmentParticipantSessionPlatformUserAgent="" clientName="SBAC" completeStatus="" completeness="" database="session" dateCompleted="2017-10-01T08:03:27.878000" effectiveDate="2017-10-01" ftCount="0" gracePeriodRestarts="0" itemCount="15" key="13839084-a790-48eb-a4ea-ca6024ccb533" oppId="1100000150181" opportunity="5" pauseCount="0" server="ip-10-113-148-45" sessionId="" startDate="2017-10-01T08:00:10" status="scored" statusDate="2017-10-01T08:03:27.878000" windowId="WINDOW_ID">
+    <Opportunity abnormalStarts="0" administrationCondition="Valid" assessmentParticipantSessionPlatformUserAgent="" clientName="SBAC" completeStatus="Complete" completeness="Complete" database="session" dateCompleted="2017-10-01T08:03:27.878000" effectiveDate="2017-10-01" ftCount="0" gracePeriodRestarts="0" itemCount="15" key="13839084-a790-48eb-a4ea-ca6024ccb533" oppId="1100000150181" opportunity="5" pauseCount="0" server="ip-10-113-148-45" sessionId="" startDate="2017-10-01T08:00:10" status="scored" statusDate="2017-10-01T08:03:27.878000" windowId="WINDOW_ID">
         <Segment algorithm="Fixed" algorithmVersion="0" id="8b9e2825-0c0d-4c99-b5e2-e4eea2cc3828" position="1" />
         <Score measureLabel="ScaleScore" measureOf="Overall" standardError="53.0" value="2484.0" />
         <Score measureLabel="PerformanceLevel" measureOf="Overall" standardError="" value="2" />
