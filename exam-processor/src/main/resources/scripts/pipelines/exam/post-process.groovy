@@ -1,3 +1,5 @@
+import org.opentestsystem.rdw.utils.DataElementErrorCollector
+
 //
 // System validation script for ingested TRTs.
 //
@@ -37,8 +39,10 @@ if (!assessment.gradeCode.equalsIgnoreCase(formattedGrade))
 //
 // Use existing processing services for additional validation
 //
-def exam = studentExamProcessor.parseExam(report, schoolId, assessment)
-examineeProcessor.parseStudent(report.examinee, exam.schoolYear, schoolId)
+// added to combine exam and student validation error
+def errorCollector = new DataElementErrorCollector();
+def exam = studentExamProcessor.parseExam(report, schoolId, assessment,errorCollector)
+examineeProcessor.parseStudent(report.examinee, exam, schoolId,errorCollector)
 
 // Check if any errors have been added to the error collector. If so throw a combined error.
 // Otherwise returns true (valid). (This should be the last line of any system validation script.)
