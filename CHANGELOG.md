@@ -1,10 +1,9 @@
 ## Change Log
 
 #### 2.3.1 - 2020-09-24
-* SRS-199: Fix problem with TRT not picking up the overridden ingest validation value 
-
-#### 2.2.0 -
-
+* SRS-199: TRT ingest validation problem 
+  * Fix problem with TRT not picking up the overridden ingest validation value 
+  * modify the logic to combine exam and student validation errors
 #### 2.1.0 - 2019-09-18
 
 No real code changes but some "nearby" fixes for this release:
