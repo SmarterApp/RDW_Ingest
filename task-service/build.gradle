@@ -1,42 +1,38 @@
-apply plugin: 'org.springframework.boot'
-
 dependencies {
-    // handy for creating metadata with @ConfigurationProperties
-    compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
+    implementation project(':rdw-ingest-common')
 
-    compile 'org.springframework.cloud:spring-cloud-starter-config'
-    compile 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
-    compile 'org.opentestsystem.rdw.common:rdw-common-utils'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-archive'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-model'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-multi-tenant'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-status'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-utils'
 
-    // csv
-    compile 'net.sf.supercsv:super-csv:2.4.0'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
 
-    // ftp
-    compile 'commons-net:commons-net:3.6'
+    implementation 'commons-net:commons-net:3.6'  // ftp
+    implementation 'mysql:mysql-connector-java'
+    implementation 'net.sf.supercsv:super-csv:2.4.0'
 
     // auth
-    compile 'org.springframework.boot:spring-boot-starter-security'
-    compile 'org.springframework.security.oauth:spring-security-oauth2'
-    testCompile 'org.springframework.security:spring-security-test'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.security.oauth:spring-security-oauth2'
+    testImplementation 'org.springframework.security:spring-security-test'
 
     // this is for retrying connection to config server
-    compile 'org.springframework.boot:spring-boot-starter-aop'
-    compile 'org.springframework.retry:spring-retry'
-
-    compile 'mysql:mysql-connector-java'
-
-    compile 'org.opentestsystem.rdw.common:rdw-common-archive'
-    compile 'org.opentestsystem.rdw.common:rdw-common-status'
-    compile project(':rdw-ingest-common')
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.springframework.retry:spring-retry'
 
     // cloud stream
-    compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
-    compile 'org.springframework.cloud:spring-cloud-stream'
-
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
+    implementation 'org.springframework.cloud:spring-cloud-stream'
 
     // fixes java 8 time marshaling
-    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.7'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.7'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 bootRun {

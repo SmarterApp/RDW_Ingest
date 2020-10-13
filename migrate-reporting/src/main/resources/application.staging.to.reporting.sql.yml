@@ -244,7 +244,7 @@ sql:
       subject_asmt_type:
         sql:
           insert: >-
-            INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, alt_score_performance_level_count, target_report, printed_report)
+            INSERT INTO subject_asmt_type (asmt_type_id, subject_id, performance_level_count, performance_level_standard_cutoff, claim_score_performance_level_count, alt_score_performance_level_count, target_report, printed_report, trait_report)
               SELECT
                 ssat.asmt_type_id,
                 ssat.subject_id,
@@ -253,7 +253,8 @@ sql:
                 ssas2.performance_level_count AS alt_score_performance_level_count,
                 ssas3.performance_level_count AS claim_score_performance_level_count,
                 ssat.target_report,
-                ssat.printed_report
+                ssat.printed_report,
+                ssat.trait_report
               FROM staging_subject_asmt_type ssat
                 LEFT JOIN subject_asmt_type rsat ON (rsat.subject_id = ssat.subject_id AND rsat.asmt_type_id = ssat.asmt_type_id)
                 LEFT JOIN staging_subject_asmt_scoring ssas1 ON ssas1.subject_id = ssat.subject_id AND ssas1.asmt_type_id = ssat.asmt_type_id AND ssas1.score_type_id=1
@@ -273,7 +274,8 @@ sql:
              rsat.alt_score_performance_level_count = ssas2.performance_level_count,
              rsat.claim_score_performance_level_count = ssas3.performance_level_count,
              rsat.target_report = ssat.target_report,
-             rsat.printed_report = ssat.printed_report
+             rsat.printed_report = ssat.printed_report,
+             rsat.trait_report = ssat.trait_report
 
           deleteAsPartOfParentUpdate: >-
             DELETE rsat FROM subject_asmt_type rsat
@@ -314,6 +316,34 @@ sql:
             DELETE rscs FROM subject_score rscs
               JOIN staging_subject ss ON ss.id = rscs.subject_id
             WHERE NOT EXISTS (SELECT 1 FROM staging_subject_score sscc WHERE sscc.id = rscs.id);
+
+      # ---------------- subject_trait  -----------------------------------------------
+      subject_trait:
+        sql:
+          insert: >-
+            INSERT INTO subject_trait (id, subject_id, purpose, category, max_score)
+              SELECT
+                sst.id,
+                sst.subject_id,
+                sst.purpose,
+                sst.category,
+                sst.max_score
+              FROM staging_subject_trait sst
+                LEFT JOIN subject_trait rst ON rst.id = sst.id
+              WHERE rst.id IS NULL;
+
+          update: >-
+            UPDATE subject_trait rst
+              JOIN staging_subject_trait sst ON rst.id = sst.id
+            SET
+              rst.purpose = sst.purpose,
+              rst.category = sst.category,
+              rst.max_score = sst.max_score
+
+          deleteAsPartOfParentUpdate: >-
+            DELETE rst FROM subject_trait rst
+              JOIN staging_subject ss ON ss.id = rst.subject_id
+            WHERE NOT EXISTS (SELECT 1 FROM staging_subject_trait sst WHERE sst.id = rst.id);
 
     # ---------------- subject_translation  -----------------------------------------------
       subject_translation:
@@ -557,7 +587,7 @@ sql:
 
           delete: >-
             DELETE ri
-             FROM exam_item ri JOIN staging_exam se ON se.id = ri.exam_id
+              FROM exam_item ri JOIN staging_exam se ON se.id = ri.exam_id
             WHERE se.deleted = 1;
 
       # ------------ exam_target_score -------------------------------------------------------------------
@@ -588,11 +618,46 @@ sql:
             DELETE rets FROM exam_target_score rets
               JOIN staging_exam se ON se.id = rets.exam_id
             WHERE
-              se.deleted = 0 AND NOT EXISTS(SELECT sei.id FROM staging_exam_target_score sei WHERE sei.id = rets.id);
+              se.deleted = 0 AND NOT EXISTS(SELECT sets.id FROM staging_exam_target_score sets WHERE sets.id = rets.id);
 
           delete: >-
             DELETE rets
-             FROM exam_target_score rets JOIN staging_exam se ON se.id = rets.exam_id
+              FROM exam_target_score rets JOIN staging_exam se ON se.id = rets.exam_id
+            WHERE se.deleted = 1;
+            
+      # ------------ exam_trait_score -------------------------------------------------------------------
+      exam_trait_score:
+        sql:
+          insert: >-
+            INSERT INTO exam_trait_score (id, exam_id, trait_id, score, condition_code)
+              SELECT
+                sets.id,
+                sets.exam_id,
+                sets.trait_id,
+                sets.score,
+                sets.condition_code
+              FROM staging_exam_trait_score sets
+                LEFT JOIN exam_trait_score rets ON rets.id = sets.id
+              WHERE rets.id IS NULL;
+
+          update: >-
+            UPDATE exam_trait_score rets
+              JOIN staging_exam_trait_score sets ON rets.id = sets.id
+            SET
+              rets.exam_id        = sets.exam_id,
+              rets.trait_id       = sets.trait_id,
+              rets.score          = sets.score,
+              rets.condition_code = sets.condition_code
+
+          deleteAsPartOfParentUpdate: >-
+            DELETE rets FROM exam_trait_score rets
+              JOIN staging_exam se ON se.id = rets.exam_id
+            WHERE
+              se.deleted = 0 AND NOT EXISTS(SELECT sets.id FROM staging_exam_trait_score sets WHERE sets.id = rets.id);
+
+          delete: >-
+            DELETE rets
+             FROM exam_trait_score rets JOIN staging_exam se ON se.id = rets.exam_id
             WHERE se.deleted = 1;
             
       # ------------ exam -------------------------------------------------------------------

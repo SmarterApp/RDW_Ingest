@@ -89,6 +89,12 @@ sql:
          FROM item i JOIN target t ON t.id = i.target_id JOIN claim c ON t.claim_id = c.id
         WHERE asmt_id = :asmt_id ORDER BY natural_id ASC
 
+    trait:
+      findAllForAssessment: >-
+        SELECT st.id, st.code, st.max_score
+          FROM asmt a JOIN subject_trait st ON a.subject_id = st.subject_id
+        WHERE a.id = :asmt_id
+
   # JdbcExamRepository
   exam:
     create: >-
@@ -279,6 +285,27 @@ sql:
       findByExamId: >-
         SELECT id, target_id, student_relative_residual_score, standard_met_relative_residual_score
         FROM exam_target_score
+        WHERE exam_id = :exam_id
+
+    examTraitScore:
+      create: >-
+        INSERT INTO exam_trait_score (exam_id, trait_id, score, condition_code) VALUES
+                                      (:exam_id, :trait_id, :score, :condition_code)
+
+      update: >-
+        UPDATE exam_trait_score
+        SET
+          trait_id = :trait_id,
+          score = :score,
+          condition_code = :condition_code
+        WHERE id = :id
+
+      delete: >-
+        DELETE FROM exam_trait_score WHERE id IN (:ids)
+
+      findByExamId: >-
+        SELECT id, trait_id, score, condition_code
+        FROM exam_trait_score
         WHERE exam_id = :exam_id
 
     examItem:

@@ -1,36 +1,43 @@
-apply plugin: 'org.springframework.boot'
-
 dependencies {
-    // handy for creating metadata with @ConfigurationProperties
-    compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
+    implementation project(':rdw-ingest-common')
 
-    compile 'org.springframework.boot:spring-boot-starter-aop'
-    compile 'org.springframework.boot:spring-boot-starter-cache'
-    compile 'org.springframework.boot:spring-boot-starter-jdbc'
-    compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
-    compile 'org.springframework.cloud:spring-cloud-starter-config'
-    compile 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
-    compile 'org.springframework.cloud:spring-cloud-stream'
-    compile 'org.springframework.retry:spring-retry'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-archive'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-messaging'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-model'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-multi-tenant'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-script'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-status'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-utils'
 
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
-    testCompile 'org.springframework.cloud:spring-cloud-stream-test-support'
-    testCompile 'org.xmlunit:xmlunit-core'
-    testCompile 'org.xmlunit:xmlunit-matchers'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
+    implementation 'org.springframework.cloud:spring-cloud-stream'
+    implementation 'org.springframework.retry:spring-retry'
 
-    compile "com.google.code.gson:gson"
-    compile 'org.opentestsystem.rdw.common:rdw-common-archive'
-    compile 'org.opentestsystem.rdw.common:rdw-common-messaging'
-    compile 'org.opentestsystem.rdw.common:rdw-common-model'
-    compile 'org.opentestsystem.rdw.common:rdw-common-multi-tenant'
-    compile 'org.opentestsystem.rdw.common:rdw-common-status'
-    compile 'org.opentestsystem.rdw.common:rdw-common-utils'
-    compile 'mysql:mysql-connector-java'
-    compile 'net.sf.saxon:Saxon-HE'
+    implementation 'com.google.code.gson:gson'
+    implementation 'mysql:mysql-connector-java'
+    implementation 'net.sf.saxon:Saxon-HE'
+    implementation 'org.apache.commons:commons-lang3'
 
-    compile project(':rdw-ingest-common')
+    // for rdw-common-script (see note in that project's build.gradle)
+    implementation 'commons-io:commons-io'
+    implementation 'jaxen:jaxen'
+    implementation 'org.apache.commons:commons-csv'
+    implementation 'org.codehaus.groovy:groovy'
+    implementation 'org.jdom:jdom2'
 
-    testCompile project(path: ':rdw-ingest-common', configuration: 'tests')
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
+    testImplementation 'org.xmlunit:xmlunit-core'
+    testImplementation 'org.xmlunit:xmlunit-matchers'
+
+    testImplementation project(path: ':rdw-ingest-common', configuration: 'tests')
 }
 
 //This will allow for running of the multithreaded test application

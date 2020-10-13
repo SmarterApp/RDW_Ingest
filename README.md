@@ -1,154 +1,66 @@
 ## RDW_Ingest
 
-Additional documentation:
-1. RDW_Ingest is part of the RDW suite of projects and applications. For all things RDW please refer to 
-[RDW repo](https://github.com/SmarterApp/RDW)
-1. [Change log](CHANGELOG.md)
-1. [Contributing developer notes](CONTRIBUTING.md)
-1. [License](LICENSE)
+Table of Contents:
+* [Project Summary](#project-summary)
+* [Building](#building)
+* [Running](#running)
+* [Loading Data](#loading-data)
 
-RDW ingest applications:
-1. Import Service - RESTful API for submitting test results (exams), packages, etc.
-1. Exam Processor - Spring Cloud Stream application for processing test results.
-1. Group Processor - Spring Cloud Stream application for processing student groups.
-1. Package Processor - Spring Cloud Stream application for processing assessment packages, accommodations, organizations.
-1. Task Service - Spring Boot application for running scheduled tasks.
-1. Migrate Reporting - Spring Boot application for migrating data from the warehouse to the reporting data mart.
-1. Migrate OLAP - Spring Boot application for migrating data from the warehouse to the aggregate reporting OLAP.
+
+### Project Summary
+Additional documentation:
+* RDW_Ingest is part of the RDW suite of projects and applications. For all things RDW please refer to 
+[RDW repo](https://github.com/SmarterApp/RDW)
+* [Change log](CHANGELOG.md)
+* [Contributing developer notes](CONTRIBUTING.md)
+* [License](LICENSE)
+
+RDW Ingest applications:
+* Import Service - RESTful API for submitting test results (exams), packages, etc.
+* Exam Processor - Spring Cloud Stream application for processing test results.
+* Group Processor - Spring Cloud Stream application for processing student groups.
+* Package Processor - Spring Cloud Stream application for processing assessment packages, accommodations, organizations.
+* Task Service - Spring Boot application for running scheduled tasks.
+* Migrate Reporting - Spring Boot application for migrating data from the warehouse to the reporting data mart.
+* Migrate OLAP - Spring Boot application for migrating data from the warehouse to the aggregate reporting OLAP.
 
 RDW Ingest uses other processes:
-1. MySQL/Aurora - warehouse and reporting databases
-1. Redshift - aggregate reporting OLAP databse
-1. RabbitMQ - message queue
-1. Configuration Server - centralized Spring configuration server
-1. OpenAM - centralized auth server
-1. ART - Administration and Registration Tools
+* MySQL/Aurora - warehouse and reporting databases
+* Redshift - aggregate reporting OLAP databse
+* RabbitMQ - message queue
+* Configuration Server - centralized Spring configuration server
+* OpenAM - centralized auth server
+* ART - Administration and Registration Tools
 
-#### MySQL
-MySQL is required for building (integration tests) and running these applications. To better match production, MySQL
-should be run as a native app outside the container framework . There are various ways to install it; please be sure 
-to install version 5.6 which is older and not the default! Here are the basic brew instructions:
-```bash
-brew update
-brew install mysql@5.6
-```
-At the end of the install, there is a suggestion to add the mysql location to the path:
-```bash
-echo 'export PATH="/usr/local/opt/mysql@5.6/bin:$PATH"' >> ~/.bash_profile
-```
+RDW Ingest uses other projects. These are published to publicly available repositories but having a local 
+copy may be convenient for reference or troubleshooting:
+* [RDW_Common](https://github.com/SmarterApp/RDW_Common)
+* [RDW_Schema](https://github.com/SmarterApp/RDW_Schema)
 
-Because brew isn't cool and directly sets the bind address you must modify `/usr/local/Cellar/mysql@5.6/5.6.34/homebrew.mxcl.mysql@5.6.plist` 
-(make sure to use your minor version of the installation) and set `--bind-address=*`. NOTE: with newer
-versions this setting may be in the my.cnf file (see below). You'll need to restart mysql after that,
-`brew services restart mysql@5.6`. You may need to fully stop and start the service if you get a
-`mysql.sock` error at this point:
-```bash
-brew services stop mysql@5.6
-brew services start mysql@5.6 
-```
-
-You may need to grant permissions to 'root'@'%':
-```bash
-mysql -uroot
-mysql> GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
-mysql> exit
-```
-
-You should load your timezone info, because we'll be forcing the timezone to 'UTC' in the next step.
-You may see some warnings of skipped files but no errors when you do this:
-```bash
-mysql_tzinfo_to_sql /usr/share/zoneinfo | sed -e "s/Local time zone must be set--see zic manual page/local/" | mysql -u root mysql
-```
-
-Finally, you need to configure MySQL settings in `my.cnf` file. Locate the file (for a brew install it will be
-`/usr/local/Cellar/mysql@5.6/5.6.34/my.cnf` but if you can't find it try `sudo find -name my.cnf -print`) 
-and add the following lines:
-```
-[mysqld]
-explicit_defaults_for_timestamp=1
-default-time-zone='UTC'
-bind-address=*
-```
-
-Restart MySQL:
-```bash
-brew services restart mysql@5.6
-```
-
-To verify the settings, run a mysql client:
-```bash
-mysql> SELECT @@explicit_defaults_for_timestamp;
-+-----------------------------------+
-| @@explicit_defaults_for_timestamp |
-+-----------------------------------+
-|                                 1 |
-+-----------------------------------+
-
-mysql> SELECT @@system_time_zone, @@global.time_zone, @@session.time_zone;
-+--------------------+--------------------+---------------------+
-| @@system_time_zone | @@global.time_zone | @@session.time_zone |
-+--------------------+--------------------+---------------------+
-| PDT                | UTC                | UTC                 |
-+--------------------+--------------------+---------------------+
-```
-
-The applications depend on the database schema being created properly. See instructions below under [Running](#running)
-
-#### MySQL - docker
-
-Experiment in running mysql in docker so you don't have to do a native side-by-side install or whatever.
-
-```bash
-# FYI, to get list of settings
-docker run -it --rm mysql:5.6 --verbose --help
-
-# launch mysql
-docker run --rm --name rdw-mysql -p 3306:3306 -v /tmp:/tmp -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -d mysql:5.6 --explicit-defaults-for-timestamp=1 --secure-file-priv=''
-
-# some examples of exec'ing things 
-docker exec -it rdw-mysql bash
-mkdir -p /tmp/dataset
-docker exec rdw-mysql mysqldump -u root --tab=/tmp/dataset warehouse 
-
-# you can stop and start the container; data is preserved as long as container isn't removed/recreated
-docker stop rdw-mysql
-docker start rdw-mysql
-```
-
-
-### Cloning
-```bash
-git clone https://github.com/SmarterApp/RDW_Ingest
-```
 
 ### Building
-RDW_Ingest apps make use of RDW_Common modules. If you are developing RDW_Common and would like to test changes in this 
-project, you can build RDW_Common locally and install your changes to the local repository:
-```bash
-git clone https://github.com/SmarterApp/RDW_Common
-cd RDW_Common
-git checkout develop
-# make code changes
-./gradlew install
-```
-Then to use those new changes, you can specify the SNAPSHOT version of RDW_Common
-```bash
-RDW_Ingest$ ./gradlew build it -Pcommon=1.1.0-SNAPSHOT
-```
+The following tools are need to build and test:
+* Java 8.
+* Gradle. The project uses bundled gradle so no explicit installation is required. However, it is highly 
+recommended to install gdub (https://github.com/dougborg/gdub) because it handles some shortcomings of 
+gradle's commandline behavior. The instructions assume this, using `gw` instead of `./gradlew` or `gradle`.
+* Docker. The applications are distributed as docker images. Install the latest docker on your machine
+and configure it to have at least 4GB of memory available.
+* MySQL 5.6/5.7. Required for running integration tests. Please refer to the [RDW Schema](https://github.com/SmarterApp/RDW_Schema) 
+project for instructions on setting up MySQL.
 
-Now you should be able to build and test the ingest apps from where you cloned this project:
+Build and test ingest apps from where you cloned this project (the `it` task triggers the integration tests):
 ```bash
+git clone https://github.com/SmarterApp/RDW_Ingest
 cd RDW_Ingest
 git checkout develop
-./gradlew build
-# or to also run Integration Tests
-./gradlew build it 
+gw build it
 ```
 
-Code coverage reports can be found in each project under `./build/reports/coverage/index.html` after explicitly
-generating them using:
+Code coverage reports can be found in each project under `./build/reports/coverage/index.html` after 
+explicitly generating them using:
 ```bash
-./gradlew coverage
+gw coverage
 ```
 
 If you want to run the integration tests against Aurora (instead of the local MySQL) you should set environment
@@ -165,7 +77,7 @@ used by the Spring Boot ITs. And the temporary variables are just to avoid some 
  export DATASOURCES_WAREHOUSE_RW_USERNAME=$USER; export DATASOURCES_WAREHOUSE_RW_PASSWORD=$PSWD; \
  export DATASOURCES_REPORTING_RW_URL_SERVER=$SERVER; \
  export DATASOURCES_REPORTING_RW_USERNAME=$USER; export DATASOURCES_REPORTING_RW_PASSWORD=$PSWD; \
- ./gradlew it)
+ gw it)
 ```
 
 The integration tests dealing with Redshift have been separated out because they require remote AWS resources
@@ -176,12 +88,12 @@ migrate-olap/build.gradle. By default it uses the CI database instances:
  export DATASOURCES_MIGRATE_RW_PASSWORD=password; \
  export DATASOURCES_OLAP_RW_PASSWORD=password; \
  export DATASOURCES_WAREHOUSE_RW_PASSWORD=password; \
- ./gradlew rst)
+ gw rst)
 ```
 
 You must explicitly build the docker images:
 ```bash
-$ ./gradlew buildImage
+$ gw dockerBuildImage
 $ docker images
 REPOSITORY                              TAG                 IMAGE ID            CREATED             SIZE
 smarterbalanced/rdw-ingest-import-service        latest              fc700c6e8518        14 minutes ago      131 MB
@@ -189,39 +101,10 @@ smarterbalanced/rdw-ingest-exam-processor        latest              cf83654e781
 rabbitmq                                3-management        cda8025c010b        3 weeks ago         179 MB
 java                                    8-jre-alpine        d85b17c6762e        6 weeks ago         108 MB
 ```
-
-### Running
-Running the applications locally depends on the local database being configured properly.
+To publish the docker images you must provide docker hub credentials, either on the commandline or
+as settings in `grade.properties`:
 ```bash
-# To completely clean out any existing data you might have and start fresh:
-./gradlew cleanallprod migrateallprod
-# or, if you want to use a different version of the schema, say version 1.1.0-68 of RDW_Schema
-./gradlew -Pschema=1.1.0-68 cleanallprod migrateallprod
-```
-
-The OLAP applications require remote AWS data stores being configured properly. Care should be taken because these
-remote resources are often shared; also misconfiguration could result in actions being taken on the wrong database.
-To completely clean out any existing data you will have to provide additional configuration, e.g.:
-```bash
-./gradlew \
-    -Predshift_url=jdbc:redshift://rdw-qa.cibkulpjrgtr.us-west-2.redshift.amazonaws.com:5439/dev \
-    -Predshift_schema=reporting_ci_test -Predshift_user=ci -Predshift_password=your_password \
-    -Pdatabase_url=jdbc:mysql://rdw-aurora-ci.cugsexobhx8t.us-west-2.rds.amazonaws.com:3306 \
-    -Pmigrate_olap_schema=migrate_olap_test -Pdatabase_user=sbac -Pdatabase_password=your_password \
-    cleanAllTest migrateAllTest
-```
-
-The apps are wrapped in docker containers and should be built and run that way. There is a docker-compose spec
-to make it easy: it runs RabbitMQ, the configuration server and all the RDW_Ingest applications. Please read the
-comments in the docker-compose script for setting required environment variables. Then invoke docker-compose, e.g.:
-```bash
-docker-compose up -d
-docker logs -f docker_import-service_1
-```
-To stop a single service, use regular docker commands; to stop them all use docker-compose, e.g.:
-```bash
-docker stop docker_import-service_1
-docker-compose down
+$ gw dockerPushImage
 ```
 
 After cycling through some builds you will end up with a number of dangling images, e.g.:
@@ -236,15 +119,48 @@ smarterbalanced/rdw-ingest-exam-processor    latest              293d8744377d   
 <none>                              <none>              bdae5c1151d5        24 hours ago        140 MB
 <none>                              <none>              233d2f87c185        24 hours ago        132 MB
 ```
-These can be quickly cleaned up:
+These can be quickly cleaned up with standard Docker hygiene:
 ```bash
-docker container prune 
-# reply when prompted to confirm
-docker image prune 
-# reply when prompted to confirm
+docker container prune -f
+docker image prune -f
+```
+
+### Running
+These are instructions for running the RDW_Ingest applications locally. To deploy these applications
+as part of the full Smarter Balanced RDW ecosystem, please refer to [RDW](https://github.com/SmarterApp/RDW).
+
+Running the applications locally depends on the local database being configured properly.
+Please refer to the [RDW Schema](https://github.com/SmarterApp/RDW_Schema) project for that.
+
+The OLAP applications require remote AWS data stores being configured properly. Care should be taken because these
+remote resources are often shared; also misconfiguration could result in actions being taken on the wrong database.
+
+**NOTE** - The configuration server requires a backing git repository with proper configuration files,
+including configuration settings for the `local-docker` profile. Without that, the system will not
+run properly. (It is beyond the scope of this document to describe how to set that up.)   
+
+**TODO** - change the project so it can run without a configuration server; see TIMS  
+
+The apps are wrapped in docker containers and should be built and run that way. There is a docker-compose spec
+to make it easy: it runs RabbitMQ, the configuration server and all the RDW_Ingest applications. Please read the
+comments in the docker-compose script for setting required environment variables. Then invoke docker-compose, e.g.:
+```bash
+docker-compose up -d
+docker logs -f docker_import-service_1
+```
+To stop a single service, use regular docker commands; to stop them all use docker-compose, e.g.:
+```bash
+docker stop docker_import-service_1
+docker-compose down
 ```
 
 ### Loading Data
+You may have access to a MySQL dump for running and testing locally, shortcutting 
+the work needed to properly load data through the ingest pipeline. To load it:
+```bash
+mysql -h localhost -u root < mysql.dmp
+```
+
 To properly load data into the system involves a few steps. The supporting data must be loaded before test results
 can be submitted. This includes assessments, accommodations, organization data, and groups. 
 1. Get and load configurable subjects in XML format. These may be found in the [RDW repo](https://github.com/SmarterApp/RDW), in the `deploy` folder.

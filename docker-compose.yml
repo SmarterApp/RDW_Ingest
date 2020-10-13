@@ -5,6 +5,9 @@
 # CONFIG_SERVICE_REPO - git repo url, e.g. https://gitlab.com/fairwaytech/rdw_config.git
 # GIT_USER - user with rights to access CONFIG_SERVICE_REPO
 # GIT_PASSWORD - password for GIT_USER
+# A good way to do this is to create a .env file in the same location as the docker-compose file,
+# which will be read automagically. Obviously that file shouldn't be checked in.
+# Alternatively you may use environment variables.
 
 version: '2.1'
 services:

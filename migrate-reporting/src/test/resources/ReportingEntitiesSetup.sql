@@ -21,7 +21,8 @@ INSERT INTO asmt (id, natural_id, grade_id, grade_code, type_id, subject_id, sch
 
    (-59,  '(SBAC)SBAC-SUMMATIVE-TEST-59', -99, '99', 3, 1, 1999, 'SUMMATIVE TEST-59', 'SUMMATIVE TEST-59 Math', '1', -1, 2442, 2502, 2582, 2201, 2701, '2017-07-18 20:14:34.000000', -1),
    (-311, '(SBAC)SBAC-SUMMATIVE-TEST-58', -98, '98', 3, 2, 1999, 'SUMMATIVE TEST-58', 'SUMMATIVE TEST-58 Ela',  '1', -1, 2442, 2502, 2582, 2201, 2701, '2017-07-18 20:14:34.000000', -1),
-   (-111, '(SBAC)SBAC-SUMMATIVE-TEST-48', -98, '98', 3, 1, 1999, 'SUMMATIVE TEST-48', 'SUMMATIVE TEST-48 Math', '1', -1, 2442, 2502, 2582, 2201, 2701, '2017-07-18 20:14:34.000000', -1);
+   (-111, '(SBAC)SBAC-SUMMATIVE-TEST-48', -98, '98', 3, 1, 1999, 'SUMMATIVE TEST-48', 'SUMMATIVE TEST-48 Math', '1', -1, 2442, 2502, 2582, 2201, 2701, '2017-07-18 20:14:34.000000', -1),
+   (-113, 'UBER-EXIT-TEST', -98, '98', 3, 1, 1999, 'UBER-EXIT-TEST', 'Exit Exam', '1', -1, 1000, 1500, 2000, 1000, 2000, '2017-07-18 20:14:34.000000', -1);
 
 INSERT INTO asmt_target(asmt_id, target_id, include_in_report) VALUES
    (-311, -11, true),
@@ -60,7 +61,8 @@ INSERT INTO percentile_score (percentile_id, percentile_rank, score, min_inclusi
 INSERT INTO student (id, ssid, last_or_surname, first_name, middle_name, alias_name, gender_id, gender_code, first_entry_into_us_school_at, lep_entry_at,
         lep_exit_at, birthday, update_import_id, updated, migrate_id) VALUES
    (-11, '11', 'TestName', 'FirstName2', 'MiddleName2', 'AliasName', -98, 'before_test', '2012-08-14', '2012-11-13', null, '2000-01-01', -5000, '2017-05-18 20:06:34.966000', -1),
-   (-89, '89', 'TestName', 'FirstName2', 'MiddleName2', 'AliasName', -98, 'before_test', '2012-08-14', '2012-11-13', null, '2000-01-01', -5000, '2017-05-18 20:06:34.966000', -1);
+   (-89, '89', 'TestName', 'FirstName2', 'MiddleName2', 'AliasName', -98, 'before_test', '2012-08-14', '2012-11-13', null, '2000-01-01', -5000, '2017-05-18 20:06:34.966000', -1),
+   (-33, '33', 'TestName', 'FirstName33', null, null, -98, 'before_test', '2012-08-14', '2012-11-13', null, '2000-01-01', -5000, '2017-05-18 20:06:34.966000', -1);
 
 INSERT INTO student_ethnicity(student_id, ethnicity_id, ethnicity_code) values
     (-89,  -99, 'before test');

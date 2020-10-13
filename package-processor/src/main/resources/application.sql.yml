@@ -264,6 +264,36 @@ sql:
       WHERE iot.target_id IN (:target_ids)
       LIMIT 1
 
+  # JdbcTraitRepository
+  trait:
+    findCodesBySubject: >-
+      SELECT st.code
+      FROM subject_trait st
+        JOIN subject s ON s.id = st.subject_id
+      WHERE s.code = :subject_code
+
+    insert: >-
+      INSERT INTO subject_trait (subject_id, code, purpose, category, max_score)
+        SELECT s.id, :code, :purpose, :category, :max_score
+        FROM subject s
+        WHERE s.code = :subject_code
+
+    delete: >-
+      DELETE st
+      FROM subject_trait st
+        JOIN subject s ON s.id = st.subject_id
+      WHERE s.code = :subject_code
+        AND st.code = :code
+
+    isReferenced: >-
+      SELECT EXISTS(
+        SELECT 1
+        FROM exam_trait_score ets
+          JOIN subject_trait st ON st.id = ets.trait_id
+        WHERE s.code = :subject_code
+          AND st.code = :code
+        LIMIT 1)
+
   #JdbcCommonCoreStandardRepository
   commonCoreStandard:
     findIdsBySubjectIdAndNaturalIds: >-
@@ -410,15 +440,15 @@ sql:
 
     assessmentType:
       findBySubjectId: >-
-        SELECT sat.asmt_type_id, sat.target_report, sat.printed_report,
+        SELECT sat.asmt_type_id, sat.target_report, sat.printed_report, sat.trait_report,
           sas.score_type_id, sas.min_score, sas.max_score, sas.performance_level_count, sas.performance_level_standard_cutoff
         FROM subject_asmt_type sat
           LEFT JOIN subject_asmt_scoring sas ON sas.subject_id = sat.subject_id AND sas.asmt_type_id = sat.asmt_type_id
         WHERE sat.subject_id = :subject_id
 
       create: >-
-        INSERT INTO subject_asmt_type (subject_id, asmt_type_id, target_report, printed_report)
-          VALUES (:subject_id, :asmt_type_id, :target_report, :printed_report)
+        INSERT INTO subject_asmt_type (subject_id, asmt_type_id, target_report, printed_report, trait_report)
+          VALUES (:subject_id, :asmt_type_id, :target_report, :printed_report, :trait_report)
 
       createScoring: >-
         INSERT INTO subject_asmt_scoring (subject_id, asmt_type_id, score_type_id, min_score, max_score, performance_level_count, performance_level_standard_cutoff)

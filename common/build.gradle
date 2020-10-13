@@ -1,35 +1,30 @@
-// This pulls in the dependency management which is great.
-// But it also defines silly boot tasks which we don't want here.
-apply plugin: 'org.springframework.boot'
-bootRepackage.enabled = false
-bootRun.enabled = false
-
 dependencies {
-    // handy for creating metadata with @ConfigurationProperties
-    compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
-
-    compile 'org.springframework.boot:spring-boot-starter-jdbc'
-    compile 'org.opentestsystem.rdw.common:rdw-common-archive'
-    compile 'org.opentestsystem.rdw.common:rdw-common-messaging'
-    compile 'org.opentestsystem.rdw.common:rdw-common-model'
-    compile 'org.opentestsystem.rdw.common:rdw-common-multi-tenant'
-    compile 'org.opentestsystem.rdw.common:rdw-common-script'
-    compile 'org.opentestsystem.rdw.common:rdw-common-utils'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-archive'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-messaging'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-model'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-multi-tenant'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-script'
+    implementation 'org.opentestsystem.rdw.common:rdw-common-utils'
 
     // for @NotNull
-    compile 'javax.validation:validation-api'
+    implementation 'javax.validation:validation-api'
+    implementation 'com.google.code.gson:gson'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 
-    compile 'com.google.code.gson:gson'
+    // Included for rdw-common-script (see note in that project's build.gradle)
+    testImplementation 'org.codehaus.groovy:groovy'
 
-    testCompile 'mysql:mysql-connector-java'
-    testCompile 'org.mockito:mockito-inline'  // to mock final classes
-    testCompile 'org.springframework:spring-test'
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
-    testCompile 'org.springframework.boot:spring-boot-starter-validation'
+    testImplementation 'mysql:mysql-connector-java'
+    testImplementation 'org.apache.commons:commons-lang3'
+    testImplementation 'org.mockito:mockito-inline'  // to mock final classes
+    testImplementation 'org.springframework:spring-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-validation'
+    testImplementation 'org.springframework.cloud:spring-cloud-starter-aws'
 }
 
 task testsJar(type: Jar, dependsOn: testClasses) {
-    classifier = 'tests'
+    archiveClassifier.set('tests')
     from sourceSets.test.output
 }
 configurations {

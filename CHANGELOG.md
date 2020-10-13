@@ -1,14 +1,40 @@
 ## Change Log
 
+#### 2.4.0 - Phase 6 release, features 2 through 6 complete.
+
 #### 2.3.1 - 2020-09-24
 * SRS-199: Fix problem with TRT not picking up the overridden ingest validation value 
 
 #### 2.2.0 -
 
+Work done as part of RDW Phase 6.
+
+* Add UI Colors to RDW Palette (Phase 6, Req. 2)
+    * Add additional colors to XSD schema for subject definition
+* Add subject trait definitions and exam trait scores (Phase 6, Req. 3)
+    * Add traits to subject definition; ingest, store, and migrate
+    * Add trait scores to exams; ingest, store, and migrate    
+* Alternate Score Aggregate Report (Phase 6, Req. 4)
+    * Migrate alt score data to OLAP database
+* TechDebt
+    * Upgrade gradle, including plugins
+    * Upgrade SpringFramework and other libraries (most recent minor revs only, no major upgrades)
+
+#### 2.3.1 - 2020-09-24
+
+* SRS-199: Fix problem with TRT not picking up the overridden ingest validation value 
+
+#### 2.3.0 - 2019-11-13
+
+* RP-656: Enforce unique assessment names across subjects (previously only enforced within a subject)
+
+#### 2.2.0 - 2019-10-15
+
+No real code changes; added some tests; bumped version to align with RDW_Reporting.
+
 #### 2.1.0 - 2019-09-18
 
-No real code changes but some "nearby" fixes for this release:
-
+No real code changes, but some "nearby" fixes for this release:
 * RP-740: Subject Definition Workbook will not allow less than 3 claims
 * RP-754: Latin description levels don't display correctly in the PDF reports
 * RP-791: Data Generator - latin results for only grades 5, 8, 11
