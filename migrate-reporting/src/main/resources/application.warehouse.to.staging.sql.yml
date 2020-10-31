@@ -182,8 +182,8 @@ sql:
             ${sql.embargo}
 
           stagingInsert:
-            INSERT INTO staging_district_embargo (district_id, individual, aggregate, migrate_id) VALUES
-              (:district_id, :individual, :aggregate, :migrate_id)
+            INSERT INTO staging_district_embargo (school_year, district_id, subject_id, individual, migrate_id) VALUES
+              (:school_year, :district_id, :subject_id, :individual, :migrate_id)
 
       ##### Entities migrated by timestamp range ##############################################
       # filter results by timestamp, treating create/update separately

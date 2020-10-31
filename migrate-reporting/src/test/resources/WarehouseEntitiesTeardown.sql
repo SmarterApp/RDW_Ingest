@@ -14,6 +14,7 @@ DELETE FROM student where id in (-11, -89, -88, -87, -86, -33);
 DELETE FROM student_group where id in (-91, -8, -7);
 
 -- ------------------------------------------ School/Districts --------------------------------------------------------------------------------------------------
+DELETE FROM audit_district_embargo WHERE district_id IN (-99, -98);
 DELETE FROM school where id in (-99, -98, -1);
 DELETE FROM district where id in (-99, -98, -1);
 DELETE FROM district_group where id in (-98);
