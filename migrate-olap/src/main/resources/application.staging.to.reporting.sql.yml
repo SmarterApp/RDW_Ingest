@@ -450,7 +450,7 @@ sql:
       school:
         sql:
           insert: >-
-            INSERT INTO school (id, district_id, name, natural_id, external_id, school_group_id, district_group_id, embargo_enabled, updated, update_import_id, migrate_id)
+            INSERT INTO school (id, district_id, name, natural_id, external_id, school_group_id, district_group_id, updated, update_import_id, migrate_id)
               SELECT DISTINCT
                 ss.id,
                 ss.district_id,
@@ -459,7 +459,6 @@ sql:
                 ss.external_id,
                 ss.school_group_id,
                 ss.district_group_id,
-                1,
                 ss.updated,
                 ss.update_import_id,
                 ss.migrate_id
@@ -467,7 +466,6 @@ sql:
                 LEFT JOIN school rs ON rs.id = ss.id
               WHERE rs.id IS NULL and ss.deleted = 0;
 
-          # it is expected that schools and embargo settings are always migrated together, therefore the embargo_enabled flag is not updated here.
           update: >-
             UPDATE school
             SET
@@ -492,27 +490,37 @@ sql:
       # Update schools/districts to set embargo_enabled based on the aggregate embargo flag.
       # The warehouse-to-staging step has already copied the effective settings for all districts.
       # So here we can just set the value for all schools if it has changed from current setting.
-      school_embargo:
-        sql:
-          update: >-
-            UPDATE school
-              SET
-                embargo_enabled = sde.aggregate,
-                migrate_id = sde.migrate_id
-              FROM school rs
-                JOIN staging_district_embargo sde ON sde.district_id = rs.district_id AND rs.embargo_enabled <> sde.aggregate;
+#      school_embargo:
+#        sql:
+#          update: >-
+#            UPDATE school;
+#              SET
+#                embargo_enabled = sde.aggregate,
+#                migrate_id = sde.migrate_id
+#              FROM school rs
+#                JOIN staging_district_embargo sde ON sde.district_id = rs.district_id AND rs.embargo_enabled <> sde.aggregate;
 
-      state_embargo:
+      district_embargo:
         sql:
           insert: >-
-            INSERT INTO state_embargo (aggregate, migrate_id)
-              SELECT
-                sse.aggregate,
-                sse.migrate_id
-              FROM staging_state_embargo sse;
+            INSERT INTO district_embargo (district_id, school_year, subject_id, aggregate, migrate_id)
+            SELECT sde.district_id, sde.school_year, sde.subject_id, sde.aggregate, sde.migrate_id FROM staging_district_embargo as sde
+              LEFT JOIN district_embargo de ON
+                sde.school_year = de.school_year AND
+                sde.district_id = de.district_id AND
+                sde.subject_id = de.subject_id
+            WHERE de.school_year IS NULL AND de.district_id IS NULL AND de.subject_id IS NULL;
+
+          update: >-
+            UPDATE district_embargo set aggregate = sde.aggregate, migrate_id = sde.migrate_id
+            FROM district_embargo de, staging_district_embargo sde WHERE
+              sde.school_year = de.school_year AND
+              sde.district_id = de.district_id AND
+              sde.subject_id = de.subject_id;
 
           delete: >-
-            DELETE FROM state_embargo;
+            DELETE FROM district_embargo;
+
       # ------------ district -----------------------------------------------------------------------
       district:
         sql:

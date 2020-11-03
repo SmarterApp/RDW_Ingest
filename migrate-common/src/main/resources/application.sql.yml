@@ -51,4 +51,4 @@ sql:
           LIMIT 1
 
   embargo:
-    SELECT school_year, district_id, subject_id, individual, aggregate from district_embargo;
+    SELECT school_year, district_id, subject_id, individual, aggregate from district_embargo

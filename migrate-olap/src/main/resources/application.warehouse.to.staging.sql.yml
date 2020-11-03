@@ -21,7 +21,6 @@ sql:
       - delete from staging_district_group
       - delete from staging_school_group
       - delete from staging_district_embargo
-      - delete from staging_state_embargo
       - delete from staging_student
       - delete from staging_student_ethnicity
       - delete from staging_asmt
@@ -1314,7 +1313,9 @@ sql:
           sql:
             warehouseRead:
               SELECT
+                e.school_year,
                 e.district_id,
+                e.subject_id,
                 e.aggregate,
                 :migrate_id as migrate_id
               FROM (${sql.embargo}) e
@@ -1324,7 +1325,9 @@ sql:
 
             stagingInsert:
               COPY staging_district_embargo (
+                school_year,
                 district_id,
+                subject_id,
                 aggregate,
                 migrate_id)
               FROM '$[migrateLocationPlaceholder]/embargo.part_00000'
@@ -1333,25 +1336,3 @@ sql:
               DELIMITER ','
               COMPUPDATE OFF
 
-# ------------ district_embargo  -------------------------------------------------------------------
-        state_embargo:
-          sql:
-            warehouseRead:
-              SELECT
-                IF(aggregate = 0, 0, 1) AS aggregate,
-                :migrate_id as migrate_id
-              FROM state_embargo
-              WHERE school_year = :system_school_year
-              INTO OUTFILE S3 '$[migrateLocationPlaceholder]/state_embargo'
-                FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-                LINES TERMINATED BY '\n'
-
-            stagingInsert:
-              COPY staging_state_embargo (
-                aggregate,
-                migrate_id)
-              FROM '$[migrateLocationPlaceholder]/state_embargo.part_00000'
-              CREDENTIALS 'aws_iam_role=${migrate.aws.redshift.role}'
-              FORMAT AS CSV
-              DELIMITER ','
-              COMPUPDATE OFF
