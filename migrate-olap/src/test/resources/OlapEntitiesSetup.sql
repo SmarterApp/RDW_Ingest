@@ -83,9 +83,9 @@ INSERT INTO district (id, name, natural_id, migrate_id) VALUES
 INSERT INTO school_group (id, name, natural_id, migrate_id) VALUES
   (-98, 'Before Test -98', 'natural_id-98',  -1);
 
-INSERT INTO school (id, district_id, district_group_id, school_group_id, name, natural_id, embargo_enabled, updated, update_import_id, migrate_id) VALUES
-  (-1, -1, NULL, NULL, 'Before Test -1', 'natural_id-1', false, '2017-07-18 20:14:34.000000', -5000,  -1),
-  (-99, -99, NULL, NULL, 'Before Test -99', 'natural_id-99', false, '2017-07-18 20:14:34.000000', -1, -1);
+INSERT INTO school (id, district_id, district_group_id, school_group_id, name, natural_id, updated, update_import_id, migrate_id) VALUES
+  (-1, -1, NULL, NULL, 'Before Test -1', 'natural_id-1', '2017-07-18 20:14:34.000000', -5000,  -1),
+  (-99, -99, NULL, NULL, 'Before Test -99', 'natural_id-99', '2017-07-18 20:14:34.000000', -1, -1);
 
 -- ------------------------------------------ Asmt ---------------------------------------------------------------------------------------------------------
 INSERT INTO asmt (id, grade_id,  type_id, subject_id, school_year, name, label, cut_point_1, cut_point_2, cut_point_3, min_score, max_score, updated, update_import_id, migrate_id) VALUES
