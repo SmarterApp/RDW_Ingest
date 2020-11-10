@@ -25,7 +25,7 @@ String rdwSchemaVersion = project.hasProperty('schema') ? project.property('sche
 String dockerPrefix = 'smarterbalanced'
 
 allprojects {
-    version = '2.4.0-SNAPSHOT'
+    group = 'org.opentestsystem.rdw.ingest'
 
     if (project.hasProperty('buildNumber')) {
         project.setVersion(project.version.toString().replaceAll('SNAPSHOT', "${buildNumber}"))
