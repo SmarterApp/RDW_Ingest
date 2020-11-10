@@ -2,11 +2,6 @@
 
 #### 2.4.0 - Phase 6 release, features 2 through 6 complete.
 
-#### 2.3.1 - 2020-09-24
-* SRS-199: Fix problem with TRT not picking up the overridden ingest validation value 
-
-#### 2.2.0 -
-
 Work done as part of RDW Phase 6.
 
 * Add UI Colors to RDW Palette (Phase 6, Req. 2)
