@@ -1,5 +1,14 @@
 ## Change Log
 
+#### 2.4.2 - 2020-11-09
+
+* SRS-199: combine error validation error message for exam processor.
+* SRS-355: handle school transfer in group roster api
+
+#### 2.4.1 - 2020-11-09
+
+No real change,bumped up version to resolve deployment issue.  
+
 #### 2.4.0 - Phase 6 release, features 2 through 6 complete.
 
 Work done as part of RDW Phase 6.

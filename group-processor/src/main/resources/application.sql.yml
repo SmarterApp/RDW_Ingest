@@ -55,6 +55,13 @@ sql:
               subject_id = sub.id
             WHERE sgl.import_id = :import_id
 
+          update-inferred-school: >-
+            UPDATE student st
+             JOIN upload_student_group sgl ON st.ssid = sgl.student_ssid
+            SET st.inferred_school_id = sgl.school_id
+            WHERE  sgl.school_id <> st.inferred_school_id
+            AND sgl.import_id = :import_id
+
           assign-existing: >-
             UPDATE upload_student_group sgl
               JOIN student_group sg ON sgl.group_name = sg.name AND sgl.school_year = sg.school_year AND sgl.school_id = sg.school_id
