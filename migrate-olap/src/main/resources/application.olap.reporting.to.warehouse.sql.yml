@@ -1,0 +1,20 @@
+sql:
+  exam_count:
+    extract:
+      - >
+        unload ('SELECT e.school_year, s.district_id, a.subject_id, count(e.id) FROM exam e JOIN school s ON e.school_id = s.id JOIN asmt a ON e.asmt_id = a.id WHERE a.type_id = 3 GROUP BY e.school_year, s.district_id, a.subject_id')
+        to '$[migrateLocationPlaceholder]/exam_count'
+        iam_role '${migrate.aws.redshift.role}'
+
+    stage:
+      - DELETE FROM staging_exam_count;
+      - >
+        LOAD DATA FROM S3 PREFIX '$[migrateLocationPlaceholder]/exam_count' INTO TABLE staging_exam_count
+        FIELDS TERMINATED BY '|' OPTIONALLY ENCLOSED BY '"'
+        LINES TERMINATED BY '\n';
+
+    copy:
+      - DELETE FROM exam_count;
+      - >
+        INSERT IGNORE INTO exam_count SELECT * FROM staging_exam_count;
+      - DELETE FROM staging_exam_count;
