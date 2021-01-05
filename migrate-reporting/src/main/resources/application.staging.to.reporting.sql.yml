@@ -624,7 +624,7 @@ sql:
             DELETE rets
               FROM exam_target_score rets JOIN staging_exam se ON se.id = rets.exam_id
             WHERE se.deleted = 1;
-            
+
       # ------------ exam_trait_score -------------------------------------------------------------------
       exam_trait_score:
         sql:
@@ -659,7 +659,7 @@ sql:
             DELETE rets
              FROM exam_trait_score rets JOIN staging_exam se ON se.id = rets.exam_id
             WHERE se.deleted = 1;
-            
+
       # ------------ exam -------------------------------------------------------------------
       exam:
         sql:
@@ -1035,7 +1035,7 @@ sql:
       school:
         sql:
           insert: >-
-            INSERT INTO school (id, natural_id, name, external_id, district_id, district_group_id, school_group_id, embargo_enabled, update_import_id, updated, migrate_id)
+            INSERT INTO school (id, natural_id, name, external_id, district_id, district_group_id, school_group_id, update_import_id, updated, migrate_id)
              SELECT
                ss.id,
                ss.natural_id,
@@ -1044,7 +1044,6 @@ sql:
                ss.district_id,
                ss.district_group_id,
                ss.school_group_id,
-               0,
                ss.update_import_id,
                ss.updated,
                ss.migrate_id
@@ -1052,7 +1051,6 @@ sql:
                LEFT JOIN school rs ON rs.id = ss.id
              WHERE rs.id IS NULL AND ss.deleted = 0;
 
-          # it is expected that schools and embargo settings are always migrated together, therefore the embargo_enabled flag is not updated here.
           update: >-
             UPDATE school rs
               JOIN staging_school ss ON ss.id = rs.id
@@ -1137,16 +1135,21 @@ sql:
 
 
       # ############## Embargo  ###################################################################
-      # Update schools/districts to set embargo_enabled based on individual embargo flag.
+      # Update individual district embargo records.
       # The warehouse-to-staging step has already copied the effective settings for all districts.
-      # So here we can just set the value for all schools if it has changed from current setting.
-      school_embargo:
+      # So here we can just copy the values into district embargo.
+      district_embargo:
         sql:
+          insert: >-
+            INSERT IGNORE INTO district_embargo (school_year, district_id, subject_id, individual, migrate_id)
+              SELECT  school_year, district_id, subject_id, individual, migrate_id FROM staging_district_embargo
           update: >-
-            UPDATE school rs
-              JOIN staging_district_embargo sde ON sde.district_id = rs.district_id AND rs.embargo_enabled <> sde.individual
-            SET rs.embargo_enabled = sde.individual, rs.migrate_id = sde.migrate_id;
-
+            UPDATE district_embargo rd
+              JOIN staging_district_embargo sde ON
+                sde.school_year = rd.school_year AND
+                sde.district_id = rd.district_id AND
+                sde.subject_id = rd.subject_id
+            SET rd.individual = sde.individual, rd.migrate_id = sde.migrate_id
 
       # ############## Student  ###################################################################
       # ------------ student_ethnicity -----------------------------------------------------------------------

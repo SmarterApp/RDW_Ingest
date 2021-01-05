@@ -1,4 +1,6 @@
 -- ------------------------------------------ Subject  --------------------------------------------------------------------------------------------------
+INSERT INTO school_year VALUES (1998), (1999);
+
 INSERT INTO staging_subject (id, code, update_import_id, migrate_id, updated) VALUES
   (-1, 'New',    -99, -99, now()),
   (-3, 'Update', -99, -99, now());

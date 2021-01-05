@@ -61,3 +61,4 @@ DELETE FROM subject_asmt_type WHERE subject_id < 0;
 DELETE FROM subject_score WHERE subject_id < 0;
 DELETE FROM target WHERE subject_id < 0;
 DELETE FROM subject WHERE id < 0;
+DELETE FROM school_year WHERE year in (1998, 1999);
