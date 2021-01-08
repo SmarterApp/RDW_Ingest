@@ -1,5 +1,13 @@
 ## Change Log
 
+#### 2.5.0 - 2020=01-06
+
+Work done as part of RDW Phase 6.
+
+* Update migrations to support new embargo functionality.
+* Compute exam counts per embargo in Redshift and import the table to 
+warehouse schema.
+  
 #### 2.4.2 - 2020-11-09
 
 * SRS-199: combine error validation error message for exam processor.
