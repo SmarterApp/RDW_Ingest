@@ -1,6 +1,10 @@
 ## Change Log
 
-#### 2.5.0 - 2020=01-06
+#### 2.5.1 - 2020=01-22
+
+No changes were made to RDW Ingest for the 2.5.1 release.
+
+#### 2.5.0 - 2020-01-06
 
 Work done as part of RDW Phase 6.
 
