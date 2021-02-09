@@ -27,3 +27,5 @@ DELETE FROM subject_score where id < 0 or subject_id <0;
 DELETE FROM subject_asmt_scoring where subject_id < 0;
 DELETE FROM subject_asmt_type where subject_id < 0;
 DELETE FROM subject where id < 0;
+DELETE FROM staging_exam_count;
+DELETE FROM exam_count;
