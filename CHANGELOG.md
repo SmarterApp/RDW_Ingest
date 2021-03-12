@@ -1,5 +1,9 @@
 ## Change Log
 
+### 2.5.3 - 2021-03-14
+
+* SRS-483: Update Subject Definitions to support Alt Score ISR reporting
+
 #### 2.5.2 - 2021-02-09
 
 No changes were made to RDW Ingest for the 2.5.2 release.
