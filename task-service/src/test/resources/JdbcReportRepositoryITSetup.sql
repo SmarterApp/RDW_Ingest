@@ -5,7 +5,8 @@ INSERT INTO import (id, status, content, contentType, batch, digest, message) VA
   (-99, 1, 1, 'type', 'batch1', '-99', null),
   (-98, 1, 1, 'type', 'batch1', '-98', null),
   (-97, 1, 1, 'type', null, '-97', null),
-  (-96, -6, 1, 'type', 'batch1', '-96', 'unknown school 123');
+  (-96, -6, 1, 'type', 'batch1', '-96', 'unknown school 123'),
+  (-95, 1, 1, 'type', 'batch1', '-95', null);
 
 INSERT INTO school (id, district_id, name, natural_id, import_id, update_import_id) VALUES
   (-12, -11, 'Sample School 1', 'School1NaturalId', -99, -99);
@@ -19,6 +20,6 @@ INSERT INTO student (id, ssid, last_or_surname, first_name, gender_id, birthday,
   (-197, '6666666667', 'LastName7', 'FirstName7', 1, '2006-07-07', -97, -97);
 
 INSERT INTO exam (id, type_id, school_year, asmt_id, oppId, completeness_id, administration_condition_id, completed_at, import_id, update_import_id, session_id, grade_id, student_id, school_id, iep, lep, section504, economic_disadvantage) VALUES
-  (-399, 1, 2017, -20, '1021', 2, 1, '2017-05-12', -99, -99, 'session', 11, -199, -12, 0, 0, 0, 0),
+  (-399, 1, 2017, -20, '1021', 2, 1, '2017-05-12', -99, -95, 'session', 11, -199, -12, 0, 0, 0, 0),
   (-398, 1, 2017, -20, null, 2, 1, '2017-05-12', -98, -98, 'session', 11, -198, -12, 0, 0, 0, 0),
   (-397, 1, 2017, -20, '3333', 2, 1, '2017-05-12', -97, -97, 'session', 11, -197, -12, 0, 0, 0, 0);

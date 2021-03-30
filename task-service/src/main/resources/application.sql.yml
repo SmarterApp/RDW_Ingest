@@ -2,7 +2,7 @@ sql:
   import:
     # this may look odd but it does perform better than a simple join
     exams: >-
-      SELECT s.ssid, a.natural_id, e.school_year, e.oppId, i.batch, i.id
+      SELECT s.ssid, a.natural_id, e.school_year, e.oppId, i.batch, i.id, i.updated
       FROM (SELECT i.updated, i.batch, i.id
             FROM import i
             WHERE i.content = 1
@@ -14,7 +14,20 @@ sql:
         JOIN exam e ON e.import_id = i.id
         JOIN student s ON s.id = e.student_id
         JOIN asmt a ON a.id = e.asmt_id
-      ORDER BY i.updated, i.id
+      UNION
+      SELECT s.ssid, a.natural_id, e.school_year, e.oppId, i.batch, i.id, i.updated
+      FROM (SELECT i.updated, i.batch, i.id
+            FROM import i
+            WHERE i.content = 1
+              AND (:batch IS NULL OR i.batch = :batch)
+              AND (:creator IS NULL OR i.creator = :creator)
+              AND (:before IS NULL OR i.created < :before)
+              AND (:after IS NULL OR i.updated > :after)
+            ) AS i
+        JOIN exam e ON e.update_import_id = i.id
+        JOIN student s ON s.id = e.student_id
+        JOIN asmt a ON a.id = e.asmt_id
+      ORDER BY updated, id;
 
     exists: >-
       SELECT EXISTS(
