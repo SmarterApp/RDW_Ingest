@@ -1,8 +1,7 @@
 sql:
   import:
-    # this may look odd but it does perform better than a simple join
     exams: >-
-      SELECT s.ssid, a.natural_id, e.school_year, e.oppId, i.batch, i.id, i.updated
+      SELECT s.ssid, a.natural_id, e.school_year, e.oppId, i.batch, i.id, i.updated, 'NEW' as result, '' as message
       FROM (SELECT i.updated, i.batch, i.id
             FROM import i
             WHERE i.content = 1
@@ -14,8 +13,8 @@ sql:
         JOIN exam e ON e.import_id = i.id
         JOIN student s ON s.id = e.student_id
         JOIN asmt a ON a.id = e.asmt_id
-      UNION
-      SELECT s.ssid, a.natural_id, e.school_year, e.oppId, i.batch, i.id, i.updated
+      UNION ALL
+      SELECT s.ssid, a.natural_id, e.school_year, e.oppId, i.batch, i.id, i.updated, 'UPDATE' as result, '' as message
       FROM (SELECT i.updated, i.batch, i.id
             FROM import i
             WHERE i.content = 1
@@ -24,9 +23,21 @@ sql:
               AND (:before IS NULL OR i.created < :before)
               AND (:after IS NULL OR i.updated > :after)
             ) AS i
-        JOIN exam e ON e.update_import_id = i.id
+        JOIN exam e ON e.update_import_id = i.id AND e.update_import_id <> e.import_id
         JOIN student s ON s.id = e.student_id
         JOIN asmt a ON a.id = e.asmt_id
+      UNION ALL
+      SELECT null as ssid, null as natural_id, null as schoolYear, null as oppId, i.batch, i.id, i.updated, s.name as result, i.message
+      FROM (SELECT i.updated, i.batch, i.id, i.status, i.message
+            FROM import i
+            WHERE i.status < 0
+              AND i.content = 1
+              AND (:batch IS NULL OR i.batch = :batch)
+              AND (:creator IS NULL OR i.creator = :creator)
+              AND (:before IS NULL OR i.created < :before)
+              AND (:after IS NULL OR i.updated > :after)
+            ) AS i
+        JOIN import_status s ON s.id = i.status
       ORDER BY updated, id;
 
     exists: >-
