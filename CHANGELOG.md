@@ -1,5 +1,9 @@
 ## Change Log
 
+### 2.5.4 - 2021-04-20
+
+* SRS-468: Reconciliation File customization and specificity - Part 2 Error Report
+
 ### 2.5.3 - 2021-03-14
 
 * SRS-483: Update Subject Definitions to support Alt Score ISR reporting
