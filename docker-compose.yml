@@ -116,6 +116,7 @@ services:
     image: smarterbalanced/rdw-ingest-task-service
     ports:
       - 8084:8008
+      - 5102:5102  # DEBUG
     volumes:
       - /tmp:/tmp
     links:
@@ -126,6 +127,7 @@ services:
       config-server:
         condition: service_healthy
     environment:
+      - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5102
       - SPRING_PROFILES_ACTIVE=local-docker
       - CONFIG_SERVICE_ENABLED=true
       - CONFIG_SERVICE_URL=http://config-server:8888
