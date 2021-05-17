@@ -1,8 +1,8 @@
 sql:
   import:
     exams: >-
-      SELECT s.ssid, a.natural_id, e.school_year, e.oppId, i.batch, i.id, i.updated, 'NEW' as result, '' as message
-      FROM (SELECT i.updated, i.batch, i.id
+      SELECT s.ssid, a.natural_id, e.school_year, e.oppId, i.batch, i.id, i.updated, i.status, 'NEW' as result, '' as message
+      FROM (SELECT i.updated, i.batch, i.id, i.status
             FROM import i
             WHERE i.content = 1
               AND (:batch IS NULL OR i.batch = :batch)
@@ -14,8 +14,8 @@ sql:
         JOIN student s ON s.id = e.student_id
         JOIN asmt a ON a.id = e.asmt_id
       UNION ALL
-      SELECT s.ssid, a.natural_id, e.school_year, e.oppId, i.batch, i.id, i.updated, 'UPDATE' as result, '' as message
-      FROM (SELECT i.updated, i.batch, i.id
+      SELECT s.ssid, a.natural_id, e.school_year, e.oppId, i.batch, i.id, i.updated, i.status, 'UPDATE' as result, '' as message
+      FROM (SELECT i.updated, i.batch, i.id, i.status
             FROM import i
             WHERE i.content = 1
               AND (:batch IS NULL OR i.batch = :batch)
@@ -27,7 +27,33 @@ sql:
         JOIN student s ON s.id = e.student_id
         JOIN asmt a ON a.id = e.asmt_id
       UNION ALL
-      SELECT null as ssid, null as natural_id, null as schoolYear, null as oppId, i.batch, i.id, i.updated, s.name as result, i.message
+      SELECT null as ssid, null as natural_id, null as schoolYear, null as oppId, i.batch, i.id, i.updated, i.status, 'NO_UPDATE' as result, i.message
+      FROM (SELECT i.updated, i.batch, i.id, i.status, i.message
+            FROM import i
+            WHERE i.status = 2
+              AND i.content = 1
+              AND (:batch IS NULL OR i.batch = :batch)
+              AND (:creator IS NULL OR i.creator = :creator)
+              AND (:before IS NULL OR i.created < :before)
+              AND (:after IS NULL OR i.updated > :after)
+            ) AS i
+        LEFT JOIN exam e ON e.import_id = i.id OR e.update_import_id = i.id
+        WHERE e.id IS NULL
+      UNION ALL
+      SELECT null as ssid, null as natural_id, null as schoolYear, null as oppId, i.batch, i.id, i.updated, i.status, 'REPLACED' as result, '' as message
+      FROM (SELECT i.updated, i.batch, i.id, i.status, i.message
+            FROM import i
+            WHERE i.status = 1
+              AND i.content = 1
+              AND (:batch IS NULL OR i.batch = :batch)
+              AND (:creator IS NULL OR i.creator = :creator)
+              AND (:before IS NULL OR i.created < :before)
+              AND (:after IS NULL OR i.updated > :after)
+            ) AS i
+        LEFT JOIN exam e ON e.import_id = i.id OR e.update_import_id = i.id
+        WHERE e.id IS NULL
+      UNION ALL
+      SELECT null as ssid, null as natural_id, null as schoolYear, null as oppId, i.batch, i.id, i.updated, i.status, s.name as result, LEFT(i.message, 100)
       FROM (SELECT i.updated, i.batch, i.id, i.status, i.message
             FROM import i
             WHERE i.status < 0
