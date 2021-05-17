@@ -1,5 +1,9 @@
 ## Change Log
 
+### 2.5.5 - 2021-05-17
+
+* SRS-519: Reconciliation File customization and specificity - Part 3
+
 ### 2.5.4 - 2021-04-20
 
 * SRS-468: Reconciliation File customization and specificity - Part 2 Error Report
