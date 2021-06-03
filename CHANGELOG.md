@@ -1,5 +1,10 @@
 ## Change Log
 
+### 2.5.6 - 2021-06-03
+
+RS-429: Create API to ingest Student Enrollment file from ETS into RDW #697
+Recon file: Strip control chars from message and expand max length #699
+
 ### 2.5.5 - 2021-05-17
 
 * SRS-519: Reconciliation File customization and specificity - Part 3
