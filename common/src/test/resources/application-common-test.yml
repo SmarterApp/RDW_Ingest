@@ -1,7 +1,7 @@
 spring:
   cache:
     type: SIMPLE
-    cache-names: grade, language
+    cache-names: grade, gender, language
 
 datasources:
   warehouse_rw:

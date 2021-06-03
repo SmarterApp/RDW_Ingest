@@ -44,6 +44,9 @@ spring:
         subjectInput:
           destination: SUBJECT
           group: default
+        studentsInput:
+          destination: STUDENTS
+          group: default
         ConfigpropsUpdateOutput:
           destination: ConfigpropsUpdateExchange
 

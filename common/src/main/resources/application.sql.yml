@@ -4,6 +4,11 @@ sql:
     findIdByCode: >-
       SELECT id FROM grade WHERE code = :code
 
+  # JdbcGenderRepository
+  gender:
+    findIdByCode: >-
+      SELECT id FROM gender WHERE code = :code
+
   # JdbcLanguageRepository
   language:
     findIdByCode: >-
@@ -20,3 +25,8 @@ sql:
   pipeline:
     findActiveVersionByCode: >-
       SELECT active_version FROM pipeline WHERE code = :code
+
+  # JdbcSchoolRepository
+  school:
+    findIdByNaturalId: >-
+      SELECT id FROM school WHERE natural_id = :natural_id

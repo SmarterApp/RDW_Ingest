@@ -35,11 +35,7 @@ sql:
     findAllCodes: >-
       SELECT code FROM ethnicity
 
-  # JdbcGenderRepository
-  gender:
-    findIdByCode: >-
-      SELECT id FROM gender WHERE code = :code
-
+  # JdbcMilitaryConnectedRepository :
   militaryConnected:
     findIdByCode: >-
       SELECT id FROM military_connected WHERE code = :code
@@ -54,7 +50,7 @@ sql:
     findIdByCode: >-
         SELECT id FROM response_type WHERE code = :code
 
-  # JdbcGenderRepository
+  # JdbcSubjectRepository
   subject:
     findIdByCode: >-
         SELECT id FROM subject WHERE code = :code
@@ -229,7 +225,7 @@ sql:
         test_delivery_db,
         window_opportunity_count,
         theta_score,
-        theta_score_std_err        
+        theta_score_std_err
       FROM exam
       WHERE asmt_id = :asmt_id
         AND oppId = :opportunity_id
@@ -395,10 +391,6 @@ sql:
         SELECT accommodation_id
         FROM exam_available_accommodation
         WHERE exam_id = :exam_id
-
-  school:
-    findIdByNaturalId: >-
-      SELECT id FROM school WHERE natural_id = :natural_id
 
   studentEthnicity:
     findAllIds:

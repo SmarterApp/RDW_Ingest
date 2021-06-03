@@ -526,3 +526,21 @@ sql:
         JOIN subject s ON s.id = st.subject_id
       WHERE s.code = :subject_code
         AND st.label_code IN (:label_codes)
+
+  #JdbcStudentRepository
+  student:
+    update: >-
+      UPDATE student
+      SET
+        first_name=if(:first_name is null,first_name,:first_name),
+        last_or_surname=if(:last_name is null,last_or_surname,:last_name),
+        middle_name=if(:middle_name is null,middle_name,:middle_name),
+        alias_name=if(:alias_name is null,alias_name,:alias_name),
+        gender_id=if(:gender_id is null,gender_id,:gender_id),
+        birthday=if(:birthday is null,birthday,:birthday),
+        first_entry_into_us_school_at=if(:first_entry is null,first_entry_into_us_school_at,:first_entry),
+        lep_entry_at=if(:lep_entry is null,lep_entry_at,:lep_entry),
+        lep_exit_at=if(:lep_exit is null,lep_exit_at,:lep_exit),
+        inferred_school_id=if(:school_id is null,inferred_school_id,:school_id),
+        update_import_id=:import_id
+      where ssid = :ssid
