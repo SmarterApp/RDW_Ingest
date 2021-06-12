@@ -1,9 +1,13 @@
 ## Change Log
 
+### 2.5.7 - 2021-06-11
+
+* There are no changes to ingest for this release.
+
 ### 2.5.6 - 2021-06-03
 
-RS-429: Create API to ingest Student Enrollment file from ETS into RDW #697
-Recon file: Strip control chars from message and expand max length #699
+* RS-429: Create API to ingest Student Enrollment file from ETS into RDW #697
+* Recon file: Strip control chars from message and expand max length #699
 
 ### 2.5.5 - 2021-05-17
 
@@ -19,11 +23,11 @@ Recon file: Strip control chars from message and expand max length #699
 
 #### 2.5.2 - 2021-02-09
 
-No changes were made to RDW Ingest for the 2.5.2 release.
+* No changes were made to RDW Ingest for the 2.5.2 release.
 
 #### 2.5.1 - 2021-01-22
 
-No changes were made to RDW Ingest for the 2.5.1 release.
+* No changes were made to RDW Ingest for the 2.5.1 release.
 
 #### 2.5.0 - 2021-01-06
 
@@ -40,7 +44,7 @@ warehouse schema.
 
 #### 2.4.1 - 2020-11-09
 
-No real change,bumped up version to resolve deployment issue.  
+* No real change,bumped up version to resolve deployment issue.  
 
 #### 2.4.0 - Phase 6 release, features 2 through 6 complete.
 
