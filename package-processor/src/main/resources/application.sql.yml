@@ -542,5 +542,11 @@ sql:
         lep_entry_at=if(:lep_entry is null,lep_entry_at,:lep_entry),
         lep_exit_at=if(:lep_exit is null,lep_exit_at,:lep_exit),
         inferred_school_id=if(:school_id is null,inferred_school_id,:school_id),
-        update_import_id=:import_id
-      where ssid = :ssid
+        update_import_id=:import_id,
+        latest_info_update=:event_ts
+      WHERE ssid = :ssid AND latest_info_update <= :event_ts
+
+    findBySsid: >-
+      SELECT id
+      FROM student
+      WHERE ssid = :ssid
