@@ -1,4 +1,11 @@
 sql:
+  auth:
+    findAll: >-
+      SELECT r.name AS role_name, p.name AS permission_name
+      FROM auth_permission_role pr
+      JOIN auth_role r ON r.id = pr.role_id
+      JOIN auth_permission p ON p.id = pr.permission_id
+
   import:
     count: >-
       SELECT count(*) from import
