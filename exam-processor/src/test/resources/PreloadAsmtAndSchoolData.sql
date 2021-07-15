@@ -1,5 +1,8 @@
 INSERT INTO import (id, status, content, contentType, digest, batch, creator, created, updated, message) VALUES
-   (-1, 0, 1, 'application/xml', '1D849A91956B74350FF895F067F115E6', NULL, NULL, '2017-07-06 00:00:00.000000', '2017-07-06 23:16:45.640627', NULL);
+   (-1, 0, 1, 'application/xml', '1D849A91956B74350FF895F067F115E6', NULL, NULL, '2017-07-06 00:00:00.000000', '2017-07-06 23:16:45.640627', NULL),
+   (-2, 0, 1, 'application/xml', '1D849A91956B74350FF895F067F115E6', NULL, NULL, '2017-07-06 00:00:00.000000', '2017-07-06 23:16:45.640627', NULL),
+   (-3, 0, 1, 'application/xml', '1D849A91956B74350FF895F067F115E6', NULL, NULL, '2017-07-06 00:00:00.000000', '2017-07-06 23:16:45.640627', NULL),
+   (-4, 0, 1, 'application/xml', '1D849A91956B74350FF895F067F115E6', NULL, NULL, '2017-07-06 00:00:00.000000', '2017-07-06 23:16:45.640627', NULL);
 
 INSERT INTO asmt (id, natural_id, grade_id, type_id, subject_id, school_year, name, label, version, import_id, update_import_id, deleted) VALUES
   (20, '(SBAC)SBAC-IAB-FIXED-G4M-G-MATH-4-Winter-2016-2017', 4, 2, 1, 2016, 'SBAC-IAB-FIXED-G4M-G-MATH-4', 'SBAC-IAB-FIXED-G4M-G-MATH-4', NULL, -1, -1, 0),
